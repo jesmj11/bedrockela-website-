@@ -122,6 +122,7 @@
             border-top: 2px solid #FFD700;
             padding: 15px;
             min-height: 120px;
+            position: relative;
         }
 
         .chat-header {
@@ -131,6 +132,24 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            justify-content: space-between;
+        }
+
+        .cabin-btn {
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cabin-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 3px 8px rgba(139,69,19,0.3);
         }
 
         .billy-message {
@@ -151,6 +170,280 @@
             font-family: 'Comic Sans MS', cursive;
             font-size: 0.8rem;
             resize: none;
+        }
+
+        /* Billy's Cabin Modal */
+        .cabin-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(2, 6, 23, 0.55);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 16px;
+        }
+
+        .cabin-modal.show {
+            display: flex;
+        }
+
+        .cabin-shell {
+            width: min(1200px, 98vw);
+            height: min(760px, 92vh);
+            background: rgba(255,255,255,0.96);
+            border-radius: 22px;
+            box-shadow: 0 30px 80px rgba(2,6,23,0.35);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Comic Sans MS', cursive;
+        }
+
+        .cabin-top-bar {
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(90deg, #8B4513, #654321);
+            color: white;
+        }
+
+        .cabin-title-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .cabin-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            letter-spacing: 0.2px;
+        }
+
+        .cabin-subtitle {
+            font-size: 0.8rem;
+            opacity: 0.85;
+        }
+
+        .cabin-close-btn {
+            border: none;
+            background: rgba(255,255,255,0.12);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .cabin-close-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .cabin-main {
+            position: relative;
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 0;
+            min-height: 0;
+        }
+
+        .cabin-stage {
+            position: relative;
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #D2691E 100%);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-right: 1px solid rgba(15, 23, 42, 0.10);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cabin-interior {
+            text-align: center;
+            color: white;
+            padding: 40px;
+        }
+
+        .cabin-fireplace {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: fire 2s infinite ease-in-out;
+        }
+
+        .cabin-welcome {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .cabin-message {
+            font-size: 1rem;
+            opacity: 0.9;
+            max-width: 400px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .log-card {
+            padding: 16px;
+            background: linear-gradient(#fff, #f8fafc);
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .log-header {
+            padding: 10px 12px;
+            border-radius: 16px;
+            background: rgba(15, 23, 42, 0.04);
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            margin-bottom: 12px;
+        }
+
+        .log-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #2c3e50;
+        }
+
+        .log-hint {
+            font-size: 0.8rem;
+            opacity: 0.75;
+            margin-top: 2px;
+        }
+
+        .log-list {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .log-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 16px;
+            border: 1px solid rgba(148,163,184,0.35);
+            background: rgba(255,255,255,0.85);
+            box-shadow: 0 10px 18px rgba(2,6,23,0.06);
+            transition: all 0.3s ease;
+        }
+
+        .log-row:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px rgba(2,6,23,0.1);
+        }
+
+        .icon-bubble {
+            width: 36px;
+            height: 36px;
+            border-radius: 14px;
+            background: rgba(245, 158, 11, 0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .row-title {
+            font-weight: bold;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .row-sub {
+            font-size: 0.8rem;
+            opacity: 0.75;
+            margin-top: 2px;
+        }
+
+        .progress-text {
+            font-size: 0.8rem;
+            opacity: 0.75;
+            white-space: nowrap;
+        }
+
+        .complete-pill {
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 999px;
+            background: rgba(34,197,94,0.18);
+            color: #166534;
+            border: 1px solid rgba(34,197,94,0.25);
+        }
+
+        .cabin-actions {
+            margin-top: 12px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .cabin-primary-btn {
+            flex: 1;
+            border: none;
+            border-radius: 14px;
+            padding: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            background: #8B4513;
+            color: white;
+            font-family: 'Comic Sans MS', cursive;
+            transition: all 0.3s ease;
+        }
+
+        .cabin-primary-btn:hover {
+            background: #654321;
+            transform: scale(1.02);
+        }
+
+        .cabin-secondary-btn {
+            flex: 1;
+            border-radius: 14px;
+            padding: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            background: rgba(15, 23, 42, 0.06);
+            border: 1px solid rgba(15, 23, 42, 0.12);
+            color: #2c3e50;
+            font-family: 'Comic Sans MS', cursive;
+            transition: all 0.3s ease;
+        }
+
+        .cabin-secondary-btn:hover {
+            background: rgba(15, 23, 42, 0.1);
+            transform: scale(1.02);
+        }
+
+        .log-empty {
+            padding: 14px;
+            border-radius: 16px;
+            border: 1px dashed rgba(148,163,184,0.6);
+            background: rgba(255,255,255,0.6);
+            font-size: 0.8rem;
+            opacity: 0.8;
+            text-align: center;
+        }
+
+        @keyframes fire {
+            0%, 100% { transform: scale(1) rotate(-2deg); }
+            50% { transform: scale(1.1) rotate(2deg); }
         }
 
         /* Main Writing Area */
@@ -469,6 +762,33 @@
             .prompt-panel {
                 width: 100%;
             }
+            
+            .cabin-shell {
+                width: 95vw;
+                height: 90vh;
+            }
+            
+            .cabin-main {
+                grid-template-columns: 1fr;
+                grid-template-rows: 200px 1fr;
+            }
+            
+            .cabin-interior {
+                padding: 20px;
+            }
+            
+            .cabin-fireplace {
+                font-size: 2.5rem;
+                margin-bottom: 10px;
+            }
+            
+            .cabin-welcome {
+                font-size: 1.2rem;
+            }
+            
+            .cabin-message {
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
@@ -518,7 +838,10 @@
             </div>
             
             <div class="billy-chat">
-                <div class="chat-header">💬 Chat with Billy</div>
+                <div class="chat-header">
+                    <span>💬 Chat with Billy</span>
+                    <button class="cabin-btn" onclick="openBillyCabin()">🏠 Visit Cabin</button>
+                </div>
                 <div class="billy-message" id="billyMessage">
                     Hey there, mountain writer! Ready to conquer some writing peaks today? Pick a writing type and let's start climbing!
                 </div>
@@ -631,6 +954,55 @@
                     <div class="entry-title">My Climbing Dream</div>
                     <div class="entry-meta">Journal • 1 week ago • 89 words</div>
                     <div class="entry-preview">Today I wrote about my dream to climb a real mountain someday. It would be scary but exciting...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Billy's Cabin Modal -->
+    <div class="cabin-modal" id="cabinModal">
+        <div class="cabin-shell">
+            <div class="cabin-top-bar">
+                <div class="cabin-title-wrap">
+                    <div class="cabin-title">Little Billy Goat Gruff's Writing Cabin 🐐</div>
+                    <div class="cabin-subtitle">Welcome back, brave writer!</div>
+                </div>
+                <button onclick="closeBillyCabin()" class="cabin-close-btn">✕</button>
+            </div>
+            
+            <div class="cabin-main">
+                <div class="cabin-stage">
+                    <div class="cabin-interior">
+                        <div class="cabin-fireplace">🔥</div>
+                        <div class="cabin-welcome">Welcome to My Writing Cabin!</div>
+                        <div class="cabin-message">
+                            This cozy cabin is where I keep track of all your amazing writing adventures. 
+                            Every story, essay, and journal entry you complete gets added to your personal 
+                            Writing Climb Log. No competition here - just celebrating your progress! 🏔️
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="log-card">
+                    <div class="log-header">
+                        <div class="log-title">📖 Your Writing Climb Log</div>
+                        <div class="log-hint">This is your progress — no competition, just celebration!</div>
+                    </div>
+                    
+                    <div class="log-list" id="cabinLogList">
+                        <div class="log-empty">
+                            No writing adventures yet — start writing and we'll celebrate your wins here! 💛
+                        </div>
+                    </div>
+                    
+                    <div class="cabin-actions">
+                        <button class="cabin-primary-btn" onclick="closeBillyCabin()">
+                            🏔️ Back to Writing
+                        </button>
+                        <button class="cabin-secondary-btn" onclick="startNewWriting()">
+                            ✍️ Start New Adventure
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -830,14 +1202,15 @@
                 updateWritingsCompleted();
                 
                 loadSavedWritings();
+                updateCabinLog();
                 
                 // Clear textarea
                 document.getElementById('writingTextarea').value = '';
                 updateWordCount();
                 
-                // Show success message
+                // Show success message with cabin reference
                 document.getElementById('billyMessage').textContent = 
-                    `🎉 Fantastic! I saved "${title}" to your Climb Log. You're becoming a real mountain writer!`;
+                    `🎉 Fantastic! I saved "${title}" to your Writing Climb Log! Visit my cabin to see all your adventures!`;
             }
         }
 
@@ -856,6 +1229,41 @@
                     <div class="entry-preview">${writing.content.substring(0, 100)}${writing.content.length > 100 ? '...' : ''}</div>
                 </div>
             `).join('');
+            
+            // Also update cabin log
+            updateCabinLog();
+        }
+
+        function updateCabinLog() {
+            const cabinContainer = document.getElementById('cabinLogList');
+            
+            if (savedWritings.length === 0) {
+                cabinContainer.innerHTML = '<div class="log-empty">No writing adventures yet — start writing and we\'ll celebrate your wins here! 💛</div>';
+                return;
+            }
+            
+            cabinContainer.innerHTML = savedWritings.map(writing => {
+                const typeIcons = {
+                    story: '📚',
+                    essay: '🎯',
+                    journal: '📖',
+                    letter: '✉️'
+                };
+                
+                return `
+                    <div class="log-row" onclick="loadWriting(${writing.id})">
+                        <div class="icon-bubble">${typeIcons[writing.type] || '⭐'}</div>
+                        <div style="flex: 1;">
+                            <div class="row-title">
+                                ${writing.title}
+                                <span class="complete-pill">Complete</span>
+                            </div>
+                            <div class="row-sub">${writing.type.charAt(0).toUpperCase() + writing.type.slice(1)} • ${writing.date}</div>
+                        </div>
+                        <div class="progress-text">${writing.wordCount} words</div>
+                    </div>
+                `;
+            }).join('');
         }
 
         function loadWriting(id) {
@@ -942,6 +1350,39 @@
                 saveWriting();
             }
         }
+
+        // Billy's Cabin Modal Functions
+        function openBillyCabin() {
+            document.getElementById('cabinModal').classList.add('show');
+            updateCabinLog();
+            document.getElementById('billyMessage').textContent = 
+                "🏠 Welcome to my cozy cabin! Here you can see all your amazing writing adventures!";
+        }
+
+        function closeBillyCabin() {
+            document.getElementById('cabinModal').classList.remove('show');
+            document.getElementById('billyMessage').textContent = 
+                "🐐 Hope you enjoyed visiting my cabin! Ready to write some more adventures?";
+        }
+
+        function startNewWriting() {
+            closeBillyCabin();
+            document.getElementById('writingTextarea').focus();
+            document.getElementById('billyMessage').textContent = 
+                "✍️ Perfect! Let's create another amazing piece of writing! What story will you tell today?";
+        }
+
+        // Close cabin modal when clicking outside
+        document.getElementById('cabinModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeBillyCabin();
+            }
+        });
+
+        // Initialize cabin log on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCabinLog();
+        });
     </script>
 </body>
 </html>

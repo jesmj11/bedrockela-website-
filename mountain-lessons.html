@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mountain Lesson Progression - Bedrock Learning</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(#BFE8FF, #EAF7FF 35%, #E8F7E6 100%);
+            overflow-x: hidden;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(139, 69, 19, 0.9);
+            color: white;
+            border: 2px solid #FFD700;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(139, 69, 19, 1);
+            transform: scale(1.1);
+        }
+
+        .mountain-container {
+            height: 100vh;
+            width: 100%;
+            overflow-y: auto;
+            background: linear-gradient(#BFE8FF, #EAF7FF 35%, #E8F7E6 100%);
+        }
+
+        .course-map {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 24px 12px;
+        }
+
+        .mountain-path {
+            position: relative;
+            width: 900px;
+            min-height: 1500px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 14px 40px rgba(2, 6, 23, 0.18);
+            background: linear-gradient(#A8D7FF 0%, #EAF7FF 30%, #DDF7D6 100%);
+        }
+
+        .lesson-node {
+            position: absolute;
+            display: grid;
+            gap: 10px;
+            justify-items: center;
+            transform: translate(-50%, -50%);
+        }
+
+        .lesson-marker {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 3px solid #D97706;
+            background: #FDE68A;
+            box-shadow: 0 0 0 10px rgba(59,130,246,0.20), 0 12px 18px rgba(2,6,23,0.18);
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .lesson-marker:hover {
+            transform: scale(1.05);
+        }
+
+        .lesson-marker.complete {
+            border-color: #D97706;
+            background: #FDE68A;
+            box-shadow: 0 0 0 10px rgba(34,197,94,0.25), 0 12px 18px rgba(2,6,23,0.18);
+        }
+
+        .lesson-marker.available {
+            border-color: #D97706;
+            background: #FDE68A;
+            box-shadow: 0 0 0 10px rgba(59,130,246,0.20), 0 12px 18px rgba(2,6,23,0.18);
+        }
+
+        .lesson-marker.locked {
+            border-color: #9CA3AF;
+            background: #E5E7EB;
+            box-shadow: 0 0 0 10px rgba(148,163,184,0.25), 0 12px 18px rgba(2,6,23,0.18);
+            cursor: not-allowed;
+            opacity: 0.75;
+        }
+
+        .lesson-icon {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 14px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .icon-complete {
+            background: #22C55E;
+        }
+
+        .icon-available {
+            background: #3B82F6;
+        }
+
+        .icon-locked {
+            background: #94A3B8;
+        }
+
+        .lesson-card {
+            min-width: 220px;
+            max-width: 260px;
+            padding: 12px 14px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.92);
+            border: 2px solid rgba(148,163,184,0.45);
+            box-shadow: 0 10px 18px rgba(2,6,23,0.12);
+            font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+        }
+
+        .lesson-number {
+            font-size: 12px;
+            opacity: 0.7;
+            font-weight: 700;
+        }
+
+        .lesson-title {
+            font-size: 16px;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        .summit-flag {
+            position: absolute;
+            top: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 14px;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.9);
+            border: 2px solid rgba(148,163,184,0.45);
+            box-shadow: 0 10px 18px rgba(2,6,23,0.12);
+            font-weight: 900;
+        }
+
+        .trail-path {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        /* Sample lesson positions - you'd calculate these dynamically */
+        .lesson-1 { left: 158px; top: 290px; }
+        .lesson-2 { left: 742px; top: 470px; }
+        .lesson-3 { left: 158px; top: 650px; }
+        .lesson-4 { left: 742px; top: 830px; }
+        .lesson-5 { left: 158px; top: 1010px; }
+        .lesson-6 { left: 742px; top: 1190px; }
+
+        @media (max-width: 768px) {
+            .mountain-path {
+                width: 100%;
+                margin: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back to Village Button -->
+    <a href="student-dashboard.html" class="back-button" title="Back to Bedrock Village">
+        🏘️
+    </a>
+
+    <div class="mountain-container">
+        <div class="course-map">
+            <div class="mountain-path">
+                <!-- Summit Flag -->
+                <div class="summit-flag">
+                    🏔️ Summit
+                </div>
+
+                <!-- Trail Path SVG -->
+                <svg class="trail-path" width="900" height="1500">
+                    <path d="M 158 290 Q 400 380 742 470 Q 400 560 158 650 Q 400 740 742 830 Q 400 920 158 1010 Q 400 1100 742 1190" 
+                          fill="none" 
+                          stroke="rgba(255,255,255,0.85)" 
+                          stroke-width="10" 
+                          stroke-linecap="round" />
+                    <path d="M 158 290 Q 400 380 742 470 Q 400 560 158 650 Q 400 740 742 830 Q 400 920 158 1010 Q 400 1100 742 1190" 
+                          fill="none" 
+                          stroke="rgba(30, 41, 59, 0.30)" 
+                          stroke-width="4" 
+                          stroke-dasharray="2 18" 
+                          stroke-linecap="round" />
+                </svg>
+
+                <!-- Sample Lessons -->
+                <div class="lesson-node lesson-1">
+                    <button class="lesson-marker complete" onclick="openLesson(1)">
+                        <div class="lesson-icon icon-complete">✓</div>
+                    </button>
+                    <div class="lesson-card">
+                        <div class="lesson-number">Lesson 1</div>
+                        <div class="lesson-title">Little Billy's First Adventure</div>
+                    </div>
+                </div>
+
+                <div class="lesson-node lesson-2">
+                    <button class="lesson-marker complete" onclick="openLesson(2)">
+                        <div class="lesson-icon icon-complete">✓</div>
+                    </button>
+                    <div class="lesson-card">
+                        <div class="lesson-number">Lesson 2</div>
+                        <div class="lesson-title">Climbing the Word Mountain</div>
+                    </div>
+                </div>
+
+                <div class="lesson-node lesson-3">
+                    <button class="lesson-marker complete" onclick="openLesson(3)">
+                        <div class="lesson-icon icon-complete">✓</div>
+                    </button>
+                    <div class="lesson-card">
+                        <div class="lesson-number">Lesson 3</div>
+                        <div class="lesson-title">The Storyteller's Trail</div>
+                    </div>
+                </div>
+
+                <div class="lesson-node lesson-4">
+                    <button class="lesson-marker available" onclick="openLesson(4)">
+                        <div class="lesson-icon icon-available">▶</div>
+                    </button>
+                    <div class="lesson-card">
+                        <div class="lesson-number">Lesson 4</div>
+                        <div class="lesson-title">Norwegian Folk Tales</div>
+                    </div>
+                </div>
+
+                <div class="lesson-node lesson-5">
+                    <button class="lesson-marker locked">
+                        <div class="lesson-icon icon-locked">🔒</div>
+                    </button>
+                    <div class="lesson-card">
+                        <div class="lesson-number">Lesson 5</div>
+                        <div class="lesson-title">Advanced Reading Quest</div>
+                    </div>
+                </div>
+
+                <div class="lesson-node lesson-6">
+                    <button class="lesson-marker locked">
+                        <div class="lesson-icon icon-locked">🔒</div>
+                    </button>
+                    <div class="lesson-card">
+                        <div class="lesson-number">Lesson 6</div>
+                        <div class="lesson-title">Summit Challenge</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openLesson(lessonNumber) {
+            // Check if lesson is available
+            const lessonNode = document.querySelector(`.lesson-${lessonNumber} .lesson-marker`);
+            if (lessonNode && !lessonNode.classList.contains('locked')) {
+                alert(`Opening Lesson ${lessonNumber} - Time for adventure!`);
+                // Navigate to the specific lesson
+                // window.location.href = `lesson-${lessonNumber}.html`;
+                // Or connect to your existing lesson pages:
+                if (lessonNumber <= 3) {
+                    // window.location.href = '1st-grade-lessons.html';
+                } else {
+                    // window.location.href = '4th-grade-lessons.html';
+                }
+            }
+        }
+
+        // Add some subtle animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const nodes = document.querySelectorAll('.lesson-node');
+            nodes.forEach((node, index) => {
+                setTimeout(() => {
+                    node.style.opacity = '0';
+                    node.style.transform = 'translate(-50%, -50%) scale(0.8)';
+                    node.style.transition = 'all 0.6s ease';
+                    
+                    setTimeout(() => {
+                        node.style.opacity = '1';
+                        node.style.transform = 'translate(-50%, -50%) scale(1)';
+                    }, 100);
+                }, index * 150);
+            });
+        });
+    </script>
+</body>
+</html>

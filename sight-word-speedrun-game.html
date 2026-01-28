@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐐 Billy's Mountain Word Run - Bedrock Learning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+        
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .game-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .game-header {
+            background: rgba(255,255,255,0.95);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .lesson-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .billy-mini {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            animation: bounce 2s infinite;
+        }
+
+        .timer-display {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2c3e50;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border-radius: 25px;
+            box-shadow: 0 4px 15px rgba(255,215,0,0.3);
+        }
+
+        .score-display {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .score-item {
+            text-align: center;
+        }
+
+        .score-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .score-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .game-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 20px;
+        }
+
+        .mountain-path {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(45deg, rgba(255,255,255,0.1) 1px, transparent 1px),
+                linear-gradient(-45deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            opacity: 0.3;
+        }
+
+        .word-track {
+            width: 100%;
+            max-width: 800px;
+            height: 120px;
+            position: relative;
+            background: rgba(255,255,255,0.1);
+            border-radius: 60px;
+            border: 3px solid rgba(255,255,255,0.3);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .word-runner {
+            position: absolute;
+            height: 80px;
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 15px rgba(78,205,196,0.4);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: slideFromRight 3s linear forwards;
+            min-width: 120px;
+            padding: 0 20px;
+        }
+
+        .word-runner.clicked {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            transform: translateY(-50%) scale(1.2);
+            animation: celebrate 0.5s ease;
+        }
+
+        .word-runner.missed {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            animation: missedWord 1s ease forwards;
+        }
+
+        .target-word {
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+            padding: 20px 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .billy-encouragement {
+            background: rgba(255,255,255,0.95);
+            padding: 15px 25px;
+            border-radius: 20px;
+            border: 3px solid #FFD700;
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: bold;
+            color: #2c3e50;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .game-stats {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.9);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+            font-weight: bold;
+        }
+
+        .level-indicator {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(155,89,182,0.3);
+        }
+
+        @keyframes slideFromRight {
+            from { 
+                right: -150px; 
+            }
+            to { 
+                right: calc(100% + 50px); 
+            }
+        }
+
+        @keyframes celebrate {
+            0% { transform: translateY(-50%) scale(1); }
+            50% { transform: translateY(-50%) scale(1.3); }
+            100% { transform: translateY(-50%) scale(1.1); }
+        }
+
+        @keyframes missedWord {
+            0% { opacity: 1; }
+            100% { opacity: 0.3; right: calc(100% + 50px); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(139, 69, 19, 0.9);
+            color: white;
+            border: 2px solid #FFD700;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            z-index: 150;
+        }
+
+        .back-button:hover {
+            background: rgba(139, 69, 19, 1);
+            transform: scale(1.1);
+        }
+
+        .pause-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+        }
+
+        .pause-menu {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .menu-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin: 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .menu-button:hover {
+            background: #5a67d8;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .word-track {
+                height: 100px;
+            }
+            
+            .word-runner {
+                height: 70px;
+                font-size: 1.5rem;
+                min-width: 100px;
+            }
+            
+            .target-word {
+                font-size: 2.5rem;
+                padding: 15px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Button -->
+    <a href="1st-grade-reading-lessons.html" class="back-button" title="Back to Lessons">
+        🏘️
+    </a>
+
+    <!-- Level Indicator -->
+    <div class="level-indicator" id="levelDisplay">
+        Level 1: Beginner Words
+    </div>
+
+    <!-- Game Stats -->
+    <div class="game-stats">
+        <div class="stat-item">
+            <span>Speed:</span>
+            <span id="wpmDisplay">0 WPM</span>
+        </div>
+        <div class="stat-item">
+            <span>Accuracy:</span>
+            <span id="accuracyDisplay">100%</span>
+        </div>
+        <div class="stat-item">
+            <span>Streak:</span>
+            <span id="streakDisplay">0</span>
+        </div>
+    </div>
+
+    <div class="game-container">
+        <!-- Game Header -->
+        <div class="game-header">
+            <div class="lesson-info">
+                <div class="billy-mini">🐐</div>
+                <div>
+                    <div style="font-size: 1.2rem; font-weight: bold;">Mountain Word Run</div>
+                    <div style="font-size: 0.9rem; color: #666;">Click the target word as it runs by!</div>
+                </div>
+            </div>
+            
+            <div class="timer-display" id="timerDisplay">1:00</div>
+            
+            <div class="score-display">
+                <div class="score-item">
+                    <div class="score-number" id="correctCount">0</div>
+                    <div class="score-label">Caught</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-number" id="missedCount">0</div>
+                    <div class="score-label">Missed</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Area -->
+        <div class="game-area">
+            <div class="mountain-path"></div>
+            
+            <div class="target-word" id="targetWord">the</div>
+            
+            <div class="word-track" id="wordTrack">
+                <!-- Words will slide across here -->
+            </div>
+            
+            <div class="billy-encouragement" id="billyMessage">
+                🐐 "Great! Click on 'the' when you see it running across the mountain path!"
+            </div>
+        </div>
+    </div>
+
+    <!-- Pause Overlay -->
+    <div class="pause-overlay" id="pauseOverlay">
+        <div class="pause-menu">
+            <h2>⏸️ Game Paused</h2>
+            <p>Take a breath and get ready to continue!</p>
+            <button class="menu-button" onclick="resumeGame()">Continue</button>
+            <button class="menu-button" onclick="restartGame()">Restart</button>
+            <button class="menu-button" onclick="endGame()">Finish</button>
+        </div>
+    </div>
+
+    <script>
+        // Game state
+        let gameActive = false;
+        let currentTarget = 'the';
+        let wordsCorrect = 0;
+        let wordsMissed = 0;
+        let currentStreak = 0;
+        let bestStreak = 0;
+        let gameStartTime;
+        let timeRemaining = 60; // 60 seconds
+        let currentLevel = 1;
+        
+        // Word lists by level
+        const wordLists = {
+            1: ['the', 'and', 'a', 'to', 'said', 'you', 'of', 'we'],
+            2: ['he', 'it', 'in', 'are', 'as', 'his', 'they', 'be'],
+            3: ['have', 'from', 'or', 'one', 'had', 'by', 'word', 'but'],
+            4: ['not', 'what', 'all', 'were', 'when', 'there', 'each', 'which']
+        };
+        
+        let currentWordList = wordLists[1];
+        let wordQueue = [];
+        
+        // Game functions
+        function startGame() {
+            gameActive = true;
+            gameStartTime = Date.now();
+            resetStats();
+            generateWordQueue();
+            startTimer();
+            spawnWord();
+            updateBillyMessage("🏃‍♂️ Here we go! Click on '" + currentTarget + "' words!");
+        }
+        
+        function generateWordQueue() {
+            wordQueue = [];
+            // Mix target word with distractors (30% target, 70% distractors)
+            for (let i = 0; i < 20; i++) {
+                if (Math.random() < 0.3) {
+                    wordQueue.push(currentTarget);
+                } else {
+                    const distractors = currentWordList.filter(w => w !== currentTarget);
+                    const randomWord = distractors[Math.floor(Math.random() * distractors.length)];
+                    wordQueue.push(randomWord);
+                }
+            }
+            shuffleArray(wordQueue);
+        }
+        
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+        
+        function spawnWord() {
+            if (!gameActive || wordQueue.length === 0) return;
+            
+            const word = wordQueue.shift();
+            const wordElement = document.createElement('div');
+            wordElement.className = 'word-runner';
+            wordElement.textContent = word;
+            wordElement.onclick = () => clickWord(word, wordElement);
+            
+            document.getElementById('wordTrack').appendChild(wordElement);
+            
+            // Remove word after animation completes
+            setTimeout(() => {
+                if (wordElement.parentNode) {
+                    if (!wordElement.classList.contains('clicked')) {
+                        // Word was missed
+                        if (word === currentTarget) {
+                            wordMissed();
+                            wordElement.classList.add('missed');
+                        }
+                    }
+                    setTimeout(() => {
+                        if (wordElement.parentNode) {
+                            wordElement.parentNode.removeChild(wordElement);
+                        }
+                    }, 1000);
+                }
+            }, 3000);
+            
+            // Spawn next word
+            if (gameActive) {
+                setTimeout(() => spawnWord(), Math.random() * 1500 + 800);
+            }
+        }
+        
+        function clickWord(word, element) {
+            element.onclick = null; // Prevent multiple clicks
+            
+            if (word === currentTarget) {
+                // Correct!
+                wordCaught();
+                element.classList.add('clicked');
+                playSuccessSound();
+            } else {
+                // Wrong word clicked
+                wordMissed();
+                element.classList.add('missed');
+                playErrorSound();
+            }
+        }
+        
+        function wordCaught() {
+            wordsCorrect++;
+            currentStreak++;
+            bestStreak = Math.max(bestStreak, currentStreak);
+            updateScoreDisplay();
+            updateStats();
+            
+            // Encouraging messages
+            const encouragements = [
+                "🎯 Perfect shot!",
+                "🚀 You're on fire!",
+                "⚡ Lightning fast!",
+                "🌟 Amazing catch!",
+                "🏔️ Mountain climber!"
+            ];
+            
+            if (currentStreak > 0 && currentStreak % 5 === 0) {
+                updateBillyMessage(`🔥 ${currentStreak} in a row! ${encouragements[Math.floor(Math.random() * encouragements.length)]}`);
+                levelUp();
+            }
+        }
+        
+        function wordMissed() {
+            wordsMissed++;
+            currentStreak = 0;
+            updateScoreDisplay();
+            updateStats();
+            playErrorSound();
+            
+            updateBillyMessage("🎯 Keep trying! Look for '" + currentTarget + "' - you've got this!");
+        }
+        
+        function levelUp() {
+            if (currentLevel < 4) {
+                currentLevel++;
+                currentWordList = wordLists[currentLevel];
+                currentTarget = currentWordList[Math.floor(Math.random() * currentWordList.length)];
+                document.getElementById('targetWord').textContent = currentTarget;
+                document.getElementById('levelDisplay').textContent = `Level ${currentLevel}: ${getLevelName(currentLevel)}`;
+                generateWordQueue();
+                updateBillyMessage(`🆙 Level Up! Now catching '${currentTarget}' words!`);
+            }
+        }
+        
+        function getLevelName(level) {
+            const names = ['', 'Beginner Words', 'Common Words', 'Frequent Words', 'Advanced Words'];
+            return names[level] || 'Master Level';
+        }
+        
+        function updateScoreDisplay() {
+            document.getElementById('correctCount').textContent = wordsCorrect;
+            document.getElementById('missedCount').textContent = wordsMissed;
+        }
+        
+        function updateStats() {
+            const accuracy = wordsCorrect + wordsMissed > 0 ? 
+                Math.round((wordsCorrect / (wordsCorrect + wordsMissed)) * 100) : 100;
+            document.getElementById('accuracyDisplay').textContent = accuracy + '%';
+            document.getElementById('streakDisplay').textContent = currentStreak;
+            
+            // Calculate WPM (words per minute)
+            const timeElapsed = (Date.now() - gameStartTime) / 1000 / 60; // in minutes
+            const wpm = timeElapsed > 0 ? Math.round(wordsCorrect / timeElapsed) : 0;
+            document.getElementById('wpmDisplay').textContent = wpm + ' WPM';
+        }
+        
+        function startTimer() {
+            const timerInterval = setInterval(() => {
+                timeRemaining--;
+                const minutes = Math.floor(timeRemaining / 60);
+                const seconds = timeRemaining % 60;
+                document.getElementById('timerDisplay').textContent = 
+                    `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    endGame();
+                }
+                
+                if (timeRemaining <= 10) {
+                    document.getElementById('timerDisplay').style.color = '#e74c3c';
+                    document.getElementById('timerDisplay').style.animation = 'pulse 1s infinite';
+                }
+            }, 1000);
+        }
+        
+        function resetStats() {
+            wordsCorrect = 0;
+            wordsMissed = 0;
+            currentStreak = 0;
+            updateScoreDisplay();
+            updateStats();
+        }
+        
+        function updateBillyMessage(message) {
+            document.getElementById('billyMessage').textContent = message;
+        }
+        
+        function pauseGame() {
+            gameActive = false;
+            document.getElementById('pauseOverlay').style.display = 'flex';
+        }
+        
+        function resumeGame() {
+            gameActive = true;
+            document.getElementById('pauseOverlay').style.display = 'none';
+            spawnWord();
+        }
+        
+        function restartGame() {
+            gameActive = false;
+            document.getElementById('pauseOverlay').style.display = 'none';
+            // Clear all word elements
+            const wordTrack = document.getElementById('wordTrack');
+            wordTrack.innerHTML = '';
+            timeRemaining = 60;
+            currentLevel = 1;
+            currentWordList = wordLists[1];
+            currentTarget = 'the';
+            document.getElementById('targetWord').textContent = currentTarget;
+            document.getElementById('levelDisplay').textContent = 'Level 1: Beginner Words';
+            startGame();
+        }
+        
+        function endGame() {
+            gameActive = false;
+            const accuracy = wordsCorrect + wordsMissed > 0 ? 
+                Math.round((wordsCorrect / (wordsCorrect + wordsMissed)) * 100) : 100;
+            
+            updateBillyMessage(`🏆 Great job! You caught ${wordsCorrect} words with ${accuracy}% accuracy! Your best streak was ${bestStreak}!`);
+            
+            setTimeout(() => {
+                alert(`🐐 Mountain Word Run Complete!\n\n🎯 Words Caught: ${wordsCorrect}\n📊 Accuracy: ${accuracy}%\n🔥 Best Streak: ${bestStreak}\n⚡ Final Level: ${currentLevel}\n\nReady for the next lesson?`);
+            }, 2000);
+        }
+        
+        function playSuccessSound() {
+            console.log('🎵 Success sound!');
+        }
+        
+        function playErrorSound() {
+            console.log('🔊 Miss sound');
+        }
+        
+        // Keyboard controls
+        document.addEventListener('keydown', (event) => {
+            if (event.code === 'Space') {
+                event.preventDefault();
+                if (gameActive) {
+                    pauseGame();
+                } else if (!gameActive && timeRemaining > 0) {
+                    resumeGame();
+                }
+            }
+        });
+        
+        // Start the game
+        startGame();
+    </script>
+</body>
+</html>

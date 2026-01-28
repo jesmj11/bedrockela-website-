@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐐 Billy's Letter Sound Adventure - Bedrock Learning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+        
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .game-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .game-header {
+            background: rgba(255,255,255,0.95);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .lesson-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .billy-mini {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            animation: bounce 2s infinite;
+        }
+
+        .lesson-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            border-radius: 20px;
+            height: 20px;
+            width: 200px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #4ecdc4, #44a08d);
+            height: 100%;
+            width: 30%;
+            border-radius: 20px;
+            transition: width 0.5s ease;
+        }
+
+        .game-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .billy-speech {
+            background: rgba(255,255,255,0.95);
+            padding: 20px 30px;
+            border-radius: 25px;
+            margin-bottom: 30px;
+            border: 3px solid #FFD700;
+            position: relative;
+            font-size: 1.1rem;
+            text-align: center;
+            max-width: 500px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .billy-speech:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 15px solid #FFD700;
+        }
+
+        .game-board {
+            background: rgba(255,255,255,0.9);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .sound-target {
+            font-size: 4rem;
+            color: #e74c3c;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .letters-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 400px;
+        }
+
+        .letter-card {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .letter-card:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(255,154,158,0.5);
+        }
+
+        .letter-card.correct {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            animation: celebrate 0.6s ease;
+            border-color: #FFD700;
+        }
+
+        .letter-card.wrong {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            animation: shake 0.5s ease;
+        }
+
+        .score-display {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .score-item {
+            text-align: center;
+        }
+
+        .score-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .score-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .game-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+        }
+
+        .control-btn {
+            background: rgba(255,255,255,0.9);
+            border: 2px solid #4ecdc4;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #2c3e50;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: #4ecdc4;
+            color: white;
+        }
+
+        .celebration {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            z-index: 200;
+            animation: celebrationPop 1s ease forwards;
+            pointer-events: none;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes celebrate {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        @keyframes celebrationPop {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(139, 69, 19, 0.9);
+            color: white;
+            border: 2px solid #FFD700;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            z-index: 150;
+        }
+
+        .back-button:hover {
+            background: rgba(139, 69, 19, 1);
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .game-board {
+                padding: 20px;
+            }
+            
+            .letters-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15px;
+            }
+            
+            .letter-card {
+                width: 70px;
+                height: 70px;
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Button -->
+    <a href="1st-grade-reading-lessons.html" class="back-button" title="Back to Lessons">
+        🏘️
+    </a>
+
+    <div class="game-container">
+        <!-- Game Header -->
+        <div class="game-header">
+            <div class="lesson-info">
+                <div class="billy-mini">🐐</div>
+                <div>
+                    <div class="lesson-title">Lesson 4: Letter Sound M</div>
+                    <div style="font-size: 0.9rem; color: #666;">Click the letter that makes the /m/ sound!</div>
+                </div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+            
+            <div class="score-display">
+                <div class="score-item">
+                    <div class="score-number" id="correctScore">3</div>
+                    <div class="score-label">Correct</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-number" id="totalScore">5</div>
+                    <div class="score-label">Total</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Area -->
+        <div class="game-area">
+            <!-- Billy's Speech Bubble -->
+            <div class="billy-speech" id="billySpeech">
+                Great job! Now find the letter that makes the <strong>/mmm/</strong> sound like in "mouse" and "mountain"! 🏔️
+            </div>
+
+            <!-- Game Board -->
+            <div class="game-board">
+                <div class="sound-target" id="soundTarget">
+                    🔊 /m/
+                </div>
+                
+                <div class="letters-grid" id="lettersGrid">
+                    <div class="letter-card" data-letter="M" onclick="selectLetter('M', true)">M</div>
+                    <div class="letter-card" data-letter="S" onclick="selectLetter('S', false)">S</div>
+                    <div class="letter-card" data-letter="P" onclick="selectLetter('P', false)">P</div>
+                    <div class="letter-card" data-letter="T" onclick="selectLetter('T', false)">T</div>
+                    <div class="letter-card" data-letter="A" onclick="selectLetter('A', false)">A</div>
+                    <div class="letter-card" data-letter="N" onclick="selectLetter('N', false)">N</div>
+                    <div class="letter-card" data-letter="R" onclick="selectLetter('R', false)">R</div>
+                    <div class="letter-card" data-letter="L" onclick="selectLetter('L', false)">L</div>
+                </div>
+            </div>
+
+            <!-- Game Controls -->
+            <div class="game-controls">
+                <button class="control-btn" onclick="playSound()">🔊 Hear Again</button>
+                <button class="control-btn" onclick="nextRound()">Next Round</button>
+                <button class="control-btn" onclick="skipLesson()">Skip</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSound = 'M';
+        let correctAnswers = 3;
+        let totalQuestions = 5;
+        let gameData = [
+            { sound: '/m/', letter: 'M', words: 'mouse, mountain', letters: ['M', 'S', 'P', 'T', 'A', 'N', 'R', 'L'] },
+            { sound: '/s/', letter: 'S', words: 'sun, snake', letters: ['S', 'M', 'T', 'R', 'A', 'P', 'N', 'L'] },
+            { sound: '/p/', letter: 'P', words: 'pig, path', letters: ['P', 'M', 'S', 'T', 'A', 'N', 'R', 'L'] }
+        ];
+        let currentRound = 0;
+
+        function selectLetter(letter, isCorrect) {
+            const clickedCard = document.querySelector(`[data-letter="${letter}"]`);
+            
+            // Disable all cards temporarily
+            const allCards = document.querySelectorAll('.letter-card');
+            allCards.forEach(card => card.style.pointerEvents = 'none');
+            
+            if (isCorrect) {
+                clickedCard.classList.add('correct');
+                showCelebration('🎉');
+                playSuccessSound();
+                updateBillySpeech(`Excellent! The letter ${letter} makes the ${gameData[currentRound].sound} sound!`);
+                correctAnswers++;
+                
+                setTimeout(() => {
+                    nextRound();
+                }, 2000);
+            } else {
+                clickedCard.classList.add('wrong');
+                playErrorSound();
+                updateBillySpeech(`Oops! That's not quite right. The ${letter} makes a different sound. Try again!`);
+                
+                setTimeout(() => {
+                    clickedCard.classList.remove('wrong');
+                    allCards.forEach(card => card.style.pointerEvents = 'auto');
+                }, 1000);
+            }
+            
+            totalQuestions++;
+            updateScores();
+        }
+
+        function nextRound() {
+            currentRound++;
+            if (currentRound >= gameData.length) {
+                completeLesson();
+                return;
+            }
+            
+            const data = gameData[currentRound];
+            loadRound(data);
+        }
+
+        function loadRound(data) {
+            // Reset all cards
+            const allCards = document.querySelectorAll('.letter-card');
+            allCards.forEach(card => {
+                card.classList.remove('correct', 'wrong');
+                card.style.pointerEvents = 'auto';
+            });
+            
+            // Update sound target
+            document.getElementById('soundTarget').textContent = `🔊 ${data.sound}`;
+            
+            // Update Billy's speech
+            updateBillySpeech(`Great! Now find the letter that makes the <strong>${data.sound}</strong> sound like in "${data.words}"! 🏔️`);
+            
+            // Update letters grid
+            const grid = document.getElementById('lettersGrid');
+            grid.innerHTML = '';
+            
+            data.letters.forEach(letter => {
+                const isCorrect = letter === data.letter;
+                const card = document.createElement('div');
+                card.className = 'letter-card';
+                card.setAttribute('data-letter', letter);
+                card.onclick = () => selectLetter(letter, isCorrect);
+                card.textContent = letter;
+                grid.appendChild(card);
+            });
+            
+            updateProgress();
+        }
+
+        function updateBillySpeech(text) {
+            document.getElementById('billySpeech').innerHTML = text;
+        }
+
+        function updateScores() {
+            document.getElementById('correctScore').textContent = correctAnswers;
+            document.getElementById('totalScore').textContent = totalQuestions;
+        }
+
+        function updateProgress() {
+            const progress = (currentRound / gameData.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function showCelebration(emoji) {
+            const celebration = document.createElement('div');
+            celebration.className = 'celebration';
+            celebration.textContent = emoji;
+            document.body.appendChild(celebration);
+            
+            setTimeout(() => {
+                document.body.removeChild(celebration);
+            }, 1000);
+        }
+
+        function playSound() {
+            const data = gameData[currentRound];
+            updateBillySpeech(`Listen carefully: <strong>${data.sound}</strong> like in "${data.words}"! 🔊`);
+            // In real implementation, play actual audio here
+        }
+
+        function playSuccessSound() {
+            // Play success chime
+            console.log('🎵 Success sound!');
+        }
+
+        function playErrorSound() {
+            // Play gentle error sound
+            console.log('🔊 Try again sound');
+        }
+
+        function completeLesson() {
+            const accuracy = Math.round((correctAnswers / totalQuestions) * 100);
+            updateBillySpeech(`🎉 Fantastic work! You completed the lesson with ${accuracy}% accuracy! Ready for the next adventure?`);
+            
+            setTimeout(() => {
+                if (accuracy >= 80) {
+                    // Navigate to next lesson
+                    alert('🏆 Lesson Complete! Moving to next lesson...');
+                } else {
+                    // Offer to retry
+                    alert('🐐 Good try! Want to practice this lesson again?');
+                }
+            }, 3000);
+        }
+
+        function skipLesson() {
+            if (confirm('🐐 Are you sure you want to skip this lesson? Billy thinks you can do it!')) {
+                // Navigate to lesson selection
+                window.location.href = '1st-grade-reading-lessons.html';
+            }
+        }
+
+        // Initialize game
+        loadRound(gameData[0]);
+        updateScores();
+        updateProgress();
+    </script>
+</body>
+</html>

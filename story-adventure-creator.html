@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐐 Billy's Story Adventure Creator - Bedrock Learning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+        
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(135deg, #9b59b6 0%, #3498db 100%);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .creator-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .creator-header {
+            background: rgba(255,255,255,0.95);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .creator-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .billy-creator {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #9b59b6 0%, #3498db 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            animation: create 3s infinite;
+        }
+
+        .story-progress {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            height: 10px;
+            width: 150px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: white;
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .story-stats {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .creation-area {
+            flex-grow: 1;
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .story-workspace {
+            flex: 2;
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .workspace-header {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .story-stage {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 25px;
+            flex-grow: 1;
+            margin-bottom: 20px;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        .story-prompt {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .story-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #2c3e50;
+            min-height: 200px;
+        }
+
+        .story-part {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            background: rgba(52,152,219,0.1);
+            border-left: 4px solid #3498db;
+        }
+
+        .choice-panel {
+            flex: 1;
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .choice-section {
+            margin-bottom: 25px;
+        }
+
+        .choice-header {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .choice-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .choice-option {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .choice-option:hover {
+            background: #e8f4f8;
+            border-color: #3498db;
+            transform: scale(1.02);
+        }
+
+        .choice-option.selected {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border-color: #2980b9;
+        }
+
+        .writing-mode {
+            background: rgba(155,89,182,0.1);
+            border: 2px dashed #9b59b6;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .writing-input {
+            width: 100%;
+            height: 120px;
+            border: none;
+            background: transparent;
+            font-family: 'Comic Sans MS', cursive;
+            font-size: 1.1rem;
+            color: #2c3e50;
+            resize: none;
+            outline: none;
+            line-height: 1.6;
+        }
+
+        .writing-input::placeholder {
+            color: #95a5a6;
+            font-style: italic;
+        }
+
+        .story-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Comic Sans MS', cursive;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(155,89,182,0.3);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .story-types {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .story-type {
+            background: #f8f9fa;
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .story-type:hover {
+            border-color: #9b59b6;
+        }
+
+        .story-type.active {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            color: white;
+            border-color: #8e44ad;
+        }
+
+        .billy-writing-tip {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,215,0,0.95);
+            border: 3px solid #FFD700;
+            border-radius: 20px;
+            padding: 15px 25px;
+            font-weight: bold;
+            color: #8B4513;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(255,215,0,0.3);
+        }
+
+        .completion-celebration {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+        }
+
+        .celebration-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .celebration-trophy {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: bounce 1s infinite;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(139, 69, 19, 0.9);
+            color: white;
+            border: 2px solid #FFD700;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            z-index: 150;
+        }
+
+        .back-button:hover {
+            background: rgba(139, 69, 19, 1);
+            transform: scale(1.1);
+        }
+
+        @keyframes create {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-3px) rotate(5deg); }
+            66% { transform: translateY(3px) rotate(-5deg); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @media (max-width: 768px) {
+            .creation-area {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .choice-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .story-actions {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Button -->
+    <a href="1st-grade-reading-lessons.html" class="back-button" title="Back to Lessons">
+        🏘️
+    </a>
+
+    <div class="creator-container">
+        <!-- Creator Header -->
+        <div class="creator-header">
+            <div class="creator-info">
+                <div class="billy-creator">🐐</div>
+                <div>
+                    <div style="font-size: 1.2rem; font-weight: bold;">Story Adventure Creator</div>
+                    <div style="font-size: 0.9rem; color: #666;">Create amazing stories with Billy's help!</div>
+                </div>
+            </div>
+            
+            <div class="story-progress">
+                <span>Story Progress:</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <span id="progressText">0/5</span>
+            </div>
+            
+            <div class="story-stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="wordsWritten">0</div>
+                    <div class="stat-label">Words Written</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="storiesCompleted">0</div>
+                    <div class="stat-label">Stories Completed</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Creation Area -->
+        <div class="creation-area">
+            <!-- Story Workspace -->
+            <div class="story-workspace">
+                <div class="workspace-header">📖 Your Story Adventure</div>
+                
+                <div class="story-types" id="storyTypes">
+                    <div class="story-type active" onclick="selectStoryType('adventure')">🏔️ Adventure</div>
+                    <div class="story-type" onclick="selectStoryType('friendship')">👫 Friendship</div>
+                    <div class="story-type" onclick="selectStoryType('animal')">🐾 Animal Story</div>
+                    <div class="story-type" onclick="selectStoryType('magic')">✨ Magic</div>
+                </div>
+                
+                <div class="story-stage" id="storyStage">
+                    <div class="story-prompt" id="storyPrompt">
+                        🏔️ Billy the goat loves adventures! Help him start a new story by choosing characters and setting.
+                    </div>
+                    
+                    <div class="story-text" id="storyText">
+                        <div class="story-part">
+                            <strong>Once upon a time...</strong> Billy the goat was getting ready for a new adventure. 
+                            He looked around and wondered where he should go today.
+                        </div>
+                    </div>
+                    
+                    <div class="writing-mode" id="writingMode" style="display: none;">
+                        <textarea 
+                            class="writing-input" 
+                            id="writingInput" 
+                            placeholder="What happens next in Billy's adventure? Write your ideas here..."
+                            onkeyup="updateWordCount()"
+                        ></textarea>
+                    </div>
+                </div>
+                
+                <div class="story-actions">
+                    <button class="action-btn" onclick="toggleWritingMode()" id="writeBtn">
+                        ✍️ Write Yourself
+                    </button>
+                    <button class="action-btn" onclick="addStoryPart()" id="addBtn">
+                        ➕ Add to Story
+                    </button>
+                    <button class="action-btn" onclick="finishStory()" id="finishBtn" disabled>
+                        🏁 Finish Story
+                    </button>
+                </div>
+            </div>
+
+            <!-- Choice Panel -->
+            <div class="choice-panel">
+                <div class="choice-section" id="characterSection">
+                    <div class="choice-header">👥 Choose Characters</div>
+                    <div class="choice-grid">
+                        <div class="choice-option" onclick="selectChoice('character', 'friendly rabbit')">
+                            🐰 Friendly Rabbit
+                        </div>
+                        <div class="choice-option" onclick="selectChoice('character', 'wise owl')">
+                            🦉 Wise Owl
+                        </div>
+                        <div class="choice-option" onclick="selectChoice('character', 'playful squirrel')">
+                            🐿️ Playful Squirrel
+                        </div>
+                        <div class="choice-option" onclick="selectChoice('character', 'brave bear')">
+                            🐻 Brave Bear
+                        </div>
+                    </div>
+                </div>
+
+                <div class="choice-section" id="settingSection">
+                    <div class="choice-header">🗺️ Choose Setting</div>
+                    <div class="choice-grid">
+                        <div class="choice-option" onclick="selectChoice('setting', 'tall mountain')">
+                            🏔️ Tall Mountain
+                        </div>
+                        <div class="choice-option" onclick="selectChoice('setting', 'deep forest')">
+                            🌲 Deep Forest
+                        </div>
+                        <div class="choice-option" onclick="selectChoice('setting', 'sparkling river')">
+                            🌊 Sparkling River
+                        </div>
+                        <div class="choice-option" onclick="selectChoice('setting', 'sunny meadow')">
+                            🌻 Sunny Meadow
+                        </div>
+                    </div>
+                </div>
+
+                <div class="choice-section" id="actionSection" style="display: none;">
+                    <div class="choice-header">⚡ What Happens?</div>
+                    <div class="choice-grid">
+                        <div class="choice-option" onclick="selectChoice('action', 'finds a treasure')">
+                            💎 Finds Treasure
+                        </div>
+                        <div class="choice-option" onclick="selectChoice('action', 'helps a friend')">
+                            🤝 Helps Friend
+                        </div>
+                        <div class="choice-option" onclick="selectChoice('action', 'solves a puzzle')">
+                            🧩 Solves Puzzle
+                        </div>
+                        <div class="choice-option" onclick="selectChoice('action', 'discovers something amazing')">
+                            ⭐ Amazing Discovery
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Completion Celebration -->
+        <div class="completion-celebration" id="completionScreen">
+            <div class="celebration-content">
+                <div class="celebration-trophy">🏆</div>
+                <h2>Story Complete!</h2>
+                <p>Congratulations! You've created an amazing story adventure! Your creativity and writing skills are growing stronger every day.</p>
+                <div style="margin: 20px 0; font-size: 1.2rem; color: #9b59b6;">
+                    <strong>🎨 Story Creation Rewards:</strong><br>
+                    📝 Creative Writer Badge<br>
+                    🌟 Story Architect<br>
+                    ⭐ 100 Story Points
+                </div>
+                <button class="action-btn" onclick="startNewStory()">
+                    🆕 Create New Story
+                </button>
+            </div>
+        </div>
+
+        <div class="billy-writing-tip" id="writingTip">
+            🐐 "Welcome to my story workshop! Choose characters and places to create an amazing adventure!"
+        </div>
+    </div>
+
+    <script>
+        let currentStory = {
+            type: 'adventure',
+            character: null,
+            setting: null,
+            action: null,
+            customText: '',
+            parts: []
+        };
+
+        let storyStep = 0;
+        let wordsWritten = 0;
+        let storiesCompleted = 0;
+        let writingMode = false;
+
+        // Story templates
+        const storyTemplates = {
+            adventure: {
+                prompt: "🏔️ Billy the goat loves adventures! Help him start a new story by choosing characters and setting.",
+                start: "Once upon a time, Billy the goat was getting ready for a new adventure. He looked around and wondered where he should go today."
+            },
+            friendship: {
+                prompt: "👫 Billy wants to make new friends! Choose who he meets and where they become friends.",
+                start: "Billy the goat was feeling a little lonely. He decided to go out and find a new friend to share adventures with."
+            },
+            animal: {
+                prompt: "🐾 Billy meets amazing animals! Choose which animals join his story and where they meet.",
+                start: "Billy the goat loved meeting other animals. Today he was excited to make some new animal friends."
+            },
+            magic: {
+                prompt: "✨ Something magical is happening! Help Billy discover the magic in his world.",
+                start: "Billy the goat was walking through his favorite place when he noticed something sparkly and magical."
+            }
+        };
+
+        function selectStoryType(type) {
+            currentStory.type = type;
+            
+            // Update active button
+            document.querySelectorAll('.story-type').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Reset story
+            resetStory();
+            loadStoryTemplate(type);
+        }
+
+        function loadStoryTemplate(type) {
+            const template = storyTemplates[type];
+            document.getElementById('storyPrompt').textContent = template.prompt;
+            document.getElementById('storyText').innerHTML = `
+                <div class="story-part">
+                    <strong>Once upon a time...</strong> ${template.start}
+                </div>
+            `;
+        }
+
+        function selectChoice(choiceType, choice) {
+            // Clear previous selections in this category
+            const section = document.getElementById(choiceType + 'Section');
+            section.querySelectorAll('.choice-option').forEach(opt => opt.classList.remove('selected'));
+            
+            // Select current choice
+            event.target.classList.add('selected');
+            currentStory[choiceType] = choice;
+            
+            // Add to story
+            addChoiceToStory(choiceType, choice);
+            
+            // Progress to next step
+            advanceStoryStep();
+        }
+
+        function addChoiceToStory(choiceType, choice) {
+            let storyAddition = '';
+            
+            switch(choiceType) {
+                case 'character':
+                    storyAddition = `Suddenly, Billy met a ${choice}. "${getCharacterGreeting(choice)}" said the ${choice.split(' ')[1]}.`;
+                    break;
+                case 'setting':
+                    storyAddition = `Together, they decided to explore the ${choice}. It was the perfect place for an adventure!`;
+                    break;
+                case 'action':
+                    storyAddition = `As they explored, something amazing happened - they ${choice}! It was the most exciting part of their journey.`;
+                    break;
+            }
+            
+            if (storyAddition) {
+                const storyText = document.getElementById('storyText');
+                const newPart = document.createElement('div');
+                newPart.className = 'story-part';
+                newPart.textContent = storyAddition;
+                storyText.appendChild(newPart);
+                
+                currentStory.parts.push(storyAddition);
+                updateProgress();
+            }
+        }
+
+        function getCharacterGreeting(character) {
+            const greetings = {
+                'friendly rabbit': "Hello there, Billy! Want to hop along with me?",
+                'wise owl': "Hoot hoot! I know the perfect place for an adventure!",
+                'playful squirrel': "Hi Billy! I know where all the best nuts and fun are hidden!",
+                'brave bear': "Greetings, Billy! I'm looking for brave friends to join me!"
+            };
+            return greetings[character] || "Hello, Billy!";
+        }
+
+        function advanceStoryStep() {
+            storyStep++;
+            
+            if (storyStep === 1) {
+                // Show setting choices
+                updateWritingTip("🐐 Great choice! Now pick where Billy's adventure takes place!");
+            } else if (storyStep === 2) {
+                // Show action choices
+                document.getElementById('actionSection').style.display = 'block';
+                updateWritingTip("🐐 Perfect setting! Now choose what exciting thing happens in the story!");
+            } else if (storyStep >= 3) {
+                // Enable finish button
+                document.getElementById('finishBtn').disabled = false;
+                updateWritingTip("🐐 Amazing! Your story is taking shape! Add your own writing or finish it!");
+            }
+            
+            updateProgress();
+        }
+
+        function toggleWritingMode() {
+            writingMode = !writingMode;
+            const writingModeDiv = document.getElementById('writingMode');
+            const writeBtn = document.getElementById('writeBtn');
+            
+            if (writingMode) {
+                writingModeDiv.style.display = 'block';
+                writeBtn.textContent = '📖 Back to Story';
+                updateWritingTip("🐐 Now you're the author! Write what happens next in Billy's adventure!");
+            } else {
+                writingModeDiv.style.display = 'none';
+                writeBtn.textContent = '✍️ Write Yourself';
+                updateWritingTip("🐐 Great writing! Keep building your story!");
+            }
+        }
+
+        function addStoryPart() {
+            const writingInput = document.getElementById('writingInput');
+            const customText = writingInput.value.trim();
+            
+            if (!customText) {
+                updateWritingTip("🐐 Write something first, then click 'Add to Story'!");
+                return;
+            }
+            
+            // Add custom text to story
+            const storyText = document.getElementById('storyText');
+            const newPart = document.createElement('div');
+            newPart.className = 'story-part';
+            newPart.style.background = 'rgba(155,89,182,0.1)';
+            newPart.style.borderLeftColor = '#9b59b6';
+            newPart.innerHTML = `<strong>Your addition:</strong> ${customText}`;
+            storyText.appendChild(newPart);
+            
+            currentStory.parts.push(customText);
+            currentStory.customText += ' ' + customText;
+            
+            // Clear input and update counts
+            writingInput.value = '';
+            updateWordCount();
+            updateProgress();
+            
+            // Enable finish button
+            document.getElementById('finishBtn').disabled = false;
+            updateWritingTip("🐐 Excellent addition! Your story is getting more exciting!");
+        }
+
+        function finishStory() {
+            // Add ending to story
+            const endings = [
+                "And so Billy and his new friend had the most wonderful adventure. They promised to meet again soon for another exciting journey!",
+                "Billy smiled as he thought about his amazing adventure. He couldn't wait to tell everyone about his new friend and all the fun they had!",
+                "As the sun began to set, Billy realized this had been his best adventure yet. He had made a great friend and discovered something special!",
+                "Billy and his companion returned home, tired but happy. It had been a perfect day full of friendship and discovery!"
+            ];
+            
+            const randomEnding = endings[Math.floor(Math.random() * endings.length)];
+            
+            const storyText = document.getElementById('storyText');
+            const endingPart = document.createElement('div');
+            endingPart.className = 'story-part';
+            endingPart.style.background = 'rgba(39,174,96,0.1)';
+            endingPart.style.borderLeftColor = '#27ae60';
+            endingPart.innerHTML = `<strong>The End:</strong> ${randomEnding}`;
+            storyText.appendChild(endingPart);
+            
+            // Update stats
+            storiesCompleted++;
+            updateStats();
+            updateProgress();
+            
+            // Show completion screen
+            setTimeout(() => {
+                document.getElementById('completionScreen').style.display = 'flex';
+            }, 1000);
+            
+            updateWritingTip("🏆 Congratulations! You've completed an amazing story adventure!");
+        }
+
+        function startNewStory() {
+            document.getElementById('completionScreen').style.display = 'none';
+            resetStory();
+            loadStoryTemplate(currentStory.type);
+            updateWritingTip("🐐 Ready for a new adventure? Choose characters and setting to start!");
+        }
+
+        function resetStory() {
+            currentStory = {
+                type: currentStory.type,
+                character: null,
+                setting: null,
+                action: null,
+                customText: '',
+                parts: []
+            };
+            
+            storyStep = 0;
+            writingMode = false;
+            
+            // Reset UI
+            document.querySelectorAll('.choice-option').forEach(opt => opt.classList.remove('selected'));
+            document.getElementById('actionSection').style.display = 'none';
+            document.getElementById('writingMode').style.display = 'none';
+            document.getElementById('finishBtn').disabled = true;
+            document.getElementById('writeBtn').textContent = '✍️ Write Yourself';
+            
+            updateProgress();
+        }
+
+        function updateWordCount() {
+            const input = document.getElementById('writingInput');
+            const words = input.value.trim().split(/\s+/).filter(word => word.length > 0);
+            wordsWritten = currentStory.customText.split(/\s+/).filter(word => word.length > 0).length + words.length;
+            updateStats();
+        }
+
+        function updateProgress() {
+            const totalSteps = 5; // character, setting, action, custom writing, finish
+            const currentProgress = Math.min(storyStep + (currentStory.customText ? 1 : 0), totalSteps);
+            const percentage = (currentProgress / totalSteps) * 100;
+            
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = `${currentProgress}/${totalSteps}`;
+        }
+
+        function updateStats() {
+            document.getElementById('wordsWritten').textContent = wordsWritten;
+            document.getElementById('storiesCompleted').textContent = storiesCompleted;
+        }
+
+        function updateWritingTip(message) {
+            document.getElementById('writingTip').textContent = message;
+        }
+
+        function playSuccessSound() {
+            console.log('🎵 Success sound!');
+        }
+
+        // Initialize
+        loadStoryTemplate('adventure');
+        updateStats();
+        updateProgress();
+    </script>
+</body>
+</html>

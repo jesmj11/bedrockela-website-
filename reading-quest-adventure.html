@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐐 Billy's Reading Quest Adventure - Bedrock Learning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+        
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(135deg, #8e44ad 0%, #3498db 100%);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .quest-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .quest-header {
+            background: rgba(255,255,255,0.95);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .quest-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .billy-quest {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #8e44ad 0%, #3498db 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            animation: glow 2s infinite alternate;
+        }
+
+        .quest-progress {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .progress-step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .progress-step.active {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+            transform: scale(1.2);
+        }
+
+        .progress-step.completed {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+        }
+
+        .main-area {
+            flex-grow: 1;
+            display: flex;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .story-panel {
+            flex: 1;
+            background: rgba(255,255,255,0.95);
+            margin: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .story-header {
+            background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .story-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .story-subtitle {
+            opacity: 0.9;
+        }
+
+        .story-content {
+            flex-grow: 1;
+            padding: 30px;
+            overflow-y: auto;
+            line-height: 1.8;
+            font-size: 1.2rem;
+        }
+
+        .story-text {
+            margin-bottom: 30px;
+        }
+
+        .story-illustration {
+            width: 200px;
+            height: 150px;
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            margin: 20px auto;
+            box-shadow: 0 8px 20px rgba(243,156,18,0.3);
+        }
+
+        .quest-panel {
+            width: 400px;
+            background: rgba(255,255,255,0.95);
+            margin: 20px 20px 20px 0;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .quest-header-panel {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .quest-content {
+            flex-grow: 1;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .question {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .answer-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .answer-option {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 15px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .answer-option:hover {
+            background: #e8f4f8;
+            border-color: #3498db;
+            transform: scale(1.02);
+        }
+
+        .answer-option.correct {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            border-color: #27ae60;
+            animation: correctAnswer 0.6s ease;
+        }
+
+        .answer-option.incorrect {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border-color: #c0392b;
+            animation: shake 0.5s ease;
+        }
+
+        .billy-feedback {
+            background: rgba(255,215,0,0.9);
+            border: 3px solid #FFD700;
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+            color: #8B4513;
+            display: none;
+            animation: slideUp 0.5s ease;
+        }
+
+        .next-button {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .next-button.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .next-button:hover {
+            transform: scale(1.05);
+        }
+
+        .completion-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+        }
+
+        .completion-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .trophy {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: bounce 1s infinite;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(139, 69, 19, 0.9);
+            color: white;
+            border: 2px solid #FFD700;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            z-index: 150;
+        }
+
+        .back-button:hover {
+            background: rgba(139, 69, 19, 1);
+            transform: scale(1.1);
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px rgba(142,68,173,0.5); }
+            100% { box-shadow: 0 0 20px rgba(142,68,173,0.8); }
+        }
+
+        @keyframes correctAnswer {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @media (max-width: 768px) {
+            .main-area {
+                flex-direction: column;
+            }
+            
+            .quest-panel {
+                width: auto;
+                margin: 0 20px 20px 20px;
+            }
+            
+            .story-content {
+                padding: 20px;
+            }
+            
+            .quest-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Button -->
+    <a href="1st-grade-reading-lessons.html" class="back-button" title="Back to Lessons">
+        🏘️
+    </a>
+
+    <div class="quest-container">
+        <!-- Quest Header -->
+        <div class="quest-header">
+            <div class="quest-info">
+                <div class="billy-quest">🐐</div>
+                <div>
+                    <div style="font-size: 1.2rem; font-weight: bold;">Reading Quest Adventure</div>
+                    <div style="font-size: 0.9rem; color: #666;">Read the story, then answer the questions!</div>
+                </div>
+            </div>
+            
+            <div class="quest-progress" id="questProgress">
+                <div class="progress-step active">📖</div>
+                <div class="progress-step">🤔</div>
+                <div class="progress-step">🎯</div>
+                <div class="progress-step">🏆</div>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-area">
+            <!-- Story Panel -->
+            <div class="story-panel">
+                <div class="story-header">
+                    <div class="story-title" id="storyTitle">Billy's Mountain Adventure</div>
+                    <div class="story-subtitle">A Reading Quest Story</div>
+                </div>
+                
+                <div class="story-content" id="storyContent">
+                    <div class="story-illustration" id="storyIllustration">🏔️</div>
+                    <div class="story-text" id="storyText">
+                        Billy the goat loved to climb mountains. One sunny morning, he decided to explore a new path up the tall mountain near his home. The path was rocky and steep, but Billy was brave and strong.
+                        <br><br>
+                        As Billy climbed higher, he met a friendly squirrel. "Where are you going?" asked the squirrel. "I'm climbing to the top to see the beautiful view!" said Billy.
+                        <br><br>
+                        The squirrel warned Billy about a big storm coming. "You should go back down," said the squirrel. But Billy wanted to reach the top. He climbed faster and faster.
+                        <br><br>
+                        Just as Billy reached the summit, dark clouds covered the sky. Rain started to fall, and Billy realized the squirrel was right. He quickly found a cave to stay dry and wait for the storm to pass.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quest Panel -->
+            <div class="quest-panel">
+                <div class="quest-header-panel">
+                    <div style="font-size: 1.5rem; font-weight: bold;">Quest Challenge</div>
+                    <div>Answer to unlock the next path!</div>
+                </div>
+                
+                <div class="quest-content">
+                    <div class="question" id="questionText">
+                        What did Billy love to do?
+                    </div>
+                    
+                    <div class="answer-options" id="answerOptions">
+                        <div class="answer-option" onclick="selectAnswer(0, true)">
+                            Climb mountains
+                        </div>
+                        <div class="answer-option" onclick="selectAnswer(1, false)">
+                            Swim in rivers
+                        </div>
+                        <div class="answer-option" onclick="selectAnswer(2, false)">
+                            Play in the garden
+                        </div>
+                        <div class="answer-option" onclick="selectAnswer(3, false)">
+                            Sleep all day
+                        </div>
+                    </div>
+                    
+                    <div class="billy-feedback" id="billyFeedback">
+                        🐐 Great job! You found the answer in the story!
+                    </div>
+                    
+                    <button class="next-button" id="nextButton" onclick="nextQuestion()">
+                        Next Challenge
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Completion Screen -->
+    <div class="completion-screen" id="completionScreen">
+        <div class="completion-content">
+            <div class="trophy">🏆</div>
+            <h2>Quest Complete!</h2>
+            <p>You've successfully completed Billy's Reading Quest! You showed great reading comprehension skills by understanding the story and answering all the questions correctly.</p>
+            <div style="margin: 20px 0; font-size: 1.2rem; color: #27ae60;">
+                <strong>🎯 Quest Rewards Earned:</strong><br>
+                📖 Story Reader Badge<br>
+                🧠 Comprehension Master<br>
+                ⭐ 50 Quest Points
+            </div>
+            <button class="next-button visible" onclick="completeQuest()">
+                Continue Adventure
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Quest data
+        const questData = [
+            {
+                question: "What did Billy love to do?",
+                answers: ["Climb mountains", "Swim in rivers", "Play in the garden", "Sleep all day"],
+                correct: 0,
+                feedback: "🐐 Perfect! The story says 'Billy the goat loved to climb mountains.'"
+            },
+            {
+                question: "Who did Billy meet on his climb?",
+                answers: ["A friendly bear", "A wise owl", "A friendly squirrel", "An old rabbit"],
+                correct: 2,
+                feedback: "🎯 Excellent! Billy met a friendly squirrel who tried to warn him!"
+            },
+            {
+                question: "What did the squirrel warn Billy about?",
+                answers: ["A dangerous path", "A big storm coming", "Wild animals", "Getting lost"],
+                correct: 1,
+                feedback: "⛈️ Right! The squirrel warned Billy about a big storm coming!"
+            },
+            {
+                question: "Where did Billy go when it started raining?",
+                answers: ["He ran back home", "He hid under a tree", "He found a cave", "He kept climbing"],
+                correct: 2,
+                feedback: "🏠 Great reading! Billy found a cave to stay dry and wait for the storm to pass!"
+            }
+        ];
+
+        let currentQuestion = 0;
+        let questionsCorrect = 0;
+        let answered = false;
+
+        function selectAnswer(answerIndex, isCorrect) {
+            if (answered) return;
+            answered = true;
+
+            const options = document.querySelectorAll('.answer-option');
+            const correctIndex = questData[currentQuestion].correct;
+            
+            // Show correct and incorrect answers
+            options[correctIndex].classList.add('correct');
+            if (answerIndex !== correctIndex) {
+                options[answerIndex].classList.add('incorrect');
+            } else {
+                questionsCorrect++;
+                playSuccessSound();
+            }
+            
+            // Disable all options
+            options.forEach(option => option.onclick = null);
+            
+            // Show feedback
+            const feedback = document.getElementById('billyFeedback');
+            feedback.textContent = questData[currentQuestion].feedback;
+            feedback.style.display = 'block';
+            
+            // Show next button
+            document.getElementById('nextButton').classList.add('visible');
+            
+            // Update progress
+            updateProgress();
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            answered = false;
+            
+            if (currentQuestion >= questData.length) {
+                showCompletion();
+                return;
+            }
+            
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const question = questData[currentQuestion];
+            
+            // Reset UI
+            document.getElementById('questionText').textContent = question.question;
+            document.getElementById('billyFeedback').style.display = 'none';
+            document.getElementById('nextButton').classList.remove('visible');
+            
+            // Reset answer options
+            const optionsContainer = document.getElementById('answerOptions');
+            optionsContainer.innerHTML = '';
+            
+            question.answers.forEach((answer, index) => {
+                const option = document.createElement('div');
+                option.className = 'answer-option';
+                option.textContent = answer;
+                option.onclick = () => selectAnswer(index, index === question.correct);
+                optionsContainer.appendChild(option);
+            });
+            
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const steps = document.querySelectorAll('.progress-step');
+            steps.forEach((step, index) => {
+                step.classList.remove('active', 'completed');
+                if (index < currentQuestion) {
+                    step.classList.add('completed');
+                } else if (index === currentQuestion) {
+                    step.classList.add('active');
+                }
+            });
+        }
+
+        function showCompletion() {
+            const accuracy = Math.round((questionsCorrect / questData.length) * 100);
+            document.getElementById('completionScreen').style.display = 'flex';
+            
+            // Update completion message based on performance
+            const content = document.querySelector('.completion-content p');
+            if (accuracy === 100) {
+                content.textContent = "Perfect! You answered every question correctly! Your reading comprehension skills are amazing!";
+            } else if (accuracy >= 75) {
+                content.textContent = "Excellent work! You understood the story very well and got most questions right!";
+            } else {
+                content.textContent = "Good effort! You're learning to understand stories better. Keep practicing!";
+            }
+        }
+
+        function completeQuest() {
+            alert(`🏆 Reading Quest Complete!\n\n📊 Questions Correct: ${questionsCorrect}/${questData.length}\n📈 Accuracy: ${Math.round((questionsCorrect / questData.length) * 100)}%\n\nReady for your next adventure?`);
+            
+            // Navigate back to lessons or next quest
+            // window.location.href = '1st-grade-reading-lessons.html';
+        }
+
+        function playSuccessSound() {
+            console.log('🎵 Success sound!');
+        }
+
+        // Initialize quest
+        updateProgress();
+    </script>
+</body>
+</html>

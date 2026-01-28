@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐐 Billy's Word Explorer - Bedrock Learning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+        
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(135deg, #e74c3c 0%, #f39c12 100%);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .explorer-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .explorer-header {
+            background: rgba(255,255,255,0.95);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .explorer-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .billy-explorer {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #e74c3c 0%, #f39c12 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            animation: sparkle 2s infinite;
+        }
+
+        .word-counter {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            padding: 10px 20px;
+            border-radius: 25px;
+            box-shadow: 0 4px 15px rgba(255,215,0,0.3);
+        }
+
+        .counter-item {
+            text-align: center;
+        }
+
+        .counter-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #8B4513;
+        }
+
+        .counter-label {
+            font-size: 0.8rem;
+            color: #8B4513;
+        }
+
+        .game-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .word-showcase {
+            background: rgba(255,255,255,0.95);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .target-word {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .word-sentence {
+            font-size: 1.4rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .word-highlight {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .matching-area {
+            display: flex;
+            gap: 30px;
+            align-items: stretch;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .words-column, .meanings-column {
+            flex: 1;
+            background: rgba(255,255,255,0.9);
+            border-radius: 20px;
+            padding: 30px 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .column-header {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .word-item, .meaning-item {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            margin: 10px 0;
+            border-radius: 15px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .word-item:hover, .meaning-item:hover {
+            background: #e8f4f8;
+            border-color: #f39c12;
+            transform: scale(1.03);
+        }
+
+        .word-item.selected {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+            border-color: #e67e22;
+        }
+
+        .meaning-item.matched {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            border-color: #27ae60;
+            animation: matchSuccess 0.6s ease;
+        }
+
+        .word-item.matched {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            border-color: #27ae60;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .meaning-item.wrong-match {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border-color: #c0392b;
+            animation: shake 0.5s ease;
+        }
+
+        .billy-hint {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,215,0,0.95);
+            border: 3px solid #FFD700;
+            border-radius: 20px;
+            padding: 15px 25px;
+            font-weight: bold;
+            color: #8B4513;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(255,215,0,0.3);
+        }
+
+        .context-mode {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .context-sentence {
+            background: rgba(255,255,255,0.95);
+            padding: 30px;
+            border-radius: 20px;
+            font-size: 1.5rem;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .word-blank {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            margin: 0 5px;
+        }
+
+        .word-choices {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .word-choice {
+            background: #f8f9fa;
+            padding: 15px 25px;
+            border-radius: 20px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .word-choice:hover {
+            background: #e8f4f8;
+            border-color: #3498db;
+            transform: scale(1.05);
+        }
+
+        .word-choice.correct {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            border-color: #27ae60;
+            animation: correctChoice 0.6s ease;
+        }
+
+        .word-choice.incorrect {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border-color: #c0392b;
+            animation: shake 0.5s ease;
+        }
+
+        .mode-toggle {
+            position: absolute;
+            top: 120px;
+            right: 30px;
+            background: rgba(255,255,255,0.9);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .toggle-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px 0;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-button:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+
+        .toggle-button.active {
+            background: #f39c12;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(139, 69, 19, 0.9);
+            color: white;
+            border: 2px solid #FFD700;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            z-index: 150;
+        }
+
+        .back-button:hover {
+            background: rgba(139, 69, 19, 1);
+            transform: scale(1.1);
+        }
+
+        @keyframes sparkle {
+            0%, 100% { box-shadow: 0 0 10px rgba(231,76,60,0.5); }
+            50% { box-shadow: 0 0 25px rgba(243,156,18,0.8); }
+        }
+
+        @keyframes matchSuccess {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes correctChoice {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        @media (max-width: 768px) {
+            .matching-area {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .word-showcase {
+                padding: 25px;
+            }
+            
+            .target-word {
+                font-size: 2.5rem;
+            }
+            
+            .word-choices {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Button -->
+    <a href="1st-grade-reading-lessons.html" class="back-button" title="Back to Lessons">
+        🏘️
+    </a>
+
+    <!-- Mode Toggle -->
+    <div class="mode-toggle">
+        <div style="font-size: 0.9rem; font-weight: bold; margin-bottom: 10px;">Game Mode:</div>
+        <button class="toggle-button active" id="matchBtn" onclick="setMode('match')">Word Match</button>
+        <button class="toggle-button" id="contextBtn" onclick="setMode('context')">Context Clues</button>
+    </div>
+
+    <div class="explorer-container">
+        <!-- Explorer Header -->
+        <div class="explorer-header">
+            <div class="explorer-info">
+                <div class="billy-explorer">🐐</div>
+                <div>
+                    <div style="font-size: 1.2rem; font-weight: bold;">Word Explorer Adventure</div>
+                    <div style="font-size: 0.9rem; color: #666;">Discover word meanings and contexts!</div>
+                </div>
+            </div>
+            
+            <div class="word-counter">
+                <div class="counter-item">
+                    <div class="counter-number" id="wordsLearned">0</div>
+                    <div class="counter-label">Words Learned</div>
+                </div>
+                <div class="counter-item">
+                    <div class="counter-number" id="currentStreak">0</div>
+                    <div class="counter-label">Streak</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Area -->
+        <div class="game-area">
+            <!-- Word Matching Mode -->
+            <div class="matching-mode" id="matchingMode">
+                <div class="word-showcase">
+                    <div class="target-word" id="showcaseWord">happy</div>
+                    <div class="word-sentence">
+                        The little girl was <span class="word-highlight">happy</span> when she saw the rainbow.
+                    </div>
+                </div>
+
+                <div class="matching-area">
+                    <div class="words-column">
+                        <div class="column-header">🔤 Words</div>
+                        <div id="wordsList">
+                            <div class="word-item" data-word="happy" onclick="selectWord('happy')">happy</div>
+                            <div class="word-item" data-word="sad" onclick="selectWord('sad')">sad</div>
+                            <div class="word-item" data-word="big" onclick="selectWord('big')">big</div>
+                            <div class="word-item" data-word="small" onclick="selectWord('small')">small</div>
+                        </div>
+                    </div>
+
+                    <div class="meanings-column">
+                        <div class="column-header">💭 Meanings</div>
+                        <div id="meaningsList">
+                            <div class="meaning-item" data-meaning="feeling joy or pleasure" onclick="selectMeaning('happy', 'feeling joy or pleasure')">feeling joy or pleasure</div>
+                            <div class="meaning-item" data-meaning="feeling unhappy" onclick="selectMeaning('sad', 'feeling unhappy')">feeling unhappy</div>
+                            <div class="meaning-item" data-meaning="large in size" onclick="selectMeaning('big', 'large in size')">large in size</div>
+                            <div class="meaning-item" data-meaning="little or tiny" onclick="selectMeaning('small', 'little or tiny')">little or tiny</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Context Clues Mode -->
+            <div class="context-mode" id="contextMode">
+                <div class="context-sentence" id="contextSentence">
+                    The dog was <span class="word-blank">_____</span> because it hadn't eaten all day.
+                </div>
+                
+                <div class="word-choices" id="contextChoices">
+                    <div class="word-choice" onclick="selectContextWord('hungry', true)">hungry</div>
+                    <div class="word-choice" onclick="selectContextWord('happy', false)">happy</div>
+                    <div class="word-choice" onclick="selectContextWord('sleepy', false)">sleepy</div>
+                </div>
+            </div>
+
+            <div class="billy-hint" id="billyHint">
+                🐐 "Great! Match the words with their meanings by clicking on them!"
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 'match';
+        let selectedWord = null;
+        let wordsLearned = 0;
+        let currentStreak = 0;
+        let matchedPairs = 0;
+
+        // Word data for matching mode
+        const wordSets = [
+            {
+                showcase: { word: 'happy', sentence: 'The little girl was <span class="word-highlight">happy</span> when she saw the rainbow.' },
+                pairs: [
+                    { word: 'happy', meaning: 'feeling joy or pleasure' },
+                    { word: 'sad', meaning: 'feeling unhappy' },
+                    { word: 'big', meaning: 'large in size' },
+                    { word: 'small', meaning: 'little or tiny' }
+                ]
+            },
+            {
+                showcase: { word: 'brave', sentence: 'The <span class="word-highlight">brave</span> knight faced the dragon without fear.' },
+                pairs: [
+                    { word: 'brave', meaning: 'showing courage' },
+                    { word: 'scared', meaning: 'feeling afraid' },
+                    { word: 'loud', meaning: 'making lots of noise' },
+                    { word: 'quiet', meaning: 'making no sound' }
+                ]
+            }
+        ];
+
+        // Context clues data
+        const contextSets = [
+            {
+                sentence: 'The dog was <span class="word-blank">_____</span> because it hadn\'t eaten all day.',
+                choices: [
+                    { word: 'hungry', correct: true },
+                    { word: 'happy', correct: false },
+                    { word: 'sleepy', correct: false }
+                ]
+            },
+            {
+                sentence: 'The room was so <span class="word-blank">_____</span> that I couldn\'t see anything.',
+                choices: [
+                    { word: 'bright', correct: false },
+                    { word: 'dark', correct: true },
+                    { word: 'loud', correct: false }
+                ]
+            }
+        ];
+
+        let currentSetIndex = 0;
+
+        function setMode(mode) {
+            currentMode = mode;
+            document.getElementById('matchBtn').classList.toggle('active', mode === 'match');
+            document.getElementById('contextBtn').classList.toggle('active', mode === 'context');
+            
+            document.getElementById('matchingMode').style.display = mode === 'match' ? 'block' : 'none';
+            document.getElementById('contextMode').style.display = mode === 'context' ? 'flex' : 'none';
+            
+            if (mode === 'match') {
+                loadWordSet(currentSetIndex);
+                updateBillyHint("🐐 Match the words with their meanings by clicking on them!");
+            } else {
+                loadContextSet(currentSetIndex);
+                updateBillyHint("🐐 Read the sentence and choose the word that makes sense!");
+            }
+        }
+
+        function loadWordSet(setIndex) {
+            if (setIndex >= wordSets.length) {
+                showCompletion('matching');
+                return;
+            }
+
+            const set = wordSets[setIndex];
+            
+            // Update showcase
+            document.getElementById('showcaseWord').textContent = set.showcase.word;
+            document.querySelector('.word-sentence').innerHTML = set.showcase.sentence;
+            
+            // Load words and meanings
+            const wordsList = document.getElementById('wordsList');
+            const meaningsList = document.getElementById('meaningsList');
+            
+            wordsList.innerHTML = '';
+            meaningsList.innerHTML = '';
+            
+            // Shuffle for variety
+            const shuffledPairs = [...set.pairs].sort(() => Math.random() - 0.5);
+            const shuffledMeanings = shuffledPairs.map(p => p.meaning).sort(() => Math.random() - 0.5);
+            
+            shuffledPairs.forEach(pair => {
+                const wordDiv = document.createElement('div');
+                wordDiv.className = 'word-item';
+                wordDiv.setAttribute('data-word', pair.word);
+                wordDiv.textContent = pair.word;
+                wordDiv.onclick = () => selectWord(pair.word);
+                wordsList.appendChild(wordDiv);
+            });
+            
+            shuffledMeanings.forEach(meaning => {
+                const meaningDiv = document.createElement('div');
+                meaningDiv.className = 'meaning-item';
+                meaningDiv.setAttribute('data-meaning', meaning);
+                meaningDiv.textContent = meaning;
+                const correctWord = set.pairs.find(p => p.meaning === meaning).word;
+                meaningDiv.onclick = () => selectMeaning(correctWord, meaning);
+                meaningsList.appendChild(meaningDiv);
+            });
+            
+            selectedWord = null;
+            matchedPairs = 0;
+        }
+
+        function loadContextSet(setIndex) {
+            if (setIndex >= contextSets.length) {
+                showCompletion('context');
+                return;
+            }
+
+            const set = contextSets[setIndex];
+            
+            document.getElementById('contextSentence').innerHTML = set.sentence;
+            
+            const choicesContainer = document.getElementById('contextChoices');
+            choicesContainer.innerHTML = '';
+            
+            // Shuffle choices
+            const shuffledChoices = [...set.choices].sort(() => Math.random() - 0.5);
+            
+            shuffledChoices.forEach(choice => {
+                const choiceDiv = document.createElement('div');
+                choiceDiv.className = 'word-choice';
+                choiceDiv.textContent = choice.word;
+                choiceDiv.onclick = () => selectContextWord(choice.word, choice.correct);
+                choicesContainer.appendChild(choiceDiv);
+            });
+        }
+
+        function selectWord(word) {
+            // Clear previous selections
+            document.querySelectorAll('.word-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Select current word
+            document.querySelector(`[data-word="${word}"]`).classList.add('selected');
+            selectedWord = word;
+            
+            updateBillyHint(`🐐 Good! Now click on the meaning of "${word}"!`);
+        }
+
+        function selectMeaning(correctWord, meaning) {
+            if (!selectedWord) {
+                updateBillyHint("🐐 First select a word, then click on its meaning!");
+                return;
+            }
+            
+            const meaningElement = document.querySelector(`[data-meaning="${meaning}"]`);
+            const wordElement = document.querySelector(`[data-word="${selectedWord}"]`);
+            
+            if (selectedWord === correctWord) {
+                // Correct match!
+                meaningElement.classList.add('matched');
+                wordElement.classList.add('matched');
+                matchedPairs++;
+                wordsLearned++;
+                currentStreak++;
+                
+                updateCounters();
+                updateBillyHint(`🎯 Perfect! "${selectedWord}" means "${meaning}"!`);
+                playSuccessSound();
+                
+                if (matchedPairs >= wordSets[currentSetIndex].pairs.length) {
+                    setTimeout(() => {
+                        currentSetIndex++;
+                        loadWordSet(currentSetIndex);
+                    }, 2000);
+                }
+            } else {
+                // Wrong match
+                meaningElement.classList.add('wrong-match');
+                currentStreak = 0;
+                updateCounters();
+                updateBillyHint(`🤔 Not quite! Try again - what does "${selectedWord}" mean?`);
+                
+                setTimeout(() => {
+                    meaningElement.classList.remove('wrong-match');
+                }, 1000);
+            }
+            
+            selectedWord = null;
+            document.querySelectorAll('.word-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+        }
+
+        function selectContextWord(word, isCorrect) {
+            const choiceElements = document.querySelectorAll('.word-choice');
+            choiceElements.forEach(el => el.onclick = null); // Disable clicks
+            
+            const clickedElement = Array.from(choiceElements).find(el => el.textContent === word);
+            
+            if (isCorrect) {
+                clickedElement.classList.add('correct');
+                wordsLearned++;
+                currentStreak++;
+                updateCounters();
+                updateBillyHint(`🎯 Excellent! "${word}" makes perfect sense in this sentence!`);
+                playSuccessSound();
+                
+                setTimeout(() => {
+                    currentSetIndex++;
+                    loadContextSet(currentSetIndex);
+                }, 2000);
+            } else {
+                clickedElement.classList.add('incorrect');
+                currentStreak = 0;
+                updateCounters();
+                updateBillyHint(`🤔 Think about the context clues! What word would make sense here?`);
+                
+                setTimeout(() => {
+                    clickedElement.classList.remove('incorrect');
+                    choiceElements.forEach(el => el.onclick = () => {
+                        const word = el.textContent;
+                        const correct = contextSets[currentSetIndex].choices.find(c => c.word === word).correct;
+                        selectContextWord(word, correct);
+                    });
+                }, 1500);
+            }
+        }
+
+        function updateCounters() {
+            document.getElementById('wordsLearned').textContent = wordsLearned;
+            document.getElementById('currentStreak').textContent = currentStreak;
+        }
+
+        function updateBillyHint(message) {
+            document.getElementById('billyHint').textContent = message;
+        }
+
+        function showCompletion(mode) {
+            const modeText = mode === 'match' ? 'Word Matching' : 'Context Clues';
+            updateBillyHint(`🏆 Congratulations! You've mastered ${modeText}! You learned ${wordsLearned} words!`);
+            
+            setTimeout(() => {
+                alert(`🎉 Word Explorer Complete!\n\n🎯 Words Learned: ${wordsLearned}\n🔥 Best Streak: ${Math.max(currentStreak, 3)}\n📚 Mode: ${modeText}\n\nYou're becoming a vocabulary expert!`);
+            }, 2000);
+        }
+
+        function playSuccessSound() {
+            console.log('🎵 Success sound!');
+        }
+
+        // Initialize the game
+        setMode('match');
+        updateCounters();
+    </script>
+</body>
+</html>

@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐐 Billy's 3rd Grade Mountain Challenge - Bedrock Learning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #8e44ad 0%, #3498db 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .billy-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e74c3c 0%, #f39c12 100%);
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .welcome-text {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .progress-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .progress-card {
+            background: rgba(255,255,255,0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .progress-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .progress-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #8e44ad;
+        }
+
+        .progress-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .building-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .building-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .building-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .building-header {
+            padding: 30px;
+            text-align: center;
+            font-size: 3rem;
+            position: relative;
+        }
+        
+        .schoolhouse { background: linear-gradient(135deg, #e74c3c 0%, #f39c12 100%); }
+        .book-cabin { background: linear-gradient(135deg, #9b59b6 0%, #3498db 100%); }
+        .post-office { background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%); }
+        
+        .building-title {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: white;
+            margin-top: 10px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .building-subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+        
+        .lessons-grid {
+            padding: 25px;
+            max-height: 350px;
+            overflow-y: auto;
+        }
+        
+        .lesson-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 4px solid #8e44ad;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .lesson-item:hover {
+            background: #e8f4f8;
+            transform: translateX(5px);
+        }
+        
+        .lesson-item.completed {
+            background: #e8f5e8;
+            border-left-color: #27ae60;
+        }
+        
+        .lesson-item.current {
+            background: #fff3e0;
+            border-left-color: #f39c12;
+            box-shadow: 0 3px 10px rgba(243,156,18,0.3);
+        }
+        
+        .lesson-number {
+            background: #8e44ad;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .lesson-item.completed .lesson-number {
+            background: #27ae60;
+        }
+        
+        .lesson-item.current .lesson-number {
+            background: #f39c12;
+        }
+        
+        .lesson-title {
+            flex-grow: 1;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+        
+        .lesson-standard {
+            font-size: 0.75rem;
+            color: #666;
+            background: rgba(142,68,173,0.1);
+            padding: 4px 8px;
+            border-radius: 6px;
+            margin-left: 8px;
+            font-weight: 600;
+        }
+
+        .view-all-btn {
+            background: #8e44ad;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 25px;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .view-all-btn:hover {
+            background: #9b59b6;
+            transform: scale(1.05);
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(139, 69, 19, 0.9);
+            color: white;
+            border: 2px solid #FFD700;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(139, 69, 19, 1);
+            transform: scale(1.1);
+        }
+
+        .achievements-bar {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 20px rgba(255,215,0,0.3);
+        }
+
+        .achievements-title {
+            color: #8B4513;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .achievement-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .achievement-badge {
+            background: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #8B4513;
+            opacity: 0.4;
+            transition: all 0.3s ease;
+        }
+
+        .achievement-badge.earned {
+            opacity: 1;
+            box-shadow: 0 2px 8px rgba(139,69,19,0.2);
+            transform: scale(1.05);
+        }
+
+        .skill-focus {
+            background: rgba(255,255,255,0.15);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .skill-focus h3 {
+            color: #FFD700;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .skill-focus p {
+            color: white;
+            margin-bottom: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .building-sections {
+                grid-template-columns: 1fr;
+            }
+            
+            .progress-overview {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .billy-avatar {
+                width: 120px;
+                height: 120px;
+                font-size: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back to Village Button -->
+    <a href="student-dashboard.html" class="back-button" title="Back to Bedrock Village">
+        🏘️
+    </a>
+
+    <div class="container">
+        <div class="header">
+            <div class="billy-avatar">🐐</div>
+            <h1>🐐 Billy's 3rd Grade Mountain Challenge</h1>
+            <div class="welcome-text">
+                <p><strong>Welcome to your biggest adventure yet!</strong> You're now ready for the 3rd Grade Mountain Challenge with 180 exciting lessons. This year you'll master advanced skills like analyzing characters' feelings, understanding figurative language, and becoming an expert text detective. Ready to earn your 3rd Grade Champion Trophy? 🏆</p>
+            </div>
+        </div>
+
+        <!-- Skill Focus -->
+        <div class="skill-focus">
+            <h3>🎯 What You'll Master This Year:</h3>
+            <p><strong>📖 Advanced Reading:</strong> Analyze character traits, motivations, and feelings in stories</p>
+            <p><strong>🔍 Text Detective:</strong> Find evidence in text to support your answers</p>
+            <p><strong>✨ Language Magic:</strong> Understand similes, metaphors, and idioms (nonliteral language)</p>
+            <p><strong>🧩 Text Structure:</strong> How chapters, scenes, and stanzas work together</p>
+            <p><strong>💭 Different Perspectives:</strong> Compare your point of view with characters and narrators</p>
+        </div>
+
+        <!-- Progress Overview -->
+        <div class="progress-overview">
+            <div class="progress-card">
+                <div class="progress-number">180</div>
+                <div class="progress-label">Total Lessons</div>
+            </div>
+            <div class="progress-card">
+                <div class="progress-number">25</div>
+                <div class="progress-label">Completed</div>
+            </div>
+            <div class="progress-card">
+                <div class="progress-number">88%</div>
+                <div class="progress-label">Current Quarter</div>
+            </div>
+            <div class="progress-card">
+                <div class="progress-number">6</div>
+                <div class="progress-label">Badges Earned</div>
+            </div>
+        </div>
+
+        <!-- Achievement Badges -->
+        <div class="achievements-bar">
+            <div class="achievements-title">🏅 Your 3rd Grade Adventure Badges</div>
+            <div class="achievement-badges">
+                <span class="achievement-badge earned">🏅 Text Detective</span>
+                <span class="achievement-badge earned">🏅 Story Scholar</span>
+                <span class="achievement-badge">🏅 Character Expert</span>
+                <span class="achievement-badge">🏅 Word Wizard</span>
+                <span class="achievement-badge">🏅 Structure Master</span>
+                <span class="achievement-badge">🏅 Perspective Pro</span>
+                <span class="achievement-badge">🏅 Art Analyzer</span>
+                <span class="achievement-badge">🏅 Comparison Champion</span>
+                <span class="achievement-badge">🏅 Fact Finder</span>
+                <span class="achievement-badge">🏅 Main Idea Master</span>
+                <span class="achievement-badge">🏅 Connection Creator</span>
+                <span class="achievement-badge">🏅 Feature Finder</span>
+                <span class="achievement-badge">🏅 Logic Legend</span>
+                <span class="achievement-badge">🏅 Research Ranger</span>
+                <span class="achievement-badge">🏅 Opinion Author</span>
+                <span class="achievement-badge">🏆 3rd Grade Champion</span>
+            </div>
+        </div>
+
+        <!-- Building Sections -->
+        <div class="building-sections">
+            <!-- Schoolhouse - Main Literature & Informational Reading -->
+            <div class="building-card">
+                <div class="building-header schoolhouse">
+                    <div style="font-size: 4rem;">🏫</div>
+                    <div class="building-title">The Advanced Schoolhouse</div>
+                    <div class="building-subtitle">Literature & Informational Reading • 168 Lessons</div>
+                </div>
+                <div class="lessons-grid">
+                    <div class="lesson-item completed" onclick="openLesson(1)">
+                        <div class="lesson-number">1</div>
+                        <div class="lesson-title">Questions Help Us Understand</div>
+                        <div class="lesson-standard">RL.3.1</div>
+                    </div>
+                    <div class="lesson-item completed" onclick="openLesson(2)">
+                        <div class="lesson-number">2</div>
+                        <div class="lesson-title">Review: Question Words</div>
+                        <div class="lesson-standard">RL.3.1</div>
+                    </div>
+                    <div class="lesson-item completed" onclick="openLesson(3)">
+                        <div class="lesson-number">3</div>
+                        <div class="lesson-title">What Does "Explicitly" Mean?</div>
+                        <div class="lesson-standard">RL.3.1</div>
+                    </div>
+                    <div class="lesson-item current" onclick="openLesson(4)">
+                        <div class="lesson-number">4</div>
+                        <div class="lesson-title">Finding Answers in the Text</div>
+                        <div class="lesson-standard">RL.3.1</div>
+                    </div>
+                    <div class="lesson-item" onclick="openLesson(5)">
+                        <div class="lesson-number">5</div>
+                        <div class="lesson-title">Pointing to Your Evidence</div>
+                        <div class="lesson-standard">RL.3.1</div>
+                    </div>
+                    <div class="lesson-item" onclick="openLesson(25)">
+                        <div class="lesson-number">25</div>
+                        <div class="lesson-title">Describing Characters</div>
+                        <div class="lesson-standard">RL.3.3</div>
+                    </div>
+                    <div class="lesson-item" onclick="openLesson(97)">
+                        <div class="lesson-number">97</div>
+                        <div class="lesson-title">Questions About Nonfiction</div>
+                        <div class="lesson-standard">RI.3.1</div>
+                    </div>
+                </div>
+                <button class="view-all-btn" onclick="viewAllLessons('schoolhouse')">View All 168 Advanced Lessons</button>
+            </div>
+
+            <!-- Book Cabin - Figurative Language & Word Magic -->
+            <div class="building-card">
+                <div class="building-header book-cabin">
+                    <div style="font-size: 4rem;">📚</div>
+                    <div class="building-title">Word Magic Cabin</div>
+                    <div class="building-subtitle">Figurative Language & Literary Devices • 12 Lessons</div>
+                </div>
+                <div class="lessons-grid">
+                    <div class="lesson-item" onclick="openLesson(37)">
+                        <div class="lesson-number">37</div>
+                        <div class="lesson-title">Words Have Meaning</div>
+                        <div class="lesson-standard">RL.3.4</div>
+                    </div>
+                    <div class="lesson-item" onclick="openLesson(38)">
+                        <div class="lesson-number">38</div>
+                        <div class="lesson-title">What Is Literal Language?</div>
+                        <div class="lesson-standard">RL.3.4</div>
+                    </div>
+                    <div class="lesson-item" onclick="openLesson(40)">
+                        <div class="lesson-number">40</div>
+                        <div class="lesson-title">What Is Nonliteral Language?</div>
+                        <div class="lesson-standard">RL.3.4</div>
+                    </div>
+                    <div class="lesson-item" onclick="openLesson(43)">
+                        <div class="lesson-number">43</div>
+                        <div class="lesson-title">Similes</div>
+                        <div class="lesson-standard">RL.3.4</div>
+                    </div>
+                    <div class="lesson-item" onclick="openLesson(44)">
+                        <div class="lesson-number">44</div>
+                        <div class="lesson-title">Metaphors</div>
+                        <div class="lesson-standard">RL.3.4</div>
+                    </div>
+                    <div class="lesson-item" onclick="openLesson(45)">
+                        <div class="lesson-number">45</div>
+                        <div class="lesson-title">Idioms</div>
+                        <div class="lesson-standard">RL.3.4</div>
+                    </div>
+                </div>
+                <button class="view-all-btn" onclick="viewAllLessons('word-magic')">View All Language Magic</button>
+            </div>
+
+            <!-- Post Office - Advanced Opinion Writing -->
+            <div class="building-card">
+                <div class="building-header post-office">
+                    <div style="font-size: 4rem;">✉️</div>
+                    <div class="building-title">Opinion Post Office</div>
+                    <div class="building-subtitle">Advanced Opinion Writing • 12 Lessons</div>
+                </div>
+                <div class="lessons-grid">
+                    <div class="lesson-item" onclick="openLesson(169)">
+                        <div class="lesson-number">169</div>
+                        <div class="lesson-title">What Is an Opinion?</div>
+                        <div class="lesson-standard">W.3.1</div>
+                    </div>
+                    <div class="lesson-item" onclick="openLesson(170)">
+                        <div class="lesson-number">170</div>
+                        <div class="lesson-title">Choosing a Topic or Text</div>
+                        <div class="lesson-standard">W.3.1</div>
+                    </div>
+                    <div class="lesson-item" onclick="openLesson(172)">
+                        <div class="lesson-number">172</div>
+                        <div class="lesson-title">Stating Your Opinion</div>
+                        <div class="lesson-standard">W.3.1</div>
+                    </div>
+                    <div class="lesson-item" onclick="openLesson(174)">
+                        <div class="lesson-number">174</div>
+                        <div class="lesson-title">Finding Strong Reasons</div>
+                        <div class="lesson-standard">W.3.1</div>
+                    </div>
+                    <div class="lesson-item" onclick="openLesson(176)">
+                        <div class="lesson-number">176</div>
+                        <div class="lesson-title">Linking Words: Because</div>
+                        <div class="lesson-standard">W.3.1</div>
+                    </div>
+                    <div class="lesson-item" onclick="openLesson(177)">
+                        <div class="lesson-number">177</div>
+                        <div class="lesson-title">Linking Words: Therefore, Since</div>
+                        <div class="lesson-standard">W.3.1</div>
+                    </div>
+                </div>
+                <button class="view-all-btn" onclick="viewAllLessons('opinion-writing')">Master Opinion Writing</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openLesson(lessonNumber) {
+            alert(`🐐 Opening Lesson ${lessonNumber} - Time for an advanced adventure!`);
+            // Here you would navigate to the specific lesson
+            // window.location.href = `lesson-${lessonNumber}.html`;
+        }
+
+        function viewAllLessons(building) {
+            alert(`📚 Opening full ${building} lesson list with all 180 advanced 3rd grade lessons!`);
+            // Navigate to full lesson list view
+            // window.location.href = `full-lessons-3rd.html?building=${building}`;
+        }
+
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.building-card');
+            
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(50px)';
+                    card.style.transition = 'all 0.8s ease';
+                    
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                }, index * 250);
+            });
+
+            // Animate achievement badges
+            const badges = document.querySelectorAll('.achievement-badge.earned');
+            badges.forEach((badge, index) => {
+                setTimeout(() => {
+                    badge.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        badge.style.transform = 'scale(1.05)';
+                    }, 200);
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>

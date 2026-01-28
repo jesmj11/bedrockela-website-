@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏔️ Bedrock ELA Village - Interactive Learning Adventure</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+        
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(135deg, #87CEEB 0%, #98FB98 50%, #DDA0DD 100%);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .village-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.3) 0%, transparent 50%),
+                linear-gradient(to bottom, #87CEEB 0%, #98FB98 70%, #8FBC8F 100%);
+        }
+
+        /* Mountains Background */
+        .mountains {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            background: linear-gradient(45deg, #696969 0%, #A9A9A9 50%, #D3D3D3 100%);
+            clip-path: polygon(0 100%, 15% 60%, 25% 80%, 35% 40%, 45% 70%, 60% 30%, 75% 65%, 85% 35%, 100% 75%, 100% 100%);
+            z-index: 1;
+        }
+
+        /* Village Ground */
+        .village-ground {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40%;
+            background: linear-gradient(to bottom, rgba(143,188,143,0.8) 0%, #228B22 100%);
+            border-radius: 0 0 0 0;
+            z-index: 2;
+        }
+
+        /* Path System */
+        .village-paths {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40%;
+            z-index: 3;
+        }
+
+        .path {
+            position: absolute;
+            background: #DEB887;
+            border-radius: 10px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .main-path {
+            width: 8px;
+            height: 60%;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+        }
+
+        .side-path {
+            width: 6px;
+            height: 40%;
+        }
+
+        .left-path {
+            left: 20%;
+            bottom: 30%;
+            transform: rotate(45deg);
+        }
+
+        .right-path {
+            right: 20%;
+            bottom: 30%;
+            transform: rotate(-45deg);
+        }
+
+        /* Buildings */
+        .building {
+            position: absolute;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .building:hover {
+            transform: scale(1.1);
+            filter: brightness(1.2);
+        }
+
+        .building.locked {
+            opacity: 0.5;
+            filter: grayscale(50%);
+        }
+
+        .building.unlocked {
+            animation: buildingUnlock 1s ease;
+        }
+
+        /* Phonics Cabin */
+        .phonics-cabin {
+            bottom: 15%;
+            left: 15%;
+            width: 80px;
+            height: 60px;
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .phonics-cabin::before {
+            content: '🔤';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            background: white;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .phonics-cabin::after {
+            content: 'Phonics Cabin';
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            color: #2c3e50;
+            font-weight: bold;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        /* Sight Word Speedway */
+        .speedway {
+            bottom: 25%;
+            left: 35%;
+            width: 90px;
+            height: 45px;
+            background: linear-gradient(135deg, #FF6347 0%, #FF4500 100%);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .speedway::before {
+            content: '⚡';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            background: white;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .speedway::after {
+            content: 'Sight Word Speedway';
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            color: #2c3e50;
+            font-weight: bold;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        /* Reading Quest Tower */
+        .quest-tower {
+            bottom: 35%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 90px;
+            background: linear-gradient(135deg, #4169E1 0%, #1E90FF 100%);
+            border-radius: 8px 8px 20px 20px;
+            position: relative;
+        }
+
+        .quest-tower::before {
+            content: '📖';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            background: white;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .quest-tower::after {
+            content: 'Quest Tower';
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            color: #2c3e50;
+            font-weight: bold;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        /* Vocabulary Lodge */
+        .vocab-lodge {
+            bottom: 25%;
+            right: 35%;
+            width: 85px;
+            height: 55px;
+            background: linear-gradient(135deg, #32CD32 0%, #228B22 100%);
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .vocab-lodge::before {
+            content: '📚';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            background: white;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .vocab-lodge::after {
+            content: 'Vocab Lodge';
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            color: #2c3e50;
+            font-weight: bold;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        /* Grammar Workshop */
+        .grammar-workshop {
+            bottom: 15%;
+            right: 15%;
+            width: 80px;
+            height: 60px;
+            background: linear-gradient(135deg, #FF69B4 0%, #FF1493 100%);
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .grammar-workshop::before {
+            content: '🏗️';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            background: white;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .grammar-workshop::after {
+            content: 'Grammar Workshop';
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            color: #2c3e50;
+            font-weight: bold;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        /* Story Studio */
+        .story-studio {
+            bottom: 45%;
+            right: 25%;
+            width: 75px;
+            height: 70px;
+            background: linear-gradient(135deg, #9370DB 0%, #8A2BE2 100%);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .story-studio::before {
+            content: '✏️';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            background: white;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .story-studio::after {
+            content: 'Story Studio';
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            color: #2c3e50;
+            font-weight: bold;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        /* Billy the Goat */
+        .billy-goat {
+            position: absolute;
+            bottom: 10%;
+            left: 45%;
+            width: 60px;
+            height: 60px;
+            font-size: 40px;
+            z-index: 15;
+            animation: billyBounce 3s infinite ease-in-out;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .billy-goat:hover {
+            transform: scale(1.2);
+        }
+
+        /* Billy's Speech Bubble */
+        .billy-speech {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.95);
+            padding: 10px 15px;
+            border-radius: 15px;
+            border: 2px solid #FFD700;
+            font-size: 12px;
+            font-weight: bold;
+            color: #2c3e50;
+            max-width: 200px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        .billy-speech.show {
+            opacity: 1;
+            bottom: 70px;
+        }
+
+        .billy-speech::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 8px solid transparent;
+            border-top-color: #FFD700;
+        }
+
+        /* Progress Header */
+        .progress-header {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.9);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            z-index: 25;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .progress-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+        }
+
+        .progress-text {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .progress-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #27ae60;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        /* Achievement Popup */
+        .achievement-popup {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            z-index: 100;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.5s ease;
+        }
+
+        .achievement-popup.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .achievement-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        .achievement-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .achievement-desc {
+            color: white;
+            font-size: 1rem;
+        }
+
+        /* Floating Elements */
+        .floating-element {
+            position: absolute;
+            animation: float 6s infinite ease-in-out;
+            z-index: 5;
+        }
+
+        .cloud {
+            font-size: 30px;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .bird {
+            font-size: 20px;
+            animation: fly 15s infinite linear;
+        }
+
+        @keyframes billyBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes buildingUnlock {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes fly {
+            0% { left: -50px; }
+            100% { left: 100vw; }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .building {
+                transform: scale(0.8);
+            }
+            
+            .progress-header {
+                flex-direction: column;
+                gap: 10px;
+                padding: 10px;
+            }
+            
+            .progress-stats {
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="village-container" onclick="hideBillySpeech()">
+        <!-- Background Elements -->
+        <div class="mountains"></div>
+        <div class="village-ground"></div>
+        
+        <!-- Paths -->
+        <div class="village-paths">
+            <div class="path main-path"></div>
+            <div class="path side-path left-path"></div>
+            <div class="path side-path right-path"></div>
+        </div>
+
+        <!-- Progress Header -->
+        <div class="progress-header">
+            <div class="progress-info">
+                <div class="progress-avatar">🎒</div>
+                <div>
+                    <div class="progress-text">Welcome to Bedrock Village!</div>
+                    <div style="font-size: 0.9rem; color: #666;">Choose your learning adventure</div>
+                </div>
+            </div>
+            <div class="progress-stats">
+                <div class="stat">
+                    <div class="stat-number" id="gamesCompleted">0</div>
+                    <div class="stat-label">Games Completed</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="totalScore">0</div>
+                    <div class="stat-label">Village Points</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="currentStreak">0</div>
+                    <div class="stat-label">Daily Streak</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buildings -->
+        <div class="building phonics-cabin" data-game="phonics" onclick="enterBuilding('phonics')"></div>
+        <div class="building speedway" data-game="speedway" onclick="enterBuilding('speedway')"></div>
+        <div class="building quest-tower" data-game="reading" onclick="enterBuilding('reading')"></div>
+        <div class="building vocab-lodge" data-game="vocabulary" onclick="enterBuilding('vocabulary')"></div>
+        <div class="building grammar-workshop" data-game="grammar" onclick="enterBuilding('grammar')"></div>
+        <div class="building story-studio" data-game="writing" onclick="enterBuilding('writing')"></div>
+
+        <!-- Billy the Goat -->
+        <div class="billy-goat" onclick="talkToBilly(event)">🐐</div>
+        <div class="billy-speech" id="billySpeech">
+            Welcome to Bedrock Village! Click on any building to start your learning adventure!
+        </div>
+
+        <!-- Floating Elements -->
+        <div class="floating-element cloud" style="top: 10%; left: 20%; animation-delay: -2s;">☁️</div>
+        <div class="floating-element cloud" style="top: 15%; right: 25%; animation-delay: -4s;">☁️</div>
+        <div class="floating-element cloud" style="top: 20%; left: 60%; animation-delay: -1s;">☁️</div>
+        <div class="floating-element bird" style="top: 25%; animation-delay: -8s;">🦅</div>
+
+        <!-- Achievement Popup -->
+        <div class="achievement-popup" id="achievementPopup">
+            <div class="achievement-icon" id="achievementIcon">🏆</div>
+            <div class="achievement-title" id="achievementTitle">Achievement Unlocked!</div>
+            <div class="achievement-desc" id="achievementDesc">You completed your first game!</div>
+        </div>
+    </div>
+
+    <script>
+        // Game Progress Data
+        let villageData = {
+            gamesCompleted: parseInt(localStorage.getItem('villageGamesCompleted') || '0'),
+            totalScore: parseInt(localStorage.getItem('villageTotalScore') || '0'),
+            currentStreak: parseInt(localStorage.getItem('villageCurrentStreak') || '0'),
+            unlockedBuildings: JSON.parse(localStorage.getItem('villageUnlockedBuildings') || '["phonics"]'),
+            achievements: JSON.parse(localStorage.getItem('villageAchievements') || '[]')
+        };
+
+        // Building Data
+        const buildings = {
+            phonics: {
+                name: 'Phonics Cabin',
+                file: 'lesson-minigame-prototype.html',
+                description: 'Learn letter sounds and build words with Billy!',
+                unlockCondition: null // Always unlocked
+            },
+            speedway: {
+                name: 'Sight Word Speedway',
+                file: 'sight-word-speedrun-game.html',
+                description: 'Race through sight words at lightning speed!',
+                unlockCondition: 'phonics'
+            },
+            reading: {
+                name: 'Reading Quest Tower',
+                file: 'reading-quest-adventure.html',
+                description: 'Embark on reading adventures and solve mysteries!',
+                unlockCondition: 'speedway'
+            },
+            vocabulary: {
+                name: 'Vocabulary Lodge',
+                file: 'vocabulary-word-explorer.html',
+                description: 'Explore word meanings and expand your vocabulary!',
+                unlockCondition: 'reading'
+            },
+            grammar: {
+                name: 'Grammar Workshop',
+                file: 'sentence-builder-workshop.html',
+                description: 'Build sentences and fix grammar like a craftsman!',
+                unlockCondition: 'vocabulary'
+            },
+            writing: {
+                name: 'Story Studio',
+                file: 'story-adventure-creator.html',
+                description: 'Create amazing stories and adventures!',
+                unlockCondition: 'grammar'
+            }
+        };
+
+        // Billy's Messages
+        const billyMessages = [
+            "Welcome to our village! Ready for an adventure?",
+            "Great job learning! You're getting stronger every day!",
+            "Which building calls to you today? Choose your quest!",
+            "Remember, every expert was once a beginner. Keep climbing!",
+            "The mountains are proud of your progress!",
+            "Learning is the greatest adventure of all!"
+        ];
+
+        let currentBillyMessage = 0;
+
+        // Initialize Village
+        function initializeVillage() {
+            updateProgressDisplay();
+            updateBuildingStates();
+            showBillySpeech();
+            
+            // Check for returning user achievements
+            if (villageData.gamesCompleted > 0) {
+                setTimeout(() => {
+                    setBillyMessage(`Welcome back, adventurer! You've completed ${villageData.gamesCompleted} games!`);
+                    showBillySpeech();
+                }, 2000);
+            }
+        }
+
+        // Update Progress Display
+        function updateProgressDisplay() {
+            document.getElementById('gamesCompleted').textContent = villageData.gamesCompleted;
+            document.getElementById('totalScore').textContent = villageData.totalScore;
+            document.getElementById('currentStreak').textContent = villageData.currentStreak;
+        }
+
+        // Update Building States
+        function updateBuildingStates() {
+            Object.keys(buildings).forEach(buildingKey => {
+                const buildingElement = document.querySelector(`[data-game="${buildingKey}"]`);
+                const building = buildings[buildingKey];
+                
+                if (isBuildingUnlocked(buildingKey)) {
+                    buildingElement.classList.remove('locked');
+                    buildingElement.classList.add('unlocked');
+                } else {
+                    buildingElement.classList.add('locked');
+                    buildingElement.classList.remove('unlocked');
+                }
+            });
+        }
+
+        // Check if Building is Unlocked
+        function isBuildingUnlocked(buildingKey) {
+            const building = buildings[buildingKey];
+            if (!building.unlockCondition) return true;
+            return villageData.unlockedBuildings.includes(buildingKey);
+        }
+
+        // Enter Building
+        function enterBuilding(buildingKey) {
+            const building = buildings[buildingKey];
+            
+            if (!isBuildingUnlocked(buildingKey)) {
+                const prerequisite = buildings[building.unlockCondition]?.name || 'previous game';
+                setBillyMessage(`You need to complete the ${prerequisite} first to unlock this building!`);
+                showBillySpeech();
+                return;
+            }
+
+            // Animate building entry
+            const buildingElement = document.querySelector(`[data-game="${buildingKey}"]`);
+            buildingElement.style.transform = 'scale(1.2)';
+            
+            setTimeout(() => {
+                window.location.href = building.file;
+            }, 300);
+        }
+
+        // Talk to Billy
+        function talkToBilly(event) {
+            event.stopPropagation();
+            cycleBillyMessage();
+            showBillySpeech();
+            
+            // Add bounce animation
+            const billy = document.querySelector('.billy-goat');
+            billy.style.animation = 'none';
+            setTimeout(() => {
+                billy.style.animation = 'billyBounce 3s infinite ease-in-out';
+            }, 100);
+        }
+
+        // Cycle Billy's Messages
+        function cycleBillyMessage() {
+            currentBillyMessage = (currentBillyMessage + 1) % billyMessages.length;
+            setBillyMessage(billyMessages[currentBillyMessage]);
+        }
+
+        // Set Billy's Message
+        function setBillyMessage(message) {
+            document.getElementById('billySpeech').textContent = message;
+        }
+
+        // Show Billy's Speech
+        function showBillySpeech() {
+            const speech = document.getElementById('billySpeech');
+            speech.classList.add('show');
+            
+            setTimeout(() => {
+                speech.classList.remove('show');
+            }, 4000);
+        }
+
+        // Hide Billy's Speech
+        function hideBillySpeech() {
+            document.getElementById('billySpeech').classList.remove('show');
+        }
+
+        // Game Completion Callback
+        function completeGame(gameType, score) {
+            // Update progress
+            villageData.gamesCompleted++;
+            villageData.totalScore += score;
+            villageData.currentStreak++;
+            
+            // Unlock next building
+            const nextBuilding = Object.keys(buildings).find(key => 
+                buildings[key].unlockCondition === gameType
+            );
+            
+            if (nextBuilding && !villageData.unlockedBuildings.includes(nextBuilding)) {
+                villageData.unlockedBuildings.push(nextBuilding);
+                showAchievement('🏠', 'Building Unlocked!', `You unlocked the ${buildings[nextBuilding].name}!`);
+            }
+            
+            // Save progress
+            saveVillageData();
+            
+            // Update display
+            updateProgressDisplay();
+            updateBuildingStates();
+            
+            // Show achievement
+            if (villageData.gamesCompleted === 1) {
+                showAchievement('🌟', 'First Steps!', 'Welcome to your learning journey!');
+            } else if (villageData.gamesCompleted === 3) {
+                showAchievement('🔥', 'On Fire!', 'Three games completed!');
+            } else if (villageData.gamesCompleted === 6) {
+                showAchievement('🏆', 'Village Master!', 'You conquered all the games!');
+            }
+        }
+
+        // Show Achievement
+        function showAchievement(icon, title, description) {
+            const popup = document.getElementById('achievementPopup');
+            document.getElementById('achievementIcon').textContent = icon;
+            document.getElementById('achievementTitle').textContent = title;
+            document.getElementById('achievementDesc').textContent = description;
+            
+            popup.classList.add('show');
+            
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 3000);
+        }
+
+        // Save Village Data
+        function saveVillageData() {
+            localStorage.setItem('villageGamesCompleted', villageData.gamesCompleted.toString());
+            localStorage.setItem('villageTotalScore', villageData.totalScore.toString());
+            localStorage.setItem('villageCurrentStreak', villageData.currentStreak.toString());
+            localStorage.setItem('villageUnlockedBuildings', JSON.stringify(villageData.unlockedBuildings));
+            localStorage.setItem('villageAchievements', JSON.stringify(villageData.achievements));
+        }
+
+        // Handle Return from Game (URL parameters)
+        function handleGameReturn() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const gameCompleted = urlParams.get('completed');
+            const score = parseInt(urlParams.get('score')) || 0;
+            
+            if (gameCompleted) {
+                setTimeout(() => {
+                    completeGame(gameCompleted, score);
+                    setBillyMessage(`Fantastic! You completed the ${buildings[gameCompleted]?.name}!`);
+                    showBillySpeech();
+                    
+                    // Clear URL parameters
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }, 1000);
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeVillage();
+            handleGameReturn();
+        });
+
+        // Expose functions for games to call
+        window.villageAPI = {
+            completeGame: completeGame,
+            showAchievement: showAchievement
+        };
+    </script>
+</body>
+</html>

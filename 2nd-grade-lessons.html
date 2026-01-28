@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐐 Billy's 2nd Grade Mountain Adventure - Bedrock Learning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .billy-avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 70px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .welcome-text {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            margin-bottom: 30px;
+        }
+
+        .progress-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .progress-card {
+            background: rgba(255,255,255,0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .progress-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .progress-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .progress-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .building-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .building-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .building-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .building-header {
+            padding: 25px;
+            text-align: center;
+            font-size: 3rem;
+            position: relative;
+        }
+        
+        .schoolhouse { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+        .book-cabin { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+        .post-office { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+        .writers-lodge { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        
+        .building-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-top: 10px;
+        }
+        
+        .building-subtitle {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .lessons-grid {
+            padding: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .lesson-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .lesson-item:hover {
+            background: #e3f2fd;
+            transform: translateX(5px);
+        }
+        
+        .lesson-item.completed {
+            background: #e8f5e8;
+            border-left-color: #4caf50;
+        }
+        
+        .lesson-item.current {
+            background: #fff3e0;
+            border-left-color: #ff9800;
+            box-shadow: 0 2px 8px rgba(255,152,0,0.3);
+        }
+        
+        .lesson-number {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        .lesson-item.completed .lesson-number {
+            background: #4caf50;
+        }
+        
+        .lesson-item.current .lesson-number {
+            background: #ff9800;
+        }
+        
+        .lesson-title {
+            flex-grow: 1;
+            font-weight: 500;
+        }
+        
+        .lesson-standard {
+            font-size: 0.75rem;
+            color: #666;
+            background: rgba(102,126,234,0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 8px;
+        }
+
+        .view-all-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .view-all-btn:hover {
+            background: #5a67d8;
+            transform: scale(1.05);
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(139, 69, 19, 0.9);
+            color: white;
+            border: 2px solid #FFD700;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(139, 69, 19, 1);
+            transform: scale(1.1);
+        }
+
+        .achievements-bar {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 5px 15px rgba(255,215,0,0.3);
+        }
+
+        .achievement-badge {
+            background: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            margin: 0 5px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #8B4513;
+            opacity: 0.5;
+        }
+
+        .achievement-badge.earned {
+            opacity: 1;
+            box-shadow: 0 2px 8px rgba(139,69,19,0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .building-sections {
+                grid-template-columns: 1fr;
+            }
+            
+            .progress-overview {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .billy-avatar {
+                width: 100px;
+                height: 100px;
+                font-size: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back to Village Button -->
+    <a href="student-dashboard.html" class="back-button" title="Back to Bedrock Village">
+        🏘️
+    </a>
+
+    <div class="container">
+        <div class="header">
+            <div class="billy-avatar">🐐</div>
+            <h1>🐐 Billy's 2nd Grade Mountain Adventure</h1>
+            <div class="welcome-text">
+                <p><strong>Welcome back, young climber!</strong> This year we'll explore 180 amazing lessons across the Norwegian mountains. Each building in our village offers different types of learning adventures. Are you ready to become a 2nd Grade Champion? 🏆</p>
+            </div>
+        </div>
+
+        <!-- Progress Overview -->
+        <div class="progress-overview">
+            <div class="progress-card">
+                <div class="progress-number">180</div>
+                <div class="progress-label">Total Lessons</div>
+            </div>
+            <div class="progress-card">
+                <div class="progress-number">15</div>
+                <div class="progress-label">Completed</div>
+            </div>
+            <div class="progress-card">
+                <div class="progress-number">92%</div>
+                <div class="progress-label">Current Quarter</div>
+            </div>
+            <div class="progress-card">
+                <div class="progress-number">4</div>
+                <div class="progress-label">Badges Earned</div>
+            </div>
+        </div>
+
+        <!-- Achievement Badges -->
+        <div class="achievements-bar">
+            <div>🏅 <strong>Your 2nd Grade Badges:</strong></div>
+            <div>
+                <span class="achievement-badge earned">🏅 Question Master</span>
+                <span class="achievement-badge">🏅 Story Reteller</span>
+                <span class="achievement-badge">🏅 Character Expert</span>
+                <span class="achievement-badge">🏅 Voice Actor</span>
+                <span class="achievement-badge">🏅 Fact Finder</span>
+                <span class="achievement-badge">🏅 Opinion Writer</span>
+                <span class="achievement-badge">🏆 2nd Grade Champion</span>
+            </div>
+        </div>
+
+        <!-- Building Sections -->
+        <div class="building-sections">
+            <!-- Schoolhouse - Main Literature & Informational Reading -->
+            <div class="building-card">
+                <div class="building-header schoolhouse">
+                    <div style="font-size: 4rem;">🏫</div>
+                    <div class="building-title">The Schoolhouse</div>
+                    <div class="building-subtitle">Literature & Informational Reading • 144 Lessons</div>
+                </div>
+                <div class="lessons-grid">
+                    <div class="lesson-item completed" onclick="openLesson(1)">
+                        <div class="lesson-number">1</div>
+                        <div class="lesson-title">Questions Help Us Understand</div>
+                        <div class="lesson-standard">RL.2.1</div>
+                    </div>
+                    <div class="lesson-item completed" onclick="openLesson(2)">
+                        <div class="lesson-number">2</div>
+                        <div class="lesson-title">Who Questions</div>
+                        <div class="lesson-standard">RL.2.1</div>
+                    </div>
+                    <div class="lesson-item completed" onclick="openLesson(3)">
+                        <div class="lesson-number">3</div>
+                        <div class="lesson-title">What Questions</div>
+                        <div class="lesson-standard">RL.2.1</div>
+                    </div>
+                    <div class="lesson-item current" onclick="openLesson(4)">
+                        <div class="lesson-number">4</div>
+                        <div class="lesson-title">Where Questions</div>
+                        <div class="lesson-standard">RL.2.1</div>
+                    </div>
+                    <div class="lesson-item" onclick="openLesson(5)">
+                        <div class="lesson-number">5</div>
+                        <div class="lesson-title">When Questions</div>
+                        <div class="lesson-standard">RL.2.1</div>
+                    </div>
+                </div>
+                <button class="view-all-btn" onclick="viewAllLessons('schoolhouse')">View All 144 Lessons</button>
+            </div>
+
+            <!-- Book Cabin - Rhythm & Poetry -->
+            <div class="building-card">
+                <div class="building-header book-cabin">
+                    <div style="font-size: 4rem;">📚</div>
+                    <div class="building-title">Book Cabin</div>
+                    <div class="building-subtitle">Rhythm & Poetry • 12 Lessons</div>
+                </div>
+                <div class="lessons-grid">
+                    <div class="lesson-item" onclick="openLesson(37)">
+                        <div class="lesson-number">37</div>
+                        <div class="lesson-title">Words Make Music</div>
+                        <div class="lesson-standard">RL.2.4</div>
+                    </div>
+                    <div class="lesson-item" onclick="openLesson(38)">
+                        <div class="lesson-number">38</div>
+                        <div class="lesson-title">What Is Rhythm?</div>
+                        <div class="lesson-standard">RL.2.4</div>
+                    </div>
+                    <div class="lesson-item" onclick="openLesson(39)">
+                        <div class="lesson-number">39</div>
+                        <div class="lesson-title">Regular Beats</div>
+                        <div class="lesson-standard">RL.2.4</div>
+                    </div>
+                    <div class="lesson-item" onclick="openLesson(40)">
+                        <div class="lesson-number">40</div>
+                        <div class="lesson-title">What Is Rhyme?</div>
+                        <div class="lesson-standard">RL.2.4</div>
+                    </div>
+                </div>
+                <button class="view-all-btn" onclick="viewAllLessons('book-cabin')">View All Rhythm Lessons</button>
+            </div>
+
+            <!-- Post Office - Opinion & Informative Writing -->
+            <div class="building-card">
+                <div class="building-header post-office">
+                    <div style="font-size: 4rem;">✉️</div>
+                    <div class="building-title">Post Office</div>
+                    <div class="building-subtitle">Opinion & Informative Writing • 24 Lessons</div>
+                </div>
+                <div class="lessons-grid">
+                    <div class="lesson-item" onclick="openLesson(145)">
+                        <div class="lesson-number">145</div>
+                        <div class="lesson-title">What Is an Opinion?</div>
+                        <div class="lesson-standard">W.2.1</div>
+                    </div>
+                    <div class="lesson-item" onclick="openLesson(146)">
+                        <div class="lesson-number">146</div>
+                        <div class="lesson-title">Introducing Your Topic</div>
+                        <div class="lesson-standard">W.2.1</div>
+                    </div>
+                    <div class="lesson-item" onclick="openLesson(147)">
+                        <div class="lesson-number">147</div>
+                        <div class="lesson-title">Stating Your Opinion</div>
+                        <div class="lesson-standard">W.2.1</div>
+                    </div>
+                    <div class="lesson-item" onclick="openLesson(157)">
+                        <div class="lesson-number">157</div>
+                        <div class="lesson-title">What Is Informative Writing?</div>
+                        <div class="lesson-standard">W.2.2</div>
+                    </div>
+                </div>
+                <button class="view-all-btn" onclick="viewAllLessons('post-office')">View All Writing Lessons</button>
+            </div>
+
+            <!-- Writer's Lodge - Narrative Writing -->
+            <div class="building-card">
+                <div class="building-header writers-lodge">
+                    <div style="font-size: 4rem;">✏️</div>
+                    <div class="building-title">Writer's Lodge</div>
+                    <div class="building-subtitle">Narrative Writing • 12 Lessons</div>
+                </div>
+                <div class="lessons-grid">
+                    <div class="lesson-item" onclick="openLesson(169)">
+                        <div class="lesson-number">169</div>
+                        <div class="lesson-title">What Is Narrative Writing?</div>
+                        <div class="lesson-standard">W.2.3</div>
+                    </div>
+                    <div class="lesson-item" onclick="openLesson(170)">
+                        <div class="lesson-number">170</div>
+                        <div class="lesson-title">Recounting an Event</div>
+                        <div class="lesson-standard">W.2.3</div>
+                    </div>
+                    <div class="lesson-item" onclick="openLesson(171)">
+                        <div class="lesson-number">171</div>
+                        <div class="lesson-title">Well-Elaborated</div>
+                        <div class="lesson-standard">W.2.3</div>
+                    </div>
+                    <div class="lesson-item" onclick="openLesson(172)">
+                        <div class="lesson-number">172</div>
+                        <div class="lesson-title">Sequence of Events</div>
+                        <div class="lesson-standard">W.2.3</div>
+                    </div>
+                </div>
+                <button class="view-all-btn" onclick="viewAllLessons('writers-lodge')">View All Story Lessons</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openLesson(lessonNumber) {
+            alert(`🐐 Opening Lesson ${lessonNumber} - Let's start this adventure!`);
+            // Here you would navigate to the specific lesson
+            // window.location.href = `lesson-${lessonNumber}.html`;
+        }
+
+        function viewAllLessons(building) {
+            alert(`📚 Opening full ${building} lesson list with all 180 lessons organized by building!`);
+            // Navigate to full lesson list view
+            // window.location.href = `full-lessons.html?building=${building}`;
+        }
+
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.building-card');
+            
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(50px)';
+                    card.style.transition = 'all 0.6s ease';
+                    
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>

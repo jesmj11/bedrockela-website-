@@ -181,6 +181,29 @@
         .lesson-5 { left: 158px; top: 1010px; }
         .lesson-6 { left: 742px; top: 1190px; }
 
+        .grade-btn {
+            background: rgba(255,255,255,0.9);
+            border: 2px solid rgba(148,163,184,0.45);
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .grade-btn:hover {
+            background: rgba(255,215,0,0.9);
+            border-color: #FFD700;
+            transform: scale(1.05);
+        }
+
+        .grade-btn.grade-active {
+            background: #FFD700;
+            border-color: #FFA500;
+            color: #8B4513;
+        }
+
         @media (max-width: 768px) {
             .mountain-path {
                 width: 100%;
@@ -201,6 +224,16 @@
                 <!-- Summit Flag -->
                 <div class="summit-flag">
                     🏔️ Summit
+                </div>
+
+                <!-- Grade Level Selector -->
+                <div style="position: absolute; top: 80px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 100;">
+                    <button onclick="selectGrade('K')" class="grade-btn">K</button>
+                    <button onclick="selectGrade('1')" class="grade-btn grade-active">1st</button>
+                    <button onclick="selectGrade('2')" class="grade-btn">2nd</button>
+                    <button onclick="selectGrade('3')" class="grade-btn">3rd</button>
+                    <button onclick="selectGrade('4')" class="grade-btn">4th</button>
+                    <button onclick="selectGrade('5')" class="grade-btn">5th</button>
                 </div>
 
                 <!-- Trail Path SVG -->
@@ -288,15 +321,36 @@
             const lessonNode = document.querySelector(`.lesson-${lessonNumber} .lesson-marker`);
             if (lessonNode && !lessonNode.classList.contains('locked')) {
                 alert(`Opening Lesson ${lessonNumber} - Time for adventure!`);
-                // Navigate to the specific lesson
-                // window.location.href = `lesson-${lessonNumber}.html`;
-                // Or connect to your existing lesson pages:
-                if (lessonNumber <= 3) {
-                    // window.location.href = '1st-grade-lessons.html';
-                } else {
-                    // window.location.href = '4th-grade-lessons.html';
+                // Navigate based on current grade selection
+                const activeGrade = document.querySelector('.grade-btn.grade-active').textContent;
+                switch(activeGrade) {
+                    case '1st':
+                        window.location.href = '1st-grade-lessons.html';
+                        break;
+                    case '2nd':
+                        window.location.href = '2nd-grade-lessons.html';
+                        break;
+                    case '4th':
+                        window.location.href = '4th-grade-lessons.html';
+                        break;
+                    default:
+                        alert(`${activeGrade} grade lessons coming soon!`);
                 }
             }
+        }
+
+        function selectGrade(grade) {
+            // Remove active class from all buttons
+            document.querySelectorAll('.grade-btn').forEach(btn => {
+                btn.classList.remove('grade-active');
+            });
+            
+            // Add active class to selected button
+            const selectedBtn = event.target;
+            selectedBtn.classList.add('grade-active');
+            
+            // Update lesson content based on grade
+            alert(`Switched to ${grade === 'K' ? 'Kindergarten' : grade + (grade === '1' ? 'st' : grade === '2' ? 'nd' : grade === '3' ? 'rd' : 'th')} grade mountain path!`);
         }
 
         // Add some subtle animations

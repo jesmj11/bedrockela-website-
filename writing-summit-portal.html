@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏔️ Billy's Writing Summit - Bedrock Learning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(135deg, #87CEEB 0%, #E0E0E0 50%, #F5F5DC 100%);
+            min-height: 100vh;
+        }
+
+        .summit-container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Left Sidebar - Writing Tools */
+        .writing-sidebar {
+            width: 280px;
+            background: rgba(255,255,255,0.95);
+            box-shadow: 2px 0 15px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .billy-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            margin: 0 auto 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            animation: billyBreathe 3s infinite ease-in-out;
+        }
+
+        .sidebar-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .writing-modes {
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .mode-section {
+            margin-bottom: 25px;
+        }
+
+        .mode-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .writing-mode {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .writing-mode:hover {
+            background: #e8f4f8;
+            border-color: #3498db;
+            transform: translateX(5px);
+        }
+
+        .writing-mode.active {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border-color: #2980b9;
+        }
+
+        .mode-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .mode-desc {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .billy-chat {
+            background: rgba(255,215,0,0.1);
+            border-top: 2px solid #FFD700;
+            padding: 15px;
+            min-height: 120px;
+        }
+
+        .chat-header {
+            font-weight: bold;
+            color: #8B4513;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .billy-message {
+            background: rgba(255,255,255,0.9);
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            color: #2c3e50;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+
+        .chat-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Comic Sans MS', cursive;
+            font-size: 0.8rem;
+            resize: none;
+        }
+
+        /* Main Writing Area */
+        .writing-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            background: rgba(255,255,255,0.9);
+        }
+
+        .writing-header {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .writing-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .peak-icon {
+            font-size: 2rem;
+        }
+
+        .writing-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .writing-subtitle {
+            opacity: 0.9;
+        }
+
+        .writing-progress {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .progress-item {
+            text-align: center;
+        }
+
+        .progress-number {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .progress-label {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .writing-workspace {
+            flex-grow: 1;
+            display: flex;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .prompt-panel {
+            width: 300px;
+            background: rgba(52,152,219,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid rgba(52,152,219,0.2);
+        }
+
+        .prompt-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .prompt-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .prompt-helpers {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .helper-section {
+            background: rgba(255,255,255,0.8);
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .helper-title {
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .helper-content {
+            font-size: 0.8rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .writing-editor {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .editor-toolbar {
+            background: rgba(52,152,219,0.1);
+            padding: 15px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            border-bottom: 2px solid rgba(52,152,219,0.2);
+        }
+
+        .toolbar-btn {
+            background: white;
+            border: 2px solid #3498db;
+            color: #3498db;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Comic Sans MS', cursive;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .toolbar-btn:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        .word-count {
+            margin-left: auto;
+            background: rgba(39,174,96,0.1);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            color: #27ae60;
+        }
+
+        .writing-textarea {
+            flex-grow: 1;
+            border: none;
+            padding: 30px;
+            font-family: 'Comic Sans MS', cursive;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #2c3e50;
+            background: white;
+            border-radius: 0 0 10px 10px;
+            resize: none;
+            outline: none;
+        }
+
+        .writing-textarea::placeholder {
+            color: #95a5a6;
+            font-style: italic;
+        }
+
+        .action-buttons {
+            padding: 20px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            background: rgba(255,255,255,0.5);
+        }
+
+        .action-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Comic Sans MS', cursive;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+        }
+
+        .save-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(39,174,96,0.3);
+        }
+
+        .share-btn {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+        }
+
+        .share-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(243,156,18,0.3);
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+            color: white;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(149,165,166,0.3);
+        }
+
+        /* Right Panel - Climb Log Portfolio */
+        .portfolio-panel {
+            width: 280px;
+            background: rgba(255,255,255,0.95);
+            box-shadow: -2px 0 15px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .portfolio-header {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .portfolio-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .portfolio-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .saved-writings {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .writing-entry {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #9b59b6;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .writing-entry:hover {
+            background: #e8f4f8;
+            transform: translateX(-3px);
+        }
+
+        .entry-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .entry-meta {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .entry-preview {
+            font-size: 0.85rem;
+            color: #555;
+            line-height: 1.4;
+        }
+
+        @keyframes billyBreathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @media (max-width: 768px) {
+            .summit-container {
+                flex-direction: column;
+                height: auto;
+            }
+            
+            .writing-sidebar, .portfolio-panel {
+                width: 100%;
+                max-height: 200px;
+            }
+            
+            .writing-workspace {
+                flex-direction: column;
+            }
+            
+            .prompt-panel {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="summit-container">
+        <!-- Left Sidebar - Writing Tools & Billy Chat -->
+        <div class="writing-sidebar">
+            <div class="sidebar-header">
+                <div class="billy-avatar">🐐</div>
+                <div class="sidebar-title">Writing Summit</div>
+                <div class="sidebar-subtitle">Climb your way to great writing!</div>
+            </div>
+            
+            <div class="writing-modes">
+                <div class="mode-section">
+                    <div class="mode-title">📝 Writing Peaks</div>
+                    
+                    <div class="writing-mode active" onclick="selectMode('story')">
+                        <div class="mode-name">🏔️ Story Summit</div>
+                        <div class="mode-desc">Adventure narratives & creative tales</div>
+                    </div>
+                    
+                    <div class="writing-mode" onclick="selectMode('essay')">
+                        <div class="mode-name">🎯 Essay Ridge</div>
+                        <div class="mode-desc">Persuasive & informational writing</div>
+                    </div>
+                    
+                    <div class="writing-mode" onclick="selectMode('journal')">
+                        <div class="mode-name">📖 Journal Valley</div>
+                        <div class="mode-desc">Personal reflection & daily logs</div>
+                    </div>
+                    
+                    <div class="writing-mode" onclick="selectMode('letter')">
+                        <div class="mode-name">✉️ Letter Lodge</div>
+                        <div class="mode-desc">Friendly letters & communications</div>
+                    </div>
+                </div>
+                
+                <div class="mode-section">
+                    <div class="mode-title">🎲 Quick Challenges</div>
+                    
+                    <div class="writing-mode" onclick="startQuickPrompt()">
+                        <div class="mode-name">⚡ Lightning Round</div>
+                        <div class="mode-desc">5-minute writing sprints</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="billy-chat">
+                <div class="chat-header">💬 Chat with Billy</div>
+                <div class="billy-message" id="billyMessage">
+                    Hey there, mountain writer! Ready to conquer some writing peaks today? Pick a writing type and let's start climbing!
+                </div>
+                <textarea class="chat-input" placeholder="Ask Billy for writing help..." 
+                         onkeypress="handleChatInput(event)"></textarea>
+            </div>
+        </div>
+
+        <!-- Main Writing Area -->
+        <div class="writing-area">
+            <div class="writing-header">
+                <div class="writing-info">
+                    <div class="peak-icon">🏔️</div>
+                    <div>
+                        <div class="writing-title" id="writingTitle">Story Summit</div>
+                        <div class="writing-subtitle" id="writingSubtitle">Create amazing adventure narratives!</div>
+                    </div>
+                </div>
+                
+                <div class="writing-progress">
+                    <div class="progress-item">
+                        <div class="progress-number" id="wordCount">0</div>
+                        <div class="progress-label">Words</div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="progress-number" id="sessionTime">0</div>
+                        <div class="progress-label">Minutes</div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="progress-number" id="writingsCompleted">0</div>
+                        <div class="progress-label">Completed</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="writing-workspace">
+                <div class="prompt-panel">
+                    <div class="prompt-title">🎯 Today's Challenge</div>
+                    <div class="prompt-content" id="promptContent">
+                        Billy the goat discovers a secret trail on the mountain. Where does it lead? What adventure awaits? Write a story about Billy's exciting discovery!
+                    </div>
+                    
+                    <div class="prompt-helpers">
+                        <div class="helper-section">
+                            <div class="helper-title">💡 Story Ideas</div>
+                            <div class="helper-content" id="storyIdeas">
+                                • Hidden cave with treasure<br>
+                                • Meeting a new animal friend<br>
+                                • Finding a magical waterfall
+                            </div>
+                        </div>
+                        
+                        <div class="helper-section">
+                            <div class="helper-title">🔤 Power Words</div>
+                            <div class="helper-content" id="powerWords">
+                                • Adventure, discover, explore<br>
+                                • Mysterious, sparkling, beautiful<br>
+                                • Carefully, suddenly, finally
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="writing-editor">
+                    <div class="editor-toolbar">
+                        <button class="toolbar-btn" onclick="formatText('bold')">Bold</button>
+                        <button class="toolbar-btn" onclick="formatText('italic')">Italic</button>
+                        <button class="toolbar-btn" onclick="insertEmoji()">😊</button>
+                        <button class="toolbar-btn" onclick="askBillyForHelp()">Ask Billy</button>
+                        <div class="word-count">
+                            <span id="liveWordCount">0</span> words
+                        </div>
+                    </div>
+                    
+                    <textarea class="writing-textarea" id="writingTextarea" 
+                             placeholder="Start writing your amazing story here... Billy believes in you!"
+                             oninput="updateWordCount()"
+                             onkeydown="handleWritingShortcuts(event)"></textarea>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="action-btn save-btn" onclick="saveWriting()">💾 Save to Climb Log</button>
+                <button class="action-btn share-btn" onclick="shareWriting()">📤 Share Adventure</button>
+                <button class="action-btn back-btn" onclick="goBack()">🏠 Back to Village</button>
+            </div>
+        </div>
+
+        <!-- Right Panel - Portfolio -->
+        <div class="portfolio-panel">
+            <div class="portfolio-header">
+                <div class="portfolio-title">📚 My Climb Log</div>
+                <div class="portfolio-subtitle">All your writing adventures</div>
+            </div>
+            
+            <div class="saved-writings" id="savedWritings">
+                <div class="writing-entry">
+                    <div class="entry-title">Billy's Mountain Adventure</div>
+                    <div class="entry-meta">Story • Yesterday • 247 words</div>
+                    <div class="entry-preview">Billy discovered a sparkling cave hidden behind a waterfall. Inside, crystals glowed like stars...</div>
+                </div>
+                
+                <div class="writing-entry">
+                    <div class="entry-title">Why Mountains Are Important</div>
+                    <div class="entry-meta">Essay • 3 days ago • 156 words</div>
+                    <div class="entry-preview">Mountains are very important for many reasons. They provide fresh water, homes for animals...</div>
+                </div>
+                
+                <div class="writing-entry">
+                    <div class="entry-title">My Climbing Dream</div>
+                    <div class="entry-meta">Journal • 1 week ago • 89 words</div>
+                    <div class="entry-preview">Today I wrote about my dream to climb a real mountain someday. It would be scary but exciting...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 'story';
+        let sessionStartTime = Date.now();
+        let writingsCompleted = parseInt(localStorage.getItem('writingsCompleted') || '0');
+        let savedWritings = JSON.parse(localStorage.getItem('savedWritings') || '[]');
+
+        // Writing prompts for different modes
+        const writingPrompts = {
+            story: [
+                "Billy the goat discovers a secret trail on the mountain. Where does it lead? What adventure awaits?",
+                "A mysterious fog covers the mountain village. Billy must help his friends find their way home safely.",
+                "Billy finds an ancient map in the attic. What treasure or adventure does it lead to?",
+                "During a thunderstorm, Billy discovers a cave with magical paintings on the walls.",
+                "Billy meets a lost mountain climber who needs help finding the trail back down."
+            ],
+            essay: [
+                "Why is it important to help others in your community? Give three reasons and examples.",
+                "What makes a good friend? Explain the qualities that make friendships strong.",
+                "Should kids have pets? Write your opinion and give reasons to support your view.",
+                "What is your favorite season? Convince someone why they should love it too.",
+                "Why is reading important for kids? Give examples of how reading helps you."
+            ],
+            journal: [
+                "What was the best part of your day? Describe it in detail and how it made you feel.",
+                "Write about a time you helped someone. How did it make both of you feel?",
+                "Describe your favorite place in nature. What do you see, hear, and smell there?",
+                "What new skill would you like to learn? Why does it interest you?",
+                "Write about a family tradition you enjoy. Why is it special to you?"
+            ],
+            letter: [
+                "Write a friendly letter to Billy the goat asking for advice about something important to you.",
+                "Write a thank you letter to someone who has helped you recently.",
+                "Write a letter to a friend inviting them on a mountain adventure with you.",
+                "Write a letter to your future self about your current dreams and goals.",
+                "Write a letter to your favorite book character asking them questions."
+            ]
+        };
+
+        const helpContent = {
+            story: {
+                ideas: ['Hidden cave with treasure', 'Meeting a new animal friend', 'Finding a magical waterfall', 'Solving a mountain mystery', 'Helping lost hikers'],
+                words: ['Adventure, discover, explore', 'Mysterious, sparkling, beautiful', 'Carefully, suddenly, finally']
+            },
+            essay: {
+                ideas: ['Start with your main opinion', 'Give 3 strong reasons', 'Use examples from your life', 'End by restating your view'],
+                words: ['Important, because, therefore', 'First, second, finally', 'For example, in conclusion']
+            },
+            journal: {
+                ideas: ['Describe your feelings', 'Tell what happened first', 'Explain why it mattered', 'Share what you learned'],
+                words: ['Today, yesterday, tomorrow', 'Happy, excited, proud', 'I felt, I learned, I noticed']
+            },
+            letter: {
+                ideas: ['Start with "Dear..."', 'Ask how they are', 'Share your main message', 'End with "Your friend"'],
+                words: ['Dear, sincerely, your friend', 'Hope, wish, excited', 'Please write back soon']
+            }
+        };
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            updateWritingsCompleted();
+            loadSavedWritings();
+            startSessionTimer();
+            updatePrompt();
+        });
+
+        function selectMode(mode) {
+            currentMode = mode;
+            
+            // Update active button
+            document.querySelectorAll('.writing-mode').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.writing-mode[onclick="selectMode('${mode}')"]`).classList.add('active');
+            
+            // Update header and content
+            const modes = {
+                story: { title: 'Story Summit', subtitle: 'Create amazing adventure narratives!', icon: '🏔️' },
+                essay: { title: 'Essay Ridge', subtitle: 'Build strong arguments and explanations!', icon: '🎯' },
+                journal: { title: 'Journal Valley', subtitle: 'Reflect and record your thoughts!', icon: '📖' },
+                letter: { title: 'Letter Lodge', subtitle: 'Connect with friends through writing!', icon: '✉️' }
+            };
+            
+            document.getElementById('writingTitle').textContent = modes[mode].title;
+            document.getElementById('writingSubtitle').textContent = modes[mode].subtitle;
+            document.querySelector('.peak-icon').textContent = modes[mode].icon;
+            
+            updatePrompt();
+            updateBillyMessage();
+        }
+
+        function updatePrompt() {
+            const prompts = writingPrompts[currentMode];
+            const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
+            document.getElementById('promptContent').textContent = randomPrompt;
+            
+            const content = helpContent[currentMode];
+            document.getElementById('storyIdeas').innerHTML = content.ideas.map(idea => `• ${idea}`).join('<br>');
+            document.getElementById('powerWords').innerHTML = content.words.map(words => `• ${words}`).join('<br>');
+        }
+
+        function updateBillyMessage() {
+            const messages = {
+                story: "Perfect! Stories are my favorite! Start with 'Once upon a time' or jump right into the action. I believe in you!",
+                essay: "Great choice! Remember to share your opinion clearly and give good reasons. You've got this!",
+                journal: "Journal writing is like talking to a friend. Just write what's on your heart and mind!",
+                letter: "Letter writing is a special way to connect with others. Be friendly and share what matters to you!"
+            };
+            
+            document.getElementById('billyMessage').textContent = messages[currentMode];
+        }
+
+        function updateWordCount() {
+            const text = document.getElementById('writingTextarea').value;
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            document.getElementById('liveWordCount').textContent = words;
+            document.getElementById('wordCount').textContent = words;
+        }
+
+        function startSessionTimer() {
+            setInterval(() => {
+                const minutes = Math.floor((Date.now() - sessionStartTime) / 60000);
+                document.getElementById('sessionTime').textContent = minutes;
+            }, 60000);
+        }
+
+        function updateWritingsCompleted() {
+            document.getElementById('writingsCompleted').textContent = writingsCompleted;
+        }
+
+        function handleChatInput(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                const input = event.target;
+                const message = input.value.trim();
+                
+                if (message) {
+                    // Simple AI responses from Billy
+                    const responses = [
+                        "That's a great question! Keep writing and the ideas will flow like a mountain stream!",
+                        "I love your thinking! Try adding more details about what you see, hear, and feel.",
+                        "Remember, every great writer started with their first word. You're doing amazing!",
+                        "What a wonderful idea! Now describe it like you're painting a picture with words.",
+                        "Keep climbing that writing mountain! Each sentence gets you closer to the summit!"
+                    ];
+                    
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    document.getElementById('billyMessage').textContent = randomResponse;
+                    input.value = '';
+                }
+            }
+        }
+
+        function askBillyForHelp() {
+            const helpMessages = [
+                "Try starting your next sentence with a different word than your last one!",
+                "Add a describing word to make your writing more colorful!",
+                "What happens next? Let your imagination run wild!",
+                "Remember to use periods, commas, and exclamation points!",
+                "Read your writing out loud - how does it sound?"
+            ];
+            
+            const randomHelp = helpMessages[Math.floor(Math.random() * helpMessages.length)];
+            document.getElementById('billyMessage').textContent = randomHelp;
+        }
+
+        function saveWriting() {
+            const text = document.getElementById('writingTextarea').value.trim();
+            const prompt = document.getElementById('promptContent').textContent;
+            
+            if (!text) {
+                alert('Write something first before saving!');
+                return;
+            }
+            
+            const title = prompt(`What would you like to name your ${currentMode}?`, 
+                               `My ${currentMode.charAt(0).toUpperCase() + currentMode.slice(1)}`);
+            
+            if (title) {
+                const writing = {
+                    id: Date.now(),
+                    title: title,
+                    type: currentMode,
+                    content: text,
+                    wordCount: text.split(/\s+/).length,
+                    date: new Date().toLocaleDateString(),
+                    prompt: prompt
+                };
+                
+                savedWritings.unshift(writing);
+                localStorage.setItem('savedWritings', JSON.stringify(savedWritings));
+                
+                writingsCompleted++;
+                localStorage.setItem('writingsCompleted', writingsCompleted.toString());
+                updateWritingsCompleted();
+                
+                loadSavedWritings();
+                
+                // Clear textarea
+                document.getElementById('writingTextarea').value = '';
+                updateWordCount();
+                
+                // Show success message
+                document.getElementById('billyMessage').textContent = 
+                    `🎉 Fantastic! I saved "${title}" to your Climb Log. You're becoming a real mountain writer!`;
+            }
+        }
+
+        function loadSavedWritings() {
+            const container = document.getElementById('savedWritings');
+            
+            if (savedWritings.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">No writings yet! Start climbing those writing peaks!</div>';
+                return;
+            }
+            
+            container.innerHTML = savedWritings.map(writing => `
+                <div class="writing-entry" onclick="loadWriting(${writing.id})">
+                    <div class="entry-title">${writing.title}</div>
+                    <div class="entry-meta">${writing.type.charAt(0).toUpperCase() + writing.type.slice(1)} • ${writing.date} • ${writing.wordCount} words</div>
+                    <div class="entry-preview">${writing.content.substring(0, 100)}${writing.content.length > 100 ? '...' : ''}</div>
+                </div>
+            `).join('');
+        }
+
+        function loadWriting(id) {
+            const writing = savedWritings.find(w => w.id === id);
+            if (writing) {
+                document.getElementById('writingTextarea').value = writing.content;
+                updateWordCount();
+                document.getElementById('billyMessage').textContent = 
+                    `📖 Loaded "${writing.title}"! You can continue working on it or start something new.`;
+            }
+        }
+
+        function shareWriting() {
+            const text = document.getElementById('writingTextarea').value.trim();
+            if (!text) {
+                alert('Write something first before sharing!');
+                return;
+            }
+            
+            // Simple sharing functionality
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My Writing from Bedrock ELA',
+                    text: text.substring(0, 280) + '...'
+                });
+            } else {
+                // Fallback - copy to clipboard
+                navigator.clipboard.writeText(text).then(() => {
+                    alert('Your writing has been copied to the clipboard!');
+                });
+            }
+        }
+
+        function goBack() {
+            window.location.href = 'interactive-village-dashboard.html';
+        }
+
+        function startQuickPrompt() {
+            const quickPrompts = [
+                "Describe your breakfast like it's the most exciting meal ever!",
+                "Write about a pencil from the pencil's point of view.",
+                "If animals could talk, what would your pet say?",
+                "Describe walking through a cloud.",
+                "What would happen if gravity stopped working for 5 minutes?"
+            ];
+            
+            const randomPrompt = quickPrompts[Math.floor(Math.random() * quickPrompts.length)];
+            document.getElementById('promptContent').textContent = randomPrompt + " (5-minute challenge!)";
+            document.getElementById('billyMessage').textContent = 
+                "⚡ Lightning round! Write for 5 minutes without stopping. Ready, set, go!";
+            
+            // Set 5-minute timer
+            setTimeout(() => {
+                document.getElementById('billyMessage').textContent = 
+                    "⏰ Time's up! Great job on your lightning round writing!";
+            }, 300000); // 5 minutes
+        }
+
+        function formatText(type) {
+            // Basic text formatting placeholder
+            document.getElementById('billyMessage').textContent = 
+                `✨ Great idea! ${type} can make your writing more exciting!`;
+        }
+
+        function insertEmoji() {
+            const emojis = ['😊', '🌟', '🏔️', '🎉', '❤️', '⭐', '🌈', '🦋', '🌸', '🎯'];
+            const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+            
+            const textarea = document.getElementById('writingTextarea');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const text = textarea.value;
+            
+            textarea.value = text.substring(0, start) + randomEmoji + text.substring(end);
+            textarea.selectionStart = textarea.selectionEnd = start + randomEmoji.length;
+            textarea.focus();
+            updateWordCount();
+        }
+
+        function handleWritingShortcuts(event) {
+            // Ctrl+S to save
+            if (event.ctrlKey && event.key === 's') {
+                event.preventDefault();
+                saveWriting();
+            }
+        }
+    </script>
+</body>
+</html>

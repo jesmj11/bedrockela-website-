@@ -740,14 +740,25 @@
             }
 
             if (accessCode.toUpperCase() === 'MOUNTAIN2024' || accessCode.toUpperCase() === 'DEMO') {
-                const guideMessage = selectedGuide ? ` with ${selectedGuide} as your guide` : '';
-                alert(`🐐 Welcome ${name}! \n\nStarting your Grade ${selectedGrade} mountain adventure${guideMessage}...\n\nDemo Mode: This would redirect to the student dashboard with your selected Billy Goat guide and appropriate lessons.`);
+                // Store student info in localStorage for the dashboard
+                localStorage.setItem('bedrockStudent', JSON.stringify({
+                    name: name,
+                    grade: selectedGrade,
+                    guide: selectedGuide || getGuideForGrade(selectedGrade),
+                    loginTime: new Date().toISOString()
+                }));
                 
-                // Uncomment to redirect to actual student dashboard
-                // window.location.href = `student-dashboard.html?grade=${selectedGrade}&name=${encodeURIComponent(name)}&guide=${selectedGuide}`;
+                // Redirect to student dashboard with village
+                window.location.href = `student-dashboard.html?grade=${selectedGrade}&name=${encodeURIComponent(name)}&guide=${selectedGuide || getGuideForGrade(selectedGrade)}`;
             } else {
                 alert('Invalid access code. Use "MOUNTAIN2024" for the demo!');
             }
+        }
+
+        function getGuideForGrade(grade) {
+            if (['K', '1', '2'].includes(grade)) return 'little';
+            if (['3', '4', '5'].includes(grade)) return 'billy';
+            return 'gruff';
         }
 
         // Add some entrance animations

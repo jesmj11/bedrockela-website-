@@ -317,9 +317,25 @@
                     <div style="font-size: 0.8rem; opacity: 0.7;">Norwegian Mountain Adventures</div>
                 </div>
             </div>
-            <div class="student-info">
-                <span style="margin-right: 10px;">🐲</span>
-                <span>Welcome, Mountain Climber!</span>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div class="student-info" id="studentInfo">
+                    <span style="margin-right: 10px;" id="studentGuideIcon">🐐</span>
+                    <span id="studentWelcome">Welcome, Mountain Climber!</span>
+                </div>
+                <button onclick="logout()" style="
+                    background: rgba(255,255,255,0.2);
+                    border: 1px solid rgba(255,255,255,0.3);
+                    color: inherit;
+                    padding: 8px 16px;
+                    border-radius: 20px;
+                    font-size: 14px;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                " 
+                onmouseover="this.style.background='rgba(255,255,255,0.3)'"
+                onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                    🚪 Leave Village
+                </button>
             </div>
         </div>
     </header>
@@ -503,14 +519,112 @@
 
         <!-- Billy's Daily Encouragement -->
         <div class="encouragement">
-            <div class="billy-quote">
+            <div class="billy-quote" id="billyQuote">
                 "🐐 Every step up the mountain makes you stronger! You're doing amazing work today, little climber. Keep going!"
             </div>
-            <div class="billy-signature">— Little Billy, Your Mountain Guide</div>
+            <div class="billy-signature" id="billySignature">— Little Billy, Your Mountain Guide</div>
         </div>
     </div>
 
     <script>
+        // Student data and personalization
+        let studentData = null;
+
+        function loadStudentData() {
+            // Try to get data from localStorage first
+            const stored = localStorage.getItem('bedrockStudent');
+            if (stored) {
+                studentData = JSON.parse(stored);
+            }
+
+            // Also check URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const name = urlParams.get('name');
+            const grade = urlParams.get('grade');
+            const guide = urlParams.get('guide');
+
+            if (name || grade || guide) {
+                studentData = {
+                    name: name || 'Mountain Climber',
+                    grade: grade || '1',
+                    guide: guide || 'little',
+                    loginTime: new Date().toISOString()
+                };
+                // Save to localStorage
+                localStorage.setItem('bedrockStudent', JSON.stringify(studentData));
+            }
+
+            // Default data if nothing found
+            if (!studentData) {
+                studentData = {
+                    name: 'Mountain Climber',
+                    grade: '1',
+                    guide: 'little',
+                    loginTime: new Date().toISOString()
+                };
+            }
+
+            personalizeInterface();
+        }
+
+        function personalizeInterface() {
+            const { name, grade, guide } = studentData;
+
+            // Update header
+            const studentInfo = document.getElementById('studentInfo');
+            const guideIcon = document.getElementById('studentGuideIcon');
+            const welcome = document.getElementById('studentWelcome');
+            
+            if (studentInfo) {
+                let points = Math.floor(Math.random() * 200) + 50; // Random village points for demo
+                let level = Math.floor(points / 50) + 1;
+                
+                guideIcon.textContent = getGuideEmoji(guide);
+                welcome.textContent = `${name}'s Village • Level ${level} • ${points} Village Points`;
+            }
+
+            // Update Billy's quote based on guide
+            const billyQuote = document.getElementById('billyQuote');
+            const billySignature = document.getElementById('billySignature');
+            
+            if (billyQuote && billySignature) {
+                const quotes = getGuideQuotes(guide, name);
+                billyQuote.textContent = quotes.quote;
+                billySignature.textContent = quotes.signature;
+            }
+
+            // Update page title
+            document.title = `${name}'s Village - Bedrock ELA`;
+        }
+
+        function getGuideEmoji(guide) {
+            switch(guide) {
+                case 'little': return '🐐';
+                case 'billy': return '🐐';
+                case 'gruff': return '🐐';
+                default: return '🐐';
+            }
+        }
+
+        function getGuideQuotes(guide, name) {
+            const quotes = {
+                little: {
+                    quote: `🐐 "Hi ${name}! I'm so excited to explore these mountain paths with you! Every little step helps us grow stronger. You're doing amazing!"`,
+                    signature: "— Little Billy, Your Pebble Path Guide"
+                },
+                billy: {
+                    quote: `🐐 "Hey there, ${name}! Ready for another epic adventure? These mountain trails are going to help us discover incredible stories and writing skills!"`,
+                    signature: "— Billy, Your Trail Blazer"
+                },
+                gruff: {
+                    quote: `🐐 "Welcome back, ${name}. The summit awaits those who persevere. Your dedication to learning will take you to heights you never imagined."`,
+                    signature: "— Gruff, Your Summit Seeker Guide"
+                }
+            };
+            
+            return quotes[guide] || quotes.little;
+        }
+
         function toggleQuest(element) {
             const checkbox = element.querySelector('.quest-checkbox');
             const isCompleted = element.classList.contains('completed');
@@ -525,10 +639,48 @@
                 element.classList.add('completed');
                 checkbox.classList.add('checked');
                 checkbox.innerHTML = '✓';
+                
+                // Add celebration for first-time completions
+                showQuestCelebration();
             }
             
-            // Update stats (could save to localStorage here)
             updateStats();
+        }
+        
+        function showQuestCelebration() {
+            // Simple celebration effect
+            const celebration = document.createElement('div');
+            celebration.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+                color: white;
+                padding: 20px 30px;
+                border-radius: 15px;
+                font-size: 18px;
+                font-weight: bold;
+                z-index: 1000;
+                animation: fadeInOut 2s ease-in-out;
+            `;
+            celebration.textContent = "🎉 Quest Complete! Well done, mountain climber!";
+            
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeInOut {
+                    0%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+                    50% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                }
+            `;
+            
+            document.head.appendChild(style);
+            document.body.appendChild(celebration);
+            
+            setTimeout(() => {
+                document.body.removeChild(celebration);
+                document.head.removeChild(style);
+            }, 2000);
         }
         
         function updateStats() {
@@ -536,14 +688,30 @@
             const completed = document.querySelectorAll('.quest-item.completed').length;
             const total = document.querySelectorAll('.quest-item').length;
             
-            // Update progress visually
+            // Save progress
+            if (studentData) {
+                const progress = {
+                    ...studentData,
+                    questsCompleted: completed,
+                    totalQuests: total,
+                    lastActivity: new Date().toISOString()
+                };
+                localStorage.setItem('bedrockStudent', JSON.stringify(progress));
+            }
+            
             console.log(`${completed} of ${total} quests completed today!`);
         }
         
         function goToBuilding(building) {
+            const grade = studentData?.grade || '1';
+            
             switch(building) {
                 case 'reading-ridge':
-                    window.location.href = '1st-grade-lessons.html';
+                    if (['K', '1', '2'].includes(grade)) {
+                        window.location.href = '1st-grade-lessons.html';
+                    } else {
+                        window.location.href = '4th-grade-lessons.html';
+                    }
                     break;
                 case 'writers-peak':
                     alert('Writer\'s Peak adventures coming soon! 🏔️✍️');
@@ -555,15 +723,26 @@
                     window.location.href = 'parent-dashboard.html';
                     break;
                 case 'billy-cabin':
-                    alert('🐐 Little Billy says: "You\'re doing great! Keep climbing those peaks!"');
+                    const { name, guide } = studentData || {};
+                    const guideName = guide === 'little' ? 'Little Billy' : guide === 'gruff' ? 'Gruff' : 'Billy';
+                    alert(`🐐 ${guideName} says: "Hey ${name || 'friend'}! You're doing fantastic! Keep climbing those peaks!"`);
                     break;
                 default:
                     alert(`${building} is under construction! More adventures coming soon! 🏗️`);
             }
         }
 
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to leave your village?')) {
+                localStorage.removeItem('bedrockStudent');
+                window.location.href = 'index.html';
+            }
+        }
+
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
+            loadStudentData();
             updateStats();
         });
     </script>

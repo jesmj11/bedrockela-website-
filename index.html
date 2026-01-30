@@ -325,35 +325,7 @@
             box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
         }
 
-        .grade-selector {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            margin-top: 8px;
-        }
-
-        .grade-btn {
-            padding: 12px 8px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            background: #ffffff;
-            color: #64748b;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .grade-btn.selected {
-            border-color: #3b82f6;
-            background: #3b82f6;
-            color: #ffffff;
-        }
-
-        .grade-btn:hover {
-            border-color: #3b82f6;
-            background: rgba(59, 130, 246, 0.1);
-        }
+        /* Grade selector styles removed - parent sets grade during account setup */
 
         .start-adventure-btn {
             background: linear-gradient(135deg, #059669 0%, #047857 100%);
@@ -423,10 +395,6 @@
             .student-login {
                 margin: 0 20px;
                 padding: 40px 30px;
-            }
-
-            .grade-selector {
-                grid-template-columns: repeat(2, 1fr);
             }
         }
 
@@ -563,70 +531,25 @@
                         <input type="text" class="student-input" placeholder="Family access code" required>
                     </div>
 
-                    <div class="form-group">
-                        <label class="form-label">Choose Your Grade Level</label>
-                        <div class="grade-selector">
-                            <button type="button" class="grade-btn" onclick="selectGrade(this, 'K')">K</button>
-                            <button type="button" class="grade-btn" onclick="selectGrade(this, '1')">1st</button>
-                            <button type="button" class="grade-btn" onclick="selectGrade(this, '2')">2nd</button>
-                            <button type="button" class="grade-btn" onclick="selectGrade(this, '3')">3rd</button>
-                            <button type="button" class="grade-btn" onclick="selectGrade(this, '4')">4th</button>
-                            <button type="button" class="grade-btn" onclick="selectGrade(this, '5')">5th</button>
-                            <button type="button" class="grade-btn" onclick="selectGrade(this, '6')">6th</button>
-                            <button type="button" class="grade-btn" onclick="selectGrade(this, '7')">7th</button>
-                        </div>
-                    </div>
-
                     <button type="submit" class="start-adventure-btn">Begin Mountain Adventure</button>
                 </form>
 
                 <div class="demo-notice">
-                    <strong>Demo Mode:</strong> Use access code "MOUNTAIN2024" to explore the learning adventure!
+                    <strong>Demo Mode:</strong> Use access code "MOUNTAIN2024" to explore the learning adventure!<br>
+                    <small>Grade level and learning path are automatically set by parent account setup.</small>
                 </div>
             </div>
         </div>
     </section>
 
     <script>
-        let selectedGrade = null;
-        let selectedGuide = null;
-
-        function selectGrade(button, grade) {
-            // Remove selected class from all buttons
-            document.querySelectorAll('.grade-btn').forEach(btn => {
-                btn.classList.remove('selected');
-            });
-            
-            // Add selected class to clicked button
-            button.classList.add('selected');
-            selectedGrade = grade;
-        }
-
         function selectGoatGuide(guide) {
-            selectedGuide = guide;
-            
-            // Visual feedback
+            // Visual feedback only - grade is set by parent account
             document.querySelectorAll('.goat-card').forEach(card => {
                 card.style.borderColor = '#e2e8f0';
             });
             
             event.currentTarget.style.borderColor = '#3b82f6';
-            
-            // Auto-select appropriate grade range
-            const gradeMap = {
-                'little': ['K', '1', '2'],
-                'billy': ['3', '4', '5'],
-                'gruff': ['6', '7', '8']
-            };
-            
-            const grades = gradeMap[guide];
-            if (grades && !selectedGrade) {
-                const middleGrade = grades[Math.floor(grades.length / 2)];
-                const gradeButton = document.querySelector(`.grade-btn[onclick*="${middleGrade}"]`);
-                if (gradeButton) {
-                    selectGrade(gradeButton, middleGrade);
-                }
-            }
             
             // Scroll to login section
             document.querySelector('.student-login-section').scrollIntoView({
@@ -648,26 +571,53 @@
             event.preventDefault();
             const name = event.target.querySelector('input[placeholder="Enter your name"]').value;
             const accessCode = event.target.querySelector('input[placeholder="Family access code"]').value;
-            
-            if (!selectedGrade) {
-                alert('Please select your grade level first!');
-                return;
-            }
 
             if (accessCode.toUpperCase() === 'MOUNTAIN2024' || accessCode.toUpperCase() === 'DEMO') {
+                // Simulate getting student data from account (in real app, this would be an API call)
+                const studentAccount = getStudentAccount(name, accessCode);
+                
                 // Store student info in localStorage for the dashboard
                 localStorage.setItem('bedrockStudent', JSON.stringify({
                     name: name,
-                    grade: selectedGrade,
-                    guide: selectedGuide || getGuideForGrade(selectedGrade),
+                    grade: studentAccount.grade,
+                    guide: studentAccount.guide,
+                    level: studentAccount.level,
+                    points: studentAccount.points,
                     loginTime: new Date().toISOString()
                 }));
                 
                 // Redirect to student dashboard with village
-                window.location.href = `student-dashboard.html?grade=${selectedGrade}&name=${encodeURIComponent(name)}&guide=${selectedGuide || getGuideForGrade(selectedGrade)}`;
+                window.location.href = `student-dashboard.html?grade=${studentAccount.grade}&name=${encodeURIComponent(name)}&guide=${studentAccount.guide}`;
             } else {
-                alert('Invalid access code. Use "MOUNTAIN2024" for the demo!');
+                alert('Invalid access code. Please check your family access code and try again.');
             }
+        }
+
+        // Simulate getting student account data from parent setup
+        function getStudentAccount(name, accessCode) {
+            // In a real app, this would query the database based on access code
+            // For demo, we'll simulate different student accounts
+            const accounts = {
+                'MOUNTAIN2024': {
+                    grade: '3',
+                    guide: 'billy',
+                    level: 4,
+                    points: 145
+                },
+                'DEMO': {
+                    grade: '1', 
+                    guide: 'little',
+                    level: 2,
+                    points: 78
+                }
+            };
+            
+            return accounts[accessCode.toUpperCase()] || {
+                grade: '3',
+                guide: 'billy', 
+                level: 1,
+                points: 50
+            };
         }
 
         function getGuideForGrade(grade) {

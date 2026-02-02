@@ -142,7 +142,8 @@ class BedrockStorage {
             const student = {
                 ...studentData,
                 lastActive: new Date().toISOString(),
-                createdOffline: !navigator.onLine
+                createdOffline: !navigator.onLine,
+                updatedAt: new Date().toISOString()
             };
             
             await store.put(student);
@@ -155,6 +156,114 @@ class BedrockStorage {
             return true;
         } catch (error) {
             console.error('Failed to save student profile:', error);
+            return false;
+        }
+    }
+
+    async updateStudentProfile(studentId, updates) {
+        try {
+            const existingStudent = await this.getStudentProfile(studentId);
+            if (!existingStudent) {
+                throw new Error(`Student ${studentId} not found`);
+            }
+
+            const updatedStudent = {
+                ...existingStudent,
+                ...updates,
+                updatedAt: new Date().toISOString(),
+                lastActive: new Date().toISOString()
+            };
+
+            const transaction = this.db.transaction(['students'], 'readwrite');
+            const store = transaction.objectStore('students');
+            
+            await store.put(updatedStudent);
+            
+            if (!navigator.onLine) {
+                await this.addToSyncQueue('updateStudent', updatedStudent);
+            }
+            
+            console.log(`Student profile updated: ${studentId}`);
+            return updatedStudent;
+        } catch (error) {
+            console.error('Failed to update student profile:', error);
+            return null;
+        }
+    }
+
+    async deleteStudentProfile(studentId, archiveProgress = true) {
+        try {
+            // Get student data before deletion
+            const student = await this.getStudentProfile(studentId);
+            if (!student) {
+                throw new Error(`Student ${studentId} not found`);
+            }
+
+            // Handle progress data
+            if (archiveProgress) {
+                // Archive progress instead of deleting
+                const progress = await this.getStudentProgress(studentId);
+                const archiveData = {
+                    studentId: studentId,
+                    student: student,
+                    progress: progress,
+                    deletedAt: new Date().toISOString(),
+                    reason: 'aged_out'
+                };
+                
+                await this.addToSyncQueue('archiveStudent', archiveData);
+            } else {
+                // Delete all progress for this student
+                await this.deleteStudentProgress(studentId);
+            }
+
+            // Delete student profile
+            const transaction = this.db.transaction(['students'], 'readwrite');
+            const store = transaction.objectStore('students');
+            await store.delete(studentId);
+
+            // Also remove offline limits
+            const limitsTransaction = this.db.transaction(['offlineLimits'], 'readwrite');
+            const limitsStore = limitsTransaction.objectStore('offlineLimits');
+            await limitsStore.delete(studentId);
+
+            if (!navigator.onLine) {
+                await this.addToSyncQueue('deleteStudent', { 
+                    studentId: studentId, 
+                    archiveProgress: archiveProgress 
+                });
+            }
+            
+            console.log(`Student deleted: ${studentId} (archive: ${archiveProgress})`);
+            return true;
+        } catch (error) {
+            console.error('Failed to delete student profile:', error);
+            return false;
+        }
+    }
+
+    async deleteStudentProgress(studentId) {
+        try {
+            const transaction = this.db.transaction(['progress'], 'readwrite');
+            const store = transaction.objectStore('progress');
+            const index = store.index('studentId');
+            
+            const request = index.getAllKeys(studentId);
+            return new Promise((resolve, reject) => {
+                request.onsuccess = async () => {
+                    const keys = request.result;
+                    
+                    for (const key of keys) {
+                        await store.delete(key);
+                    }
+                    
+                    console.log(`Deleted ${keys.length} progress records for ${studentId}`);
+                    resolve(true);
+                };
+                request.onerror = () => reject(request.error);
+            });
+        } catch (error) {
+            console.error('Failed to delete student progress:', error);
             return false;
         }
     }

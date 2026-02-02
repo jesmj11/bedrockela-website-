@@ -96,18 +96,27 @@
             color: #666;
         }
 
-        /* Interactive Hotspots - NO BLUR ANYWHERE */
+        /* Interactive Hotspots - Disabled until start */
         .hotspot {
             position: absolute;
-            cursor: pointer;
+            cursor: default;
             transition: all 0.3s ease;
             z-index: 50;
             border: 2px solid transparent;
             border-radius: 15px;
             background: transparent;
+            pointer-events: none;
+            opacity: 0;
         }
 
-        .hotspot:hover {
+        /* Only activate hotspots after adventure starts */
+        .adventure-started .hotspot {
+            pointer-events: auto;
+            opacity: 1;
+            cursor: pointer;
+        }
+
+        .adventure-started .hotspot:hover {
             transform: scale(1.05);
             border-color: #FFD700;
             background: rgba(255,215,0,0.1);
@@ -119,7 +128,7 @@
             filter: grayscale(50%);
         }
 
-        .hotspot.unlocked {
+        .adventure-started .hotspot.unlocked {
             animation: glow 2s infinite ease-in-out;
         }
 
@@ -174,7 +183,7 @@
             border-radius: 50%;
         }
 
-        /* Tooltips */
+        /* Tooltips - Only show after adventure starts */
         .hotspot-tooltip {
             position: absolute;
             bottom: 120%;
@@ -191,10 +200,12 @@
             transition: opacity 0.3s ease;
             pointer-events: none;
             z-index: 1000;
+            display: none;
         }
 
-        .hotspot:hover .hotspot-tooltip {
+        .adventure-started .hotspot:hover .hotspot-tooltip {
             opacity: 1;
+            display: block;
         }
 
         .hotspot-tooltip::after {
@@ -387,7 +398,7 @@
 
         <!-- Billy's Speech Bubble -->
         <div class="billy-speech" id="billySpeech">
-            Welcome to our Norwegian mountain village! Click on the school house to begin your learning adventure!
+            Welcome to our Norwegian mountain village! Click the green button to begin your learning adventure!
         </div>
 
         <!-- Start Adventure Button -->
@@ -470,10 +481,14 @@
             updateBuildingStates();
             
             if (villageData.hasStarted) {
+                // Enable interactions for returning users
+                document.querySelector('.village-container').classList.add('adventure-started');
                 document.querySelector('.progress-header').classList.add('show');
                 document.querySelector('.start-adventure').classList.add('hidden');
                 setTimeout(() => showBillySpeech(), 1000);
             } else {
+                // First time visitors - only show welcome message, no interactions
+                setBillyMessage("Welcome to our Norwegian mountain village! Click the green button to begin your learning adventure!");
                 showBillySpeech();
             }
             
@@ -489,6 +504,9 @@
         function startAdventure() {
             villageData.hasStarted = true;
             localStorage.setItem('villageHasStarted', 'true');
+            
+            // Enable all interactions
+            document.querySelector('.village-container').classList.add('adventure-started');
             
             document.querySelector('.start-adventure').classList.add('hidden');
             document.querySelector('.progress-header').classList.add('show');

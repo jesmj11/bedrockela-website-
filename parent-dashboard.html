@@ -273,6 +273,18 @@
             background: #b02a37;
             transform: translateY(-1px);
         }
+
+        .action-btn.credentials {
+            background: #28a745;
+            color: white;
+            font-size: 0.75rem;
+            padding: 6px 12px;
+        }
+
+        .action-btn.credentials:hover {
+            background: #20c997;
+            transform: translateY(-1px);
+        }
         
         .daily-summary {
             background: rgba(255, 255, 255, 0.95);
@@ -465,6 +477,7 @@
                         <a href="student-dashboard.html" class="action-btn">View Dashboard</a>
                         <a href="1st-grade-lessons.html" class="action-btn">Current Lesson</a>
                         <button class="action-btn secondary">Messages</button>
+                        <button onclick="showLoginCredentials('emmett', 'Emmett')" class="action-btn credentials">🔑 Login</button>
                         <button onclick="editStudentCard('emmett', 'Emmett', 6, '1st Grade')" class="action-btn edit">✏️ Edit</button>
                         <button onclick="deleteStudentCard('emmett', 'Emmett')" class="action-btn delete">🗑️ Delete</button>
                     </div>
@@ -503,6 +516,7 @@
                         <a href="student-dashboard.html" class="action-btn">View Dashboard</a>
                         <a href="4th-grade-lessons.html" class="action-btn">Current Lesson</a>
                         <button class="action-btn secondary">Messages</button>
+                        <button onclick="showLoginCredentials('lucas', 'Lucas')" class="action-btn credentials">🔑 Login</button>
                         <button onclick="editStudentCard('lucas', 'Lucas', 11, '4th Grade')" class="action-btn edit">✏️ Edit</button>
                         <button onclick="deleteStudentCard('lucas', 'Lucas')" class="action-btn delete">🗑️ Delete</button>
                     </div>
@@ -541,6 +555,7 @@
                         <a href="student-dashboard.html" class="action-btn">View Dashboard</a>
                         <button class="action-btn secondary">Coming Soon</button>
                         <button class="action-btn secondary">Remind</button>
+                        <button onclick="showLoginCredentials('asher', 'Asher')" class="action-btn credentials">🔑 Login</button>
                         <button onclick="editStudentCard('asher', 'Asher', 9, '3rd Grade')" class="action-btn edit">✏️ Edit</button>
                         <button onclick="deleteStudentCard('asher', 'Asher')" class="action-btn delete">🗑️ Delete</button>
                     </div>
@@ -579,6 +594,7 @@
                         <a href="student-dashboard.html" class="action-btn">View Dashboard</a>
                         <button class="action-btn secondary">Coming Soon</button>
                         <button class="action-btn secondary">Messages</button>
+                        <button onclick="showLoginCredentials('levi', 'Levi')" class="action-btn credentials">🔑 Login</button>
                         <button onclick="editStudentCard('levi', 'Levi', 13, '6th Grade')" class="action-btn edit">✏️ Edit</button>
                         <button onclick="deleteStudentCard('levi', 'Levi')" class="action-btn delete">🗑️ Delete</button>
                     </div>
@@ -617,6 +633,7 @@
                         <a href="student-dashboard.html" class="action-btn">View Dashboard</a>
                         <button class="action-btn secondary">Coming Soon</button>
                         <button class="action-btn secondary">Messages</button>
+                        <button onclick="showLoginCredentials('riley', 'Riley')" class="action-btn credentials">🔑 Login</button>
                         <button onclick="editStudentCard('riley', 'Riley', 14, '7th Grade')" class="action-btn edit">✏️ Edit</button>
                         <button onclick="deleteStudentCard('riley', 'Riley')" class="action-btn delete">🗑️ Delete</button>
                     </div>
@@ -655,6 +672,7 @@
                         <a href="student-dashboard.html" class="action-btn">View Dashboard</a>
                         <button class="action-btn secondary">Coming Soon</button>
                         <button class="action-btn secondary">Messages</button>
+                        <button onclick="showLoginCredentials('bryton', 'Bryton')" class="action-btn credentials">🔑 Login</button>
                         <button onclick="editStudentCard('bryton', 'Bryton', 16, 'College Prep')" class="action-btn edit">✏️ Edit</button>
                         <button onclick="deleteStudentCard('bryton', 'Bryton')" class="action-btn delete">🗑️ Delete</button>
                     </div>
@@ -1520,6 +1538,116 @@
                 }
             } else {
                 alert('❌ Deletion cancelled.');
+            }
+        }
+        
+        // Show Login Credentials Function
+        function showLoginCredentials(studentId, studentName) {
+            console.log('Login credentials requested for:', studentName);
+            
+            // Generate simple password for demo (in real system, would retrieve from database)
+            const username = studentName.toLowerCase();
+            const password = username + '123';
+            const loginUrl = window.location.origin + '/mountain-student-signin.html';
+            
+            const modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.top = '0';
+            modal.style.left = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.background = 'rgba(0,0,0,0.8)';
+            modal.style.display = 'flex';
+            modal.style.justifyContent = 'center';
+            modal.style.alignItems = 'center';
+            modal.style.zIndex = '10001';
+            modal.id = 'credentialsModal';
+            
+            const modalContent = document.createElement('div');
+            modalContent.style.background = 'white';
+            modalContent.style.borderRadius = '20px';
+            modalContent.style.padding = '30px';
+            modalContent.style.maxWidth = '500px';
+            modalContent.style.width = '90%';
+            
+            modalContent.innerHTML = '<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">' +
+                '<h2 style="margin: 0; color: #2c3e50;">🔑 Login Credentials: ' + studentName + '</h2>' +
+                '<button onclick="closeCredentialsModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">×</button>' +
+                '</div>' +
+                '<div style="background: #f8f9fa; border: 2px solid #e9ecef; border-radius: 15px; padding: 20px; margin-bottom: 20px;">' +
+                '<div style="display: grid; gap: 15px;">' +
+                '<div>' +
+                '<label style="display: block; font-weight: bold; color: #495057; margin-bottom: 5px;">👤 Username:</label>' +
+                '<div style="display: flex; align-items: center; gap: 10px;">' +
+                '<code style="background: white; padding: 8px 12px; border-radius: 8px; border: 1px solid #dee2e6; font-size: 16px; flex: 1;">' + username + '</code>' +
+                '<button onclick="copyToClipboard(\'' + username + '\')" style="background: #28a745; color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 12px;">📋 Copy</button>' +
+                '</div>' +
+                '</div>' +
+                '<div>' +
+                '<label style="display: block; font-weight: bold; color: #495057; margin-bottom: 5px;">🔐 Password:</label>' +
+                '<div style="display: flex; align-items: center; gap: 10px;">' +
+                '<code style="background: white; padding: 8px 12px; border-radius: 8px; border: 1px solid #dee2e6; font-size: 16px; flex: 1;">' + password + '</code>' +
+                '<button onclick="copyToClipboard(\'' + password + '\')" style="background: #28a745; color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 12px;">📋 Copy</button>' +
+                '</div>' +
+                '<small style="color: #6c757d;">💡 Current system accepts any password - this is for reference</small>' +
+                '</div>' +
+                '<div>' +
+                '<label style="display: block; font-weight: bold; color: #495057; margin-bottom: 5px;">🌐 Login URL:</label>' +
+                '<div style="display: flex; align-items: center; gap: 10px;">' +
+                '<code style="background: white; padding: 8px 12px; border-radius: 8px; border: 1px solid #dee2e6; font-size: 12px; flex: 1; word-break: break-all;">' + loginUrl + '</code>' +
+                '<button onclick="copyToClipboard(\'' + loginUrl + '\')" style="background: #28a745; color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 12px;">📋 Copy</button>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '<div style="display: flex; gap: 15px; justify-content: center; margin-bottom: 20px;">' +
+                '<button onclick="window.open(\'' + loginUrl + '\', \'_blank\')" style="background: #4169E1; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold;">🚀 Test Login</button>' +
+                '<button onclick="resetPassword(\'' + studentName + '\')" style="background: #ffc107; color: #333; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold;">🔄 Reset Password</button>' +
+                '</div>' +
+                '<div style="background: #e7f3ff; border: 1px solid #b8daff; border-radius: 10px; padding: 15px; font-size: 14px;">' +
+                '<h4 style="margin: 0 0 8px 0; color: #004085;">🛡️ Security Note:</h4>' +
+                '<p style="margin: 0; color: #004085; line-height: 1.4;">Current system is demo-mode with simple authentication. Any password works for any username. Perfect for family learning!</p>' +
+                '</div>';
+                
+            modal.appendChild(modalContent);
+            document.body.appendChild(modal);
+        }
+        
+        // Helper function to close credentials modal
+        function closeCredentialsModal() {
+            const modal = document.getElementById('credentialsModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+        
+        // Copy to clipboard function
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                // Visual feedback
+                const feedback = document.createElement('div');
+                feedback.innerHTML = '✅ Copied!';
+                feedback.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #28a745; color: white; padding: 10px 20px; border-radius: 8px; z-index: 10002; font-weight: bold;';
+                document.body.appendChild(feedback);
+                
+                setTimeout(function() {
+                    if (document.body.contains(feedback)) {
+                        document.body.removeChild(feedback);
+                    }
+                }, 1000);
+            }).catch(function() {
+                // Fallback for older browsers
+                alert('Copied: ' + text);
+            });
+        }
+        
+        // Reset password function
+        function resetPassword(studentName) {
+            const newPassword = prompt('🔄 Set new password for ' + studentName + ':\n\n(Leave blank to use default: ' + studentName.toLowerCase() + '123)');
+            
+            if (newPassword !== null) {
+                const finalPassword = newPassword.trim() || studentName.toLowerCase() + '123';
+                alert('🔐 Password updated for ' + studentName + '!\n\nNew password: ' + finalPassword + '\n\n⚠️ Note: This is demo mode - any password will work for login.');
             }
         }
     </script>

@@ -54,7 +54,14 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            backdrop-filter: blur(10px);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        
+        .progress-header.show {
+            opacity: 1;
+            pointer-events: auto;
         }
 
         .progress-info {
@@ -108,15 +115,14 @@
             z-index: 50;
             border: 3px solid transparent;
             border-radius: 15px;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(5px);
+            background: rgba(255,255,255,0);
         }
 
         .hotspot:hover {
             transform: scale(1.05);
             border-color: #FFD700;
-            background: rgba(255,215,0,0.2);
-            box-shadow: 0 0 20px rgba(255,215,0,0.6);
+            background: rgba(255,215,0,0.15);
+            box-shadow: 0 0 15px rgba(255,215,0,0.4);
         }
 
         .hotspot.locked {
@@ -223,7 +229,7 @@
             bottom: 65%;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(255,255,255,0.95);
+            background: white;
             padding: 15px 20px;
             border-radius: 20px;
             border: 3px solid #FFD700;
@@ -232,7 +238,7 @@
             color: #2c3e50;
             max-width: 300px;
             text-align: center;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
             opacity: 0;
             transition: all 0.5s ease;
             pointer-events: none;
@@ -484,9 +490,12 @@
             updateBuildingStates();
             
             if (villageData.hasStarted) {
+                // Show progress header for returning users
+                document.querySelector('.progress-header').classList.add('show');
                 document.querySelector('.start-adventure').classList.add('hidden');
                 setTimeout(() => showBillySpeech(), 1000);
             } else {
+                // First time visitors - clean landing page
                 showBillySpeech();
             }
             
@@ -506,7 +515,9 @@
             villageData.hasStarted = true;
             localStorage.setItem('villageHasStarted', 'true');
             
+            // Hide start button and show progress header
             document.querySelector('.start-adventure').classList.add('hidden');
+            document.querySelector('.progress-header').classList.add('show');
             
             setBillyMessage("Fantastisk! Let's begin your Norwegian mountain learning adventure! Click the school house first!");
             showBillySpeech();

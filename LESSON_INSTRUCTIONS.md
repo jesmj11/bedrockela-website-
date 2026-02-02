@@ -108,9 +108,9 @@
 - Progress tracking system
 - Assessment tools
 
-## 🇹🇭 Perfect for Thailand
+## 🌍 Travel-Friendly Learning
 
-**Travel-Friendly Features:**
+**Portable Features:**
 - Works on any device with browser
 - No internet required (saved locally)
 - Engaging enough to hold attention anywhere

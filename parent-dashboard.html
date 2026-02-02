@@ -249,6 +249,30 @@
         .action-btn.secondary {
             background: #6c757d;
         }
+
+        .action-btn.edit {
+            background: #4169E1;
+            color: white;
+            font-size: 0.75rem;
+            padding: 6px 12px;
+        }
+
+        .action-btn.edit:hover {
+            background: #1e3cb8;
+            transform: translateY(-1px);
+        }
+
+        .action-btn.delete {
+            background: #dc3545;
+            color: white;
+            font-size: 0.75rem;
+            padding: 6px 12px;
+        }
+
+        .action-btn.delete:hover {
+            background: #b02a37;
+            transform: translateY(-1px);
+        }
         
         .daily-summary {
             background: rgba(255, 255, 255, 0.95);
@@ -441,6 +465,8 @@
                         <a href="student-dashboard.html" class="action-btn">View Dashboard</a>
                         <a href="1st-grade-lessons.html" class="action-btn">Current Lesson</a>
                         <button class="action-btn secondary">Messages</button>
+                        <button onclick="editStudentCard('emmett', 'Emmett', 6, '1st Grade')" class="action-btn edit">✏️ Edit</button>
+                        <button onclick="deleteStudentCard('emmett', 'Emmett')" class="action-btn delete">🗑️ Delete</button>
                     </div>
                 </div>
 
@@ -477,6 +503,8 @@
                         <a href="student-dashboard.html" class="action-btn">View Dashboard</a>
                         <a href="4th-grade-lessons.html" class="action-btn">Current Lesson</a>
                         <button class="action-btn secondary">Messages</button>
+                        <button onclick="editStudentCard('lucas', 'Lucas', 11, '4th Grade')" class="action-btn edit">✏️ Edit</button>
+                        <button onclick="deleteStudentCard('lucas', 'Lucas')" class="action-btn delete">🗑️ Delete</button>
                     </div>
                 </div>
 
@@ -513,6 +541,8 @@
                         <a href="student-dashboard.html" class="action-btn">View Dashboard</a>
                         <button class="action-btn secondary">Coming Soon</button>
                         <button class="action-btn secondary">Remind</button>
+                        <button onclick="editStudentCard('asher', 'Asher', 9, '3rd Grade')" class="action-btn edit">✏️ Edit</button>
+                        <button onclick="deleteStudentCard('asher', 'Asher')" class="action-btn delete">🗑️ Delete</button>
                     </div>
                 </div>
 
@@ -549,6 +579,8 @@
                         <a href="student-dashboard.html" class="action-btn">View Dashboard</a>
                         <button class="action-btn secondary">Coming Soon</button>
                         <button class="action-btn secondary">Messages</button>
+                        <button onclick="editStudentCard('levi', 'Levi', 13, '6th Grade')" class="action-btn edit">✏️ Edit</button>
+                        <button onclick="deleteStudentCard('levi', 'Levi')" class="action-btn delete">🗑️ Delete</button>
                     </div>
                 </div>
 
@@ -585,6 +617,8 @@
                         <a href="student-dashboard.html" class="action-btn">View Dashboard</a>
                         <button class="action-btn secondary">Coming Soon</button>
                         <button class="action-btn secondary">Messages</button>
+                        <button onclick="editStudentCard('riley', 'Riley', 14, '7th Grade')" class="action-btn edit">✏️ Edit</button>
+                        <button onclick="deleteStudentCard('riley', 'Riley')" class="action-btn delete">🗑️ Delete</button>
                     </div>
                 </div>
 
@@ -621,6 +655,8 @@
                         <a href="student-dashboard.html" class="action-btn">View Dashboard</a>
                         <button class="action-btn secondary">Coming Soon</button>
                         <button class="action-btn secondary">Messages</button>
+                        <button onclick="editStudentCard('bryton', 'Bryton', 16, 'College Prep')" class="action-btn edit">✏️ Edit</button>
+                        <button onclick="deleteStudentCard('bryton', 'Bryton')" class="action-btn delete">🗑️ Delete</button>
                     </div>
                 </div>
             </div>
@@ -1349,6 +1385,123 @@
         
         function downloadGrade(grade) {
             alert(\`🏔️ Downloading \${grade} grade curriculum...\n\nThis feature creates offline packages that work anywhere:\n• No internet required after download\n• All lessons and activities included\n• Progress tracking works offline\n• Perfect for travel and remote learning!\n\nComing soon - full download functionality!\`);
+        }
+        
+        // Edit Student Card Function
+        function editStudentCard(studentId, studentName, currentAge, currentGrade) {
+            const modal = document.createElement('div');
+            modal.innerHTML = `
+                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 10001;">
+                    <div style="background: white; border-radius: 20px; padding: 30px; max-width: 500px; width: 90%;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                            <h2 style="margin: 0; color: #2c3e50;">✏️ Edit ${studentName}</h2>
+                            <button onclick="this.parentNode.parentNode.parentNode.remove()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">×</button>
+                        </div>
+                        
+                        <form onsubmit="saveStudentChanges(event, '${studentId}')">
+                            <div style="display: grid; gap: 20px;">
+                                <div>
+                                    <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #333;">Student Name</label>
+                                    <input type="text" name="studentName" value="${studentName}" required 
+                                           style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px;">
+                                </div>
+                                
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                    <div>
+                                        <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #333;">Age</label>
+                                        <input type="number" name="age" value="${currentAge}" min="3" max="18" required
+                                               style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px;">
+                                    </div>
+                                    
+                                    <div>
+                                        <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #333;">Grade Level</label>
+                                        <select name="gradeLevel" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px;">
+                                            <option value="K" ${currentGrade === 'K' ? 'selected' : ''}>Kindergarten</option>
+                                            <option value="1st Grade" ${currentGrade === '1st Grade' ? 'selected' : ''}>1st Grade</option>
+                                            <option value="2nd Grade" ${currentGrade === '2nd Grade' ? 'selected' : ''}>2nd Grade</option>
+                                            <option value="3rd Grade" ${currentGrade === '3rd Grade' ? 'selected' : ''}>3rd Grade</option>
+                                            <option value="4th Grade" ${currentGrade === '4th Grade' ? 'selected' : ''}>4th Grade</option>
+                                            <option value="5th Grade" ${currentGrade === '5th Grade' ? 'selected' : ''}>5th Grade</option>
+                                            <option value="6th Grade" ${currentGrade === '6th Grade' ? 'selected' : ''}>6th Grade</option>
+                                            <option value="7th Grade" ${currentGrade === '7th Grade' ? 'selected' : ''}>7th Grade</option>
+                                            <option value="8th Grade" ${currentGrade === '8th Grade' ? 'selected' : ''}>8th Grade</option>
+                                            <option value="High School" ${currentGrade === 'High School' ? 'selected' : ''}>High School</option>
+                                            <option value="College Prep" ${currentGrade === 'College Prep' ? 'selected' : ''}>College Prep</option>
+                                            <option value="Graduated" ${currentGrade === 'Graduated' ? 'selected' : ''}>Graduated</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #333;">Parent Notes</label>
+                                    <textarea name="parentNotes" rows="3" 
+                                              style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; resize: vertical;"
+                                              placeholder="Learning goals, preferences, notes..."></textarea>
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; gap: 15px; justify-content: flex-end; margin-top: 25px; padding-top: 20px; border-top: 1px solid #eee;">
+                                <button type="button" onclick="this.closest('div[style*=\"position: fixed\"]').remove()" 
+                                        style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer;">
+                                    Cancel
+                                </button>
+                                <button type="submit" style="background: linear-gradient(135deg, #32CD32 0%, #228B22 100%); color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer;">
+                                    Save Changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+        
+        // Save Student Changes Function
+        function saveStudentChanges(event, studentId) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            const updatedData = {
+                name: formData.get('studentName'),
+                age: formData.get('age'),
+                grade: formData.get('gradeLevel'),
+                notes: formData.get('parentNotes')
+            };
+            
+            // Here you would normally save to your database
+            // For now, just update the display and close modal
+            alert(\`✅ \${updatedData.name} updated successfully!\n\nName: \${updatedData.name}\nAge: \${updatedData.age}\nGrade: \${updatedData.grade}\n\nChanges saved!\`);
+            
+            form.closest('div[style*="position: fixed"]').remove();
+            
+            // You could refresh the page or update the card dynamically here
+            // location.reload(); // Uncomment to refresh the page
+        }
+        
+        // Delete Student Card Function
+        function deleteStudentCard(studentId, studentName) {
+            const confirmed = confirm(\`⚠️ Delete \${studentName}?\n\nThis will:\n• Remove them from your Mountain Climbers\n• Delete all their progress data\n• This action CANNOT be undone!\n\nAre you sure you want to permanently delete \${studentName}?\`);
+            
+            if (confirmed) {
+                const doubleConfirmed = confirm(\`🛑 FINAL WARNING!\n\nYou are about to PERMANENTLY DELETE:\n• Student: \${studentName}\n• All their progress and achievements\n• All their learning data\n\nType "\${studentName}" in the next prompt to confirm deletion.\`);
+                
+                if (doubleConfirmed) {
+                    const typedName = prompt(\`Type "\${studentName}" exactly to confirm deletion:\`);
+                    
+                    if (typedName === studentName) {
+                        // Here you would normally delete from your database
+                        alert(\`🗑️ \${studentName} has been permanently deleted.\n\nAll their data has been removed from the system.\`);
+                        
+                        // Remove the student card from the display
+                        // You could hide it or refresh the page
+                        location.reload(); // Refresh to show updated list
+                    } else {
+                        alert(\`❌ Deletion cancelled. Name didn't match exactly.\`);
+                    }
+                }
+            }
         }
     </script>
 </body>

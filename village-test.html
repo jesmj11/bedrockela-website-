@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏔️ Village Test Page</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(135deg, #87CEEB 0%, #98FB98 50%, #DDA0DD 100%);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .village-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.3) 0%, transparent 50%),
+                linear-gradient(to bottom, #87CEEB 0%, #98FB98 70%, #8FBC8F 100%);
+        }
+
+        .mountains {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            background: linear-gradient(45deg, #696969 0%, #A9A9A9 50%, #D3D3D3 100%);
+            clip-path: polygon(0 100%, 15% 60%, 25% 80%, 35% 40%, 45% 70%, 60% 30%, 75% 65%, 85% 35%, 100% 75%, 100% 100%);
+            z-index: 1;
+        }
+
+        .village-ground {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40%;
+            background: linear-gradient(to bottom, rgba(143,188,143,0.8) 0%, #228B22 100%);
+            border-radius: 0 0 0 0;
+            z-index: 2;
+        }
+
+        .building {
+            position: absolute;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            border: 2px solid yellow; /* Debug border */
+        }
+
+        .building:hover {
+            transform: scale(1.1);
+        }
+
+        /* Test Buildings - Simplified */
+        .phonics-cabin {
+            bottom: 15%;
+            left: 15%;
+            width: 80px;
+            height: 60px;
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            border-radius: 8px;
+        }
+
+        .phonics-cabin::before {
+            content: '🔤';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+        }
+
+        .speedway {
+            bottom: 25%;
+            left: 35%;
+            width: 90px;
+            height: 45px;
+            background: linear-gradient(135deg, #FF6347 0%, #FF4500 100%);
+            border-radius: 12px;
+        }
+
+        .speedway::before {
+            content: '⚡';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+        }
+
+        .quest-tower {
+            bottom: 35%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 90px;
+            background: linear-gradient(135deg, #4169E1 0%, #1E90FF 100%);
+            border-radius: 8px 8px 20px 20px;
+        }
+
+        .quest-tower::before {
+            content: '📖';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+        }
+
+        .debug-info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 12px;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <div class="village-container">
+        <div class="mountains"></div>
+        <div class="village-ground"></div>
+        
+        <!-- Test Buildings -->
+        <div class="building phonics-cabin" onclick="testClick('phonics')"></div>
+        <div class="building speedway" onclick="testClick('speedway')"></div>
+        <div class="building quest-tower" onclick="testClick('quest')"></div>
+        
+        <!-- Debug Info -->
+        <div class="debug-info">
+            <strong>🏔️ Village Test Page</strong><br>
+            Buildings should be visible with yellow borders<br>
+            Click any building to test interaction<br>
+            <br>
+            <span id="status">Loading...</span>
+        </div>
+    </div>
+
+    <script>
+        function testClick(building) {
+            alert(`✅ ${building} building clicked! Working properly.`);
+            document.getElementById('status').innerHTML = `Last clicked: ${building} at ${new Date().toLocaleTimeString()}`;
+        }
+
+        function countBuildings() {
+            const buildings = document.querySelectorAll('.building');
+            const status = document.getElementById('status');
+            status.innerHTML = `Found ${buildings.length} buildings<br>All systems functional!`;
+            
+            console.log('Buildings found:', buildings);
+            buildings.forEach((building, index) => {
+                console.log(`Building ${index + 1}:`, building.className, building.style.cssText);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🏔️ Village test page loaded');
+            setTimeout(countBuildings, 100);
+        });
+    </script>
+</body>
+</html>

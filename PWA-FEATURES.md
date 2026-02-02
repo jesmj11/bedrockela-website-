@@ -154,6 +154,26 @@ BedrockELA now **truly delivers** on these promises:
 - ✅ **"Travel-Friendly"** - Perfect for airplanes, road trips, remote areas
 - ✅ **"Mobile Optimized"** - Installable PWA with native app experience
 
+## 📶 **11. Offline Lesson Limit System**
+
+### **Freemium Offline Model**
+- ✅ **10 lessons per offline session** - Perfect for travel/remote learning
+- ✅ **Unlimited lessons online** - Full access when connected
+- ✅ **Auto-reset when going offline** - Fresh 10 lessons each offline period
+- ✅ **Progress syncs when reconnected** - No lost learning data
+
+### **Smart Limit Management**
+- ✅ **Connection monitoring** - Detects online/offline transitions
+- ✅ **Visual indicators** - Shows remaining offline lessons
+- ✅ **Graceful limits** - Clear messaging when limit reached
+- ✅ **WiFi reconnect prompts** - Guides users back online
+
+### **Business Model Integration**
+- ✅ **Freemium structure** - Encourages online connection
+- ✅ **Data efficiency** - Reduces server load during offline usage
+- ✅ **User engagement** - Reasonable limits with clear value for connectivity
+- ✅ **Analytics ready** - Tracks offline usage patterns
+
 ## 🔮 **NEXT LEVEL FEATURES READY**
 
 The infrastructure supports:
@@ -162,5 +182,7 @@ The infrastructure supports:
 - 🤖 **Background AI** for offline content generation
 - 📊 **Advanced analytics** with offline/online data merging
 - 🌐 **Multi-language** support for international families
+- 💎 **Premium offline tiers** - 50+ lessons for subscribers
+- 📦 **Downloadable content packs** for extended offline learning
 
-**BedrockELA is now a world-class educational PWA that actually works offline!** 🏔️✨🐐
+**BedrockELA is now a world-class educational PWA with smart offline limits - perfect for any family's learning adventures!** 🏔️✨🐐

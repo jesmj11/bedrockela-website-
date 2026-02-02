@@ -703,9 +703,16 @@
 
         // Initialize Village
         function initializeVillage() {
+            console.log('🏔️ Initializing Bedrock Village...');
+            console.log('Village data:', villageData);
+            
             updateProgressDisplay();
             updateBuildingStates();
             showBillySpeech();
+            
+            // Verify buildings are rendered
+            const buildingElements = document.querySelectorAll('.building');
+            console.log(`Found ${buildingElements.length} building elements`);
             
             // Check for returning user achievements
             if (villageData.gamesCompleted > 0) {
@@ -714,6 +721,8 @@
                     showBillySpeech();
                 }, 2000);
             }
+            
+            console.log('✅ Village initialization complete!');
         }
 
         // Update Progress Display
@@ -725,11 +734,21 @@
 
         // Update Building States
         function updateBuildingStates() {
+            console.log('🏗️ Updating building states...');
+            
             Object.keys(buildings).forEach(buildingKey => {
                 const buildingElement = document.querySelector(`[data-game="${buildingKey}"]`);
                 const building = buildings[buildingKey];
                 
-                if (isBuildingUnlocked(buildingKey)) {
+                if (!buildingElement) {
+                    console.error(`❌ Building element not found: ${buildingKey}`);
+                    return;
+                }
+                
+                const isUnlocked = isBuildingUnlocked(buildingKey);
+                console.log(`Building ${buildingKey}: ${isUnlocked ? 'unlocked' : 'locked'}`);
+                
+                if (isUnlocked) {
                     buildingElement.classList.remove('locked');
                     buildingElement.classList.add('unlocked');
                 } else {
@@ -737,6 +756,8 @@
                     buildingElement.classList.remove('unlocked');
                 }
             });
+            
+            console.log('✅ Building states updated');
         }
 
         // Check if Building is Unlocked
@@ -808,18 +829,23 @@
 
         // Game Completion Callback
         async function completeGame(gameType, score) {
-            // Check offline limits before completing
-            if (window.bedrockStorage && !navigator.onLine) {
-                const currentStudent = getCurrentStudent();
-                const limitCheck = await bedrockStorage.useOfflineLesson(currentStudent);
-                
-                if (!limitCheck.allowed) {
-                    showOfflineLimitModal();
-                    return;
-                }
-                
-                if (limitCheck.remaining <= 3) {
-                    showOfflineLimitWarning(limitCheck.remaining);
+            // Check offline limits before completing (with error handling)
+            if (window.bedrockStorage && bedrockStorage.db && !navigator.onLine) {
+                try {
+                    const currentStudent = getCurrentStudent();
+                    const limitCheck = await bedrockStorage.useOfflineLesson(currentStudent);
+                    
+                    if (!limitCheck.allowed) {
+                        showOfflineLimitModal();
+                        return;
+                    }
+                    
+                    if (limitCheck.remaining <= 3) {
+                        showOfflineLimitWarning(limitCheck.remaining);
+                    }
+                } catch (error) {
+                    console.warn('Offline storage not ready:', error);
+                    // Continue with game completion anyway
                 }
             }
             
@@ -953,16 +979,53 @@
             }, 4000);
         }
 
-        // Initialize when page loads
+        // Initialize when page loads - with storage check
         document.addEventListener('DOMContentLoaded', function() {
-            initializeVillage();
-            handleGameReturn();
+            // Give offline storage a moment to initialize
+            setTimeout(() => {
+                initializeVillage();
+                handleGameReturn();
+            }, 100);
         });
+        
+        // Backup initialization if storage isn't ready
+        window.addEventListener('load', function() {
+            // Double-check that village is initialized
+            if (!document.querySelector('.building.unlocked') && !document.querySelector('.building.locked')) {
+                console.log('Village not initialized, retrying...');
+                setTimeout(initializeVillage, 200);
+            }
+        });
+
+        // Debug function for manual village reset
+        function debugResetVillage() {
+            console.log('🔧 Manual village reset...');
+            // Reset progress if needed
+            villageData = {
+                gamesCompleted: 0,
+                totalScore: 0,
+                currentStreak: 0,
+                unlockedBuildings: ["phonics"],
+                achievements: []
+            };
+            
+            // Clear localStorage
+            localStorage.removeItem('villageGamesCompleted');
+            localStorage.removeItem('villageTotalScore');
+            localStorage.removeItem('villageCurrentStreak');
+            localStorage.removeItem('villageUnlockedBuildings');
+            localStorage.removeItem('villageAchievements');
+            
+            // Re-initialize
+            initializeVillage();
+        }
 
         // Expose functions for games to call
         window.villageAPI = {
             completeGame: completeGame,
-            showAchievement: showAchievement
+            showAchievement: showAchievement,
+            debugReset: debugResetVillage,
+            debugInit: initializeVillage
         };
     </script>
 </body>

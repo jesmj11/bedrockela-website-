@@ -569,6 +569,9 @@
             }
         }
     </style>
+    
+    <!-- Offline storage for lesson limits -->
+    <script src="/js/offline-storage.js"></script>
 </head>
 <body>
     <div class="village-container" onclick="hideBillySpeech()">
@@ -804,7 +807,22 @@
         }
 
         // Game Completion Callback
-        function completeGame(gameType, score) {
+        async function completeGame(gameType, score) {
+            // Check offline limits before completing
+            if (window.bedrockStorage && !navigator.onLine) {
+                const currentStudent = getCurrentStudent();
+                const limitCheck = await bedrockStorage.useOfflineLesson(currentStudent);
+                
+                if (!limitCheck.allowed) {
+                    showOfflineLimitModal();
+                    return;
+                }
+                
+                if (limitCheck.remaining <= 3) {
+                    showOfflineLimitWarning(limitCheck.remaining);
+                }
+            }
+            
             // Update progress
             villageData.gamesCompleted++;
             villageData.totalScore += score;
@@ -876,6 +894,63 @@
                     window.history.replaceState({}, document.title, window.location.pathname);
                 }, 1000);
             }
+        }
+
+        function getCurrentStudent() {
+            const studentData = sessionStorage.getItem('bedrockStudent');
+            return studentData ? JSON.parse(studentData).id : 'demo-student';
+        }
+        
+        function showOfflineLimitModal() {
+            const modal = document.createElement('div');
+            modal.innerHTML = `
+                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 10000;">
+                    <div style="background: white; border-radius: 20px; padding: 40px; max-width: 400px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+                        <div style="font-size: 60px; margin-bottom: 20px;">🎒</div>
+                        <h2 style="color: #ff6b35; margin-bottom: 15px;">Offline Learning Limit</h2>
+                        <p style="color: #666; margin-bottom: 25px;">You've used your 10 offline lessons! Connect to WiFi to continue learning.</p>
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 15px 0;">
+                            <h4 style="margin: 0 0 8px 0; color: #4169E1;">Connect to WiFi to:</h4>
+                            <div style="color: #666; font-size: 14px;">
+                                ✅ Get unlimited lessons<br>
+                                ✅ Reset offline counter<br>
+                                ✅ Sync your progress
+                            </div>
+                        </div>
+                        <button onclick="this.parentNode.parentNode.remove()" style="background: #ff6b35; color: white; border: none; padding: 15px 30px; border-radius: 10px; font-weight: bold; cursor: pointer;">
+                            Got It
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+        
+        function showOfflineLimitWarning(remaining) {
+            const warning = document.createElement('div');
+            warning.innerHTML = `📶 ${remaining} offline lessons remaining`;
+            warning.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+                color: white;
+                padding: 12px 20px;
+                border-radius: 10px;
+                font-weight: bold;
+                z-index: 1000;
+                box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+                animation: slideIn 0.3s ease-out;
+            `;
+            
+            document.body.appendChild(warning);
+            
+            setTimeout(() => {
+                if (warning.parentNode) {
+                    warning.style.animation = 'slideOut 0.3s ease-in';
+                    setTimeout(() => warning.remove(), 300);
+                }
+            }, 4000);
         }
 
         // Initialize when page loads

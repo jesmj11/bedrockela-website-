@@ -64,13 +64,49 @@ class LessonProgress {
     }
     
     // Progress tracking methods
-    startLesson(totalSteps = 3) {
+    async startLesson(totalSteps = 3) {
+        // Check offline lesson limits
+        const limitCheck = await this.checkOfflineLimits();
+        if (!limitCheck.allowed) {
+            this.showOfflineLimitReached(limitCheck);
+            return false;
+        }
+        
         this.progress.started = true;
         this.progress.startTime = new Date().toISOString();
         this.progress.totalSteps = totalSteps;
         this.progress.currentStep = 1;
+        this.progress.offlineLessonsRemaining = limitCheck.remaining;
         this.saveProgress();
         this.updateProgressDisplay();
+        
+        if (!limitCheck.unlimited) {
+            this.showOfflineLessonsRemaining(limitCheck.remaining);
+        }
+        
+        return true;
+    }
+
+    async checkOfflineLimits() {
+        if (window.bedrockStorage && window.bedrockStorage.db) {
+            try {
+                return await bedrockStorage.useOfflineLesson(this.studentId);
+            } catch (error) {
+                console.error('Failed to check offline limits:', error);
+                return { 
+                    allowed: navigator.onLine, 
+                    remaining: navigator.onLine ? Infinity : 0,
+                    message: navigator.onLine ? 'Online - unlimited' : 'Offline limit check failed'
+                };
+            }
+        }
+        
+        // Fallback if storage not available
+        return { 
+            allowed: navigator.onLine, 
+            remaining: navigator.onLine ? Infinity : 0,
+            message: navigator.onLine ? 'Online - unlimited' : 'Offline storage unavailable'
+        };
     }
     
     completeStep(stepNumber, answers = {}) {
@@ -86,7 +122,7 @@ class LessonProgress {
         }
     }
     
-    completeLesson() {
+    async completeLesson() {
         this.progress.completed = true;
         this.progress.completedTime = new Date().toISOString();
         this.progress.currentStep = this.progress.totalSteps;
@@ -100,9 +136,21 @@ class LessonProgress {
             this.progress.achievements.push('Offline Explorer');
         }
         
-        this.saveProgress();
+        await this.saveProgress();
         this.updateProgressDisplay();
-        this.celebrateCompletion();
+        
+        // Check remaining offline lessons for completion message
+        let remainingLessons = null;
+        if (!navigator.onLine && window.bedrockStorage) {
+            try {
+                const status = await bedrockStorage.getOfflineStatus(this.studentId);
+                remainingLessons = status.lessonsRemaining;
+            } catch (error) {
+                console.log('Could not get remaining lessons:', error);
+            }
+        }
+        
+        this.celebrateCompletion(remainingLessons);
     }
     
     // UI Methods
@@ -179,10 +227,28 @@ class LessonProgress {
         }
     }
     
-    celebrateCompletion() {
+    celebrateCompletion(remainingLessons = null) {
         // Create celebration overlay
         const celebration = document.createElement('div');
         celebration.className = 'lesson-celebration';
+        
+        let remainingLessonsDisplay = '';
+        if (!navigator.onLine && remainingLessons !== null) {
+            if (remainingLessons > 0) {
+                remainingLessonsDisplay = `
+                    <div class="offline-status">
+                        📶 Offline Mode: ${remainingLessons} lessons remaining
+                    </div>
+                `;
+            } else {
+                remainingLessonsDisplay = `
+                    <div class="offline-status limit-reached">
+                        📶 Offline lessons used up! Connect to WiFi for unlimited learning.
+                    </div>
+                `;
+            }
+        }
+        
         celebration.innerHTML = `
             <div class="celebration-content">
                 <div class="billy-celebration">🐐</div>
@@ -198,6 +264,7 @@ class LessonProgress {
                         <span class="stat-text">${navigator.onLine ? 'Online' : 'Offline'}</span>
                     </div>
                 </div>
+                ${remainingLessonsDisplay}
                 <div class="achievements">
                     ${this.progress.achievements.map(a => `<span class="achievement-badge">🏆 ${a}</span>`).join('')}
                 </div>
@@ -230,10 +297,67 @@ class LessonProgress {
         }, 10000);
     }
     
+    showOfflineLimitReached(limitCheck) {
+        const modal = document.createElement('div');
+        modal.innerHTML = `
+            <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 10000;">
+                <div style="background: white; border-radius: 20px; padding: 40px; max-width: 400px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+                    <div style="font-size: 60px; margin-bottom: 20px;">📶</div>
+                    <h2 style="color: #ff6b35; margin-bottom: 15px;">Offline Lesson Limit Reached</h2>
+                    <p style="color: #666; margin-bottom: 25px;">${limitCheck.message}</p>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <h4 style="margin: 0 0 10px 0; color: #4169E1;">Connect to WiFi to:</h4>
+                        <ul style="text-align: left; color: #666; margin: 10px 0;">
+                            <li>✅ Get unlimited lessons</li>
+                            <li>✅ Sync your progress</li>
+                            <li>✅ Reset offline counter to 10</li>
+                        </ul>
+                    </div>
+                    <button onclick="this.parentNode.parentNode.remove()" style="background: #ff6b35; color: white; border: none; padding: 15px 30px; border-radius: 10px; font-weight: bold; cursor: pointer;">
+                        Got It
+                    </button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+
+    showOfflineLessonsRemaining(remaining) {
+        if (remaining <= 3) {
+            const warning = document.createElement('div');
+            warning.innerHTML = `📶 ${remaining} offline lessons remaining`;
+            warning.style.cssText = `
+                position: fixed;
+                top: 60px;
+                right: 20px;
+                background: #ff9800;
+                color: white;
+                padding: 10px 15px;
+                border-radius: 20px;
+                font-size: 14px;
+                font-weight: bold;
+                z-index: 1000;
+                animation: slideIn 0.3s ease-out;
+            `;
+            document.body.appendChild(warning);
+
+            setTimeout(() => {
+                if (warning.parentNode) {
+                    warning.remove();
+                }
+            }, 3000);
+        }
+    }
+
     // Static method to initialize progress for a lesson
-    static init(lessonId, totalSteps = 3) {
+    static async init(lessonId, totalSteps = 3) {
         const progress = new LessonProgress(lessonId);
-        progress.startLesson(totalSteps);
+        const startResult = await progress.startLesson(totalSteps);
+        
+        if (!startResult) {
+            // Lesson start failed due to offline limits
+            return null;
+        }
         
         // Add progress UI if it doesn't exist
         LessonProgress.addProgressUI();
@@ -371,6 +495,23 @@ style.textContent = `
         font-weight: bold;
         cursor: pointer;
         margin-top: 20px;
+    }
+    
+    .offline-status {
+        background: #e3f2fd;
+        color: #1976d2;
+        padding: 12px 20px;
+        border-radius: 10px;
+        margin: 15px 0;
+        font-weight: bold;
+        border-left: 4px solid #2196f3;
+        text-align: center;
+    }
+    
+    .offline-status.limit-reached {
+        background: #fff3e0;
+        color: #f57c00;
+        border-left-color: #ff9800;
     }
 `;
 

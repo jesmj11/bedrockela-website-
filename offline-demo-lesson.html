@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐐 Offline Lesson Demo - BedrockELA</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #87CEEB 0%, #E0F6FF 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .lesson-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 4px solid #8B4513;
+        }
+        
+        .lesson-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .billy-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+        
+        .lesson-title {
+            color: #8B4513;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .connection-status {
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .connection-status.online {
+            background: #e8f5e8;
+            color: #2e7d32;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .connection-status.offline {
+            background: #fff3e0;
+            color: #f57c00;
+            border-left: 4px solid #ff9800;
+        }
+        
+        .lesson-content {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .step {
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            border-left: 4px solid #4169E1;
+        }
+        
+        .step h3 {
+            color: #4169E1;
+            margin: 0 0 10px 0;
+        }
+        
+        .demo-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .demo-btn {
+            background: linear-gradient(135deg, #4169E1 0%, #1d4ed8 100%);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(65, 105, 225, 0.3);
+        }
+        
+        .demo-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .offline-info {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .offline-info h4 {
+            color: #1976d2;
+            margin: 0 0 10px 0;
+        }
+        
+        .status-display {
+            font-family: monospace;
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="lesson-container">
+        <div class="lesson-header">
+            <div class="billy-icon">🐐</div>
+            <h1 class="lesson-title">Offline Lesson Limit Demo</h1>
+            <div id="connectionStatus" class="connection-status">
+                Checking connection...
+            </div>
+        </div>
+        
+        <div class="offline-info">
+            <h4>📦 How Offline Lessons Work:</h4>
+            <ul>
+                <li><strong>Online:</strong> Unlimited lessons available</li>
+                <li><strong>Go Offline:</strong> Reset to 10 lessons automatically</li>
+                <li><strong>Use Lessons:</strong> Counter decreases with each lesson</li>
+                <li><strong>Reach Limit:</strong> Must reconnect to WiFi</li>
+                <li><strong>Back Online:</strong> Sync data + reset to 10 when offline again</li>
+            </ul>
+        </div>
+        
+        <div class="lesson-content">
+            <div class="step">
+                <h3>🎯 Step 1: Check Your Status</h3>
+                <p>See how many offline lessons you have remaining and test the limit system.</p>
+                <button class="demo-btn" onclick="checkOfflineStatus()">Check Offline Status</button>
+                <div id="statusDisplay" class="status-display" style="display: none;"></div>
+            </div>
+            
+            <div class="step">
+                <h3>📚 Step 2: Start a Lesson</h3>
+                <p>Try starting a lesson to see how the offline limit system works.</p>
+                <button class="demo-btn" onclick="startDemoLesson()">Start Demo Lesson</button>
+            </div>
+            
+            <div class="step">
+                <h3>🔄 Step 3: Simulate Connection Changes</h3>
+                <p>Test what happens when you go online/offline (browser dev tools → Network tab → Offline).</p>
+                <div class="demo-buttons">
+                    <button class="demo-btn" onclick="simulateOffline()">Simulate Offline</button>
+                    <button class="demo-btn" onclick="simulateOnline()">Simulate Online</button>
+                    <button class="demo-btn" onclick="resetLimits()">Reset Lesson Limits</button>
+                </div>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <button onclick="window.location.href='/'" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 10px; cursor: pointer;">
+                ← Back to Home
+            </button>
+        </div>
+    </div>
+    
+    <!-- Include offline storage and lesson progress -->
+    <script src="/js/offline-storage.js"></script>
+    <script src="/js/lesson-progress.js"></script>
+    
+    <script>
+        let currentStudent = 'demo-student';
+        let demoLessonCount = 0;
+        
+        // Update connection status display
+        function updateConnectionStatus() {
+            const statusDiv = document.getElementById('connectionStatus');
+            
+            if (navigator.onLine) {
+                statusDiv.textContent = '🌐 Online - Unlimited lessons available';
+                statusDiv.className = 'connection-status online';
+            } else {
+                statusDiv.textContent = '📶 Offline - 10 lesson limit active';
+                statusDiv.className = 'connection-status offline';
+            }
+        }
+        
+        // Check offline status
+        async function checkOfflineStatus() {
+            const statusDisplay = document.getElementById('statusDisplay');
+            
+            if (window.bedrockStorage && window.bedrockStorage.db) {
+                try {
+                    const status = await bedrockStorage.getOfflineStatus(currentStudent);
+                    
+                    statusDisplay.innerHTML = `
+                        <strong>Offline Status:</strong><br>
+                        • Lessons Remaining: ${status.unlimited ? '∞ (online)' : status.lessonsRemaining}<br>
+                        • Total Used: ${status.totalUsed || 0}<br>
+                        • Last Reset: ${status.lastReset ? new Date(status.lastReset).toLocaleString() : 'Never'}<br>
+                        • Connection: ${status.isOnline ? 'Online' : 'Offline'}
+                    `;
+                    statusDisplay.style.display = 'block';
+                } catch (error) {
+                    statusDisplay.innerHTML = `Error: ${error.message}`;
+                    statusDisplay.style.display = 'block';
+                }
+            } else {
+                statusDisplay.innerHTML = 'Offline storage not yet initialized. Please wait...';
+                statusDisplay.style.display = 'block';
+            }
+        }
+        
+        // Start a demo lesson
+        async function startDemoLesson() {
+            demoLessonCount++;
+            const lessonId = `demo-lesson-${demoLessonCount}`;
+            
+            try {
+                const progress = await LessonProgress.init(lessonId, 3);
+                
+                if (progress) {
+                    alert(`✅ Demo lesson started: ${lessonId}\n\nThis would be a real lesson with progress tracking!`);
+                    
+                    // Simulate completing the lesson after a delay
+                    setTimeout(async () => {
+                        await progress.completeLesson();
+                    }, 2000);
+                } else {
+                    console.log('Lesson start was blocked due to offline limits');
+                }
+            } catch (error) {
+                alert(`❌ Error starting lesson: ${error.message}`);
+            }
+        }
+        
+        // Simulate offline mode
+        function simulateOffline() {
+            alert('🔧 To test offline mode:\n\n1. Open Browser Dev Tools (F12)\n2. Go to Network tab\n3. Check "Offline" checkbox\n4. Refresh the page\n\nThis will trigger the offline lesson limit system!');
+        }
+        
+        // Simulate online mode  
+        function simulateOnline() {
+            alert('🔧 To test online mode:\n\n1. Open Browser Dev Tools (F12)\n2. Go to Network tab\n3. Uncheck "Offline" checkbox\n4. Refresh the page\n\nThis will give you unlimited lessons again!');
+        }
+        
+        // Reset lesson limits manually
+        async function resetLimits() {
+            if (window.bedrockStorage && window.bedrockStorage.db) {
+                try {
+                    await bedrockStorage.resetOfflineLimits(currentStudent);
+                    alert('✅ Lesson limits reset to 10!');
+                    checkOfflineStatus();
+                } catch (error) {
+                    alert(`❌ Error resetting limits: ${error.message}`);
+                }
+            } else {
+                alert('❌ Offline storage not available');
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateConnectionStatus();
+            
+            // Update status when connection changes
+            window.addEventListener('online', () => {
+                updateConnectionStatus();
+                checkOfflineStatus();
+            });
+            
+            window.addEventListener('offline', () => {
+                updateConnectionStatus();
+                checkOfflineStatus();
+            });
+            
+            // Auto-check status when storage is ready
+            setTimeout(() => {
+                if (window.bedrockStorage) {
+                    checkOfflineStatus();
+                }
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

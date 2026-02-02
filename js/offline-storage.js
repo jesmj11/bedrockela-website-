@@ -20,6 +20,7 @@ class BedrockStorage {
             request.onsuccess = () => {
                 this.db = request.result;
                 console.log('BedrockELA database ready for offline learning!');
+                this.initializeOfflineLimits();
                 resolve(this.db);
             };
             
@@ -61,6 +62,14 @@ class BedrockStorage {
                     });
                     syncStore.createIndex('action', 'action', { unique: false });
                     syncStore.createIndex('timestamp', 'timestamp', { unique: false });
+                }
+                
+                // Offline limits tracking
+                if (!db.objectStoreNames.contains('offlineLimits')) {
+                    const limitsStore = db.createObjectStore('offlineLimits', { 
+                        keyPath: 'studentId' 
+                    });
+                    limitsStore.createIndex('lastReset', 'lastReset', { unique: false });
                 }
                 
                 console.log('BedrockELA database schema created!');
@@ -298,6 +307,209 @@ class BedrockStorage {
             
             return false;
         }
+    }
+
+    // Offline Lesson Limit Methods
+    async initializeOfflineLimits() {
+        try {
+            // Check if we need to initialize offline limits for current students
+            const students = await this.getAllStudents();
+            
+            for (const student of students) {
+                const limits = await this.getOfflineLimits(student.id);
+                if (!limits) {
+                    await this.resetOfflineLimits(student.id);
+                }
+            }
+            
+            // Set up online/offline status monitoring
+            this.setupConnectionMonitoring();
+        } catch (error) {
+            console.error('Failed to initialize offline limits:', error);
+        }
+    }
+
+    async getOfflineLimits(studentId) {
+        try {
+            const transaction = this.db.transaction(['offlineLimits'], 'readonly');
+            const store = transaction.objectStore('offlineLimits');
+            
+            return new Promise((resolve, reject) => {
+                const request = store.get(studentId);
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            });
+        } catch (error) {
+            console.error('Failed to get offline limits:', error);
+            return null;
+        }
+    }
+
+    async resetOfflineLimits(studentId) {
+        try {
+            const transaction = this.db.transaction(['offlineLimits'], 'readwrite');
+            const store = transaction.objectStore('offlineLimits');
+            
+            const limits = {
+                studentId: studentId,
+                lessonsRemaining: 10,
+                totalLessonsUsed: 0,
+                lastReset: new Date().toISOString(),
+                wasOnlineWhenReset: navigator.onLine
+            };
+            
+            await store.put(limits);
+            console.log(`Offline limits reset for ${studentId}: 10 lessons available`);
+            return limits;
+        } catch (error) {
+            console.error('Failed to reset offline limits:', error);
+            return null;
+        }
+    }
+
+    async useOfflineLesson(studentId) {
+        try {
+            const limits = await this.getOfflineLimits(studentId);
+            
+            if (!limits) {
+                await this.resetOfflineLimits(studentId);
+                return await this.useOfflineLesson(studentId);
+            }
+            
+            // If online, don't count against offline limit
+            if (navigator.onLine) {
+                return { 
+                    allowed: true, 
+                    remaining: limits.lessonsRemaining,
+                    unlimited: true,
+                    message: "Unlimited lessons while online!"
+                };
+            }
+            
+            // Check if offline lessons remaining
+            if (limits.lessonsRemaining <= 0) {
+                return { 
+                    allowed: false, 
+                    remaining: 0,
+                    message: "Offline lesson limit reached. Connect to WiFi for unlimited lessons!"
+                };
+            }
+            
+            // Use one offline lesson
+            const transaction = this.db.transaction(['offlineLimits'], 'readwrite');
+            const store = transaction.objectStore('offlineLimits');
+            
+            limits.lessonsRemaining -= 1;
+            limits.totalLessonsUsed += 1;
+            limits.lastUsed = new Date().toISOString();
+            
+            await store.put(limits);
+            
+            console.log(`Offline lesson used for ${studentId}. Remaining: ${limits.lessonsRemaining}`);
+            
+            return { 
+                allowed: true, 
+                remaining: limits.lessonsRemaining,
+                message: `${limits.lessonsRemaining} offline lessons remaining`
+            };
+            
+        } catch (error) {
+            console.error('Failed to use offline lesson:', error);
+            return { allowed: false, remaining: 0, message: "Error checking lesson limits" };
+        }
+    }
+
+    setupConnectionMonitoring() {
+        let wasOffline = !navigator.onLine;
+        
+        window.addEventListener('online', async () => {
+            console.log('🌐 Back online! Syncing data...');
+            
+            // Sync any pending data
+            if (this.processSyncQueue) {
+                await this.processSyncQueue();
+            }
+            
+            wasOffline = false;
+        });
+        
+        window.addEventListener('offline', async () => {
+            console.log('📶 Gone offline! Offline lessons available.');
+            
+            // If we were online and now going offline, reset lesson count
+            if (!wasOffline) {
+                console.log('🔄 Resetting offline lesson count to 10...');
+                
+                const students = await this.getAllStudents();
+                for (const student of students) {
+                    await this.resetOfflineLimits(student.id);
+                }
+                
+                this.showOfflineResetNotification();
+            }
+            
+            wasOffline = true;
+        });
+    }
+
+    showOfflineResetNotification() {
+        const notification = document.createElement('div');
+        notification.innerHTML = '🎒 Offline Mode: 10 lessons available!';
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, #32CD32 0%, #228B22 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-weight: bold;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(50, 205, 50, 0.3);
+            animation: slideInLeft 0.5s ease-out;
+        `;
+
+        // Add CSS animation
+        if (!document.querySelector('#bedrockOfflineStyles')) {
+            const style = document.createElement('style');
+            style.id = 'bedrockOfflineStyles';
+            style.textContent = `
+                @keyframes slideInLeft {
+                    from { transform: translateX(-100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.style.animation = 'slideInLeft 0.3s ease-in reverse';
+                setTimeout(() => notification.remove(), 300);
+            }
+        }, 4000);
+    }
+
+    async getOfflineStatus(studentId) {
+        const limits = await this.getOfflineLimits(studentId);
+        
+        if (!limits) {
+            return {
+                lessonsRemaining: 10,
+                isOnline: navigator.onLine,
+                unlimited: navigator.onLine
+            };
+        }
+        
+        return {
+            lessonsRemaining: limits.lessonsRemaining,
+            totalUsed: limits.totalLessonsUsed,
+            lastReset: limits.lastReset,
+            isOnline: navigator.onLine,
+            unlimited: navigator.onLine
+        };
     }
 
     // Utility Methods

@@ -7,8 +7,6 @@
     <style>
         :root {
             --max-width: 1280px;
-            --start-w: 340px;
-            --start-h: 96px;
         }
         
         html, body {
@@ -35,156 +33,14 @@
             position: relative;
         }
         
-        /* Clickable START button positioned over the art */
-        .start-btn {
-            position: absolute;
-            left: 50%;
-            bottom: 6.5%;
-            transform: translateX(-50%);
-            width: min(var(--start-w), 70vw);
-            height: var(--start-h);
-            border: 0;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-            color: #333;
-            font-weight: 800;
-            letter-spacing: 0.12em;
-            font-size: 32px;
-            box-shadow: 0 12px 28px rgba(0,0,0,0.25);
-            cursor: pointer;
-            transition: transform 120ms ease, filter 120ms ease, box-shadow 120ms ease;
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.3);
-        }
+        /* Clean image display - no overlaid buttons */
         
-        .start-btn:hover {
-            filter: brightness(1.05);
-            box-shadow: 0 14px 32px rgba(255, 215, 0, 0.4);
-            transform: translateX(-50%) scale(1.02);
-        }
-        
-        .start-btn:active {
-            transform: translateX(-50%) scale(0.99);
-        }
-        
-        .start-btn:focus-visible {
-            outline: 3px solid rgba(255,255,255,0.85);
-            outline-offset: 4px;
-        }
-        
-        /* Small parent button in top right corner */
-        .parent-login-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.95);
-            color: #333;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 15px;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            z-index: 10;
-        }
-        
-        .parent-login-btn:hover {
-            background: rgba(255, 255, 255, 1);
-            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
-            transform: translateY(-1px);
-        }
-        
-        /* Popup Modal */
-        .popup-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        
-        .popup-content {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            max-width: 400px;
-            width: 90%;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            position: relative;
-        }
-        
-        .popup-close {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #666;
-        }
-        
-        .popup-title {
-            color: #333;
-            font-size: 24px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .popup-form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .popup-input {
-            padding: 12px 15px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 16px;
-        }
-        
-        .popup-btn {
-            background: linear-gradient(135deg, #4169E1 0%, #1d4ed8 100%);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .popup-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(65, 105, 225, 0.3);
-        }
+        /* Pure image focus - no modals needed */
         
         /* Mobile responsiveness */
         @media (max-width: 520px) {
-            :root {
-                --start-h: 84px;
-            }
-            .start-btn {
-                font-size: 28px;
-            }
-            .parent-login-btn {
-                font-size: 11px;
-                padding: 6px 10px;
-                top: 15px;
-                right: 15px;
-                border-radius: 12px;
-            }
-            .popup-content {
-                margin: 20px;
-                width: calc(100% - 40px);
+            .frame {
+                width: 100%;
             }
         }
     </style>
@@ -192,88 +48,15 @@
 <body>
     <main class="landing" aria-label="BedrockELA Norwegian Mountain Learning Adventure">
         <div class="frame">
-            <button id="parentLoginBtn" class="parent-login-btn" type="button">👨‍👩‍👧‍👦 Parent</button>
-            <button id="startButton" class="start-btn" type="button">START ADVENTURE</button>
+            <!-- Pure Norwegian mountain image - no buttons -->
         </div>
     </main>
     
-    <!-- Parent Login Popup -->
-    <div id="parentPopup" class="popup-overlay">
-        <div class="popup-content">
-            <button class="popup-close" onclick="closeParentPopup()">&times;</button>
-            <h2 class="popup-title">👨‍👩‍👧‍👦 Parent Portal</h2>
-            <form class="popup-form" onsubmit="parentLogin(event)">
-                <input type="email" class="popup-input" placeholder="Parent Email" required>
-                <input type="password" class="popup-input" placeholder="Password" required>
-                <button type="submit" class="popup-btn">Sign In</button>
-                <p style="text-align: center; margin-top: 10px; color: #666; font-size: 14px;">
-                    New parent? <a href="#" onclick="parentSignup()" style="color: #4169E1;">Create Account</a>
-                </p>
-            </form>
-        </div>
-    </div>
+    <!-- Pure Norwegian mountain image display -->
     
     <script>
-        // Navigate to student sign-in (main flow)
-        const START_ROUTE = "/mountain-student-signin.html";
-        
-        // Start button functionality
-        document.getElementById("startButton").addEventListener("click", () => {
-            // Add click animation
-            const btn = document.getElementById("startButton");
-            btn.style.transform = "translateX(-50%) scale(0.95)";
-            
-            setTimeout(() => {
-                window.location.href = START_ROUTE;
-            }, 150);
-        });
-        
-        // Parent login button functionality
-        document.getElementById("parentLoginBtn").addEventListener("click", () => {
-            document.getElementById("parentPopup").style.display = "flex";
-        });
-        
-        // Close popup functions
-        function closeParentPopup() {
-            document.getElementById("parentPopup").style.display = "none";
-        }
-        
-        function parentLogin(event) {
-            event.preventDefault();
-            closeParentPopup();
-            setTimeout(() => {
-                window.location.href = "/parent-dashboard.html";
-            }, 200);
-        }
-        
-        function parentSignup() {
-            alert('🏔️ Welcome to BedrockELA!\n\nParent Account Features:\n• Track up to 6 children\n• Monitor progress and achievements\n• Set learning goals\n• Access curriculum overview\n• Thailand-ready offline sync\n\nDemo access available - just use any email/password combination!');
-        }
-        
-        // Close popup when clicking outside
-        document.getElementById("parentPopup").addEventListener("click", (e) => {
-            if (e.target === document.getElementById("parentPopup")) {
-                closeParentPopup();
-            }
-        });
-        
-        // Add keyboard support
-        document.addEventListener('keydown', function(e) {
-            if (e.code === 'Enter' || e.code === 'Space') {
-                if (document.getElementById("parentPopup").style.display !== "flex") {
-                    document.getElementById("startButton").click();
-                }
-            }
-            if (e.code === 'Escape') {
-                closeParentPopup();
-            }
-        });
-        
-        // Preload main site
-        const link = document.createElement('link');
-        link.rel = 'prefetch';
-        link.href = START_ROUTE;
-        document.head.appendChild(link);
+        // Pure image display - no interactive elements
+        console.log('BedrockELA Norwegian Mountain Learning Adventure');
     </script>
 </body>
 </html>

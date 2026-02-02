@@ -7,6 +7,8 @@
     <style>
         :root {
             --max-width: 1280px;
+            --start-w: 340px;
+            --start-h: 96px;
         }
         
         html, body {
@@ -33,14 +35,51 @@
             position: relative;
         }
         
-        /* Clean image display - no overlaid buttons */
+        /* Single START button */
+        .start-btn {
+            position: absolute;
+            left: 50%;
+            bottom: 6.5%;
+            transform: translateX(-50%);
+            width: min(var(--start-w), 70vw);
+            height: var(--start-h);
+            border: 0;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #333;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            font-size: 32px;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.25);
+            cursor: pointer;
+            transition: transform 120ms ease, filter 120ms ease, box-shadow 120ms ease;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.3);
+        }
+        
+        .start-btn:hover {
+            filter: brightness(1.05);
+            box-shadow: 0 14px 32px rgba(255, 215, 0, 0.4);
+            transform: translateX(-50%) scale(1.02);
+        }
+        
+        .start-btn:active {
+            transform: translateX(-50%) scale(0.99);
+        }
+        
+        .start-btn:focus-visible {
+            outline: 3px solid rgba(255,255,255,0.85);
+            outline-offset: 4px;
+        }
         
         /* Pure image focus - no modals needed */
         
         /* Mobile responsiveness */
         @media (max-width: 520px) {
-            .frame {
-                width: 100%;
+            :root {
+                --start-h: 84px;
+            }
+            .start-btn {
+                font-size: 28px;
             }
         }
     </style>
@@ -48,15 +87,38 @@
 <body>
     <main class="landing" aria-label="BedrockELA Norwegian Mountain Learning Adventure">
         <div class="frame">
-            <!-- Pure Norwegian mountain image - no buttons -->
+            <button id="startButton" class="start-btn" type="button">START ADVENTURE</button>
         </div>
     </main>
     
     <!-- Pure Norwegian mountain image display -->
     
     <script>
-        // Pure image display - no interactive elements
-        console.log('BedrockELA Norwegian Mountain Learning Adventure');
+        // Single start button functionality
+        const START_ROUTE = "/mountain-student-signin.html";
+        
+        document.getElementById("startButton").addEventListener("click", () => {
+            // Add click animation
+            const btn = document.getElementById("startButton");
+            btn.style.transform = "translateX(-50%) scale(0.95)";
+            
+            setTimeout(() => {
+                window.location.href = START_ROUTE;
+            }, 150);
+        });
+        
+        // Keyboard support
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Enter' || e.code === 'Space') {
+                document.getElementById("startButton").click();
+            }
+        });
+        
+        // Preload student sign-in page
+        const link = document.createElement('link');
+        link.rel = 'prefetch';
+        link.href = START_ROUTE;
+        document.head.appendChild(link);
     </script>
 </body>
 </html>

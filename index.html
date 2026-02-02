@@ -1,649 +1,279 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>BedrockELA - Norwegian Mountain Learning Adventure</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --max-width: 1280px;
+            --start-w: 340px;
+            --start-h: 96px;
         }
         
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            line-height: 1.6;
-            color: #1a365d;
-            background: #ffffff;
-            overflow-x: hidden;
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: 'Comic Sans MS', cursive, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
         }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header */
-        .header {
-            position: relative;
-            padding: 20px 0;
-            background: linear-gradient(180deg, rgba(165, 215, 232, 0.1) 0%, rgba(255, 255, 255, 1) 100%);
-            border-bottom: 1px solid rgba(165, 215, 232, 0.3);
-        }
-
-        .nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        
+        /* Full-bleed background */
+        .landing {
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            background: url("./images/bedrockela-homepage-hero.jpg") center / cover no-repeat;
             position: relative;
         }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .logo-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
+        
+        /* No overlay - keep the image clean and bright */
+        
+        /* Keeps layout consistent on wide screens */
+        .frame {
+            width: min(var(--max-width), 100%);
+            aspect-ratio: 16 / 9; /* match your artwork ratio */
             position: relative;
         }
-
-        .logo-icon::before {
-            content: "⛰️";
+        
+        /* Clickable START button positioned over the art */
+        .start-btn {
             position: absolute;
-            font-size: 20px;
-        }
-
-        .logo-text {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .logo-title {
+            left: 50%;
+            bottom: 6.5%;
+            transform: translateX(-50%);
+            width: min(var(--start-w), 70vw);
+            height: var(--start-h);
+            border: 0;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #333;
+            font-weight: 800;
+            letter-spacing: 0.12em;
             font-size: 32px;
-            font-weight: 700;
-            color: #1a365d;
-            letter-spacing: -0.5px;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.25);
+            cursor: pointer;
+            transition: transform 120ms ease, filter 120ms ease, box-shadow 120ms ease;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.3);
         }
-
-        .logo-subtitle {
-            font-size: 14px;
-            color: #64748b;
-            font-weight: 500;
+        
+        .start-btn:hover {
+            filter: brightness(1.05);
+            box-shadow: 0 14px 32px rgba(255, 215, 0, 0.4);
+            transform: translateX(-50%) scale(1.02);
         }
-
-        /* Parent Login Section */
-        .parent-login {
+        
+        .start-btn:active {
+            transform: translateX(-50%) scale(0.99);
+        }
+        
+        .start-btn:focus-visible {
+            outline: 3px solid rgba(255,255,255,0.85);
+            outline-offset: 4px;
+        }
+        
+        /* Small parent button in top right corner */
+        .parent-login-btn {
             position: absolute;
             top: 20px;
             right: 20px;
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(165, 215, 232, 0.4);
-            border-radius: 16px;
-            padding: 20px;
-            min-width: 280px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            color: #333;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 10;
         }
-
-        .parent-login h3 {
-            font-size: 18px;
-            font-weight: 600;
-            color: #1a365d;
-            margin-bottom: 15px;
+        
+        .parent-login-btn:hover {
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+        }
+        
+        /* Popup Modal */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .popup-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .popup-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .popup-title {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
             text-align: center;
         }
-
-        .login-form {
+        
+        .popup-form {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 15px;
         }
-
-        .form-input {
-            padding: 12px 16px;
-            border: 2px solid #e2e8f0;
+        
+        .popup-input {
+            padding: 12px 15px;
+            border: 2px solid #ddd;
             border-radius: 10px;
-            font-size: 14px;
-            transition: all 0.2s ease;
-            background: #ffffff;
+            font-size: 16px;
         }
-
-        .form-input:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        .login-btn {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        
+        .popup-btn {
+            background: linear-gradient(135deg, #4169E1 0%, #1d4ed8 100%);
             color: white;
             border: none;
             padding: 12px 20px;
             border-radius: 10px;
-            font-weight: 600;
-            font-size: 14px;
+            font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .login-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 80px 0 60px;
-            text-align: center;
-            position: relative;
-            background: linear-gradient(180deg, rgba(165, 215, 232, 0.05) 0%, rgba(255, 255, 255, 1) 100%);
-        }
-
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero h1 {
-            font-size: 56px;
-            font-weight: 700;
-            color: #1a365d;
-            margin-bottom: 20px;
-            line-height: 1.1;
-        }
-
-        .hero p {
-            font-size: 20px;
-            color: #475569;
-            margin-bottom: 40px;
-            font-weight: 400;
-        }
-
-        /* Three Billy Goats Section */
-        .billy-goats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
-            margin: 60px 0;
-            padding: 0 20px;
-        }
-
-        .goat-card {
-            background: #ffffff;
-            border: 2px solid #e2e8f0;
-            border-radius: 24px;
-            padding: 40px 30px;
-            text-align: center;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
         }
-
-        .goat-card:hover {
-            transform: translateY(-8px);
-            border-color: #3b82f6;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        
+        .popup-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(65, 105, 225, 0.3);
         }
-
-        .goat-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 6px;
-            background: linear-gradient(90deg, #dc2626, #1d4ed8, #059669);
-        }
-
-        .goat-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-            border: 4px solid #ffffff;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-            position: relative;
-        }
-
-        .goat-avatar.little {
-            background: linear-gradient(135deg, #fef3c7 0%, #fbbf24 100%);
-        }
-
-        .goat-avatar.billy {
-            background: linear-gradient(135deg, #dbeafe 0%, #3b82f6 100%);
-            color: white;
-        }
-
-        .goat-avatar.gruff {
-            background: linear-gradient(135deg, #d1fae5 0%, #059669 100%);
-            color: white;
-        }
-
-        .goat-name {
-            font-size: 28px;
-            font-weight: 700;
-            color: #1a365d;
-            margin-bottom: 8px;
-        }
-
-        .goat-title {
-            font-size: 16px;
-            color: #64748b;
-            margin-bottom: 16px;
-            font-weight: 500;
-        }
-
-        .goat-description {
-            font-size: 15px;
-            color: #475569;
-            line-height: 1.6;
-            margin-bottom: 24px;
-        }
-
-        /* Student Login Section */
-        .student-login-section {
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-            padding: 80px 0;
-            margin-top: 60px;
-        }
-
-        .student-login {
-            max-width: 500px;
-            margin: 0 auto;
-            background: #ffffff;
-            border-radius: 24px;
-            padding: 50px 40px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-            border: 1px solid #e2e8f0;
-            text-align: center;
-        }
-
-        .student-login h2 {
-            font-size: 32px;
-            font-weight: 700;
-            color: #1a365d;
-            margin-bottom: 16px;
-        }
-
-        .student-login p {
-            font-size: 16px;
-            color: #64748b;
-            margin-bottom: 40px;
-        }
-
-        .student-form {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            text-align: left;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .form-label {
-            font-size: 14px;
-            font-weight: 600;
-            color: #374151;
-        }
-
-        .student-input {
-            padding: 16px 20px;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 16px;
-            transition: all 0.2s ease;
-            background: #ffffff;
-        }
-
-        .student-input:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-        }
-
-        /* Grade selector styles removed - parent sets grade during account setup */
-
-        .start-adventure-btn {
-            background: linear-gradient(135deg, #059669 0%, #047857 100%);
-            color: white;
-            border: none;
-            padding: 18px 30px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 18px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            margin-top: 20px;
-        }
-
-        .start-adventure-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(5, 150, 105, 0.3);
-        }
-
-        /* Demo Notice */
-        .demo-notice {
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 12px;
-            padding: 16px 24px;
-            margin: 40px auto 0;
-            max-width: 600px;
-            text-align: center;
-            font-size: 14px;
-            color: #1e40af;
-        }
-
-        /* Norwegian Flag Colors Accent */
-        .flag-accent {
-            display: inline-block;
-            width: 4px;
-            height: 20px;
-            background: linear-gradient(180deg, #dc2626 33%, #ffffff 33% 66%, #1d4ed8 66%);
-            margin-right: 12px;
-            border-radius: 2px;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .parent-login {
-                position: relative;
-                top: auto;
-                right: auto;
-                margin: 20px auto 0;
-                max-width: 350px;
+        
+        /* Mobile responsiveness */
+        @media (max-width: 520px) {
+            :root {
+                --start-h: 84px;
             }
-
-            .hero h1 {
-                font-size: 40px;
+            .start-btn {
+                font-size: 28px;
             }
-
-            .hero p {
-                font-size: 18px;
+            .parent-login-btn {
+                font-size: 11px;
+                padding: 6px 10px;
+                top: 15px;
+                right: 15px;
+                border-radius: 12px;
             }
-
-            .billy-goats {
-                grid-template-columns: 1fr;
-                gap: 30px;
-                margin: 40px 0;
+            .popup-content {
+                margin: 20px;
+                width: calc(100% - 40px);
             }
-
-            .student-login {
-                margin: 0 20px;
-                padding: 40px 30px;
-            }
-        }
-
-        /* Force update indicator */
-        .update-indicator {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #059669;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            z-index: 1000;
         }
     </style>
 </head>
 <body>
-    <!-- Norwegian Pattern -->
-    <div style="
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 60px;
-        background: repeating-linear-gradient(
-            90deg,
-            #dc2626 0px,
-            #dc2626 20px,
-            #ffffff 20px,
-            #ffffff 40px,
-            #1d4ed8 40px,
-            #1d4ed8 60px,
-            #ffffff 60px,
-            #ffffff 80px
-        );
-        opacity: 0.1;
-    "></div>
-
-    <!-- Update Indicator -->
-    <div class="update-indicator">
-        ✅ Updated: Jan 30, 2026 6:01 PM
-    </div>
-
-    <!-- Header -->
-    <div class="header">
-        <div class="container">
-            <nav class="nav">
-                <div class="logo">
-                    <div class="logo-icon"></div>
-                    <div class="logo-text">
-                        <div class="logo-title">BedrockELA</div>
-                        <div class="logo-subtitle">Norwegian Mountain Learning</div>
-                    </div>
-                </div>
-
-                <!-- Parent Login Section -->
-                <div class="parent-login">
-                    <h3><span class="flag-accent"></span>Parent Portal</h3>
-                    <form class="login-form" onsubmit="handleParentLogin(event)">
-                        <input type="email" class="form-input" placeholder="Parent Email" required>
-                        <input type="password" class="form-input" placeholder="Password" required>
-                        <button type="submit" class="login-btn">Access Dashboard</button>
-                        <a href="#" style="text-align: center; font-size: 12px; color: #64748b; text-decoration: none; margin-top: 8px;">Forgot password?</a>
-                    </form>
-                </div>
-            </nav>
+    <main class="landing" aria-label="BedrockELA Norwegian Mountain Learning Adventure">
+        <div class="frame">
+            <button id="parentLoginBtn" class="parent-login-btn" type="button">👨‍👩‍👧‍👦 Parent</button>
+            <button id="startButton" class="start-btn" type="button">START ADVENTURE</button>
+        </div>
+    </main>
+    
+    <!-- Parent Login Popup -->
+    <div id="parentPopup" class="popup-overlay">
+        <div class="popup-content">
+            <button class="popup-close" onclick="closeParentPopup()">&times;</button>
+            <h2 class="popup-title">👨‍👩‍👧‍👦 Parent Portal</h2>
+            <form class="popup-form" onsubmit="parentLogin(event)">
+                <input type="email" class="popup-input" placeholder="Parent Email" required>
+                <input type="password" class="popup-input" placeholder="Password" required>
+                <button type="submit" class="popup-btn">Sign In</button>
+                <p style="text-align: center; margin-top: 10px; color: #666; font-size: 14px;">
+                    New parent? <a href="#" onclick="parentSignup()" style="color: #4169E1;">Create Account</a>
+                </p>
+            </form>
         </div>
     </div>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <!-- Beautiful Norwegian Mountain Hero Image -->
-            <div style="text-align: center; margin-bottom: 40px;">
-                <img src="images/bedrockela-homepage-hero.jpg" alt="BedrockELA - Norwegian Mountain Learning Adventure with Three Billy Goats" style="max-width: 100%; width: 100%; height: auto; border-radius: 20px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);">
-            </div>
-            
-            <div class="hero-content">
-                <h1>Climb the Mountains of Learning</h1>
-                <p>Join the Three Billy Goats on an epic Norwegian adventure through English Language Arts</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Three Billy Goats Section -->
-    <section class="container">
-        <div class="billy-goats">
-            <!-- Little Billy -->
-            <div class="goat-card" onclick="selectGoatGuide('little')">
-                <div class="goat-avatar little">🐐</div>
-                <h3 class="goat-name">Little Billy</h3>
-                <p class="goat-title">Pebble Path Guide (K-2)</p>
-                <p class="goat-description">
-                    The youngest and most curious goat! Little Billy helps beginning readers 
-                    discover the magic of letters, sounds, and first stories on gentle mountain paths.
-                </p>
-            </div>
-
-            <!-- Billy -->
-            <div class="goat-card" onclick="selectGoatGuide('billy')">
-                <div class="goat-avatar billy">🐐</div>
-                <h3 class="goat-name">Billy</h3>
-                <p class="goat-title">Trail Blazer (3-5)</p>
-                <p class="goat-description">
-                    The adventurous middle goat leads students through exciting reading and writing 
-                    challenges. Billy knows all the best routes up Reading Ridge and Writer's Peak!
-                </p>
-            </div>
-
-            <!-- Gruff -->
-            <div class="goat-card" onclick="selectGoatGuide('gruff')">
-                <div class="goat-avatar gruff">🐐</div>
-                <h3 class="goat-name">Gruff</h3>
-                <p class="goat-title">Summit Seeker (6-8)</p>
-                <p class="goat-description">
-                    The wise elder goat guides advanced students to the highest peaks of literary 
-                    analysis, complex writing, and critical thinking. Ready for the summit?
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Student Login Section -->
-    <section class="student-login-section">
-        <div class="container">
-            <div class="student-login">
-                <h2>Start Your Adventure</h2>
-                <p>Which mountain trail would you like to explore today?</p>
-                
-                <form class="student-form" onsubmit="handleStudentLogin(event)">
-                    <div class="form-group">
-                        <label class="form-label">Student Name</label>
-                        <input type="text" class="student-input" placeholder="Enter your name" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Access Code</label>
-                        <input type="text" class="student-input" placeholder="Family access code" required>
-                    </div>
-
-                    <button type="submit" class="start-adventure-btn">Begin Mountain Adventure</button>
-                </form>
-
-                <div class="demo-notice">
-                    <strong>Demo Mode:</strong> Use access code "MOUNTAIN2024" to explore the learning adventure!<br>
-                    <small>Grade level and learning path are automatically set by parent account setup.</small>
-                </div>
-            </div>
-        </div>
-    </section>
-
+    
     <script>
-        function selectGoatGuide(guide) {
-            // Visual feedback only - grade is set by parent account
-            document.querySelectorAll('.goat-card').forEach(card => {
-                card.style.borderColor = '#e2e8f0';
-            });
+        // Navigate to student sign-in (main flow)
+        const START_ROUTE = "/mountain-student-signin.html";
+        
+        // Start button functionality
+        document.getElementById("startButton").addEventListener("click", () => {
+            // Add click animation
+            const btn = document.getElementById("startButton");
+            btn.style.transform = "translateX(-50%) scale(0.95)";
             
-            event.currentTarget.style.borderColor = '#3b82f6';
-            
-            // Scroll to login section
-            document.querySelector('.student-login-section').scrollIntoView({
-                behavior: 'smooth'
-            });
-        }
-
-        function handleParentLogin(event) {
-            event.preventDefault();
-            const email = event.target.querySelector('input[type="email"]').value;
-            
-            if (email) {
-                alert('🏔️ Redirecting to Parent Dashboard...\n\nDemo Mode: This would normally validate credentials and redirect to the full parent dashboard with student progress, curriculum management, and family settings.');
-                // window.location.href = 'parent-dashboard.html';
-            }
-        }
-
-        function handleStudentLogin(event) {
-            event.preventDefault();
-            const name = event.target.querySelector('input[placeholder="Enter your name"]').value;
-            const accessCode = event.target.querySelector('input[placeholder="Family access code"]').value;
-
-            if (accessCode.toUpperCase() === 'MOUNTAIN2024' || accessCode.toUpperCase() === 'DEMO') {
-                // Simulate getting student data from account (in real app, this would be an API call)
-                const studentAccount = getStudentAccount(name, accessCode);
-                
-                // Store student info in localStorage for the dashboard
-                localStorage.setItem('bedrockStudent', JSON.stringify({
-                    name: name,
-                    grade: studentAccount.grade,
-                    guide: studentAccount.guide,
-                    level: studentAccount.level,
-                    points: studentAccount.points,
-                    loginTime: new Date().toISOString()
-                }));
-                
-                // Redirect to student dashboard with village
-                window.location.href = `student-dashboard.html?grade=${studentAccount.grade}&name=${encodeURIComponent(name)}&guide=${studentAccount.guide}`;
-            } else {
-                alert('Invalid access code. Please check your family access code and try again.');
-            }
-        }
-
-        // Simulate getting student account data from parent setup
-        function getStudentAccount(name, accessCode) {
-            // In a real app, this would query the database based on access code
-            // For demo, we'll simulate different student accounts
-            const accounts = {
-                'MOUNTAIN2024': {
-                    grade: '3',
-                    guide: 'billy',
-                    level: 4,
-                    points: 145
-                },
-                'DEMO': {
-                    grade: '1', 
-                    guide: 'little',
-                    level: 2,
-                    points: 78
-                }
-            };
-            
-            return accounts[accessCode.toUpperCase()] || {
-                grade: '3',
-                guide: 'billy', 
-                level: 1,
-                points: 50
-            };
-        }
-
-        function getGuideForGrade(grade) {
-            if (['K', '1', '2'].includes(grade)) return 'little';
-            if (['3', '4', '5'].includes(grade)) return 'billy';
-            return 'gruff';
-        }
-
-        // Add some entrance animations
-        window.addEventListener('load', () => {
-            const goatCards = document.querySelectorAll('.goat-card');
-            goatCards.forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(30px)';
-                setTimeout(() => {
-                    card.style.transition = 'all 0.6s ease';
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, index * 200 + 300);
-            });
+            setTimeout(() => {
+                window.location.href = START_ROUTE;
+            }, 150);
         });
+        
+        // Parent login button functionality
+        document.getElementById("parentLoginBtn").addEventListener("click", () => {
+            document.getElementById("parentPopup").style.display = "flex";
+        });
+        
+        // Close popup functions
+        function closeParentPopup() {
+            document.getElementById("parentPopup").style.display = "none";
+        }
+        
+        function parentLogin(event) {
+            event.preventDefault();
+            closeParentPopup();
+            setTimeout(() => {
+                window.location.href = "/parent-dashboard.html";
+            }, 200);
+        }
+        
+        function parentSignup() {
+            alert('🏔️ Welcome to BedrockELA!\n\nParent Account Features:\n• Track up to 6 children\n• Monitor progress and achievements\n• Set learning goals\n• Access curriculum overview\n• Thailand-ready offline sync\n\nDemo access available - just use any email/password combination!');
+        }
+        
+        // Close popup when clicking outside
+        document.getElementById("parentPopup").addEventListener("click", (e) => {
+            if (e.target === document.getElementById("parentPopup")) {
+                closeParentPopup();
+            }
+        });
+        
+        // Add keyboard support
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Enter' || e.code === 'Space') {
+                if (document.getElementById("parentPopup").style.display !== "flex") {
+                    document.getElementById("startButton").click();
+                }
+            }
+            if (e.code === 'Escape') {
+                closeParentPopup();
+            }
+        });
+        
+        // Preload main site
+        const link = document.createElement('link');
+        link.rel = 'prefetch';
+        link.href = START_ROUTE;
+        document.head.appendChild(link);
     </script>
 </body>
 </html>

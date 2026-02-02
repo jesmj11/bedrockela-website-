@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - BedrockELA</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #87CEEB 0%, #E0F6FF 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .offline-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            border: 4px solid #8B4513;
+        }
+        
+        .billy-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        
+        .offline-title {
+            color: #8B4513;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        
+        .offline-message {
+            color: #666;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .cached-content {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .cached-content h3 {
+            color: #4169E1;
+            margin: 0 0 15px 0;
+            font-size: 20px;
+        }
+        
+        .cached-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        
+        .cached-link {
+            background: #4169E1;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+        
+        .cached-link:hover {
+            background: #1d4ed8;
+        }
+        
+        .retry-btn {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #333;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+        
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+        }
+        
+        .mountain-decoration {
+            font-size: 24px;
+            margin: 20px 0;
+            opacity: 0.7;
+        }
+        
+        @media (max-width: 600px) {
+            .offline-container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .offline-title {
+                font-size: 24px;
+            }
+            
+            .cached-links {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="billy-icon">🐐</div>
+        <h1 class="offline-title">You're Offline!</h1>
+        <p class="offline-message">
+            No internet connection right now, but don't worry! Billy has cached some of your Norwegian mountain learning adventures so you can keep climbing even offline.
+        </p>
+        
+        <div class="mountain-decoration">🏔️ ⛰️ 🗻 ⛰️ 🏔️</div>
+        
+        <div class="cached-content">
+            <h3>📚 Available Offline Lessons:</h3>
+            <div class="cached-links">
+                <a href="/1st-grade-lessons.html" class="cached-link">🐐 1st Grade Adventures</a>
+                <a href="/3rd-grade-lessons.html" class="cached-link">🐐 3rd Grade Expeditions</a>
+                <a href="/4th-grade-lessons.html" class="cached-link">🐐 4th Grade Trails</a>
+                <a href="/interactive-village-dashboard.html" class="cached-link">🏘️ Village Dashboard</a>
+                <a href="/writing-summit-portal.html" class="cached-link">✍️ Writing Summit</a>
+                <a href="/mountain-lesson-interface.html" class="cached-link">🎯 Demo Lesson</a>
+            </div>
+        </div>
+        
+        <div class="cached-content">
+            <h3>📱 Offline Learning Features:</h3>
+            <ul style="text-align: left; color: #666;">
+                <li>✅ All curriculum content cached locally</li>
+                <li>✅ Progress automatically saved offline</li>
+                <li>✅ Syncs when connection returns</li>
+                <li>✅ Full functionality without internet</li>
+            </ul>
+        </div>
+        
+        <button class="retry-btn" onclick="window.location.reload()">
+            🔄 Try Reconnecting
+        </button>
+        
+        <div class="mountain-decoration">
+            <p style="margin-top: 20px; color: #666; font-size: 14px;">
+                Perfect for travel, remote learning, and adventure! 🎒
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        // Check online status
+        function updateOnlineStatus() {
+            if (navigator.onLine) {
+                document.querySelector('.retry-btn').innerHTML = '🔄 Back Online - Continue Learning';
+                document.querySelector('.retry-btn').style.background = 'linear-gradient(135deg, #32CD32 0%, #228B22 100%)';
+            } else {
+                document.querySelector('.retry-btn').innerHTML = '🔄 Try Reconnecting';
+            }
+        }
+        
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+        
+        // Initial check
+        updateOnlineStatus();
+        
+        // Auto-retry every 30 seconds when offline
+        setInterval(() => {
+            if (navigator.onLine) {
+                window.location.reload();
+            }
+        }, 30000);
+    </script>
+</body>
+</html>

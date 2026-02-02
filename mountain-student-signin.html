@@ -417,6 +417,9 @@
     
     <div class="mountain-background"></div>
     
+    <!-- Offline Storage -->
+    <script src="/js/offline-storage.js"></script>
+    
     <script>
         function togglePassword() {
             const passwordInput = document.getElementById('password');
@@ -471,14 +474,30 @@
             }
         });
         
-        // Student form submission
-        document.querySelector('form').addEventListener('submit', function(e) {
+        // Student form submission with offline support
+        document.querySelector('form').addEventListener('submit', async function(e) {
             e.preventDefault();
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             
             if (username && password) {
-                alert('🎉 Welcome back, ' + username + '! Let\'s climb those reading mountains!');
+                // Save student session offline
+                if (window.bedrockStorage) {
+                    const studentData = {
+                        id: username.toLowerCase().replace(/\s+/g, ''),
+                        username: username,
+                        lastLogin: new Date().toISOString(),
+                        isOffline: !navigator.onLine
+                    };
+                    
+                    await bedrockStorage.saveStudentProfile(studentData);
+                    
+                    // Store in sessionStorage for current session
+                    sessionStorage.setItem('bedrockStudent', JSON.stringify(studentData));
+                }
+                
+                const offlineMsg = navigator.onLine ? '' : ' (Offline Mode - Progress will sync when connected)';
+                alert('🎉 Welcome back, ' + username + '! Let\'s climb those reading mountains!' + offlineMsg);
                 window.location.href = 'interactive-village-dashboard.html';
             } else {
                 alert('🐐 Billy says: "Don\'t forget your username and password, little climber!"');

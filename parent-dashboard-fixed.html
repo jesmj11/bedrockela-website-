@@ -229,6 +229,146 @@
         .action-btn.delete:hover {
             background: #b02a37;
         }
+        
+        /* Mobile Responsive Improvements */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+                padding: 0 15px;
+            }
+            
+            .logo {
+                font-size: 1.2rem;
+            }
+            
+            .logo span {
+                font-size: 1.5rem;
+            }
+            
+            .dashboard-container {
+                padding: 20px 15px;
+            }
+            
+            .welcome-section {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+            
+            .welcome-section h1 {
+                font-size: 1.5rem;
+                text-align: center;
+            }
+            
+            .welcome-section p {
+                font-size: 1rem;
+                text-align: center;
+            }
+            
+            .students-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .student-card {
+                padding: 15px;
+            }
+            
+            .student-name {
+                font-size: 1.1rem;
+            }
+            
+            .student-grade {
+                font-size: 0.8rem;
+                padding: 4px 8px;
+            }
+            
+            .mini-stat-number {
+                font-size: 1.3rem;
+            }
+            
+            .mini-stat-label {
+                font-size: 0.75rem;
+            }
+            
+            .student-actions {
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+            
+            .action-btn {
+                font-size: 0.7rem;
+                padding: 6px 10px;
+                border-radius: 15px;
+                margin: 2px;
+            }
+            
+            .action-btn.credentials,
+            .action-btn.edit,
+            .action-btn.delete {
+                font-size: 0.65rem;
+                padding: 5px 8px;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+                margin-bottom: 15px;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard-container {
+                padding: 15px 10px;
+            }
+            
+            .welcome-section {
+                padding: 15px;
+            }
+            
+            .welcome-section h1 {
+                font-size: 1.3rem;
+            }
+            
+            .student-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+                margin-bottom: 12px;
+            }
+            
+            .student-stats {
+                gap: 8px;
+                margin-bottom: 12px;
+            }
+            
+            .mini-stat {
+                flex: 1;
+                min-width: 60px;
+            }
+            
+            .action-btn {
+                font-size: 0.6rem;
+                padding: 4px 8px;
+                margin: 1px;
+            }
+            
+            .action-btn.credentials,
+            .action-btn.edit,
+            .action-btn.delete {
+                font-size: 0.6rem;
+                padding: 4px 6px;
+            }
+            
+            .section-title {
+                font-size: 1.2rem;
+            }
+            
+            .parent-info {
+                font-size: 0.8rem;
+                padding: 8px 15px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -609,26 +749,33 @@
             closeModal();
         }
         
-        // Delete student
+        // Delete student - simplified single confirmation
         function deleteStudent(studentId, studentName) {
             console.log('Delete clicked for:', studentName);
             
-            const confirmed = confirm('⚠️ Delete ' + studentName + '?\n\nThis will:\n• Remove them from your Mountain Climbers\n• Delete all their progress\n• This CANNOT be undone!\n\nAre you sure?');
+            const confirmed = confirm('🗑️ Delete ' + studentName + '?\n\nThis will remove them from your Mountain Climbers and delete their progress.\n\nClick OK to delete, Cancel to keep them.');
             
             if (confirmed) {
-                const doubleConfirmed = confirm('🛑 FINAL WARNING!\n\nPermanently delete ' + studentName + ' and all their data?\n\nClick OK to delete, Cancel to stop.');
-                
-                if (doubleConfirmed) {
-                    const typedName = prompt('Type "' + studentName + '" to confirm deletion:');
-                    
-                    if (typedName === studentName) {
-                        alert('🗑️ ' + studentName + ' has been permanently deleted.');
-                        // In real system, would refresh the page or update the display
-                        location.reload();
-                    } else {
-                        alert('❌ Deletion cancelled. Name did not match.');
+                // Find and remove the student card from the display
+                const studentCards = document.querySelectorAll('.student-card');
+                studentCards.forEach(card => {
+                    const nameElement = card.querySelector('.student-name');
+                    if (nameElement && nameElement.textContent.includes(studentName)) {
+                        // Add fade out animation
+                        card.style.transition = 'all 0.3s ease';
+                        card.style.transform = 'scale(0.8)';
+                        card.style.opacity = '0';
+                        
+                        // Remove the card after animation
+                        setTimeout(() => {
+                            card.remove();
+                            alert('✅ ' + studentName + ' has been deleted from your Mountain Climbers.');
+                        }, 300);
                     }
-                }
+                });
+                
+                // In a real system, would also delete from database here
+                console.log('Student deleted:', studentId, studentName);
             }
         }
         

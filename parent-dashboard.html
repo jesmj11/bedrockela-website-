@@ -749,26 +749,33 @@
             closeModal();
         }
         
-        // Delete student
+        // Delete student - simplified single confirmation
         function deleteStudent(studentId, studentName) {
             console.log('Delete clicked for:', studentName);
             
-            const confirmed = confirm('⚠️ Delete ' + studentName + '?\n\nThis will:\n• Remove them from your Mountain Climbers\n• Delete all their progress\n• This CANNOT be undone!\n\nAre you sure?');
+            const confirmed = confirm('🗑️ Delete ' + studentName + '?\n\nThis will remove them from your Mountain Climbers and delete their progress.\n\nClick OK to delete, Cancel to keep them.');
             
             if (confirmed) {
-                const doubleConfirmed = confirm('🛑 FINAL WARNING!\n\nPermanently delete ' + studentName + ' and all their data?\n\nClick OK to delete, Cancel to stop.');
-                
-                if (doubleConfirmed) {
-                    const typedName = prompt('Type "' + studentName + '" to confirm deletion:');
-                    
-                    if (typedName === studentName) {
-                        alert('🗑️ ' + studentName + ' has been permanently deleted.');
-                        // In real system, would refresh the page or update the display
-                        location.reload();
-                    } else {
-                        alert('❌ Deletion cancelled. Name did not match.');
+                // Find and remove the student card from the display
+                const studentCards = document.querySelectorAll('.student-card');
+                studentCards.forEach(card => {
+                    const nameElement = card.querySelector('.student-name');
+                    if (nameElement && nameElement.textContent.includes(studentName)) {
+                        // Add fade out animation
+                        card.style.transition = 'all 0.3s ease';
+                        card.style.transform = 'scale(0.8)';
+                        card.style.opacity = '0';
+                        
+                        // Remove the card after animation
+                        setTimeout(() => {
+                            card.remove();
+                            alert('✅ ' + studentName + ' has been deleted from your Mountain Climbers.');
+                        }, 300);
                     }
-                }
+                });
+                
+                // In a real system, would also delete from database here
+                console.log('Student deleted:', studentId, studentName);
             }
         }
         

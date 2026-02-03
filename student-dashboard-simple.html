@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Village - Bedrock ELA Student Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: url("./images/village-background.jpg") center / cover no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: #2c3e50;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .logo span {
+            font-size: 2rem;
+            margin-right: 10px;
+        }
+        
+        .progress-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .progress-stat {
+            text-align: center;
+        }
+        
+        .progress-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .progress-label {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        
+        .main-container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .welcome-title {
+            text-align: center;
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            font-weight: bold;
+        }
+        
+        .welcome-subtitle {
+            text-align: center;
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+        
+        .village-map {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            height: 70vh;
+            margin: 0 auto;
+            background: transparent;
+        }
+        
+        .building {
+            position: absolute;
+            background: transparent;
+            border: 3px solid transparent;
+            border-radius: 15px;
+            padding: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 80px;
+            min-height: 80px;
+        }
+        
+        .building:hover {
+            transform: scale(1.2);
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.8);
+        }
+        
+        .building-icon {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            display: block;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.8));
+        }
+        
+        .building-name {
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin: 2px 0;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.7);
+            padding: 4px 8px;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            white-space: nowrap;
+        }
+        
+        .encouragement {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 350px;
+            border-left: 5px solid #ff6b6b;
+        }
+        
+        .billy-quote {
+            font-style: italic;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            line-height: 1.4;
+        }
+        
+        .billy-attribution {
+            text-align: right;
+            color: #6c757d;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .progress-info {
+                gap: 15px;
+            }
+            
+            .welcome-title {
+                font-size: 2rem;
+            }
+            
+            .village-map {
+                height: 60vh;
+            }
+            
+            .building {
+                min-width: 60px;
+                min-height: 60px;
+            }
+            
+            .building-icon {
+                font-size: 2rem;
+            }
+            
+            .building-name {
+                font-size: 0.8rem;
+                padding: 2px 6px;
+            }
+            
+            .encouragement {
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <span>🏔️</span>
+                My Bedrock Village
+            </div>
+            
+            <div class="progress-info">
+                <div class="progress-stat">
+                    <div class="progress-number">25</div>
+                    <div class="progress-label">Minutes Today</div>
+                </div>
+                <div class="progress-stat">
+                    <div class="progress-number">3</div>
+                    <div class="progress-label">Peaks Climbed</div>
+                </div>
+                <div class="progress-stat">
+                    <div class="progress-number">12</div>
+                    <div class="progress-label">Gold Stars</div>
+                </div>
+                <div class="progress-stat">
+                    <div class="progress-number">5</div>
+                    <div class="progress-label">Day Streak</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <h1 class="welcome-title">🏘️ Welcome to Bedrock Village!</h1>
+        <p class="welcome-subtitle">Click on any building to start your Norwegian mountain learning adventure</p>
+        
+        <!-- Village Map -->
+        <div class="village-map">
+            
+            <!-- Red Schoolhouse (Upper Left) -->
+            <div class="building" 
+                 onclick="goToBuilding('reading-ridge')" 
+                 style="top: 15%; left: 8%; width: 120px; height: 100px;"
+                 title="Red Schoolhouse - Reading Adventures">
+                <span class="building-icon">🏫</span>
+                <div class="building-name">Reading School</div>
+            </div>
+
+            <!-- Book Cabin (Lower Left) -->
+            <div class="building" 
+                 onclick="goToBuilding('library')" 
+                 style="top: 65%; left: 15%; width: 100px; height: 80px;"
+                 title="Book Cabin - Library & Stories">
+                <span class="building-icon">📚</span>
+                <div class="building-name">Library</div>
+            </div>
+
+            <!-- Central Campfire -->
+            <div class="building" 
+                 onclick="goToBuilding('story-time')" 
+                 style="top: 58%; left: 45%; width: 80px; height: 60px;"
+                 title="Campfire Circle - Story Time">
+                <span class="building-icon">🔥</span>
+                <div class="building-name">Story Circle</div>
+            </div>
+
+            <!-- Traditional House (Center Right) -->
+            <div class="building" 
+                 onclick="goToBuilding('writers-peak')" 
+                 style="top: 42%; left: 70%; width: 100px; height: 90px;"
+                 title="Writing Workshop House">
+                <span class="building-icon">✍️</span>
+                <div class="building-name">Writing House</div>
+            </div>
+
+            <!-- Windmill (Far Right) -->
+            <div class="building" 
+                 onclick="goToBuilding('windmill')" 
+                 style="top: 32%; left: 85%; width: 80px; height: 100px;"
+                 title="Windmill - Advanced Studies">
+                <span class="building-icon">🌪️</span>
+                <div class="building-name">Windmill</div>
+            </div>
+
+            <!-- Storage Barrels (Center) -->
+            <div class="building" 
+                 onclick="goToBuilding('word-mountain')" 
+                 style="top: 48%; left: 35%; width: 90px; height: 60px;"
+                 title="Storage Area - Learning Tools">
+                <span class="building-icon">🎒</span>
+                <div class="building-name">Tool Shed</div>
+            </div>
+
+            <!-- Turf Roof House (Right) -->
+            <div class="building" 
+                 onclick="goToBuilding('billy-cabin')" 
+                 style="top: 68%; left: 75%; width: 110px; height: 85px;"
+                 title="Billy's Cabin - Get Help & Encouragement">
+                <span class="building-icon">🐐</span>
+                <div class="building-name">Billy's Cabin</div>
+            </div>
+
+            <!-- Cultural Center (Upper Center) -->
+            <div class="building" 
+                 onclick="goToBuilding('cultural-center')" 
+                 style="top: 28%; left: 55%; width: 95px; height: 80px;"
+                 title="Norwegian Cultural Center">
+                <span class="building-icon">🇳🇴</span>
+                <div class="building-name">Culture Hall</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Billy's Daily Encouragement -->
+    <div class="encouragement">
+        <div class="billy-quote" id="billyQuote">
+            "🐐 Every step up the mountain makes you stronger! You're doing amazing work today, little climber. Keep going!"
+        </div>
+        <div class="billy-attribution">— Little Billy, Your Mountain Guide</div>
+    </div>
+
+    <script>
+        // Building navigation
+        function goToBuilding(building) {
+            const buildingPages = {
+                'reading-ridge': '1st-grade-lessons.html',
+                'library': '2nd-grade-lessons.html',
+                'story-time': '3rd-grade-lessons.html', 
+                'writers-peak': 'writing-summit-portal.html',
+                'windmill': 'mountain-lessons.html',
+                'word-mountain': 'sight-word-speedrun-game.html',
+                'billy-cabin': 'interactive-village-dashboard.html',
+                'cultural-center': '4th-grade-lessons.html'
+            };
+            
+            const targetPage = buildingPages[building] || 'interactive-village-dashboard.html';
+            
+            // Smooth transition effect
+            document.body.style.transition = 'opacity 0.3s ease';
+            document.body.style.opacity = '0.8';
+            
+            setTimeout(() => {
+                window.location.href = targetPage;
+            }, 300);
+        }
+        
+        // Motivational quote rotation
+        const billyQuotes = [
+            "🐐 Every step up the mountain makes you stronger! You're doing amazing work today, little climber. Keep going!",
+            "🏔️ Look how far you've climbed already! The view from here is beautiful, and the peak is getting closer!",
+            "📚 Reading is like exploring new mountain paths - each book takes you on a different adventure!",
+            "✍️ Your words are like footprints in the snow - they show the amazing journey of your thoughts!",
+            "🌟 You're becoming such a brave mountain climber! Every lesson makes you stronger and wiser!",
+            "🎯 Focus on one step at a time, little climber. Before you know it, you'll reach the summit!",
+            "💪 Norwegian mountain goats are known for being persistent - and so are you! Keep climbing!"
+        ];
+        
+        function updateBillyQuote() {
+            const quoteElement = document.getElementById('billyQuote');
+            const randomQuote = billyQuotes[Math.floor(Math.random() * billyQuotes.length)];
+            
+            quoteElement.style.opacity = '0.7';
+            setTimeout(() => {
+                quoteElement.textContent = randomQuote;
+                quoteElement.style.opacity = '1';
+            }, 300);
+        }
+        
+        // Update quote every 30 seconds
+        setInterval(updateBillyQuote, 30000);
+        
+        // Add subtle hover effects to buildings
+        document.addEventListener('DOMContentLoaded', () => {
+            const buildings = document.querySelectorAll('.building');
+            
+            buildings.forEach(building => {
+                building.addEventListener('mouseenter', () => {
+                    building.style.zIndex = '10';
+                });
+                
+                building.addEventListener('mouseleave', () => {
+                    building.style.zIndex = 'auto';
+                });
+            });
+        });
+        
+        // Responsive building positioning for smaller screens
+        function adjustBuildingsForMobile() {
+            if (window.innerWidth <= 768) {
+                const buildings = document.querySelectorAll('.building');
+                buildings.forEach(building => {
+                    const currentTop = parseFloat(building.style.top);
+                    const currentLeft = parseFloat(building.style.left);
+                    
+                    // Adjust positions slightly for mobile
+                    building.style.top = Math.max(10, currentTop - 5) + '%';
+                    building.style.left = Math.min(85, currentLeft) + '%';
+                });
+            }
+        }
+        
+        window.addEventListener('resize', adjustBuildingsForMobile);
+        adjustBuildingsForMobile(); // Run on load
+        
+        console.log('🏔️ BedrockELA Village Dashboard loaded! Click buildings to start your Norwegian mountain learning adventure! 🐐');
+    </script>
+</body>
+</html>

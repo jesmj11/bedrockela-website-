@@ -13,7 +13,8 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: url("./images/bedrock-village.jpg") center / cover no-repeat;
+            background: url("./images/interactive-village-map.jpg") center / cover no-repeat;
+            background-attachment: fixed;
             min-height: 100vh;
             color: #2c3e50;
         }
@@ -144,28 +145,35 @@
         }
         
         .village-map {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 70vh;
+            background: transparent;
         }
         
         .building {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 25px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            cursor: pointer;
+            position: absolute;
+            background: transparent;
             border: 3px solid transparent;
-            position: relative;
+            border-radius: 15px;
+            padding: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 60px;
+            min-height: 60px;
         }
         
         .building:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            transform: scale(1.2);
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
         }
         
         .building.unlocked {
@@ -183,16 +191,23 @@
         }
         
         .building-icon {
-            font-size: 3.5rem;
-            margin-bottom: 15px;
+            font-size: 2rem;
+            margin-bottom: 5px;
             display: block;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.8));
         }
         
         .building-name {
-            font-size: 1.3rem;
+            font-size: 0.9rem;
             font-weight: bold;
-            margin-bottom: 8px;
-            color: #2c3e50;
+            margin: 2px 0;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.6);
+            padding: 2px 6px;
+            border-radius: 8px;
+            backdrop-filter: blur(5px);
         }
         
         .building-description {
@@ -427,93 +442,76 @@
         </h2>
         
         <div class="village-map">
-            <!-- The Great Hall -->
-            <div class="building unlocked" onclick="goToBuilding('great-hall')">
-                <span class="building-icon">🏛️</span>
-                <div class="building-name">The Great Hall</div>
-                <div class="building-description">View achievements and family progress</div>
-                <div class="building-progress">
-                    <div class="building-progress-bar" style="width: 85%"></div>
-                </div>
-                <div class="building-status">Viking Level: Explorer</div>
-                <div class="achievement-badge">🏆</div>
+            <!-- Red Schoolhouse (Upper Left) - Main Reading Center -->
+            <div class="building unlocked" 
+                 onclick="goToBuilding('reading-ridge')" 
+                 style="top: 10%; left: 8%; width: 120px; height: 100px;"
+                 title="Red Schoolhouse - Reading Adventures">
+                <span class="building-icon">🏫</span>
+                <div class="building-name">Reading School</div>
             </div>
 
-            <!-- Reading Ridge Trailhead -->
-            <div class="building current" onclick="goToBuilding('reading-ridge')">
-                <span class="building-icon">📖</span>
-                <div class="building-name">Reading Ridge Trailhead</div>
-                <div class="building-description">Literature & informational text adventures</div>
-                <div class="building-progress">
-                    <div class="building-progress-bar" style="width: 45%"></div>
-                </div>
-                <div class="building-status">Currently climbing!</div>
-            </div>
-
-            <!-- Writer's Peak Base Camp -->
-            <div class="building unlocked" onclick="goToBuilding('writers-peak')">
-                <span class="building-icon">✍️</span>
-                <div class="building-name">Writer's Peak Base Camp</div>
-                <div class="building-description">Writing skills and creative expression</div>
-                <div class="building-progress">
-                    <div class="building-progress-bar" style="width: 25%"></div>
-                </div>
-                <div class="building-status">Ready for next climb</div>
-            </div>
-
-            <!-- Word Mountain Gear Shed -->
-            <div class="building unlocked" onclick="goToBuilding('word-mountain')">
-                <span class="building-icon">🎒</span>
-                <div class="building-name">Word Mountain Gear Shed</div>
-                <div class="building-description">Grammar, vocabulary & language tools</div>
-                <div class="building-progress">
-                    <div class="building-progress-bar" style="width: 70%"></div>
-                </div>
-                <div class="building-status">Well equipped!</div>
-            </div>
-
-            <!-- Story Summit -->
-            <div class="building locked" onclick="goToBuilding('story-summit')">
+            <!-- Book Cabin (Lower Left) - Library & Research -->
+            <div class="building current" 
+                 onclick="goToBuilding('library')" 
+                 style="top: 60%; left: 15%; width: 100px; height: 80px;"
+                 title="Book Cabin - Library & Stories">
                 <span class="building-icon">📚</span>
-                <div class="building-name">Story Summit</div>
-                <div class="building-description">Literature deep dives & novel studies</div>
-                <div class="building-progress">
-                    <div class="building-progress-bar" style="width: 0%"></div>
-                </div>
-                <div class="building-status">🔒 Unlock with more progress</div>
+                <div class="building-name">Library</div>
             </div>
 
-            <!-- The Docks -->
-            <div class="building unlocked" onclick="goToBuilding('docks')">
-                <span class="building-icon">⛵</span>
-                <div class="building-name">The Docks</div>
-                <div class="building-description">Launch new adventures & expeditions</div>
-                <div class="building-progress">
-                    <div class="building-progress-bar" style="width: 60%"></div>
-                </div>
-                <div class="building-status">Next voyage ready</div>
+            <!-- Central Campfire - Story Time & Community -->
+            <div class="building unlocked" 
+                 onclick="goToBuilding('story-time')" 
+                 style="top: 55%; left: 45%; width: 80px; height: 60px;"
+                 title="Campfire Circle - Story Time">
+                <span class="building-icon">🔥</span>
+                <div class="building-name">Story Circle</div>
             </div>
 
-            <!-- Billy's Cabin -->
-            <div class="building unlocked" onclick="goToBuilding('billy-cabin')">
-                <span class="building-icon">🏠</span>
-                <div class="building-name">Little Billy's Cabin</div>
-                <div class="building-description">Get help and encouragement from your guide</div>
-                <div class="building-progress">
-                    <div class="building-progress-bar" style="width: 100%"></div>
-                </div>
-                <div class="building-status">Always welcome!</div>
+            <!-- Traditional House (Center Right) - Writing Workshop -->
+            <div class="building unlocked" 
+                 onclick="goToBuilding('writers-peak')" 
+                 style="top: 40%; left: 70%; width: 100px; height: 90px;"
+                 title="Writing Workshop House">
+                <span class="building-icon">✍️</span>
+                <div class="building-name">Writing House</div>
             </div>
 
-            <!-- Norwegian Cultural Center -->
-            <div class="building unlocked" onclick="goToBuilding('cultural-center')">
+            <!-- Windmill (Far Right) - Advanced Lessons -->
+            <div class="building locked" 
+                 onclick="goToBuilding('windmill')" 
+                 style="top: 30%; left: 85%; width: 80px; height: 100px;"
+                 title="Windmill - Advanced Studies">
+                <span class="building-icon">🌪️</span>
+                <div class="building-name">Windmill</div>
+            </div>
+
+            <!-- Storage Barrels (Center) - Tools & Games -->
+            <div class="building unlocked" 
+                 onclick="goToBuilding('word-mountain')" 
+                 style="top: 45%; left: 35%; width: 90px; height: 60px;"
+                 title="Storage Area - Learning Tools">
+                <span class="building-icon">🎒</span>
+                <div class="building-name">Tool Shed</div>
+            </div>
+
+            <!-- Turf Roof House (Right) - Billy's Cabin -->
+            <div class="building unlocked" 
+                 onclick="goToBuilding('billy-cabin')" 
+                 style="top: 65%; left: 75%; width: 110px; height: 85px;"
+                 title="Billy's Cabin - Get Help & Encouragement">
+                <span class="building-icon">🐐</span>
+                <div class="building-name">Billy's Cabin</div>
+            </div>
+
+            <!-- Cultural Center (Traditional Building Upper Center) -->
+            <div class="building unlocked" 
+                 onclick="goToBuilding('cultural-center')" 
+                 style="top: 25%; left: 55%; width: 95px; height: 80px;"
+                 title="Norwegian Cultural Center">
                 <span class="building-icon">🇳🇴</span>
-                <div class="building-name">Norwegian Cultural Center</div>
-                <div class="building-description">Learn about fjords, Vikings & mountain traditions</div>
-                <div class="building-progress">
-                    <div class="building-progress-bar" style="width: 30%"></div>
-                </div>
-                <div class="building-status">Exploring heritage</div>
+                <div class="building-name">Culture Hall</div>
             </div>
         </div>
 
@@ -747,4 +745,4 @@
         });
     </script>
 </body>
-</html>
+</html><!-- Force deployment Tue Feb  3 02:55:06 AM UTC 2026 -->

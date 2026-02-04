@@ -228,4 +228,4 @@ self.addEventListener('push', (event) => {
   );
 });
 
-console.log('BedrockELA Service Worker loaded - Ready for offline Norwegian mountain learning! 🏔️🐐');
+console.log('BedrockELA Service Worker loaded - Ready for offline Norwegian mountain learning! 🏔️🐐');<!-- Force SW deploy Wed Feb  4 03:08:45 AM UTC 2026 -->

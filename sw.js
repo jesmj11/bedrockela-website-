@@ -1,5 +1,5 @@
 // BedrockELA Service Worker - Offline Learning Support
-const CACHE_NAME = 'bedrockela-v1.2';
+const CACHE_NAME = 'bedrockela-v1.3-image-fix';
 const OFFLINE_URL = '/offline.html';
 
 // Essential files to cache for offline functionality
@@ -22,7 +22,9 @@ const ESSENTIAL_CACHE = [
   '/images/little-billy-goat.jpg',
   '/images/billy-medium-goat.jpg',
   '/images/big-gruff-goat.jpg',
-  '/images/bedrock-village.jpg'
+  '/images/bedrock-village.jpg',
+  '/images/new-village-map-2026.jpg',
+  '/images/lesson-background-universal.png'
 ];
 
 // Curriculum content that can be cached when accessed

@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 1 - Bedrock ELA</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Nunito', sans-serif;
+            min-height: 100vh;
+            background-color: #4A90C2;
+            background-image: 
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Cpath d='M30 5l5 10h-10l5-10zm-15 15a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm30 0a5 5 0 1 1 0 10 5 5 0 0 1 0-10zM30 35l8 8H22l8-8zm-20 5h6v10h-6V40zm34 0h6v10h-6V40z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(180deg, #8B5A2B 0%, #6B4423 100%);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid #5D4037;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .back-btn {
+            background: #E85D04;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #B84A00;
+            transition: all 0.1s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .back-btn:hover { background: #F77F00; }
+        .back-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #B84A00; }
+        
+        .lesson-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.5rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .lesson-number {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: white;
+            font-weight: 700;
+        }
+        
+        /* Main Content */
+        .main-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        
+        /* Lesson Card */
+        .lesson-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+        
+        /* Phase Indicator */
+        .phase-indicator {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .phase-label {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+        
+        .phase-title {
+            font-family: 'Fredoka One', cursive;
+            color: white;
+            font-size: 1.8rem;
+        }
+        
+        /* Content Area */
+        .content-area {
+            padding: 30px;
+        }
+        
+        /* Audio Lesson Section */
+        .audio-section {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .billy-teacher {
+            font-size: 6rem;
+            margin-bottom: 20px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .audio-controls {
+            margin: 30px 0;
+        }
+        
+        .play-btn {
+            background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);
+            color: white;
+            border: none;
+            padding: 20px 50px;
+            border-radius: 50px;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #388E3C, 0 8px 20px rgba(0,0,0,0.2);
+            transition: all 0.1s;
+        }
+        
+        .play-btn:hover { background: linear-gradient(135deg, #5CBF60 0%, #9CCF5A 100%); }
+        .play-btn:active { transform: translateY(3px); box-shadow: 0 3px 0 #388E3C; }
+        
+        .play-btn.playing {
+            background: linear-gradient(135deg, #FF9800 0%, #FFC107 100%);
+            box-shadow: 0 6px 0 #E65100, 0 8px 20px rgba(0,0,0,0.2);
+        }
+        
+        .audio-progress {
+            margin-top: 25px;
+        }
+        
+        .progress-bar {
+            background: #e0e0e0;
+            border-radius: 10px;
+            height: 12px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 100%;
+            width: 0%;
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+        
+        .time-display {
+            color: #666;
+            font-weight: 600;
+        }
+        
+        /* Transcript */
+        .transcript-toggle {
+            margin-top: 20px;
+        }
+        
+        .transcript-btn {
+            background: #f0f0f0;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+        }
+        
+        .transcript-btn:hover { background: #e0e0e0; }
+        
+        .transcript-content {
+            display: none;
+            text-align: left;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+        
+        .transcript-content.show { display: block; }
+        
+        /* Practice Section */
+        .practice-section {
+            padding: 20px;
+        }
+        
+        .question-card {
+            background: #f8f9ff;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 20px;
+            border: 3px solid #e0e0e0;
+        }
+        
+        .question-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+        
+        .question-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .question-audio {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+        
+        .option-btn {
+            background: white;
+            border: 3px solid #ddd;
+            border-radius: 12px;
+            padding: 20px;
+            font-size: 1.5rem;
+            font-family: 'Fredoka One', cursive;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .option-btn:hover {
+            border-color: #667eea;
+            transform: scale(1.05);
+        }
+        
+        .option-btn.correct {
+            background: #4CAF50;
+            border-color: #4CAF50;
+            color: white;
+            animation: pulse 0.5s;
+        }
+        
+        .option-btn.incorrect {
+            background: #f44336;
+            border-color: #f44336;
+            color: white;
+            animation: shake 0.5s;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        /* Letter Display */
+        .letter-display {
+            font-size: 5rem;
+            font-family: 'Fredoka One', cursive;
+            color: #333;
+            background: white;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            margin: 0 auto 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Drag & Drop */
+        .letter-bank {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .draggable-letter {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 70px;
+            height: 70px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-family: 'Fredoka One', cursive;
+            cursor: grab;
+            user-select: none;
+            transition: transform 0.2s;
+        }
+        
+        .draggable-letter:hover {
+            transform: scale(1.1);
+        }
+        
+        .draggable-letter.used {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .drop-zones {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .drop-zone {
+            width: 70px;
+            height: 70px;
+            border: 3px dashed #ccc;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-family: 'Fredoka One', cursive;
+            background: #f9f9f9;
+        }
+        
+        .drop-zone.filled {
+            border-style: solid;
+            border-color: #4CAF50;
+            background: #e8f5e9;
+        }
+        
+        /* Results */
+        .results-card {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .results-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+        }
+        
+        .results-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .results-score {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .results-stars {
+            font-size: 3rem;
+            margin-bottom: 30px;
+        }
+        
+        .next-btn {
+            background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #388E3C;
+        }
+        
+        .next-btn:hover { transform: translateY(-2px); }
+        
+        /* Hidden */
+        .hidden { display: none !important; }
+        
+        /* Responsive */
+        @media (max-width: 600px) {
+            .lesson-title { font-size: 1.2rem; }
+            .phase-title { font-size: 1.4rem; }
+            .billy-teacher { font-size: 4rem; }
+            .play-btn { padding: 15px 35px; font-size: 1.2rem; }
+            .question-text { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="student-dashboard.html" class="back-btn">← Back</a>
+        <h1 class="lesson-title">Sounds & Blending</h1>
+        <span class="lesson-number">Lesson 1</span>
+    </header>
+    
+    <main class="main-content">
+        <div class="lesson-card">
+            <!-- Phase 1: Audio Lesson -->
+            <div id="phase-audio">
+                <div class="phase-indicator">
+                    <div class="phase-label">Part 1</div>
+                    <div class="phase-title">🎧 Listen & Learn</div>
+                </div>
+                
+                <div class="audio-section">
+                    <div class="billy-teacher">🐐</div>
+                    <p style="font-size: 1.2rem; color: #666; margin-bottom: 20px;">
+                        Billy is ready to teach you! Press play to start.
+                    </p>
+                    
+                    <div class="audio-controls">
+                        <button class="play-btn" id="playBtn" onclick="toggleAudio()">
+                            ▶️ Play Lesson
+                        </button>
+                    </div>
+                    
+                    <div class="audio-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="audioProgress"></div>
+                        </div>
+                        <div class="time-display">
+                            <span id="currentTime">0:00</span> / <span id="totalTime">3:45</span>
+                        </div>
+                    </div>
+                    
+                    <div class="transcript-toggle">
+                        <button class="transcript-btn" onclick="toggleTranscript()">
+                            📖 Show Words (Read Along)
+                        </button>
+                        <div class="transcript-content" id="transcript">
+                            <p><strong>Hey there, mountain climber!</strong> I'm Billy the Goat, and I am SO excited to go on this reading adventure with you!</p>
+                            
+                            <p>Today is a super special day. Do you know why? Because today, you're going to learn the SECRET to reading. Yep — the actual secret! And once you know it, you'll be able to read words all by yourself. How cool is that?</p>
+                            
+                            <p><strong>Here's the big secret:</strong> Words are made of SOUNDS pushed together.</p>
+                            
+                            <p>Let me show you what I mean. Listen to this: /mmm/ - /aaa/ - /p/</p>
+                            
+                            <p>Did you hear those three sounds? Now watch what happens when I push them together really fast: /mmm/-/aaa/-/p/... <strong>MAP!</strong></p>
+                            
+                            <p>The word is MAP! We call this "blending" — pushing sounds together to make words. You're going to be a blending superstar!</p>
+                            
+                            <p><strong>Letter M:</strong> The letter M says /mmm/. It sounds like when you eat something yummy: "Mmm, delicious!"</p>
+                            
+                            <p><strong>Letter S:</strong> The letter S says /sss/. It sounds like a sneaky snake! Sssssss.</p>
+                            
+                            <p><strong>Letter P:</strong> The letter P says /p/. It's a quick, quiet sound — just a little puff of air. Like when you pop a bubble!</p>
+                            
+                            <p><strong>Letter A:</strong> The letter A says /aaa/. It's a vowel — every word needs one! It's the sound you make when the doctor looks in your throat: "Say /aaa/!"</p>
+                            
+                            <p>Let's blend! /sss/ - /aaa/ - /mmm/... <strong>SAM!</strong> You just read your first word!</p>
+                            
+                            <p>One more! /mmm/ - /aaa/ - /p/... <strong>MAP!</strong></p>
+                            
+                            <p><strong>Wow!</strong> You learned FOUR letter sounds today AND you read TWO words! I'm so proud of you, mountain climber. Now it's time to practice! 🏔️</p>
+                        </div>
+                    </div>
+                    
+                    <button class="play-btn" style="margin-top: 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 6px 0 #4a3a80;" onclick="startPractice()">
+                        ✏️ Start Practice
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Phase 2: Practice Questions -->
+            <div id="phase-practice" class="hidden">
+                <div class="phase-indicator">
+                    <div class="phase-label">Part 2</div>
+                    <div class="phase-title">✏️ Practice Time!</div>
+                </div>
+                
+                <div class="practice-section" id="questionContainer">
+                    <!-- Questions loaded by JS -->
+                </div>
+            </div>
+            
+            <!-- Phase 3: Results -->
+            <div id="phase-results" class="hidden">
+                <div class="phase-indicator" style="background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);">
+                    <div class="phase-label">Complete!</div>
+                    <div class="phase-title">🎉 Great Job!</div>
+                </div>
+                
+                <div class="results-card">
+                    <div class="results-icon">🏆</div>
+                    <div class="results-title">Lesson 1 Complete!</div>
+                    <div class="results-score" id="scoreText">You got 8 out of 8 correct!</div>
+                    <div class="results-stars" id="starsDisplay">⭐⭐⭐</div>
+                    <button class="next-btn" onclick="goToDashboard()">
+                        Back to Dashboard →
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Questions data
+        const questions = [
+            {
+                type: 'sound-match',
+                question: 'Which letter makes the /mmm/ sound?',
+                sound: 'mmm',
+                options: ['M', 'S', 'P'],
+                correct: 'M'
+            },
+            {
+                type: 'sound-match',
+                question: 'Which letter makes the /sss/ sound?',
+                sound: 'sss',
+                options: ['M', 'S', 'P'],
+                correct: 'S'
+            },
+            {
+                type: 'sound-match',
+                question: 'Which letter makes the /p/ sound?',
+                sound: 'p',
+                options: ['M', 'S', 'P'],
+                correct: 'P'
+            },
+            {
+                type: 'sound-match',
+                question: 'Which letter says /aaa/?',
+                sound: 'aaa',
+                options: ['A', 'M', 'S'],
+                correct: 'A'
+            },
+            {
+                type: 'blend',
+                question: 'Blend the sounds: /s/ - /a/ - /m/. What word is it?',
+                options: ['SAM', 'MAP', 'PAM'],
+                correct: 'SAM'
+            },
+            {
+                type: 'blend',
+                question: 'Blend the sounds: /m/ - /a/ - /p/. What word is it?',
+                options: ['SAM', 'MAP', 'PAM'],
+                correct: 'MAP'
+            },
+            {
+                type: 'beginning-sound',
+                question: 'What sound does MAP start with?',
+                display: 'MAP',
+                options: ['/m/', '/a/', '/p/'],
+                correct: '/m/'
+            },
+            {
+                type: 'beginning-sound',
+                question: 'What sound does SAM start with?',
+                display: 'SAM',
+                options: ['/s/', '/a/', '/m/'],
+                correct: '/s/'
+            }
+        ];
+        
+        let currentQuestion = 0;
+        let score = 0;
+        let isPlaying = false;
+        let audioProgress = 0;
+        
+        // Audio simulation (replace with real audio later)
+        function toggleAudio() {
+            const btn = document.getElementById('playBtn');
+            const progress = document.getElementById('audioProgress');
+            
+            if (isPlaying) {
+                isPlaying = false;
+                btn.innerHTML = '▶️ Play Lesson';
+                btn.classList.remove('playing');
+            } else {
+                isPlaying = true;
+                btn.innerHTML = '⏸️ Pause';
+                btn.classList.add('playing');
+                
+                // Simulate audio progress
+                const interval = setInterval(() => {
+                    if (!isPlaying || audioProgress >= 100) {
+                        clearInterval(interval);
+                        if (audioProgress >= 100) {
+                            btn.innerHTML = '🔄 Replay';
+                            btn.classList.remove('playing');
+                            isPlaying = false;
+                        }
+                        return;
+                    }
+                    audioProgress += 0.5;
+                    progress.style.width = audioProgress + '%';
+                    
+                    // Update time display
+                    const totalSeconds = 225; // 3:45
+                    const currentSeconds = Math.floor((audioProgress / 100) * totalSeconds);
+                    const mins = Math.floor(currentSeconds / 60);
+                    const secs = currentSeconds % 60;
+                    document.getElementById('currentTime').textContent = 
+                        `${mins}:${secs.toString().padStart(2, '0')}`;
+                }, 100);
+            }
+        }
+        
+        function toggleTranscript() {
+            const transcript = document.getElementById('transcript');
+            transcript.classList.toggle('show');
+        }
+        
+        function startPractice() {
+            document.getElementById('phase-audio').classList.add('hidden');
+            document.getElementById('phase-practice').classList.remove('hidden');
+            loadQuestion();
+        }
+        
+        function loadQuestion() {
+            if (currentQuestion >= questions.length) {
+                showResults();
+                return;
+            }
+            
+            const q = questions[currentQuestion];
+            const container = document.getElementById('questionContainer');
+            
+            let html = `
+                <div class="question-card">
+                    <div class="question-number">${currentQuestion + 1}</div>
+            `;
+            
+            if (q.display) {
+                html += `<div class="letter-display">${q.display}</div>`;
+            }
+            
+            html += `<div class="question-text">${q.question}</div>`;
+            
+            html += `<div class="options">`;
+            q.options.forEach(opt => {
+                html += `<button class="option-btn" onclick="checkAnswer('${opt}', '${q.correct}')">${opt}</button>`;
+            });
+            html += `</div></div>`;
+            
+            container.innerHTML = html;
+        }
+        
+        function checkAnswer(selected, correct) {
+            const buttons = document.querySelectorAll('.option-btn');
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                if (btn.textContent === correct) {
+                    btn.classList.add('correct');
+                } else if (btn.textContent === selected && selected !== correct) {
+                    btn.classList.add('incorrect');
+                }
+            });
+            
+            if (selected === correct) {
+                score++;
+            }
+            
+            // Next question after delay
+            setTimeout(() => {
+                currentQuestion++;
+                loadQuestion();
+            }, 1200);
+        }
+        
+        function showResults() {
+            document.getElementById('phase-practice').classList.add('hidden');
+            document.getElementById('phase-results').classList.remove('hidden');
+            
+            document.getElementById('scoreText').textContent = 
+                `You got ${score} out of ${questions.length} correct!`;
+            
+            // Stars based on score
+            const percent = score / questions.length;
+            let stars = '';
+            if (percent >= 0.9) stars = '⭐⭐⭐';
+            else if (percent >= 0.7) stars = '⭐⭐';
+            else if (percent >= 0.5) stars = '⭐';
+            else stars = 'Keep trying!';
+            
+            document.getElementById('starsDisplay').textContent = stars;
+        }
+        
+        function goToDashboard() {
+            window.location.href = 'student-dashboard.html';
+        }
+    </script>
+</body>
+</html>

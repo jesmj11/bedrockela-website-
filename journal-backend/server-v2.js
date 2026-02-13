@@ -182,6 +182,93 @@ app.post('/api/parent/login', authLimiter, (req, res) => {
   });
 });
 
+// Verify Parent Account (for password reset)
+app.post('/api/parent/verify', (req, res) => {
+  const { email, family_name } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ 
+      success: false, 
+      error: 'Email is required' 
+    });
+  }
+
+  db.get('SELECT * FROM parents WHERE email = ?', [email], (err, parent) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ success: false, error: 'Server error' });
+    }
+
+    if (!parent) {
+      return res.status(404).json({ 
+        success: false, 
+        error: 'No account found with that email' 
+      });
+    }
+
+    // If family_name was provided, verify it matches (case-insensitive)
+    if (family_name && family_name.trim() !== '') {
+      const providedName = family_name.trim().toLowerCase();
+      const storedName = (parent.family_name || '').trim().toLowerCase();
+      
+      if (providedName !== storedName) {
+        return res.status(401).json({ 
+          success: false, 
+          error: 'Family name does not match our records' 
+        });
+      }
+    }
+
+    res.json({
+      success: true,
+      message: 'Account verified'
+    });
+  });
+});
+
+// Reset Password
+app.post('/api/parent/reset-password', async (req, res) => {
+  const { email, new_password } = req.body;
+
+  if (!email || !new_password) {
+    return res.status(400).json({ 
+      success: false, 
+      error: 'Email and new password are required' 
+    });
+  }
+
+  try {
+    // Hash new password
+    const passwordHash = await bcrypt.hash(new_password, 10);
+
+    db.run('UPDATE parents SET password_hash = ? WHERE email = ?', 
+      [passwordHash, email], function(err) {
+      if (err) {
+        console.error('Error updating password:', err);
+        return res.status(500).json({ 
+          success: false, 
+          error: 'Failed to update password' 
+        });
+      }
+
+      if (this.changes === 0) {
+        return res.status(404).json({ 
+          success: false, 
+          error: 'Account not found' 
+        });
+      }
+
+      res.json({
+        success: true,
+        message: 'Password updated successfully'
+      });
+    });
+  } catch (err) {
+    console.error('Error hashing password:', err);
+    res.status(500).json({ success: false, error: 'Server error' });
+  }
+});
+
 // Get Parent Profile + Students
 app.get('/api/parent/:id', authenticateParent, (req, res) => {
   const parentId = parseInt(req.params.id);

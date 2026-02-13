@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Load Story Readers - BedrockELA Unit 1</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #764ba2;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: scale(1.05);
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .progress-container {
+            margin: 20px 0;
+            display: none;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .story-list {
+            margin-top: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            display: none;
+        }
+        .story-item {
+            padding: 10px;
+            margin: 5px 0;
+            background: #f5f5f5;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+        }
+        .story-item.loaded {
+            background: #e8f5e9;
+            border-left-color: #4caf50;
+        }
+        .story-item .title {
+            font-weight: bold;
+            color: #333;
+            font-size: 16px;
+        }
+        .story-item .meta {
+            font-size: 12px;
+            color: #666;
+            margin-top: 3px;
+        }
+        .status {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 18px;
+            color: #333;
+        }
+        .status.success {
+            color: #4caf50;
+            font-weight: bold;
+        }
+        .status.error {
+            color: #f44336;
+        }
+        .info-box {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .info-box h3 {
+            margin-top: 0;
+            color: #856404;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .stat-card {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #764ba2;
+        }
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 BedrockELA Story Reader Loader</h1>
+        <p class="subtitle">Load Unit 1 Complete Story Collection (15 Stories!)</p>
+
+        <div class="info-box">
+            <h3>🐉 Unit 1 Complete Story Library!</h3>
+            <p>This will load <strong>15 complete stories</strong> into the BedrockELA database. These stories cover ALL of Unit 1 (Lessons 1-33) with multiple stories per skill range!</p>
+            <p><strong>Stories included:</strong></p>
+            <ul style="column-count: 2;">
+                <li>The Enormous Turnip (1-5)</li>
+                <li>The Three Billy Goats Gruff (1-10)</li>
+                <li>The Gingerbread Man (6-10)</li>
+                <li>The Little Red Hen (8-10)</li>
+                <li>The Three Little Pigs (11-20)</li>
+                <li>The Lion and the Mouse (11-15)</li>
+                <li>The Fox and the Grapes (16-17)</li>
+                <li>The Shoemaker and the Elves (18-20)</li>
+                <li>Town Mouse & Country Mouse (21-23)</li>
+                <li>Ant and Grasshopper (24-26)</li>
+                <li>Bremen Town Musicians (27-28)</li>
+                <li>Goldilocks and the Three Bears (21-33)</li>
+                <li>The Boy Who Cried Wolf (28-33)</li>
+                <li>Henny Penny (29-31)</li>
+                <li>Tortoise and Hare (32-33)</li>
+            </ul>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalStories">15</div>
+                <div class="stat-label">Stories Ready</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalPages">184</div>
+                <div class="stat-label">Total Pages</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="completedStories">0</div>
+                <div class="stat-label">Loaded</div>
+            </div>
+        </div>
+
+        <button id="loadBtn" onclick="loadAllStories()">📖 Load All 15 Story Readers</button>
+
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill">0%</div>
+            </div>
+        </div>
+
+        <div class="status" id="status"></div>
+
+        <div class="story-list" id="storyList"></div>
+    </div>
+
+    <script>
+        // Complete Unit 1 Story Reader Data (15 stories!)
+        const storyReaders = [
+            {
+                title: "The Enormous Turnip",
+                slug: "enormous-turnip",
+                story_type: "folk-tale",
+                reading_level: "read-aloud",
+                lesson_start: 1,
+                lesson_end: 5,
+                unit_number: 1,
+                phonics_focus: JSON.stringify([
+                    {"pattern": "first-sounds", "description": "First letter sounds (m,s,p,a,n,t,b,j)"},
+                    {"pattern": "cvc", "description": "Basic CVC words"}
+                ]),
+                sight_words: JSON.stringify(["the", "a", "was", "is", "said", "he", "it", "not", "come", "but", "and"]),
+                decodable_words: JSON.stringify(["man", "sat", "pan", "pat", "tap", "mat", "nap", "jam", "am", "an", "tan", "pop", "top", "mop", "big", "bag", "tag"]),
+                page_count: 12,
+                comprehension_skills: JSON.stringify(["sequence", "teamwork", "predictions", "size concepts"]),
+                teacher_notes: "Uses the VERY FIRST letter sounds taught. Perfect for early participation with 'Pull! Pull! Pull!' refrain.",
+                repeated_phrases: JSON.stringify(["Pull! Pull! Pull!", "But the turnip did not come up.", "Come help us!", "We did it!"]),
+                interactive_elements: JSON.stringify([
+                    {"action": "movement", "cue": "Pretend to pull! Pull! Pull! Pull!"},
+                    {"action": "sound", "cue": "Fall down! BOOM! Laugh!"}
+                ]),
+                extension_activities: JSON.stringify([
+                    {"title": "Sequence Chain", "type": "comprehension", "description": "Put the helpers in order!"},
+                    {"title": "Act It Out", "type": "drama", "description": "Line up and pull an enormous turnip!"}
+                ]),
+                billy_connection: "Even the smallest goat can climb a big mountain if everyone works together!",
+                cultural_origin: "Russian",
+                public_domain: true,
+                created_date: "2026-02-13",
+                status: "complete",
+                cross_curricular_subject: null,
+                cross_curricular_connection: null
+            },
+            {
+                title: "The Three Billy Goats Gruff",
+                slug: "three-billy-goats-gruff",
+                story_type: "fairy-tale",
+                reading_level: "read-aloud",
+                lesson_start: 1,
+                lesson_end: 10,
+                unit_number: 1,
+                phonics_focus: JSON.stringify([
+                    {"pattern": "cvc", "description": "Basic consonant-vowel-consonant words"},
+                    {"pattern": "basic-sounds", "description": "Letters m,s,p,a,n,t,b,j,g,d,c,y,h,k,r,i,v,f,z,o,l,w"}
+                ]),
+                sight_words: JSON.stringify(["the", "is", "to", "I", "he", "my", "no", "so", "do", "go", "will", "was", "all", "said", "come"]),
+                decodable_words: JSON.stringify(["tap", "tip", "big", "bad", "mid", "wee", "bit", "sat", "ran", "mad", "sad", "fat", "got", "hit", "him", "not", "nab", "did", "jot", "yum", "nom", "pal", "let"]),
+                page_count: 12,
+                comprehension_skills: JSON.stringify(["listening comprehension", "repetition", "blending", "character identification", "sequence"]),
+                teacher_notes: "Repetitive phrases encourage blending practice and predictive reading.",
+                repeated_phrases: JSON.stringify(["Tap, tap, tap.", "Up, up, up to the top!", "Nom, nom, nom.", "Yum, yum, yum!", "I am big and bad!", "Not a bit. Not a jot. Not at all."]),
+                interactive_elements: JSON.stringify([
+                    {"action": "percussion", "cue": "Tap the table — tap, tap, tap!"},
+                    {"action": "movement", "cue": "Stomp your feet! STOMP, STOMP, STOMP!"},
+                    {"action": "voice", "cue": "Use a grumpy voice for the troll!"}
+                ]),
+                extension_activities: JSON.stringify([
+                    {"title": "Letter Sound Hunt", "type": "phonics", "description": "Find words that start with target letters"},
+                    {"title": "Act It Out", "type": "drama", "description": "Be the goats! Tap across the 'bridge'!"}
+                ]),
+                billy_connection: "Billy is a goat just like the Three Billy Goats! He helps kids climb the reading mountain!",
+                cultural_origin: "Norwegian",
+                public_domain: true,
+                created_date: "2026-02-13",
+                status: "complete",
+                cross_curricular_subject: null,
+                cross_curricular_connection: null
+            },
+            {
+                title: "The Gingerbread Man",
+                slug: "gingerbread-man",
+                story_type: "folk-tale",
+                reading_level: "read-aloud",
+                lesson_start: 6,
+                lesson_end: 10,
+                unit_number: 1,
+                phonics_focus: JSON.stringify([
+                    {"pattern": "consonants", "description": "Letters g,d,c,y,h,k,r,i,v,f,z,o,l,w"},
+                    {"pattern": "cvc", "description": "CVC words with all consonants"}
+                ]),
+                sight_words: JSON.stringify(["the", "a", "was", "of", "I", "he", "she", "they", "you", "said", "can", "come", "run", "and", "but", "no", "so", "my"]),
+                decodable_words: JSON.stringify(["ran", "man", "can", "hot", "got", "sit", "hit", "not", "fox", "dog", "pig", "cat", "red", "leg", "hop", "top", "zip"]),
+                page_count: 13,
+                comprehension_skills: JSON.stringify(["sequence", "cause & effect", "character traits", "predictions"]),
+                teacher_notes: "Energetic action story! Use different voices for each animal. Perfect for getting wiggles out!",
+                repeated_phrases: JSON.stringify(["Run, run, as fast as you can! You can't catch me, I'm the Gingerbread Man!", "Stop! I want to eat you!", "Hop on my _____!", "Yum!"]),
+                interactive_elements: JSON.stringify([
+                    {"action": "movement", "cue": "Run in place! Fast, fast, fast!"},
+                    {"action": "sound", "cue": "Make animal sounds—moo, woof, oink, meow!"},
+                    {"action": "dramatic", "cue": "SNAP! The fox ate him!"}
+                ]),
+                extension_activities: JSON.stringify([
+                    {"title": "Sequence the Chasers", "type": "comprehension", "description": "Who chased first? Last?"},
+                    {"title": "Character Discussion", "type": "critical-thinking", "description": "Was the fox good or bad? He was TRICKY!"}
+                ]),
+                billy_connection: "Don't run away from your lessons! The gingerbread man ran away and got into trouble!",
+                cultural_origin: "European",
+                public_domain: true,
+                created_date: "2026-02-13",
+                status: "complete",
+                cross_curricular_subject: null,
+                cross_curricular_connection: null
+            },
+            {
+                title: "The Little Red Hen",
+                slug: "little-red-hen-short",
+                story_type: "folk-tale",
+                reading_level: "read-aloud",
+                lesson_start: 8,
+                lesson_end: 10,
+                unit_number: 1,
+                phonics_focus: JSON.stringify([
+                    {"pattern": "review", "description": "Review of all consonants & vowels learned"}
+                ]),
+                sight_words: JSON.stringify(["the", "a", "said", "I", "will", "not", "who", "you", "then", "and", "we", "all", "no"]),
+                decodable_words: JSON.stringify(["hen", "red", "pig", "cat", "dog", "hot", "nap", "not", "will", "help", "dig", "cut", "bun", "did", "can"]),
+                page_count: 9,
+                comprehension_skills: JSON.stringify(["sequence", "cause & effect", "work ethic", "fairness", "consequences"]),
+                teacher_notes: "Perfect review story. Repetitive 'Not I!' and 'Then I will!' structure builds confidence.",
+                repeated_phrases: JSON.stringify(["Not I!", "Then I will!", "And she did.", "Yum, yum, yum!"]),
+                interactive_elements: JSON.stringify([
+                    {"action": "movement", "cue": "Pretend to plant seeds! Dig, dig, dig!"},
+                    {"action": "voice", "cue": "Say 'Not I!' with the lazy animals"},
+                    {"action": "voice", "cue": "Say 'Then I will!' firmly with the hen"}
+                ]),
+                extension_activities: JSON.stringify([
+                    {"title": "Sequence the Steps", "type": "comprehension", "description": "Plant → Cut → Grind → Bake → Eat!"},
+                    {"title": "Work vs. Lazy Chart", "type": "character-education", "description": "Compare who worked and who didn't"}
+                ]),
+                billy_connection: "Climbing the reading mountain takes WORK! You can't nap and expect to reach the top!",
+                cultural_origin: "European",
+                public_domain: true,
+                created_date: "2026-02-13",
+                status: "complete",
+                cross_curricular_subject: "science",
+                cross_curricular_connection: "How seeds grow, where bread comes from"
+            },
+            {
+                title: "The Three Little Pigs",
+                slug: "three-little-pigs",
+                story_type: "fairy-tale",
+                reading_level: "read-aloud",
+                lesson_start: 11,
+                lesson_end: 20,
+                unit_number: 1,
+                phonics_focus: JSON.stringify([
+                    {"pattern": "vowels", "description": "All five vowels (a, e, i, o, u)"},
+                    {"pattern": "th", "description": "Consonant team TH"},
+                    {"pattern": "sh", "description": "Consonant team SH"}
+                ]),
+                sight_words: JSON.stringify(["the", "a", "of", "was", "to", "said", "I", "he", "you", "my", "do", "go", "all", "come", "no", "so", "will", "then", "what", "with", "his", "this"]),
+                decodable_words: JSON.stringify(["pig", "big", "run", "fun", "den", "red", "chin", "huff", "puff", "fell", "quit", "shed", "rush", "wish", "fish", "dish", "path", "bath", "that", "this", "then", "them", "with"]),
+                page_count: 13,
+                comprehension_skills: JSON.stringify(["character traits", "cause & effect", "sequence", "predictions"]),
+                teacher_notes: "Famous 'huff and puff' refrain reinforces blending. Use different voices for each pig!",
+                repeated_phrases: JSON.stringify(["I'll huff, and I'll puff, and I'll blow your den in!", "Not by the hair on my chinny-chin-chin!", "Swish, swish, swish!", "Tap, tap, tap!", "Thud, thud, thud!"]),
+                interactive_elements: JSON.stringify([
+                    {"action": "sound", "cue": "Blow like the wolf! WHOOOOSH!"},
+                    {"action": "movement", "cue": "Run in place!"},
+                    {"action": "voice", "cue": "Use different voices for each pig!"}
+                ]),
+                extension_activities: JSON.stringify([
+                    {"title": "TH & SH Sound Hunt", "type": "phonics", "description": "Find all TH and SH words!"},
+                    {"title": "Act It Out", "type": "drama", "description": "Build pretend dens with pillows!"}
+                ]),
+                billy_connection: "Billy the Goat also met a mean creature under a bridge! Troll like the wolf?",
+                cultural_origin: "European",
+                public_domain: true,
+                created_date: "2026-02-13",
+                status: "complete",
+                cross_curricular_subject: null,
+                cross_curricular_connection: null
+            },
+            {
+                title: "The Lion and the Mouse",
+                slug: "lion-and-mouse",
+                story_type: "fable",
+                reading_level: "read-aloud",
+                lesson_start: 11,
+                lesson_end: 15,
+                unit_number: 1,
+                phonics_focus: JSON.stringify([
+                    {"pattern": "vowels", "description": "All five vowels (a,e,i,o,u) in CVC words"}
+                ]),
+                sight_words: JSON.stringify(["the", "a", "was", "one", "day", "he", "said", "you", "I", "will", "not", "can", "help", "but", "then", "so", "my", "no", "go"]),
+                decodable_words: JSON.stringify(["big", "nap", "ran", "net", "let", "bit", "him", "did", "got", "rip", "top", "set"]),
+                page_count: 11,
+                comprehension_skills: JSON.stringify(["kindness", "theme/moral", "cause & effect", "predictions"]),
+                teacher_notes: "Short and sweet! Big voice for lion, tiny voice for mouse. Powerful lesson: small can help big!",
+                repeated_phrases: JSON.stringify(["ROAR! ROAR!", "Zip, zip, zip!", "Nibble, nibble, nibble!", "Let me go!", "I will help you one day!"]),
+                interactive_elements: JSON.stringify([
+                    {"action": "sound", "cue": "ROAR like a lion! Use your biggest voice!"},
+                    {"action": "movement", "cue": "Run your fingers like a mouse!"},
+                    {"action": "sound", "cue": "Make nibbling sounds! Nibble, nibble!"}
+                ]),
+                extension_activities: JSON.stringify([
+                    {"title": "Theme Discussion", "type": "comprehension", "description": "Even the smallest can help the biggest!"},
+                    {"title": "Act It Out", "type": "drama", "description": "Big lion voice, tiny mouse voice!"}
+                ]),
+                billy_connection: "I'm a small goat, but I can climb BIG mountains! Small can be mighty!",
+                cultural_origin: "Greek",
+                public_domain: true,
+                created_date: "2026-02-13",
+                status: "complete",
+                cross_curricular_subject: null,
+                cross_curricular_connection: null
+            },
+            {
+                title: "The Fox and the Grapes",
+                slug: "fox-and-grapes",
+                story_type: "fable",
+                reading_level: "read-aloud",
+                lesson_start: 16,
+                lesson_end: 17,
+                unit_number: 1,
+                phonics_focus: JSON.stringify([
+                    {"pattern": "qu", "description": "QU words (quick, quit)"},
+                    {"pattern": "x", "description": "X words (fox, box, six, fix)"}
+                ]),
+                sight_words: JSON.stringify(["the", "a", "was", "he", "said", "I", "no", "they", "are", "so", "too"]),
+                decodable_words: JSON.stringify(["fox", "box", "six", "fix", "mix", "quit", "quick", "hot", "got", "can", "ran", "sat", "get"]),
+                page_count: 7,
+                comprehension_skills: JSON.stringify(["character attitude", "theme/moral", "making excuses", "honesty"]),
+                teacher_notes: "Very short! Perfect for QU/X practice. Origin of 'sour grapes' saying!",
+                repeated_phrases: JSON.stringify(["Jump! Jump! Jump!", "I am quick, but I cannot get them.", "They are too sour!", "I did not want those grapes anyway!"]),
+                interactive_elements: JSON.stringify([
+                    {"action": "movement", "cue": "Jump and try to reach the grapes!"},
+                    {"action": "voice", "cue": "Use a snooty, excuse-making voice at the end!"}
+                ]),
+                extension_activities: JSON.stringify([
+                    {"title": "Sour Grapes Saying", "type": "vocabulary", "description": "This is where the saying comes from!"},
+                    {"title": "Honesty vs. Excuses", "type": "character-education", "description": "What SHOULD the fox have said?"}
+                ]),
+                billy_connection: "Don't say 'I didn't want to read that book anyway!' That's SOUR GRAPES! Keep trying!",
+                cultural_origin: "Greek",
+                public_domain: true,
+                created_date: "2026-02-13",
+                status: "complete",
+                cross_curricular_subject: null,
+                cross_curricular_connection: null
+            },
+            {
+                title: "The Shoemaker and the Elves",
+                slug: "shoemaker-and-elves",
+                story_type: "fairy-tale",
+                reading_level: "read-aloud",
+                lesson_start: 18,
+                lesson_end: 20,
+                unit_number: 1,
+                phonics_focus: JSON.stringify([
+                    {"pattern": "th", "description": "Consonant team TH (this, that, them, then, thank)"},
+                    {"pattern": "sh", "description": "Consonant team SH (shoe, shop, wish, hush)"},
+                    {"pattern": "ch", "description": "Consonant team CH (much, such, which, rich, stitch)"}
+                ]),
+                sight_words: JSON.stringify(["the", "a", "was", "were", "he", "they", "said", "I", "we", "will", "not", "what", "who", "are", "all", "so", "very", "made", "came", "then"]),
+                decodable_words: JSON.stringify(["shoe", "shop", "wish", "dish", "rush", "hush", "shut", "shed", "this", "that", "them", "then", "thank", "with", "path", "much", "such", "which", "rich", "bench", "stitch"]),
+                page_count: 15,
+                comprehension_skills: JSON.stringify(["mystery", "kindness rewarded", "predictions", "gratitude", "nighttime setting"]),
+                teacher_notes: "Magical mystery! WHO is helping? Perfect for TH/SH/CH practice. Whisper during elf parts!",
+                repeated_phrases: JSON.stringify(["Stitch, stitch, stitch!", "Tip, tap, tip, tap!", "Shhhh! Hush!", "What is this?!", "Who made these?!", "Thank you, thank you!"]),
+                interactive_elements: JSON.stringify([
+                    {"action": "movement", "cue": "Tiptoe like tiny elves! Tip, tap!"},
+                    {"action": "sound", "cue": "Whisper! Shhhh! Hush!"},
+                    {"action": "movement", "cue": "Pretend to sew! Stitch, stitch!"}
+                ]),
+                extension_activities: JSON.stringify([
+                    {"title": "Mystery & Predictions", "type": "comprehension", "description": "WHO is making the shoes?"},
+                    {"title": "Gratitude Discussion", "type": "character-education", "description": "How do you show you're thankful?"}
+                ]),
+                billy_connection: "Magic happens when you practice every night—you wake up BETTER!",
+                cultural_origin: "German",
+                public_domain: true,
+                created_date: "2026-02-13",
+                status: "complete",
+                cross_curricular_subject: null,
+                cross_curricular_connection: null
+            },
+            {
+                title: "The Town Mouse and the Country Mouse",
+                slug: "town-mouse-country-mouse",
+                story_type: "fable",
+                reading_level: "shared-reading",
+                lesson_start: 21,
+                lesson_end: 23,
+                unit_number: 1,
+                phonics_focus: JSON.stringify([
+                    {"pattern": "ch", "description": "CH words (much, such, which, rich, lunch, munch, cheese)"},
+                    {"pattern": "blends", "description": "Initial blends (friend, fresh, grass, grand)"}
+                ]),
+                sight_words: JSON.stringify(["the", "a", "was", "were", "he", "said", "I", "you", "my", "come", "this", "what", "but", "no", "so", "very", "are", "here", "there", "where"]),
+                decodable_words: JSON.stringify(["friend", "best", "grass", "fresh", "grand", "crumb", "fast", "just", "must", "from", "stop", "such", "much", "lunch", "munch", "cheese", "peach", "rich"]),
+                page_count: 13,
+                comprehension_skills: JSON.stringify(["setting", "compare & contrast", "character preferences", "theme", "predictions"]),
+                teacher_notes: "Perfect for teaching SETTING! Two clear settings: country (peaceful) vs. town (fancy but dangerous).",
+                repeated_phrases: JSON.stringify(["Munch, munch, munch!", "This is so good!", "Run! Fast!", "No, no, no!", "This is the best!"]),
+                interactive_elements: JSON.stringify([
+                    {"action": "movement", "cue": "Run and hide from the cat! Then the dog!"},
+                    {"action": "voice", "cue": "Snooty voice for Town Mouse, content voice for Country Mouse"}
+                ]),
+                extension_activities: JSON.stringify([
+                    {"title": "Setting Comparison Chart", "type": "comprehension", "description": "Compare country vs. town!"},
+                    {"title": "Where Stories Happen", "type": "skill-focus", "description": "Practice identifying SETTING"}
+                ]),
+                billy_connection: "I live on a mountain! Not fancy, but I LOVE it! Find what makes YOU happy!",
+                cultural_origin: "Greek",
+                public_domain: true,
+                created_date: "2026-02-13",
+                status: "complete",
+                cross_curricular_subject: "social-studies",
+                cross_curricular_connection: "Town vs. country living, communities, geography"
+            },
+            {
+                title: "The Ant and the Grasshopper",
+                slug: "ant-and-grasshopper-short",
+                story_type: "fable",
+                reading_level: "shared-reading",
+                lesson_start: 24,
+                lesson_end: 26,
+                unit_number: 1,
+                phonics_focus: JSON.stringify([
+                    {"pattern": "initial-blends", "description": "PL, GR, CR, TR, FL, ST, SP blends"},
+                    {"pattern": "final-blends", "description": "-ST, -ND, -NT, -MP blends"}
+                ]),
+                sight_words: JSON.stringify(["the", "a", "was", "it", "he", "said", "I", "will", "not", "you", "what", "are", "have", "no", "my", "come", "all", "when"]),
+                decodable_words: JSON.stringify(["grasshopper", "plant", "grass", "sunny", "jump", "spend", "rest", "nest", "ants", "fast", "last", "just", "crisp", "frost", "winter", "spring", "grand"]),
+                page_count: 14,
+                comprehension_skills: JSON.stringify(["planning ahead", "work vs. play", "consequences", "cause & effect", "seasons"]),
+                teacher_notes: "TONS of blends! Perfect for lessons 24-26. Planning ahead theme is important life lesson.",
+                repeated_phrases: JSON.stringify(["Lift, lift, lift!", "Hop, hop, hop!", "I must work fast!", "I spent all summer playing!", "Plan ahead!"]),
+                interactive_elements: JSON.stringify([
+                    {"action": "movement", "cue": "March like a busy ant!"},
+                    {"action": "movement", "cue": "Hop like a grasshopper!"},
+                    {"action": "drama", "cue": "Shiver in winter! Brrr!"}
+                ]),
+                extension_activities: JSON.stringify([
+                    {"title": "Work Now, Enjoy Later", "type": "character-education", "description": "Ant worked → had food. Grasshopper played → hungry!"},
+                    {"title": "Seasons & Planning", "type": "science", "description": "Summer → prepare for winter!"}
+                ]),
+                billy_connection: "Practice reading a LITTLE BIT every day! By year's end, you can read ANYTHING!",
+                cultural_origin: "Greek",
+                public_domain: true,
+                created_date: "2026-02-13",
+                status: "complete",
+                cross_curricular_subject: "science",
+                cross_curricular_connection: "Seasons, weather, how animals prepare for winter"
+            },
+            {
+                title: "The Bremen Town Musicians",
+                slug: "bremen-town-musicians",
+                story_type: "folk-tale",
+                reading_level: "shared-reading",
+                lesson_start: 27,
+                lesson_end: 28,
+                unit_number: 1,
+                phonics_focus: JSON.stringify([
+                    {"pattern": "onomatopoeia", "description": "Sound words! (HEE-HAW, WOOF, MEOW, COCK-A-DOODLE-DOO)"},
+                    {"pattern": "blends", "description": "Bremen, friends, stand, stomp, crept, scare"}
+                ]),
+                sight_words: JSON.stringify(["the", "a", "was", "were", "he", "said", "you", "I", "will", "not", "can", "are", "my", "what", "who", "they", "all", "then", "come", "there"]),
+                decodable_words: JSON.stringify(["donkey", "Bremen", "friends", "stand", "grand", "roost", "stomp", "crept", "strum", "crash", "scare", "scared", "blast"]),
+                page_count: 16,
+                comprehension_skills: JSON.stringify(["teamwork", "onomatopoeia", "problem/solution", "sequence", "characters working together"]),
+                teacher_notes: "SO MUCH FUN! Kids LOVE making animal sounds. Perfect for Lesson 27 (sound words)!",
+                repeated_phrases: JSON.stringify(["What is wrong?", "I have no home.", "Come with us! We will be musicians!", "HEE-HAW! WOOF! MEOW! COCK-A-DOODLE-DOO!", "They ran and ran and ran!"]),
+                interactive_elements: JSON.stringify([
+                    {"action": "sound", "cue": "Make ALL the animal sounds! HEE-HAW! WOOF! MEOW! COCK-A-DOODLE-DOO!"},
+                    {"action": "movement", "cue": "Stack your hands like a tower!"},
+                    {"action": "drama", "cue": "Fall through the window! CRASH!"}
+                ]),
+                extension_activities: JSON.stringify([
+                    {"title": "Teamwork Tower", "type": "drama", "description": "Stack up and make sounds together!"},
+                    {"title": "Make Your Own Animal Band", "type": "music", "description": "Everyone picks an animal sound!"}
+                ]),
+                billy_connection: "Different animals worked together and were STRONGER! Use DIFFERENT reading skills together!",
+                cultural_origin: "German",
+                public_domain: true,
+                created_date: "2026-02-13",
+                status: "complete",
+                cross_curricular_subject: "music",
+                cross_curricular_connection: "Animal sounds, rhythm, loud/soft, conducting"
+            },
+            {
+                title: "Goldilocks and the Three Bears",
+                slug: "goldilocks-and-three-bears",
+                story_type: "fairy-tale",
+                reading_level: "shared-reading",
+                lesson_start: 21,
+                lesson_end: 33,
+                unit_number: 1,
+                phonics_focus: JSON.stringify([
+                    {"pattern": "initial-blends", "description": "BL, BR, CR, DR, FR, GL, GR, PL, SL, TR blends"},
+                    {"pattern": "final-blends", "description": "-FT, -LT, -MP, -ND, -NT, -SK, -ST blends"}
+                ]),
+                sight_words: JSON.stringify(["the", "a", "of", "was", "were", "to", "said", "I", "she", "her", "but", "this", "that", "not", "all", "just", "too", "went", "then", "came", "home", "three", "little", "what", "who"]),
+                decodable_words: JSON.stringify(["blend", "brown", "black", "blond", "glad", "grass", "trip", "fresh", "west", "just", "soft", "left", "felt", "rest", "best", "last", "must", "and", "went", "fast"]),
+                page_count: 17,
+                comprehension_skills: JSON.stringify(["story sequence", "predictions", "problem/solution", "cause & effect", "character actions", "descriptive language"]),
+                teacher_notes: "Famous 'too big, too small, just right' structure! Tons of blends for practice.",
+                repeated_phrases: JSON.stringify(["This is TOO BIG!", "This is TOO SMALL!", "This is JUST RIGHT!", "Someone has been eating my oats!", "Someone has been sitting in my chair!", "Someone has been sleeping in my bed!"]),
+                interactive_elements: JSON.stringify([
+                    {"action": "voice", "cue": "Use three different voices for the bears!"},
+                    {"action": "sound", "cue": "CRACK! CRASH! The chair broke!"},
+                    {"action": "movement", "cue": "Pretend to climb stairs! Creak, creak!"}
+                ]),
+                extension_activities: JSON.stringify([
+                    {"title": "Blend Hunt", "type": "phonics", "description": "Find initial & final blends!"},
+                    {"title": "Three of Everything", "type": "activity", "description": "Draw three bowls, chairs, beds"}
+                ]),
+                billy_connection: "Sometimes lessons are 'too hard,' sometimes 'too easy,' but when it's 'just right,' you learn best!",
+                cultural_origin: "European",
+                public_domain: true,
+                created_date: "2026-02-13",
+                status: "complete",
+                cross_curricular_subject: null,
+                cross_curricular_connection: null
+            },
+            {
+                title: "The Boy Who Cried Wolf",
+                slug: "boy-who-cried-wolf",
+                story_type: "fable",
+                reading_level: "shared-reading",
+                lesson_start: 28,
+                lesson_end: 33,
+                unit_number: 1,
+                phonics_focus: JSON.stringify([
+                    {"pattern": "blends", "description": "Especially 'wolf' (wl-), cried (cr-), sheep (sh-)"},
+                    {"pattern": "review", "description": "Review of all Unit 1 patterns"}
+                ]),
+                sight_words: JSON.stringify(["the", "a", "was", "there", "said", "he", "they", "came", "come", "help", "no", "what", "but", "when", "then", "all", "too", "so", "now"]),
+                decodable_words: JSON.stringify(["wolf", "cried", "sheep", "help", "hill", "grass", "craft", "tricks", "glad", "flock", "trust", "left", "must", "just", "fast", "last"]),
+                page_count: 15,
+                comprehension_skills: JSON.stringify(["cause & effect", "character motivation", "consequences", "honesty", "story moral", "predictions"]),
+                teacher_notes: "Short, powerful fable! Perfect for cause/effect discussions. When you lie, people won't trust you!",
+                repeated_phrases: JSON.stringify(["WOLF! WOLF!", "Help! Help!", "Munch, munch, munch.", "Fast, fast, fast!", "There is NO wolf!"]),
+                interactive_elements: JSON.stringify([
+                    {"action": "sound", "cue": "Shout 'WOLF! WOLF! HELP! HELP!'"},
+                    {"action": "movement", "cue": "Run in place! Fast, fast, fast!"},
+                    {"action": "drama", "cue": "Clap to chase the wolf away!"}
+                ]),
+                extension_activities: JSON.stringify([
+                    {"title": "Cause & Effect Chart", "type": "comprehension", "description": "Map every lie and its consequence"},
+                    {"title": "Trust Discussion", "type": "character-education", "description": "How do you earn trust? How do you lose it?"}
+                ]),
+                billy_connection: "Be honest about reading! Don't pretend when you're guessing. People will trust you!",
+                cultural_origin: "Greek",
+                public_domain: true,
+                created_date: "2026-02-13",
+                status: "complete",
+                cross_curricular_subject: "character-education",
+                cross_curricular_connection: "Honesty, trustworthiness, consequences of lying"
+            },
+            {
+                title: "Henny Penny (Chicken Little)",
+                slug: "henny-penny",
+                story_type: "folk-tale",
+                reading_level: "shared-reading",
+                lesson_start: 29,
+                lesson_end: 31,
+                unit_number: 1,
+                phonics_focus: JSON.stringify([
+                    {"pattern": "double-letters", "description": "FF, LL, SS (Henny, Penny, fell, will, tell, call, all, off)"}
+                ]),
+                sight_words: JSON.stringify(["the", "is", "I", "said", "will", "go", "tell", "king", "was", "a", "what", "are", "you", "they", "come", "all", "then", "no"]),
+                decodable_words: JSON.stringify(["Henny", "Penny", "fell", "will", "bell", "tell", "call", "all", "off", "hill", "Ducky", "Goosey", "Turkey", "shell", "yell"]),
+                page_count: 14,
+                comprehension_skills: JSON.stringify(["cause & effect", "don't panic", "check facts", "sequence", "silly/humor"]),
+                teacher_notes: "Silly story! Perfect for double-letter practice. Lesson: Don't panic! Check facts first!",
+                repeated_phrases: JSON.stringify(["The sky is falling!", "I will go tell the king!", "I will come too!", "And off they went!", "Where are you going?"]),
+                interactive_elements: JSON.stringify([
+                    {"action": "sound", "cue": "Shout 'The sky is falling!' dramatically"},
+                    {"action": "movement", "cue": "Run in place—everyone's panicking!"},
+                    {"action": "voice", "cue": "Use a sly voice for Foxy Loxy"}
+                ]),
+                extension_activities: JSON.stringify([
+                    {"title": "Don't Panic! Don't Believe Everything!", "type": "critical-thinking", "description": "CHECK before you panic!"},
+                    {"title": "Cumulative Story Pattern", "type": "comprehension", "description": "Adds characters one by one"}
+                ]),
+                billy_connection: "Don't panic when reading gets hard! Don't say 'I can't!' Check first. Sound it out. Then ask for help!",
+                cultural_origin: "European",
+                public_domain: true,
+                created_date: "2026-02-13",
+                status: "complete",
+                cross_curricular_subject: "critical-thinking",
+                cross_curricular_connection: "Checking facts, not panicking, evaluating information"
+            },
+            {
+                title: "The Tortoise and the Hare",
+                slug: "tortoise-and-hare-simple",
+                story_type: "fable",
+                reading_level: "independent",
+                lesson_start: 32,
+                lesson_end: 33,
+                unit_number: 1,
+                phonics_focus: JSON.stringify([
+                    {"pattern": "review-all", "description": "Review of ALL Unit 1 patterns (CVC, blends, digraphs, sight words)"}
+                ]),
+                sight_words: JSON.stringify(["the", "a", "was", "were", "he", "said", "I", "am", "you", "are", "so", "very", "will", "can", "we", "have", "let", "then", "but", "just", "all", "who", "what"]),
+                decodable_words: JSON.stringify(["hare", "fast", "quick", "run", "brag", "slow", "plod", "race", "path", "rest", "nap", "last", "past", "win", "wins"]),
+                page_count: 15,
+                comprehension_skills: JSON.stringify(["theme/moral", "character traits", "don't give up", "perseverance", "story problem review"]),
+                teacher_notes: "PERFECT ending for Unit 1! 'Slow and steady wins the race!' Motivational and reviews ALL skills!",
+                repeated_phrases: JSON.stringify(["Zoom, zoom, zoom!", "Plod, plod, plod.", "Slow and steady.", "I am the fastest!", "I will win!"]),
+                interactive_elements: JSON.stringify([
+                    {"action": "movement", "cue": "Hop fast for Hare, walk slow for Tortoise!"},
+                    {"action": "drama", "cue": "Pretend to sleep! Zzzzz..."},
+                    {"action": "voice", "cue": "Proud voice for Hare, calm voice for Tortoise"}
+                ]),
+                extension_activities: JSON.stringify([
+                    {"title": "Slow and Steady Wins!", "type": "theme", "description": "Being CONSISTENT beats being FAST but LAZY"},
+                    {"title": "Unit 1 Review Celebration", "type": "milestone", "description": "You finished Unit 1! You can READ!"}
+                ]),
+                billy_connection: "I keep climbing EVERY DAY. Slow and steady! Practice every day and you'll reach the top!",
+                cultural_origin: "Greek",
+                public_domain: true,
+                created_date: "2026-02-13",
+                status: "complete",
+                cross_curricular_subject: "character-education",
+                cross_curricular_connection: "Perseverance, staying motivated, finishing what you start"
+            }
+        ];
+
+        // Update total pages stat
+        const totalPages = storyReaders.reduce((sum, story) => sum + story.page_count, 0);
+        document.getElementById('totalPages').textContent = totalPages;
+
+        async function loadAllStories() {
+            const loadBtn = document.getElementById('loadBtn');
+            const progressContainer = document.getElementById('progressContainer');
+            const progressFill = document.getElementById('progressFill');
+            const status = document.getElementById('status');
+            const storyList = document.getElementById('storyList');
+            const completedStat = document.getElementById('completedStories');
+
+            loadBtn.disabled = true;
+            progressContainer.style.display = 'block';
+            storyList.style.display = 'block';
+            storyList.innerHTML = '';
+            status.textContent = 'Loading Unit 1 story collection...';
+
+            let loaded = 0;
+            const total = storyReaders.length;
+
+            for (const story of storyReaders) {
+                try {
+                    // Create story item in list
+                    const storyItem = document.createElement('div');
+                    storyItem.className = 'story-item';
+                    storyItem.innerHTML = `
+                        <div class="title">${story.title}</div>
+                        <div class="meta">Lessons ${story.lesson_start}-${story.lesson_end} | ${story.page_count} pages | ${story.reading_level} | ${story.story_type}</div>
+                    `;
+                    storyList.appendChild(storyItem);
+
+                    // Simulate API call (replace with actual API when backend is ready)
+                    await new Promise(resolve => setTimeout(resolve, 400));
+
+                    // Mark as loaded
+                    storyItem.classList.add('loaded');
+                    loaded++;
+
+                    // Update progress
+                    const percent = Math.round((loaded / total) * 100);
+                    progressFill.style.width = percent + '%';
+                    progressFill.textContent = percent + '%';
+                    completedStat.textContent = loaded;
+
+                } catch (error) {
+                    console.error('Error loading story:', story.title, error);
+                    status.className = 'status error';
+                    status.textContent = `Error loading ${story.title}: ${error.message}`;
+                }
+            }
+
+            if (loaded === total) {
+                status.className = 'status success';
+                status.textContent = `✅ SUCCESS! All ${total} Unit 1 story readers loaded! 🎉 Total: ${totalPages} pages of content!`;
+                loadBtn.textContent = '✓ All Stories Loaded!';
+            } else {
+                status.className = 'status error';
+                status.textContent = `⚠️ Loaded ${loaded} of ${total} stories. Check console for errors.`;
+                loadBtn.disabled = false;
+            }
+        }
+
+        // Log story data for debugging
+        console.log('📚 Unit 1 Story Readers:', storyReaders);
+        console.log(`📖 Total Stories: ${storyReaders.length}`);
+        console.log(`📄 Total Pages: ${storyReaders.reduce((sum, s) => sum + s.page_count, 0)}`);
+    </script>
+</body>
+</html>

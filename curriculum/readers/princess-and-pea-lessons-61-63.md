@@ -1,0 +1,220 @@
+# The Princess and the Pea
+## A Beginning Reader for Lessons 61-63
+### A Fairy Tale Retelling For Beginning Readers
+
+---
+
+## For the Teacher or Parent
+
+**Teacher/Parent Note:**  
+This classic Hans Christian Andersen tale focuses on **soft C** (saying /s/ as in "princess, place, nice") and **CK words**. **Bold words** feature target patterns. *Underlined words* are sight words. Theme: True identity always shows through!
+
+**Target Lessons:** 61-63  
+**Phonics Focus:** Soft C (ce, ci, cy), CK ending  
+**Key Sight Words:** the, was, a, said, she, very, could  
+**Decodable Words:** princess, palace, place, nice, dance, grace, back, sack, stack, track, trick, sick, pick, thick  
+**Comprehension Skills:** Story structure, problem/solution, character identity
+
+---
+
+## How to Use This Book:
+
+1. **First Read:** Use a regal voice for the prince and queen!
+2. **Second Read:** Predict: Will the girl be a real princess?
+3. **Third Read:** Find soft C and CK words!
+4. **Practice:** C says /s/ before E, I, or Y. Words often end with CK after a short vowel!
+
+---
+
+## The Story
+
+### Page 1
+Once upon a time, there **was** a **prince**.
+
+He lived in a grand **palace** with his mother, the queen.
+
+The **prince** wanted to marry a **princess**. But she had to be a **real** **princess**!
+
+He traveled all over the world looking for one.
+
+[A prince looking for a real princess!]
+
+---
+
+### Page 2
+The **prince** met many girls. Some **were** **very** **nice**. Some **were** **very** pretty.
+
+But the **prince** **could** not tell if they **were** **real** **princesses**.
+
+"How can I know if they are **real**?" he wondered.
+
+He came **back** to the **palace**, sad and alone. He had not found a **real** **princess**.
+
+[He can't find a real princess!]
+
+---
+
+### Page 3
+One night, there **was** a terrible storm!
+
+Thunder crashed! Lightning flashed! Rain poured down!
+
+Suddenly, someone knocked on the **palace** door.
+
+**Knock, knock, knock!**
+
+The queen opened the door.
+
+[A storm! Someone is at the door!]
+
+---
+
+### Page 4
+There stood a girl. She **was** soaking wet! Water dripped from her hair. Her dress **was** muddy.
+
+"Please," said the girl, "may I come in? I am caught in the storm!"
+
+"Of course!" said the queen. "Come inside! What is your name?"
+
+"I am a **princess**," said the girl.
+
+[A girl says she's a princess! But she looks like a mess!]
+
+---
+
+### Page 5
+The queen looked at the girl. She did not **look** like a **princess**. She looked like she had been walking through the mud!
+
+"A **princess**, you say?" said the queen. "We shall see about that!"
+
+The queen had a plan. She would test the girl. She would see if this girl **was** a **real** **princess**!
+
+[The queen has a test!]
+
+---
+
+### Page 6
+The queen went to the guest room. She took all the blankets **off** the bed.
+
+Then she **placed** one tiny pea on the bed.
+
+On top of the pea, she **stacked** twenty mattresses! One on top of another! A huge **stack**!
+
+Then she put twenty **thick** quilts on top of the mattresses!
+
+[One tiny pea under TWENTY mattresses!]
+
+---
+
+### Page 7
+"Your bed is ready!" said the queen to the girl.
+
+The girl looked up at the tall bed. It **was** so high, she needed a ladder to climb up!
+
+"Thank you," said the girl **politely**. "This is **very** **nice** of you."
+
+She climbed the ladder and got into bed.
+
+[Such a tall bed!]
+
+---
+
+### Page 8
+In the morning, the queen asked the girl, "Did you sleep well?"
+
+The girl shook her head. "I am sorry, but no," she said. "There **was** something hard in the bed! I could feel it all night! I am black and blue all over! I could hardly sleep!"
+
+The queen smiled. "Something hard, you say?"
+
+[She felt the pea! Through all those mattresses!]
+
+---
+
+### Page 9
+"Yes!" said the girl. "I do not mean to complain. You have been so **nice**. But I feel **sick** from not sleeping! My **back** hurts!"
+
+The queen clapped her hands. "You **are** a **real** **princess**!" she cried.
+
+The girl **was** confused. "How do you know?"
+
+[The queen is happy! Why?]
+
+---
+
+### Page 10
+"Only a **real** **princess** could feel a tiny pea through twenty mattresses and twenty quilts!" said the queen.
+
+"You have such tender skin and such **grace**! You must be a **real** **princess**!"
+
+The girl smiled. "Yes, I am! I got lost in the storm, but I am truly a **princess**!"
+
+[Only a real princess is that sensitive!]
+
+---
+
+### Page 11
+The **prince** **was** overjoyed! He had finally found a **real** **princess**!
+
+"Will you marry me?" he asked.
+
+"Yes!" said the **princess**. "I will!"
+
+They had a grand wedding at the **palace**. They **danced** and celebrated!
+
+[A wedding! A happy ending!]
+
+---
+
+### Page 12
+The **prince** and the **princess** lived happily ever after.
+
+And the tiny pea? The queen **placed** it in a museum so everyone could see it!
+
+It is probably still there, unless someone took it **back**!
+
+**THE END**
+
+[The pea is in a museum!]
+
+---
+
+## Back Matter
+
+### Blending Practice
+**Soft C Words (C says /s/):**  
+princess, palace, place, nice, dance, grace, ice, mice, race, face, lace, trace, fence, prince
+
+**CK Words:**  
+back, sack, stack, track, trick, sick, pick, thick, quick, stick, black, check, neck, deck, lock, rock
+
+**Other Decodable Words:**  
+queen, storm, rain, wet, test, bed, pea, sleep, night, girl, real, true, marry
+
+### Repeated Phrases to Practice
+**"A real princess!"** | **"Nice and polite"** | **"Back at the palace"**
+
+### Talk About the Story
+1. What was the prince looking for? (A real princess!)
+2. Who came to the palace in the storm? (A girl who said she was a princess!)
+3. What test did the queen create? (She put a pea under twenty mattresses!)
+4. How did the girl prove she was a real princess? (She felt the pea through all the mattresses!)
+5. What happened at the end? (The prince and princess got married!)
+
+### Extension Activities
+- **Soft C vs. Hard C:** Find all the C words. Does C say /s/ (soft) or /k/ (hard)? (Hint: Soft C comes before E, I, or Y!)
+- **CK Hunt:** Find all the words ending in CK. Notice they all have short vowels before the CK!
+- **Act It Out:** Pretend to climb a very tall bed! Act like something is poking you!
+- **Draw & Write:** Draw the huge stack of mattresses with the tiny pea at the bottom!
+- **Billy's Connection:** Billy the Goat knows that real things show through! You can't fake who you really are!
+
+### Character Education
+**Theme:** True identity can't be hidden. The princess was soaking wet and muddy, but her true nature showed through. Real character always reveals itself!
+
+**Discussion:** What makes someone "real" or genuine? Is it how they look, or something deeper?
+
+---
+
+**Story Source:** Hans Christian Andersen (Public Domain)  
+**BedrockELA Adaptation:** February 2026  
+**For use with:** BedrockELA 1st Grade Curriculum, Lessons 61-63  
+**Mountain Connection:** Billy says, "You can't fake being real! Your true self always shows!" 🐐⛰️👑

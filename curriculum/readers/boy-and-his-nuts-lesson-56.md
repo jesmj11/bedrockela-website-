@@ -1,0 +1,158 @@
+# The Boy and His Nuts
+## A Beginning Reader for Lesson 56
+### An Aesop's Fable Retelling For Beginning Readers
+
+---
+
+## For the Teacher or Parent
+
+**Teacher/Parent Note:**  
+This very short Aesop fable focuses on **OI/OY diphthongs**. Perfect for a quick, focused practice! **Bold words** feature OI/OY patterns. *Underlined words* are sight words. Moral: Don't be greedy—sometimes less is more!
+
+**Target Lesson:** 56  
+**Phonics Focus:** OI/OY diphthongs  
+**Key Sight Words:** the, a, was, his, he, could, not  
+**Decodable Words:** boy, toy, noise, voice, point, coins, oil, join, moist, joy, enjoy  
+**Comprehension Skills:** Cause and effect, moral lesson, problem-solving
+
+---
+
+## How to Use This Book:
+
+1. **First Read:** Read aloud. Act out reaching into the jar!
+2. **Second Read:** Discuss the moral. What should the boy have done?
+3. **Third Read:** Hunt for OI and OY words!
+4. **Practice:** OI and OY both say /oy/ (like in "boy" and "coin")!
+
+---
+
+## The Story
+
+### Page 1
+There **was** once a **boy**.
+
+One day, he saw a big jar on the table. It **was** full of nuts!
+
+The **boy** loved nuts. His **eyes** lit up with **joy**!
+
+"I want some nuts!" said the **boy**.
+
+[A jar full of nuts! The boy is excited!]
+
+---
+
+### Page 2
+The **boy** reached into the jar. He grabbed as many nuts as he **could**!
+
+His hand **was** full. Very full!
+
+He had so many nuts, his fist **was** huge!
+
+[He grabbed SO many nuts!]
+
+---
+
+### Page 3
+The **boy** tried to pull **his** hand out of the jar.
+
+But it would **not** come out! His fist **was** too big!
+
+The **boy** pulled and pulled. **His** hand **was** stuck!
+
+"Oh no!" cried the **boy**. "I can't get my hand **out**!"
+
+[Uh oh! His hand is stuck!]
+
+---
+
+### Page 4
+The **boy** started to cry. He made a lot of **noise**.
+
+"Help! Help!" **his** **voice** called.
+
+**His** mother came into the room.
+
+"What is wrong?" she asked.
+
+[The boy is crying! He needs help!]
+
+---
+
+### Page 5
+"My hand is stuck in the jar!" cried the **boy**. "I can't get it out!"
+
+**His** mother looked at the jar. She smiled.
+
+"Let go of some of the nuts," she said. "Then your hand will fit through."
+
+[His mother has a solution!]
+
+---
+
+### Page 6
+But the **boy** did **not** want to let go. "I want all the nuts!" he said.
+
+"You must choose," said **his** mother. "A few nuts, or no nuts at all."
+
+The **boy** thought about it. Then he let go of half the nuts.
+
+**His** hand came out easily!
+
+[He had to let some go!]
+
+---
+
+### Page 7
+The **boy** looked at the nuts in **his** hand. He still had plenty!
+
+"I was greedy," he said. "I wanted too much. Now I see: it is better to take a little than to lose it all!"
+
+**His** mother smiled. "That is a wise lesson to learn!"
+
+And the **boy** **enjoyed** **his** nuts happily.
+
+**THE END**
+
+[The boy learned his lesson!]
+
+---
+
+## Back Matter
+
+### Blending Practice
+**OI Diphthong Words:**  
+noise, voice, point, coins, oil, join, moist, boil, soil, choice, spoil
+
+**OY Diphthong Words:**  
+boy, toy, joy, enjoy, Roy, employ, annoy, destroy
+
+**Other Decodable Words:**  
+jar, nuts, hand, full, pull, stuck, help, room, came, let, half, wise
+
+### Repeated Phrases to Practice
+**"The boy"** | **"His hand"** | **"Noise"** | **"Joy"**
+
+### Talk About the Story
+1. What did the boy find? (A jar full of nuts!)
+2. What did he do? (He grabbed as many nuts as he could!)
+3. What problem did he have? (His hand got stuck in the jar!)
+4. What did his mother tell him to do? (Let go of some nuts!)
+5. What did the boy learn? (Don't be greedy—it's better to take a little than lose it all!)
+
+### Extension Activities
+- **OI/OY Hunt:** Find all the OI and OY words. They both say /oy/!
+- **Act It Out:** Pretend your hand is stuck in a jar! Pull and pull! Then let go!
+- **Draw & Write:** Draw the boy with his hand stuck in the jar!
+- **Billy's Connection:** Billy the Goat knows not to eat all the grass at once! He saves some for tomorrow. That's called being smart, not greedy!
+
+### Character Education
+**Theme:** Greed can cause you to lose everything. If the boy had taken just a few nuts, his hand wouldn't have been stuck! Sometimes it's better to take less and be happy with it.
+
+**Discussion:** Have you ever wanted too much of something and it caused a problem?
+
+---
+
+**Story Source:** Aesop's Fable (Public Domain)  
+**BedrockELA Adaptation:** February 2026  
+**For use with:** BedrockELA 1st Grade Curriculum, Lesson 56  
+**Mountain Connection:** Billy says, "Take what you need, not all you can grab!" 🐐⛰️🥜

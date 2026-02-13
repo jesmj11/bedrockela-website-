@@ -54,6 +54,116 @@
             background: rgba(255,255,255,0.3);
         }
         
+        .btn-reset {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-left: 15px;
+        }
+        
+        .btn-reset:hover {
+            background: #c82333;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+        }
+        
+        .modal-content h2 {
+            color: #1B2A30;
+            margin-bottom: 20px;
+        }
+        
+        .modal-content p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .modal-content input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .modal-content input:focus {
+            outline: none;
+            border-color: #305853;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+        
+        .btn-modal {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .btn-cancel {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-cancel:hover {
+            background: #5a6268;
+        }
+        
+        .btn-confirm {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-confirm:hover {
+            background: #c82333;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: -15px;
+            margin-bottom: 15px;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -321,7 +431,10 @@
     <div class="header">
         <div class="header-content">
             <div class="logo">🏔️ BedrockELA</div>
-            <a href="parent-dashboard.html" class="btn-back">← Back to Family Dashboard</a>
+            <div>
+                <a href="parent-dashboard.html" class="btn-back">← Back to Family Dashboard</a>
+                <button class="btn-reset" onclick="openResetModal()">🔄 Reset Progress</button>
+            </div>
         </div>
     </div>
 
@@ -373,6 +486,22 @@
             <h2>📚 Full Curriculum</h2>
             <div id="curriculumList">
                 Loading curriculum...
+            </div>
+        </div>
+    </div>
+
+    <!-- Reset Progress Modal -->
+    <div class="modal" id="resetModal">
+        <div class="modal-content">
+            <h2>⚠️ Reset Progress</h2>
+            <p>You are about to reset <strong id="resetStudentName"></strong>'s progress back to Lesson 1.</p>
+            <p style="color: #dc3545; font-weight: bold;">This action cannot be undone. All completed lessons and journal entries will be lost.</p>
+            <p>Please enter the parent password to confirm:</p>
+            <input type="password" id="resetPassword" placeholder="Enter parent password" />
+            <div class="error-message" id="passwordError">❌ Incorrect password. Try again.</div>
+            <div class="modal-buttons">
+                <button class="btn-modal btn-cancel" onclick="closeResetModal()">Cancel</button>
+                <button class="btn-modal btn-confirm" onclick="confirmReset()">Reset Progress</button>
             </div>
         </div>
     </div>
@@ -622,6 +751,58 @@
             // TODO: Link to actual lesson player
             window.location.href = 'student-dashboard-live.html';
         }
+        
+        // Reset Progress Functions
+        function openResetModal() {
+            document.getElementById('resetStudentName').textContent = student.name;
+            document.getElementById('resetPassword').value = '';
+            document.getElementById('passwordError').classList.remove('show');
+            document.getElementById('resetModal').classList.add('active');
+        }
+        
+        function closeResetModal() {
+            document.getElementById('resetModal').classList.remove('active');
+        }
+        
+        function confirmReset() {
+            const password = document.getElementById('resetPassword').value;
+            const parentPassword = 'bedrock2026'; // Change this to your parent password
+            
+            if (password === parentPassword) {
+                // Password correct - reset progress
+                document.getElementById('passwordError').classList.remove('show');
+                closeResetModal();
+                
+                // Reset the student's progress
+                student.currentLesson = 0;
+                student.peaks = 0;
+                
+                // Show confirmation
+                alert(`✅ ${student.name}'s progress has been reset to Lesson 1.\n\nAll previous progress has been cleared.`);
+                
+                // Reload the page to show updated progress
+                window.location.reload();
+            } else {
+                // Password incorrect
+                document.getElementById('passwordError').classList.add('show');
+                document.getElementById('resetPassword').value = '';
+                document.getElementById('resetPassword').focus();
+            }
+        }
+        
+        // Close modal on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeResetModal();
+            }
+        });
+        
+        // Close modal when clicking outside
+        document.getElementById('resetModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeResetModal();
+            }
+        });
         
         // Load on page load
         loadCurriculum();

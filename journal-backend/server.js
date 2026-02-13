@@ -1,0 +1,398 @@
+// BedrockELA Journal Backend Server
+const express = require('express');
+const cors = require('cors');
+const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+require('dotenv').config();
+
+const app = express();
+const PORT = process.env.PORT || 3001;
+
+// Database connection
+const dbPath = path.join(__dirname, 'journal.db');
+const db = new sqlite3.Database(dbPath, (err) => {
+  if (err) {
+    console.error('❌ Database connection error:', err);
+  } else {
+    console.log('✅ Connected to SQLite database');
+  }
+});
+
+// Middleware
+app.use(helmet());
+app.use(cors());
+app.use(express.json());
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // limit each IP to 100 requests per windowMs
+});
+app.use(limiter);
+
+// Helper function to promisify database queries
+const dbAll = (sql, params = []) => {
+  return new Promise((resolve, reject) => {
+    db.all(sql, params, (err, rows) => {
+      if (err) reject(err);
+      else resolve(rows);
+    });
+  });
+};
+
+const dbRun = (sql, params = []) => {
+  return new Promise((resolve, reject) => {
+    db.run(sql, params, function(err) {
+      if (err) reject(err);
+      else resolve({ id: this.lastID, changes: this.changes });
+    });
+  });
+};
+
+const dbGet = (sql, params = []) => {
+  return new Promise((resolve, reject) => {
+    db.get(sql, params, (err, row) => {
+      if (err) reject(err);
+      else resolve(row);
+    });
+  });
+};
+
+// ==================== STUDENT ROUTES ====================
+
+// Create or login student
+app.post('/api/student/login', async (req, res) => {
+  try {
+    const { username, name, grade_level, pin_code } = req.body;
+
+    if (!username || !name) {
+      return res.status(400).json({ error: 'Username and name required' });
+    }
+
+    // Check if student exists
+    let student = await dbGet(
+      'SELECT * FROM students WHERE username = ?',
+      [username]
+    );
+
+    if (student) {
+      // Verify PIN if provided
+      if (pin_code && student.pin_code !== pin_code) {
+        return res.status(401).json({ error: 'Invalid PIN' });
+      }
+
+      // Update last login
+      await dbRun(
+        'UPDATE students SET last_login = CURRENT_TIMESTAMP WHERE id = ?',
+        [student.id]
+      );
+
+      res.json({ 
+        success: true, 
+        student: {
+          id: student.id,
+          name: student.name,
+          username: student.username,
+          grade_level: student.grade_level
+        },
+        message: 'Welcome back!'
+      });
+    } else {
+      // Create new student
+      const result = await dbRun(
+        'INSERT INTO students (username, name, grade_level, pin_code) VALUES (?, ?, ?, ?)',
+        [username, name, grade_level, pin_code || null]
+      );
+
+      res.json({ 
+        success: true, 
+        student: {
+          id: result.id,
+          name,
+          username,
+          grade_level
+        },
+        message: 'Account created!'
+      });
+    }
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ error: 'Server error during login' });
+  }
+});
+
+// Get student profile
+app.get('/api/student/:id', async (req, res) => {
+  try {
+    const student = await dbGet(
+      'SELECT id, name, username, grade_level, created_at FROM students WHERE id = ?',
+      [req.params.id]
+    );
+
+    if (!student) {
+      return res.status(404).json({ error: 'Student not found' });
+    }
+
+    // Get entry count
+    const stats = await dbGet(
+      'SELECT COUNT(*) as total_entries, SUM(word_count) as total_words FROM journal_entries WHERE student_id = ?',
+      [req.params.id]
+    );
+
+    res.json({
+      student,
+      stats: {
+        total_entries: stats.total_entries || 0,
+        total_words: stats.total_words || 0
+      }
+    });
+  } catch (error) {
+    console.error('Get student error:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// ==================== JOURNAL ENTRY ROUTES ====================
+
+// Save or update journal entry
+app.post('/api/journal/save', async (req, res) => {
+  try {
+    const { 
+      student_id, 
+      grade, 
+      lesson_number, 
+      unit_number, 
+      book_title, 
+      entry_text 
+    } = req.body;
+
+    if (!student_id || !grade || !lesson_number || !entry_text) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    // Calculate word count
+    const word_count = entry_text.trim().split(/\s+/).length;
+
+    // Check if entry exists
+    const existing = await dbGet(
+      'SELECT id FROM journal_entries WHERE student_id = ? AND grade = ? AND lesson_number = ?',
+      [student_id, grade, lesson_number]
+    );
+
+    let result;
+    if (existing) {
+      // Update existing entry
+      result = await dbRun(
+        `UPDATE journal_entries 
+         SET entry_text = ?, word_count = ?, unit_number = ?, book_title = ?, 
+             updated_at = CURRENT_TIMESTAMP, revised = 1
+         WHERE id = ?`,
+        [entry_text, word_count, unit_number, book_title, existing.id]
+      );
+      
+      res.json({ 
+        success: true, 
+        entry_id: existing.id,
+        updated: true,
+        word_count 
+      });
+    } else {
+      // Create new entry
+      result = await dbRun(
+        `INSERT INTO journal_entries 
+         (student_id, grade, lesson_number, unit_number, book_title, entry_text, word_count)
+         VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        [student_id, grade, lesson_number, unit_number, book_title, entry_text, word_count]
+      );
+
+      res.json({ 
+        success: true, 
+        entry_id: result.id,
+        created: true,
+        word_count 
+      });
+    }
+  } catch (error) {
+    console.error('Save entry error:', error);
+    res.status(500).json({ error: 'Server error saving entry' });
+  }
+});
+
+// Get specific entry
+app.get('/api/journal/entry/:student_id/:grade/:lesson_number', async (req, res) => {
+  try {
+    const entry = await dbGet(
+      `SELECT * FROM journal_entries 
+       WHERE student_id = ? AND grade = ? AND lesson_number = ?`,
+      [req.params.student_id, req.params.grade, req.params.lesson_number]
+    );
+
+    if (!entry) {
+      return res.status(404).json({ error: 'Entry not found' });
+    }
+
+    res.json(entry);
+  } catch (error) {
+    console.error('Get entry error:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Get all entries for a student
+app.get('/api/journal/student/:student_id', async (req, res) => {
+  try {
+    const { grade, unit, book_title } = req.query;
+    let sql = 'SELECT * FROM journal_entries WHERE student_id = ?';
+    const params = [req.params.student_id];
+
+    if (grade) {
+      sql += ' AND grade = ?';
+      params.push(grade);
+    }
+
+    if (unit) {
+      sql += ' AND unit_number = ?';
+      params.push(unit);
+    }
+
+    if (book_title) {
+      sql += ' AND book_title = ?';
+      params.push(book_title);
+    }
+
+    sql += ' ORDER BY lesson_number ASC';
+
+    const entries = await dbAll(sql, params);
+
+    res.json({
+      entries,
+      count: entries.length,
+      total_words: entries.reduce((sum, e) => sum + (e.word_count || 0), 0)
+    });
+  } catch (error) {
+    console.error('Get entries error:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Get entries by book
+app.get('/api/journal/book/:student_id/:book_title', async (req, res) => {
+  try {
+    const entries = await dbAll(
+      `SELECT * FROM journal_entries 
+       WHERE student_id = ? AND book_title = ?
+       ORDER BY lesson_number ASC`,
+      [req.params.student_id, req.params.book_title]
+    );
+
+    // Get student name
+    const student = await dbGet(
+      'SELECT name FROM students WHERE id = ?',
+      [req.params.student_id]
+    );
+
+    res.json({
+      student_name: student ? student.name : 'Unknown',
+      book_title: req.params.book_title,
+      entries: entries.map(e => ({
+        lesson: e.lesson_number,
+        date: e.entry_date,
+        text: e.entry_text,
+        word_count: e.word_count
+      })),
+      total_entries: entries.length,
+      total_words: entries.reduce((sum, e) => sum + (e.word_count || 0), 0)
+    });
+  } catch (error) {
+    console.error('Get book entries error:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Update entry
+app.put('/api/journal/entry/:id', async (req, res) => {
+  try {
+    const { entry_text } = req.body;
+
+    if (!entry_text) {
+      return res.status(400).json({ error: 'Entry text required' });
+    }
+
+    const word_count = entry_text.trim().split(/\s+/).length;
+
+    await dbRun(
+      `UPDATE journal_entries 
+       SET entry_text = ?, word_count = ?, updated_at = CURRENT_TIMESTAMP, revised = 1
+       WHERE id = ?`,
+      [entry_text, word_count, req.params.id]
+    );
+
+    res.json({ success: true, word_count });
+  } catch (error) {
+    console.error('Update entry error:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Delete entry
+app.delete('/api/journal/entry/:id', async (req, res) => {
+  try {
+    await dbRun('DELETE FROM journal_entries WHERE id = ?', [req.params.id]);
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Delete entry error:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// ==================== PROMPT ROUTES ====================
+
+// Get prompt for lesson
+app.get('/api/prompt/:grade/:lesson_number', async (req, res) => {
+  try {
+    const prompt = await dbGet(
+      'SELECT prompt_text FROM journal_prompts WHERE grade = ? AND lesson_number = ?',
+      [req.params.grade, req.params.lesson_number]
+    );
+
+    if (!prompt) {
+      return res.json({ prompt_text: 'Write about what you read today.' });
+    }
+
+    res.json(prompt);
+  } catch (error) {
+    console.error('Get prompt error:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// ==================== HEALTH CHECK ====================
+
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'healthy', 
+    timestamp: new Date().toISOString(),
+    database: 'connected'
+  });
+});
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`🚀 BedrockELA Journal API running on port ${PORT}`);
+  console.log(`📍 Database: ${dbPath}`);
+  console.log(`🌐 API: http://localhost:${PORT}/api`);
+});
+
+// Graceful shutdown
+process.on('SIGINT', () => {
+  db.close((err) => {
+    if (err) {
+      console.error('Error closing database:', err);
+    } else {
+      console.log('Database connection closed');
+    }
+    process.exit(0);
+  });
+});

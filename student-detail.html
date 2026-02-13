@@ -425,6 +425,43 @@
             color: white;
             font-weight: bold;
         }
+        
+        /* Danger Zone */
+        .danger-zone {
+            background: #fff5f5;
+            border: 2px solid #dc3545;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .danger-zone h3 {
+            color: #dc3545;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .danger-zone p {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+        
+        .btn-reset-danger {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        .btn-reset-danger:hover {
+            background: #c82333;
+        }
     </style>
 </head>
 <body>
@@ -433,7 +470,6 @@
             <div class="logo">🏔️ BedrockELA</div>
             <div>
                 <a href="parent-dashboard.html" class="btn-back">← Back to Family Dashboard</a>
-                <button class="btn-reset" onclick="openResetModal()">🔄 Reset Progress</button>
             </div>
         </div>
     </div>
@@ -487,6 +523,13 @@
             <div id="curriculumList">
                 Loading curriculum...
             </div>
+        </div>
+        
+        <!-- Danger Zone -->
+        <div class="danger-zone">
+            <h3>⚠️ Danger Zone</h3>
+            <p>Resetting progress will delete all completed lessons and return the student to Lesson 1. This action cannot be undone.</p>
+            <button class="btn-reset-danger" onclick="openResetModal()">Reset Student Progress</button>
         </div>
     </div>
 
@@ -764,24 +807,37 @@
             document.getElementById('resetModal').classList.remove('active');
         }
         
-        function confirmReset() {
+        async function confirmReset() {
             const password = document.getElementById('resetPassword').value;
             const parentPassword = 'bedrock2026'; // Change this to your parent password
             
             if (password === parentPassword) {
                 // Password correct - reset progress
                 document.getElementById('passwordError').classList.remove('show');
-                closeResetModal();
                 
-                // Reset the student's progress
-                student.currentLesson = 0;
-                student.peaks = 0;
-                
-                // Show confirmation
-                alert(`✅ ${student.name}'s progress has been reset to Lesson 1.\n\nAll previous progress has been cleared.`);
-                
-                // Reload the page to show updated progress
-                window.location.reload();
+                try {
+                    // Call API to reset student's progress
+                    const response = await fetch(`http://localhost:3001/api/student/${student.id}/progress`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ current_lesson: 1 })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        closeResetModal();
+                        alert(`✅ ${student.name}'s progress has been reset to Lesson 1.\n\nAll previous progress has been cleared.`);
+                        window.location.reload();
+                    } else {
+                        alert('❌ Failed to reset progress: ' + (data.error || 'Unknown error'));
+                    }
+                } catch (error) {
+                    console.error('Error resetting progress:', error);
+                    alert('❌ Network error. Is the server running?');
+                }
             } else {
                 // Password incorrect
                 document.getElementById('passwordError').classList.add('show');

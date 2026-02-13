@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your Student - BedrockELA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #305853 0%, #1B2A30 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .picker-container {
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 50px 40px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        
+        .header h2 {
+            font-size: 1.8rem;
+            color: #1B2A30;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .students-list {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .student-btn {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 3px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1B2A30;
+        }
+        
+        .student-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(48, 88, 83, 0.3);
+            border-color: #305853;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        }
+        
+        .student-btn:active {
+            transform: translateY(0);
+        }
+        
+        .student-icon {
+            font-size: 2rem;
+        }
+        
+        .student-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .student-name {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+        
+        .student-grade {
+            font-size: 0.95rem;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .pin-required {
+            font-size: 0.85rem;
+            color: #305853;
+            font-weight: 600;
+        }
+        
+        .arrow {
+            font-size: 1.5rem;
+            color: #305853;
+        }
+        
+        .back-link {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .back-link a {
+            color: #305853;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        /* PIN Entry Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+        
+        .modal-content h3 {
+            font-size: 1.5rem;
+            color: #1B2A30;
+            margin-bottom: 10px;
+        }
+        
+        .modal-content p {
+            color: #666;
+            margin-bottom: 25px;
+        }
+        
+        .pin-input {
+            width: 100%;
+            padding: 15px;
+            border: 3px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            text-align: center;
+            letter-spacing: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .pin-input:focus {
+            outline: none;
+            border-color: #305853;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-cancel {
+            background: #e9ecef;
+            color: #1B2A30;
+        }
+        
+        .btn-cancel:hover {
+            background: #dee2e6;
+        }
+        
+        .btn-submit {
+            background: linear-gradient(135deg, #305853 0%, #1B2A30 100%);
+            color: white;
+        }
+        
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .error-text {
+            color: #721c24;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="picker-container">
+        <div class="header">
+            <h1>📚</h1>
+            <h2>Who's Learning Today?</h2>
+            <p>Pick your name to get started!</p>
+        </div>
+        
+        <div id="content">
+            <div class="loading">Loading students...</div>
+        </div>
+        
+        <div class="back-link">
+            <a href="index.html">← Back to Home</a>
+        </div>
+    </div>
+    
+    <!-- PIN Entry Modal -->
+    <div id="pinModal" class="modal">
+        <div class="modal-content">
+            <h3 id="modalStudentName">Enter PIN</h3>
+            <p>This student requires a PIN to log in</p>
+            <input type="password" id="pinInput" class="pin-input" 
+                   placeholder="••••" maxlength="4" inputmode="numeric">
+            <div id="pinError" class="error-text" style="display: none;"></div>
+            <div class="modal-buttons">
+                <button class="btn btn-cancel" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-submit" id="submitPinBtn" onclick="submitPin()">Enter</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3001/api';
+        let currentStudentId = null;
+        let students = [];
+        
+        // Get parent info from localStorage
+        const parentData = JSON.parse(localStorage.getItem('bedrockela_parent') || '{}');
+        const token = localStorage.getItem('bedrockela_token');
+        
+        // If no parent logged in, redirect to parent login
+        if (!parentData.id || !token) {
+            window.location.href = 'parent-login.html';
+        }
+        
+        // Load students on page load
+        loadStudents();
+        
+        async function loadStudents() {
+            try {
+                const response = await fetch(`${API_URL}/parent/students`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success && data.students && data.students.length > 0) {
+                    students = data.students;
+                    renderStudents(data.students);
+                } else {
+                    showError('No students found. Ask your parent to add you!');
+                }
+            } catch (error) {
+                console.error('Error loading students:', error);
+                showError('Error loading students. Is the server running?');
+            }
+        }
+        
+        function renderStudents(studentList) {
+            const content = document.getElementById('content');
+            
+            const html = '<div class="students-list">' +
+                studentList.map(student => `
+                    <button class="student-btn" onclick="selectStudent('${student.id}', ${student.pin_code ? 'true' : 'false'})">
+                        <span class="student-icon">👤</span>
+                        <div class="student-info">
+                            <div class="student-name">${student.name}</div>
+                            <div class="student-grade">${student.grade_level || 'No grade set'}</div>
+                            ${student.pin_code ? '<div class="pin-required">🔒 PIN Required</div>' : ''}
+                        </div>
+                        <span class="arrow">→</span>
+                    </button>
+                `).join('') +
+                '</div>';
+            
+            content.innerHTML = html;
+        }
+        
+        function showError(message) {
+            const content = document.getElementById('content');
+            content.innerHTML = `<div class="error-message">${message}</div>`;
+        }
+        
+        function selectStudent(studentId, requiresPin) {
+            currentStudentId = studentId;
+            
+            if (requiresPin) {
+                // Show PIN modal
+                const student = students.find(s => s.id == studentId);
+                document.getElementById('modalStudentName').textContent = `Enter PIN for ${student.name}`;
+                document.getElementById('pinInput').value = '';
+                document.getElementById('pinError').style.display = 'none';
+                document.getElementById('pinModal').classList.add('show');
+                setTimeout(() => document.getElementById('pinInput').focus(), 100);
+            } else {
+                // No PIN needed, log in directly
+                loginStudent(studentId, null);
+            }
+        }
+        
+        function closeModal() {
+            document.getElementById('pinModal').classList.remove('show');
+            currentStudentId = null;
+        }
+        
+        function submitPin() {
+            const pin = document.getElementById('pinInput').value.trim();
+            
+            if (!pin || pin.length !== 4) {
+                showPinError('Please enter a 4-digit PIN');
+                return;
+            }
+            
+            loginStudent(currentStudentId, pin);
+        }
+        
+        function showPinError(message) {
+            const errorDiv = document.getElementById('pinError');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+        
+        async function loginStudent(studentId, pin) {
+            const submitBtn = document.getElementById('submitPinBtn');
+            if (submitBtn) submitBtn.disabled = true;
+            
+            try {
+                const response = await fetch(`${API_URL}/student/login-by-id`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        student_id: studentId,
+                        pin_code: pin
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Save student info
+                    localStorage.setItem('bedrockela_student', JSON.stringify({
+                        id: data.student_id,
+                        name: data.name,
+                        grade_level: data.grade_level,
+                        current_lesson: data.current_lesson
+                    }));
+                    
+                    // Redirect to student dashboard
+                    window.location.href = 'student-dashboard-live.html';
+                } else {
+                    if (pin) {
+                        showPinError(data.error || 'Incorrect PIN. Try again!');
+                        if (submitBtn) submitBtn.disabled = false;
+                    } else {
+                        showError(data.error || 'Login failed');
+                    }
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                if (pin) {
+                    showPinError('Network error. Try again!');
+                    if (submitBtn) submitBtn.disabled = false;
+                } else {
+                    showError('Network error. Is the server running?');
+                }
+            }
+        }
+        
+        // Enter key submits PIN
+        document.addEventListener('DOMContentLoaded', () => {
+            const pinInput = document.getElementById('pinInput');
+            if (pinInput) {
+                pinInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        submitPin();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login - BedrockELA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #305853 0%, #1B2A30 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .login-container {
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 450px;
+            width: 100%;
+            padding: 50px 40px;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .logo h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        
+        .logo h2 {
+            font-size: 1.8rem;
+            color: #1B2A30;
+            margin-bottom: 10px;
+        }
+        
+        .logo p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            font-weight: 700;
+            color: #1B2A30;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 3px solid #e0e0e0;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #305853;
+        }
+        
+        input#pin {
+            text-align: center;
+            font-size: 1.5rem;
+            letter-spacing: 10px;
+        }
+        
+        .btn-primary {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #305853 0%, #1B2A30 100%);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .message {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            display: none;
+            text-align: center;
+            font-size: 1rem;
+        }
+        
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+        
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+        
+        .help-text {
+            text-align: center;
+            margin-top: 25px;
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .help-text a {
+            color: #305853;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .help-text a:hover {
+            text-decoration: underline;
+        }
+        
+        .back-link {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .back-link a {
+            color: #305853;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="back-link">
+            <a href="index.html">← Back to Home</a>
+        </div>
+        
+        <div class="logo">
+            <h1>📚</h1>
+            <h2>Student Login</h2>
+            <p>Enter your username and PIN</p>
+        </div>
+        
+        <div id="message" class="message"></div>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required 
+                       placeholder="Your username" autocomplete="username">
+            </div>
+            
+            <div class="form-group">
+                <label for="pin">PIN Code (if you have one)</label>
+                <input type="password" id="pin" name="pin" maxlength="4" 
+                       placeholder="••••" inputmode="numeric">
+            </div>
+            
+            <button type="submit" class="btn-primary" id="submitBtn">
+                Start Learning! →
+            </button>
+        </form>
+        
+        <div class="help-text">
+            📝 Don't have an account?<br>
+            Ask your parent or teacher!
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3001/api';
+        
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const message = document.getElementById('message');
+            
+            // Get form data
+            const formData = {
+                username: document.getElementById('username').value.trim().toLowerCase(),
+                pin_code: document.getElementById('pin').value.trim() || null
+            };
+            
+            // Disable button
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Logging in...';
+            
+            try {
+                const response = await fetch(`${API_URL}/student/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Save student info
+                    localStorage.setItem('bedrockela_student', JSON.stringify({
+                        id: data.student_id,
+                        name: data.name,
+                        grade_level: data.grade_level,
+                        current_lesson: data.current_lesson
+                    }));
+                    
+                    // Show success message
+                    message.textContent = `Welcome, ${data.name}! 🎉`;
+                    message.className = 'message success';
+                    message.style.display = 'block';
+                    
+                    // Redirect to student dashboard
+                    setTimeout(() => {
+                        window.location.href = 'student-dashboard-live.html';
+                    }, 1000);
+                } else {
+                    // Show error
+                    message.textContent = data.error || 'Login failed';
+                    message.className = 'message error';
+                    message.style.display = 'block';
+                    
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Start Learning! →';
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                message.textContent = 'Network error. Is the server running?';
+                message.className = 'message error';
+                message.style.display = 'block';
+                
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Start Learning! →';
+            }
+        });
+    </script>
+</body>
+</html>

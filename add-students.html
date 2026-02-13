@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Your Students - BedrockELA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #305853 0%, #1B2A30 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            color: #1B2A30;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .student-form {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .student-form h3 {
+            color: #1B2A30;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .remove-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .remove-btn:hover {
+            background: #c82333;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            color: #1B2A30;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #305853;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .btn-add {
+            background: #305853;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        .btn-add:hover {
+            background: #1B2A30;
+        }
+        
+        .btn-continue {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #305853 0%, #1B2A30 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .btn-continue:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .btn-continue:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .skip-link {
+            text-align: center;
+            margin-top: 15px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .skip-link a {
+            color: #305853;
+            text-decoration: none;
+        }
+        
+        .skip-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .hint {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Welcome! 🎉</h1>
+            <p>Let's add your students to get started</p>
+        </div>
+        
+        <div id="message" class="message"></div>
+        
+        <div id="studentForms">
+            <!-- Student forms will be added here dynamically -->
+        </div>
+        
+        <button class="btn-add" onclick="addStudentForm()">+ Add Another Student</button>
+        
+        <button class="btn-continue" id="continueBtn" onclick="saveStudents()">
+            Continue to Dashboard
+        </button>
+        
+        <div class="skip-link">
+            <a href="parent-dashboard-live.html">Skip for now (add students later)</a>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3001/api';
+        let studentCount = 0;
+        
+        // Check if logged in
+        const token = localStorage.getItem('bedrockela_token');
+        if (!token) {
+            window.location.href = 'parent-login.html';
+        }
+        
+        // Add first student form on load
+        window.addEventListener('DOMContentLoaded', () => {
+            addStudentForm();
+        });
+        
+        function addStudentForm() {
+            studentCount++;
+            const container = document.getElementById('studentForms');
+            
+            const formHTML = `
+                <div class="student-form" id="student-${studentCount}">
+                    <h3>
+                        Student ${studentCount}
+                        ${studentCount > 1 ? `<button type="button" class="remove-btn" onclick="removeStudent(${studentCount})">Remove</button>` : ''}
+                    </h3>
+                    <div class="form-group">
+                        <label>Student Name *</label>
+                        <input type="text" class="student-name" required placeholder="e.g., Bryton">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Username *</label>
+                            <input type="text" class="student-username" required placeholder="e.g., bryton_j">
+                            <div class="hint">Lowercase, no spaces</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Grade *</label>
+                            <select class="student-grade" required>
+                                <option value="">Select grade</option>
+                                <option value="K">Kindergarten</option>
+                                <option value="1st">1st Grade</option>
+                                <option value="2nd">2nd Grade</option>
+                                <option value="3rd">3rd Grade</option>
+                                <option value="4th">4th Grade</option>
+                                <option value="5th">5th Grade</option>
+                                <option value="6th">6th Grade</option>
+                                <option value="7th">7th Grade</option>
+                                <option value="8th">8th Grade</option>
+                                <option value="9th">9th Grade</option>
+                                <option value="10th">10th Grade</option>
+                                <option value="11th">11th Grade</option>
+                                <option value="12th">12th Grade</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>PIN Code (Optional)</label>
+                        <input type="text" class="student-pin" maxlength="4" placeholder="4-digit PIN">
+                        <div class="hint">Optional 4-digit PIN for student login</div>
+                    </div>
+                </div>
+            `;
+            
+            container.insertAdjacentHTML('beforeend', formHTML);
+        }
+        
+        function removeStudent(id) {
+            const form = document.getElementById(`student-${id}`);
+            if (form) {
+                form.remove();
+            }
+        }
+        
+        async function saveStudents() {
+            const forms = document.querySelectorAll('.student-form');
+            const students = [];
+            
+            // Collect data from all forms
+            for (let form of forms) {
+                const name = form.querySelector('.student-name').value.trim();
+                const username = form.querySelector('.student-username').value.trim().toLowerCase();
+                const grade = form.querySelector('.student-grade').value;
+                const pin = form.querySelector('.student-pin').value.trim();
+                
+                if (!name || !username || !grade) {
+                    showMessage('Please fill in all required fields', 'error');
+                    return;
+                }
+                
+                students.push({
+                    student_name: name,
+                    student_username: username,
+                    grade_level: grade,
+                    pin_code: pin || null
+                });
+            }
+            
+            if (students.length === 0) {
+                showMessage('Please add at least one student', 'error');
+                return;
+            }
+            
+            // Disable button
+            const btn = document.getElementById('continueBtn');
+            btn.disabled = true;
+            btn.textContent = 'Adding students...';
+            
+            // Add each student
+            let successCount = 0;
+            for (let student of students) {
+                try {
+                    const response = await fetch(`${API_URL}/parent/student/add`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify(student)
+                    });
+                    
+                    const data = await response.json();
+                    if (data.success) {
+                        successCount++;
+                    } else {
+                        showMessage(`Error adding ${student.student_name}: ${data.error}`, 'error');
+                    }
+                } catch (error) {
+                    console.error('Error adding student:', error);
+                    showMessage(`Network error adding ${student.student_name}`, 'error');
+                }
+            }
+            
+            if (successCount === students.length) {
+                showMessage('All students added! Redirecting...', 'success');
+                setTimeout(() => {
+                    window.location.href = 'parent-dashboard-live.html';
+                }, 1500);
+            } else {
+                btn.disabled = false;
+                btn.textContent = 'Continue to Dashboard';
+            }
+        }
+        
+        function showMessage(text, type) {
+            const message = document.getElementById('message');
+            message.textContent = text;
+            message.className = `message ${type}`;
+            message.style.display = 'block';
+            
+            if (type === 'error') {
+                setTimeout(() => {
+                    message.style.display = 'none';
+                }, 5000);
+            }
+        }
+    </script>
+</body>
+</html>

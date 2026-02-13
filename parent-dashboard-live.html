@@ -239,6 +239,110 @@
             color: #666;
             margin-bottom: 20px;
         }
+        
+        /* PIN Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 450px;
+            width: 90%;
+        }
+        
+        .modal-content h2 {
+            color: #1B2A30;
+            margin-bottom: 15px;
+        }
+        
+        .modal-content p {
+            color: #666;
+            margin-bottom: 25px;
+        }
+        
+        .pin-input {
+            width: 100%;
+            padding: 15px;
+            border: 3px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            text-align: center;
+            letter-spacing: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .pin-input:focus {
+            outline: none;
+            border-color: #305853;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .modal-btn {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .modal-btn.primary {
+            background: #305853;
+            color: white;
+        }
+        
+        .modal-btn.primary:hover {
+            background: #1B2A30;
+        }
+        
+        .modal-btn.danger {
+            background: #9E2C21;
+            color: white;
+        }
+        
+        .modal-btn.danger:hover {
+            background: #511B18;
+        }
+        
+        .modal-btn.secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .modal-btn.secondary:hover {
+            background: #5a6268;
+        }
+        
+        .modal-hint {
+            background: #e7f3ff;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #004085;
+        }
     </style>
 </head>
 <body>
@@ -392,12 +496,13 @@
         function createStudentCard(student) {
             const currentLesson = student.current_lesson || 1;
             const progress = (currentLesson / 180) * 100;
+            const hasPIN = student.pin_code ? '🔒' : '🔓';
             
             return `
                 <div class="student-card">
                     <div class="student-header">
                         <div>
-                            <div class="student-name">👤 ${student.name}</div>
+                            <div class="student-name">👤 ${student.name} ${hasPIN}</div>
                             <div class="student-grade">${student.grade_level}</div>
                         </div>
                     </div>
@@ -411,8 +516,14 @@
                         <button class="btn-login" onclick="loginAsStudent(${student.id}, '${student.username}')">
                             Login as ${student.name} →
                         </button>
+                        <button class="btn-view" onclick="managePIN(${student.id}, '${student.name}', ${student.pin_code ? `'${student.pin_code}'` : 'null'})">
+                            ${hasPIN} PIN
+                        </button>
                         <button class="btn-view" onclick="viewProgress(${student.id})">
                             View Progress
+                        </button>
+                        <button class="btn-view" style="background: #dc3545; color: white; border-color: #dc3545;" onclick="deleteStudent(${student.id}, '${student.name}')">
+                            Delete
                         </button>
                     </div>
                 </div>
@@ -437,6 +548,145 @@
 
         function addStudent() {
             window.location.href = 'add-students.html';
+        }
+
+        // PIN Management Functions
+        function managePIN(studentId, studentName, currentPIN) {
+            const modal = document.createElement('div');
+            modal.className = 'modal show';
+            modal.id = 'pinModal';
+            
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <h2>🔒 Manage PIN for ${studentName}</h2>
+                    <p>Set a 4-digit PIN that ${studentName} will need to enter when logging in.</p>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; font-weight: bold; margin-bottom: 8px; color: #1B2A30;">
+                            ${currentPIN ? 'Change PIN (4 digits):' : 'New PIN (4 digits):'}
+                        </label>
+                        <input type="password" id="newPIN" class="pin-input" maxlength="4" placeholder="••••" inputmode="numeric">
+                    </div>
+                    <div class="modal-hint">
+                        <strong>💡 Tip:</strong> Choose a PIN ${studentName} can remember easily!
+                    </div>
+                    <div class="modal-buttons">
+                        <button class="modal-btn primary" onclick="savePIN(${studentId}, '${studentName}')">
+                            ${currentPIN ? 'Update PIN' : 'Set PIN'}
+                        </button>
+                        ${currentPIN ? '<button class="modal-btn danger" onclick="removePIN(' + studentId + ', \'' + studentName + '\')">Remove PIN</button>' : ''}
+                        <button class="modal-btn secondary" onclick="closeModal()">Cancel</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            setTimeout(() => document.getElementById('newPIN').focus(), 100);
+            
+            // Close on background click
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+        }
+
+        async function savePIN(studentId, studentName) {
+            const pin = document.getElementById('newPIN').value.trim();
+            
+            if (!pin) {
+                alert('❌ Please enter a PIN');
+                return;
+            }
+            
+            if (pin.length !== 4 || !/^\d{4}$/.test(pin)) {
+                alert('❌ PIN must be exactly 4 digits');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_URL}/parent/student/${studentId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ pin_code: pin })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert(`✅ PIN set for ${studentName}!\n\nThey will need to enter this when logging in.`);
+                    closeModal();
+                    loadDashboard(); // Reload to show lock icon
+                } else {
+                    alert('❌ Failed to set PIN: ' + (data.error || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error setting PIN:', error);
+                alert('❌ Network error. Is the server running?');
+            }
+        }
+
+        async function removePIN(studentId, studentName) {
+            if (!confirm(`Remove PIN for ${studentName}?\n\nThey will no longer need a PIN to log in.`)) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_URL}/parent/student/${studentId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ pin_code: null })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert(`✅ PIN removed for ${studentName}`);
+                    closeModal();
+                    loadDashboard(); // Reload to hide lock icon
+                } else {
+                    alert('❌ Failed to remove PIN: ' + (data.error || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error removing PIN:', error);
+                alert('❌ Network error. Is the server running?');
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('pinModal');
+            if (modal) modal.remove();
+        }
+
+        // Delete Student
+        async function deleteStudent(studentId, studentName) {
+            if (!confirm(`🗑️ Delete ${studentName}?\n\nThis will permanently remove them and delete all their progress.\n\nThis action cannot be undone.\n\nClick OK to delete, Cancel to keep them.`)) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`http://localhost:3001/api/parent/student/${studentId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert(`✅ ${studentName} has been deleted.`);
+                    loadDashboard(); // Reload the dashboard
+                } else {
+                    alert('❌ Failed to delete student: ' + (data.error || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error deleting student:', error);
+                alert('❌ Network error. Is the server running?');
+            }
         }
 
         function logout() {

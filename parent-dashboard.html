@@ -94,6 +94,7 @@
             padding: 20px;
             border-left: 5px solid #305853;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
         
         .student-card:hover {
@@ -811,11 +812,30 @@
             if (editModal) editModal.remove();
         }
         
+        // View student details
+        function viewStudent(studentId) {
+            window.location.href = `student-detail.html?id=${studentId}`;
+        }
+        
         // Close modal when clicking outside
         document.addEventListener('click', function(e) {
             if (e.target.id === 'loginModal' || e.target.id === 'editModal') {
                 closeModal();
             }
+        });
+        
+        // Make student cards clickable (except for buttons)
+        document.addEventListener('DOMContentLoaded', function() {
+            const studentCards = document.querySelectorAll('.student-card');
+            studentCards.forEach((card, index) => {
+                const studentIds = ['emmett', 'lucas', 'asher', 'levi', 'riley', 'bryton'];
+                card.addEventListener('click', function(e) {
+                    // Don't navigate if clicking on a button
+                    if (e.target.tagName !== 'BUTTON' && !e.target.closest('button')) {
+                        viewStudent(studentIds[index]);
+                    }
+                });
+            });
         });
     </script>
 </body>

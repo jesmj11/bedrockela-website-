@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Progress - BedrockELA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+            color: #1B2A30;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #305853 0%, #1B2A30 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .btn-back {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        .btn-back:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        
+        .student-header {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .student-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .student-title h1 {
+            font-size: 2.5rem;
+            color: #1B2A30;
+        }
+        
+        .grade-badge {
+            background: linear-gradient(135deg, #305853 0%, #1B2A30 100%);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #305853;
+        }
+        
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+            font-size: 0.95rem;
+        }
+        
+        .current-lesson {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .current-lesson h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #1B2A30;
+        }
+        
+        .lesson-card {
+            background: linear-gradient(135deg, #305853 0%, #1B2A30 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .lesson-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .lesson-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .lesson-details {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+        
+        .btn-start {
+            background: white;
+            color: #305853;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .curriculum-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .curriculum-section h2 {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #1B2A30;
+        }
+        
+        .unit-section {
+            margin-bottom: 40px;
+        }
+        
+        .unit-header {
+            background: linear-gradient(135deg, #305853 0%, #1B2A30 100%);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .unit-header:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .unit-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .unit-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+        
+        .toggle-icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+        
+        .toggle-icon.open {
+            transform: rotate(180deg);
+        }
+        
+        .lessons-list {
+            display: none;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .lessons-list.open {
+            display: block;
+        }
+        
+        .lesson-item {
+            background: white;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #305853;
+        }
+        
+        .lesson-item.completed {
+            opacity: 0.7;
+            border-left-color: #28a745;
+        }
+        
+        .lesson-item.current {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+            font-weight: bold;
+        }
+        
+        .lesson-info {
+            flex: 1;
+        }
+        
+        .lesson-name {
+            font-size: 1.1rem;
+            color: #1B2A30;
+            margin-bottom: 5px;
+        }
+        
+        .lesson-meta {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .lesson-status {
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        
+        .lesson-status.done {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .lesson-status.current {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .lesson-status.upcoming {
+            background: #e9ecef;
+            color: #6c757d;
+        }
+        
+        .progress-bar {
+            background: #e0e0e0;
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #305853 0%, #1B2A30 100%);
+            height: 100%;
+            transition: width 0.5s;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 15px;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">🏔️ BedrockELA</div>
+            <a href="parent-dashboard.html" class="btn-back">← Back to Family Dashboard</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="student-header">
+            <div class="student-title">
+                <h1 id="studentName">Loading...</h1>
+                <div class="grade-badge" id="gradeBadge">Loading...</div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%">0%</div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="currentLessonNum">0</div>
+                    <div class="stat-label">Current Lesson</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="completedCount">0</div>
+                    <div class="stat-label">Lessons Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="remainingCount">180</div>
+                    <div class="stat-label">Lessons Remaining</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="peaksCount">0</div>
+                    <div class="stat-label">⭐ Peaks Earned</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="current-lesson">
+            <h2>📖 Up Next</h2>
+            <div class="lesson-card">
+                <div class="lesson-number" id="nextLessonNum">Lesson 1</div>
+                <div class="lesson-title" id="nextLessonTitle">Getting Started!</div>
+                <div class="lesson-details" id="nextLessonDetails">
+                    <strong>Book:</strong> <span id="nextLessonBook">Beginning your reading journey</span><br>
+                    <strong>Focus:</strong> <span id="nextLessonFocus">Introduction to reading</span>
+                </div>
+                <button class="btn-start" onclick="startLesson()">Start Lesson →</button>
+            </div>
+        </div>
+
+        <div class="curriculum-section">
+            <h2>📚 Full Curriculum</h2>
+            <div id="curriculumList">
+                Loading curriculum...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get student info from URL
+        const params = new URLSearchParams(window.location.search);
+        const studentId = params.get('id') || 'emmett';
+        
+        // Mock student data (replace with real data later)
+        const students = {
+            emmett: { name: 'Emmett', age: 6, grade: '1st Grade', currentLesson: 25, peaks: 3 },
+            lucas: { name: 'Lucas', age: 11, grade: '4th Grade', currentLesson: 45, peaks: 2 },
+            asher: { name: 'Asher', age: 9, grade: '3rd Grade', currentLesson: 0, peaks: 0 },
+            levi: { name: 'Levi', age: 13, grade: '6th Grade', currentLesson: 35, peaks: 1 },
+            riley: { name: 'Riley', age: 14, grade: '7th Grade', currentLesson: 50, peaks: 3 },
+            bryton: { name: 'Bryton', age: 16, grade: 'College Prep', currentLesson: 60, peaks: 2 }
+        };
+        
+        const student = students[studentId] || students.emmett;
+        
+        // Load student info
+        document.getElementById('studentName').textContent = `👤 ${student.name} (${student.age})`;
+        document.getElementById('gradeBadge').textContent = student.grade;
+        
+        const currentLesson = student.currentLesson;
+        const totalLessons = 180;
+        const completed = currentLesson;
+        const remaining = totalLessons - completed;
+        const progress = (completed / totalLessons) * 100;
+        
+        document.getElementById('currentLessonNum').textContent = currentLesson + 1;
+        document.getElementById('completedCount').textContent = completed;
+        document.getElementById('remainingCount').textContent = remaining;
+        document.getElementById('peaksCount').textContent = student.peaks;
+        document.getElementById('progressFill').style.width = progress + '%';
+        document.getElementById('progressFill').textContent = Math.round(progress) + '%';
+        
+        // Load curriculum based on grade
+        function loadCurriculum() {
+            const curriculum = getCurriculumForGrade(student.grade);
+            renderCurriculum(curriculum);
+            renderNextLesson(curriculum, currentLesson);
+        }
+        
+        function getCurriculumForGrade(grade) {
+            // For 1st and 4th grade, we have full curriculums
+            // Others show sample structure
+            if (grade === '1st Grade') {
+                return {
+                    units: [
+                        {
+                            name: 'Unit 1: Foundation Phonics',
+                            subtitle: 'Lessons 1-33 • Letter Sounds & Blending',
+                            lessons: Array.from({length: 33}, (_, i) => ({
+                                number: i + 1,
+                                title: `Lesson ${i + 1}`,
+                                book: 'Billy the Goat Adventures',
+                                focus: i < 10 ? 'Basic phonics' : i < 20 ? 'Consonant teams' : 'Reading fluency'
+                            }))
+                        },
+                        {
+                            name: 'Unit 2: Magic E & Vowel Teams',
+                            subtitle: 'Lessons 34-75 • Advanced Patterns',
+                            lessons: Array.from({length: 42}, (_, i) => ({
+                                number: i + 34,
+                                title: `Lesson ${i + 34}`,
+                                book: 'Story Readers',
+                                focus: 'Vowel patterns & teams'
+                            }))
+                        },
+                        {
+                            name: 'Unit 3: Fluency & Comprehension',
+                            subtitle: 'Lessons 76-120 • Chapter Books Begin',
+                            lessons: Array.from({length: 45}, (_, i) => ({
+                                number: i + 76,
+                                title: `Lesson ${i + 76}`,
+                                book: 'Chapter Books & Folk Tales',
+                                focus: 'Reading comprehension'
+                            }))
+                        },
+                        {
+                            name: 'Unit 4: Writing & Language',
+                            subtitle: 'Lessons 121-160 • Sentence & Paragraph Writing',
+                            lessons: Array.from({length: 40}, (_, i) => ({
+                                number: i + 121,
+                                title: `Lesson ${i + 121}`,
+                                book: 'Writing Workshop',
+                                focus: 'Writing skills'
+                            }))
+                        },
+                        {
+                            name: 'Unit 5: Advanced Reading',
+                            subtitle: 'Lessons 161-180 • Cross-Curricular Texts',
+                            lessons: Array.from({length: 20}, (_, i) => ({
+                                number: i + 161,
+                                title: `Lesson ${i + 161}`,
+                                book: 'Advanced Readers',
+                                focus: 'Complex texts'
+                            }))
+                        }
+                    ]
+                };
+            } else if (grade === '4th Grade') {
+                return {
+                    units: [
+                        {
+                            name: 'Unit 1: The Wonderful Wizard of Oz',
+                            subtitle: 'Days 1-30 • L. Frank Baum',
+                            lessons: Array.from({length: 30}, (_, i) => ({
+                                number: i + 1,
+                                title: `Day ${i + 1}`,
+                                book: 'The Wonderful Wizard of Oz',
+                                focus: i < 10 ? 'Story elements' : i < 20 ? 'Character development' : 'Hero\'s journey'
+                            }))
+                        },
+                        {
+                            name: 'Unit 2: Adventure Stories',
+                            subtitle: 'Days 31-60 • Treasure Island & Arabian Nights',
+                            lessons: Array.from({length: 30}, (_, i) => ({
+                                number: i + 31,
+                                title: `Day ${i + 31}`,
+                                book: i < 15 ? 'Treasure Island' : 'Arabian Nights - Sinbad',
+                                focus: 'First-person POV & adventure narrative'
+                            }))
+                        },
+                        {
+                            name: 'Unit 3: Nature & Survival',
+                            subtitle: 'Days 61-90 • Call of the Wild & Jungle Book',
+                            lessons: Array.from({length: 30}, (_, i) => ({
+                                number: i + 61,
+                                title: `Day ${i + 61}`,
+                                book: i < 15 ? 'The Call of the Wild' : 'The Jungle Book',
+                                focus: 'Theme & figurative language'
+                            }))
+                        },
+                        {
+                            name: 'Unit 4: Cultures & Geography',
+                            subtitle: 'Days 91-120 • Around the World in 80 Days',
+                            lessons: Array.from({length: 30}, (_, i) => ({
+                                number: i + 91,
+                                title: `Day ${i + 91}`,
+                                book: 'Around the World in 80 Days + Folk Tales',
+                                focus: 'Cultural perspectives & informational text'
+                            }))
+                        },
+                        {
+                            name: 'Unit 5: Logic & Wordplay',
+                            subtitle: 'Days 121-150 • Alice in Wonderland',
+                            lessons: Array.from({length: 30}, (_, i) => ({
+                                number: i + 121,
+                                title: `Day ${i + 121}`,
+                                book: 'Alice\'s Adventures in Wonderland',
+                                focus: 'Logic puzzles & opinion writing'
+                            }))
+                        },
+                        {
+                            name: 'Unit 6: Transformation',
+                            subtitle: 'Days 151-180 • The Secret Garden',
+                            lessons: Array.from({length: 30}, (_, i) => ({
+                                number: i + 151,
+                                title: `Day ${i + 151}`,
+                                book: 'The Secret Garden',
+                                focus: 'Character transformation & research project'
+                            }))
+                        }
+                    ]
+                };
+            }
+            
+            // Default structure for other grades
+            return {
+                units: [
+                    {
+                        name: 'Curriculum Coming Soon',
+                        subtitle: 'Grade-appropriate lessons in development',
+                        lessons: []
+                    }
+                ]
+            };
+        }
+        
+        function renderNextLesson(curriculum, currentLesson) {
+            const nextLesson = currentLesson + 1;
+            let lessonData = null;
+            
+            // Find the lesson
+            for (const unit of curriculum.units) {
+                lessonData = unit.lessons.find(l => l.number === nextLesson);
+                if (lessonData) break;
+            }
+            
+            if (lessonData) {
+                document.getElementById('nextLessonNum').textContent = `Lesson ${lessonData.number}`;
+                document.getElementById('nextLessonTitle').textContent = lessonData.title;
+                document.getElementById('nextLessonBook').textContent = lessonData.book;
+                document.getElementById('nextLessonFocus').textContent = lessonData.focus;
+            }
+        }
+        
+        function renderCurriculum(curriculum) {
+            const container = document.getElementById('curriculumList');
+            
+            container.innerHTML = curriculum.units.map((unit, index) => `
+                <div class="unit-section">
+                    <div class="unit-header" onclick="toggleUnit(${index})">
+                        <div>
+                            <div class="unit-title">${unit.name}</div>
+                            <div class="unit-subtitle">${unit.subtitle}</div>
+                        </div>
+                        <div class="toggle-icon" id="toggle-${index}">▼</div>
+                    </div>
+                    <div class="lessons-list" id="unit-${index}">
+                        ${unit.lessons.map(lesson => {
+                            const status = lesson.number <= currentLesson ? 'completed' : 
+                                         lesson.number === currentLesson + 1 ? 'current' : 'upcoming';
+                            const statusLabel = lesson.number <= currentLesson ? 'done' :
+                                              lesson.number === currentLesson + 1 ? 'current' : 'upcoming';
+                            const statusText = lesson.number <= currentLesson ? '✓ Done' :
+                                             lesson.number === currentLesson + 1 ? '→ Next' : 'Upcoming';
+                            
+                            return `
+                                <div class="lesson-item ${status}">
+                                    <div class="lesson-info">
+                                        <div class="lesson-name">${lesson.title}</div>
+                                        <div class="lesson-meta">${lesson.book} • ${lesson.focus}</div>
+                                    </div>
+                                    <div class="lesson-status ${statusLabel}">${statusText}</div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function toggleUnit(index) {
+            const list = document.getElementById(`unit-${index}`);
+            const icon = document.getElementById(`toggle-${index}`);
+            
+            list.classList.toggle('open');
+            icon.classList.toggle('open');
+        }
+        
+        function startLesson() {
+            alert('Starting lesson! This will open the lesson player.');
+            // TODO: Link to actual lesson player
+            window.location.href = 'student-dashboard-live.html';
+        }
+        
+        // Load on page load
+        loadCurriculum();
+    </script>
+</body>
+</html>

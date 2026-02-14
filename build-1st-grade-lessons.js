@@ -216,7 +216,7 @@ function generateLesson(lesson) {
     <div class="container">
         <div class="header">
             <div class="billy-avatar">🐐</div>
-            <h1>🏔️ Climb #${lesson.num}: ${lesson.title}</h1>
+            <h1>Lesson ${lesson.num}: ${lesson.title}</h1>
             <p>${lesson.skills}</p>
         </div>
 
@@ -247,7 +247,7 @@ ${lesson.words.map(w => `                    <li>Practice: <strong>${w}</strong>
             </div>
             
             <div class="billy-says">
-                Great climbing today! You're learning so many new sounds. Keep practicing and you'll be reading like a mountain goat! 🐐
+                Great work today! You're learning so many new sounds. Keep practicing and you're doing amazing! 🐐
             </div>
         </div>
 

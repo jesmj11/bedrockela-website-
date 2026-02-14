@@ -269,6 +269,72 @@ app.post('/api/parent/login', authLimiter, async (req, res) => {
   }
 });
 
+// Verify Email (for password reset)
+app.post('/api/parent/verify', authLimiter, async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ success: false, error: 'Email required' });
+  }
+
+  try {
+    const result = await pool.query('SELECT id, email, name FROM parents WHERE email = $1', [email]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ success: false, error: 'No account found with that email' });
+    }
+
+    const parent = result.rows[0];
+
+    res.json({
+      success: true,
+      message: 'Account verified',
+      name: parent.name
+    });
+
+  } catch (error) {
+    console.error('Error verifying email:', error);
+    res.status(500).json({ success: false, error: 'Verification failed' });
+  }
+});
+
+// Reset Password
+app.post('/api/parent/reset-password', authLimiter, async (req, res) => {
+  const { email, newPassword } = req.body;
+
+  if (!email || !newPassword) {
+    return res.status(400).json({ success: false, error: 'Email and new password required' });
+  }
+
+  if (newPassword.length < 6) {
+    return res.status(400).json({ success: false, error: 'Password must be at least 6 characters' });
+  }
+
+  try {
+    // Verify email exists
+    const result = await pool.query('SELECT id FROM parents WHERE email = $1', [email]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ success: false, error: 'Account not found' });
+    }
+
+    // Hash new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update password
+    await pool.query('UPDATE parents SET password_hash = $1 WHERE email = $2', [hashedPassword, email]);
+
+    res.json({
+      success: true,
+      message: 'Password reset successfully!'
+    });
+
+  } catch (error) {
+    console.error('Error resetting password:', error);
+    res.status(500).json({ success: false, error: 'Password reset failed' });
+  }
+});
+
 // Get Parent Profile + Students
 app.get('/api/parent/:id', authenticateParent, async (req, res) => {
   const parentId = parseInt(req.params.id);

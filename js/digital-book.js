@@ -1,6 +1,6 @@
 /**
  * Digital Book Reader - Vanilla JavaScript
- * Features: Page tracking, audio narration with ElevenLabs
+ * Features: Page tracking, audio narration with ElevenLabs, progressive page unlocking
  */
 
 const PAGE_PALETTE = [
@@ -18,12 +18,16 @@ const PAGE_PALETTE = [
 
 const BACKEND_API = 'https://bedrockela-website-production.up.railway.app/api';
 
-function createDigitalBook(containerId, bookConfig) {
+function createDigitalBook(containerId, bookConfig, options = {}) {
   const container = document.getElementById(containerId);
   if (!container) {
     console.error(`Container #${containerId} not found`);
     return;
   }
+
+  // Options: maxPageIndex limits which pages are available
+  const maxPageIndex = options.maxPageIndex !== undefined ? options.maxPageIndex : bookConfig.pages.length - 1;
+  const lessonNumber = options.lessonNumber || null;
 
   let currentPage = -1; // -1 = cover
   let isFlipping = false;
@@ -32,6 +36,7 @@ function createDigitalBook(containerId, bookConfig) {
   let currentAudio = null;
 
   const totalPages = bookConfig.pages.length;
+  const availablePages = maxPageIndex + 1; // maxPageIndex is 0-based
   const bookId = bookConfig.bookId || 'unknown';
   const studentData = JSON.parse(localStorage.getItem('studentData') || '{}');
   const studentId = studentData.student?.id;
@@ -60,8 +65,8 @@ function createDigitalBook(containerId, bookConfig) {
       student_id: studentId,
       book_id: bookId,
       pages_read: Array.from(pagesRead),
-      total_pages: totalPages,
-      completed: pagesRead.size === totalPages
+      total_pages: availablePages, // Only count available pages
+      completed: pagesRead.size === availablePages
     };
 
     fetch(`${BACKEND_API}/reading-progress`, {
@@ -74,7 +79,7 @@ function createDigitalBook(containerId, bookConfig) {
   }
 
   function markPageAsRead(pageNum) {
-    if (pageNum >= 0 && pageNum < totalPages) {
+    if (pageNum >= 0 && pageNum <= maxPageIndex) {
       pagesRead.add(pageNum);
       saveReadingProgress();
     }
@@ -99,7 +104,7 @@ function createDigitalBook(containerId, bookConfig) {
       const response = await fetch(`${BACKEND_API}/text-to-speech`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text, voice: 'Rachel' }) // Can make voice configurable
+        body: JSON.stringify({ text, voice: 'Rachel' })
       });
 
       if (!response.ok) {
@@ -125,7 +130,8 @@ function createDigitalBook(containerId, bookConfig) {
       audioBtn.disabled = false;
       audioPlaying = false;
       audioBtn.classList.remove('playing');
-      alert('Audio unavailable. Please try again.');
+      // Silently fail - don't alert user
+      console.log('Audio unavailable');
     }
   }
 
@@ -144,7 +150,7 @@ function createDigitalBook(containerId, bookConfig) {
 
   function render() {
     const isOnCover = currentPage === -1;
-    const isOnLastPage = currentPage === totalPages - 1;
+    const isOnLastAvailablePage = currentPage === maxPageIndex;
     const pageData = !isOnCover ? bookConfig.pages[currentPage] : null;
     const palette = !isOnCover
       ? PAGE_PALETTE[currentPage % PAGE_PALETTE.length]
@@ -155,8 +161,8 @@ function createDigitalBook(containerId, bookConfig) {
       markPageAsRead(currentPage);
     }
 
-    // Calculate reading progress
-    const progressPercent = totalPages > 0 ? (pagesRead.size / totalPages) * 100 : 0;
+    // Calculate reading progress (only for available pages)
+    const progressPercent = availablePages > 0 ? (pagesRead.size / availablePages) * 100 : 0;
 
     container.innerHTML = `
       <!-- Book -->
@@ -178,6 +184,12 @@ function createDigitalBook(containerId, bookConfig) {
             <h1 class="cover-title">${bookConfig.coverTitle}</h1>
             
             <p class="cover-author">${bookConfig.coverAuthor}</p>
+            
+            ${availablePages < totalPages ? `
+              <p style="font-family: 'Quicksand', sans-serif; font-size: 14px; color: rgba(176,104,33,0.7); margin-bottom: 16px;">
+                📚 ${availablePages} page${availablePages !== 1 ? 's' : ''} available in this lesson
+              </p>
+            ` : ''}
             
             <button class="open-btn" onclick="window.digitalBookFlipNext()">
               Open Book →
@@ -208,11 +220,11 @@ function createDigitalBook(containerId, bookConfig) {
             </div>
             
             <div class="page-footer" style="border-top: 1px solid ${palette.accent}20;">
-              <button class="audio-btn" style="color: ${palette.accent};" onclick="window.digitalBookPlayAudio('${pageData.text.replace(/'/g, "\\'")}', '${palette.accent}')">
+              <button class="audio-btn" style="color: ${palette.accent};" onclick="window.digitalBookPlayAudio(\`${pageData.text.replace(/`/g, '\\`')}\`, '${palette.accent}')">
                 🔊
               </button>
               <span class="page-number" style="color: ${palette.accent}99;">
-                — ${currentPage + 1} of ${totalPages} —
+                — ${currentPage + 1} of ${availablePages} —
               </span>
               <div style="width: 36px;"></div>
             </div>
@@ -234,6 +246,7 @@ function createDigitalBook(containerId, bookConfig) {
           
           <div class="page-dots">
             ${bookConfig.pages
+              .slice(0, availablePages)
               .map(
                 (_, i) => `
               <div class="dot ${i === currentPage ? "active" : ""} ${
@@ -245,7 +258,7 @@ function createDigitalBook(containerId, bookConfig) {
           </div>
           
           <button class="nav-btn" onclick="window.digitalBookFlipNext()" ${
-            isOnLastPage ? "disabled" : ""
+            isOnLastAvailablePage ? "disabled" : ""
           }>
             →
           </button>
@@ -253,14 +266,24 @@ function createDigitalBook(containerId, bookConfig) {
 
         <!-- Reading Progress -->
         <div class="reading-progress">
-          <div>📖 ${pagesRead.size} of ${totalPages} pages read</div>
+          <div>📖 ${pagesRead.size} of ${availablePages} pages read</div>
           <div class="progress-bar">
             <div class="progress-fill" style="width: ${progressPercent}%;"></div>
           </div>
         </div>
 
         ${
-          isOnLastPage
+          isOnLastAvailablePage && availablePages < totalPages
+            ? `
+          <div style="margin-top: 15px; text-align: center; font-family: 'Quicksand', sans-serif; font-size: 14px; color: #B06821;">
+            🔒 ${totalPages - availablePages} more page${totalPages - availablePages !== 1 ? 's' : ''} unlock in future lessons!
+          </div>
+        `
+            : ""
+        }
+
+        ${
+          isOnLastAvailablePage
             ? `
           <button class="back-to-cover-btn" onclick="window.digitalBookBackToCover()">
             ↩ Back to Cover
@@ -280,9 +303,9 @@ function createDigitalBook(containerId, bookConfig) {
     if (isFlipping) return;
 
     const isOnCover = currentPage === -1;
-    const isOnLastPage = currentPage === totalPages - 1;
+    const isOnLastAvailablePage = currentPage === maxPageIndex;
 
-    if (direction === "next" && isOnLastPage) return;
+    if (direction === "next" && isOnLastAvailablePage) return;
     if (direction === "prev" && isOnCover) return;
 
     // Stop any playing audio when flipping

@@ -1,1 +1,1 @@
-web: cd journal-backend && node server-v2.js
+web: cd journal-backend && node server-pg.js

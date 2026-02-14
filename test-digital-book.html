@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Book Test - Three Billy Goats Gruff</title>
+    <title>Digital Book Test - Progressive Unlocking</title>
     <link rel="stylesheet" href="css/flashcard-game.css">
     <link rel="stylesheet" href="css/digital-book.css">
     <style>
@@ -79,30 +79,85 @@
             position: absolute;
             left: 0;
         }
+
+        .lesson-selector {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .lesson-selector h3 {
+            color: #305853;
+            margin-bottom: 15px;
+        }
+
+        .lesson-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .lesson-btn {
+            padding: 10px 20px;
+            border-radius: 15px;
+            border: 2px solid #305853;
+            background: white;
+            color: #305853;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .lesson-btn:hover {
+            background: linear-gradient(135deg, #B06821 0%, #305853 100%);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .lesson-btn.active {
+            background: linear-gradient(135deg, #B06821 0%, #305853 100%);
+            color: white;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1>📖 Digital Book Reader Test</h1>
-            <p>Features: BedrockELA Theme + Reading Progress + Audio Narration</p>
+            <p>Progressive Page Unlocking Demo</p>
         </div>
 
         <div class="features">
-            <h3>🎯 What's New</h3>
+            <h3>🎯 What's New: Progressive Unlocking</h3>
             <ul>
-                <li><strong>BedrockELA Theme:</strong> Matches lesson colors (#B06821 orange + #305853 teal)</li>
-                <li><strong>Reading Progress:</strong> Tracks which pages you've read (saved to database)</li>
-                <li><strong>Audio Narration:</strong> Click 🔊 on any page for ElevenLabs TTS narration</li>
-                <li><strong>Page Flip Animation:</strong> Beautiful page-turning effect</li>
-                <li><strong>Keyboard Navigation:</strong> Use ← → arrow keys</li>
-                <li><strong>Progress Dots:</strong> Green dots show pages you've already read</li>
+                <li><strong>Lesson-Based Pages:</strong> Each lesson unlocks more pages of the story</li>
+                <li><strong>Lesson 1:</strong> See first 2 pages only</li>
+                <li><strong>Lesson 5:</strong> See pages 1-6</li>
+                <li><strong>Lesson 10:</strong> See all 12 pages (complete book)</li>
+                <li><strong>Locked Pages:</strong> Shows "🔒 X more pages unlock in future lessons"</li>
+                <li><strong>Progress Tracking:</strong> Saves which pages you've read</li>
+                <li><strong>Audio Narration:</strong> Click 🔊 on any page (needs ElevenLabs key)</li>
             </ul>
         </div>
 
+        <div class="lesson-selector">
+            <h3>🎓 Try Different Lessons:</h3>
+            <div class="lesson-buttons">
+                <button class="lesson-btn active" onclick="loadLesson(1)">Lesson 1</button>
+                <button class="lesson-btn" onclick="loadLesson(3)">Lesson 3</button>
+                <button class="lesson-btn" onclick="loadLesson(5)">Lesson 5</button>
+                <button class="lesson-btn" onclick="loadLesson(10)">Lesson 10</button>
+            </div>
+            <p style="margin-top: 15px; color: #B06821; font-size: 14px;">
+                <strong>Story:</strong> "The Three Billy Goats Gruff" (12 pages total, lessons 1-10)
+            </p>
+        </div>
+
         <div class="lesson-card">
-            <h2 style="color: #B06821; font-size: 1.8rem; margin-bottom: 20px; text-align: center;">
-                📖 Story Time
+            <h2 id="story-title" style="color: #B06821; font-size: 1.8rem; margin-bottom: 20px; text-align: center;">
+                📖 Story Time - Lesson 1
             </h2>
             <div id="story-book" class="digital-book-container"></div>
         </div>
@@ -110,19 +165,60 @@
 
     <script src="js/digital-book.js"></script>
     <script>
-        // Load book for this lesson
-        fetch('book-data/three-billy-goats-gruff-lessons-1-10.json')
-            .then(response => response.json())
-            .then(bookConfig => {
-                // Add unique book ID for progress tracking
-                bookConfig.bookId = 'three-billy-goats-gruff-lessons-1-10';
-                createDigitalBook('story-book', bookConfig);
-            })
-            .catch(error => {
-                console.error('Error loading book:', error);
-                document.getElementById('story-book').innerHTML = 
-                    '<p style="color: #B06821; text-align: center;">Error loading book. Check console.</p>';
+        const pageLimits = {
+            1: 1,   // 2 pages
+            2: 2,   // 3 pages
+            3: 3,   // 4 pages
+            4: 4,   // 5 pages
+            5: 5,   // 6 pages
+            6: 7,   // 8 pages
+            7: 8,   // 9 pages
+            8: 9,   // 10 pages
+            9: 10,  // 11 pages
+            10: 11  // 12 pages (all)
+        };
+
+        let currentCleanup = null;
+
+        function loadLesson(lessonNum) {
+            // Update active button
+            document.querySelectorAll('.lesson-btn').forEach(btn => {
+                btn.classList.remove('active');
             });
+            event.target.classList.add('active');
+
+            // Update title
+            document.getElementById('story-title').textContent = 
+                `📖 Story Time - Lesson ${lessonNum}`;
+
+            // Cleanup previous book instance
+            if (currentCleanup) {
+                currentCleanup();
+            }
+
+            // Load book with page limit for this lesson
+            fetch('book-data/three-billy-goats-gruff-lessons-1-10.json')
+                .then(response => response.json())
+                .then(bookConfig => {
+                    bookConfig.bookId = 'three-billy-goats-gruff-lessons-1-10';
+                    const maxPageIndex = pageLimits[lessonNum];
+                    
+                    currentCleanup = createDigitalBook('story-book', bookConfig, {
+                        maxPageIndex: maxPageIndex,
+                        lessonNumber: lessonNum
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading book:', error);
+                    document.getElementById('story-book').innerHTML = 
+                        '<p style="color: #B06821; text-align: center;">Error loading book. Check console.</p>';
+                });
+        }
+
+        // Load lesson 1 by default
+        window.addEventListener('DOMContentLoaded', () => {
+            loadLesson(1);
+        });
     </script>
 </body>
 </html>

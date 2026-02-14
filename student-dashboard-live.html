@@ -192,7 +192,9 @@
         window.addEventListener('DOMContentLoaded', () => {
             const student = JSON.parse(localStorage.getItem('bedrockela_student') || 'null');
             
-            if (!student || !student.id) {
+            if (!student || !student.id || !student.name) {
+                // Clear old/invalid data and redirect
+                localStorage.removeItem('bedrockela_student');
                 window.location.href = 'student-login.html';
                 return;
             }

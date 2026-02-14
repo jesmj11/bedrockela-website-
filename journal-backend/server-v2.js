@@ -26,6 +26,7 @@ const db = new sqlite3.Database('./journal.db', (err) => {
 
 // Initialize database tables if they don't exist
 function initializeDatabase() {
+  console.log('🔧 Initializing database tables...');
   db.serialize(() => {
     // Parents table
     db.run(`
@@ -39,7 +40,10 @@ function initializeDatabase() {
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         last_login DATETIME
       )
-    `);
+    `, (err) => {
+      if (err) console.error('❌ Error creating parents table:', err);
+      else console.log('✅ Parents table ready');
+    });
 
     // Students table
     db.run(`
@@ -53,7 +57,10 @@ function initializeDatabase() {
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         last_login DATETIME
       )
-    `);
+    `, (err) => {
+      if (err) console.error('❌ Error creating students table:', err);
+      else console.log('✅ Students table ready');
+    });
 
     // Parent-student relationship table
     db.run(`
@@ -68,7 +75,10 @@ function initializeDatabase() {
         FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
         UNIQUE(parent_id, student_id)
       )
-    `);
+    `, (err) => {
+      if (err) console.error('❌ Error creating parent_students table:', err);
+      else console.log('✅ Parent-student relationship table ready');
+    });
 
     // Journal entries table
     db.run(`
@@ -89,7 +99,10 @@ function initializeDatabase() {
         FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
         UNIQUE(student_id, grade, lesson_number)
       )
-    `);
+    `, (err) => {
+      if (err) console.error('❌ Error creating journal_entries table:', err);
+      else console.log('✅ Journal entries table ready');
+    });
 
     // Journal prompts table
     db.run(`
@@ -100,13 +113,16 @@ function initializeDatabase() {
         prompt_text TEXT NOT NULL,
         UNIQUE(grade, lesson_number)
       )
-    `, () => {
-      console.log('✅ Database tables initialized');
+    `, (err) => {
+      if (err) console.error('❌ Error creating journal_prompts table:', err);
+      else console.log('✅ Journal prompts table ready');
+      console.log('✨ Database initialization complete!');
     });
   });
 }
 
 // Middleware
+app.set('trust proxy', true); // Required for Railway/proxies
 app.use(helmet());
 app.use(cors());
 app.use(express.json());

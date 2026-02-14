@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Book Test - The Enormous Turnip</title>
+    <link rel="stylesheet" href="css/digital-book.css">
+</head>
+<body>
+    <div id="book-reader" class="digital-book-container"></div>
+
+    <script src="js/digital-book.js"></script>
+    <script>
+        // Load book data
+        fetch('book-data/enormous-turnip-lessons-1-5.json')
+            .then(response => response.json())
+            .then(bookConfig => {
+                createDigitalBook('book-reader', bookConfig);
+            })
+            .catch(error => {
+                console.error('Error loading book:', error);
+                document.getElementById('book-reader').innerHTML = 
+                    '<p style="color: white; text-align: center;">Error loading book. Check console.</p>';
+            });
+    </script>
+</body>
+</html>

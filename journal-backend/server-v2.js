@@ -20,8 +20,91 @@ const db = new sqlite3.Database('./journal.db', (err) => {
     console.error('❌ Error connecting to database:', err);
   } else {
     console.log('✅ Connected to SQLite database');
+    initializeDatabase();
   }
 });
+
+// Initialize database tables if they don't exist
+function initializeDatabase() {
+  db.serialize(() => {
+    // Parents table
+    db.run(`
+      CREATE TABLE IF NOT EXISTS parents (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        email TEXT UNIQUE NOT NULL,
+        password_hash TEXT NOT NULL,
+        name TEXT NOT NULL,
+        family_name TEXT,
+        account_type TEXT DEFAULT 'family',
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        last_login DATETIME
+      )
+    `);
+
+    // Students table
+    db.run(`
+      CREATE TABLE IF NOT EXISTS students (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        username TEXT UNIQUE NOT NULL,
+        grade_level TEXT NOT NULL,
+        pin_code TEXT,
+        current_lesson INTEGER DEFAULT 1,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        last_login DATETIME
+      )
+    `);
+
+    // Parent-student relationship table
+    db.run(`
+      CREATE TABLE IF NOT EXISTS parent_students (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        parent_id INTEGER NOT NULL,
+        student_id INTEGER NOT NULL,
+        relationship TEXT DEFAULT 'child',
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        
+        FOREIGN KEY (parent_id) REFERENCES parents(id) ON DELETE CASCADE,
+        FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
+        UNIQUE(parent_id, student_id)
+      )
+    `);
+
+    // Journal entries table
+    db.run(`
+      CREATE TABLE IF NOT EXISTS journal_entries (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        student_id INTEGER NOT NULL,
+        grade TEXT NOT NULL,
+        lesson_number INTEGER NOT NULL,
+        unit_number INTEGER,
+        book_title TEXT,
+        entry_date DATE DEFAULT (date('now')),
+        entry_text TEXT NOT NULL,
+        word_count INTEGER,
+        revised BOOLEAN DEFAULT 0,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        
+        FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
+        UNIQUE(student_id, grade, lesson_number)
+      )
+    `);
+
+    // Journal prompts table
+    db.run(`
+      CREATE TABLE IF NOT EXISTS journal_prompts (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        grade TEXT NOT NULL,
+        lesson_number INTEGER NOT NULL,
+        prompt_text TEXT NOT NULL,
+        UNIQUE(grade, lesson_number)
+      )
+    `, () => {
+      console.log('✅ Database tables initialized');
+    });
+  });
+}
 
 // Middleware
 app.use(helmet());

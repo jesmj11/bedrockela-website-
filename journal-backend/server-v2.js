@@ -127,10 +127,13 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
-// Rate limiting
+// Rate limiting (configured for Railway proxy)
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
+  max: 100, // limit each IP to 100 requests per windowMs
+  standardHeaders: true,
+  legacyHeaders: false,
+  validate: { trustProxy: false } // Disable validation warning for Railway
 });
 app.use('/api/', limiter);
 
@@ -138,7 +141,10 @@ app.use('/api/', limiter);
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 5, // 5 login attempts per 15 minutes
-  message: 'Too many login attempts. Please try again later.'
+  message: 'Too many login attempts. Please try again later.',
+  standardHeaders: true,
+  legacyHeaders: false,
+  validate: { trustProxy: false }
 });
 
 // ========================================

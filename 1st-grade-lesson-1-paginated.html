@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 1: Short Vowel Valley - BedrockELA</title>
+    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <link rel="stylesheet" href="css/digital-book.css">
+    <link rel="stylesheet" href="css/letter-explorer.css">
+    <link rel="stylesheet" href="css/flashcard-game.css">
+</head>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
+
+    <script src="js/lesson-viewer.js"></script>
+    <script src="js/digital-book.js"></script>
+    <script src="js/letter-explorer.js"></script>
+    <script src="js/flashcard-game.js"></script>
+    
+    <script>
+        // Lesson 1 Configuration
+        const lesson1Config = {
+            lessonId: '1st-grade-lesson-1',
+            gradeLevel: '1st-grade',
+            title: 'Lesson 1: Short Vowel Valley',
+            pages: [
+                // Page 1: Title
+                {
+                    render: () => `
+                        <div class="lesson-page-card title-page">
+                            <div class="character">🐐</div>
+                            <h1>Lesson 1</h1>
+                            <div class="subtitle">Short Vowel Valley</div>
+                            <p style="color: #667eea; font-size: 18px; margin-top: 20px;">
+                                Meet Billy the Goat!<br>
+                                He'll help you learn all about vowels!
+                            </p>
+                        </div>
+                    `
+                },
+                
+                // Page 2: What are Vowels?
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>🎯 What are Vowels?</h2>
+                            <p>Every word needs a vowel! Vowels are special letters that make sounds in the middle of words.</p>
+                            <div style="text-align: center; font-size: 48px; margin: 30px 0;">
+                                A E I O U
+                            </div>
+                            <p><strong>These are the vowel letters!</strong> Each one makes its own sound.</p>
+                            <ul>
+                                <li><strong>A</strong> says "ah" like in <em>cat</em></li>
+                                <li><strong>E</strong> says "eh" like in <em>bed</em></li>
+                                <li><strong>I</strong> says "ih" like in <em>pig</em></li>
+                                <li><strong>O</strong> says "ah" like in <em>dog</em></li>
+                                <li><strong>U</strong> says "uh" like in <em>bug</em></li>
+                            </ul>
+                        </div>
+                    `
+                },
+                
+                // Page 3: Billy's Vowel Song
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>🎵 Billy's Vowel Song</h2>
+                            <p>Billy teaches kids a song to remember the vowel sounds!</p>
+                            <div style="background: rgba(102,126,234,0.1); padding: 20px; border-radius: 15px; margin: 20px 0;">
+                                <p style="font-size: 20px; line-height: 1.8; text-align: center;">
+                                    <strong>A</strong> says "ah"<br>
+                                    <strong>E</strong> says "eh"<br>
+                                    <strong>I</strong> says "ih"<br>
+                                    <strong>O</strong> says "ah"<br>
+                                    <strong>U</strong> says "uh"<br>
+                                    <em>Vowels help us read!</em>
+                                </p>
+                            </div>
+                            <p>Say it with Billy a few times until you remember it!</p>
+                        </div>
+                    `
+                },
+                
+                // Page 4: Story Time
+                {
+                    render: (progress, markComplete) => {
+                        return `
+                            <div class="lesson-page-card activity-section">
+                                <h2>📖 Story Time</h2>
+                                <p>Read "The Three Billy Goats Gruff" with Billy!</p>
+                                ${progress.story_completed ? '<div class="completion-badge">✅ Story Complete!</div>' : ''}
+                                <div id="story-book" class="digital-book-container" style="margin-top: 20px;"></div>
+                            </div>
+                        `;
+                    },
+                    onLoad: () => {
+                        fetch('book-data/three-billy-goats-gruff-lessons-1-10.json')
+                            .then(response => response.json())
+                            .then(bookConfig => {
+                                bookConfig.bookId = 'three-billy-goats-gruff-lessons-1-10';
+                                createDigitalBook('story-book', bookConfig, {
+                                    maxPageIndex: 1,
+                                    lessonNumber: 1,
+                                    onComplete: () => {
+                                        window.lessonMarkComplete('story');
+                                    }
+                                });
+                            });
+                    }
+                },
+                
+                // Page 5: Letter Explorer Game
+                {
+                    render: (progress, markComplete) => {
+                        return `
+                            <div class="lesson-page-card activity-section">
+                                <h2>🔤 Letter Explorer</h2>
+                                <p>Spell words by dragging letters!</p>
+                                ${progress.letter_explorer_completed ? '<div class="completion-badge">✅ Game Complete!</div>' : ''}
+                                <div id="letter-explorer-game" class="letter-explorer-container" style="margin-top: 20px;"></div>
+                            </div>
+                        `;
+                    },
+                    onLoad: () => {
+                        createLetterExplorer('letter-explorer-game', {
+                            title: "Letter Explorer",
+                            subtitle: "Drag the letters to spell the word!",
+                            words: [
+                                { word: "cat", emoji: "🐱", definition: "A small furry animal that purrs and says meow!", example: "The cat sat on the mat." },
+                                { word: "bed", emoji: "🛏️", definition: "A soft place where you sleep at night!", example: "I go to bed at 8 o'clock." },
+                                { word: "pig", emoji: "🐷", definition: "A pink farm animal that says oink!", example: "The pig rolls in the mud." },
+                                { word: "dog", emoji: "🐶", definition: "A friendly animal that barks and wags its tail!", example: "The dog loves to play fetch." },
+                                { word: "sun", emoji: "☀️", definition: "The big bright star in the sky that gives us light!", example: "The sun is shining today." }
+                            ]
+                        }, () => {
+                            window.lessonMarkComplete('letter-explorer');
+                        });
+                    }
+                },
+                
+                // Page 6: Flashcard Game
+                {
+                    render: (progress, markComplete) => {
+                        return `
+                            <div class="lesson-page-card activity-section">
+                                <h2>🎮 Match the Sounds!</h2>
+                                <p>Match letters with their sounds!</p>
+                                ${progress.flashcard_completed ? '<div class="completion-badge">✅ Matches Complete!</div>' : ''}
+                                <div id="flashcard-game-container" style="margin-top: 20px;"></div>
+                            </div>
+                        `;
+                    },
+                    onLoad: () => {
+                        new FlashcardGame('flashcard-game-container', {
+                            title: "Match the Sounds!",
+                            subtitle: "Can you match each letter to its sound?",
+                            pairs: [
+                                { term: "A", match: 'Says "ah" like cat' },
+                                { term: "E", match: 'Says "eh" like bed' },
+                                { term: "I", match: 'Says "ih" like pig' },
+                                { term: "O", match: 'Says "ah" like dog' },
+                                { term: "U", match: 'Says "uh" like bug' }
+                            ]
+                        }, () => {
+                            window.lessonMarkComplete('flashcard');
+                        });
+                    }
+                },
+                
+                // Page 7: Great Job!
+                {
+                    render: (progress) => {
+                        const allComplete = progress.story_completed && 
+                                          progress.letter_explorer_completed && 
+                                          progress.flashcard_completed;
+                        return `
+                            <div class="lesson-page-card title-page">
+                                <div class="character">🎉</div>
+                                <h1>Great Job!</h1>
+                                <div class="subtitle">You completed Lesson 1!</div>
+                                ${allComplete ? `
+                                    <div class="completion-badge" style="margin: 30px auto;">
+                                        ✅ 100% Complete!
+                                    </div>
+                                    <p style="margin-top: 20px;">
+                                        Billy is proud of you! You learned all about short vowel sounds!
+                                    </p>
+                                ` : `
+                                    <p style="color: #667eea; margin-top: 20px;">
+                                        Go back and complete all activities to finish this lesson!
+                                    </p>
+                                `}
+                                <button 
+                                    onclick="window.location.href='student-dashboard-live.html'" 
+                                    class="nav-arrow"
+                                    style="margin-top: 30px;"
+                                >
+                                    Back to Dashboard
+                                </button>
+                            </div>
+                        `;
+                    }
+                }
+            ]
+        };
+
+        // Initialize lesson viewer
+        createLessonViewer('lesson-container', lesson1Config);
+    </script>
+</body>
+</html>

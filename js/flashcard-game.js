@@ -2,9 +2,10 @@
 // Converted from React to vanilla JavaScript
 
 class FlashcardGame {
-  constructor(containerId, config) {
+  constructor(containerId, config, onComplete) {
     this.container = document.getElementById(containerId);
     this.config = config;
+    this.onComplete = onComplete || function() {};
     this.cards = [];
     this.flipped = [];
     this.matched = [];
@@ -175,6 +176,11 @@ class FlashcardGame {
     winScreen.style.display = 'flex';
     winScreen.querySelector('.total-pairs').textContent = this.config.pairs.length;
     winScreen.querySelector('.total-attempts').textContent = this.attempts;
+    
+    // Call completion callback
+    if (this.onComplete) {
+      this.onComplete();
+    }
     
     // Confetti
     for (let i = 0; i < 40; i++) {

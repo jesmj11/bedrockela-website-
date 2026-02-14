@@ -28,6 +28,7 @@ function createDigitalBook(containerId, bookConfig, options = {}) {
   // Options: maxPageIndex limits which pages are available
   const maxPageIndex = options.maxPageIndex !== undefined ? options.maxPageIndex : bookConfig.pages.length - 1;
   const lessonNumber = options.lessonNumber || null;
+  const onComplete = options.onComplete || function() {};
 
   let currentPage = -1; // -1 = cover
   let isFlipping = false;
@@ -61,12 +62,13 @@ function createDigitalBook(containerId, bookConfig, options = {}) {
   function saveReadingProgress() {
     if (!studentId) return;
 
+    const completed = pagesRead.size === availablePages;
     const progress = {
       student_id: studentId,
       book_id: bookId,
       pages_read: Array.from(pagesRead),
       total_pages: availablePages, // Only count available pages
-      completed: pagesRead.size === availablePages
+      completed: completed
     };
 
     fetch(`${BACKEND_API}/reading-progress`, {
@@ -76,6 +78,11 @@ function createDigitalBook(containerId, bookConfig, options = {}) {
     })
       .then(res => res.json())
       .catch(err => console.error('Error saving progress:', err));
+    
+    // Call completion callback if all pages read
+    if (completed && onComplete) {
+      onComplete();
+    }
   }
 
   function markPageAsRead(pageNum) {

@@ -126,6 +126,27 @@ async function initializeDatabase() {
       )
     `);
     console.log('✅ Reading progress table ready');
+
+    // Lesson progress table
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS lesson_progress (
+        id SERIAL PRIMARY KEY,
+        student_id INTEGER NOT NULL REFERENCES students(id) ON DELETE CASCADE,
+        lesson_id VARCHAR(255) NOT NULL,
+        grade_level VARCHAR(50) NOT NULL,
+        story_completed BOOLEAN DEFAULT FALSE,
+        letter_explorer_completed BOOLEAN DEFAULT FALSE,
+        flashcard_completed BOOLEAN DEFAULT FALSE,
+        lesson_completed BOOLEAN DEFAULT FALSE,
+        current_page INTEGER DEFAULT 0,
+        total_pages INTEGER,
+        last_page_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        completed_at TIMESTAMP,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(student_id, lesson_id)
+      )
+    `);
+    console.log('✅ Lesson progress table ready');
     console.log('✨ Database initialization complete!');
     
   } catch (err) {
@@ -972,6 +993,116 @@ app.get('/api/reading-progress/:studentId', async (req, res) => {
   } catch (error) {
     console.error('Error fetching all reading progress:', error);
     res.status(500).json({ success: false, error: 'Failed to fetch reading progress' });
+  }
+});
+
+// ========================================
+// LESSON PROGRESS
+// ========================================
+
+// Get lesson progress for a student and lesson
+app.get('/api/lesson-progress/:studentId/:lessonId', async (req, res) => {
+  const { studentId, lessonId } = req.params;
+
+  try {
+    const result = await pool.query(
+      `SELECT * FROM lesson_progress 
+       WHERE student_id = $1 AND lesson_id = $2`,
+      [studentId, lessonId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.json({ success: true, progress: null });
+    }
+
+    res.json({
+      success: true,
+      progress: result.rows[0]
+    });
+
+  } catch (error) {
+    console.error('Error fetching lesson progress:', error);
+    res.status(500).json({ success: false, error: 'Failed to fetch lesson progress' });
+  }
+});
+
+// Save/update lesson progress
+app.post('/api/lesson-progress', async (req, res) => {
+  const { 
+    student_id, 
+    lesson_id, 
+    grade_level,
+    story_completed,
+    letter_explorer_completed,
+    flashcard_completed,
+    current_page,
+    total_pages
+  } = req.body;
+
+  if (!student_id || !lesson_id || !grade_level) {
+    return res.status(400).json({ success: false, error: 'Missing required fields' });
+  }
+
+  try {
+    // Calculate if lesson is fully completed
+    const lesson_completed = story_completed && letter_explorer_completed && flashcard_completed;
+
+    // Upsert (insert or update)
+    const result = await pool.query(
+      `INSERT INTO lesson_progress (
+        student_id, lesson_id, grade_level, 
+        story_completed, letter_explorer_completed, flashcard_completed,
+        lesson_completed, current_page, total_pages, last_page_at, completed_at
+      )
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, CURRENT_TIMESTAMP, 
+         CASE WHEN $7 = true THEN CURRENT_TIMESTAMP ELSE NULL END)
+       ON CONFLICT (student_id, lesson_id)
+       DO UPDATE SET 
+         story_completed = $4,
+         letter_explorer_completed = $5,
+         flashcard_completed = $6,
+         lesson_completed = $7,
+         current_page = $8,
+         total_pages = $9,
+         last_page_at = CURRENT_TIMESTAMP,
+         completed_at = CASE WHEN $7 = true THEN CURRENT_TIMESTAMP ELSE lesson_progress.completed_at END
+       RETURNING *`,
+      [student_id, lesson_id, grade_level, 
+       story_completed, letter_explorer_completed, flashcard_completed,
+       lesson_completed, current_page, total_pages]
+    );
+
+    res.json({
+      success: true,
+      progress: result.rows[0]
+    });
+
+  } catch (error) {
+    console.error('Error saving lesson progress:', error);
+    res.status(500).json({ success: false, error: 'Failed to save lesson progress' });
+  }
+});
+
+// Get all lesson progress for a student
+app.get('/api/lesson-progress/:studentId', async (req, res) => {
+  const { studentId } = req.params;
+
+  try {
+    const result = await pool.query(
+      `SELECT * FROM lesson_progress 
+       WHERE student_id = $1 
+       ORDER BY lesson_id ASC`,
+      [studentId]
+    );
+
+    res.json({
+      success: true,
+      lessons: result.rows
+    });
+
+  } catch (error) {
+    console.error('Error fetching all lesson progress:', error);
+    res.status(500).json({ success: false, error: 'Failed to fetch lesson progress' });
   }
 });
 

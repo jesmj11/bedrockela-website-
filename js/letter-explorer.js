@@ -31,12 +31,15 @@ function speakWord(word) {
   }
 }
 
-function createLetterExplorer(containerId, config) {
+function createLetterExplorer(containerId, config, onComplete) {
   const container = document.getElementById(containerId);
   if (!container) {
     console.error(`Container #${containerId} not found`);
     return;
   }
+  
+  // Callback when all words are completed
+  const completionCallback = onComplete || function() {};
 
   let wordIndex = 0;
   let scrambledLetters = [];
@@ -164,6 +167,8 @@ function createLetterExplorer(containerId, config) {
     wordIndex++;
     if (wordIndex >= config.words.length) {
       allDone = true;
+      // Call completion callback
+      completionCallback();
     }
     render();
     if (!allDone) {

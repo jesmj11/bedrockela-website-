@@ -71,6 +71,8 @@ for (let lessonNum = 1; lessonNum <= 30; lessonNum++) {
         fetch('book-data/${bookFilename}')
             .then(response => response.json())
             .then(bookConfig => {
+                // Add unique book ID for progress tracking
+                bookConfig.bookId = '${bookFilename.replace('.json', '')}';
                 createDigitalBook('story-book', bookConfig);
             })
             .catch(error => {

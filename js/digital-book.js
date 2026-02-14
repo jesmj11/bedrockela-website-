@@ -1,6 +1,6 @@
 /**
  * Digital Book Reader - Vanilla JavaScript
- * Based on digital-book.jsx, converted for use without React
+ * Features: Page tracking, audio narration with ElevenLabs
  */
 
 const PAGE_PALETTE = [
@@ -16,6 +16,8 @@ const PAGE_PALETTE = [
   { bg: "#FFF5EB", accent: "#C08050" },
 ];
 
+const BACKEND_API = 'https://bedrockela-website-production.up.railway.app/api';
+
 function createDigitalBook(containerId, bookConfig) {
   const container = document.getElementById(containerId);
   if (!container) {
@@ -25,8 +27,120 @@ function createDigitalBook(containerId, bookConfig) {
 
   let currentPage = -1; // -1 = cover
   let isFlipping = false;
+  let pagesRead = new Set(); // Track which pages have been read
+  let audioPlaying = false;
+  let currentAudio = null;
 
   const totalPages = bookConfig.pages.length;
+  const bookId = bookConfig.bookId || 'unknown';
+  const studentData = JSON.parse(localStorage.getItem('studentData') || '{}');
+  const studentId = studentData.student?.id;
+
+  // Load saved progress
+  if (studentId) {
+    loadReadingProgress();
+  }
+
+  function loadReadingProgress() {
+    fetch(`${BACKEND_API}/reading-progress/${studentId}/${bookId}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.progress) {
+          pagesRead = new Set(data.progress.pages_read || []);
+          render();
+        }
+      })
+      .catch(err => console.error('Error loading progress:', err));
+  }
+
+  function saveReadingProgress() {
+    if (!studentId) return;
+
+    const progress = {
+      student_id: studentId,
+      book_id: bookId,
+      pages_read: Array.from(pagesRead),
+      total_pages: totalPages,
+      completed: pagesRead.size === totalPages
+    };
+
+    fetch(`${BACKEND_API}/reading-progress`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(progress)
+    })
+      .then(res => res.json())
+      .catch(err => console.error('Error saving progress:', err));
+  }
+
+  function markPageAsRead(pageNum) {
+    if (pageNum >= 0 && pageNum < totalPages) {
+      pagesRead.add(pageNum);
+      saveReadingProgress();
+    }
+  }
+
+  async function playAudio(text, accentColor) {
+    if (audioPlaying) {
+      stopAudio();
+      return;
+    }
+
+    const audioBtn = document.querySelector('.audio-btn');
+    if (!audioBtn) return;
+
+    audioPlaying = true;
+    audioBtn.disabled = true;
+    audioBtn.textContent = '⏸';
+    audioBtn.classList.add('playing');
+
+    try {
+      // Call ElevenLabs API via backend
+      const response = await fetch(`${BACKEND_API}/text-to-speech`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text, voice: 'Rachel' }) // Can make voice configurable
+      });
+
+      if (!response.ok) {
+        throw new Error('TTS failed');
+      }
+
+      const audioBlob = await response.blob();
+      const audioUrl = URL.createObjectURL(audioBlob);
+      
+      currentAudio = new Audio(audioUrl);
+      currentAudio.play();
+
+      currentAudio.onended = () => {
+        stopAudio();
+      };
+
+      audioBtn.disabled = false;
+      audioBtn.onclick = stopAudio;
+
+    } catch (error) {
+      console.error('Audio playback error:', error);
+      audioBtn.textContent = '🔊';
+      audioBtn.disabled = false;
+      audioPlaying = false;
+      audioBtn.classList.remove('playing');
+      alert('Audio unavailable. Please try again.');
+    }
+  }
+
+  function stopAudio() {
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio = null;
+    }
+    audioPlaying = false;
+    const audioBtn = document.querySelector('.audio-btn');
+    if (audioBtn) {
+      audioBtn.textContent = '🔊';
+      audioBtn.classList.remove('playing');
+    }
+  }
 
   function render() {
     const isOnCover = currentPage === -1;
@@ -34,26 +148,17 @@ function createDigitalBook(containerId, bookConfig) {
     const pageData = !isOnCover ? bookConfig.pages[currentPage] : null;
     const palette = !isOnCover
       ? PAGE_PALETTE[currentPage % PAGE_PALETTE.length]
-      : { bg: bookConfig.coverColor || "#1B2A4A", accent: "#FFD700" };
+      : { bg: bookConfig.coverColor || "#305853", accent: "#B06821" };
+
+    // Mark current page as read
+    if (!isOnCover && currentPage >= 0) {
+      markPageAsRead(currentPage);
+    }
+
+    // Calculate reading progress
+    const progressPercent = totalPages > 0 ? (pagesRead.size / totalPages) * 100 : 0;
 
     container.innerHTML = `
-      <!-- Decorative background stars -->
-      <div class="digital-book-stars">
-        ${[...Array(12)]
-          .map(
-            (_, i) => `
-          <div class="star" style="
-            left: ${5 + Math.random() * 90}%;
-            top: ${5 + Math.random() * 90}%;
-            animation-duration: ${2 + Math.random() * 3}s;
-            animation-delay: ${Math.random() * 2}s;
-            opacity: ${0.2 + Math.random() * 0.3};
-          "></div>
-        `
-          )
-          .join("")}
-      </div>
-
       <!-- Book -->
       <div class="book-container">
         ${!isOnCover ? '<div class="page-edges"></div>' : ""}
@@ -63,7 +168,7 @@ function createDigitalBook(containerId, bookConfig) {
             ? `
           <!-- COVER -->
           <div class="page paper-texture cover-page" style="
-            background: linear-gradient(145deg, ${bookConfig.coverColor} 0%, ${bookConfig.coverColor}DD 50%, ${bookConfig.coverColor}BB 100%);
+            background: linear-gradient(145deg, #305853 0%, #1B2A30 100%);
           ">
             <div class="cover-border-top"></div>
             <div class="cover-border-bottom"></div>
@@ -103,9 +208,13 @@ function createDigitalBook(containerId, bookConfig) {
             </div>
             
             <div class="page-footer" style="border-top: 1px solid ${palette.accent}20;">
+              <button class="audio-btn" style="color: ${palette.accent};" onclick="window.digitalBookPlayAudio('${pageData.text.replace(/'/g, "\\'")}', '${palette.accent}')">
+                🔊
+              </button>
               <span class="page-number" style="color: ${palette.accent}99;">
                 — ${currentPage + 1} of ${totalPages} —
               </span>
+              <div style="width: 36px;"></div>
             </div>
           </div>
         `
@@ -129,7 +238,7 @@ function createDigitalBook(containerId, bookConfig) {
                 (_, i) => `
               <div class="dot ${i === currentPage ? "active" : ""} ${
                   i < currentPage ? "past" : ""
-                }"></div>
+                } ${pagesRead.has(i) ? "read" : ""}"></div>
             `
               )
               .join("")}
@@ -140,6 +249,14 @@ function createDigitalBook(containerId, bookConfig) {
           }>
             →
           </button>
+        </div>
+
+        <!-- Reading Progress -->
+        <div class="reading-progress">
+          <div>📖 ${pagesRead.size} of ${totalPages} pages read</div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: ${progressPercent}%;"></div>
+          </div>
         </div>
 
         ${
@@ -168,6 +285,9 @@ function createDigitalBook(containerId, bookConfig) {
     if (direction === "next" && isOnLastPage) return;
     if (direction === "prev" && isOnCover) return;
 
+    // Stop any playing audio when flipping
+    stopAudio();
+
     isFlipping = true;
 
     // Add flipping animation class
@@ -186,6 +306,7 @@ function createDigitalBook(containerId, bookConfig) {
   }
 
   function backToCover() {
+    stopAudio();
     currentPage = -1;
     render();
   }
@@ -206,6 +327,7 @@ function createDigitalBook(containerId, bookConfig) {
   window.digitalBookFlipNext = () => flipTo("next");
   window.digitalBookFlipPrev = () => flipTo("prev");
   window.digitalBookBackToCover = backToCover;
+  window.digitalBookPlayAudio = (text, accentColor) => playAudio(text, accentColor);
 
   // Attach keyboard listener
   document.addEventListener("keydown", handleKeyDown);
@@ -216,8 +338,10 @@ function createDigitalBook(containerId, bookConfig) {
   // Return cleanup function
   return function cleanup() {
     document.removeEventListener("keydown", handleKeyDown);
+    stopAudio();
     delete window.digitalBookFlipNext;
     delete window.digitalBookFlipPrev;
     delete window.digitalBookBackToCover;
+    delete window.digitalBookPlayAudio;
   };
 }

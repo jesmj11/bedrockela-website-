@@ -110,6 +110,22 @@ async function initializeDatabase() {
       )
     `);
     console.log('✅ Journal prompts table ready');
+
+    // Reading progress table
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS reading_progress (
+        id SERIAL PRIMARY KEY,
+        student_id INTEGER NOT NULL REFERENCES students(id) ON DELETE CASCADE,
+        book_id VARCHAR(255) NOT NULL,
+        pages_read INTEGER[] DEFAULT '{}',
+        total_pages INTEGER NOT NULL,
+        completed BOOLEAN DEFAULT FALSE,
+        last_read_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(student_id, book_id)
+      )
+    `);
+    console.log('✅ Reading progress table ready');
     console.log('✨ Database initialization complete!');
     
   } catch (err) {
@@ -807,6 +823,155 @@ app.get('/api/journal/:student_id/recent', async (req, res) => {
   } catch (error) {
     console.error('Error fetching recent entries:', error);
     res.status(500).json({ success: false, error: 'Failed to fetch recent entries' });
+  }
+});
+
+// ========================================
+// TEXT-TO-SPEECH (ElevenLabs)
+// ========================================
+
+app.post('/api/text-to-speech', async (req, res) => {
+  const { text, voice } = req.body;
+
+  if (!text) {
+    return res.status(400).json({ success: false, error: 'Text required' });
+  }
+
+  const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
+  if (!ELEVENLABS_API_KEY) {
+    console.error('❌ ELEVENLABS_API_KEY not set');
+    return res.status(500).json({ success: false, error: 'TTS service not configured' });
+  }
+
+  // Voice ID mapping (can be extended)
+  const voiceIds = {
+    'Rachel': '21m00Tcm4TlvDq8ikWAM',
+    'Domi': 'AZnzlk1XvdvUeBnXmlld',
+    'Bella': 'EXAVITQu4vr4xnSDxMaL',
+    'Antoni': 'ErXwobaYiN019PkySvjV',
+    'Elli': 'MF3mGyEYCl7XYWbV9V6O',
+    'Josh': 'TxGEqnHWrfWFTfGW9XjX'
+  };
+
+  const voiceId = voiceIds[voice] || voiceIds['Rachel'];
+
+  try {
+    const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'audio/mpeg',
+        'Content-Type': 'application/json',
+        'xi-api-key': ELEVENLABS_API_KEY
+      },
+      body: JSON.stringify({
+        text: text,
+        model_id: 'eleven_monolingual_v1',
+        voice_settings: {
+          stability: 0.5,
+          similarity_boost: 0.75
+        }
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`ElevenLabs API error: ${response.status}`);
+    }
+
+    // Stream the audio back to client
+    res.setHeader('Content-Type', 'audio/mpeg');
+    const audioStream = response.body;
+    audioStream.pipe(res);
+
+  } catch (error) {
+    console.error('TTS error:', error);
+    res.status(500).json({ success: false, error: 'TTS generation failed' });
+  }
+});
+
+// ========================================
+// READING PROGRESS
+// ========================================
+
+// Get reading progress for a student and book
+app.get('/api/reading-progress/:studentId/:bookId', async (req, res) => {
+  const { studentId, bookId } = req.params;
+
+  try {
+    const result = await pool.query(
+      `SELECT * FROM reading_progress 
+       WHERE student_id = $1 AND book_id = $2`,
+      [studentId, bookId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.json({ success: true, progress: null });
+    }
+
+    res.json({
+      success: true,
+      progress: result.rows[0]
+    });
+
+  } catch (error) {
+    console.error('Error fetching reading progress:', error);
+    res.status(500).json({ success: false, error: 'Failed to fetch reading progress' });
+  }
+});
+
+// Save/update reading progress
+app.post('/api/reading-progress', async (req, res) => {
+  const { student_id, book_id, pages_read, total_pages, completed } = req.body;
+
+  if (!student_id || !book_id || !pages_read || !total_pages) {
+    return res.status(400).json({ success: false, error: 'Missing required fields' });
+  }
+
+  try {
+    // Upsert (insert or update)
+    const result = await pool.query(
+      `INSERT INTO reading_progress (student_id, book_id, pages_read, total_pages, completed, last_read_at)
+       VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP)
+       ON CONFLICT (student_id, book_id)
+       DO UPDATE SET 
+         pages_read = $3,
+         total_pages = $4,
+         completed = $5,
+         last_read_at = CURRENT_TIMESTAMP
+       RETURNING *`,
+      [student_id, book_id, pages_read, total_pages, completed]
+    );
+
+    res.json({
+      success: true,
+      progress: result.rows[0]
+    });
+
+  } catch (error) {
+    console.error('Error saving reading progress:', error);
+    res.status(500).json({ success: false, error: 'Failed to save reading progress' });
+  }
+});
+
+// Get all reading progress for a student
+app.get('/api/reading-progress/:studentId', async (req, res) => {
+  const { studentId } = req.params;
+
+  try {
+    const result = await pool.query(
+      `SELECT * FROM reading_progress 
+       WHERE student_id = $1 
+       ORDER BY last_read_at DESC`,
+      [studentId]
+    );
+
+    res.json({
+      success: true,
+      books: result.rows
+    });
+
+  } catch (error) {
+    console.error('Error fetching all reading progress:', error);
+    res.status(500).json({ success: false, error: 'Failed to fetch reading progress' });
   }
 });
 

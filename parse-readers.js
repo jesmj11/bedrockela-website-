@@ -62,8 +62,10 @@ function parseMarkdownToBook(markdown, filename) {
       }
       
       // Start new page
+      // Don't include "Page X" as title, only include "Chapter X"
+      const titleText = line.replace(/^###\s+/, '');
       currentPage = {
-        title: line.replace(/^###\s+/, ''),
+        title: titleText.startsWith('Page') ? '' : titleText,
         text: '',
         emoji: ''
       };

@@ -282,12 +282,15 @@
             const gradeLevel = studentData.grade_level;
             const currentLesson = studentData.current_lesson || 1;
             
-            // TODO: Build lesson player
-            // For now, show coming soon message
-            alert(`📚 Lesson ${currentLesson} for ${gradeLevel} is coming soon!\n\nThe lesson player is being built. For now, lessons are available as markdown files in the curriculum folder.`);
-            
-            // Uncomment when lesson player is ready:
-            // window.location.href = `lesson-player.html?grade=${gradeLevel}&lesson=${currentLesson}`;
+            // Route to appropriate lesson page based on grade
+            if (gradeLevel === '1st Grade' || gradeLevel === '1st' || gradeLevel === 'Grade 1') {
+                window.location.href = '1st-grade-lessons.html';
+            } else if (gradeLevel === '4th Grade' || gradeLevel === '4th' || gradeLevel === 'Grade 4') {
+                // 4th grade lessons coming soon
+                alert(`📚 4th Grade lessons are being added!\n\nWe have ${currentLesson - 1} lessons ready. Check back soon for lesson ${currentLesson}!`);
+            } else {
+                alert(`📚 Lessons for ${gradeLevel} are coming soon!`);
+            }
         }
 
         function viewJournals() {

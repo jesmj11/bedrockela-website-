@@ -44,12 +44,9 @@ function createDigitalBook(containerId, bookConfig, options = {}) {
   const studentData = JSON.parse(localStorage.getItem('studentData') || '{}');
   const studentId = studentData.student?.id;
 
-  // Load saved progress
-  if (studentId) {
-    loadReadingProgress();
-  }
-
   function loadReadingProgress() {
+    if (!studentId) return;
+    
     fetch(`${BACKEND_API}/reading-progress/${studentId}/${bookId}`)
       .then(res => res.json())
       .then(data => {
@@ -321,6 +318,9 @@ function createDigitalBook(containerId, bookConfig, options = {}) {
 
   // Initial render
   render();
+  
+  // Load saved progress (will re-render if found)
+  loadReadingProgress();
 
   // Cleanup function
   return function cleanup() {

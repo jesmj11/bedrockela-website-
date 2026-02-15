@@ -1,282 +1,209 @@
 /**
- * Quiz Game - Vanilla JavaScript
- * Multiple choice quiz with explanations and scoring
+ * QuizGame - Interactive quiz component for BedrockELA
+ * Vanilla JS version with animations and feedback
  */
-
-const CHOICE_COLORS = [
-  { bg: "#4ECDC4", hover: "#3DB8B0", light: "#E6FAF8" },
-  { bg: "#FF8A5C", hover: "#E87A4F", light: "#FFF0EA" },
-  { bg: "#6C5CE7", hover: "#5B4ED6", light: "#EEECFB" },
-  { bg: "#FFD93D", hover: "#E8C535", light: "#FFFBE6" },
-];
-
-const CHOICE_LABELS = ["A", "B", "C", "D"];
-
-const ENCOURAGEMENTS = [
-  "Amazing! 🌟",
-  "You got it! ⭐",
-  "Great job! 🎉",
-  "Super smart! 🧠",
-  "Wonderful! 💪",
-  "Nailed it! 🎯",
-  "Brilliant! ✨",
-  "Way to go! 🚀",
-];
-
-const TRY_AGAIN_MSGS = [
-  "Not quite — look again!",
-  "Almost! Give it another try!",
-  "Oops! Try a different one!",
-  "So close! Think about it!",
-];
 
 function createQuizGame(containerId, config, onComplete) {
   const container = document.getElementById(containerId);
-  if (!container) {
-    console.error(`Container #${containerId} not found`);
-    return;
+  if (!container) return;
+
+  // Default config
+  const quizConfig = {
+    title: config.title || "Reading Check!",
+    subtitle: config.subtitle || "Let's see what you know",
+    questions: config.questions || [],
+    ...config
+  };
+
+  let state = {
+    currentIndex: 0,
+    score: 0,
+    selected: null,
+    isCorrect: null,
+    showExplanation: false,
+    attempts: 0,
+    answers: []
+  };
+
+  const ENCOURAGEMENTS = [
+    "Amazing! 🌟", "You got it! ⭐", "Great job! 🎉", "Super smart! 🧠",
+    "Wonderful! 💪", "Nailed it! 🎯", "Brilliant! ✨", "Way to go! 🚀"
+  ];
+
+  const TRY_AGAIN = [
+    "Not quite — try again!", "Almost! Give it another try!",
+    "Oops! Try a different one!", "So close! Think about it!"
+  ];
+
+  const CHOICE_COLORS = [
+    { bg: '#4ECDC4', hover: '#3DB8B0' },
+    { bg: '#FF8A5C', hover: '#E87A4F' },
+    { bg: '#6C5CE7', hover: '#5B4ED6' },
+    { bg: '#FFD93D', hover: '#E8C535' }
+  ];
+
+  function render() {
+    const question = quizConfig.questions[state.currentIndex];
+    const progress = ((state.currentIndex + 1) / quizConfig.questions.length) * 100;
+    const isComplete = state.currentIndex >= quizConfig.questions.length;
+
+    if (isComplete) {
+      renderComplete();
+      return;
+    }
+
+    container.innerHTML = `
+      <div class="quiz-game">
+        <div class="quiz-progress-bar">
+          <div class="quiz-progress-fill" style="width: ${progress}%"></div>
+        </div>
+        
+        <div class="quiz-header">
+          <h2 class="quiz-title">${quizConfig.title}</h2>
+          <p class="quiz-subtitle">Question ${state.currentIndex + 1} of ${quizConfig.questions.length}</p>
+        </div>
+
+        <div class="quiz-question-card">
+          <p class="quiz-question">${question.question}</p>
+          
+          <div class="quiz-choices">
+            ${question.choices.map((choice, idx) => `
+              <button 
+                class="quiz-choice ${state.selected === idx ? 'selected' : ''} ${state.isCorrect === true && state.selected === idx ? 'correct' : ''} ${state.isCorrect === false && state.selected === idx ? 'wrong' : ''}"
+                data-index="${idx}"
+                style="--choice-bg: ${CHOICE_COLORS[idx % 4].bg}; --choice-hover: ${CHOICE_COLORS[idx % 4].hover};"
+                ${state.isCorrect === true ? 'disabled' : ''}
+              >
+                <span class="choice-label">${String.fromCharCode(65 + idx)}</span>
+                <span class="choice-text">${choice}</span>
+              </button>
+            `).join('')}
+          </div>
+
+          ${state.isCorrect === true ? `
+            <div class="quiz-feedback correct-feedback">
+              <span class="feedback-icon">✅</span>
+              <span class="feedback-text">${ENCOURAGEMENTS[Math.floor(Math.random() * ENCOURAGEMENTS.length)]}</span>
+            </div>
+          ` : ''}
+
+          ${state.isCorrect === false ? `
+            <div class="quiz-feedback wrong-feedback">
+              <span class="feedback-icon">❌</span>
+              <span class="feedback-text">${TRY_AGAIN[Math.floor(Math.random() * TRY_AGAIN.length)]}</span>
+            </div>
+          ` : ''}
+
+          ${state.showExplanation && question.explain ? `
+            <div class="quiz-explanation">
+              <strong>💡 Explanation:</strong> ${question.explain}
+            </div>
+          ` : ''}
+
+          ${state.isCorrect === true ? `
+            <button class="quiz-next-btn" id="quiz-next-btn">
+              ${state.currentIndex < quizConfig.questions.length - 1 ? 'Next Question →' : 'See Results 🎉'}
+            </button>
+          ` : ''}
+        </div>
+      </div>
+    `;
+
+    attachListeners();
   }
 
-  const completionCallback = onComplete || function() {};
+  function renderComplete() {
+    const scorePercent = Math.round((state.score / quizConfig.questions.length) * 100);
+    const stars = scorePercent >= 90 ? 3 : scorePercent >= 70 ? 2 : scorePercent >= 50 ? 1 : 0;
 
-  let questionIndex = 0;
-  let selected = null;
-  let isCorrect = null;
-  let showExplain = false;
-  let score = 0;
-  let answers = [];
-  let allDone = false;
-  let encouragement = "";
-  let tryAgainMsg = "";
-  let attempts = 0;
-  let shakeWrong = null;
+    container.innerHTML = `
+      <div class="quiz-game">
+        <div class="quiz-complete">
+          <div class="quiz-complete-icon">🎉</div>
+          <h2 class="quiz-complete-title">Quiz Complete!</h2>
+          
+          <div class="quiz-score-display">
+            <div class="quiz-score-number">${state.score}/${quizConfig.questions.length}</div>
+            <div class="quiz-score-percent">${scorePercent}% Correct</div>
+          </div>
 
-  const totalQuestions = config.questions.length;
+          <div class="quiz-stars">
+            ${Array(3).fill(0).map((_, i) => 
+              `<span class="quiz-star ${i < stars ? 'filled' : ''}">${i < stars ? '⭐' : '☆'}</span>`
+            ).join('')}
+          </div>
 
-  function handleChoice(choiceIndex) {
-    if (isCorrect === true) return; // Already answered correctly
+          <div class="quiz-complete-message">
+            ${scorePercent >= 90 ? 'Outstanding work! You really know your stuff! 🌟' :
+              scorePercent >= 70 ? 'Great job! You\'re doing well! 👏' :
+              scorePercent >= 50 ? 'Good effort! Keep practicing! 💪' :
+              'Nice try! Review the material and try again! 📚'}
+          </div>
 
-    const currentQ = config.questions[questionIndex];
-    selected = choiceIndex;
-    attempts++;
+          <button class="quiz-continue-btn" id="quiz-continue-btn">
+            Continue to Next Activity →
+          </button>
+        </div>
+      </div>
+    `;
 
-    if (choiceIndex === currentQ.correct) {
-      // Correct answer
-      isCorrect = true;
-      encouragement = ENCOURAGEMENTS[Math.floor(Math.random() * ENCOURAGEMENTS.length)];
-      tryAgainMsg = "";
+    document.getElementById('quiz-continue-btn').addEventListener('click', () => {
+      if (onComplete) onComplete();
+    });
+  }
 
-      // Only count as correct if first attempt
-      if (attempts === 1) {
-        score++;
-        answers.push({ index: questionIndex, firstTry: true });
-      } else {
-        answers.push({ index: questionIndex, firstTry: false });
+  function attachListeners() {
+    const choices = container.querySelectorAll('.quiz-choice');
+    choices.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (state.isCorrect === true) return;
+        const idx = parseInt(btn.dataset.index);
+        handleChoice(idx);
+      });
+    });
+
+    const nextBtn = container.querySelector('#quiz-next-btn');
+    if (nextBtn) {
+      nextBtn.addEventListener('click', handleNext);
+    }
+  }
+
+  function handleChoice(idx) {
+    const question = quizConfig.questions[state.currentIndex];
+    state.selected = idx;
+    state.attempts++;
+
+    if (idx === question.correct) {
+      state.isCorrect = true;
+      state.showExplanation = true;
+      if (state.attempts === 1) {
+        state.score++;
       }
-
-      setTimeout(() => {
-        showExplain = true;
-        render();
-      }, 400);
-      render();
+      state.answers.push({ index: state.currentIndex, firstTry: state.attempts === 1 });
     } else {
-      // Wrong answer
-      isCorrect = false;
-      shakeWrong = choiceIndex;
-      tryAgainMsg = TRY_AGAIN_MSGS[Math.floor(Math.random() * TRY_AGAIN_MSGS.length)];
-      encouragement = "";
-
-      render();
-
+      state.isCorrect = false;
       setTimeout(() => {
-        shakeWrong = null;
-        isCorrect = null;
-        selected = null;
+        state.isCorrect = null;
+        state.selected = null;
         render();
-      }, 1200);
+      }, 1500);
     }
-  }
 
-  function handleNext() {
-    const next = questionIndex + 1;
-    if (next >= totalQuestions) {
-      allDone = true;
-      // Call completion callback
-      completionCallback();
-      render();
-    } else {
-      questionIndex = next;
-      selected = null;
-      isCorrect = null;
-      showExplain = false;
-      encouragement = "";
-      tryAgainMsg = "";
-      attempts = 0;
-      render();
-    }
-  }
-
-  function handleRestart() {
-    questionIndex = 0;
-    selected = null;
-    isCorrect = null;
-    showExplain = false;
-    score = 0;
-    answers = [];
-    allDone = false;
-    encouragement = "";
-    tryAgainMsg = "";
-    attempts = 0;
     render();
   }
 
-  function render() {
-    const progress = (questionIndex / totalQuestions) * 100;
-    const currentQ = config.questions[questionIndex];
-    const scorePercent = Math.round((score / totalQuestions) * 100);
-    const starCount = scorePercent >= 90 ? 3 : scorePercent >= 60 ? 2 : scorePercent >= 30 ? 1 : 0;
-
-    container.innerHTML = `
-      ${!allDone ? `
-        <!-- Progress bar -->
-        <div class="quiz-progress-container">
-          <div class="quiz-progress-bar">
-            <div class="quiz-progress-fill" style="width: ${progress}%;"></div>
-          </div>
-          <span class="quiz-progress-text">${questionIndex + 1}/${totalQuestions}</span>
-        </div>
-
-        <!-- Question card -->
-        <div class="quiz-question-card">
-          <p class="quiz-question">${currentQ.question}</p>
-        </div>
-
-        <!-- Choices -->
-        <div class="quiz-choices">
-          ${currentQ.choices.map((choice, i) => {
-            const color = CHOICE_COLORS[i % CHOICE_COLORS.length];
-            const isSelected = selected === i;
-            const isCorrectChoice = i === currentQ.correct;
-            const isWrongSelected = isSelected && isCorrect === false;
-            const isAnswered = isCorrect === true;
-            const isShaking = shakeWrong === i;
-
-            let bgColor = "rgba(255,255,255,0.06)";
-            let borderColor = "rgba(255,255,255,0.08)";
-            let labelBg = color.bg;
-
-            if (isAnswered && isCorrectChoice) {
-              bgColor = "rgba(46, 204, 113, 0.15)";
-              borderColor = "#2ECC71";
-              labelBg = "#2ECC71";
-            } else if (isWrongSelected) {
-              bgColor = "rgba(231, 76, 60, 0.12)";
-              borderColor = "#E74C3C";
-              labelBg = "#E74C3C";
-            }
-
-            return `
-              <button 
-                class="quiz-choice ${isAnswered ? 'disabled' : ''} ${isShaking ? 'shaking' : ''}"
-                onclick="window.quizHandleChoice(${i})"
-                ${isAnswered ? 'disabled' : ''}
-                style="
-                  background: ${bgColor};
-                  border: 2px solid ${borderColor};
-                  animation-delay: ${i * 0.08}s;
-                "
-              >
-                <span class="quiz-choice-label" style="background: ${labelBg};">
-                  ${isAnswered && isCorrectChoice ? '✓' : isWrongSelected ? '✗' : CHOICE_LABELS[i]}
-                </span>
-                <span class="quiz-choice-text">${choice}</span>
-              </button>
-            `;
-          }).join('')}
-        </div>
-
-        ${encouragement ? `
-          <div class="quiz-encouragement">
-            ${encouragement}
-          </div>
-        ` : ''}
-
-        ${tryAgainMsg ? `
-          <div class="quiz-try-again">
-            ${tryAgainMsg}
-          </div>
-        ` : ''}
-
-        ${showExplain && currentQ.explain ? `
-          <div class="quiz-explain">
-            💡 ${currentQ.explain}
-          </div>
-        ` : ''}
-
-        ${isCorrect === true ? `
-          <div class="quiz-next-container">
-            <button class="quiz-next-btn" onclick="window.quizHandleNext()">
-              ${questionIndex < totalQuestions - 1 ? 'Next Question →' : 'See Results! 🎉'}
-            </button>
-          </div>
-        ` : ''}
-      ` : `
-        <!-- Results screen -->
-        <div class="quiz-results">
-          <div class="quiz-trophy">🏆</div>
-          <h2 class="quiz-complete-title">Quiz Complete!</h2>
-
-          <div class="quiz-score-card">
-            <p class="quiz-score-big">${score}/${totalQuestions}</p>
-            <p class="quiz-score-label">correct on the first try!</p>
-
-            <div class="quiz-stars">
-              ${[0, 1, 2].map(i => `
-                <span class="quiz-star ${i < starCount ? 'active' : ''}" style="animation-delay: ${0.2 + i * 0.15}s;">⭐</span>
-              `).join('')}
-            </div>
-          </div>
-
-          <div class="quiz-review">
-            <p class="quiz-review-title">Review</p>
-            ${config.questions.map((q, i) => {
-              const answer = answers[i];
-              const gotIt = answer?.firstTry;
-              return `
-                <div class="quiz-review-item" style="animation-delay: ${i * 0.06}s;">
-                  <span class="quiz-review-icon ${gotIt ? 'correct' : 'retry'}">
-                    ${gotIt ? '✅' : '🔄'}
-                  </span>
-                  <div class="quiz-review-content">
-                    <p class="quiz-review-question">${q.question}</p>
-                    <p class="quiz-review-answer ${gotIt ? 'correct' : 'retry'}">
-                      ${gotIt ? `✓ ${q.choices[q.correct]}` : `Answer: ${q.choices[q.correct]}`}
-                    </p>
-                  </div>
-                </div>
-              `;
-            }).join('')}
-          </div>
-
-          <button class="quiz-restart-btn" onclick="window.quizHandleRestart()">
-            Play Again! 🔄
-          </button>
-        </div>
-      `}
-    `;
+  function handleNext() {
+    state.currentIndex++;
+    state.selected = null;
+    state.isCorrect = null;
+    state.showExplanation = false;
+    state.attempts = 0;
+    render();
   }
-
-  // Attach global functions
-  window.quizHandleChoice = handleChoice;
-  window.quizHandleNext = handleNext;
-  window.quizHandleRestart = handleRestart;
 
   // Initial render
   render();
-
-  return function cleanup() {
-    delete window.quizHandleChoice;
-    delete window.quizHandleNext;
-    delete window.quizHandleRestart;
-  };
 }
+
+// Export for use in lesson pages
+window.createQuizGame = createQuizGame;

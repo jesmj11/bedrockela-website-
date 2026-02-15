@@ -1,0 +1,382 @@
+// Build 6th Grade Unit 1: Tom Sawyer (Days 1-20)
+const fs = require('fs');
+const path = require('path');
+
+// BedrockELA color scheme
+const colors = {
+  white: '#FFFFFF',
+  deepTeal: '#305853',
+  goldenAmber: '#B06821',
+  brickRed: '#9E2C21',
+  darkMahogany: '#511B18',
+  slateBlue: '#1B2A50'
+};
+
+// Unit 1 lesson data
+const unit1Lessons = [
+  {
+    day: 1,
+    title: "Welcome to The Adventures of Tom Sawyer",
+    type: "intro",
+    chapters: "Introduction",
+    focus: "Meet Mark Twain and 1840s Missouri",
+    vocab: ["satire", "episodic", "Mississippi", "antebellum", "colloquial"],
+    content: {
+      welcome: "Welcome to Unit 1! Over the next 20 days, you'll journey back to the 1840s and meet Tom Sawyer, one of America's most beloved characters.",
+      beforeReading: "What do you know about life along the Mississippi River in the 1840s? What makes a character memorable?",
+      mainActivity: "Read about Mark Twain's life and the world of Tom Sawyer. Watch how Twain uses humor and dialect to bring his characters to life.",
+      journal: "If you could travel back in time to meet Tom Sawyer, what would you ask him? Why?"
+    }
+  },
+  {
+    day: 2,
+    title: "Tom and Aunt Polly",
+    type: "regular",
+    chapters: "Chapters 1-2",
+    focus: "Meet Tom Sawyer and learn about his clever tricks",
+    vocab: ["beguiled", "commenced", "ornery", "reckoned", "meditate"],
+    passage: "tom-sawyer-ch1-2",
+    comprehension: [
+      {
+        question: "How does Tom trick his friends into whitewashing the fence? Cite two specific strategies he uses.",
+        standard: "RL.6.1",
+        answer: "Tom makes the work seem desirable by pretending it's fun and exclusive. He refuses to let Ben paint at first, making Ben want to do it even more."
+      },
+      {
+        question: "What does Twain mean when he writes that Tom 'had discovered a great law of human action'?",
+        standard: "RL.6.2", 
+        answer: "Tom learned that people want things more when they seem difficult to get. Making work look like play changes how people see it."
+      }
+    ],
+    journal: "Tom is very clever at getting out of work. Write about a time you used creativity to solve a problem."
+  },
+  {
+    day: 3,
+    title: "Sunday School and First Love",
+    type: "regular",
+    chapters: "Chapters 3-4",
+    focus: "Tom shows off and falls for Becky Thatcher",
+    vocab: ["conspicuous", "diligence", "derision", "mortified", "resolute"],
+    passage: "tom-sawyer-ch3-4",
+    comprehension: [
+      {
+        question: "Why does Tom try so hard to win a Bible at Sunday School? What does this reveal about his character?",
+        standard: "RL.6.3",
+        answer: "Tom wants to impress Becky Thatcher. He cares more about looking good than actual achievement, showing his vanity and desire for attention."
+      },
+      {
+        question: "How does Twain use humor in the church scenes? Give two examples.",
+        standard: "RL.6.4",
+        answer: "Twain describes the pinch-bug and poodle incident, and Tom's failed attempts to memorize Bible verses with comic exaggeration."
+      }
+    ],
+    journal: "Tom falls in love with Becky at first sight. Do you believe in 'love at first sight'? Why or why not?"
+  },
+  {
+    day: 4,
+    title: "Pirates and Adventure",
+    type: "regular",
+    chapters: "Chapter 5-6",
+    focus: "Tom's imagination and his friendship with Huckleberry Finn",
+    vocab: ["rendezvous", "malady", "gratification", "impediment", "pariah"],
+    passage: "tom-sawyer-ch5-6",
+    comprehension: [
+      {
+        question: "How is Huckleberry Finn different from the other boys in town? Why do mothers forbid their children to play with him?",
+        standard: "RL.6.3",
+        answer: "Huck is free, doesn't go to school, sleeps wherever he wants, and has no adult supervision. Mothers see him as a bad influence."
+      },
+      {
+        question: "What does Tom's reaction to Becky ignoring him reveal about his personality?",
+        standard: "RL.6.1",
+        answer: "Tom is dramatic and emotional. He immediately thinks of running away and becoming a pirate, showing his tendency to exaggerate and seek adventure."
+      }
+    ],
+    journal: "Huck Finn is considered an 'outcast' but Tom admires his freedom. What does freedom mean to you?"
+  },
+  {
+    day: 5,
+    title: "Week 1 Check-In",
+    type: "assessment",
+    chapters: "Review Chapters 1-6",
+    focus: "Vocabulary review and reading comprehension check",
+    vocabQuiz: [
+      { word: "beguiled", definition: "charmed or enchanted, sometimes in a deceptive way", sentence: "Tom _______ his friends into doing his work for him." },
+      { word: "commenced", definition: "began or started", sentence: "Aunt Polly _______ to scold Tom for his mischief." },
+      { word: "conspicuous", definition: "standing out and attracting attention", sentence: "Tom made himself _______ in front of Becky Thatcher." },
+      { word: "diligence", definition: "careful and persistent work or effort", sentence: "Tom showed no _______ when it came to his schoolwork." },
+      { word: "rendezvous", definition: "a planned meeting at a specific time and place", sentence: "The boys agreed on a _______ at midnight in the graveyard." }
+    ],
+    comprehension: [
+      {
+        question: "Describe Tom Sawyer's personality using at least three character traits. Support each trait with evidence from the text.",
+        standard: "RL.6.3",
+        type: "essay"
+      },
+      {
+        question: "How does Mark Twain use dialect (the way characters talk) to make the story feel real? Give two examples.",
+        standard: "RL.6.4",
+        type: "short-answer"
+      },
+      {
+        question: "What is the most important thing that has happened in the story so far? Why is it important?",
+        standard: "RL.6.2",
+        type: "short-answer"
+      }
+    ],
+    journal: "Reflect on what you've read so far. What do you like about Tom Sawyer? What surprises you about life in the 1840s? What questions do you have about the story?"
+  }
+];
+
+// Generate lesson HTML for each day
+function buildLesson(lesson) {
+  const isAssessment = lesson.type === 'assessment';
+  const isIntro = lesson.type === 'intro';
+  
+  const pages = [];
+  
+  // Page 1: Title
+  pages.push(`
+    <div class="lesson-page" data-page="1">
+      <div class="page-content title-page">
+        <div class="lesson-icon">📚</div>
+        <h1 class="lesson-title">Day ${lesson.day}</h1>
+        <h2 class="lesson-subtitle">${lesson.title}</h2>
+        <p class="lesson-meta">${lesson.chapters}</p>
+        <p class="lesson-focus"><strong>Focus:</strong> ${lesson.focus}</p>
+      </div>
+    </div>
+  `);
+  
+  // Page 2: Welcome
+  pages.push(`
+    <div class="lesson-page" data-page="2">
+      <div class="page-content">
+        <h2 style="color: ${colors.deepTeal}; margin-bottom: 20px;">Welcome to Day ${lesson.day}!</h2>
+        <div class="welcome-content">
+          ${isIntro ? `<p>${lesson.content.welcome}</p>` : 
+            `<p>Today we're reading <strong>${lesson.chapters}</strong> from <em>The Adventures of Tom Sawyer</em> by Mark Twain.</p>
+            <p><strong>Reading Focus:</strong> ${lesson.focus}</p>`
+          }
+        </div>
+      </div>
+    </div>
+  `);
+  
+  // Page 3: Vocabulary or Vocab Quiz
+  if (isAssessment) {
+    // Vocab QUIZ for assessment days
+    pages.push(`
+      <div class="lesson-page" data-page="3">
+        <div class="page-content">
+          <h2 style="color: ${colors.goldenAmber}; margin-bottom: 20px;">📝 Vocabulary Quiz</h2>
+          <p style="margin-bottom: 20px;">Fill in the blanks with the correct vocabulary word from this week:</p>
+          <div class="vocab-quiz">
+            ${lesson.vocabQuiz.map((item, i) => `
+              <div class="quiz-item" style="margin-bottom: 25px; padding: 15px; background: #f9f9f9; border-radius: 8px;">
+                <p><strong>${i + 1}. ${item.sentence}</strong></p>
+                <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Hint: ${item.definition}</em></p>
+                <input type="text" class="vocab-answer" style="width: 100%; padding: 10px; margin-top: 10px; border: 2px solid #ddd; border-radius: 6px;" placeholder="Type your answer...">
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    `);
+  } else {
+    // Regular vocab page
+    pages.push(`
+      <div class="lesson-page" data-page="3">
+        <div class="page-content">
+          <h2 style="color: ${colors.goldenAmber}; margin-bottom: 20px;">📖 Words of the Day</h2>
+          <p style="margin-bottom: 20px;">These words come from today's reading. Learn them to better understand the story!</p>
+          <div class="vocab-list">
+            ${lesson.vocab.map((word, i) => `
+              <div class="vocab-word" style="margin-bottom: 20px; padding: 15px; background: #f9f9f9; border-radius: 8px;">
+                <h3 style="color: ${colors.deepTeal}; margin-bottom: 8px;">${i + 1}. ${word}</h3>
+                <p class="vocab-def" style="font-style: italic; color: #555;"><em>Definition will be discovered in context during reading</em></p>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    `);
+  }
+  
+  // Page 4: Reading or Comprehension Assessment
+  if (isAssessment) {
+    pages.push(`
+      <div class="lesson-page" data-page="4">
+        <div class="page-content">
+          <h2 style="color: ${colors.brickRed}; margin-bottom: 20px;">✍️ Reading Comprehension</h2>
+          <p style="margin-bottom: 20px;">Answer these questions about what you've read this week:</p>
+          <div class="comprehension-questions">
+            ${lesson.comprehension.map((q, i) => `
+              <div class="comp-question" style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                <p style="font-weight: 700; margin-bottom: 15px;">${i + 1}. ${q.question}</p>
+                <textarea class="comp-answer" rows="5" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 6px; font-family: inherit;" placeholder="Write your answer here..."></textarea>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    `);
+  } else if (isIntro) {
+    pages.push(`
+      <div class="lesson-page" data-page="4">
+        <div class="page-content">
+          <h2 style="color: ${colors.deepTeal}; margin-bottom: 20px;">📜 Before You Read</h2>
+          <p>${lesson.content.beforeReading}</p>
+          <h3 style="color: ${colors.goldenAmber}; margin-top: 30px; margin-bottom: 15px;">Today's Activity:</h3>
+          <p>${lesson.content.mainActivity}</p>
+        </div>
+      </div>
+    `);
+  } else {
+    pages.push(`
+      <div class="lesson-page" data-page="4">
+        <div class="page-content">
+          <h2 style="color: ${colors.deepTeal}; margin-bottom: 20px;">📖 Today's Reading</h2>
+          <div class="reading-passage" style="line-height: 1.8; font-size: 1.05em;">
+            <p><em>[Passage from ${lesson.chapters} will appear here when connected to the full text]</em></p>
+            <p style="margin-top: 20px;"><strong>Read ${lesson.chapters} from The Adventures of Tom Sawyer.</strong></p>
+          </div>
+        </div>
+      </div>
+    `);
+  }
+  
+  // Page 5: Comprehension Questions (regular days) or Journal (assessment days)
+  if (!isAssessment && !isIntro) {
+    pages.push(`
+      <div class="lesson-page" data-page="5">
+        <div class="page-content">
+          <h2 style="color: ${colors.brickRed}; margin-bottom: 20px;">🤔 Comprehension Questions</h2>
+          <div class="comprehension-questions">
+            ${lesson.comprehension.map((q, i) => `
+              <div class="comp-question" style="margin-bottom: 25px; padding: 15px; background: #f9f9f9; border-radius: 8px;">
+                <p style="font-weight: 700; margin-bottom: 10px;">${i + 1}. ${q.question}</p>
+                <textarea class="comp-answer" rows="4" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 6px; font-family: inherit;" placeholder="Write your answer with evidence from the text..."></textarea>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    `);
+  }
+  
+  // Page 6: Journal
+  pages.push(`
+    <div class="lesson-page" data-page="${isAssessment ? '5' : '6'}">
+      <div class="page-content">
+        <h2 style="color: ${colors.goldenAmber}; margin-bottom: 20px;">✏️ Journal Entry</h2>
+        <p style="margin-bottom: 20px;"><strong>Prompt:</strong> ${lesson.journal}</p>
+        <textarea class="journal-entry" rows="10" style="width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em;" placeholder="Write your thoughts here..."></textarea>
+        <button onclick="window.lessonMarkComplete('journal')" style="margin-top: 20px; padding: 15px 30px; background: ${colors.deepTeal}; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: 700; cursor: pointer;">Save Journal Entry</button>
+      </div>
+    </div>
+  `);
+  
+  // Page 7: Completion
+  pages.push(`
+    <div class="lesson-page" data-page="${isAssessment ? '6' : '7'}">
+      <div class="page-content completion-page" style="text-align: center;">
+        <div style="font-size: 4rem; margin-bottom: 20px;">🎉</div>
+        <h2 style="color: ${colors.deepTeal}; margin-bottom: 15px;">Great Work!</h2>
+        <p style="font-size: 1.2em; margin-bottom: 30px;">You've completed Day ${lesson.day}${isAssessment ? ' assessment' : ''}!</p>
+        <button onclick="window.location.href='student-dashboard.html'" style="padding: 15px 40px; background: ${colors.goldenAmber}; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: 700; cursor: pointer;">Back to Dashboard →</button>
+      </div>
+    </div>
+  `);
+  
+  return buildFullHTML(lesson, pages);
+}
+
+function buildFullHTML(lesson, pages) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>6th Grade - Day ${lesson.day} - BedrockELA</title>
+  <link rel="stylesheet" href="css/lesson-viewer.css">
+  <style>
+    body { font-family: 'Nunito', sans-serif; background: ${colors.white}; margin: 0; padding: 0; }
+    .lesson-container { max-width: 900px; margin: 0 auto; padding: 20px; }
+    .lesson-page { display: none; min-height: 500px; }
+    .lesson-page.active { display: block; }
+    .page-content { padding: 30px; }
+    .title-page { text-align: center; padding: 60px 30px; }
+    .lesson-icon { font-size: 5rem; margin-bottom: 20px; }
+    .lesson-title { color: ${colors.deepTeal}; font-size: 2.5rem; margin-bottom: 10px; }
+    .lesson-subtitle { color: ${colors.goldenAmber}; font-size: 1.8rem; margin-bottom: 15px; }
+    .lesson-meta { color: #666; font-size: 1.2rem; margin-bottom: 10px; }
+    .lesson-focus { color: #444; font-size: 1.1rem; font-style: italic; }
+    
+    .nav-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 30px; padding: 20px; background: #f9f9f9; border-radius: 10px; }
+    .nav-btn { padding: 12px 24px; background: ${colors.deepTeal}; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; }
+    .nav-btn:disabled { background: #ccc; cursor: not-allowed; }
+    .progress-bar { flex: 1; margin: 0 20px; height: 8px; background: #e0e0e0; border-radius: 10px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, ${colors.deepTeal}, ${colors.goldenAmber}); transition: width 0.3s; }
+  </style>
+</head>
+<body>
+  <div class="lesson-container">
+    <div id="lessonContent">
+      ${pages.join('\n')}
+    </div>
+    
+    <div class="nav-controls">
+      <button class="nav-btn" id="prevBtn" onclick="previousPage()">← Previous</button>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressBar"></div>
+      </div>
+      <button class="nav-btn" id="nextBtn" onclick="nextPage()">Next →</button>
+    </div>
+  </div>
+
+  <script src="js/lesson-viewer.js"></script>
+  <script>
+    let currentPage = 1;
+    const totalPages = ${pages.length};
+    
+    function showPage(pageNum) {
+      document.querySelectorAll('.lesson-page').forEach(p => p.classList.remove('active'));
+      const page = document.querySelector(\`.lesson-page[data-page="\${pageNum}"]\`);
+      if (page) page.classList.add('active');
+      
+      document.getElementById('prevBtn').disabled = (pageNum === 1);
+      document.getElementById('nextBtn').disabled = (pageNum === totalPages);
+      
+      const progress = (pageNum / totalPages) * 100;
+      document.getElementById('progressBar').style.width = progress + '%';
+      
+      currentPage = pageNum;
+      window.scrollTo(0, 0);
+    }
+    
+    function nextPage() { if (currentPage < totalPages) showPage(currentPage + 1); }
+    function previousPage() { if (currentPage > 1) showPage(currentPage - 1); }
+    
+    window.lessonMarkComplete = function(type) {
+      alert('Progress saved! ✅');
+      nextPage();
+    };
+    
+    showPage(1);
+  </script>
+</body>
+</html>`;
+}
+
+// Build all lessons
+console.log('Building 6th Grade Unit 1 lessons...');
+
+unit1Lessons.slice(0, 5).forEach(lesson => {
+  const html = buildLesson(lesson);
+  const filename = `6th-grade-day-${lesson.day}.html`;
+  fs.writeFileSync(filename, html);
+  console.log(`✅ Built ${filename}`);
+});
+
+console.log('\n🎉 First 5 lessons complete!');

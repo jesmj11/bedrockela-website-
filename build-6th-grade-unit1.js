@@ -418,14 +418,110 @@ function buildFullHTML(lesson, pages) {
 </html>`;
 }
 
-// Build all lessons
-console.log('Building 6th Grade Unit 1 lessons...');
+// Add Days 6-10 (Week 2)
+unit1Lessons.push(
+  {
+    day: 6,
+    title: "School and Punishment",
+    type: "regular",
+    chapters: "Chapters 7-9",
+    chapterNumbers: [7, 8, 9],
+    focus: "Tom at school, his love for Becky, and the graveyard scene",
+    vocab: ["solemn", "melancholy", "vengeance", "ominous", "ghastly"],
+    comprehension: [
+      { question: "How does Tom get punished at school? How does this lead to sitting next to Becky?", standard: "RL.6.3" },
+      { question: "What happens in the graveyard? Why is this scene important to the plot?", standard: "RL.6.5" }
+    ],
+    journal: "Tom and Huck witness something terrible in the graveyard. Would you have the courage to tell the truth?"
+  },
+  {
+    day: 7,
+    title: "The Oath and the Terror",
+    type: "regular",
+    chapters: "Chapters 10-12",
+    chapterNumbers: [10, 11, 12],
+    focus: "Tom and Huck's secret oath, fear, and guilt",
+    vocab: ["oath", "conscience", "wretched", "haunted", "testimony"],
+    comprehension: [
+      { question: "Why do Tom and Huck make a blood oath? What are they afraid of?", standard: "RL.6.1" },
+      { question: "How does guilt affect Tom's behavior? Give specific examples.", standard: "RL.6.3" }
+    ],
+    journal: "Tom keeps a dangerous secret. Have you ever kept a secret that weighed on your conscience?"
+  },
+  {
+    day: 8,
+    title: "Running Away to Pirate Island",
+    type: "regular",
+    chapters: "Chapters 13-15",
+    chapterNumbers: [13, 14, 15],
+    focus: "The boys become pirates and run away",
+    vocab: ["exiled", "marauder", "comrade", "forlorn", "triumphant"],
+    comprehension: [
+      { question: "Why do Tom, Joe, and Huck run away to become pirates?", standard: "RL.6.3" },
+      { question: "How do the boys feel on Jackson's Island? How do their feelings change?", standard: "RL.6.3" }
+    ],
+    journal: "The boys run away to escape their troubles. Is running away ever a solution to problems?"
+  },
+  {
+    day: 9,
+    title: "The Glorious Return",
+    type: "regular",
+    chapters: "Chapters 16-18",
+    chapterNumbers: [16, 17, 18],
+    focus: "Tom's dramatic return at his own funeral",
+    vocab: ["funeral", "mourning", "spectacle", "vanity", "reconcile"],
+    comprehension: [
+      { question: "Why does Tom sneak home during the night? What does he overhear?", standard: "RL.6.1" },
+      { question: "Describe the funeral scene. How does Tom's entrance change everything?", standard: "RL.6.3" }
+    ],
+    journal: "Tom appears at his own funeral. How would you feel if you discovered someone you mourned was alive?"
+  },
+  {
+    day: 10,
+    title: "Week 2 Assessment",
+    type: "assessment",
+    chapters: "Review Chapters 7-18",
+    focus: "Vocab quiz and comprehension check",
+    vocabQuiz: [
+      { word: "solemn", definition: "serious and dignified", sentence: "The graveyard had a _______ atmosphere at midnight." },
+      { word: "melancholy", definition: "deep, long-lasting sadness", sentence: "Tom felt _______ when he thought about being an outcast." },
+      { word: "vengeance", definition: "punishment inflicted in retaliation", sentence: "Injun Joe sought _______ against his enemies." },
+      { word: "ominous", definition: "giving the impression that something bad will happen", sentence: "The dark clouds looked _______ as they approached." },
+      { word: "ghastly", definition: "causing great horror or fear", sentence: "The murder scene was absolutely _______." },
+      { word: "oath", definition: "a solemn promise", sentence: "Tom and Huck swore an _______ never to tell what they saw." },
+      { word: "conscience", definition: "inner sense of right and wrong", sentence: "Tom's _______ troubled him for keeping the secret." },
+      { word: "wretched", definition: "very unhappy or unfortunate", sentence: "Tom felt _______ with guilt." },
+      { word: "haunted", definition: "troubled by persistent memories", sentence: "Tom was _______ by visions of the graveyard." },
+      { word: "testimony", definition: "formal statement of evidence", sentence: "Tom's _______ would save Muff Potter." },
+      { word: "exiled", definition: "banished or expelled", sentence: "The boys felt _______ from society on the island." },
+      { word: "marauder", definition: "a raider or plunderer", sentence: "The boys imagined themselves as fearsome _______s." },
+      { word: "comrade", definition: "a companion or fellow member", sentence: "Joe Harper was Tom's loyal _______." },
+      { word: "forlorn", definition: "sad and lonely", sentence: "The boys felt _______ on their second night away." },
+      { word: "triumphant", definition: "victorious and successful", sentence: "Tom's _______ return shocked everyone." },
+      { word: "funeral", definition: "ceremony honoring the dead", sentence: "The whole town attended the boys' _______." },
+      { word: "mourning", definition: "expressing grief for someone who has died", sentence: "Aunt Polly was in deep _______ for Tom." },
+      { word: "spectacle", definition: "remarkable or dramatic display", sentence: "The funeral became quite a _______." },
+      { word: "vanity", definition: "excessive pride in oneself", sentence: "Tom's _______ made him crave attention." },
+      { word: "reconcile", definition: "restore friendly relations", sentence: "Tom and Becky were able to _______ after their fight." }
+    ],
+    comprehension: [
+      { question: "How does the graveyard scene change the course of the story? What conflict does it create?", standard: "RL.6.5", type: "essay" },
+      { question: "Compare Tom's behavior at the beginning vs. the pirate island. Is he changing?", standard: "RL.6.3", type: "essay" },
+      { question: "What theme about guilt and conscience emerges in these chapters?", standard: "RL.6.2", type: "short" }
+    ],
+    journal: "Reflect on Chapters 7-18. What has been the most exciting part so far?"
+  }
+);
 
-unit1Lessons.slice(0, 5).forEach(lesson => {
+// Build all lessons
+const numToBuild = process.argv[2] ? parseInt(process.argv[2]) : 10;
+console.log(`Building 6th Grade lessons 1-${numToBuild}...\n`);
+
+unit1Lessons.slice(0, numToBuild).forEach(lesson => {
   const html = buildLesson(lesson);
   const filename = `6th-grade-day-${lesson.day}.html`;
   fs.writeFileSync(filename, html);
-  console.log(`✅ Built ${filename}`);
+  console.log(`✅ Day ${lesson.day}: ${lesson.title}`);
 });
 
-console.log('\n🎉 First 5 lessons complete!');
+console.log(`\n🎉 ${numToBuild} lessons complete!`);

@@ -2,6 +2,14 @@
 const fs = require('fs');
 const path = require('path');
 
+// Load Tom Sawyer chapters
+const tomSawyerChapters = JSON.parse(fs.readFileSync('book-data/tom-sawyer-chapters.json', 'utf8'));
+
+// Function to get chapter text
+function getChapters(chapterNums) {
+  return chapterNums.map(num => tomSawyerChapters[num]).filter(Boolean);
+}
+
 // BedrockELA color scheme
 const colors = {
   white: '#FFFFFF',
@@ -33,6 +41,7 @@ const unit1Lessons = [
     title: "Tom and Aunt Polly",
     type: "regular",
     chapters: "Chapters 1-2",
+    chapterNumbers: [1, 2],
     focus: "Meet Tom Sawyer and learn about his clever tricks",
     vocab: ["beguiled", "commenced", "ornery", "reckoned", "meditate"],
     passage: "tom-sawyer-ch1-2",
@@ -55,6 +64,7 @@ const unit1Lessons = [
     title: "Sunday School and First Love",
     type: "regular",
     chapters: "Chapters 3-4",
+    chapterNumbers: [3, 4],
     focus: "Tom shows off and falls for Becky Thatcher",
     vocab: ["conspicuous", "diligence", "derision", "mortified", "resolute"],
     passage: "tom-sawyer-ch3-4",
@@ -76,7 +86,8 @@ const unit1Lessons = [
     day: 4,
     title: "Pirates and Adventure",
     type: "regular",
-    chapters: "Chapter 5-6",
+    chapters: "Chapters 5-6",
+    chapterNumbers: [5, 6],
     focus: "Tom's imagination and his friendship with Huckleberry Finn",
     vocab: ["rendezvous", "malady", "gratification", "impediment", "pariah"],
     passage: "tom-sawyer-ch5-6",
@@ -255,14 +266,30 @@ function buildLesson(lesson) {
       </div>
     `);
   } else {
+    // Get actual chapter text
+    const chapters = lesson.chapterNumbers ? getChapters(lesson.chapterNumbers) : [];
+    const chapterHTML = chapters.map(ch => {
+      // Format the chapter text with paragraphs
+      const paragraphs = ch.text.split('\n\n').map(p => 
+        `<p style="margin-bottom: 15px; text-indent: 2em;">${p.trim()}</p>`
+      ).join('');
+      
+      return `
+        <div class="chapter-section" style="margin-bottom: 40px;">
+          <h3 style="color: ${colors.goldenAmber}; margin-bottom: 20px;">${ch.title}</h3>
+          ${paragraphs}
+        </div>
+      `;
+    }).join('');
+    
     pages.push(`
       <div class="lesson-page" data-page="4">
         <div class="page-content">
           <h2 style="color: ${colors.deepTeal}; margin-bottom: 20px;">📖 Today's Reading</h2>
-          <div class="reading-passage" style="line-height: 1.8; font-size: 1.05em;">
-            <p><em>[Passage from ${lesson.chapters} will appear here when connected to the full text]</em></p>
-            <p style="margin-top: 20px;"><strong>Read ${lesson.chapters} from The Adventures of Tom Sawyer.</strong></p>
+          <div class="reading-passage" style="line-height: 1.8; font-size: 1.05em; max-height: 600px; overflow-y: auto; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+            ${chapterHTML || `<p><em>Reading content will be added soon.</em></p>`}
           </div>
+          <p style="margin-top: 20px; color: #666;"><strong>Read carefully and look for the vocabulary words!</strong></p>
         </div>
       </div>
     `);

@@ -266,7 +266,7 @@ ${journalPrompt}
 
             \${progress.journal_completed ? 
               '<div class="completion-badge" style="margin-top: 20px;">✅ Journal Entry Saved!</div>' : 
-              '<button onclick="window.lessonMarkComplete(\'journal\')" style="margin-top: 20px; padding: 15px 30px; background: #305853; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: 700; cursor: pointer;">Save Journal Entry</button>'
+              '<button onclick="window.lessonMarkComplete(\\'journal\\')" style="margin-top: 20px; padding: 15px 30px; background: #305853; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: 700; cursor: pointer;">Save Journal Entry</button>'
             }
           </div>
         \`;

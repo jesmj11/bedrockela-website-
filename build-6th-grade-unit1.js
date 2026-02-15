@@ -513,6 +513,197 @@ unit1Lessons.push(
   }
 );
 
+// Add Days 11-15 (Week 3)
+unit1Lessons.push(
+  {
+    day: 11,
+    title: "Love and Jealousy",
+    type: "regular",
+    chapters: "Chapters 19-21",
+    chapterNumbers: [19, 20, 21],
+    focus: "Tom's relationship with Becky and taking her punishment",
+    vocab: ["jealousy", "reconciliation", "noble", "selfless", "humiliation"],
+    comprehension: [
+      { question: "What does Tom do to protect Becky from punishment? Why?", standard: "RL.6.3" },
+      { question: "How does this act change Becky's feelings toward Tom?", standard: "RL.6.3" }
+    ],
+    journal: "Tom takes Becky's punishment. Write about a time you stood up for someone or took blame for them."
+  },
+  {
+    day: 12,
+    title: "Muff Potter on Trial",
+    type: "regular",
+    chapters: "Chapters 22-24",
+    chapterNumbers: [22, 23, 24],
+    focus: "Tom's courage in telling the truth at the trial",
+    vocab: ["testimony", "verdict", "justice", "courage", "vindication"],
+    comprehension: [
+      { question: "Why does Tom finally decide to testify at Muff Potter's trial?", standard: "RL.6.3" },
+      { question: "What are the consequences of Tom telling the truth? Both good and bad?", standard: "RL.6.5" }
+    ],
+    journal: "Tom risks his life to tell the truth. When is it important to speak up, even when it's scary?"
+  },
+  {
+    day: 13,
+    title: "Treasure Hunting",
+    type: "regular",
+    chapters: "Chapters 25-27",
+    chapterNumbers: [25, 26, 27],
+    focus: "Tom and Huck search for treasure and find real danger",
+    vocab: ["treasure", "haunted", "discovery", "concealed", "pursuit"],
+    comprehension: [
+      { question: "What do Tom and Huck find in the haunted house? What do they overhear?", standard: "RL.6.1" },
+      { question: "How does this discovery create new suspense in the story?", standard: "RL.6.5" }
+    ],
+    journal: "If you found a treasure map, would you follow it? Why or why not?"
+  },
+  {
+    day: 14,
+    title: "Following Injun Joe",
+    type: "regular",
+    chapters: "Chapters 28-30",
+    chapterNumbers: [28, 29, 30],
+    focus: "The boys track the villain while a picnic goes wrong",
+    vocab: ["vigilant", "peril", "labyrinth", "desperate", "anguish"],
+    comprehension: [
+      { question: "How does the picnic and cave exploration begin innocently but turn dangerous?", standard: "RL.6.5" },
+      { question: "What creates suspense as Tom and Becky realize they're lost?", standard: "RL.6.4" }
+    ],
+    journal: "Tom and Becky are lost in the dark cave. Describe a time you felt lost or scared."
+  },
+  {
+    day: 15,
+    title: "Week 3 Assessment",
+    type: "assessment",
+    chapters: "Review Chapters 19-30",
+    focus: "Vocab quiz and comprehension check",
+    vocabQuiz: [
+      { word: "jealousy", definition: "feeling of envy toward someone", sentence: "Tom felt _______ when Becky talked to Alfred." },
+      { word: "reconciliation", definition: "restoration of friendly relations", sentence: "Tom and Becky's _______ made both happy." },
+      { word: "noble", definition: "having high moral qualities", sentence: "Tom's _______ act impressed everyone." },
+      { word: "selfless", definition: "concerned more with others than oneself", sentence: "Taking the punishment was a _______ deed." },
+      { word: "humiliation", definition: "the feeling of being ashamed", sentence: "Tom endured public _______ for Becky." },
+      { word: "testimony", definition: "formal statement given in court", sentence: "Tom's _______ saved Muff Potter's life." },
+      { word: "verdict", definition: "decision made by a jury", sentence: "The _______ would determine Muff's fate." },
+      { word: "justice", definition: "fair treatment according to law", sentence: "Tom wanted _______ for the innocent man." },
+      { word: "courage", definition: "ability to face danger despite fear", sentence: "It took great _______ to testify against Injun Joe." },
+      { word: "vindication", definition: "clearing someone of blame", sentence: "Muff Potter's _______ came through Tom's bravery." },
+      { word: "treasure", definition: "valuable items, especially gold or jewels", sentence: "The boys dreamed of finding buried _______." },
+      { word: "haunted", definition: "inhabited by ghosts", sentence: "The _______ house terrified most people." },
+      { word: "discovery", definition: "the action of finding something", sentence: "Their _______ in the house changed everything." },
+      { word: "concealed", definition: "kept secret or hidden", sentence: "Injun Joe had _______ the gold under the floor." },
+      { word: "pursuit", definition: "the action of chasing", sentence: "The boys began their _______ of the treasure." },
+      { word: "vigilant", definition: "keeping careful watch", sentence: "Huck remained _______ outside the tavern." },
+      { word: "peril", definition: "serious and immediate danger", sentence: "Tom and Becky were in grave _______." },
+      { word: "labyrinth", definition: "a complicated network of passages", sentence: "The cave was a dark _______." },
+      { word: "desperate", definition: "feeling hopeless and in great need", sentence: "Tom grew _______ as their candles burned low." },
+      { word: "anguish", definition: "severe mental or physical pain", sentence: "Aunt Polly felt terrible _______ thinking Tom was lost." }
+    ],
+    comprehension: [
+      { question: "How has Tom changed from the beginning? Give 3 examples of his growth.", standard: "RL.6.3", type: "essay" },
+      { question: "Analyze how Twain builds suspense in the cave scene. What techniques does he use?", standard: "RL.6.4", type: "essay" },
+      { question: "What theme about courage emerges in the trial scene?", standard: "RL.6.2", type: "short" }
+    ],
+    journal: "We're nearing the end of Tom Sawyer. What has been your favorite part of the story?"
+  }
+);
+
+// Add Days 16-20 (Week 4 - Finish Tom Sawyer)
+unit1Lessons.push(
+  {
+    day: 16,
+    title: "Lost in the Cave",
+    type: "regular",
+    chapters: "Chapters 31-32",
+    chapterNumbers: [31, 32],
+    focus: "Tom and Becky's survival and escape from McDougal's Cave",
+    vocab: ["ordeal", "resourceful", "despair", "salvation", "perseverance"],
+    comprehension: [
+      { question: "How does Tom keep hope alive while lost in the cave? What does this show about him?", standard: "RL.6.3" },
+      { question: "How does Twain's language create fear and suspense in the cave scenes?", standard: "RL.6.4" }
+    ],
+    journal: "Tom shows incredible courage and resourcefulness. What strengths would you rely on in a survival situation?"
+  },
+  {
+    day: 17,
+    title: "The Fate of Injun Joe",
+    type: "regular",
+    chapters: "Chapters 33-34",
+    chapterNumbers: [33, 34],
+    focus: "The villain's fate and the treasure's discovery",
+    vocab: ["retribution", "fortune", "revelation", "sealed", "fate"],
+    comprehension: [
+      { question: "What happens to Injun Joe? How does Tom feel about this outcome?", standard: "RL.6.3" },
+      { question: "How does finding the treasure resolve multiple story threads?", standard: "RL.6.5" }
+    ],
+    journal: "Justice is served, but Tom feels sympathy for Injun Joe. Can you feel sorry for a villain?"
+  },
+  {
+    day: 18,
+    title: "Riches and Respectability",
+    type: "regular",
+    chapters: "Chapter 35",
+    chapterNumbers: [35],
+    focus: "How wealth changes Tom and Huck's lives",
+    vocab: ["prosperity", "civilized", "respectable", "restless", "confined"],
+    comprehension: [
+      { question: "How does becoming rich change Tom and Huck's lives? Do they both adapt the same way?", standard: "RL.6.3" },
+      { question: "What does the ending suggest about Tom's future adventures?", standard: "RL.6.5" }
+    ],
+    journal: "If you suddenly became wealthy, how would your life change? What would stay the same?"
+  },
+  {
+    day: 19,
+    title: "Tom Sawyer Themes and Writing",
+    type: "writing",
+    chapters: "Full novel review",
+    chapterNumbers: [],
+    focus: "Begin personal narrative inspired by Tom Sawyer",
+    vocab: ["narrative", "episodic", "characterization", "voice", "theme"],
+    comprehension: [
+      { question: "What is the most important theme in Tom Sawyer? Support with evidence.", standard: "RL.6.2" },
+      { question: "How does the episodic structure affect your reading experience?", standard: "RL.6.5" }
+    ],
+    journal: "Start drafting your own adventure story in the style of Mark Twain. Outline your plot."
+  },
+  {
+    day: 20,
+    title: "Unit 1 Final Assessment",
+    type: "assessment",
+    chapters: "Complete novel review",
+    focus: "Final comprehensive assessment of Tom Sawyer",
+    vocabQuiz: [
+      { word: "ordeal", definition: "a painful or difficult experience", sentence: "The cave was a terrible _______ for Tom and Becky." },
+      { word: "resourceful", definition: "able to find clever ways to overcome difficulties", sentence: "Tom was _______ in finding a way out." },
+      { word: "despair", definition: "complete loss of hope", sentence: "Becky fell into _______ when the candles went out." },
+      { word: "salvation", definition: "deliverance from danger or difficulty", sentence: "Finding the exit was their _______." },
+      { word: "perseverance", definition: "continued effort despite difficulty", sentence: "Tom's _______ saved their lives." },
+      { word: "retribution", definition: "punishment for wrongdoing", sentence: "Injun Joe faced _______ for his crimes." },
+      { word: "fortune", definition: "a large amount of money or assets", sentence: "The boys found a _______ in gold coins." },
+      { word: "revelation", definition: "a surprising disclosure", sentence: "The treasure's location was a shocking _______." },
+      { word: "sealed", definition: "closed or secured", sentence: "The cave was _______ to prevent more accidents." },
+      { word: "fate", definition: "the development of events beyond control", sentence: "Injun Joe's _______ was sealed when the door closed." },
+      { word: "prosperity", definition: "the state of being successful", sentence: "The boys now lived in _______." },
+      { word: "civilized", definition: "brought to an advanced stage of social development", sentence: "Widow Douglas wanted to make Huck _______." },
+      { word: "respectable", definition: "regarded as proper or correct", sentence: "They were now considered _______ citizens." },
+      { word: "restless", definition: "unable to rest or relax", sentence: "Huck felt _______ in civilized clothes." },
+      { word: "confined", definition: "restricted or limited", sentence: "Huck felt _______ by society's rules." },
+      { word: "narrative", definition: "a spoken or written account of events", sentence: "Write a _______ about your own adventure." },
+      { word: "episodic", definition: "made up of separate installments", sentence: "Tom Sawyer has an _______ structure." },
+      { word: "characterization", definition: "the way an author creates characters", sentence: "Twain's _______ makes Tom feel real." },
+      { word: "voice", definition: "the author's distinctive style", sentence: "Twain's humorous _______ is unmistakable." },
+      { word: "theme", definition: "the central topic or message", sentence: "A major _______ is the tension between freedom and civilization." }
+    ],
+    comprehension: [
+      { question: "ESSAY: Analyze Tom Sawyer's character development. How does he change from Chapter 1 to Chapter 35? Use specific evidence.", standard: "RL.6.3", type: "essay" },
+      { question: "ESSAY: What is Mark Twain's message about childhood, freedom, and society? Support with evidence.", standard: "RL.6.2", type: "essay" },
+      { question: "How does Twain use dialect and humor? Analyze with examples.", standard: "RL.6.4", type: "short" },
+      { question: "Compare the whitewashing scene to the cave scene. How do both show Tom's cleverness?", standard: "RL.6.3", type: "short" }
+    ],
+    journal: "Final reflection: What did Tom Sawyer teach you about courage, friendship, and growing up?"
+  }
+);
+
 // Build all lessons
 const numToBuild = process.argv[2] ? parseInt(process.argv[2]) : 10;
 console.log(`Building 6th Grade lessons 1-${numToBuild}...\n`);

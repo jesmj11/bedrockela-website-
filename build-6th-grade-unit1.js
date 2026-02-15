@@ -101,11 +101,33 @@ const unit1Lessons = [
     chapters: "Review Chapters 1-6",
     focus: "Vocabulary review and reading comprehension check",
     vocabQuiz: [
+      // Day 1 words
+      { word: "satire", definition: "the use of humor, irony, or exaggeration to criticize", sentence: "Mark Twain used _______ to make fun of human nature." },
+      { word: "episodic", definition: "made up of separate episodes or events", sentence: "Tom Sawyer has an _______ structure with many different adventures." },
+      { word: "Mississippi", definition: "the great river along which Tom's town sits", sentence: "The _______ River was central to life in 1840s Missouri." },
+      { word: "antebellum", definition: "existing before a war, especially the Civil War", sentence: "The story takes place in the _______ South before the Civil War." },
+      { word: "colloquial", definition: "informal language used in everyday conversation", sentence: "Twain's characters speak in _______ dialect rather than formal English." },
+      
+      // Day 2 words
       { word: "beguiled", definition: "charmed or enchanted, sometimes in a deceptive way", sentence: "Tom _______ his friends into doing his work for him." },
       { word: "commenced", definition: "began or started", sentence: "Aunt Polly _______ to scold Tom for his mischief." },
+      { word: "ornery", definition: "bad-tempered and difficult to deal with", sentence: "Tom could be quite _______ when he didn't get his way." },
+      { word: "reckoned", definition: "thought or supposed", sentence: "Tom _______ he could trick Ben into whitewashing the fence." },
+      { word: "meditate", definition: "to think deeply or focus one's mind", sentence: "Tom would _______ on ways to avoid work." },
+      
+      // Day 3 words
       { word: "conspicuous", definition: "standing out and attracting attention", sentence: "Tom made himself _______ in front of Becky Thatcher." },
       { word: "diligence", definition: "careful and persistent work or effort", sentence: "Tom showed no _______ when it came to his schoolwork." },
-      { word: "rendezvous", definition: "a planned meeting at a specific time and place", sentence: "The boys agreed on a _______ at midnight in the graveyard." }
+      { word: "derision", definition: "contemptuous ridicule or mockery", sentence: "The other boys looked at Tom with _______ when he failed." },
+      { word: "mortified", definition: "deeply embarrassed or humiliated", sentence: "Tom was _______ when Becky saw him make a fool of himself." },
+      { word: "resolute", definition: "admirably purposeful and determined", sentence: "Tom was _______ in his pursuit of Becky's affection." },
+      
+      // Day 4 words
+      { word: "rendezvous", definition: "a planned meeting at a specific time and place", sentence: "The boys agreed on a _______ at midnight in the graveyard." },
+      { word: "malady", definition: "an illness or disease", sentence: "Tom pretended to have a serious _______ to avoid school." },
+      { word: "gratification", definition: "pleasure or satisfaction", sentence: "Tom found great _______ in his freedom with Huck." },
+      { word: "impediment", definition: "a hindrance or obstruction", sentence: "School was an _______ to Tom's adventurous plans." },
+      { word: "pariah", definition: "an outcast rejected by society", sentence: "Huck Finn was treated as a _______ by the respectable townspeople." }
     ],
     comprehension: [
       {

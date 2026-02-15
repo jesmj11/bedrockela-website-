@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 29: Lesson 29 - BedrockELA</title>
+    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <link rel="stylesheet" href="css/digital-book.css">
+    <link rel="stylesheet" href="css/letter-explorer.css">
+    <link rel="stylesheet" href="css/flashcard-game.css">
+</head>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
+
+    <script src="js/lesson-viewer.js"></script>
+    <script src="js/digital-book.js"></script>
+    <script src="js/letter-explorer.js"></script>
+    <script src="js/flashcard-game.js"></script>
+    
+    <script>
+        const lesson29Config = {
+            lessonId: '1st-grade-lesson-29',
+            gradeLevel: '1st-grade',
+            title: 'Lesson 29: Lesson 29',
+            pages: [
+                {
+    render: () => `
+      <div class="lesson-page-card title-page">
+        <div class="character">🐐</div>
+        <h1>Lesson 29</h1>
+        <div class="subtitle">Learn and Practice!</div>
+        <p style="color: #B06821; font-size: 18px; margin-top: 20px;">
+          Meet Billy the Goat!<br>
+          He'll help you learn all about phonics!
+        </p>
+      </div>
+    `
+  },
+                {
+      render: () => `
+        <div class="lesson-page-card content-page">
+          <h2>Lesson 29 Introduction</h2>
+          <p>Welcome to Lesson 29! Today you'll learn new phonics skills.</p>
+          <p>Follow along with Billy the Goat as we explore new sounds and words!</p>
+        </div>
+      `
+    },
+                {
+      render: (progress, markComplete) => {
+        return `
+          <div class="lesson-page-card activity-section">
+            <h2>📖 Story Time</h2>
+            <p>Read the story with Billy!</p>
+            ${progress.story_completed ? '<div class="completion-badge">✅ Story Complete!</div>' : ''}
+            <div id="story-book" class="digital-book-container" style="margin-top: 20px;"></div>
+          </div>
+        `;
+      },
+      onLoad: () => {
+        fetch('book-data/henny-penny-lessons-29-31.json')
+          .then(response => response.json())
+          .then(bookConfig => {
+            bookConfig.bookId = 'henny-penny-lessons-29-31';
+            createDigitalBook('story-book', bookConfig, {
+              maxPageIndex: 4,
+              lessonNumber: 29,
+              onComplete: () => {
+                window.lessonMarkComplete('story');
+              }
+            });
+          });
+      }
+    },
+                {
+    render: (progress, markComplete) => {
+      return `
+        <div class="lesson-page-card activity-section">
+          <h2>🔤 Letter Explorer</h2>
+          <p>Spell words by dragging letters!</p>
+          ${progress.letter_explorer_completed ? '<div class="completion-badge">✅ Game Complete!</div>' : ''}
+          <div id="letter-explorer-game" class="letter-explorer-container" style="margin-top: 20px;"></div>
+        </div>
+      `;
+    },
+    onLoad: () => {
+      createLetterExplorer('letter-explorer-game', {
+        title: "Letter Explorer",
+        subtitle: "Drag the letters to spell the word!",
+        words: [{"word":"cat","emoji":"🐱","definition":"A small furry animal!","example":"The cat sat on the mat."},{"word":"dog","emoji":"🐶","definition":"A friendly animal!","example":"The dog barks."},{"word":"sun","emoji":"☀️","definition":"The bright star!","example":"The sun shines."}]
+      }, () => {
+        window.lessonMarkComplete('letter-explorer');
+      });
+    }
+  },
+                {
+    render: (progress, markComplete) => {
+      return `
+        <div class="lesson-page-card activity-section">
+          <h2>🎮 Match the Sounds!</h2>
+          <p>Match letters with their sounds!</p>
+          ${progress.flashcard_completed ? '<div class="completion-badge">✅ Matches Complete!</div>' : ''}
+          <div id="flashcard-game-container" style="margin-top: 20px;"></div>
+        </div>
+      `;
+    },
+    onLoad: () => {
+      new FlashcardGame('flashcard-game-container', {
+        title: "Match the Sounds!",
+        subtitle: "Can you match the letters?",
+        pairs: [{"term":"A","match":"Sound ah"},{"term":"E","match":"Sound eh"},{"term":"I","match":"Sound ih"}]
+      }, () => {
+        window.lessonMarkComplete('flashcard');
+      });
+    }
+  },
+                {
+    render: (progress) => {
+      const allComplete = progress.story_completed && 
+                        progress.letter_explorer_completed && 
+                        progress.flashcard_completed;
+      return `
+        <div class="lesson-page-card title-page">
+          <div class="character">🎉</div>
+          <h1>Great Job!</h1>
+          <div class="subtitle">You completed Lesson 29!</div>
+          ${allComplete ? `
+            <div class="completion-badge" style="margin: 30px auto;">
+              ✅ 100% Complete!
+            </div>
+            <p style="margin-top: 20px;">
+              Billy is proud of you! You learned so much!
+            </p>
+          ` : `
+            <p style="color: #B06821; margin-top: 20px;">
+              Go back and complete all activities to finish this lesson!
+            </p>
+          `}
+          <button 
+            onclick="window.location.href='student-dashboard-live.html'" 
+            class="nav-arrow"
+            style="margin-top: 30px;"
+          >
+            Back to Dashboard
+          </button>
+        </div>
+      `;
+    }
+  }
+            ]
+        };
+
+        createLessonViewer('lesson-container', lesson29Config);
+    </script>
+</body>
+</html>

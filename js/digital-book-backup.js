@@ -1,7 +1,6 @@
 /**
- * Enhanced Digital Book Reader - Vanilla JavaScript
- * Ported animations and features from React/JSX version
- * Features: Page tracking, page flip animations, keyboard nav, decorative stars, audio narration
+ * Digital Book Reader - Vanilla JavaScript
+ * Features: Page tracking, audio narration with ElevenLabs, progressive page unlocking
  */
 
 const PAGE_PALETTE = [
@@ -26,20 +25,19 @@ function createDigitalBook(containerId, bookConfig, options = {}) {
     return;
   }
 
-  // Options
+  // Options: maxPageIndex limits which pages are available
   const maxPageIndex = options.maxPageIndex !== undefined ? options.maxPageIndex : bookConfig.pages.length - 1;
   const lessonNumber = options.lessonNumber || null;
   const onComplete = options.onComplete || function() {};
 
   let currentPage = -1; // -1 = cover
   let isFlipping = false;
-  let flipDirection = null;
-  let pagesRead = new Set();
+  let pagesRead = new Set(); // Track which pages have been read
   let audioPlaying = false;
   let currentAudio = null;
 
   const totalPages = bookConfig.pages.length;
-  const availablePages = maxPageIndex + 1;
+  const availablePages = maxPageIndex + 1; // maxPageIndex is 0-based
   const bookId = bookConfig.bookId || 'unknown';
   const studentData = JSON.parse(localStorage.getItem('studentData') || '{}');
   const studentId = studentData.student?.id;
@@ -69,7 +67,7 @@ function createDigitalBook(containerId, bookConfig, options = {}) {
       student_id: studentId,
       book_id: bookId,
       pages_read: Array.from(pagesRead),
-      total_pages: availablePages,
+      total_pages: availablePages, // Only count available pages
       completed: completed
     };
 
@@ -81,6 +79,7 @@ function createDigitalBook(containerId, bookConfig, options = {}) {
       .then(res => res.json())
       .catch(err => console.error('Error saving progress:', err));
     
+    // Call completion callback if all pages read
     if (completed && onComplete) {
       onComplete();
     }
@@ -108,21 +107,27 @@ function createDigitalBook(containerId, bookConfig, options = {}) {
     audioBtn.classList.add('playing');
 
     try {
+      // Call ElevenLabs API via backend
       const response = await fetch(`${BACKEND_API}/text-to-speech`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text, voice: 'Rachel' })
       });
 
-      if (!response.ok) throw new Error('TTS failed');
+      if (!response.ok) {
+        throw new Error('TTS failed');
+      }
 
       const audioBlob = await response.blob();
       const audioUrl = URL.createObjectURL(audioBlob);
       
       currentAudio = new Audio(audioUrl);
       currentAudio.play();
-      currentAudio.onended = () => stopAudio();
-      
+
+      currentAudio.onended = () => {
+        stopAudio();
+      };
+
       audioBtn.disabled = false;
       audioBtn.onclick = stopAudio;
 
@@ -132,6 +137,8 @@ function createDigitalBook(containerId, bookConfig, options = {}) {
       audioBtn.disabled = false;
       audioPlaying = false;
       audioBtn.classList.remove('playing');
+      // Silently fail - don't alert user
+      console.log('Audio unavailable');
     }
   }
 
@@ -148,69 +155,34 @@ function createDigitalBook(containerId, bookConfig, options = {}) {
     }
   }
 
-  function flipTo(direction) {
-    const isOnCover = currentPage === -1;
-    const isOnLastPage = currentPage === maxPageIndex;
-
-    if (isFlipping) return;
-    if (direction === 'next' && isOnLastPage) return;
-    if (direction === 'prev' && isOnCover) return;
-
-    isFlipping = true;
-    flipDirection = direction;
-
-    stopAudio();
-    render();
-
-    setTimeout(() => {
-      currentPage = direction === 'next' ? currentPage + 1 : currentPage - 1;
-      isFlipping = false;
-      flipDirection = null;
-      render();
-    }, 500);
-  }
-
   function render() {
     const isOnCover = currentPage === -1;
-    const isOnLastPage = currentPage === maxPageIndex;
+    const isOnLastAvailablePage = currentPage === maxPageIndex;
     const pageData = !isOnCover ? bookConfig.pages[currentPage] : null;
     const palette = !isOnCover
       ? PAGE_PALETTE[currentPage % PAGE_PALETTE.length]
-      : { bg: bookConfig.coverColor || "#305853", accent: "#FFD700" };
+      : { bg: bookConfig.coverColor || "#305853", accent: "#B06821" };
 
+    // Mark current page as read
     if (!isOnCover && currentPage >= 0) {
       markPageAsRead(currentPage);
     }
 
+    // Calculate reading progress (only for available pages)
     const progressPercent = availablePages > 0 ? (pagesRead.size / availablePages) * 100 : 0;
 
-    // Create decorative stars
-    let stars = '';
-    for (let i = 0; i < 12; i++) {
-      const left = 5 + Math.random() * 90;
-      const top = 5 + Math.random() * 90;
-      const delay = Math.random() * 2;
-      const duration = 2 + Math.random() * 3;
-      stars += `
-        <div class="bg-star" style="
-          left: ${left}%;
-          top: ${top}%;
-          animation-delay: ${delay}s;
-          animation-duration: ${duration}s;
-        "></div>
-      `;
-    }
-
     container.innerHTML = `
-      ${stars}
-      
       <!-- Book -->
       <div class="book-container">
         ${!isOnCover ? '<div class="page-edges"></div>' : ""}
 
-        ${isOnCover && !isFlipping ? `
+        ${
+          isOnCover
+            ? `
           <!-- COVER -->
-          <div class="page paper-texture cover-page">
+          <div class="page paper-texture cover-page" style="
+            background: linear-gradient(145deg, #305853 0%, #1B2A30 100%);
+          ">
             <div class="cover-border-top"></div>
             <div class="cover-border-bottom"></div>
             
@@ -221,7 +193,7 @@ function createDigitalBook(containerId, bookConfig, options = {}) {
             <p class="cover-author">${bookConfig.coverAuthor}</p>
             
             ${availablePages < totalPages ? `
-              <p class="cover-pages-note">
+              <p style="font-family: 'Quicksand', sans-serif; font-size: 14px; color: rgba(176,104,33,0.7); margin-bottom: 16px;">
                 📚 ${availablePages} page${availablePages !== 1 ? 's' : ''} available in this lesson
               </p>
             ` : ''}
@@ -230,17 +202,8 @@ function createDigitalBook(containerId, bookConfig, options = {}) {
               Open Book →
             </button>
           </div>
-        ` : ''}
-
-        ${isFlipping ? `
-          <!-- FLIPPING PAGE -->
-          <div class="page paper-texture flipping-page ${flipDirection === 'next' ? 'flipping-next' : 'flipping-prev'}" 
-               style="background: ${isOnCover ? palette.bg : (flipDirection === 'next' ? palette.bg : PAGE_PALETTE[(currentPage + 1) % PAGE_PALETTE.length]?.bg || '#FFF9F0')};">
-            <div class="spine-shadow"></div>
-          </div>
-        ` : ''}
-
-        ${!isOnCover && !isFlipping && pageData ? `
+        `
+            : `
           <!-- CONTENT PAGE -->
           <div class="page paper-texture content-page" style="background: ${palette.bg};">
             <div class="spine-shadow"></div>
@@ -248,13 +211,23 @@ function createDigitalBook(containerId, bookConfig, options = {}) {
             <div class="top-accent" style="background: linear-gradient(90deg, ${palette.accent}00, ${palette.accent}, ${palette.accent}00);"></div>
             
             <div class="page-content">
-              ${pageData.emoji ? `<div class="page-emoji">${pageData.emoji}</div>` : ""}
-              ${pageData.title ? `<h2 class="page-title" style="color: ${palette.accent};">${pageData.title}</h2>` : ""}
+              ${
+                pageData.emoji
+                  ? `<div class="page-emoji">${pageData.emoji}</div>`
+                  : ""
+              }
+              
+              ${
+                pageData.title
+                  ? `<h2 class="page-title" style="color: ${palette.accent};">${pageData.title}</h2>`
+                  : ""
+              }
+              
               <p class="page-text">${pageData.text}</p>
             </div>
             
             <div class="page-footer" style="border-top: 1px solid ${palette.accent}20;">
-              <button class="audio-btn" style="color: ${palette.accent};" onclick="window.digitalBookPlayAudio(\`${pageData.text.replace(/`/g, '\\`').replace(/'/g, "\\'")}\`, '${palette.accent}')">
+              <button class="audio-btn" style="color: ${palette.accent};" onclick="window.digitalBookPlayAudio(\`${pageData.text.replace(/`/g, '\\`')}\`, '${palette.accent}')">
                 🔊
               </button>
               <span class="page-number" style="color: ${palette.accent}99;">
@@ -263,68 +236,139 @@ function createDigitalBook(containerId, bookConfig, options = {}) {
               <div style="width: 36px;"></div>
             </div>
           </div>
-        ` : ''}
+        `
+        }
       </div>
 
-      ${!isOnCover ? `
+      ${
+        !isOnCover
+          ? `
         <!-- Navigation -->
         <div class="book-nav">
-          <button class="nav-btn nav-btn-prev" onclick="window.digitalBookFlipPrev()" ${isOnCover || isFlipping ? "disabled" : ""}>
+          <button class="nav-btn" onclick="window.digitalBookFlipPrev()" ${
+            isOnCover ? "disabled" : ""
+          }>
             ←
           </button>
-
-          <!-- Page dots -->
+          
           <div class="page-dots">
-            ${bookConfig.pages.slice(0, availablePages).map((_, i) => `
-              <div class="page-dot ${i === currentPage ? 'active' : ''} ${i < currentPage ? 'read' : ''}"></div>
-            `).join('')}
+            ${bookConfig.pages
+              .slice(0, availablePages)
+              .map(
+                (_, i) => `
+              <div class="dot ${i === currentPage ? "active" : ""} ${
+                  i < currentPage ? "past" : ""
+                } ${pagesRead.has(i) ? "read" : ""}"></div>
+            `
+              )
+              .join("")}
           </div>
-
-          <button class="nav-btn nav-btn-next" onclick="window.digitalBookFlipNext()" ${isOnLastPage || isFlipping ? "disabled" : ""}>
+          
+          <button class="nav-btn" onclick="window.digitalBookFlipNext()" ${
+            isOnLastAvailablePage ? "disabled" : ""
+          }>
             →
           </button>
         </div>
 
-        ${isOnLastPage ? `
+        <!-- Reading Progress -->
+        <div class="reading-progress">
+          <div>📖 ${pagesRead.size} of ${availablePages} pages read</div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: ${progressPercent}%;"></div>
+          </div>
+        </div>
+
+        ${
+          isOnLastAvailablePage && availablePages < totalPages
+            ? `
+          <div style="margin-top: 15px; text-align: center; font-family: 'Quicksand', sans-serif; font-size: 14px; color: #B06821;">
+            🔒 ${totalPages - availablePages} more page${totalPages - availablePages !== 1 ? 's' : ''} unlock in future lessons!
+          </div>
+        `
+            : ""
+        }
+
+        ${
+          isOnLastAvailablePage
+            ? `
           <button class="back-to-cover-btn" onclick="window.digitalBookBackToCover()">
             ↩ Back to Cover
           </button>
-        ` : ''}
+        `
+            : ""
+        }
+      `
+          : ""
+      }
 
-        <p class="keyboard-hint">Use ← → arrow keys to flip pages</p>
-      ` : ''}
+      <p class="keyboard-hint">Use ← → arrow keys to flip pages</p>
     `;
   }
 
-  function handleKeyDown(e) {
-    if (e.key === 'ArrowRight' || e.key === ' ') {
-      e.preventDefault();
-      flipTo('next');
+  function flipTo(direction) {
+    if (isFlipping) return;
+
+    const isOnCover = currentPage === -1;
+    const isOnLastAvailablePage = currentPage === maxPageIndex;
+
+    if (direction === "next" && isOnLastAvailablePage) return;
+    if (direction === "prev" && isOnCover) return;
+
+    // Stop any playing audio when flipping
+    stopAudio();
+
+    isFlipping = true;
+
+    // Add flipping animation class
+    const page = container.querySelector(".page");
+    if (page) {
+      page.classList.add(
+        direction === "next" ? "flipping-next" : "flipping-prev"
+      );
     }
-    if (e.key === 'ArrowLeft') {
+
+    setTimeout(() => {
+      currentPage = direction === "next" ? currentPage + 1 : currentPage - 1;
+      isFlipping = false;
+      render();
+    }, 500);
+  }
+
+  function backToCover() {
+    stopAudio();
+    currentPage = -1;
+    render();
+  }
+
+  // Keyboard navigation
+  function handleKeyDown(e) {
+    if (e.key === "ArrowRight" || e.key === " ") {
       e.preventDefault();
-      flipTo('prev');
+      flipTo("next");
+    }
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      flipTo("prev");
     }
   }
 
-  // Global functions
-  window.digitalBookFlipNext = () => flipTo('next');
-  window.digitalBookFlipPrev = () => flipTo('prev');
-  window.digitalBookBackToCover = () => {
-    currentPage = -1;
-    render();
-  };
-  window.digitalBookPlayAudio = playAudio;
+  // Attach global functions for button clicks
+  window.digitalBookFlipNext = () => flipTo("next");
+  window.digitalBookFlipPrev = () => flipTo("prev");
+  window.digitalBookBackToCover = backToCover;
+  window.digitalBookPlayAudio = (text, accentColor) => playAudio(text, accentColor);
 
-  // Keyboard navigation
-  document.addEventListener('keydown', handleKeyDown);
+  // Attach keyboard listener
+  document.addEventListener("keydown", handleKeyDown);
 
   // Initial render
   render();
 
-  // Cleanup function
+  // Return cleanup function
   return function cleanup() {
-    document.removeEventListener('keydown', handleKeyDown);
+    document.removeEventListener("keydown", handleKeyDown);
+    stopAudio();
     delete window.digitalBookFlipNext;
     delete window.digitalBookFlipPrev;
     delete window.digitalBookBackToCover;

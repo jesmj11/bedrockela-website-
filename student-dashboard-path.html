@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Learning Path - BedrockELA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(180deg, #87CEEB 0%, #98D8C8 50%, #F7DC6F 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .header {
+            background: rgba(255,255,255,0.95);
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .student-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .student-avatar {
+            font-size: 32px;
+            background: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #305853;
+        }
+        
+        .student-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #305853;
+        }
+        
+        .logout-btn {
+            padding: 10px 20px;
+            background: #E74C3C;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .logout-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .path-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px 100px;
+            position: relative;
+        }
+        
+        .unit-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #305853;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
+        }
+        
+        /* The winding path */
+        .learning-path {
+            position: relative;
+            width: 100%;
+            min-height: 800px;
+        }
+        
+        /* Path line SVG background */
+        .path-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        /* Individual lesson steps */
+        .lesson-step {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            z-index: 2;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .lesson-step:hover {
+            transform: scale(1.15);
+        }
+        
+        .lesson-step.completed {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border: 4px solid #FF8C00;
+        }
+        
+        .lesson-step.completed::after {
+            content: '✓';
+            position: absolute;
+            font-size: 40px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .lesson-step.current {
+            background: linear-gradient(135deg, #3498DB 0%, #2980B9 100%);
+            border: 5px solid #1F618D;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .lesson-step.locked {
+            background: linear-gradient(135deg, #BDC3C7 0%, #95A5A6 100%);
+            border: 4px solid #7F8C8D;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        
+        .lesson-step.locked::after {
+            content: '🔒';
+            position: absolute;
+            font-size: 30px;
+        }
+        
+        .lesson-number {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #305853;
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        
+        /* Milestone markers */
+        .milestone {
+            position: absolute;
+            background: white;
+            border: 4px solid #E74C3C;
+            border-radius: 20px;
+            padding: 15px 25px;
+            font-weight: bold;
+            color: #E74C3C;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            z-index: 3;
+        }
+        
+        .milestone-icon {
+            font-size: 40px;
+            margin-bottom: 8px;
+        }
+        
+        .milestone-text {
+            font-size: 16px;
+        }
+        
+        /* Decorative elements */
+        .tree {
+            position: absolute;
+            font-size: 60px;
+            z-index: 1;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
+        }
+        
+        .cloud {
+            position: absolute;
+            font-size: 50px;
+            opacity: 0.7;
+            animation: float 20s infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            50% { transform: translateX(30px) translateY(-10px); }
+        }
+        
+        /* Progress bar at top */
+        .progress-container {
+            background: rgba(255,255,255,0.9);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: rgba(48,88,83,0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #27AE60 0%, #2ECC71 100%);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-weight: bold;
+        }
+        
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .lesson-step {
+                width: 60px;
+                height: 60px;
+                font-size: 18px;
+            }
+            
+            .lesson-number {
+                font-size: 11px;
+                bottom: -25px;
+            }
+            
+            .milestone {
+                padding: 10px 15px;
+                font-size: 12px;
+            }
+            
+            .milestone-icon {
+                font-size: 30px;
+            }
+            
+            .tree {
+                font-size: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="student-info">
+            <div class="student-avatar" id="studentAvatar">👤</div>
+            <div class="student-name" id="studentName">Student</div>
+        </div>
+        <button class="logout-btn" onclick="logout()">← Back to Login</button>
+    </div>
+    
+    <div class="path-container">
+        <h1 class="unit-title">🌱 Your Reading Journey</h1>
+        
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill">0%</div>
+            </div>
+        </div>
+        
+        <div class="learning-path" id="learningPath">
+            <!-- Decorative elements -->
+            <div class="cloud" style="top: 20px; left: 10%;">☁️</div>
+            <div class="cloud" style="top: 50px; right: 15%;">☁️</div>
+            <div class="tree" style="top: 150px; left: 5%;">🌳</div>
+            <div class="tree" style="top: 400px; right: 8%;">🌲</div>
+            <div class="tree" style="bottom: 200px; left: 10%;">🌳</div>
+            
+            <!-- Path line will be drawn here -->
+            <svg class="path-line" id="pathLine"></svg>
+            
+            <!-- Lesson steps will be added dynamically -->
+        </div>
+    </div>
+
+    <script>
+        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+            ? 'http://localhost:3001/api' 
+            : 'https://bedrockela-website-production.up.railway.app/api';
+        
+        // Lesson data with positions on the winding path
+        const lessons = [
+            // Unit 1: The Enormous Turnip (Days 1-10)
+            { num: 1, x: 15, y: 100, title: "Letters A,M,T,S" },
+            { num: 2, x: 25, y: 180, title: "Letter I" },
+            { num: 3, x: 35, y: 260, title: "Letter P" },
+            { num: 4, x: 50, y: 330, title: "Letter N" },
+            { num: 5, x: 70, y: 380, title: "Assessment" }, // Milestone
+            { num: 6, x: 55, y: 450, title: "Letter O" },
+            { num: 7, x: 40, y: 520, title: "Word Families" },
+            { num: 8, x: 30, y: 600, title: "Letter E" },
+            { num: 9, x: 45, y: 680, title: "Mixed Review" },
+            { num: 10, x: 65, y: 750, title: "Story End!" }, // Milestone
+            
+            // Unit 2: The Gingerbread Man (Days 11-15)
+            { num: 11, x: 50, y: 830, title: "Letters B,C" },
+            { num: 12, x: 35, y: 900, title: "Letters D,F" },
+            { num: 13, x: 48, y: 970, title: "Letters G,H" },
+            { num: 14, x: 65, y: 1040, title: "Letters J,K" },
+            { num: 15, x: 55, y: 1120, title: "Letters L,V" }, // Milestone
+            
+            // Unit 3: Lion & Mouse (Days 16-20)
+            { num: 16, x: 40, y: 1200, title: "Letters U,W" },
+            { num: 17, x: 50, y: 1270, title: "Letters Q,X" },
+            { num: 18, x: 65, y: 1340, title: "Complete Alphabet!" }, // Milestone
+            { num: 19, x: 55, y: 1420, title: "Review" },
+            { num: 20, x: 45, y: 1500, title: "You Did It!" }, // Final
+        ];
+        
+        const milestones = [
+            { after: 5, x: 85, y: 380, icon: "🥕", text: "Turnip Growing!" },
+            { after: 10, x: 80, y: 750, icon: "🎉", text: "Story Complete!" },
+            { after: 15, x: 75, y: 1120, icon: "🍪", text: "Gingerbread!" },
+            { after: 18, x: 80, y: 1340, icon: "🔤", text: "Full Alphabet!" },
+            { after: 20, x: 60, y: 1500, icon: "🏆", text: "Reading Champion!" }
+        ];
+        
+        let studentData = null;
+        let currentLesson = 1;
+        let completedLessons = [];
+        
+        // Load student data
+        async function init() {
+            const student = JSON.parse(localStorage.getItem('bedrockela_student') || 'null');
+            
+            if (!student) {
+                window.location.href = 'student-login-family.html';
+                return;
+            }
+            
+            studentData = student;
+            document.getElementById('studentName').textContent = student.name;
+            document.getElementById('studentAvatar').textContent = student.avatar || '👤';
+            
+            currentLesson = student.current_lesson || 1;
+            
+            // Get completed lessons
+            try {
+                const response = await fetch(`${API_URL}/student/${student.id}/completed-lessons/${student.grade_level}`);
+                const data = await response.json();
+                completedLessons = data.completed || [];
+            } catch (error) {
+                console.error('Error loading completed lessons:', error);
+            }
+            
+            drawPath();
+            renderLessons();
+            updateProgress();
+        }
+        
+        // Draw the winding path line
+        function drawPath() {
+            const svg = document.getElementById('pathLine');
+            const pathData = lessons.map((lesson, i) => {
+                const x = lesson.x + '%';
+                const y = lesson.y + 'px';
+                return i === 0 ? `M ${x} ${y}` : `L ${x} ${y}`;
+            }).join(' ');
+            
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', pathData);
+            path.setAttribute('stroke', 'rgba(255,255,255,0.6)');
+            path.setAttribute('stroke-width', '8');
+            path.setAttribute('fill', 'none');
+            path.setAttribute('stroke-linecap', 'round');
+            path.setAttribute('stroke-linejoin', 'round');
+            
+            svg.appendChild(path);
+        }
+        
+        // Render lesson steps
+        function renderLessons() {
+            const container = document.getElementById('learningPath');
+            
+            lessons.forEach((lesson, index) => {
+                const step = document.createElement('div');
+                step.className = 'lesson-step';
+                
+                // Determine status
+                if (completedLessons.includes(lesson.num)) {
+                    step.classList.add('completed');
+                } else if (lesson.num === currentLesson) {
+                    step.classList.add('current');
+                    step.textContent = '➤';
+                } else if (lesson.num > currentLesson) {
+                    step.classList.add('locked');
+                } else {
+                    // Available but not started
+                    step.classList.add('current');
+                    step.textContent = lesson.num;
+                }
+                
+                step.style.left = lesson.x + '%';
+                step.style.top = lesson.y + 'px';
+                
+                const label = document.createElement('div');
+                label.className = 'lesson-number';
+                label.textContent = `Day ${lesson.num}`;
+                step.appendChild(label);
+                
+                // Click handler
+                if (lesson.num <= currentLesson || completedLessons.includes(lesson.num)) {
+                    step.onclick = () => startLesson(lesson.num);
+                }
+                
+                container.appendChild(step);
+            });
+            
+            // Add milestones
+            milestones.forEach(milestone => {
+                if (currentLesson > milestone.after || completedLessons.includes(milestone.after)) {
+                    const mark = document.createElement('div');
+                    mark.className = 'milestone';
+                    mark.style.left = milestone.x + '%';
+                    mark.style.top = milestone.y + 'px';
+                    mark.innerHTML = `
+                        <div class="milestone-icon">${milestone.icon}</div>
+                        <div class="milestone-text">${milestone.text}</div>
+                    `;
+                    container.appendChild(mark);
+                }
+            });
+        }
+        
+        function updateProgress() {
+            const totalLessons = 20;
+            const completed = completedLessons.length;
+            const percent = Math.round((completed / totalLessons) * 100);
+            
+            const fill = document.getElementById('progressFill');
+            fill.style.width = percent + '%';
+            fill.textContent = `${completed}/${totalLessons} Complete`;
+        }
+        
+        function startLesson(lessonNum) {
+            window.location.href = `1st-grade-lesson-${lessonNum}-v4.html`;
+        }
+        
+        function logout() {
+            localStorage.removeItem('bedrockela_student');
+            sessionStorage.removeItem('bedrockela_family');
+            window.location.href = 'student-login-family.html';
+        }
+        
+        // Initialize
+        init();
+    </script>
+</body>
+</html>

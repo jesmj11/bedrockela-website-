@@ -160,6 +160,44 @@ app.post('/api/family/create', async (req, res) => {
   }
 });
 
+// Add student to family
+app.post('/api/family/add-student', async (req, res) => {
+  try {
+    const { family_id, name, grade_level, avatar } = req.body;
+
+    if (!family_id || !name || !grade_level) {
+      return res.status(400).json({ error: 'Family ID, name, and grade level required' });
+    }
+
+    // Verify family exists
+    const family = await dbGet('SELECT id FROM families WHERE id = ?', [family_id]);
+    if (!family) {
+      return res.status(404).json({ error: 'Family not found' });
+    }
+
+    // Create student
+    const result = await dbRun(
+      'INSERT INTO students (family_id, name, grade_level, avatar, current_lesson) VALUES (?, ?, ?, ?, ?)',
+      [family_id, name, grade_level, avatar || '👤', 1]
+    );
+
+    res.json({
+      success: true,
+      student: {
+        id: result.id,
+        family_id,
+        name,
+        grade_level,
+        avatar: avatar || '👤',
+        current_lesson: 1
+      }
+    });
+  } catch (error) {
+    console.error('Add student error:', error);
+    res.status(500).json({ error: 'Server error adding student' });
+  }
+});
+
 // ==================== STUDENT ROUTES ====================
 
 // Create or login student

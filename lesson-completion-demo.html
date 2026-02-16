@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson Completion Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background: #F5EFE7;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #5B7C99;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .btn-complete {
+            background: #28a745;
+            color: white;
+        }
+        .btn-test {
+            background: #5B7C99;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Lesson Completion System Demo</h1>
+        <p>This demonstrates the completion modal that appears when a student finishes a lesson.</p>
+        
+        <h3 style="margin-top: 30px;">Test Scenarios:</h3>
+        
+        <div style="margin: 20px 0;">
+            <button class="btn-complete" onclick="testCompletion(5, true)">
+                Test: Lesson 5 Complete (Has Next)
+            </button>
+        </div>
+        
+        <div style="margin: 20px 0;">
+            <button class="btn-complete" onclick="testCompletion(180, false)">
+                Test: Lesson 180 Complete (Final Lesson!)
+            </button>
+        </div>
+
+        <div style="margin: 20px 0;">
+            <button class="btn-test" onclick="checkStatus()">
+                Check Completion Status
+            </button>
+        </div>
+
+        <div style="margin-top: 30px; padding: 20px; background: #F5F9FF; border-radius: 12px;">
+            <h4 style="color: #5B7C99; margin-bottom: 10px;">How It Works:</h4>
+            <ul style="color: #666; line-height: 1.8;">
+                <li>When all activities are complete AND student is on last page</li>
+                <li>System saves to database (student ID + lesson number)</li>
+                <li>Modal appears with celebration 🎉</li>
+                <li>Options: "Continue to Next Lesson" or "Back to Dashboard"</li>
+                <li>Current lesson is unlocked on dashboard</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="js/lesson-completion.js"></script>
+    <script>
+        // Demo student for testing
+        localStorage.setItem('studentData', JSON.stringify({
+            student: {
+                id: 1,
+                name: 'Test Student',
+                grade_level: '1st-grade'
+            }
+        }));
+
+        function testCompletion(lessonNum, hasNext) {
+            const completion = new LessonCompletion(1, lessonNum, '1st-grade');
+            
+            // Mark it complete
+            completion.markComplete().then(() => {
+                console.log(`Lesson ${lessonNum} marked complete!`);
+                // Show the modal
+                completion.showCompletionModal();
+            });
+        }
+
+        function checkStatus() {
+            const studentId = 1;
+            const gradeLevel = '1st-grade';
+            
+            const completed = LessonCompletion.getCompletedLessons(studentId, gradeLevel);
+            
+            if (completed.length === 0) {
+                alert('No lessons completed yet!\n\nClick one of the test buttons above to simulate completing a lesson.');
+            } else {
+                alert(`Completed Lessons:\n\n${completed.join(', ')}\n\nTotal: ${completed.length} lessons`);
+            }
+        }
+    </script>
+</body>
+</html>

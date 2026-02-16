@@ -117,6 +117,28 @@ function createLessonViewer(containerId, lessonConfig) {
     return Math.round((completed / total) * 100);
   }
 
+  function checkLessonCompletion() {
+    // Check if all activities are complete and we're on the last page
+    const allComplete = lessonProgress.story_completed && 
+                        lessonProgress.letter_explorer_completed && 
+                        lessonProgress.flashcard_completed;
+    const onLastPage = currentPage === lessonConfig.pages.length - 1;
+    
+    if (allComplete && onLastPage && studentId) {
+      // Extract lesson number from lessonId (e.g., "1st-grade-lesson-5" -> 5)
+      const lessonMatch = lessonId.match(/lesson-(\d+)/);
+      const lessonNumber = lessonMatch ? parseInt(lessonMatch[1]) : 1;
+      
+      // Show completion modal
+      if (typeof LessonCompletion !== 'undefined') {
+        const completion = new LessonCompletion(studentId, lessonNumber, gradeLevel);
+        completion.markComplete().then(() => {
+          completion.showCompletionModal();
+        });
+      }
+    }
+  }
+
   function render() {
     const page = lessonConfig.pages[currentPage];
     const progress = calculateProgress();
@@ -173,6 +195,9 @@ function createLessonViewer(containerId, lessonConfig) {
     if (page.onLoad) {
       page.onLoad();
     }
+
+    // Check if lesson is complete (all activities done, on last page)
+    setTimeout(() => checkLessonCompletion(), 500);
   }
 
   // Global functions

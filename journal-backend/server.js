@@ -223,6 +223,66 @@ app.post('/api/student/login', async (req, res) => {
   }
 });
 
+// Mark lesson as complete
+app.post('/api/student/complete-lesson', async (req, res) => {
+  try {
+    const { student_id, grade_level, lesson_number, completed_at } = req.body;
+
+    if (!student_id || !grade_level || !lesson_number) {
+      return res.status(400).json({ error: 'Student ID, grade level, and lesson number required' });
+    }
+
+    // Insert or update lesson completion
+    await dbRun(`
+      INSERT INTO lesson_completions (student_id, grade_level, lesson_number, completed_at)
+      VALUES (?, ?, ?, ?)
+      ON CONFLICT(student_id, grade_level, lesson_number) 
+      DO UPDATE SET completed_at = ?, times_completed = times_completed + 1
+    `, [student_id, grade_level, lesson_number, completed_at || new Date().toISOString(), completed_at || new Date().toISOString()]);
+
+    // Update student's current lesson if this is their highest
+    const currentLesson = await dbGet(
+      'SELECT current_lesson FROM students WHERE id = ?',
+      [student_id]
+    );
+
+    if (!currentLesson || lesson_number >= currentLesson.current_lesson) {
+      await dbRun(
+        'UPDATE students SET current_lesson = ? WHERE id = ?',
+        [lesson_number + 1, student_id]
+      );
+    }
+
+    res.json({ 
+      success: true, 
+      message: 'Lesson marked complete',
+      next_lesson: lesson_number + 1
+    });
+  } catch (error) {
+    console.error('Complete lesson error:', error);
+    res.status(500).json({ error: 'Server error marking lesson complete' });
+  }
+});
+
+// Get completed lessons for a student
+app.get('/api/student/:id/completed-lessons/:grade', async (req, res) => {
+  try {
+    const completedLessons = await dbAll(
+      'SELECT lesson_number, completed_at, times_completed FROM lesson_completions WHERE student_id = ? AND grade_level = ? ORDER BY lesson_number',
+      [req.params.id, req.params.grade]
+    );
+
+    res.json({ 
+      success: true, 
+      completed: completedLessons.map(l => l.lesson_number),
+      details: completedLessons
+    });
+  } catch (error) {
+    console.error('Get completed lessons error:', error);
+    res.status(500).json({ error: 'Server error fetching completed lessons' });
+  }
+});
+
 // Get student profile
 app.get('/api/student/:id', async (req, res) => {
   try {

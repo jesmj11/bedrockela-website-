@@ -60,6 +60,106 @@ const dbGet = (sql, params = []) => {
   });
 };
 
+// ==================== FAMILY ROUTES ====================
+
+// Family login - returns family info and all students
+app.post('/api/family/login', async (req, res) => {
+  try {
+    const { family_name, password } = req.body;
+
+    if (!family_name || !password) {
+      return res.status(400).json({ error: 'Family name and password required' });
+    }
+
+    // Get family
+    const family = await dbGet(
+      'SELECT * FROM families WHERE family_name = ? AND password = ?',
+      [family_name, password]
+    );
+
+    if (!family) {
+      return res.status(401).json({ error: 'Invalid family name or password' });
+    }
+
+    // Get all students in this family
+    const students = await dbAll(
+      'SELECT id, name, grade_level, current_lesson FROM students WHERE family_id = ? ORDER BY name',
+      [family.id]
+    );
+
+    res.json({
+      success: true,
+      family: {
+        id: family.id,
+        family_name: family.family_name
+      },
+      students: students
+    });
+  } catch (error) {
+    console.error('Family login error:', error);
+    res.status(500).json({ error: 'Server error during family login' });
+  }
+});
+
+// Get all families (for admin purposes)
+app.get('/api/families', async (req, res) => {
+  try {
+    const families = await dbAll('SELECT id, family_name, created_at FROM families ORDER BY family_name');
+    
+    // Get student count for each family
+    const familiesWithCounts = await Promise.all(families.map(async (family) => {
+      const count = await dbGet(
+        'SELECT COUNT(*) as student_count FROM students WHERE family_id = ?',
+        [family.id]
+      );
+      return { ...family, student_count: count.student_count };
+    }));
+
+    res.json({ success: true, families: familiesWithCounts });
+  } catch (error) {
+    console.error('Get families error:', error);
+    res.status(500).json({ error: 'Server error fetching families' });
+  }
+});
+
+// Create new family
+app.post('/api/family/create', async (req, res) => {
+  try {
+    const { family_name, password } = req.body;
+
+    if (!family_name || !password) {
+      return res.status(400).json({ error: 'Family name and password required' });
+    }
+
+    // Check if family already exists
+    const existing = await dbGet(
+      'SELECT id FROM families WHERE family_name = ?',
+      [family_name]
+    );
+
+    if (existing) {
+      return res.status(400).json({ error: 'Family name already exists' });
+    }
+
+    // Create family
+    const result = await dbRun(
+      'INSERT INTO families (family_name, password) VALUES (?, ?)',
+      [family_name, password]
+    );
+
+    res.json({
+      success: true,
+      family: {
+        id: result.id,
+        family_name
+      }
+    });
+  } catch (error) {
+    console.error('Create family error:', error);
+    res.status(500).json({ error: 'Server error creating family' });
+  }
+});
+
 // ==================== STUDENT ROUTES ====================
 
 // Create or login student

@@ -291,6 +291,12 @@
                     Continue →
                 </button>
             </form>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button id="createFamilyBtn" class="btn-secondary" style="background: transparent; color: #5B7C99; border: 2px solid #5B7C99; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; font-size: 1rem;">
+                    Create New Family Account
+                </button>
+            </div>
         </div>
         
         <!-- STEP 2: Student Selection -->
@@ -375,8 +381,8 @@
                         loadStudents(data.students);
                     }, 1000);
                 } else {
-                    // Show error
-                    message.textContent = data.error || 'Invalid family name or password';
+                    // Show error with suggestion to create account
+                    message.textContent = (data.error || 'Invalid family name or password') + ' - Click "Create New Family Account" below if you don\'t have one yet.';
                     message.className = 'message error';
                     message.style.display = 'block';
                     
@@ -471,6 +477,63 @@
             document.getElementById('message').style.display = 'none';
             document.getElementById('familySubmitBtn').disabled = false;
             document.getElementById('familySubmitBtn').textContent = 'Continue →';
+        });
+        
+        // Create Family Account button
+        document.getElementById('createFamilyBtn').addEventListener('click', async () => {
+            const familyName = document.getElementById('familyName').value.trim();
+            const familyPassword = document.getElementById('familyPassword').value.trim();
+            const message = document.getElementById('message');
+            
+            if (!familyName || !familyPassword) {
+                message.textContent = 'Please enter both family name and password to create an account';
+                message.className = 'message error';
+                message.style.display = 'block';
+                return;
+            }
+            
+            const createBtn = document.getElementById('createFamilyBtn');
+            createBtn.disabled = true;
+            createBtn.textContent = 'Creating...';
+            
+            try {
+                const response = await fetch(`${API_URL}/family/create`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        family_name: familyName, 
+                        password: familyPassword 
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    message.textContent = `Family "${familyName}" created! Now logging in...`;
+                    message.className = 'message success';
+                    message.style.display = 'block';
+                    
+                    // Auto-login after creation
+                    setTimeout(() => {
+                        document.getElementById('familyLoginForm').dispatchEvent(new Event('submit'));
+                    }, 1500);
+                } else {
+                    message.textContent = data.error || 'Failed to create family account';
+                    message.className = 'message error';
+                    message.style.display = 'block';
+                    
+                    createBtn.disabled = false;
+                    createBtn.textContent = 'Create New Family Account';
+                }
+            } catch (error) {
+                console.error('Create family error:', error);
+                message.textContent = 'Network error. Please try again.';
+                message.className = 'message error';
+                message.style.display = 'block';
+                
+                createBtn.disabled = false;
+                createBtn.textContent = 'Create New Family Account';
+            }
         });
     </script>
 </body>

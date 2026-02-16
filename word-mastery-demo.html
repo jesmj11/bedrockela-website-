@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Mastery System - Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #F5EFE7 0%, #E8DCC8 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            color: #5B7C99;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .demo-container {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .controls {
+            margin-top: 20px;
+            padding: 20px;
+            background: #FFF5F5;
+            border-radius: 12px;
+        }
+        
+        .controls button {
+            margin: 5px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .btn-reset {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-info {
+            background: #17a2b8;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Word Mastery System Demo</h1>
+            <p>This system tracks individual word mastery. Each word needs 3 correct answers in a row to "graduate"!</p>
+            <ul style="margin-top: 15px; margin-left: 20px; color: #666;">
+                <li>✅ Correct answer → Progress bar fills</li>
+                <li>❌ Wrong answer → Progress resets to 0</li>
+                <li>🎉 3 correct in a row → Word is MASTERED!</li>
+                <li>📚 Only non-mastered words are practiced</li>
+                <li>🔄 New words cycle in as old ones graduate</li>
+            </ul>
+        </div>
+
+        <div class="demo-container">
+            <h2 style="color: #5B7C99; margin-bottom: 20px;">Practice These Words:</h2>
+            <div id="word-practice-game"></div>
+        </div>
+
+        <div class="controls">
+            <h3 style="color: #721c24; margin-bottom: 15px;">Demo Controls</h3>
+            <button class="btn-reset" onclick="resetProgress()">🔄 Reset All Progress</button>
+            <button class="btn-info" onclick="showStats()">📊 Show Statistics</button>
+            <p style="margin-top: 15px; font-size: 14px; color: #666;">
+                <strong>Try it:</strong> Click "I Got It!" 3 times in a row for a word to see it graduate!<br>
+                Click "Need Practice" to reset that word's progress.
+            </p>
+        </div>
+    </div>
+
+    <script src="js/word-mastery-tracker.js"></script>
+    <script>
+        // Demo word list (simple CVC words)
+        const demoWords = ['cat', 'dog', 'sit', 'mat', 'run', 'top', 'pig', 'hat', 'sun', 'bed'];
+        
+        // Create tracker for demo (student ID 999, lesson 0)
+        const tracker = new WordMasteryTracker(999, 0);
+        
+        // Create adaptive game
+        const game = new AdaptiveFlashcardGame('word-practice-game', {
+            wordList: demoWords
+        }, tracker, () => {
+            console.log('All words mastered!');
+        });
+        
+        // Store globally for button access
+        window.currentAdaptiveGame = game;
+        
+        // Reset function
+        window.resetProgress = function() {
+            if (confirm('Reset all progress? This will clear all mastered words.')) {
+                tracker.clearProgress();
+                location.reload();
+            }
+        };
+        
+        // Stats function
+        window.showStats = function() {
+            const stats = tracker.getStats();
+            const wordsToStudy = tracker.getWordsToStudy();
+            const masteredWords = tracker.getMasteredWords();
+            
+            let message = `📊 STATISTICS\n\n`;
+            message += `Total Words: ${stats.total}\n`;
+            message += `Mastered: ${stats.mastered} (${stats.percentMastered}%)\n`;
+            message += `Still Learning: ${stats.studying}\n\n`;
+            
+            if (masteredWords.length > 0) {
+                message += `✅ Mastered Words:\n${masteredWords.join(', ')}\n\n`;
+            }
+            
+            if (wordsToStudy.length > 0) {
+                message += `📚 Words to Study:\n`;
+                wordsToStudy.forEach(word => {
+                    const status = tracker.getWordStatus(word);
+                    message += `  ${word}: ${status.correct}/3 correct\n`;
+                });
+            }
+            
+            alert(message);
+        };
+    </script>
+</body>
+</html>

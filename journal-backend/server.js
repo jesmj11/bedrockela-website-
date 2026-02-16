@@ -41,6 +41,9 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
+// Serve static files from parent directory (the website)
+app.use(express.static(path.join(__dirname, '..')));
+
 // Helper function to promisify database queries
 const dbAll = (sql, params = []) => {
   return new Promise((resolve, reject) => {

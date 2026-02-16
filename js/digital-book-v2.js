@@ -4,16 +4,16 @@
  */
 
 const PAGE_PALETTE_V2 = [
-  { bg: "#FFF9F0", accent: "#E8A87C" },
-  { bg: "#F0F7FF", accent: "#7FB5D5" },
-  { bg: "#FFF5F5", accent: "#E88D8D" },
-  { bg: "#F5FFF0", accent: "#82B97E" },
-  { bg: "#FFF8F0", accent: "#D4A96A" },
-  { bg: "#F0F0FF", accent: "#9B8EC4" },
-  { bg: "#FFFFF0", accent: "#C4B83E" },
-  { bg: "#FFF0F8", accent: "#C47EA8" },
-  { bg: "#F0FFFA", accent: "#6BB5A0" },
-  { bg: "#FFF5EB", accent: "#C08050" },
+  { bg: "#FFF9F5", accent: "#D4A68F" },
+  { bg: "#F5F9FF", accent: "#9BC5DB" },
+  { bg: "#FFF7F7", accent: "#E5A8A8" },
+  { bg: "#F9FFF5", accent: "#A3C99C" },
+  { bg: "#FFFAF5", accent: "#D9BA8E" },
+  { bg: "#F7F7FF", accent: "#B3A8D4" },
+  { bg: "#FFFFFА", accent: "#D4C77A" },
+  { bg: "#FFF5FA", accent: "#D49BB8" },
+  { bg: "#F5FFFA", accent: "#8EC5B3" },
+  { bg: "#FFF8F0", accent: "#C99780" },
 ];
 
 function createDigitalBookV2(containerId, bookConfig, options = {}) {
@@ -84,7 +84,7 @@ function createDigitalBookV2(containerId, bookConfig, options = {}) {
     const pageData = !isOnCover ? bookConfig.pages[currentPage] : null;
     const palette = !isOnCover
       ? PAGE_PALETTE_V2[currentPage % PAGE_PALETTE_V2.length]
-      : { bg: bookConfig.coverColor || "#1B2A4A", accent: "#FFD700" };
+      : { bg: bookConfig.coverColor || "#5B7C99", accent: "#D4AF37" };
 
     // Create decorative stars
     let stars = '';
@@ -93,14 +93,14 @@ function createDigitalBookV2(containerId, bookConfig, options = {}) {
       const top = 5 + Math.random() * 90;
       const delay = Math.random() * 2;
       const duration = 2 + Math.random() * 3;
-      const opacity = 0.2 + Math.random() * 0.3;
+      const opacity = 0.15 + Math.random() * 0.2;
       stars += `
         <div style="
           position: absolute;
           width: 3px;
           height: 3px;
           border-radius: 50%;
-          background: #FFD700;
+          background: #D4AF37;
           opacity: ${opacity};
           left: ${left}%;
           top: ${top}%;
@@ -122,14 +122,14 @@ function createDigitalBookV2(containerId, bookConfig, options = {}) {
           <!-- COVER -->
           ${isOnCover && !isFlipping ? `
             <div class="page-v2 paper-texture-v2" style="
-              background: linear-gradient(145deg, ${bookConfig.coverColor || '#1B2A4A'} 0%, ${bookConfig.coverColor || '#1B2A4A'}DD 50%, ${bookConfig.coverColor || '#1B2A4A'}BB 100%);
+              background: linear-gradient(145deg, ${bookConfig.coverColor || '#5B7C99'} 0%, ${bookConfig.coverColor || '#5B7C99'}DD 50%, ${bookConfig.coverColor || '#5B7C99'}BB 100%);
               display: flex;
               flex-direction: column;
               align-items: center;
               justify-content: center;
               padding: 40px 30px;
               animation: coverGlow 3s ease infinite, fadeInV2 0.6s ease;
-              border: 1px solid rgba(255,215,0,0.15);
+              border: 1px solid rgba(212,175,55,0.2);
             ">
               <!-- Decorative borders -->
               <div style="
@@ -138,7 +138,7 @@ function createDigitalBookV2(containerId, bookConfig, options = {}) {
                 left: 20px;
                 right: 20px;
                 height: 2px;
-                background: linear-gradient(90deg, transparent, rgba(255,215,0,0.4), transparent);
+                background: linear-gradient(90deg, transparent, rgba(212,175,55,0.3), transparent);
               "></div>
               <div style="
                 position: absolute;
@@ -146,7 +146,7 @@ function createDigitalBookV2(containerId, bookConfig, options = {}) {
                 left: 20px;
                 right: 20px;
                 height: 2px;
-                background: linear-gradient(90deg, transparent, rgba(255,215,0,0.4), transparent);
+                background: linear-gradient(90deg, transparent, rgba(212,175,55,0.3), transparent);
               "></div>
 
               <!-- Cover emoji -->
@@ -164,11 +164,11 @@ function createDigitalBookV2(containerId, bookConfig, options = {}) {
                 font-family: 'Playfair Display', serif;
                 font-size: clamp(24px, 5.5vw, 38px);
                 font-weight: 800;
-                color: #FFD700;
+                color: #F5E6D3;
                 text-align: center;
                 margin: 0 0 12px 0;
                 line-height: 1.2;
-                text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+                text-shadow: 0 2px 8px rgba(0,0,0,0.3);
                 letter-spacing: 0.5px;
               ">
                 ${bookConfig.coverTitle}
@@ -179,7 +179,7 @@ function createDigitalBookV2(containerId, bookConfig, options = {}) {
                 font-family: 'Quicksand', sans-serif;
                 font-size: clamp(14px, 3vw, 18px);
                 font-weight: 600;
-                color: rgba(255,215,0,0.7);
+                color: rgba(245,230,211,0.8);
                 text-align: center;
                 margin: 0 0 32px 0;
                 letter-spacing: 1px;
@@ -317,7 +317,7 @@ function createDigitalBookV2(containerId, bookConfig, options = {}) {
                   width: ${i === currentPage ? '20px' : '8px'};
                   height: 8px;
                   border-radius: 99px;
-                  background: ${i === currentPage ? '#FFD700' : (i < currentPage ? 'rgba(255,215,0,0.4)' : 'rgba(255,215,0,0.15)')};
+                  background: ${i === currentPage ? '#5B7C99' : (i < currentPage ? 'rgba(91,124,153,0.4)' : 'rgba(91,124,153,0.2)')};
                   transition: all 0.3s ease;
                 "></div>
               `).join('')}
@@ -338,9 +338,9 @@ function createDigitalBookV2(containerId, bookConfig, options = {}) {
               font-weight: 700;
               padding: 8px 20px;
               border-radius: 99px;
-              border: 2px solid rgba(255,215,0,0.3);
-              background: rgba(255,215,0,0.08);
-              color: #FFD700;
+              border: 2px solid rgba(91,124,153,0.3);
+              background: rgba(91,124,153,0.1);
+              color: #5B7C99;
               letter-spacing: 0.5px;
               animation: fadeInV2 0.5s ease 0.3s both;
             ">
@@ -355,7 +355,7 @@ function createDigitalBookV2(containerId, bookConfig, options = {}) {
             font-family: 'Quicksand', sans-serif;
             font-size: 11px;
             font-weight: 600;
-            color: rgba(255,215,0,0.25);
+            color: rgba(91,124,153,0.4);
             letter-spacing: 0.5px;
           ">
             Use ← → arrow keys to flip pages

@@ -17,6 +17,15 @@ const db = new sqlite3.Database(dbPath, (err) => {
     console.error('❌ Database connection error:', err);
   } else {
     console.log('✅ Connected to SQLite database');
+    
+    // Run migrations on startup
+    db.run(`ALTER TABLE students ADD COLUMN avatar TEXT DEFAULT '👤'`, (err) => {
+      if (err && !err.message.includes('duplicate column')) {
+        console.error('⚠️  Avatar column migration failed:', err.message);
+      } else if (!err) {
+        console.log('✅ Avatar column added to students table');
+      }
+    });
   }
 });
 
@@ -83,7 +92,7 @@ app.post('/api/family/login', async (req, res) => {
 
     // Get all students in this family
     const students = await dbAll(
-      'SELECT id, name, grade_level, current_lesson FROM students WHERE family_id = ? ORDER BY name',
+      'SELECT id, name, grade_level, current_lesson, avatar FROM students WHERE family_id = ? ORDER BY name',
       [family.id]
     );
 

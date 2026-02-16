@@ -359,6 +359,12 @@
                 if (data.success) {
                     currentFamily = data.family;
                     
+                    // Save family data to sessionStorage for manage page
+                    sessionStorage.setItem('bedrockela_family', JSON.stringify({
+                        family: data.family,
+                        students: data.students
+                    }));
+                    
                     // Show success
                     message.textContent = `Welcome, ${familyName} family! 🎉`;
                     message.className = 'message success';
@@ -406,9 +412,9 @@
                 const grid = document.getElementById('studentsGrid');
                 grid.innerHTML = students.map((student, index) => `
                     <div class="student-card" onclick="selectStudent(${student.id})">
-                        <div class="student-icon">${studentIcons[index % studentIcons.length]}</div>
+                        <div class="student-icon">${student.avatar || studentIcons[index % studentIcons.length]}</div>
                         <div class="student-name">${student.name}</div>
-                        <div class="student-grade">${student.grade_level}</div>
+                        <div class="student-grade">Grade ${student.grade_level}</div>
                     </div>
                 `).join('');
             }
@@ -425,15 +431,25 @@
                 const response = await fetch(`${API_URL}/student/${studentId}`);
                 const data = await response.json();
                 
-                if (data.success) {
-                    // Save to localStorage
+                if (data.student) {
+                    // Save student to localStorage
                     localStorage.setItem('bedrockela_student', JSON.stringify({
                         id: data.student.id,
                         name: data.student.name,
                         grade_level: data.student.grade_level,
-                        current_lesson: data.student.current_lesson,
+                        current_lesson: data.student.current_lesson || 1,
                         family_id: currentFamily.id,
                         family_name: currentFamily.family_name
+                    }));
+                    
+                    // Also save family data to sessionStorage for manage page
+                    sessionStorage.setItem('bedrockela_family', JSON.stringify({
+                        family: currentFamily,
+                        students: Array.from(document.querySelectorAll('.student-card')).map(card => ({
+                            id: parseInt(card.onclick.toString().match(/\d+/)[0]),
+                            name: card.querySelector('.student-name').textContent,
+                            grade_level: parseInt(card.querySelector('.student-grade').textContent)
+                        }))
                     }));
                     
                     // Redirect to dashboard

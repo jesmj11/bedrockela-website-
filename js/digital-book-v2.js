@@ -33,6 +33,9 @@ function createDigitalBookV2(containerId, bookConfig, options = {}) {
 
   const totalPages = bookConfig.pages.length;
   const availablePages = maxPageIndex + 1;
+  
+  // Unique ID for this book instance
+  const bookInstanceId = 'book_' + Math.random().toString(36).substr(2, 9);
 
   function flipTo(direction) {
     const isOnCover = currentPage === -1;
@@ -188,7 +191,7 @@ function createDigitalBookV2(containerId, bookConfig, options = {}) {
               </p>
 
               <!-- Open button -->
-              <button class="open-btn-v2" onclick="window.bookV2FlipNext()">
+              <button class="open-btn-v2" onclick="window['${bookInstanceId}_next']()">
                 Open Book →
               </button>
             </div>
@@ -306,7 +309,7 @@ function createDigitalBookV2(containerId, bookConfig, options = {}) {
             animation: fadeInV2 0.5s ease 0.2s both;
           ">
             <!-- Previous button -->
-            <button class="nav-btn-v2" onclick="window.bookV2FlipPrev()" ${isOnCover || isFlipping ? 'disabled' : ''}>
+            <button class="nav-btn-v2" onclick="window['${bookInstanceId}_prev']()" ${isOnCover || isFlipping ? 'disabled' : ''}>
               ←
             </button>
 
@@ -324,14 +327,14 @@ function createDigitalBookV2(containerId, bookConfig, options = {}) {
             </div>
 
             <!-- Next button -->
-            <button class="nav-btn-v2" onclick="window.bookV2FlipNext()" ${isOnLastPage || isFlipping ? 'disabled' : ''}>
+            <button class="nav-btn-v2" onclick="window['${bookInstanceId}_next']()" ${isOnLastPage || isFlipping ? 'disabled' : ''}>
               →
             </button>
           </div>
 
           <!-- Back to cover button (on last page) -->
           ${isOnLastPage ? `
-            <button class="nav-btn-v2" onclick="window.bookV2BackToCover()" style="
+            <button class="nav-btn-v2" onclick="window['${bookInstanceId}_cover']()" style="
               margin-top: 12px;
               font-family: 'Quicksand', sans-serif;
               font-size: 14px;
@@ -372,18 +375,18 @@ function createDigitalBookV2(containerId, bookConfig, options = {}) {
     }
   }
 
-  // Global functions
-  window.bookV2FlipNext = () => flipTo('next');
-  window.bookV2FlipPrev = () => flipTo('prev');
-  window.bookV2BackToCover = backToCover;
+  // Global functions with unique instance ID
+  window[`${bookInstanceId}_next`] = () => flipTo('next');
+  window[`${bookInstanceId}_prev`] = () => flipTo('prev');
+  window[`${bookInstanceId}_cover`] = backToCover;
 
   // Initial render
   render();
 
   // Cleanup function
   return function cleanup() {
-    delete window.bookV2FlipNext;
-    delete window.bookV2FlipPrev;
-    delete window.bookV2BackToCover;
+    delete window[`${bookInstanceId}_next`];
+    delete window[`${bookInstanceId}_prev`];
+    delete window[`${bookInstanceId}_cover`];
   };
 }

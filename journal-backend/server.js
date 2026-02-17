@@ -18,6 +18,31 @@ const db = new sqlite3.Database(dbPath, (err) => {
   } else {
     console.log('✅ Connected to SQLite database');
     
+    // Create families table if not exists
+    db.run(`CREATE TABLE IF NOT EXISTS families (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      family_name TEXT UNIQUE NOT NULL,
+      password TEXT NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )`, (err) => {
+      if (err) console.error('⚠️  Families table creation failed:', err.message);
+      else console.log('✅ Families table ready');
+    });
+
+    // Create students table if not exists
+    db.run(`CREATE TABLE IF NOT EXISTS students (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      grade TEXT,
+      avatar TEXT DEFAULT '👤',
+      family_id INTEGER,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (family_id) REFERENCES families(id)
+    )`, (err) => {
+      if (err) console.error('⚠️  Students table creation failed:', err.message);
+      else console.log('✅ Students table ready');
+    });
+
     // Run migrations on startup
     db.run(`ALTER TABLE students ADD COLUMN avatar TEXT DEFAULT '👤'`, (err) => {
       if (err && !err.message.includes('duplicate column')) {

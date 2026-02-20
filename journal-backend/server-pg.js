@@ -306,6 +306,151 @@ app.post('/api/parent/login', authLimiter, async (req, res) => {
   }
 });
 
+// Family Login (alias for parent login using family_name)
+app.post('/api/family/login', authLimiter, async (req, res) => {
+  const { family_name, password } = req.body;
+
+  if (!family_name || !password) {
+    return res.status(400).json({ success: false, error: 'Family name and password required' });
+  }
+
+  try {
+    const result = await pool.query('SELECT * FROM parents WHERE family_name = $1', [family_name]);
+    
+    if (result.rows.length === 0) {
+      return res.status(401).json({ success: false, error: 'Invalid family name or password' });
+    }
+
+    const parent = result.rows[0];
+
+    // Verify password
+    const validPassword = await bcrypt.compare(password, parent.password_hash);
+    if (!validPassword) {
+      return res.status(401).json({ success: false, error: 'Invalid family name or password' });
+    }
+
+    // Update last login
+    await pool.query('UPDATE parents SET last_login = CURRENT_TIMESTAMP WHERE id = $1', [parent.id]);
+
+    // Get all students for this parent
+    const studentsResult = await pool.query(`
+      SELECT s.id, s.name, s.username, s.grade_level, s.avatar, s.current_lesson
+      FROM students s
+      JOIN parent_students ps ON s.id = ps.student_id
+      WHERE ps.parent_id = $1
+      ORDER BY s.name
+    `, [parent.id]);
+
+    // Generate JWT
+    const token = jwt.sign({ parent_id: parent.id }, JWT_SECRET, { expiresIn: '7d' });
+
+    res.json({
+      success: true,
+      family: {
+        id: parent.id,
+        family_name: parent.family_name
+      },
+      students: studentsResult.rows,
+      token: token,
+      message: 'Login successful!'
+    });
+
+  } catch (error) {
+    console.error('Error logging in with family name:', error);
+    res.status(500).json({ success: false, error: 'Login failed' });
+  }
+});
+
+// Create Family Account
+app.post('/api/family/create', authLimiter, async (req, res) => {
+  const { family_name, password, parent_name, email } = req.body;
+
+  if (!family_name || !password) {
+    return res.status(400).json({ success: false, error: 'Family name and password required' });
+  }
+
+  try {
+    // Check if family name already exists
+    const existing = await pool.query('SELECT id FROM parents WHERE family_name = $1', [family_name]);
+    
+    if (existing.rows.length > 0) {
+      return res.status(400).json({ success: false, error: 'Family name already exists' });
+    }
+
+    // Hash password
+    const password_hash = await bcrypt.hash(password, 10);
+
+    // Create parent account
+    const result = await pool.query(
+      'INSERT INTO parents (email, password_hash, name, family_name) VALUES ($1, $2, $3, $4) RETURNING id',
+      [email || `${family_name}@bedrockela.local`, password_hash, parent_name || family_name, family_name]
+    );
+
+    const parent_id = result.rows[0].id;
+
+    // Generate JWT
+    const token = jwt.sign({ parent_id }, JWT_SECRET, { expiresIn: '7d' });
+
+    res.json({
+      success: true,
+      family: {
+        id: parent_id,
+        family_name
+      },
+      token: token,
+      message: 'Family account created successfully!'
+    });
+
+  } catch (error) {
+    console.error('Error creating family:', error);
+    res.status(500).json({ success: false, error: 'Failed to create family account' });
+  }
+});
+
+// Add Student to Family
+app.post('/api/family/add-student', async (req, res) => {
+  const { family_id, name, grade_level, avatar } = req.body;
+
+  if (!family_id || !name || !grade_level) {
+    return res.status(400).json({ success: false, error: 'Family ID, name, and grade level required' });
+  }
+
+  try {
+    // Verify family (parent) exists
+    const parentCheck = await pool.query('SELECT id FROM parents WHERE id = $1', [family_id]);
+    if (parentCheck.rows.length === 0) {
+      return res.status(404).json({ success: false, error: 'Family not found' });
+    }
+
+    // Generate username from name
+    const username = name.toLowerCase().replace(/\s+/g, '') + Math.floor(Math.random() * 1000);
+
+    // Create student
+    const studentResult = await pool.query(
+      'INSERT INTO students (name, username, grade_level, avatar, current_lesson) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [name, username, grade_level, avatar || '👤', 1]
+    );
+
+    const student = studentResult.rows[0];
+
+    // Link student to parent
+    await pool.query(
+      'INSERT INTO parent_students (parent_id, student_id, relationship) VALUES ($1, $2, $3)',
+      [family_id, student.id, 'child']
+    );
+
+    res.json({
+      success: true,
+      student: student,
+      message: `${name} added successfully!`
+    });
+
+  } catch (error) {
+    console.error('Error adding student to family:', error);
+    res.status(500).json({ success: false, error: 'Failed to add student' });
+  }
+});
+
 // Verify Email (for password reset)
 app.post('/api/parent/verify', authLimiter, async (req, res) => {
   const { email } = req.body;

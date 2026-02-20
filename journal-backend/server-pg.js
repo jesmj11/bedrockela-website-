@@ -334,7 +334,7 @@ app.post('/api/family/login', authLimiter, async (req, res) => {
 
     // Get all students for this parent
     const studentsResult = await pool.query(`
-      SELECT s.id, s.name, s.username, s.grade_level, s.avatar, s.current_lesson
+      SELECT s.id, s.name, s.username, s.grade_level, s.current_lesson
       FROM students s
       JOIN parent_students ps ON s.id = ps.student_id
       WHERE ps.parent_id = $1
@@ -409,7 +409,7 @@ app.post('/api/family/create', authLimiter, async (req, res) => {
 
 // Add Student to Family
 app.post('/api/family/add-student', async (req, res) => {
-  const { family_id, name, grade_level, avatar } = req.body;
+  const { family_id, name, grade_level } = req.body;
 
   if (!family_id || !name || !grade_level) {
     return res.status(400).json({ success: false, error: 'Family ID, name, and grade level required' });
@@ -427,8 +427,8 @@ app.post('/api/family/add-student', async (req, res) => {
 
     // Create student
     const studentResult = await pool.query(
-      'INSERT INTO students (name, username, grade_level, avatar, current_lesson) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [name, username, grade_level, avatar || '👤', 1]
+      'INSERT INTO students (name, username, grade_level, current_lesson) VALUES ($1, $2, $3, $4) RETURNING *',
+      [name, username, grade_level, 1]
     );
 
     const student = studentResult.rows[0];

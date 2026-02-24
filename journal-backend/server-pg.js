@@ -3,6 +3,7 @@
 
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const { Pool } = require('pg');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -196,6 +197,9 @@ app.set('trust proxy', true); // Required for Railway/proxies
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
+
+// Serve static files from parent directory (the website)
+app.use(express.static(path.join(__dirname, '..')));
 
 // Rate limiting (configured for Railway proxy)
 const limiter = rateLimit({

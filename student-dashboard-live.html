@@ -211,20 +211,22 @@
                 const data = await response.json();
 
                 if (data.success) {
-                    displayDashboard(data.student);
+                    displayDashboard(data.student, data.stats);
+                } else {
+                    throw new Error('Failed to load progress');
                 }
             } catch (error) {
                 console.error('Error loading progress:', error);
                 document.getElementById('dashboardContent').innerHTML = `
                     <div class="card">
                         <h2>Error Loading Dashboard</h2>
-                        <p>Unable to connect to server. Is it running?</p>
+                        <p>Unable to connect to server: ${error.message}</p>
                     </div>
                 `;
             }
         }
 
-        function displayDashboard(student) {
+        function displayDashboard(student, stats) {
             const currentLesson = student.current_lesson || 1;
             const progress = (currentLesson / 180) * 100;
             const remainingLessons = 180 - currentLesson;
@@ -252,11 +254,11 @@
 
                     <div class="stats-grid">
                         <div class="stat-box">
-                            <div class="stat-number">${student.total_entries || 0}</div>
+                            <div class="stat-number">${stats.total_journal_entries || 0}</div>
                             <div class="stat-label">Journal Entries</div>
                         </div>
                         <div class="stat-box">
-                            <div class="stat-number">${(student.total_words || 0).toLocaleString()}</div>
+                            <div class="stat-number">${(stats.total_words_written || 0).toLocaleString()}</div>
                             <div class="stat-label">Words Written</div>
                         </div>
                     </div>

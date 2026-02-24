@@ -149,8 +149,45 @@ async function initializeDatabase() {
     console.log('✅ Lesson progress table ready');
     console.log('✨ Database initialization complete!');
     
+    // Add test students if database is empty
+    await initializeTestStudents();
+    
   } catch (err) {
     console.error('❌ Error initializing database:', err);
+  }
+}
+
+// Initialize test students if database is empty
+async function initializeTestStudents() {
+  try {
+    const existing = await pool.query('SELECT COUNT(*) FROM students');
+    if (parseInt(existing.rows[0].count) > 0) {
+      console.log('ℹ️  Students already exist');
+      return;
+    }
+
+    console.log('🔧 Adding test students...');
+    
+    const students = [
+      { name: 'Emmett', username: 'emmett', grade_level: '1st', pin_code: '2020' },
+      { name: 'Asher', username: 'asher', grade_level: '4th', pin_code: '1111' },
+      { name: 'Lucas', username: 'lucas', grade_level: '6th', pin_code: '2222' },
+      { name: 'Levi', username: 'levi', grade_level: '8th', pin_code: '3333' },
+      { name: 'Riley', username: 'riley', grade_level: '9th', pin_code: '4444' },
+      { name: 'Bryton', username: 'bryton', grade_level: '11th', pin_code: '5555' }
+    ];
+
+    for (const student of students) {
+      await pool.query(
+        'INSERT INTO students (name, username, grade_level, pin_code, current_lesson) VALUES ($1, $2, $3, $4, 1)',
+        [student.name, student.username, student.grade_level, student.pin_code]
+      );
+      console.log(`✅ Added ${student.name} (${student.grade_level} grade)`);
+    }
+
+    console.log('✨ Test students initialized!');
+  } catch (error) {
+    console.error('⚠️  Error initializing test students:', error.message);
   }
 }
 

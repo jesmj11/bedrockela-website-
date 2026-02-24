@@ -191,9 +191,11 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             const student = JSON.parse(localStorage.getItem('bedrockela_student') || 'null');
+            console.log('Loaded student from localStorage:', student);
             
             if (!student || !student.id || !student.name) {
                 // Clear old/invalid data and redirect
+                console.error('Invalid student data, redirecting to login');
                 localStorage.removeItem('bedrockela_student');
                 window.location.href = 'student-login.html';
                 return;
@@ -207,13 +209,16 @@
 
         async function loadStudentProgress() {
             try {
+                console.log('Fetching from:', `${API_URL}/student/${studentData.id}/progress`);
                 const response = await fetch(`${API_URL}/student/${studentData.id}/progress`);
+                console.log('Response status:', response.status);
                 const data = await response.json();
+                console.log('Response data:', data);
 
                 if (data.success) {
                     displayDashboard(data.student, data.stats);
                 } else {
-                    throw new Error('Failed to load progress');
+                    throw new Error(data.error || 'Failed to load progress');
                 }
             } catch (error) {
                 console.error('Error loading progress:', error);
@@ -221,12 +226,17 @@
                     <div class="card">
                         <h2>Error Loading Dashboard</h2>
                         <p>Unable to connect to server: ${error.message}</p>
+                        <p style="margin-top: 10px; font-size: 0.9rem; color: #999;">Check browser console (F12) for details</p>
                     </div>
                 `;
             }
         }
 
         function displayDashboard(student, stats) {
+            // Update global studentData with fresh API data
+            studentData.current_lesson = student.current_lesson;
+            studentData.grade_level = student.grade_level;
+            
             const currentLesson = student.current_lesson || 1;
             const progress = (currentLesson / 180) * 100;
             const remainingLessons = 180 - currentLesson;

@@ -54,15 +54,6 @@
         `<div class="lesson-page-card content-page" style="padding: 20px;">
     <h2 style="margin-bottom: 20px;">📖 Story Time</h2>
     <div id="story-book-container"></div>
-    <script src="js/digital-book.js"></script>
-    <script>
-      const bookConfig = {
-        title: "Three Billy Goats Gruff - Part 3",
-        subtitle: "Lesson 6",
-        pages: [{"text":"Then the big goat came. TRIP TRAP, TRIP TRAP went his hooves."},{"text":"\"Who dares cross my bridge?\" The troll jumped up. But the big goat was not afraid!"},{"text":"The big goat used his horns and sent the troll flying into the river. Now all three goats could eat grass safely!"}]
-      };
-      initDigitalBook('story-book-container', bookConfig);
-    </script>
   </div>`,
 
         `<div class="lesson-page-card content-page">
@@ -163,6 +154,23 @@
         }
 
         renderPage();
+    </script>
+    
+    <script src="js/digital-book.js"></script>
+    <script>
+        // Initialize digital book for story page
+        const storyBookConfig = {"title":"Three Billy Goats Gruff - Part 3","subtitle":"Lesson 6","pages":[{"text":"Then the big goat came. TRIP TRAP, TRIP TRAP went his hooves."},{"text":"\"Who dares cross my bridge?\" The troll jumped up. But the big goat was not afraid!"},{"text":"The big goat used his horns and sent the troll flying into the river. Now all three goats could eat grass safely!"}]};
+        
+        // Watch for when story page is displayed
+        const observer = new MutationObserver(() => {
+            const container = document.getElementById('story-book-container');
+            if (container && !container.hasChildNodes()) {
+                initDigitalBook('story-book-container', storyBookConfig);
+                observer.disconnect();
+            }
+        });
+        
+        observer.observe(document.body, { childList: true, subtree: true });
     </script>
 </body>
 </html>

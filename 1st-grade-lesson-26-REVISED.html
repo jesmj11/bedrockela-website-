@@ -54,15 +54,6 @@
         `<div class="lesson-page-card content-page" style="padding: 20px;">
     <h2 style="margin-bottom: 20px;">📖 Story Time</h2>
     <div id="story-book-container"></div>
-    <script src="js/digital-book.js"></script>
-    <script>
-      const bookConfig = {
-        title: "Boy Who Cried Wolf - Part 1",
-        subtitle: "Lesson 26",
-        pages: [{"text":"A shepherd boy watched his sheep on a hillside. He was bored. \"I know!\" he thought. \"I'll play a trick!\""},{"text":"He ran down the hill shouting, \"Wolf! Wolf! A wolf is eating the sheep!\" The villagers came running with sticks and clubs."},{"text":"But there was no wolf! The boy laughed. \"I fooled you!\" he said. The villagers were not happy. They went back to their work."}]
-      };
-      initDigitalBook('story-book-container', bookConfig);
-    </script>
   </div>`,
 
         `<div class="lesson-page-card content-page">
@@ -163,6 +154,23 @@
         }
 
         renderPage();
+    </script>
+    
+    <script src="js/digital-book.js"></script>
+    <script>
+        // Initialize digital book for story page
+        const storyBookConfig = {"title":"Boy Who Cried Wolf - Part 1","subtitle":"Lesson 26","pages":[{"text":"A shepherd boy watched his sheep on a hillside. He was bored. \"I know!\" he thought. \"I'll play a trick!\""},{"text":"He ran down the hill shouting, \"Wolf! Wolf! A wolf is eating the sheep!\" The villagers came running with sticks and clubs."},{"text":"But there was no wolf! The boy laughed. \"I fooled you!\" he said. The villagers were not happy. They went back to their work."}]};
+        
+        // Watch for when story page is displayed
+        const observer = new MutationObserver(() => {
+            const container = document.getElementById('story-book-container');
+            if (container && !container.hasChildNodes()) {
+                initDigitalBook('story-book-container', storyBookConfig);
+                observer.disconnect();
+            }
+        });
+        
+        observer.observe(document.body, { childList: true, subtree: true });
     </script>
 </body>
 </html>

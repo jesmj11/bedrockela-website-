@@ -54,15 +54,6 @@
         `<div class="lesson-page-card content-page" style="padding: 20px;">
     <h2 style="margin-bottom: 20px;">📖 Story Time</h2>
     <div id="story-book-container"></div>
-    <script src="js/digital-book.js"></script>
-    <script>
-      const bookConfig = {
-        title: "Boy Who Cried Wolf - Part 2",
-        subtitle: "Lesson 27",
-        pages: [{"text":"A few days later, the boy was bored again. \"Wolf! Wolf!\" he cried. Again, the villagers came running to help."},{"text":"Again, there was no wolf. The boy laughed, but the villagers were angry. \"Don't trick us!\" they warned."},{"text":"\"We won't come next time!\" they said as they left."}]
-      };
-      initDigitalBook('story-book-container', bookConfig);
-    </script>
   </div>`,
 
         `<div class="lesson-page-card content-page">
@@ -163,6 +154,23 @@
         }
 
         renderPage();
+    </script>
+    
+    <script src="js/digital-book.js"></script>
+    <script>
+        // Initialize digital book for story page
+        const storyBookConfig = {"title":"Boy Who Cried Wolf - Part 2","subtitle":"Lesson 27","pages":[{"text":"A few days later, the boy was bored again. \"Wolf! Wolf!\" he cried. Again, the villagers came running to help."},{"text":"Again, there was no wolf. The boy laughed, but the villagers were angry. \"Don't trick us!\" they warned."},{"text":"\"We won't come next time!\" they said as they left."}]};
+        
+        // Watch for when story page is displayed
+        const observer = new MutationObserver(() => {
+            const container = document.getElementById('story-book-container');
+            if (container && !container.hasChildNodes()) {
+                initDigitalBook('story-book-container', storyBookConfig);
+                observer.disconnect();
+            }
+        });
+        
+        observer.observe(document.body, { childList: true, subtree: true });
     </script>
 </body>
 </html>

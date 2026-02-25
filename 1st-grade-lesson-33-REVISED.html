@@ -54,15 +54,6 @@
         `<div class="lesson-page-card content-page" style="padding: 20px;">
     <h2 style="margin-bottom: 20px;">📖 Story Time</h2>
     <div id="story-book-container"></div>
-    <script src="js/digital-book.js"></script>
-    <script>
-      const bookConfig = {
-        title: "Review Games",
-        subtitle: "Lesson 33",
-        pages: [{"text":"Welcome to today's story! Use your new reading skills to read carefully."},{"text":"Look for the word patterns we learned. Sound out new words slowly."},{"text":"Great job reading! You're getting better every day!"}]
-      };
-      initDigitalBook('story-book-container', bookConfig);
-    </script>
   </div>`,
 
         `<div class="lesson-page-card content-page">
@@ -163,6 +154,23 @@
         }
 
         renderPage();
+    </script>
+    
+    <script src="js/digital-book.js"></script>
+    <script>
+        // Initialize digital book for story page
+        const storyBookConfig = {"title":"Review Games","subtitle":"Lesson 33","pages":[{"text":"Welcome to today's story! Use your new reading skills to read carefully."},{"text":"Look for the word patterns we learned. Sound out new words slowly."},{"text":"Great job reading! You're getting better every day!"}]};
+        
+        // Watch for when story page is displayed
+        const observer = new MutationObserver(() => {
+            const container = document.getElementById('story-book-container');
+            if (container && !container.hasChildNodes()) {
+                initDigitalBook('story-book-container', storyBookConfig);
+                observer.disconnect();
+            }
+        });
+        
+        observer.observe(document.body, { childList: true, subtree: true });
     </script>
 </body>
 </html>

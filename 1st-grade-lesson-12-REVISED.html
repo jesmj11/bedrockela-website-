@@ -54,15 +54,6 @@
         `<div class="lesson-page-card content-page" style="padding: 20px;">
     <h2 style="margin-bottom: 20px;">📖 Story Time</h2>
     <div id="story-book-container"></div>
-    <script src="js/digital-book.js"></script>
-    <script>
-      const bookConfig = {
-        title: "Gingerbread Man - Part 3",
-        subtitle: "Lesson 12",
-        pages: [{"text":"The gingerbread man jumped on the fox's tail. As they crossed the river, the fox said, \"The water is getting deeper. Jump on my back!\""},{"text":"Then the fox said, \"Jump on my nose!\" When the gingerbread man jumped on the fox's nose..."},{"text":"SNAP! The fox ate him up! That was the end of the gingerbread man who ran too fast."}]
-      };
-      initDigitalBook('story-book-container', bookConfig);
-    </script>
   </div>`,
 
         `<div class="lesson-page-card content-page">
@@ -163,6 +154,23 @@
         }
 
         renderPage();
+    </script>
+    
+    <script src="js/digital-book.js"></script>
+    <script>
+        // Initialize digital book for story page
+        const storyBookConfig = {"title":"Gingerbread Man - Part 3","subtitle":"Lesson 12","pages":[{"text":"The gingerbread man jumped on the fox's tail. As they crossed the river, the fox said, \"The water is getting deeper. Jump on my back!\""},{"text":"Then the fox said, \"Jump on my nose!\" When the gingerbread man jumped on the fox's nose..."},{"text":"SNAP! The fox ate him up! That was the end of the gingerbread man who ran too fast."}]};
+        
+        // Watch for when story page is displayed
+        const observer = new MutationObserver(() => {
+            const container = document.getElementById('story-book-container');
+            if (container && !container.hasChildNodes()) {
+                initDigitalBook('story-book-container', storyBookConfig);
+                observer.disconnect();
+            }
+        });
+        
+        observer.observe(document.body, { childList: true, subtree: true });
     </script>
 </body>
 </html>

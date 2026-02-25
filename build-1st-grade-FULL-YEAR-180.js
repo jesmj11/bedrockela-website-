@@ -456,21 +456,19 @@ function generateLesson(data) {
     <p style="font-size: 16px; color: #666; margin-top: 20px;">Practice reading them fast!</p>
   </div>`);
 
-  // Story page with digital book
+  // Story page with digital book (HTML only, script initialized separately)
   const storyPages = getStoryPages(data.num, data.story);
   pages.push(`<div class="lesson-page-card content-page" style="padding: 20px;">
     <h2 style="margin-bottom: 20px;">📖 Story Time</h2>
     <div id="story-book-container"></div>
-    <script src="js/digital-book.js"></script>
-    <script>
-      const bookConfig = {
-        title: "${data.story}",
-        subtitle: "Lesson ${data.num}",
-        pages: ${JSON.stringify(storyPages)}
-      };
-      initDigitalBook('story-book-container', bookConfig);
-    </script>
   </div>`);
+  
+  // Store story config for initialization
+  const storyConfig = {
+    title: data.story,
+    subtitle: `Lesson ${data.num}`,
+    pages: storyPages
+  };
 
   // Practice page
   pages.push(`<div class="lesson-page-card content-page">
@@ -500,11 +498,13 @@ function generateLesson(data) {
     <p style="font-size: 16px; color: #666; margin-top: 30px;">${data.num < 180 ? `Ready for Lesson ${data.num + 1}! 🎉` : 'CONGRATULATIONS! You completed 1st Grade! 🎓🎉'}</p>
   </div>`);
 
-  return pages;
+  return { pages, storyConfig };
 }
 
 function buildHTML(data) {
-  const pages = generateLesson(data);
+  const lessonData = generateLesson(data);
+  const pages = lessonData.pages;
+  const storyConfig = lessonData.storyConfig;
   const pagesJS = pages.map(p => '`' + p + '`').join(',\n\n        ');
 
   return `<!DOCTYPE html>
@@ -596,6 +596,23 @@ function buildHTML(data) {
         }
 
         renderPage();
+    </script>
+    
+    <script src="js/digital-book.js"></script>
+    <script>
+        // Initialize digital book for story page
+        const storyBookConfig = ${JSON.stringify(storyConfig)};
+        
+        // Watch for when story page is displayed
+        const observer = new MutationObserver(() => {
+            const container = document.getElementById('story-book-container');
+            if (container && !container.hasChildNodes()) {
+                initDigitalBook('story-book-container', storyBookConfig);
+                observer.disconnect();
+            }
+        });
+        
+        observer.observe(document.body, { childList: true, subtree: true });
     </script>
 </body>
 </html>`;

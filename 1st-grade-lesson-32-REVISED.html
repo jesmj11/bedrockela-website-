@@ -54,15 +54,6 @@
         `<div class="lesson-page-card content-page" style="padding: 20px;">
     <h2 style="margin-bottom: 20px;">📖 Story Time</h2>
     <div id="story-book-container"></div>
-    <script src="js/digital-book.js"></script>
-    <script>
-      const bookConfig = {
-        title: "Tortoise & Hare - Part 2",
-        subtitle: "Lesson 32",
-        pages: [{"text":"The hare zoomed ahead. He was so far ahead that he decided to take a nap. \"The tortoise is so slow. I have plenty of time,\" he thought."},{"text":"The tortoise kept going. Slowly and steadily, he passed the sleeping hare. Step by step, he got closer to the finish line."},{"text":"The hare woke up and ran as fast as he could. But it was too late! The tortoise had already won! Slow and steady wins the race!"}]
-      };
-      initDigitalBook('story-book-container', bookConfig);
-    </script>
   </div>`,
 
         `<div class="lesson-page-card content-page">
@@ -163,6 +154,23 @@
         }
 
         renderPage();
+    </script>
+    
+    <script src="js/digital-book.js"></script>
+    <script>
+        // Initialize digital book for story page
+        const storyBookConfig = {"title":"Tortoise & Hare - Part 2","subtitle":"Lesson 32","pages":[{"text":"The hare zoomed ahead. He was so far ahead that he decided to take a nap. \"The tortoise is so slow. I have plenty of time,\" he thought."},{"text":"The tortoise kept going. Slowly and steadily, he passed the sleeping hare. Step by step, he got closer to the finish line."},{"text":"The hare woke up and ran as fast as he could. But it was too late! The tortoise had already won! Slow and steady wins the race!"}]};
+        
+        // Watch for when story page is displayed
+        const observer = new MutationObserver(() => {
+            const container = document.getElementById('story-book-container');
+            if (container && !container.hasChildNodes()) {
+                initDigitalBook('story-book-container', storyBookConfig);
+                observer.disconnect();
+            }
+        });
+        
+        observer.observe(document.body, { childList: true, subtree: true });
     </script>
 </body>
 </html>

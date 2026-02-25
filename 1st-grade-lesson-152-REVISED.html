@@ -54,15 +54,6 @@
         `<div class="lesson-page-card content-page" style="padding: 20px;">
     <h2 style="margin-bottom: 20px;">📖 Story Time</h2>
     <div id="story-book-container"></div>
-    <script src="js/digital-book.js"></script>
-    <script>
-      const bookConfig = {
-        title: "Sentence Study 1",
-        subtitle: "Lesson 152",
-        pages: [{"title":"Chapter 1","text":"This is an important story to help you practice your reading skills. Use what you've learned about vowels and word patterns!"},{"title":"Chapter 2","text":"Keep reading carefully. Look for the word patterns we've been learning. Can you find words with long vowels?"},{"title":"Chapter 3","text":"You're doing great! Notice how the story helps you practice reading. The more you read, the better you get!"},{"title":"The End","text":"Excellent reading! You're becoming a stronger reader every day. Keep practicing with every story!"}]
-      };
-      initDigitalBook('story-book-container', bookConfig);
-    </script>
   </div>`,
 
         `<div class="lesson-page-card content-page">
@@ -163,6 +154,23 @@
         }
 
         renderPage();
+    </script>
+    
+    <script src="js/digital-book.js"></script>
+    <script>
+        // Initialize digital book for story page
+        const storyBookConfig = {"title":"Sentence Study 1","subtitle":"Lesson 152","pages":[{"title":"Chapter 1","text":"This is an important story to help you practice your reading skills. Use what you've learned about vowels and word patterns!"},{"title":"Chapter 2","text":"Keep reading carefully. Look for the word patterns we've been learning. Can you find words with long vowels?"},{"title":"Chapter 3","text":"You're doing great! Notice how the story helps you practice reading. The more you read, the better you get!"},{"title":"The End","text":"Excellent reading! You're becoming a stronger reader every day. Keep practicing with every story!"}]};
+        
+        // Watch for when story page is displayed
+        const observer = new MutationObserver(() => {
+            const container = document.getElementById('story-book-container');
+            if (container && !container.hasChildNodes()) {
+                initDigitalBook('story-book-container', storyBookConfig);
+                observer.disconnect();
+            }
+        });
+        
+        observer.observe(document.body, { childList: true, subtree: true });
     </script>
 </body>
 </html>

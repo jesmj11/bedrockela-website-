@@ -54,15 +54,6 @@
         `<div class="lesson-page-card content-page" style="padding: 20px;">
     <h2 style="margin-bottom: 20px;">📖 Story Time</h2>
     <div id="story-book-container"></div>
-    <script src="js/digital-book.js"></script>
-    <script>
-      const bookConfig = {
-        title: "Tortoise & Hare - Part 1",
-        subtitle: "Lesson 31",
-        pages: [{"text":"The hare was the fastest animal in the forest. He loved to brag. \"No one can beat me in a race!\" he boasted."},{"text":"The slow tortoise said, \"I will race you.\" The hare laughed. \"You? You're too slow! But okay, I accept!\""},{"text":"All the animals gathered to watch. \"Ready, set, go!\" The race began!"}]
-      };
-      initDigitalBook('story-book-container', bookConfig);
-    </script>
   </div>`,
 
         `<div class="lesson-page-card content-page">
@@ -163,6 +154,23 @@
         }
 
         renderPage();
+    </script>
+    
+    <script src="js/digital-book.js"></script>
+    <script>
+        // Initialize digital book for story page
+        const storyBookConfig = {"title":"Tortoise & Hare - Part 1","subtitle":"Lesson 31","pages":[{"text":"The hare was the fastest animal in the forest. He loved to brag. \"No one can beat me in a race!\" he boasted."},{"text":"The slow tortoise said, \"I will race you.\" The hare laughed. \"You? You're too slow! But okay, I accept!\""},{"text":"All the animals gathered to watch. \"Ready, set, go!\" The race began!"}]};
+        
+        // Watch for when story page is displayed
+        const observer = new MutationObserver(() => {
+            const container = document.getElementById('story-book-container');
+            if (container && !container.hasChildNodes()) {
+                initDigitalBook('story-book-container', storyBookConfig);
+                observer.disconnect();
+            }
+        });
+        
+        observer.observe(document.body, { childList: true, subtree: true });
     </script>
 </body>
 </html>

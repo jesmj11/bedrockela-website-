@@ -54,15 +54,6 @@
         `<div class="lesson-page-card content-page" style="padding: 20px;">
     <h2 style="margin-bottom: 20px;">📖 Story Time</h2>
     <div id="story-book-container"></div>
-    <script src="js/digital-book.js"></script>
-    <script>
-      const bookConfig = {
-        title: "Boy Who Cried Wolf - Part 3",
-        subtitle: "Lesson 28",
-        pages: [{"text":"One day, a real wolf came! It was big and hungry. The boy saw it coming toward his sheep."},{"text":"\"Wolf! Wolf!\" he cried. \"Please help! The wolf is real this time!\" But the villagers thought it was another trick."},{"text":"No one came to help. The wolf scattered the sheep. The boy learned that no one believes a liar, even when he tells the truth."}]
-      };
-      initDigitalBook('story-book-container', bookConfig);
-    </script>
   </div>`,
 
         `<div class="lesson-page-card content-page">
@@ -163,6 +154,23 @@
         }
 
         renderPage();
+    </script>
+    
+    <script src="js/digital-book.js"></script>
+    <script>
+        // Initialize digital book for story page
+        const storyBookConfig = {"title":"Boy Who Cried Wolf - Part 3","subtitle":"Lesson 28","pages":[{"text":"One day, a real wolf came! It was big and hungry. The boy saw it coming toward his sheep."},{"text":"\"Wolf! Wolf!\" he cried. \"Please help! The wolf is real this time!\" But the villagers thought it was another trick."},{"text":"No one came to help. The wolf scattered the sheep. The boy learned that no one believes a liar, even when he tells the truth."}]};
+        
+        // Watch for when story page is displayed
+        const observer = new MutationObserver(() => {
+            const container = document.getElementById('story-book-container');
+            if (container && !container.hasChildNodes()) {
+                initDigitalBook('story-book-container', storyBookConfig);
+                observer.disconnect();
+            }
+        });
+        
+        observer.observe(document.body, { childList: true, subtree: true });
     </script>
 </body>
 </html>

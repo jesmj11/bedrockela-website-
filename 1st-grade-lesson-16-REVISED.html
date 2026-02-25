@@ -54,15 +54,6 @@
         `<div class="lesson-page-card content-page" style="padding: 20px;">
     <h2 style="margin-bottom: 20px;">📖 Story Time</h2>
     <div id="story-book-container"></div>
-    <script src="js/digital-book.js"></script>
-    <script>
-      const bookConfig = {
-        title: "Shoemaker & Elves - Part 1",
-        subtitle: "Lesson 16",
-        pages: [{"text":"A poor shoemaker had only enough leather to make one pair of shoes. He cut the leather and left it on his workbench."},{"text":"In the morning, he found a beautiful pair of shoes! Someone had made them in the night. A rich man bought the shoes for a lot of money."},{"text":"The shoemaker bought more leather. Again, he cut it and left it on the bench. In the morning, two pairs of shoes were finished!"}]
-      };
-      initDigitalBook('story-book-container', bookConfig);
-    </script>
   </div>`,
 
         `<div class="lesson-page-card content-page">
@@ -163,6 +154,23 @@
         }
 
         renderPage();
+    </script>
+    
+    <script src="js/digital-book.js"></script>
+    <script>
+        // Initialize digital book for story page
+        const storyBookConfig = {"title":"Shoemaker & Elves - Part 1","subtitle":"Lesson 16","pages":[{"text":"A poor shoemaker had only enough leather to make one pair of shoes. He cut the leather and left it on his workbench."},{"text":"In the morning, he found a beautiful pair of shoes! Someone had made them in the night. A rich man bought the shoes for a lot of money."},{"text":"The shoemaker bought more leather. Again, he cut it and left it on the bench. In the morning, two pairs of shoes were finished!"}]};
+        
+        // Watch for when story page is displayed
+        const observer = new MutationObserver(() => {
+            const container = document.getElementById('story-book-container');
+            if (container && !container.hasChildNodes()) {
+                initDigitalBook('story-book-container', storyBookConfig);
+                observer.disconnect();
+            }
+        });
+        
+        observer.observe(document.body, { childList: true, subtree: true });
     </script>
 </body>
 </html>

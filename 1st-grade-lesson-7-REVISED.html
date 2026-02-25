@@ -54,15 +54,6 @@
         `<div class="lesson-page-card content-page" style="padding: 20px;">
     <h2 style="margin-bottom: 20px;">📖 Story Time</h2>
     <div id="story-book-container"></div>
-    <script src="js/digital-book.js"></script>
-    <script>
-      const bookConfig = {
-        title: "Three Little Pigs - Part 1",
-        subtitle: "Lesson 7",
-        pages: [{"text":"Three little pigs left home to build their own houses. The first pig built his house out of straw."},{"text":"The second pig built his house out of sticks. The third pig worked hard and built his house out of bricks."},{"text":"A big bad wolf came along. He saw the straw house and said, \"Little pig, little pig, let me come in!\""}]
-      };
-      initDigitalBook('story-book-container', bookConfig);
-    </script>
   </div>`,
 
         `<div class="lesson-page-card content-page">
@@ -163,6 +154,23 @@
         }
 
         renderPage();
+    </script>
+    
+    <script src="js/digital-book.js"></script>
+    <script>
+        // Initialize digital book for story page
+        const storyBookConfig = {"title":"Three Little Pigs - Part 1","subtitle":"Lesson 7","pages":[{"text":"Three little pigs left home to build their own houses. The first pig built his house out of straw."},{"text":"The second pig built his house out of sticks. The third pig worked hard and built his house out of bricks."},{"text":"A big bad wolf came along. He saw the straw house and said, \"Little pig, little pig, let me come in!\""}]};
+        
+        // Watch for when story page is displayed
+        const observer = new MutationObserver(() => {
+            const container = document.getElementById('story-book-container');
+            if (container && !container.hasChildNodes()) {
+                initDigitalBook('story-book-container', storyBookConfig);
+                observer.disconnect();
+            }
+        });
+        
+        observer.observe(document.body, { childList: true, subtree: true });
     </script>
 </body>
 </html>

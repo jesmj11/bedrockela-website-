@@ -54,15 +54,6 @@
         `<div class="lesson-page-card content-page" style="padding: 20px;">
     <h2 style="margin-bottom: 20px;">📖 Story Time</h2>
     <div id="story-book-container"></div>
-    <script src="js/digital-book.js"></script>
-    <script>
-      const bookConfig = {
-        title: "Bremen Musicians - Part 2",
-        subtitle: "Lesson 22",
-        pages: [{"text":"The robbers thought a monster was attacking! They ran away in fear, never to return."},{"text":"The four animals went inside the house. They found a warm fire and plenty of food. They decided to stay!"},{"text":"The animals never made it to Bremen, but they found a perfect home. Together, they lived happily ever after!"}]
-      };
-      initDigitalBook('story-book-container', bookConfig);
-    </script>
   </div>`,
 
         `<div class="lesson-page-card content-page">
@@ -163,6 +154,23 @@
         }
 
         renderPage();
+    </script>
+    
+    <script src="js/digital-book.js"></script>
+    <script>
+        // Initialize digital book for story page
+        const storyBookConfig = {"title":"Bremen Musicians - Part 2","subtitle":"Lesson 22","pages":[{"text":"The robbers thought a monster was attacking! They ran away in fear, never to return."},{"text":"The four animals went inside the house. They found a warm fire and plenty of food. They decided to stay!"},{"text":"The animals never made it to Bremen, but they found a perfect home. Together, they lived happily ever after!"}]};
+        
+        // Watch for when story page is displayed
+        const observer = new MutationObserver(() => {
+            const container = document.getElementById('story-book-container');
+            if (container && !container.hasChildNodes()) {
+                initDigitalBook('story-book-container', storyBookConfig);
+                observer.disconnect();
+            }
+        });
+        
+        observer.observe(document.body, { childList: true, subtree: true });
     </script>
 </body>
 </html>

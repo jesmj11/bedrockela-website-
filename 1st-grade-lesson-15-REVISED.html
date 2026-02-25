@@ -54,15 +54,6 @@
         `<div class="lesson-page-card content-page" style="padding: 20px;">
     <h2 style="margin-bottom: 20px;">📖 Story Time</h2>
     <div id="story-book-container"></div>
-    <script src="js/digital-book.js"></script>
-    <script>
-      const bookConfig = {
-        title: "Fox & Grapes",
-        subtitle: "Lesson 15",
-        pages: [{"text":"A hungry fox was walking through a garden. He saw some beautiful purple grapes hanging high on a vine."},{"text":"The fox jumped and jumped, trying to reach the grapes. But they were too high! He jumped again and again, but he still couldn't reach them."},{"text":"Finally, the tired fox gave up. \"Those grapes are probably sour anyway,\" he said as he walked away. Sometimes we say things are bad when we just can't have them!"}]
-      };
-      initDigitalBook('story-book-container', bookConfig);
-    </script>
   </div>`,
 
         `<div class="lesson-page-card content-page">
@@ -163,6 +154,23 @@
         }
 
         renderPage();
+    </script>
+    
+    <script src="js/digital-book.js"></script>
+    <script>
+        // Initialize digital book for story page
+        const storyBookConfig = {"title":"Fox & Grapes","subtitle":"Lesson 15","pages":[{"text":"A hungry fox was walking through a garden. He saw some beautiful purple grapes hanging high on a vine."},{"text":"The fox jumped and jumped, trying to reach the grapes. But they were too high! He jumped again and again, but he still couldn't reach them."},{"text":"Finally, the tired fox gave up. \"Those grapes are probably sour anyway,\" he said as he walked away. Sometimes we say things are bad when we just can't have them!"}]};
+        
+        // Watch for when story page is displayed
+        const observer = new MutationObserver(() => {
+            const container = document.getElementById('story-book-container');
+            if (container && !container.hasChildNodes()) {
+                initDigitalBook('story-book-container', storyBookConfig);
+                observer.disconnect();
+            }
+        });
+        
+        observer.observe(document.body, { childList: true, subtree: true });
     </script>
 </body>
 </html>

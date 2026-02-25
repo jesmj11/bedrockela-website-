@@ -54,15 +54,6 @@
         `<div class="lesson-page-card content-page" style="padding: 20px;">
     <h2 style="margin-bottom: 20px;">📖 Story Time</h2>
     <div id="story-book-container"></div>
-    <script src="js/digital-book.js"></script>
-    <script>
-      const bookConfig = {
-        title: "Goldilocks - Part 3",
-        subtitle: "Lesson 25",
-        pages: [{"text":"Soon, the three bears who lived in the house came home. Papa Bear said, \"Someone's been eating my porridge!\""},{"text":"Mama Bear said, \"Someone's been sitting in my chair!\" Baby Bear cried, \"Someone ate all my porridge and broke my chair!\""},{"text":"They went upstairs. Baby Bear said, \"Someone's sleeping in my bed!\" Goldilocks woke up, saw the three bears, and ran away! She never went into someone's house without permission again."}]
-      };
-      initDigitalBook('story-book-container', bookConfig);
-    </script>
   </div>`,
 
         `<div class="lesson-page-card content-page">
@@ -163,6 +154,23 @@
         }
 
         renderPage();
+    </script>
+    
+    <script src="js/digital-book.js"></script>
+    <script>
+        // Initialize digital book for story page
+        const storyBookConfig = {"title":"Goldilocks - Part 3","subtitle":"Lesson 25","pages":[{"text":"Soon, the three bears who lived in the house came home. Papa Bear said, \"Someone's been eating my porridge!\""},{"text":"Mama Bear said, \"Someone's been sitting in my chair!\" Baby Bear cried, \"Someone ate all my porridge and broke my chair!\""},{"text":"They went upstairs. Baby Bear said, \"Someone's sleeping in my bed!\" Goldilocks woke up, saw the three bears, and ran away! She never went into someone's house without permission again."}]};
+        
+        // Watch for when story page is displayed
+        const observer = new MutationObserver(() => {
+            const container = document.getElementById('story-book-container');
+            if (container && !container.hasChildNodes()) {
+                initDigitalBook('story-book-container', storyBookConfig);
+                observer.disconnect();
+            }
+        });
+        
+        observer.observe(document.body, { childList: true, subtree: true });
     </script>
 </body>
 </html>

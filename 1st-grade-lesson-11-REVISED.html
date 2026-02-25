@@ -54,15 +54,6 @@
         `<div class="lesson-page-card content-page" style="padding: 20px;">
     <h2 style="margin-bottom: 20px;">📖 Story Time</h2>
     <div id="story-book-container"></div>
-    <script src="js/digital-book.js"></script>
-    <script>
-      const bookConfig = {
-        title: "Gingerbread Man - Part 2",
-        subtitle: "Lesson 11",
-        pages: [{"text":"The gingerbread man ran past a cow. \"Stop!\" said the cow. \"I want to eat you!\" But the gingerbread man just laughed."},{"text":"He ran past a horse. \"Stop!\" said the horse. But the gingerbread man ran faster. \"Run, run, as fast as you can!\""},{"text":"Soon he came to a river. How could he cross? A sly fox said, \"I can help you. Jump on my tail!\""}]
-      };
-      initDigitalBook('story-book-container', bookConfig);
-    </script>
   </div>`,
 
         `<div class="lesson-page-card content-page">
@@ -163,6 +154,23 @@
         }
 
         renderPage();
+    </script>
+    
+    <script src="js/digital-book.js"></script>
+    <script>
+        // Initialize digital book for story page
+        const storyBookConfig = {"title":"Gingerbread Man - Part 2","subtitle":"Lesson 11","pages":[{"text":"The gingerbread man ran past a cow. \"Stop!\" said the cow. \"I want to eat you!\" But the gingerbread man just laughed."},{"text":"He ran past a horse. \"Stop!\" said the horse. But the gingerbread man ran faster. \"Run, run, as fast as you can!\""},{"text":"Soon he came to a river. How could he cross? A sly fox said, \"I can help you. Jump on my tail!\""}]};
+        
+        // Watch for when story page is displayed
+        const observer = new MutationObserver(() => {
+            const container = document.getElementById('story-book-container');
+            if (container && !container.hasChildNodes()) {
+                initDigitalBook('story-book-container', storyBookConfig);
+                observer.disconnect();
+            }
+        });
+        
+        observer.observe(document.body, { childList: true, subtree: true });
     </script>
 </body>
 </html>

@@ -54,15 +54,6 @@
         `<div class="lesson-page-card content-page" style="padding: 20px;">
     <h2 style="margin-bottom: 20px;">📖 Story Time</h2>
     <div id="story-book-container"></div>
-    <script src="js/digital-book.js"></script>
-    <script>
-      const bookConfig = {
-        title: "Henny Penny - Part 2",
-        subtitle: "Lesson 30",
-        pages: [{"text":"They met Ducky Lucky, Goosey Loosey, and Turkey Lurkey. All of them joined the group to tell the king the sky was falling."},{"text":"Then they met Foxy Loxy. \"I know a shortcut to the king!\" said the clever fox. \"Follow me!\" He led them to his den."},{"text":"The animals realized they had been tricked! They escaped and ran away. They learned not to believe everything they hear, and to be careful of strangers!"}]
-      };
-      initDigitalBook('story-book-container', bookConfig);
-    </script>
   </div>`,
 
         `<div class="lesson-page-card content-page">
@@ -163,6 +154,23 @@
         }
 
         renderPage();
+    </script>
+    
+    <script src="js/digital-book.js"></script>
+    <script>
+        // Initialize digital book for story page
+        const storyBookConfig = {"title":"Henny Penny - Part 2","subtitle":"Lesson 30","pages":[{"text":"They met Ducky Lucky, Goosey Loosey, and Turkey Lurkey. All of them joined the group to tell the king the sky was falling."},{"text":"Then they met Foxy Loxy. \"I know a shortcut to the king!\" said the clever fox. \"Follow me!\" He led them to his den."},{"text":"The animals realized they had been tricked! They escaped and ran away. They learned not to believe everything they hear, and to be careful of strangers!"}]};
+        
+        // Watch for when story page is displayed
+        const observer = new MutationObserver(() => {
+            const container = document.getElementById('story-book-container');
+            if (container && !container.hasChildNodes()) {
+                initDigitalBook('story-book-container', storyBookConfig);
+                observer.disconnect();
+            }
+        });
+        
+        observer.observe(document.body, { childList: true, subtree: true });
     </script>
 </body>
 </html>

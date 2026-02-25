@@ -54,15 +54,6 @@
         `<div class="lesson-page-card content-page" style="padding: 20px;">
     <h2 style="margin-bottom: 20px;">📖 Story Time</h2>
     <div id="story-book-container"></div>
-    <script src="js/digital-book.js"></script>
-    <script>
-      const bookConfig = {
-        title: "Gingerbread Man - Part 1",
-        subtitle: "Lesson 10",
-        pages: [{"text":"A little old woman made a gingerbread man. She gave him raisin eyes and a candy smile. She put him in the oven to bake."},{"text":"When she opened the oven, the gingerbread man jumped out! \"Run, run, as fast as you can! You can't catch me, I'm the gingerbread man!\""},{"text":"The old woman and old man chased him, but he was too fast!"}]
-      };
-      initDigitalBook('story-book-container', bookConfig);
-    </script>
   </div>`,
 
         `<div class="lesson-page-card content-page">
@@ -163,6 +154,23 @@
         }
 
         renderPage();
+    </script>
+    
+    <script src="js/digital-book.js"></script>
+    <script>
+        // Initialize digital book for story page
+        const storyBookConfig = {"title":"Gingerbread Man - Part 1","subtitle":"Lesson 10","pages":[{"text":"A little old woman made a gingerbread man. She gave him raisin eyes and a candy smile. She put him in the oven to bake."},{"text":"When she opened the oven, the gingerbread man jumped out! \"Run, run, as fast as you can! You can't catch me, I'm the gingerbread man!\""},{"text":"The old woman and old man chased him, but he was too fast!"}]};
+        
+        // Watch for when story page is displayed
+        const observer = new MutationObserver(() => {
+            const container = document.getElementById('story-book-container');
+            if (container && !container.hasChildNodes()) {
+                initDigitalBook('story-book-container', storyBookConfig);
+                observer.disconnect();
+            }
+        });
+        
+        observer.observe(document.body, { childList: true, subtree: true });
     </script>
 </body>
 </html>

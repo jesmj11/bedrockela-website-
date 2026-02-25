@@ -54,15 +54,6 @@
         `<div class="lesson-page-card content-page" style="padding: 20px;">
     <h2 style="margin-bottom: 20px;">📖 Story Time</h2>
     <div id="story-book-container"></div>
-    <script src="js/digital-book.js"></script>
-    <script>
-      const bookConfig = {
-        title: "Town & Country Mouse - Part 1",
-        subtitle: "Lesson 18",
-        pages: [{"text":"A country mouse lived in a simple hole in a field. One day, his cousin from the town came to visit."},{"text":"The country mouse served grain and roots for dinner. The town mouse said, \"Is this all you eat? Come visit me in the town!\""},{"text":"The country mouse went to the town. The town mouse showed him a grand house with lots of delicious food!"}]
-      };
-      initDigitalBook('story-book-container', bookConfig);
-    </script>
   </div>`,
 
         `<div class="lesson-page-card content-page">
@@ -163,6 +154,23 @@
         }
 
         renderPage();
+    </script>
+    
+    <script src="js/digital-book.js"></script>
+    <script>
+        // Initialize digital book for story page
+        const storyBookConfig = {"title":"Town & Country Mouse - Part 1","subtitle":"Lesson 18","pages":[{"text":"A country mouse lived in a simple hole in a field. One day, his cousin from the town came to visit."},{"text":"The country mouse served grain and roots for dinner. The town mouse said, \"Is this all you eat? Come visit me in the town!\""},{"text":"The country mouse went to the town. The town mouse showed him a grand house with lots of delicious food!"}]};
+        
+        // Watch for when story page is displayed
+        const observer = new MutationObserver(() => {
+            const container = document.getElementById('story-book-container');
+            if (container && !container.hasChildNodes()) {
+                initDigitalBook('story-book-container', storyBookConfig);
+                observer.disconnect();
+            }
+        });
+        
+        observer.observe(document.body, { childList: true, subtree: true });
     </script>
 </body>
 </html>

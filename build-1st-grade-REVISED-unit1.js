@@ -14,7 +14,6 @@ const lessons = [
     pages: [
       {
         type: "title",
-        emoji: "📚",
         title: "Lesson 1",
         subtitle: "Word Building Fun!",
         details: "The -AT Word Family<br>The Enormous Turnip - Part 1"
@@ -38,13 +37,13 @@ const lessons = [
           <p style="font-size: 18px; margin-bottom: 20px;">Watch how we build words!</p>
           <div style="font-size: 48px; margin: 30px 0; color: #5B7C99; line-height: 1.5;">
             <div style="margin: 15px 0;">
-              <span style="color: #B06821;">c</span> + <span style="background: #fff4e6; padding: 10px 20px; border-radius: 10px;">at</span> = <strong>cat</strong> 🐱
+              <span style="color: #B06821;">c</span> + <span style="background: #fff4e6; padding: 10px 20px; border-radius: 10px;">at</span> = <strong>cat</strong>
             </div>
             <div style="margin: 15px 0;">
-              <span style="color: #B06821;">m</span> + <span style="background: #fff4e6; padding: 10px 20px; border-radius: 10px;">at</span> = <strong>mat</strong> 🧘
+              <span style="color: #B06821;">m</span> + <span style="background: #fff4e6; padding: 10px 20px; border-radius: 10px;">at</span> = <strong>mat</strong>
             </div>
             <div style="margin: 15px 0;">
-              <span style="color: #B06821;">s</span> + <span style="background: #fff4e6; padding: 10px 20px; border-radius: 10px;">at</span> = <strong>sat</strong> 💺
+              <span style="color: #B06821;">s</span> + <span style="background: #fff4e6; padding: 10px 20px; border-radius: 10px;">at</span> = <strong>sat</strong>
             </div>
           </div>
           <p style="font-size: 16px; color: #666; margin-top: 20px;">Change the first letter, make a new word!</p>
@@ -120,7 +119,6 @@ const lessons = [
     pages: [
       {
         type: "title",
-        emoji: "🔨",
         title: "Lesson 2",
         subtitle: "Making New Words!",
         details: "-AN and -AP Families<br>The Enormous Turnip - Part 2"
@@ -143,13 +141,13 @@ const lessons = [
         content: `
           <div style="font-size: 48px; margin: 30px 0; color: #5B7C99; line-height: 1.5;">
             <div style="margin: 15px 0;">
-              <span style="color: #B06821;">m</span> + <span style="background: #fff4e6; padding: 10px 20px; border-radius: 10px;">an</span> = <strong>man</strong> 👨
+              <span style="color: #B06821;">m</span> + <span style="background: #fff4e6; padding: 10px 20px; border-radius: 10px;">an</span> = <strong>man</strong>
             </div>
             <div style="margin: 15px 0;">
-              <span style="color: #B06821;">c</span> + <span style="background: #fff4e6; padding: 10px 20px; border-radius: 10px;">an</span> = <strong>can</strong> 🥫
+              <span style="color: #B06821;">c</span> + <span style="background: #fff4e6; padding: 10px 20px; border-radius: 10px;">an</span> = <strong>can</strong>
             </div>
             <div style="margin: 15px 0;">
-              <span style="color: #B06821;">r</span> + <span style="background: #fff4e6; padding: 10px 20px; border-radius: 10px;">an</span> = <strong>ran</strong> 🏃
+              <span style="color: #B06821;">r</span> + <span style="background: #fff4e6; padding: 10px 20px; border-radius: 10px;">an</span> = <strong>ran</strong>
             </div>
           </div>
         `
@@ -160,13 +158,13 @@ const lessons = [
         content: `
           <div style="font-size: 48px; margin: 30px 0; color: #5B7C99; line-height: 1.5;">
             <div style="margin: 15px 0;">
-              <span style="color: #B06821;">c</span> + <span style="background: #fff4e6; padding: 10px 20px; border-radius: 10px;">ap</span> = <strong>cap</strong> 🧢
+              <span style="color: #B06821;">c</span> + <span style="background: #fff4e6; padding: 10px 20px; border-radius: 10px;">ap</span> = <strong>cap</strong>
             </div>
             <div style="margin: 15px 0;">
-              <span style="color: #B06821;">m</span> + <span style="background: #fff4e6; padding: 10px 20px; border-radius: 10px;">ap</span> = <strong>map</strong> 🗺️
+              <span style="color: #B06821;">m</span> + <span style="background: #fff4e6; padding: 10px 20px; border-radius: 10px;">ap</span> = <strong>map</strong>
             </div>
             <div style="margin: 15px 0;">
-              <span style="color: #B06821;">t</span> + <span style="background: #fff4e6; padding: 10px 20px; border-radius: 10px;">ap</span> = <strong>tap</strong> 💧
+              <span style="color: #B06821;">t</span> + <span style="background: #fff4e6; padding: 10px 20px; border-radius: 10px;">ap</span> = <strong>tap</strong>
             </div>
           </div>
         `
@@ -221,7 +219,6 @@ const lessons = [
     pages: [
       {
         type: "title",
-        emoji: "⚡",
         title: "Lesson 3",
         subtitle: "Short Vowel Power!",
         details: "Short A & I<br>The Enormous Turnip - Part 3"
@@ -259,16 +256,16 @@ const lessons = [
         content: `
           <div style="font-size: 48px; margin: 30px 0; color: #5B7C99; line-height: 1.5;">
             <div style="margin: 15px 0;">
-              <span style="color: #B06821;">s</span> + <span style="background: #e3f2fd; padding: 10px 20px; border-radius: 10px;">it</span> = <strong>sit</strong> 💺
+              <span style="color: #B06821;">s</span> + <span style="background: #e3f2fd; padding: 10px 20px; border-radius: 10px;">it</span> = <strong>sit</strong>
             </div>
             <div style="margin: 15px 0;">
-              <span style="color: #B06821;">h</span> + <span style="background: #e3f2fd; padding: 10px 20px; border-radius: 10px;">it</span> = <strong>hit</strong> ⚾
+              <span style="color: #B06821;">h</span> + <span style="background: #e3f2fd; padding: 10px 20px; border-radius: 10px;">it</span> = <strong>hit</strong>
             </div>
             <div style="margin: 15px 0;">
-              <span style="color: #B06821;">p</span> + <span style="background: #e3f2fd; padding: 10px 20px; border-radius: 10px;">in</span> = <strong>pin</strong> 📍
+              <span style="color: #B06821;">p</span> + <span style="background: #e3f2fd; padding: 10px 20px; border-radius: 10px;">in</span> = <strong>pin</strong>
             </div>
             <div style="margin: 15px 0;">
-              <span style="color: #B06821;">w</span> + <span style="background: #e3f2fd; padding: 10px 20px; border-radius: 10px;">in</span> = <strong>win</strong> 🏆
+              <span style="color: #B06821;">w</span> + <span style="background: #e3f2fd; padding: 10px 20px; border-radius: 10px;">in</span> = <strong>win</strong>
             </div>
           </div>
         `
@@ -324,7 +321,6 @@ function buildLesson(lesson) {
   const pagesJS = lesson.pages.map((page, idx) => {
     if (page.type === "title") {
       return `\`<div class="lesson-page-card title-page">
-    <div class="character">${page.emoji}</div>
     <h1>${page.title}</h1>
     <div class="subtitle">${page.subtitle}</div>
     <p style="color: #5B7C99; font-size: 18px; margin-top: 20px;">

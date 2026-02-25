@@ -20,6 +20,7 @@ function getStoryPages(lessonNum, storyTitle) {
       { text: "Then a little mouse came. \"I can help!\" said the mouse. Everyone pulled together: the man, the wife, the boy, the dog, the cat, and the mouse!" },
       { text: "POP! Up came the enormous turnip at last! They all cheered and had a big turnip dinner." }
     ],
+    
     // Three Billy Goats Gruff (Lessons 4-6)
     4: [
       { text: "Once upon a time, three billy goats lived on a hill. There was a little goat, a middle-sized goat, and a big goat." },
@@ -35,6 +36,160 @@ function getStoryPages(lessonNum, storyTitle) {
       { text: "Then the big goat came. TRIP TRAP, TRIP TRAP went his hooves." },
       { text: "\"Who dares cross my bridge?\" The troll jumped up. But the big goat was not afraid!" },
       { text: "The big goat used his horns and sent the troll flying into the river. Now all three goats could eat grass safely!" }
+    ],
+    
+    // Three Little Pigs (Lessons 7-9)
+    7: [
+      { text: "Three little pigs left home to build their own houses. The first pig built his house out of straw." },
+      { text: "The second pig built his house out of sticks. The third pig worked hard and built his house out of bricks." },
+      { text: "A big bad wolf came along. He saw the straw house and said, \"Little pig, little pig, let me come in!\"" }
+    ],
+    8: [
+      { text: "\"Not by the hair on my chinny chin chin!\" said the first pig. \"Then I'll huff and I'll puff and I'll blow your house down!\" said the wolf." },
+      { text: "The wolf huffed and puffed and blew the straw house down. The first pig ran to his brother's stick house." },
+      { text: "The wolf came to the stick house. \"Little pigs, little pigs, let me come in!\" He huffed and puffed and blew that house down too!" }
+    ],
+    9: [
+      { text: "Both pigs ran to their brother's brick house. The wolf came and huffed and puffed. But he could not blow down the brick house!" },
+      { text: "The wolf tried to climb down the chimney. But the clever pig had a pot of hot water boiling in the fireplace." },
+      { text: "SPLASH! The wolf landed in the hot water and ran away forever. The three pigs lived happily in the strong brick house." }
+    ],
+    
+    // Gingerbread Man (Lessons 10-12)
+    10: [
+      { text: "A little old woman made a gingerbread man. She gave him raisin eyes and a candy smile. She put him in the oven to bake." },
+      { text: "When she opened the oven, the gingerbread man jumped out! \"Run, run, as fast as you can! You can't catch me, I'm the gingerbread man!\"" },
+      { text: "The old woman and old man chased him, but he was too fast!" }
+    ],
+    11: [
+      { text: "The gingerbread man ran past a cow. \"Stop!\" said the cow. \"I want to eat you!\" But the gingerbread man just laughed." },
+      { text: "He ran past a horse. \"Stop!\" said the horse. But the gingerbread man ran faster. \"Run, run, as fast as you can!\"" },
+      { text: "Soon he came to a river. How could he cross? A sly fox said, \"I can help you. Jump on my tail!\"" }
+    ],
+    12: [
+      { text: "The gingerbread man jumped on the fox's tail. As they crossed the river, the fox said, \"The water is getting deeper. Jump on my back!\"" },
+      { text: "Then the fox said, \"Jump on my nose!\" When the gingerbread man jumped on the fox's nose..." },
+      { text: "SNAP! The fox ate him up! That was the end of the gingerbread man who ran too fast." }
+    ],
+    
+    // Lion & Mouse (Lessons 13-14)
+    13: [
+      { text: "A mighty lion was sleeping under a tree. A little mouse ran across the lion's nose. The lion woke up with a ROAR!" },
+      { text: "The lion caught the mouse in his big paw. \"Please don't eat me!\" squeaked the mouse. \"I'm too small to be your meal!\"" },
+      { text: "\"Maybe someday I can help you!\" said the mouse. The lion laughed. How could a tiny mouse help a big lion? But he let the mouse go." }
+    ],
+    14: [
+      { text: "A few days later, the lion was caught in a hunter's net. He roared and struggled, but he could not get free." },
+      { text: "The little mouse heard the lion's roar. She ran to help! With her sharp teeth, she gnawed through the ropes of the net." },
+      { text: "Soon the lion was free! \"Thank you, little friend,\" said the lion. \"I was wrong. Even the smallest friend can be the biggest help!\"" }
+    ],
+    
+    // Fox & Grapes (Lesson 15)
+    15: [
+      { text: "A hungry fox was walking through a garden. He saw some beautiful purple grapes hanging high on a vine." },
+      { text: "The fox jumped and jumped, trying to reach the grapes. But they were too high! He jumped again and again, but he still couldn't reach them." },
+      { text: "Finally, the tired fox gave up. \"Those grapes are probably sour anyway,\" he said as he walked away. Sometimes we say things are bad when we just can't have them!" }
+    ],
+    
+    // Shoemaker & Elves (Lessons 16-17)
+    16: [
+      { text: "A poor shoemaker had only enough leather to make one pair of shoes. He cut the leather and left it on his workbench." },
+      { text: "In the morning, he found a beautiful pair of shoes! Someone had made them in the night. A rich man bought the shoes for a lot of money." },
+      { text: "The shoemaker bought more leather. Again, he cut it and left it on the bench. In the morning, two pairs of shoes were finished!" }
+    ],
+    17: [
+      { text: "This happened every night. The shoemaker and his wife wanted to know who was helping them. One night, they hid and watched." },
+      { text: "At midnight, two little elves appeared! They had no clothes and their feet were bare. They worked quickly and made beautiful shoes." },
+      { text: "The kind shoemaker and his wife made tiny clothes and shoes for the elves. When the elves found the gifts, they danced with joy and never came back. But the shoemaker was rich and happy!" }
+    ],
+    
+    // Town & Country Mouse (Lessons 18-19)
+    18: [
+      { text: "A country mouse lived in a simple hole in a field. One day, his cousin from the town came to visit." },
+      { text: "The country mouse served grain and roots for dinner. The town mouse said, \"Is this all you eat? Come visit me in the town!\"" },
+      { text: "The country mouse went to the town. The town mouse showed him a grand house with lots of delicious food!" }
+    ],
+    19: [
+      { text: "Just as they started eating, a big cat came! The mice ran and hid. When they came out, a dog chased them!" },
+      { text: "The country mouse said, \"I'm going home! You may have fancy food, but you don't have peace. I prefer my simple life.\"" },
+      { text: "He went back to his quiet field. Better to have a simple meal in safety than a feast with fear!" }
+    ],
+    
+    // Ant & Grasshopper (Lesson 20)
+    20: [
+      { text: "In summer, an ant worked hard collecting food. A grasshopper hopped by, playing his fiddle. \"Come play with me!\" he called." },
+      { text: "\"I can't,\" said the ant. \"I must gather food for winter.\" The grasshopper laughed. \"Winter is far away! Have fun now!\"" },
+      { text: "When winter came, the ant had plenty of food. The grasshopper had none. He learned that it's wise to prepare for the future!" }
+    ],
+    
+    // Bremen Musicians (Lessons 21-22)
+    21: [
+      { text: "A donkey, a dog, a cat, and a rooster were old and tired. Their owners didn't want them anymore. They decided to go to the town of Bremen to become musicians." },
+      { text: "On the way, they found a house with robbers inside. The animals had an idea! The donkey stood tall, the dog climbed on his back, the cat climbed on the dog, and the rooster flew on top." },
+      { text: "All together, they made terrible noise! \"HEE-HAW! WOOF! MEOW! COCK-A-DOODLE-DOO!\"" }
+    ],
+    22: [
+      { text: "The robbers thought a monster was attacking! They ran away in fear, never to return." },
+      { text: "The four animals went inside the house. They found a warm fire and plenty of food. They decided to stay!" },
+      { text: "The animals never made it to Bremen, but they found a perfect home. Together, they lived happily ever after!" }
+    ],
+    
+    // Goldilocks (Lessons 23-25)
+    23: [
+      { text: "Goldilocks was walking in the forest when she saw a little house. She knocked on the door. No one answered, so she went inside." },
+      { text: "On the table were three bowls of porridge. She tasted the big bowl. \"Too hot!\" She tasted the medium bowl. \"Too cold!\"" },
+      { text: "She tasted the small bowl. \"Just right!\" She ate it all up!" }
+    ],
+    24: [
+      { text: "Goldilocks was tired. She found three chairs. The big chair was too hard. The medium chair was too soft." },
+      { text: "The small chair was just right! But when she sat down, CRACK! The chair broke into pieces." },
+      { text: "She went upstairs and found three beds. The big bed was too hard. The medium bed was too soft. The small bed was just right! She fell fast asleep." }
+    ],
+    25: [
+      { text: "Soon, the three bears who lived in the house came home. Papa Bear said, \"Someone's been eating my porridge!\"" },
+      { text: "Mama Bear said, \"Someone's been sitting in my chair!\" Baby Bear cried, \"Someone ate all my porridge and broke my chair!\"" },
+      { text: "They went upstairs. Baby Bear said, \"Someone's sleeping in my bed!\" Goldilocks woke up, saw the three bears, and ran away! She never went into someone's house without permission again." }
+    ],
+    
+    // Boy Who Cried Wolf (Lessons 26-28)
+    26: [
+      { text: "A shepherd boy watched his sheep on a hillside. He was bored. \"I know!\" he thought. \"I'll play a trick!\"" },
+      { text: "He ran down the hill shouting, \"Wolf! Wolf! A wolf is eating the sheep!\" The villagers came running with sticks and clubs." },
+      { text: "But there was no wolf! The boy laughed. \"I fooled you!\" he said. The villagers were not happy. They went back to their work." }
+    ],
+    27: [
+      { text: "A few days later, the boy was bored again. \"Wolf! Wolf!\" he cried. Again, the villagers came running to help." },
+      { text: "Again, there was no wolf. The boy laughed, but the villagers were angry. \"Don't trick us!\" they warned." },
+      { text: "\"We won't come next time!\" they said as they left." }
+    ],
+    28: [
+      { text: "One day, a real wolf came! It was big and hungry. The boy saw it coming toward his sheep." },
+      { text: "\"Wolf! Wolf!\" he cried. \"Please help! The wolf is real this time!\" But the villagers thought it was another trick." },
+      { text: "No one came to help. The wolf scattered the sheep. The boy learned that no one believes a liar, even when he tells the truth." }
+    ],
+    
+    // Henny Penny (Lessons 29-30)
+    29: [
+      { text: "Henny Penny was eating corn when an acorn fell on her head. \"Oh my!\" she cried. \"The sky is falling! I must tell the king!\"" },
+      { text: "She met Cocky Locky. \"Where are you going?\" he asked. \"The sky is falling! I'm going to tell the king!\" said Henny Penny." },
+      { text: "\"I will come too!\" said Cocky Locky. They walked together to tell the king." }
+    ],
+    30: [
+      { text: "They met Ducky Lucky, Goosey Loosey, and Turkey Lurkey. All of them joined the group to tell the king the sky was falling." },
+      { text: "Then they met Foxy Loxy. \"I know a shortcut to the king!\" said the clever fox. \"Follow me!\" He led them to his den." },
+      { text: "The animals realized they had been tricked! They escaped and ran away. They learned not to believe everything they hear, and to be careful of strangers!" }
+    ],
+    
+    // Tortoise & Hare (Lessons 31-32)
+    31: [
+      { text: "The hare was the fastest animal in the forest. He loved to brag. \"No one can beat me in a race!\" he boasted." },
+      { text: "The slow tortoise said, \"I will race you.\" The hare laughed. \"You? You're too slow! But okay, I accept!\"" },
+      { text: "All the animals gathered to watch. \"Ready, set, go!\" The race began!" }
+    ],
+    32: [
+      { text: "The hare zoomed ahead. He was so far ahead that he decided to take a nap. \"The tortoise is so slow. I have plenty of time,\" he thought." },
+      { text: "The tortoise kept going. Slowly and steadily, he passed the sleeping hare. Step by step, he got closer to the finish line." },
+      { text: "The hare woke up and ran as fast as he could. But it was too late! The tortoise had already won! Slow and steady wins the race!" }
     ]
   };
   
@@ -43,11 +198,21 @@ function getStoryPages(lessonNum, storyTitle) {
     return stories[lessonNum];
   }
   
-  // Generic story pages for lessons without specific content
+  // For lessons beyond our story database, create educational reading passages
+  if (lessonNum >= 34) {
+    return [
+      { title: "Chapter 1", text: "This is an important story to help you practice your reading skills. Use what you've learned about vowels and word patterns!" },
+      { title: "Chapter 2", text: "Keep reading carefully. Look for the word patterns we've been learning. Can you find words with long vowels?" },
+      { title: "Chapter 3", text: "You're doing great! Notice how the story helps you practice reading. The more you read, the better you get!" },
+      { title: "The End", text: "Excellent reading! You're becoming a stronger reader every day. Keep practicing with every story!" }
+    ];
+  }
+  
+  // Default fallback
   return [
-    { text: storyTitle + " - Practice reading with your new skills!" },
-    { text: "Read carefully and use what you've learned to understand new words." },
-    { text: "Great job reading! Keep practicing to become a better reader." }
+    { text: "Welcome to today's story! Use your new reading skills to read carefully." },
+    { text: "Look for the word patterns we learned. Sound out new words slowly." },
+    { text: "Great job reading! You're getting better every day!" }
   ];
 }
 

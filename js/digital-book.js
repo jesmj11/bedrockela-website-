@@ -1,333 +1,363 @@
-/**
- * Enhanced Digital Book Reader - Vanilla JavaScript
- * Ported animations and features from React/JSX version
- * Features: Page tracking, page flip animations, keyboard nav, decorative stars, audio narration
- */
+// Digital Book Component for BedrockELA
+// Vanilla JS version adapted to BedrockELA color scheme
 
-const PAGE_PALETTE = [
-  { bg: "#FFF9F0", accent: "#E8A87C" },
-  { bg: "#F0F7FF", accent: "#7FB5D5" },
-  { bg: "#FFF5F5", accent: "#E88D8D" },
-  { bg: "#F5FFF0", accent: "#82B97E" },
-  { bg: "#FFF8F0", accent: "#D4A96A" },
-  { bg: "#F0F0FF", accent: "#9B8EC4" },
-  { bg: "#FFFFF0", accent: "#C4B83E" },
-  { bg: "#FFF0F8", accent: "#C47EA8" },
-  { bg: "#F0FFFA", accent: "#6BB5A0" },
-  { bg: "#FFF5EB", accent: "#C08050" },
-];
-
-const BACKEND_API = 'https://bedrockela-website-production.up.railway.app/api';
-
-function createDigitalBook(containerId, bookConfig, options = {}) {
-  const container = document.getElementById(containerId);
-  if (!container) {
-    console.error(`Container #${containerId} not found`);
-    return;
-  }
-
-  // Options
-  const maxPageIndex = options.maxPageIndex !== undefined ? options.maxPageIndex : bookConfig.pages.length - 1;
-  const lessonNumber = options.lessonNumber || null;
-  const onComplete = options.onComplete || function() {};
-
+function createDigitalBook(bookConfig) {
+  const container = document.createElement('div');
+  container.className = 'digital-book-container';
+  
   let currentPage = -1; // -1 = cover
   let isFlipping = false;
-  let flipDirection = null;
-  let pagesRead = new Set();
-  let audioPlaying = false;
-  let currentAudio = null;
-
+  
   const totalPages = bookConfig.pages.length;
-  const availablePages = maxPageIndex + 1;
-  const bookId = bookConfig.bookId || 'unknown';
-  const studentData = JSON.parse(localStorage.getItem('studentData') || '{}');
-  const studentId = studentData.student?.id;
-
-  function loadReadingProgress() {
-    if (!studentId) return;
-    
-    fetch(`${BACKEND_API}/reading-progress/${studentId}/${bookId}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.success && data.progress) {
-          pagesRead = new Set(data.progress.pages_read || []);
-          render();
-        }
-      })
-      .catch(err => console.error('Error loading progress:', err));
-  }
-
-  function saveReadingProgress() {
-    if (!studentId) return;
-
-    const completed = pagesRead.size === availablePages;
-    const progress = {
-      student_id: studentId,
-      book_id: bookId,
-      pages_read: Array.from(pagesRead),
-      total_pages: availablePages,
-      completed: completed
-    };
-
-    fetch(`${BACKEND_API}/reading-progress`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(progress)
-    })
-      .then(res => res.json())
-      .catch(err => console.error('Error saving progress:', err));
-    
-    if (completed && onComplete) {
-      onComplete();
-    }
-  }
-
-  function markPageAsRead(pageNum) {
-    if (pageNum >= 0 && pageNum <= maxPageIndex) {
-      pagesRead.add(pageNum);
-      saveReadingProgress();
-    }
-  }
-
-  async function playAudio(text, accentColor) {
-    if (audioPlaying) {
-      stopAudio();
-      return;
-    }
-
-    const audioBtn = document.querySelector('.audio-btn');
-    if (!audioBtn) return;
-
-    audioPlaying = true;
-    audioBtn.disabled = true;
-    audioBtn.textContent = '⏸';
-    audioBtn.classList.add('playing');
-
-    try {
-      const response = await fetch(`${BACKEND_API}/text-to-speech`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text, voice: 'Rachel' })
-      });
-
-      if (!response.ok) throw new Error('TTS failed');
-
-      const audioBlob = await response.blob();
-      const audioUrl = URL.createObjectURL(audioBlob);
-      
-      currentAudio = new Audio(audioUrl);
-      currentAudio.play();
-      currentAudio.onended = () => stopAudio();
-      
-      audioBtn.disabled = false;
-      audioBtn.onclick = stopAudio;
-
-    } catch (error) {
-      console.error('Audio playback error:', error);
-      audioBtn.textContent = '🔊';
-      audioBtn.disabled = false;
-      audioPlaying = false;
-      audioBtn.classList.remove('playing');
-    }
-  }
-
-  function stopAudio() {
-    if (currentAudio) {
-      currentAudio.pause();
-      currentAudio = null;
-    }
-    audioPlaying = false;
-    const audioBtn = document.querySelector('.audio-btn');
-    if (audioBtn) {
-      audioBtn.textContent = '🔊';
-      audioBtn.classList.remove('playing');
-    }
-  }
-
-  function flipTo(direction) {
+  
+  function render() {
     const isOnCover = currentPage === -1;
-    const isOnLastPage = currentPage === maxPageIndex;
-
-    if (isFlipping) return;
-    if (direction === 'next' && isOnLastPage) return;
-    if (direction === 'prev' && isOnCover) return;
-
+    const isOnLastPage = currentPage === totalPages - 1;
+    const pageData = !isOnCover ? bookConfig.pages[currentPage] : null;
+    
+    container.innerHTML = `
+      <style>
+        .digital-book-container {
+          width: 100%;
+          max-width: 600px;
+          margin: 20px auto;
+          perspective: 1200px;
+        }
+        
+        .book-wrapper {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 3/4;
+          cursor: pointer;
+        }
+        
+        .book-page {
+          position: absolute;
+          inset: 0;
+          border-radius: 8px 20px 20px 8px;
+          background: #FFFFFF;
+          box-shadow: 0 10px 40px rgba(48, 88, 83, 0.2), 
+                      0 2px 8px rgba(0, 0, 0, 0.1);
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+          transform-origin: left center;
+          transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .book-page.flipping {
+          animation: pageFlip 0.5s ease-in-out;
+        }
+        
+        @keyframes pageFlip {
+          0% { transform: perspective(1200px) rotateY(0deg); }
+          50% { transform: perspective(1200px) rotateY(-90deg); }
+          100% { transform: perspective(1200px) rotateY(-180deg); }
+        }
+        
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .book-spine-shadow {
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          width: 30px;
+          background: linear-gradient(to right, rgba(48, 88, 83, 0.15), transparent);
+          pointer-events: none;
+          z-index: 5;
+          border-radius: 8px 0 0 8px;
+        }
+        
+        .book-cover {
+          background: linear-gradient(145deg, #305853 0%, #2d5048 100%);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 40px 30px;
+          animation: fadeIn 0.5s ease;
+          border: 2px solid rgba(176, 104, 33, 0.2);
+        }
+        
+        .book-cover-title {
+          font-family: 'Georgia', serif;
+          font-size: clamp(24px, 5vw, 36px);
+          font-weight: 700;
+          color: #B06821;
+          text-align: center;
+          margin: 20px 0 10px 0;
+          line-height: 1.2;
+        }
+        
+        .book-cover-subtitle {
+          font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+          font-size: clamp(14px, 3vw, 18px);
+          font-weight: 600;
+          color: rgba(176, 104, 33, 0.7);
+          text-align: center;
+          margin: 0 0 30px 0;
+        }
+        
+        .book-open-btn {
+          font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+          font-size: 16px;
+          font-weight: 700;
+          padding: 12px 28px;
+          border-radius: 25px;
+          border: 2px solid rgba(176, 104, 33, 0.5);
+          background: rgba(176, 104, 33, 0.15);
+          color: #B06821;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+        
+        .book-open-btn:hover {
+          transform: scale(1.05);
+          background: rgba(176, 104, 33, 0.25);
+          box-shadow: 0 4px 15px rgba(176, 104, 33, 0.3);
+        }
+        
+        .book-content-page {
+          background: #FFFFFF;
+          display: flex;
+          flex-direction: column;
+          animation: fadeIn 0.3s ease;
+        }
+        
+        .book-top-accent {
+          height: 4px;
+          background: linear-gradient(90deg, transparent, #B06821, transparent);
+        }
+        
+        .book-page-content {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: clamp(20px, 4vw, 35px);
+          position: relative;
+        }
+        
+        .book-page-title {
+          font-family: 'Georgia', serif;
+          font-size: clamp(20px, 4vw, 26px);
+          font-weight: 700;
+          color: #305853;
+          text-align: center;
+          margin: 0 0 16px 0;
+          line-height: 1.3;
+        }
+        
+        .book-page-text {
+          font-family: 'Georgia', serif;
+          font-size: clamp(16px, 3.5vw, 20px);
+          font-weight: 400;
+          color: #511B18;
+          text-align: left;
+          margin: 0;
+          line-height: 1.7;
+          max-width: 500px;
+        }
+        
+        .book-bottom-bar {
+          padding: 12px 20px;
+          display: flex;
+          justify-content: center;
+          border-top: 1px solid rgba(176, 104, 33, 0.2);
+        }
+        
+        .book-page-number {
+          font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+          font-size: 13px;
+          font-weight: 600;
+          color: rgba(176, 104, 33, 0.7);
+          letter-spacing: 0.5px;
+        }
+        
+        .book-nav {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 15px;
+          margin-top: 20px;
+          animation: fadeIn 0.5s ease;
+        }
+        
+        .book-nav-btn {
+          width: 45px;
+          height: 45px;
+          border-radius: 50%;
+          border: 2px solid rgba(48, 88, 83, 0.3);
+          background: #FFFFFF;
+          color: #305853;
+          font-size: 20px;
+          font-weight: bold;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.2s;
+          box-shadow: 0 2px 8px rgba(48, 88, 83, 0.1);
+        }
+        
+        .book-nav-btn:hover:not(:disabled) {
+          transform: scale(1.1);
+          background: #305853;
+          color: white;
+          box-shadow: 0 4px 15px rgba(48, 88, 83, 0.3);
+        }
+        
+        .book-nav-btn:disabled {
+          opacity: 0.3;
+          cursor: not-allowed;
+        }
+        
+        .book-page-dots {
+          display: flex;
+          gap: 5px;
+          align-items: center;
+        }
+        
+        .book-page-dot {
+          height: 8px;
+          border-radius: 99px;
+          background: rgba(48, 88, 83, 0.3);
+          transition: all 0.3s ease;
+        }
+        
+        .book-page-dot.active {
+          width: 20px;
+          background: #305853;
+        }
+        
+        .book-page-dot:not(.active) {
+          width: 8px;
+        }
+      </style>
+      
+      <div class="book-wrapper">
+        ${isFlipping ? '<div class="book-page flipping"></div>' : ''}
+        
+        <div class="book-page ${isFlipping ? 'hidden' : ''}">
+          ${isOnCover ? renderCover() : renderContentPage(pageData, currentPage + 1, totalPages)}
+        </div>
+      </div>
+      
+      ${!isOnCover ? renderNavigation(isOnLastPage) : ''}
+    `;
+    
+    attachEventListeners();
+  }
+  
+  function renderCover() {
+    return `
+      <div class="book-cover">
+        <div class="book-cover-title">${bookConfig.title}</div>
+        <div class="book-cover-subtitle">${bookConfig.subtitle || ''}</div>
+        <button class="book-open-btn" onclick="window.bookInstance.nextPage()">
+          Start Reading →
+        </button>
+      </div>
+    `;
+  }
+  
+  function renderContentPage(pageData, pageNum, total) {
+    return `
+      <div class="book-content-page">
+        <div class="book-spine-shadow"></div>
+        <div class="book-top-accent"></div>
+        <div class="book-page-content">
+          ${pageData.title ? `<div class="book-page-title">${pageData.title}</div>` : ''}
+          <div class="book-page-text">${pageData.text}</div>
+        </div>
+        <div class="book-bottom-bar">
+          <span class="book-page-number">— ${pageNum} of ${total} —</span>
+        </div>
+      </div>
+    `;
+  }
+  
+  function renderNavigation(isOnLastPage) {
+    const dots = bookConfig.pages.map((_, i) => {
+      return `<div class="book-page-dot ${i === currentPage ? 'active' : ''}"></div>`;
+    }).join('');
+    
+    return `
+      <div class="book-nav">
+        <button class="book-nav-btn" 
+                onclick="window.bookInstance.prevPage()" 
+                ${currentPage === -1 ? 'disabled' : ''}>
+          ←
+        </button>
+        <div class="book-page-dots">${dots}</div>
+        <button class="book-nav-btn" 
+                onclick="window.bookInstance.nextPage()" 
+                ${isOnLastPage ? 'disabled' : ''}>
+          →
+        </button>
+      </div>
+    `;
+  }
+  
+  function attachEventListeners() {
+    // Keyboard navigation
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowRight' && currentPage < totalPages - 1) {
+        nextPage();
+      } else if (e.key === 'ArrowLeft' && currentPage > -1) {
+        prevPage();
+      }
+    };
+    
+    document.addEventListener('keydown', handleKeyDown);
+  }
+  
+  function nextPage() {
+    if (isFlipping || currentPage >= totalPages - 1) return;
+    
     isFlipping = true;
-    flipDirection = direction;
-
-    stopAudio();
     render();
-
+    
     setTimeout(() => {
-      currentPage = direction === 'next' ? currentPage + 1 : currentPage - 1;
+      currentPage++;
       isFlipping = false;
-      flipDirection = null;
       render();
     }, 500);
   }
-
-  function render() {
-    const isOnCover = currentPage === -1;
-    const isOnLastPage = currentPage === maxPageIndex;
-    const pageData = !isOnCover ? bookConfig.pages[currentPage] : null;
-    const palette = !isOnCover
-      ? PAGE_PALETTE[currentPage % PAGE_PALETTE.length]
-      : { bg: bookConfig.coverColor || "#305853", accent: "#FFD700" };
-
-    if (!isOnCover && currentPage >= 0) {
-      markPageAsRead(currentPage);
-    }
-
-    const progressPercent = availablePages > 0 ? (pagesRead.size / availablePages) * 100 : 0;
-
-    // Create decorative stars
-    let stars = '';
-    for (let i = 0; i < 12; i++) {
-      const left = 5 + Math.random() * 90;
-      const top = 5 + Math.random() * 90;
-      const delay = Math.random() * 2;
-      const duration = 2 + Math.random() * 3;
-      stars += `
-        <div class="bg-star" style="
-          left: ${left}%;
-          top: ${top}%;
-          animation-delay: ${delay}s;
-          animation-duration: ${duration}s;
-        "></div>
-      `;
-    }
-
-    container.innerHTML = `
-      ${stars}
-      
-      <!-- Book -->
-      <div class="book-container">
-        ${!isOnCover ? '<div class="page-edges"></div>' : ""}
-
-        ${isOnCover && !isFlipping ? `
-          <!-- COVER -->
-          <div class="page paper-texture cover-page">
-            <div class="cover-border-top"></div>
-            <div class="cover-border-bottom"></div>
-            
-            <div class="cover-emoji">${bookConfig.coverEmoji}</div>
-            
-            <h1 class="cover-title">${bookConfig.coverTitle}</h1>
-            
-            <p class="cover-author">${bookConfig.coverAuthor}</p>
-            
-            ${availablePages < totalPages ? `
-              <p class="cover-pages-note">
-                📚 ${availablePages} page${availablePages !== 1 ? 's' : ''} available in this lesson
-              </p>
-            ` : ''}
-            
-            <button class="open-btn" onclick="window.digitalBookFlipNext()">
-              Open Book →
-            </button>
-          </div>
-        ` : ''}
-
-        ${isFlipping ? `
-          <!-- FLIPPING PAGE -->
-          <div class="page paper-texture flipping-page ${flipDirection === 'next' ? 'flipping-next' : 'flipping-prev'}" 
-               style="background: ${isOnCover ? palette.bg : (flipDirection === 'next' ? palette.bg : PAGE_PALETTE[(currentPage + 1) % PAGE_PALETTE.length]?.bg || '#FFF9F0')};">
-            <div class="spine-shadow"></div>
-          </div>
-        ` : ''}
-
-        ${!isOnCover && !isFlipping && pageData ? `
-          <!-- CONTENT PAGE -->
-          <div class="page paper-texture content-page" style="background: ${palette.bg};">
-            <div class="spine-shadow"></div>
-            
-            <div class="top-accent" style="background: linear-gradient(90deg, ${palette.accent}00, ${palette.accent}, ${palette.accent}00);"></div>
-            
-            <div class="page-content">
-              ${pageData.emoji ? `<div class="page-emoji">${pageData.emoji}</div>` : ""}
-              ${pageData.title ? `<h2 class="page-title" style="color: ${palette.accent};">${pageData.title}</h2>` : ""}
-              <p class="page-text">${pageData.text}</p>
-            </div>
-            
-            <div class="page-footer" style="border-top: 1px solid ${palette.accent}20;">
-              <button class="audio-btn" style="color: ${palette.accent};" onclick="window.digitalBookPlayAudio(\`${pageData.text.replace(/`/g, '\\`').replace(/'/g, "\\'")}\`, '${palette.accent}')">
-                🔊
-              </button>
-              <span class="page-number" style="color: ${palette.accent}99;">
-                — ${currentPage + 1} of ${availablePages} —
-              </span>
-              <div style="width: 36px;"></div>
-            </div>
-          </div>
-        ` : ''}
-      </div>
-
-      ${!isOnCover ? `
-        <!-- Navigation -->
-        <div class="book-nav">
-          <button class="nav-btn nav-btn-prev" onclick="window.digitalBookFlipPrev()" ${isOnCover || isFlipping ? "disabled" : ""}>
-            ←
-          </button>
-
-          <!-- Page dots -->
-          <div class="page-dots">
-            ${bookConfig.pages.slice(0, availablePages).map((_, i) => `
-              <div class="page-dot ${i === currentPage ? 'active' : ''} ${i < currentPage ? 'read' : ''}"></div>
-            `).join('')}
-          </div>
-
-          <button class="nav-btn nav-btn-next" onclick="window.digitalBookFlipNext()" ${isOnLastPage || isFlipping ? "disabled" : ""}>
-            →
-          </button>
-        </div>
-
-        ${isOnLastPage ? `
-          <button class="back-to-cover-btn" onclick="window.digitalBookBackToCover()">
-            ↩ Back to Cover
-          </button>
-        ` : ''}
-
-        <p class="keyboard-hint">Use ← → arrow keys to flip pages</p>
-      ` : ''}
-    `;
-  }
-
-  function handleKeyDown(e) {
-    if (e.key === 'ArrowRight' || e.key === ' ') {
-      e.preventDefault();
-      flipTo('next');
-    }
-    if (e.key === 'ArrowLeft') {
-      e.preventDefault();
-      flipTo('prev');
-    }
-  }
-
-  // Global functions
-  window.digitalBookFlipNext = () => flipTo('next');
-  window.digitalBookFlipPrev = () => flipTo('prev');
-  window.digitalBookBackToCover = () => {
-    currentPage = -1;
-    render();
-  };
-  window.digitalBookPlayAudio = playAudio;
-
-  // Keyboard navigation
-  document.addEventListener('keydown', handleKeyDown);
-
-  // Initial render
-  render();
   
-  // Load saved progress (will re-render if found)
-  loadReadingProgress();
-
-  // Cleanup function
-  return function cleanup() {
-    document.removeEventListener('keydown', handleKeyDown);
-    delete window.digitalBookFlipNext;
-    delete window.digitalBookFlipPrev;
-    delete window.digitalBookBackToCover;
-    delete window.digitalBookPlayAudio;
+  function prevPage() {
+    if (isFlipping || currentPage === -1) return;
+    
+    isFlipping = true;
+    render();
+    
+    setTimeout(() => {
+      currentPage--;
+      isFlipping = false;
+      render();
+    }, 500);
+  }
+  
+  // Public API
+  window.bookInstance = {
+    nextPage,
+    prevPage
   };
+  
+  render();
+  return container;
+}
+
+// Helper function to initialize a book in a container
+function initDigitalBook(containerId, bookConfig) {
+  const container = document.getElementById(containerId);
+  if (container) {
+    const book = createDigitalBook(bookConfig);
+    container.appendChild(book);
+  }
 }

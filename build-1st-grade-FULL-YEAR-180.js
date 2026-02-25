@@ -1,5 +1,56 @@
 const fs = require('fs');
 
+// Story content database
+function getStoryPages(lessonNum, storyTitle) {
+  const stories = {
+    // Enormous Turnip (Lessons 1-3)
+    1: [
+      { text: "A man planted a turnip. The turnip grew and grew. It was enormous!" },
+      { text: "\"I will pull up the turnip,\" said the man. He pulled and pulled. But the turnip did not come up." },
+      { text: "The man called his wife. \"Come help me pull the turnip!\" Together they pulled and pulled. But the turnip did not come up." }
+    ],
+    2: [
+      { text: "The man and his wife pulled and pulled. But the turnip did not come up." },
+      { text: "\"Let's get the boy!\" said the wife. The boy came. The man, the wife, and the boy all pulled together." },
+      { text: "They pulled and pulled. But the turnip did not come up!" }
+    ],
+    3: [
+      { text: "\"Get the dog!\" said the boy. The dog came to help. They all pulled. But the turnip would not come up!" },
+      { text: "\"Get the cat!\" said the dog. The cat came. They all pulled together. Still, the turnip would not come up!" },
+      { text: "Then a little mouse came. \"I can help!\" said the mouse. Everyone pulled together: the man, the wife, the boy, the dog, the cat, and the mouse!" },
+      { text: "POP! Up came the enormous turnip at last! They all cheered and had a big turnip dinner." }
+    ],
+    // Three Billy Goats Gruff (Lessons 4-6)
+    4: [
+      { text: "Once upon a time, three billy goats lived on a hill. There was a little goat, a middle-sized goat, and a big goat." },
+      { text: "They wanted to cross a bridge to eat grass on the other side. But under the bridge lived a mean troll!" },
+      { text: "\"Who will cross my bridge?\" growled the troll." }
+    ],
+    5: [
+      { text: "The little goat went first. Trip trap, trip trap went his hooves on the bridge." },
+      { text: "\"Who's that crossing my bridge?\" roared the troll. \"It is I, the littlest billy goat,\" said the small goat." },
+      { text: "\"Wait for my bigger brother!\" And he ran across safely." }
+    ],
+    6: [
+      { text: "Then the big goat came. TRIP TRAP, TRIP TRAP went his hooves." },
+      { text: "\"Who dares cross my bridge?\" The troll jumped up. But the big goat was not afraid!" },
+      { text: "The big goat used his horns and sent the troll flying into the river. Now all three goats could eat grass safely!" }
+    ]
+  };
+  
+  // Return lesson-specific story or generic story
+  if (stories[lessonNum]) {
+    return stories[lessonNum];
+  }
+  
+  // Generic story pages for lessons without specific content
+  return [
+    { text: storyTitle + " - Practice reading with your new skills!" },
+    { text: "Read carefully and use what you've learned to understand new words." },
+    { text: "Great job reading! Keep practicing to become a better reader." }
+  ];
+}
+
 // COMPLETE 1st Grade Year: All 180 Lessons
 // CCSS-Aligned, REVISED Curriculum
 
@@ -240,16 +291,20 @@ function generateLesson(data) {
     <p style="font-size: 16px; color: #666; margin-top: 20px;">Practice reading them fast!</p>
   </div>`);
 
-  // Story page
-  pages.push(`<div class="lesson-page-card content-page">
-    <h2>📖 Story Time</h2>
-    <div style="text-align: left; max-width: 600px; margin: 20px auto; line-height: 1.8; font-size: 18px;">
-      <p style="font-weight: bold; color: #305853; margin-bottom: 20px;">${data.story}</p>
-      <p>Read the story and practice using your new skills!</p>
-      <p style="margin-top: 30px; padding: 20px; background: #f0f8ff; border-radius: 10px;">
-        Use what you've learned to read new words in the story.
-      </p>
-    </div>
+  // Story page with digital book
+  const storyPages = getStoryPages(data.num, data.story);
+  pages.push(`<div class="lesson-page-card content-page" style="padding: 20px;">
+    <h2 style="margin-bottom: 20px;">📖 Story Time</h2>
+    <div id="story-book-container"></div>
+    <script src="js/digital-book.js"></script>
+    <script>
+      const bookConfig = {
+        title: "${data.story}",
+        subtitle: "Lesson ${data.num}",
+        pages: ${JSON.stringify(storyPages)}
+      };
+      initDigitalBook('story-book-container', bookConfig);
+    </script>
   </div>`);
 
   // Practice page

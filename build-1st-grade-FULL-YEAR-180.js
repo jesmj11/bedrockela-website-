@@ -324,7 +324,7 @@ function buildHTML(data) {
                 </div>
             \`;
 
-            container.innerHTML = nav + content;
+            container.innerHTML = content + nav;
         }
 
         function nextPage() {

@@ -111,13 +111,43 @@
             container.innerHTML = content + nav;
         }
 
+        function showCompletionModal() {
+            const modal = document.createElement('div');
+            modal.className = 'completion-modal';
+            modal.innerHTML = `
+                <div class="completion-modal-overlay" onclick="closeModal()"></div>
+                <div class="completion-modal-content">
+                    <h2>🎉 Lesson Complete!</h2>
+                    <p>Great job finishing Lesson 126!</p>
+                    <div class="completion-modal-buttons">
+                        <button class="modal-btn modal-btn-primary" onclick="goToNextLesson()">Continue to Lesson 127 →</button>
+                        <button class="modal-btn modal-btn-secondary" onclick="goToDashboard()">Back to Dashboard</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function closeModal() {
+            const modal = document.querySelector('.completion-modal');
+            if (modal) modal.remove();
+        }
+
+        function goToNextLesson() {
+            window.location.href = '1st-grade-lesson-127-REVISED.html';
+        }
+
+        function goToDashboard() {
+            window.location.href = 'student-dashboard.html';
+        }
+
         function nextPage() {
             if (currentPage < pages.length - 1) {
                 currentPage++;
                 renderPage();
                 window.scrollTo(0, 0);
             } else {
-                window.location.href = 'student-dashboard.html';
+                showCompletionModal();
             }
         }
 

@@ -86,11 +86,11 @@ function createDigitalBook(bookConfig) {
         
         .book-cover-title {
           font-family: 'Georgia', serif;
-          font-size: clamp(18px, 4vw, 24px);
+          font-size: clamp(20px, 4.5vw, 26px);
           font-weight: 700;
           color: #B06821;
           text-align: center;
-          margin: 10px 0 6px 0;
+          margin: 10px 0 8px 0;
           line-height: 1.2;
         }
         
@@ -130,7 +130,7 @@ function createDigitalBook(bookConfig) {
         }
         
         .book-top-accent {
-          height: 4px;
+          height: 3px;
           background: linear-gradient(90deg, transparent, #B06821, transparent);
         }
         
@@ -146,27 +146,27 @@ function createDigitalBook(bookConfig) {
         
         .book-page-title {
           font-family: 'Georgia', serif;
-          font-size: clamp(16px, 3vw, 20px);
+          font-size: clamp(18px, 3.5vw, 22px);
           font-weight: 700;
           color: #305853;
           text-align: center;
-          margin: 0 0 10px 0;
+          margin: 0 0 12px 0;
           line-height: 1.2;
         }
         
         .book-page-text {
           font-family: 'Georgia', serif;
-          font-size: clamp(13px, 2.8vw, 16px);
+          font-size: clamp(16px, 3.5vw, 20px);
           font-weight: 400;
           color: #511B18;
-          text-align: left;
+          text-align: center;
           margin: 0;
-          line-height: 1.5;
+          line-height: 1.65;
           max-width: 350px;
         }
         
         .book-bottom-bar {
-          padding: 8px 15px;
+          padding: 6px 12px;
           display: flex;
           justify-content: center;
           border-top: 1px solid rgba(176, 104, 33, 0.2);

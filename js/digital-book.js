@@ -19,7 +19,7 @@ function createDigitalBook(bookConfig) {
       <style>
         .digital-book-container {
           width: 100%;
-          max-width: 400px;
+          max-width: 380px;
           margin: 5px auto;
           perspective: 1200px;
         }
@@ -27,7 +27,7 @@ function createDigitalBook(bookConfig) {
         .book-wrapper {
           position: relative;
           width: 100%;
-          max-height: 350px;
+          max-height: 320px;
           aspect-ratio: 3/4;
           cursor: pointer;
         }
@@ -185,7 +185,7 @@ function createDigitalBook(bookConfig) {
           align-items: center;
           justify-content: center;
           gap: 10px;
-          margin-top: 8px;
+          margin-top: 5px;
           animation: fadeIn 0.5s ease;
         }
         

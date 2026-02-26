@@ -598,7 +598,7 @@ function buildHTML(data) {
         renderPage();
     </script>
     
-    <script src="js/digital-book.js"></script>
+    <script src="js/digital-book.js?v=3"></script>
     <script>
         // Initialize digital book for story page
         const storyBookConfig = ${JSON.stringify(storyConfig)};

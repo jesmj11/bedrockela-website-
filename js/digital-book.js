@@ -19,14 +19,15 @@ function createDigitalBook(bookConfig) {
       <style>
         .digital-book-container {
           width: 100%;
-          max-width: 600px;
-          margin: 20px auto;
+          max-width: 450px;
+          margin: 10px auto;
           perspective: 1200px;
         }
         
         .book-wrapper {
           position: relative;
           width: 100%;
+          max-height: 500px;
           aspect-ratio: 3/4;
           cursor: pointer;
         }
@@ -78,35 +79,35 @@ function createDigitalBook(bookConfig) {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          padding: 40px 30px;
+          padding: 25px 20px;
           animation: fadeIn 0.5s ease;
           border: 2px solid rgba(176, 104, 33, 0.2);
         }
         
         .book-cover-title {
           font-family: 'Georgia', serif;
-          font-size: clamp(24px, 5vw, 36px);
+          font-size: clamp(20px, 4.5vw, 28px);
           font-weight: 700;
           color: #B06821;
           text-align: center;
-          margin: 20px 0 10px 0;
+          margin: 15px 0 8px 0;
           line-height: 1.2;
         }
         
         .book-cover-subtitle {
           font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-          font-size: clamp(14px, 3vw, 18px);
+          font-size: clamp(12px, 2.5vw, 15px);
           font-weight: 600;
           color: rgba(176, 104, 33, 0.7);
           text-align: center;
-          margin: 0 0 30px 0;
+          margin: 0 0 20px 0;
         }
         
         .book-open-btn {
           font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-          font-size: 16px;
+          font-size: 14px;
           font-weight: 700;
-          padding: 12px 28px;
+          padding: 10px 24px;
           border-radius: 25px;
           border: 2px solid rgba(176, 104, 33, 0.5);
           background: rgba(176, 104, 33, 0.15);
@@ -139,29 +140,29 @@ function createDigitalBook(bookConfig) {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          padding: clamp(20px, 4vw, 35px);
+          padding: clamp(15px, 3vw, 25px);
           position: relative;
         }
         
         .book-page-title {
           font-family: 'Georgia', serif;
-          font-size: clamp(20px, 4vw, 26px);
+          font-size: clamp(18px, 3.5vw, 22px);
           font-weight: 700;
           color: #305853;
           text-align: center;
-          margin: 0 0 16px 0;
+          margin: 0 0 12px 0;
           line-height: 1.3;
         }
         
         .book-page-text {
           font-family: 'Georgia', serif;
-          font-size: clamp(16px, 3.5vw, 20px);
+          font-size: clamp(14px, 3vw, 17px);
           font-weight: 400;
           color: #511B18;
           text-align: left;
           margin: 0;
-          line-height: 1.7;
-          max-width: 500px;
+          line-height: 1.6;
+          max-width: 400px;
         }
         
         .book-bottom-bar {
@@ -183,19 +184,19 @@ function createDigitalBook(bookConfig) {
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 15px;
-          margin-top: 20px;
+          gap: 12px;
+          margin-top: 12px;
           animation: fadeIn 0.5s ease;
         }
         
         .book-nav-btn {
-          width: 45px;
-          height: 45px;
+          width: 40px;
+          height: 40px;
           border-radius: 50%;
           border: 2px solid rgba(48, 88, 83, 0.3);
           background: #FFFFFF;
           color: #305853;
-          font-size: 20px;
+          font-size: 18px;
           font-weight: bold;
           display: flex;
           align-items: center;

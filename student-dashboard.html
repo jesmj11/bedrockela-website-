@@ -185,61 +185,69 @@
         </div>
     </div>
 
-    <script>
-        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:3001/api' : 'https://bedrockela-website-production.up.railway.app/api';
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCFOyHJ7F5KmZZb3fJBQjIiJ9fTQ8g3rDw",
+            authDomain: "bedrockela.firebaseapp.com",
+            projectId: "bedrockela",
+            storageBucket: "bedrockela.firebasestorage.app",
+            messagingSenderId: "632395093993",
+            appId: "1:632395093993:web:ea8f30b2c22e93a5a64062"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
         let studentData = null;
 
-        window.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('DOMContentLoaded', async () => {
             const student = JSON.parse(localStorage.getItem('bedrockela_student') || 'null');
-            console.log('Loaded student from localStorage:', student);
             
             if (!student || !student.id || !student.name) {
-                // Clear old/invalid data and redirect
-                console.error('Invalid student data, redirecting to login');
                 localStorage.removeItem('bedrockela_student');
-                window.location.href = 'student-login.html';
+                window.location.href = 'student-login-firebase.html';
                 return;
             }
 
             studentData = student;
             document.getElementById('studentName').textContent = `📚 ${student.name}'s Dashboard`;
             
-            loadStudentProgress();
+            await loadStudentProgress();
         });
 
         async function loadStudentProgress() {
             try {
-                console.log('Fetching from:', `${API_URL}/student/${studentData.id}/progress`);
-                const response = await fetch(`${API_URL}/student/${studentData.id}/progress`);
-                console.log('Response status:', response.status);
-                const data = await response.json();
-                console.log('Response data:', data);
+                // Read the student document from Firebase
+                const studentRef = doc(db, 'students', studentData.id);
+                const studentSnap = await getDoc(studentRef);
 
-                if (data.success) {
-                    displayDashboard(data.student, data.stats);
-                } else {
-                    throw new Error(data.error || 'Failed to load progress');
+                if (!studentSnap.exists()) {
+                    throw new Error('Student not found');
                 }
+
+                const data = studentSnap.data();
+                displayDashboard(data);
+                
             } catch (error) {
                 console.error('Error loading progress:', error);
                 document.getElementById('dashboardContent').innerHTML = `
                     <div class="card">
                         <h2>Error Loading Dashboard</h2>
-                        <p>Unable to connect to server: ${error.message}</p>
-                        <p style="margin-top: 10px; font-size: 0.9rem; color: #999;">Check browser console (F12) for details</p>
+                        <p>${error.message}</p>
+                        <button class="btn-continue" onclick="location.reload()">Try Again</button>
                     </div>
                 `;
             }
         }
 
-        function displayDashboard(student, stats) {
-            // Update global studentData with fresh API data
-            studentData.current_lesson = student.current_lesson;
-            studentData.grade_level = student.grade_level;
-            
-            const currentLesson = student.current_lesson || 1;
+        function displayDashboard(student) {
+            const currentLesson = student.currentLesson || 1;
             const progress = (currentLesson / 180) * 100;
             const remainingLessons = 180 - currentLesson;
+            const completedCount = (student.completedLessons || []).length;
 
             const dashboardHTML = `
                 <div class="card current-lesson">
@@ -258,18 +266,18 @@
                             <div class="progress-fill" style="width: ${progress}%"></div>
                         </div>
                         <div class="progress-text">
-                            ${currentLesson} lessons completed • ${remainingLessons} to go!
+                            ${completedCount} lessons completed • ${remainingLessons} to go!
                         </div>
                     </div>
 
                     <div class="stats-grid">
                         <div class="stat-box">
-                            <div class="stat-number">${stats.total_journal_entries || 0}</div>
-                            <div class="stat-label">Journal Entries</div>
+                            <div class="stat-number">${completedCount}</div>
+                            <div class="stat-label">Lessons Done</div>
                         </div>
                         <div class="stat-box">
-                            <div class="stat-number">${(stats.total_words_written || 0).toLocaleString()}</div>
-                            <div class="stat-label">Words Written</div>
+                            <div class="stat-number">${Math.round(progress)}%</div>
+                            <div class="stat-label">Complete</div>
                         </div>
                     </div>
                 </div>
@@ -280,9 +288,6 @@
                         <button class="btn-continue" style="background: #305853; color: white;" onclick="goToLesson()">
                             📖 Continue to Lesson ${currentLesson}
                         </button>
-                        <button class="btn-continue" style="background: #f8f9fa; color: #305853;" onclick="viewJournals()">
-                            📝 View My Journals
-                        </button>
                     </div>
                 </div>
             `;
@@ -290,13 +295,23 @@
             document.getElementById('dashboardContent').innerHTML = dashboardHTML;
         }
 
-        function goToLesson() {
-            const gradeLevel = studentData.grade_level;
-            const currentLesson = studentData.current_lesson || 1;
+        window.goToLesson = function() {
+            const gradeLevel = studentData.gradeLevel;
+            const currentLesson = studentData.currentLesson || 1;
             
             // Route to appropriate lesson page based on grade
             if (gradeLevel === '1st Grade' || gradeLevel === '1st' || gradeLevel === 'Grade 1') {
-                window.location.href = `1st-grade-lesson-${currentLesson}-REVISED.html`;
+                // Route to correct grade level
+                const gradeRoutes = {
+                    1: `1st-grade-lesson-${currentLesson}-REVISED.html`,
+                    2: `2nd-grade-lesson-${currentLesson}-REVISED.html`,
+                    3: `3rd-grade-lesson-${currentLesson}-REVISED.html`,
+                    4: `4th-grade-lesson-${currentLesson}-REVISED.html`,
+                    5: `5th-grade-lesson-${currentLesson}-REVISED.html`,
+                    6: `6th-grade-lesson-${currentLesson}-REVISED.html`
+                };
+                
+                window.location.href = gradeRoutes[gradeLevel] || `1st-grade-lesson-${currentLesson}-REVISED.html`;
             } else if (gradeLevel === '2nd Grade' || gradeLevel === '2nd' || gradeLevel === 'Grade 2') {
                 alert(`📚 Lessons for 2nd grade are coming soon!`);
             } else if (gradeLevel === '3rd Grade' || gradeLevel === '3rd' || gradeLevel === 'Grade 3') {
@@ -316,14 +331,9 @@
             }
         }
 
-        function viewJournals() {
-            // TODO: Implement journals view
-            alert('Journal viewer coming soon!');
-        }
-
-        function logout() {
+        window.logout = function() {
             localStorage.removeItem('bedrockela_student');
-            window.location.href = 'student-login.html';
+            window.location.href = 'student-login-firebase.html';
         }
     </script>
 </body>

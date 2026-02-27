@@ -1,364 +1,414 @@
-// Digital Book Component for BedrockELA
-// Vanilla JS version adapted to BedrockELA color scheme
+// ═══════════════════════════════════════════════════════════════════════
+// 📖 BedrockELA Digital Book Component
+// Embeds beautiful, interactive books directly into lessons
+// ═══════════════════════════════════════════════════════════════════════
 
-function createDigitalBook(bookConfig) {
-  const container = document.createElement('div');
-  container.className = 'digital-book-container';
-  
-  let currentPage = -1; // -1 = cover
-  let isFlipping = false;
-  
-  const totalPages = bookConfig.pages.length;
-  
-  function render() {
-    const isOnCover = currentPage === -1;
-    const isOnLastPage = currentPage === totalPages - 1;
-    const pageData = !isOnCover ? bookConfig.pages[currentPage] : null;
+class DigitalBook {
+  constructor(containerId, config) {
+    this.container = document.getElementById(containerId);
+    this.config = config;
+    this.currentPage = -1; // -1 = cover
+    this.isFlipping = false;
+    this.flipDirection = null;
     
-    container.innerHTML = `
-      <style>
-        .digital-book-container {
-          width: 100%;
-          max-width: 380px;
-          margin: 5px auto;
-          perspective: 1200px;
-        }
-        
-        .book-wrapper {
-          position: relative;
-          width: 100%;
-          max-height: 320px;
-          aspect-ratio: 3/4;
-          cursor: pointer;
-        }
-        
-        .book-page {
-          position: absolute;
-          inset: 0;
-          border-radius: 8px 20px 20px 8px;
-          background: #FFFFFF;
-          box-shadow: 0 10px 40px rgba(48, 88, 83, 0.2), 
-                      0 2px 8px rgba(0, 0, 0, 0.1);
-          display: flex;
-          flex-direction: column;
-          overflow: hidden;
-          transform-origin: left center;
-          transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .book-page.flipping {
-          animation: pageFlip 0.5s ease-in-out;
-        }
-        
-        @keyframes pageFlip {
-          0% { transform: perspective(1200px) rotateY(0deg); }
-          50% { transform: perspective(1200px) rotateY(-90deg); }
-          100% { transform: perspective(1200px) rotateY(-180deg); }
-        }
-        
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .book-spine-shadow {
-          position: absolute;
-          left: 0;
-          top: 0;
-          bottom: 0;
-          width: 30px;
-          background: linear-gradient(to right, rgba(48, 88, 83, 0.15), transparent);
-          pointer-events: none;
-          z-index: 5;
-          border-radius: 8px 0 0 8px;
-        }
-        
-        .book-cover {
-          background: linear-gradient(145deg, #305853 0%, #2d5048 100%);
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          padding: 20px 15px;
-          animation: fadeIn 0.5s ease;
-          border: 2px solid rgba(176, 104, 33, 0.2);
-        }
-        
-        .book-cover-title {
-          font-family: 'Georgia', serif;
-          font-size: clamp(20px, 4.5vw, 26px);
-          font-weight: 700;
-          color: #B06821;
-          text-align: center;
-          margin: 10px 0 8px 0;
-          line-height: 1.2;
-        }
-        
-        .book-cover-subtitle {
-          font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-          font-size: clamp(11px, 2.2vw, 13px);
-          font-weight: 600;
-          color: rgba(176, 104, 33, 0.7);
-          text-align: center;
-          margin: 0 0 15px 0;
-        }
-        
-        .book-open-btn {
-          font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-          font-size: 13px;
-          font-weight: 700;
-          padding: 8px 20px;
-          border-radius: 20px;
-          border: 2px solid rgba(176, 104, 33, 0.5);
-          background: rgba(176, 104, 33, 0.15);
-          color: #B06821;
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-        
-        .book-open-btn:hover {
-          transform: scale(1.05);
-          background: rgba(176, 104, 33, 0.25);
-          box-shadow: 0 4px 15px rgba(176, 104, 33, 0.3);
-        }
-        
-        .book-content-page {
-          background: #FFFFFF;
-          display: flex;
-          flex-direction: column;
-          animation: fadeIn 0.3s ease;
-        }
-        
-        .book-top-accent {
-          height: 3px;
-          background: linear-gradient(90deg, transparent, #B06821, transparent);
-        }
-        
-        .book-page-content {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          padding: clamp(12px, 2.5vw, 20px);
-          position: relative;
-        }
-        
-        .book-page-title {
-          font-family: 'Georgia', serif;
-          font-size: clamp(18px, 3.5vw, 22px);
-          font-weight: 700;
-          color: #305853;
-          text-align: center;
-          margin: 0 0 12px 0;
-          line-height: 1.2;
-        }
-        
-        .book-page-text {
-          font-family: 'Georgia', serif;
-          font-size: clamp(16px, 3.5vw, 20px);
-          font-weight: 400;
-          color: #511B18;
-          text-align: center;
-          margin: 0;
-          line-height: 1.65;
-          max-width: 350px;
-        }
-        
-        .book-bottom-bar {
-          padding: 6px 12px;
-          display: flex;
-          justify-content: center;
-          border-top: 1px solid rgba(176, 104, 33, 0.2);
-        }
-        
-        .book-page-number {
-          font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-          font-size: 11px;
-          font-weight: 600;
-          color: rgba(176, 104, 33, 0.7);
-          letter-spacing: 0.5px;
-        }
-        
-        .book-nav {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 10px;
-          margin-top: 5px;
-          animation: fadeIn 0.5s ease;
-        }
-        
-        .book-nav-btn {
-          width: 36px;
-          height: 36px;
-          border-radius: 50%;
-          border: 2px solid rgba(48, 88, 83, 0.3);
-          background: #FFFFFF;
-          color: #305853;
-          font-size: 16px;
-          font-weight: bold;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          transition: all 0.2s;
-          box-shadow: 0 2px 8px rgba(48, 88, 83, 0.1);
-        }
-        
-        .book-nav-btn:hover:not(:disabled) {
-          transform: scale(1.1);
-          background: #305853;
-          color: white;
-          box-shadow: 0 4px 15px rgba(48, 88, 83, 0.3);
-        }
-        
-        .book-nav-btn:disabled {
-          opacity: 0.3;
-          cursor: not-allowed;
-        }
-        
-        .book-page-dots {
-          display: flex;
-          gap: 5px;
-          align-items: center;
-        }
-        
-        .book-page-dot {
-          height: 8px;
-          border-radius: 99px;
-          background: rgba(48, 88, 83, 0.3);
-          transition: all 0.3s ease;
-        }
-        
-        .book-page-dot.active {
-          width: 20px;
-          background: #305853;
-        }
-        
-        .book-page-dot:not(.active) {
-          width: 8px;
-        }
-      </style>
-      
-      <div class="book-wrapper">
-        ${isFlipping ? '<div class="book-page flipping"></div>' : ''}
-        
-        <div class="book-page ${isFlipping ? 'hidden' : ''}">
-          ${isOnCover ? renderCover() : renderContentPage(pageData, currentPage + 1, totalPages)}
-        </div>
-      </div>
-      
-      ${!isOnCover ? renderNavigation(isOnLastPage) : ''}
-    `;
-    
-    attachEventListeners();
+    this.render();
+    this.attachEventListeners();
   }
   
-  function renderCover() {
+  render() {
+    const totalPages = this.config.pages.length;
+    const isOnCover = this.currentPage === -1;
+    const isOnLastPage = this.currentPage === totalPages - 1;
+    
+    const pageData = !isOnCover ? this.config.pages[this.currentPage] : null;
+    
+    this.container.innerHTML = `
+      <div class="digital-book-wrapper" tabindex="0">
+        <style>
+          @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Playfair+Display:wght@700;800;900&family=Quicksand:wght@500;600;700&display=swap');
+          
+          .digital-book-wrapper {
+            min-height: 500px;
+            background: #2C1810;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            font-family: 'Crimson Text', 'Georgia', serif;
+            position: relative;
+            overflow: hidden;
+            outline: none;
+            border-radius: 12px;
+          }
+          
+          @keyframes pageFlipNext {
+            0% { transform: perspective(1200px) rotateY(0deg); }
+            100% { transform: perspective(1200px) rotateY(-180deg); }
+          }
+          
+          @keyframes pageFlipPrev {
+            0% { transform: perspective(1200px) rotateY(0deg); }
+            100% { transform: perspective(1200px) rotateY(180deg); }
+          }
+          
+          @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+          
+          @keyframes gentleBob {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+          }
+          
+          @keyframes coverGlow {
+            0%, 100% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.15), 0 20px 60px rgba(0,0,0,0.5); }
+            50% { box-shadow: 0 0 50px rgba(255, 215, 0, 0.25), 0 20px 60px rgba(0,0,0,0.5); }
+          }
+          
+          @keyframes starTwinkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(0.95); }
+          }
+          
+          .book-container {
+            position: relative;
+            width: min(90vw, 480px);
+            aspect-ratio: 3/4;
+            cursor: default;
+          }
+          
+          .page {
+            position: absolute;
+            inset: 0;
+            border-radius: 4px 16px 16px 4px;
+            overflow: hidden;
+            transform-origin: left center;
+            backface-visibility: hidden;
+          }
+          
+          .page.flipping-next {
+            animation: pageFlipNext 0.5s ease-in-out forwards;
+            z-index: 10;
+          }
+          
+          .page.flipping-prev {
+            animation: pageFlipPrev 0.5s ease-in-out forwards;
+            z-index: 10;
+          }
+          
+          .nav-btn {
+            transition: all 0.2s ease;
+            cursor: pointer;
+          }
+          .nav-btn:hover:not(:disabled) {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+          }
+          .nav-btn:active {
+            transform: scale(0.95);
+          }
+          .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+          }
+          
+          .paper-texture::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            pointer-events: none;
+            border-radius: inherit;
+          }
+          
+          .spine-shadow {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 30px;
+            background: linear-gradient(to right, rgba(0,0,0,0.15), transparent);
+            pointer-events: none;
+            z-index: 5;
+            border-radius: 4px 0 0 4px;
+          }
+          
+          .page-edges {
+            position: absolute;
+            left: -3px;
+            top: 4px;
+            bottom: 4px;
+            width: 3px;
+            background: repeating-linear-gradient(
+              to bottom,
+              #D4C5A9 0px,
+              #D4C5A9 1px,
+              #E8DCC8 1px,
+              #E8DCC8 3px
+            );
+            border-radius: 1px;
+            z-index: 2;
+          }
+          
+          .vocab-highlight {
+            background: linear-gradient(120deg, #fef3c7 0%, #fde68a 100%);
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: 600;
+            color: #92400e;
+            cursor: help;
+            border-bottom: 2px solid #f59e0b;
+          }
+          
+          .vocab-highlight:hover {
+            background: linear-gradient(120deg, #fde68a 0%, #fbbf24 100%);
+          }
+        </style>
+        
+        ${this.renderStars()}
+        
+        <div class="book-container">
+          ${!isOnCover ? '<div class="page-edges"></div>' : ''}
+          
+          ${isOnCover ? this.renderCover() : ''}
+          ${this.isFlipping ? this.renderFlippingPage() : ''}
+          ${!isOnCover && !this.isFlipping ? this.renderContentPage(pageData) : ''}
+        </div>
+        
+        ${!isOnCover ? this.renderNavigation(totalPages, isOnLastPage) : ''}
+        ${isOnLastPage && !this.isFlipping ? this.renderBackToCover() : ''}
+        
+        <p style="position: absolute; bottom: 12px; font-family: 'Quicksand', sans-serif; font-size: 11px; font-weight: 600; color: rgba(255,215,0,0.25); letter-spacing: 0.5px;">
+          Use ← → arrow keys to flip pages
+        </p>
+      </div>
+    `;
+  }
+  
+  renderStars() {
+    let stars = '';
+    for (let i = 0; i < 12; i++) {
+      stars += `
+        <div style="
+          position: absolute;
+          width: 3px;
+          height: 3px;
+          border-radius: 50%;
+          background: #FFD700;
+          opacity: ${0.2 + Math.random() * 0.3};
+          left: ${5 + Math.random() * 90}%;
+          top: ${5 + Math.random() * 90}%;
+          animation: starTwinkle ${2 + Math.random() * 3}s ease-in-out infinite;
+          animation-delay: ${Math.random() * 2}s;
+          pointer-events: none;
+        "></div>
+      `;
+    }
+    return stars;
+  }
+  
+  renderCover() {
     return `
-      <div class="book-cover">
-        <div class="book-cover-title">${bookConfig.title}</div>
-        <div class="book-cover-subtitle">${bookConfig.subtitle || ''}</div>
-        <button class="book-open-btn" onclick="window.bookInstance.nextPage()">
-          Start Reading →
+      <div class="page paper-texture" style="
+        background: linear-gradient(145deg, ${this.config.coverColor} 0%, ${this.config.coverColor}DD 50%, ${this.config.coverColor}BB 100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 30px;
+        animation: coverGlow 3s ease infinite, fadeIn 0.6s ease;
+        border: 1px solid rgba(255,215,0,0.15);
+      ">
+        <div style="position: absolute; top: 20px; left: 20px; right: 20px; height: 2px; background: linear-gradient(90deg, transparent, rgba(255,215,0,0.4), transparent);"></div>
+        <div style="position: absolute; bottom: 20px; left: 20px; right: 20px; height: 2px; background: linear-gradient(90deg, transparent, rgba(255,215,0,0.4), transparent);"></div>
+        
+        <div style="font-size: clamp(60px, 15vw, 100px); margin-bottom: 20px; animation: gentleBob 3s ease-in-out infinite; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));">
+          ${this.config.coverEmoji}
+        </div>
+        
+        <h1 style="font-family: 'Playfair Display', serif; font-size: clamp(24px, 5.5vw, 38px); font-weight: 800; color: #FFD700; text-align: center; margin: 0 0 12px 0; line-height: 1.2; text-shadow: 0 2px 8px rgba(0,0,0,0.4); letter-spacing: 0.5px;">
+          ${this.config.coverTitle}
+        </h1>
+        
+        <p style="font-family: 'Quicksand', sans-serif; font-size: clamp(14px, 3vw, 18px); font-weight: 600; color: rgba(255,215,0,0.7); text-align: center; margin: 0 0 32px 0; letter-spacing: 1px;">
+          ${this.config.coverAuthor}
+        </p>
+        
+        <button class="nav-btn open-btn" onclick="window.digitalBookInstance.flipTo('next')" style="font-family: 'Quicksand', sans-serif; font-size: clamp(15px, 3vw, 18px); font-weight: 700; padding: 12px 32px; border-radius: 99px; border: 2px solid rgba(255,215,0,0.5); background: rgba(255,215,0,0.12); color: #FFD700; cursor: pointer; transition: all 0.2s; letter-spacing: 1px;">
+          Open Book →
         </button>
       </div>
     `;
   }
   
-  function renderContentPage(pageData, pageNum, total) {
+  renderContentPage(pageData) {
+    const palette = this.getPagePalette();
+    
     return `
-      <div class="book-content-page">
-        <div class="book-spine-shadow"></div>
-        <div class="book-top-accent"></div>
-        <div class="book-page-content">
-          ${pageData.title ? `<div class="book-page-title">${pageData.title}</div>` : ''}
-          <div class="book-page-text">${pageData.text}</div>
+      <div class="page paper-texture" style="
+        background: ${palette.bg};
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.2);
+        animation: fadeIn 0.3s ease;
+      ">
+        <div class="spine-shadow"></div>
+        
+        <div style="height: 4px; background: linear-gradient(90deg, ${palette.accent}00, ${palette.accent}, ${palette.accent}00);"></div>
+        
+        <div style="flex: 1; display: flex; flex-direction: column; padding: clamp(20px, 5vw, 30px) clamp(24px, 6vw, 40px); position: relative; overflow-y: auto;">
+          ${pageData.emoji ? `
+            <div style="font-size: clamp(44px, 10vw, 72px); margin-bottom: 16px; text-align: center; animation: gentleBob 4s ease-in-out infinite; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.1));">
+              ${pageData.emoji}
+            </div>
+          ` : ''}
+          
+          ${pageData.title ? `
+            <h2 style="font-family: 'Playfair Display', serif; font-size: clamp(20px, 4.5vw, 28px); font-weight: 800; color: ${palette.accent}; text-align: center; margin: 0 0 14px 0; line-height: 1.2; letter-spacing: 0.5px;">
+              ${pageData.title}
+            </h2>
+          ` : ''}
+          
+          <div style="font-family: 'Crimson Text', Georgia, serif; font-size: clamp(15px, 3.5vw, 19px); font-weight: 400; color: #3A2E24; text-align: left; margin: 0; line-height: 1.75; letter-spacing: 0.2px;">
+            ${this.highlightVocab(pageData.text, this.config.vocabWords)}
+          </div>
         </div>
-        <div class="book-bottom-bar">
-          <span class="book-page-number">— ${pageNum} of ${total} —</span>
+        
+        <div style="padding: 12px 24px; display: flex; justify-content: center; border-top: 1px solid ${palette.accent}20;">
+          <span style="font-family: 'Quicksand', sans-serif; font-size: 13px; font-weight: 600; color: ${palette.accent}99; letter-spacing: 1px;">
+            — ${this.currentPage + 1} of ${this.config.pages.length} —
+          </span>
         </div>
       </div>
     `;
   }
   
-  function renderNavigation(isOnLastPage) {
-    const dots = bookConfig.pages.map((_, i) => {
-      return `<div class="book-page-dot ${i === currentPage ? 'active' : ''}"></div>`;
-    }).join('');
+  renderFlippingPage() {
+    const direction = this.flipDirection === 'next' ? 'flipping-next' : 'flipping-prev';
+    const palette = this.getPagePalette();
     
     return `
-      <div class="book-nav">
-        <button class="book-nav-btn" 
-                onclick="window.bookInstance.prevPage()" 
-                ${currentPage === -1 ? 'disabled' : ''}>
+      <div class="page paper-texture ${direction}" style="
+        background: ${palette.bg};
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      ">
+        <div class="spine-shadow"></div>
+      </div>
+    `;
+  }
+  
+  renderNavigation(totalPages, isOnLastPage) {
+    return `
+      <div style="display: flex; align-items: center; gap: 20px; margin-top: 24px; animation: fadeIn 0.5s ease 0.2s both;">
+        <button class="nav-btn" onclick="window.digitalBookInstance.flipTo('prev')" ${this.currentPage === -1 ? 'disabled' : ''} style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid rgba(255,215,0,0.3); background: rgba(255,215,0,0.08); color: #FFD700; font-size: 20px; display: flex; align-items: center; justify-content: center; font-family: 'Quicksand', sans-serif; font-weight: 700;">
           ←
         </button>
-        <div class="book-page-dots">${dots}</div>
-        <button class="book-nav-btn" 
-                onclick="window.bookInstance.nextPage()" 
-                ${isOnLastPage ? 'disabled' : ''}>
+        
+        <div style="display: flex; gap: 6px; align-items: center;">
+          ${this.config.pages.map((_, i) => `
+            <div style="
+              width: ${i === this.currentPage ? '20px' : '8px'};
+              height: 8px;
+              border-radius: 99px;
+              background: ${i === this.currentPage ? '#FFD700' : i < this.currentPage ? 'rgba(255,215,0,0.4)' : 'rgba(255,215,0,0.15)'};
+              transition: all 0.3s ease;
+            "></div>
+          `).join('')}
+        </div>
+        
+        <button class="nav-btn" onclick="window.digitalBookInstance.flipTo('next')" ${isOnLastPage ? 'disabled' : ''} style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid rgba(255,215,0,0.3); background: rgba(255,215,0,0.08); color: #FFD700; font-size: 20px; display: flex; align-items: center; justify-content: center; font-family: 'Quicksand', sans-serif; font-weight: 700;">
           →
         </button>
       </div>
     `;
   }
   
-  function attachEventListeners() {
-    // Keyboard navigation
-    const handleKeyDown = (e) => {
-      if (e.key === 'ArrowRight' && currentPage < totalPages - 1) {
-        nextPage();
-      } else if (e.key === 'ArrowLeft' && currentPage > -1) {
-        prevPage();
-      }
-    };
-    
-    document.addEventListener('keydown', handleKeyDown);
+  renderBackToCover() {
+    return `
+      <button class="nav-btn" onclick="window.digitalBookInstance.backToCover()" style="margin-top: 12px; font-family: 'Quicksand', sans-serif; font-size: 14px; font-weight: 700; padding: 8px 20px; border-radius: 99px; border: 2px solid rgba(255,215,0,0.3); background: rgba(255,215,0,0.08); color: #FFD700; letter-spacing: 0.5px; animation: fadeIn 0.5s ease 0.3s both;">
+        ↩ Back to Cover
+      </button>
+    `;
   }
   
-  function nextPage() {
-    if (isFlipping || currentPage >= totalPages - 1) return;
+  getPagePalette() {
+    const palettes = [
+      { bg: '#FFF9F0', accent: '#E8A87C' },
+      { bg: '#F0F7FF', accent: '#7FB5D5' },
+      { bg: '#FFF5F5', accent: '#E88D8D' },
+      { bg: '#F5FFF0', accent: '#82B97E' },
+      { bg: '#FFF8F0', accent: '#D4A96A' },
+      { bg: '#F0F0FF', accent: '#9B8EC4' },
+      { bg: '#FFFFF0', accent: '#C4B83E' },
+      { bg: '#FFF0F8', accent: '#C47EA8' },
+      { bg: '#F0FFFA', accent: '#6BB5A0' },
+      { bg: '#FFF5EB', accent: '#C08050' },
+    ];
     
-    isFlipping = true;
-    render();
+    return this.currentPage === -1 
+      ? { bg: this.config.coverColor, accent: '#FFD700' }
+      : palettes[this.currentPage % palettes.length];
+  }
+  
+  highlightVocab(text, vocabWords) {
+    if (!vocabWords || vocabWords.length === 0) return text;
+    
+    let highlightedText = text;
+    vocabWords.forEach(word => {
+      const regex = new RegExp(`\\b(${word})\\b`, 'gi');
+      highlightedText = highlightedText.replace(regex, '<span class="vocab-highlight" title="Vocabulary word">$1</span>');
+    });
+    
+    return highlightedText;
+  }
+  
+  flipTo(direction) {
+    if (this.isFlipping) return;
+    
+    const totalPages = this.config.pages.length;
+    const isOnCover = this.currentPage === -1;
+    const isOnLastPage = this.currentPage === totalPages - 1;
+    
+    if (direction === 'next' && isOnLastPage) return;
+    if (direction === 'prev' && isOnCover) return;
+    
+    this.isFlipping = true;
+    this.flipDirection = direction;
+    this.render();
     
     setTimeout(() => {
-      currentPage++;
-      isFlipping = false;
-      render();
+      this.currentPage = direction === 'next' ? this.currentPage + 1 : this.currentPage - 1;
+      this.isFlipping = false;
+      this.flipDirection = null;
+      this.render();
     }, 500);
   }
   
-  function prevPage() {
-    if (isFlipping || currentPage === -1) return;
-    
-    isFlipping = true;
-    render();
-    
-    setTimeout(() => {
-      currentPage--;
-      isFlipping = false;
-      render();
-    }, 500);
+  backToCover() {
+    this.currentPage = -1;
+    this.render();
   }
   
-  // Public API
-  window.bookInstance = {
-    nextPage,
-    prevPage
-  };
-  
-  render();
-  return container;
+  attachEventListeners() {
+    const wrapper = this.container.querySelector('.digital-book-wrapper');
+    if (wrapper) {
+      wrapper.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ') {
+          e.preventDefault();
+          this.flipTo('next');
+        }
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          this.flipTo('prev');
+        }
+      });
+    }
+  }
 }
 
-// Helper function to initialize a book in a container
-function initDigitalBook(containerId, bookConfig) {
-  const container = document.getElementById(containerId);
-  if (container) {
-    const book = createDigitalBook(bookConfig);
-    container.appendChild(book);
-  }
-}
+// Make it globally available
+window.DigitalBook = DigitalBook;

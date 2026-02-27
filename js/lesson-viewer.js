@@ -5,6 +5,68 @@
 
 const BACKEND_API = 'https://bedrockela-website-production.up.railway.app/api';
 
+/**
+ * Word Count Helper for Comprehension Questions
+ * Enforces minimum word count and provides live feedback
+ */
+function createComprehensionQuestion(questionNumber, questionText, minWords = 30) {
+  const id = `question-${questionNumber}`;
+  const countId = `word-count-${questionNumber}`;
+  
+  return `
+    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
+      <p style="font-weight: 700; margin-bottom: 10px;">${questionNumber}. ${questionText}</p>
+      <textarea 
+        id="${id}"
+        style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;"
+        oninput="updateWordCount('${id}', '${countId}', ${minWords})"
+        placeholder="Write your answer here (minimum ${minWords} words)..."
+      ></textarea>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+        <span id="${countId}" style="font-size: 14px; color: #666;">0 / ${minWords} words</span>
+        <span id="${countId}-status" style="font-size: 14px; font-weight: 600;"></span>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * Update word count for a textarea
+ */
+window.updateWordCount = function(textareaId, countId, minWords) {
+  const textarea = document.getElementById(textareaId);
+  const countDisplay = document.getElementById(countId);
+  const statusDisplay = document.getElementById(countId + '-status');
+  
+  if (!textarea || !countDisplay) return;
+  
+  const text = textarea.value.trim();
+  const words = text.length > 0 ? text.split(/\s+/).filter(w => w.length > 0) : [];
+  const wordCount = words.length;
+  
+  countDisplay.textContent = `${wordCount} / ${minWords} words`;
+  
+  if (wordCount >= minWords) {
+    countDisplay.style.color = '#305853';
+    countDisplay.style.fontWeight = '700';
+    statusDisplay.textContent = '✅ Great job!';
+    statusDisplay.style.color = '#305853';
+    textarea.style.borderColor = '#305853';
+  } else if (wordCount > 0) {
+    const remaining = minWords - wordCount;
+    countDisplay.style.color = '#B06821';
+    countDisplay.style.fontWeight = '600';
+    statusDisplay.textContent = `${remaining} more word${remaining !== 1 ? 's' : ''} needed`;
+    statusDisplay.style.color = '#B06821';
+    textarea.style.borderColor = '#B06821';
+  } else {
+    countDisplay.style.color = '#666';
+    countDisplay.style.fontWeight = '400';
+    statusDisplay.textContent = '';
+    textarea.style.borderColor = '#305853';
+  }
+};
+
 function createLessonViewer(containerId, lessonConfig) {
   const container = document.getElementById(containerId);
   if (!container) {

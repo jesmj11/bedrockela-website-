@@ -225,20 +225,22 @@ class DigitalBook {
         <div style="position: absolute; top: 20px; left: 20px; right: 20px; height: 2px; background: linear-gradient(90deg, transparent, rgba(255,215,0,0.4), transparent);"></div>
         <div style="position: absolute; bottom: 20px; left: 20px; right: 20px; height: 2px; background: linear-gradient(90deg, transparent, rgba(255,215,0,0.4), transparent);"></div>
         
-        <div style="font-size: clamp(60px, 15vw, 100px); margin-bottom: 20px; animation: gentleBob 3s ease-in-out infinite; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));">
-          ${this.config.coverEmoji}
-        </div>
-        
         <h1 style="font-family: 'Playfair Display', serif; font-size: clamp(24px, 5.5vw, 38px); font-weight: 800; color: #FFD700; text-align: center; margin: 0 0 12px 0; line-height: 1.2; text-shadow: 0 2px 8px rgba(0,0,0,0.4); letter-spacing: 0.5px;">
           ${this.config.coverTitle}
         </h1>
+        
+        ${this.config.coverSubtitle ? `
+          <p style="font-family: 'Crimson Text', serif; font-size: clamp(16px, 3.5vw, 22px); font-weight: 600; color: rgba(255,215,0,0.8); text-align: center; margin: 0 0 20px 0; font-style: italic;">
+            ${this.config.coverSubtitle}
+          </p>
+        ` : ''}
         
         <p style="font-family: 'Quicksand', sans-serif; font-size: clamp(14px, 3vw, 18px); font-weight: 600; color: rgba(255,215,0,0.7); text-align: center; margin: 0 0 32px 0; letter-spacing: 1px;">
           ${this.config.coverAuthor}
         </p>
         
         <button class="nav-btn open-btn" onclick="window.digitalBookInstance.flipTo('next')" style="font-family: 'Quicksand', sans-serif; font-size: clamp(15px, 3vw, 18px); font-weight: 700; padding: 12px 32px; border-radius: 99px; border: 2px solid rgba(255,215,0,0.5); background: rgba(255,215,0,0.12); color: #FFD700; cursor: pointer; transition: all 0.2s; letter-spacing: 1px;">
-          Open Book →
+          Open Book
         </button>
       </div>
     `;
@@ -261,14 +263,8 @@ class DigitalBook {
         <div style="height: 4px; background: linear-gradient(90deg, ${palette.accent}00, ${palette.accent}, ${palette.accent}00);"></div>
         
         <div style="flex: 1; display: flex; flex-direction: column; padding: clamp(20px, 5vw, 30px) clamp(24px, 6vw, 40px); position: relative; overflow-y: auto;">
-          ${pageData.emoji ? `
-            <div style="font-size: clamp(44px, 10vw, 72px); margin-bottom: 16px; text-align: center; animation: gentleBob 4s ease-in-out infinite; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.1));">
-              ${pageData.emoji}
-            </div>
-          ` : ''}
-          
           ${pageData.title ? `
-            <h2 style="font-family: 'Playfair Display', serif; font-size: clamp(20px, 4.5vw, 28px); font-weight: 800; color: ${palette.accent}; text-align: center; margin: 0 0 14px 0; line-height: 1.2; letter-spacing: 0.5px;">
+            <h2 style="font-family: 'Playfair Display', serif; font-size: clamp(20px, 4.5vw, 28px); font-weight: 800; color: ${palette.accent}; text-align: center; margin: 0 0 20px 0; line-height: 1.2; letter-spacing: 0.5px;">
               ${pageData.title}
             </h2>
           ` : ''}

@@ -10,6 +10,7 @@
     <div id="lesson-container" class="lesson-container"></div>
 
     <script src="js/lesson-viewer.js"></script>
+    <script src="js/digital-book.js"></script>
     
     <script>
         const lesson19Config = {
@@ -95,36 +96,37 @@
                     `
                 },
                 
-                // Page 4: Reading
+                // Page 4: Reading (Digital Book)
                 {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 Chapter 16: The Magic Art of the Great Humbug</h2>
-                            
-                            <div style="background: white; padding: 25px; border-radius: 12px; border: 3px solid #305853; margin: 20px 0;">
-                                <p style="font-size: 18px; margin-bottom: 15px;">
-                                    📚 Read the chapter from The Wonderful Wizard of Oz:
-                                </p>
-                                <a href="https://www.gutenberg.org/files/55/55-h/55-h.htm#chap16" 
-                                   target="_blank" 
-                                   style="display: inline-block; padding: 15px 30px; background: #B06821; color: white; text-decoration: none; border-radius: 10px; font-weight: 700; font-size: 18px;">
-                                    Read Chapter 16 →
-                                </a>
-                                <p style="font-size: 14px; color: #666; margin-top: 15px;">
-                                    (Opens in Project Gutenberg)
-                                </p>
+                    render: () => {
+                        setTimeout(() => {
+                            if (!window.day19BookInitialized) {
+                                const bookConfig = {
+                                    coverTitle: "Chapter 16",
+                                    coverSubtitle: "The Magic Art of the Great Humbug",
+                                    coverAuthor: "L. Frank Baum",
+                                    coverColor: "#1B2A4A",
+                                    vocabWords: ["bran","sawdust"],
+                                    pages: [
+                                        {
+                                            title: "The Magic Art of the Great Humbug",
+                                            text: "This is Chapter 16: The Magic Art of the Great Humbug from The Wonderful Wizard of Oz by L. Frank Baum.\n\nThe full chapter text will be added here, broken into readable pages of about 400 words each.\n\nVocabulary words for this chapter are: bran, sawdust.\n\nThese words will be highlighted in yellow throughout the text to help you learn them in context!"
+                                        }
+                                    ]
+                                };
+                                window.digitalBookInstance = new DigitalBook('digital-book-day-19', bookConfig);
+                                window.day19BookInitialized = true;
+                            }
+                        }, 100);
+                        
+                        return `
+                            <div class="lesson-page-card content-page">
+                                <h2>📖 Chapter 16: The Magic Art of the Great Humbug</h2>
+                                <p style="margin: 10px 0 20px; color: #666;">Read the chapter below. Vocabulary words are highlighted in yellow!</p>
+                                <div id="digital-book-day-19"></div>
                             </div>
-                            
-                            <div style="margin-top: 30px; padding: 20px; background: rgba(48,88,83,0.1); border-radius: 10px;">
-                                <h3 style="color: #305853;">📝 While You Read:</h3>
-                                <ul style="line-height: 2;">
-                                    <li>Look for the vocabulary words: <strong>magician</strong> and <strong>illusion</strong></li>
-                                    <li>What are the main events?</li>
-                                    <li>How do characters change or react?</li>
-                                </ul>
-                            </div>
-                        </div>
-                    `
+                        `;
+                    }
                 },
                 
                 // Page 5: Comprehension Questions

@@ -19,7 +19,23 @@ class LessonCompletion {
       // Save to localStorage immediately
       this.saveToLocalStorage();
       
-      // Save to database
+      // Check if online
+      const isOnline = navigator.onLine;
+      
+      if (!isOnline) {
+        // Track offline completion for sync later
+        if (window.offlineSync) {
+          window.offlineSync.trackOfflineCompletion(
+            this.studentId,
+            this.lessonNumber,
+            this.gradeLevel
+          );
+        }
+        console.log(`📝 Lesson ${this.lessonNumber} saved offline - will sync later`);
+        return true;
+      }
+      
+      // Try to save to database when online
       const response = await fetch(`${this.API_URL}/student/complete-lesson`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -42,6 +58,16 @@ class LessonCompletion {
       }
     } catch (error) {
       console.error('Error saving lesson completion:', error);
+      
+      // If offline, track for sync
+      if (!navigator.onLine && window.offlineSync) {
+        window.offlineSync.trackOfflineCompletion(
+          this.studentId,
+          this.lessonNumber,
+          this.gradeLevel
+        );
+      }
+      
       // Still saved locally, so return true
       return true;
     }

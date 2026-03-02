@@ -74,8 +74,8 @@ function createLessonViewer(containerId, lessonConfig) {
     return;
   }
 
-  const studentData = JSON.parse(localStorage.getItem('studentData') || '{}');
-  const studentId = studentData.student?.id;
+  const studentData = JSON.parse(localStorage.getItem('bedrockela_student') || 'null');
+  const studentId = studentData?.id;
   const lessonId = lessonConfig.lessonId;
   const gradeLevel = lessonConfig.gradeLevel;
 
@@ -208,7 +208,7 @@ function createLessonViewer(containerId, lessonConfig) {
     container.innerHTML = `
       <!-- Top Navigation -->
       <div class="lesson-nav-top">
-        <button class="nav-btn-home" onclick="window.location.href='student-dashboard-live.html'">
+        <button class="nav-btn-home" onclick="window.location.href='student-dashboard.html'">
           🏠 Home
         </button>
         

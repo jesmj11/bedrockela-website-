@@ -27,13 +27,13 @@ class TextToSpeech {
     }
 
     try {
-      // Determine API URL based on environment
-      const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-        ? 'http://localhost:3001'
-        : 'https://bedrockela-website-production.up.railway.app';
+      // Use Firebase Cloud Function
+      const FIREBASE_FUNCTION_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://127.0.0.1:5001/bedrockela-96dbd/us-central1/textToSpeech' // Local emulator
+        : 'https://us-central1-bedrockela-96dbd.cloudfunctions.net/textToSpeech'; // Production
       
-      // Call our backend proxy (keeps API key secure)
-      const response = await fetch(`${API_URL}/api/text-to-speech`, {
+      // Call Firebase Cloud Function (keeps API key secure)
+      const response = await fetch(FIREBASE_FUNCTION_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -5,20 +5,18 @@ body.lesson-viewer {
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background: linear-gradient(135deg, #E0F2F1 0%, #B2DFDB 100%);
-  min-height: 100vh;
-  overflow-x: hidden;
+  height: 100vh;
+  overflow: hidden; /* No page scrolling */
+  display: flex;
+  flex-direction: column;
 }
 
 .lesson-container {
   width: 100%;
-  margin: 0 auto;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  gap: 30px;
+  overflow: hidden;
 }
 
 /* Simple Navigation (for new v4 lessons) */
@@ -84,14 +82,10 @@ body.lesson-viewer {
   align-items: center;
   justify-content: space-between;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
+  flex-shrink: 0;
   gap: 15px;
-  flex-wrap: wrap;
   border-bottom: 3px solid #305853;
+  z-index: 100;
 }
 
 .nav-btn-home {
@@ -155,8 +149,9 @@ body.lesson-viewer {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 100px 20px 40px 20px;  /* Added top padding for fixed nav */
-  min-height: 100vh;
+  padding: 15px 20px;
+  overflow: hidden;
+  min-height: 0; /* Allow flex shrinking */
 }
 
 .lesson-page-card {
@@ -165,22 +160,23 @@ body.lesson-viewer {
   padding: 40px;
   width: 100%;
   max-width: 500px;  /* Mobile default */
-  min-height: 600px;  /* Consistent minimum height */
+  height: 100%;
+  max-height: calc(100vh - 180px); /* Leave room for top and bottom nav */
   box-shadow: 0 10px 40px rgba(48,88,83,0.2);
   border: 3px solid rgba(48,88,83,0.15);
   animation: pageSlideIn 0.3s ease;
   text-align: center;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  overflow-y: auto; /* Scroll inside card if content is long */
+  overflow-x: hidden;
 }
 
 /* Tablet: Expand content area */
 @media (min-width: 768px) {
   .lesson-page-card {
     max-width: 750px;
-    min-height: 650px;
-    padding: 50px 60px;
+    padding: 40px 50px;
   }
 }
 
@@ -188,8 +184,7 @@ body.lesson-viewer {
 @media (min-width: 1024px) {
   .lesson-page-card {
     max-width: 1000px;
-    min-height: 700px;
-    padding: 60px 80px;
+    padding: 50px 60px;
   }
 }
 
@@ -197,8 +192,7 @@ body.lesson-viewer {
 @media (min-width: 1400px) {
   .lesson-page-card {
     max-width: 1200px;
-    min-height: 750px;
-    padding: 70px 100px;
+    padding: 60px 80px;
   }
 }
 
@@ -306,6 +300,8 @@ body.lesson-viewer {
   box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
   gap: 20px;
   border-top: 3px solid #305853;
+  flex-shrink: 0;
+  z-index: 100;
 }
 
 .nav-arrow {
@@ -361,60 +357,52 @@ body.lesson-viewer {
 
 /* Mobile Responsive */
 @media (max-width: 767px) {
-  .lesson-container {
+  .lesson-nav-top {
+    padding: 10px 15px;
+  }
+
+  .lesson-page-content {
     padding: 10px;
   }
 
-  .lesson-nav {
-    padding: 12px 15px;
-    margin-bottom: 15px;
-  }
-
-  .lesson-nav .page-number {
-    font-size: 14px;
-  }
-
-  .lesson-nav .nav-arrow {
-    padding: 8px 15px;
-    font-size: 16px;
-  }
-
-  .lesson-nav-top {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .lesson-progress-bar {
-    max-width: 100%;
-  }
-
   .lesson-page-card {
-    padding: 25px 20px;
+    padding: 20px 15px;
     max-width: 100%;
+    max-height: calc(100vh - 220px); /* Account for mobile nav heights */
   }
 
   .lesson-nav-bottom {
-    flex-direction: column;
+    padding: 15px;
+    flex-wrap: wrap;
   }
 
   .nav-arrow {
-    width: 100%;
+    flex: 1;
+    min-width: 120px;
   }
   
-  .title-page {
-    padding: 40px 15px;
+  .page-indicator {
+    order: 3;
+    width: 100%;
+    margin-top: 10px;
   }
 }
 
 /* Small phones */
 @media (max-width: 480px) {
   .lesson-page-card {
-    padding: 20px 15px;
+    padding: 15px 10px;
     border-radius: 15px;
   }
   
   .content-page h2 {
     margin-bottom: 15px;
+    font-size: 24px;
+  }
+  
+  .content-page p,
+  .content-page li {
+    font-size: 16px;
   }
 }
 

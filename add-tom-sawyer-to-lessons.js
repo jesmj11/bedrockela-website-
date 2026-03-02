@@ -131,7 +131,7 @@ function processAllLessons() {
     }
 
     totalCount++;
-    const lessonPath = `./lessons/4th-grade-day-${day}.html`;
+    const lessonPath = `./4th-grade-day-${day}.html`;
     if (addDigitalBookToLesson(lessonPath, chapterNum)) {
       successCount++;
     }
@@ -146,7 +146,7 @@ function processAllLessons() {
     }
 
     totalCount++;
-    const lessonPath = `./lessons/6th-grade-day-${day}.html`;
+    const lessonPath = `./6th-grade-day-${day}.html`;
     if (addDigitalBookToLesson(lessonPath, chapterNums)) {
       successCount++;
     }

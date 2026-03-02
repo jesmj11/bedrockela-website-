@@ -172,13 +172,59 @@ class LessonCompletion {
     document.body.appendChild(modal);
 
     // Setup navigation functions
-    window.goToNextLesson = () => {
-      window.location.href = `${this.gradeLevel}-lesson-${nextLesson}-v4.html`;
+    window.goToNextLesson = async () => {
+      // Update Firebase progress first
+      await this.updateFirebaseProgress(nextLesson);
+      
+      // Navigate to next lesson with correct URL format
+      const nextUrl = this.getNextLessonUrl(nextLesson);
+      window.location.href = nextUrl;
     };
 
-    window.goToDashboard = () => {
-      window.location.href = 'student-dashboard-live.html';
+    window.goToDashboard = async () => {
+      // Update Firebase progress
+      await this.updateFirebaseProgress(nextLesson);
+      window.location.href = 'student-dashboard.html';
     };
+  }
+
+  // Get correct URL for next lesson based on grade
+  getNextLessonUrl(lessonNum) {
+    const pad = (n) => n.toString().padStart(3, '0');
+    
+    if (this.gradeLevel === '4th-grade' || this.gradeLevel === '6th-grade') {
+      return `${this.gradeLevel}-day-${lessonNum}.html`;
+    } else {
+      return `${this.gradeLevel}-lesson-${lessonNum}-REVISED.html`;
+    }
+  }
+
+  // Update student progress in Firebase
+  async updateFirebaseProgress(nextLesson) {
+    try {
+      const studentData = JSON.parse(localStorage.getItem('bedrockela_student') || 'null');
+      if (!studentData || !studentData.id) {
+        console.warn('No student data found in localStorage');
+        return;
+      }
+
+      // Import Firebase if not already loaded
+      if (typeof firebase === 'undefined') {
+        console.warn('Firebase not loaded - progress not saved to cloud');
+        return;
+      }
+
+      const db = firebase.firestore();
+      await db.collection('students').doc(studentData.id).update({
+        currentLesson: nextLesson,
+        completedLessons: firebase.firestore.FieldValue.arrayUnion(this.lessonNumber),
+        lastActive: new Date().toISOString()
+      });
+
+      console.log(`✅ Updated Firebase: currentLesson = ${nextLesson}`);
+    } catch (error) {
+      console.error('Error updating Firebase progress:', error);
+    }
   }
 }
 

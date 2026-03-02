@@ -180,15 +180,20 @@ function createLessonViewer(containerId, lessonConfig) {
   }
 
   function checkLessonCompletion() {
-    // Check if all activities are complete and we're on the last page
-    const allComplete = lessonProgress.story_completed && 
-                        lessonProgress.letter_explorer_completed && 
-                        lessonProgress.flashcard_completed;
     const onLastPage = currentPage === lessonConfig.pages.length - 1;
     
-    if (allComplete && onLastPage && studentId) {
-      // Extract lesson number from lessonId (e.g., "1st-grade-lesson-5" -> 5)
-      const lessonMatch = lessonId.match(/lesson-(\d+)/);
+    // For 1st grade: check if all activities are complete
+    const has1stGradeActivities = 'story_completed' in lessonProgress;
+    const allActivitiesComplete = has1stGradeActivities 
+      ? (lessonProgress.story_completed && 
+         lessonProgress.letter_explorer_completed && 
+         lessonProgress.flashcard_completed)
+      : true; // For other grades, just reaching the last page is enough
+    
+    if (onLastPage && allActivitiesComplete && studentId) {
+      // Extract lesson number from lessonId
+      // Supports: "1st-grade-lesson-5", "4th-grade-day-1", "6th-grade-day-30"
+      const lessonMatch = lessonId.match(/(?:lesson-|day-)(\d+)/);
       const lessonNumber = lessonMatch ? parseInt(lessonMatch[1]) : 1;
       
       // Show completion modal

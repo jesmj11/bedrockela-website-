@@ -60,15 +60,24 @@ class OfflineSync {
       }
       
       // Also cache essential resources
-      await cache.addAll([
+      const essentialResources = [
         '/css/lesson-viewer.css',
         '/js/lesson-viewer.js',
         '/js/lesson-completion.js',
         '/js/lesson-autosave.js',
+        '/js/text-to-speech.js',
         '/js/digital-book.js',
         '/firebase-config.js',
         '/student-dashboard.html'
-      ]);
+      ];
+      
+      for (const resource of essentialResources) {
+        try {
+          await cache.add(resource);
+        } catch (error) {
+          console.warn(`Failed to cache ${resource}:`, error);
+        }
+      }
       
       console.log(`✅ Cached ${lessonsToCache.length} lessons for offline use`);
       
@@ -82,11 +91,11 @@ class OfflineSync {
 
   // Get lesson URL based on grade level
   getLessonUrl(lessonNum, gradeLevel) {
-    if (gradeLevel === '4th-grade' || gradeLevel === '6th-grade') {
-      return `/${gradeLevel}-day-${lessonNum}.html`;
-    } else {
-      return `/${gradeLevel}-lesson-${lessonNum}-REVISED.html`;
-    }
+    // Normalize grade level (handle both "4th Grade" and "4th-grade")
+    const normalizedGrade = gradeLevel.toLowerCase().replace(/\s+/g, '-');
+    
+    // All lessons now use the "day-X" format
+    return `/${normalizedGrade}-day-${lessonNum}.html`;
   }
 
   // Save cache metadata

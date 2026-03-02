@@ -117,15 +117,14 @@ class LessonCompletion {
 
     modal.innerHTML = `
       <div style="background: white; border-radius: 24px; padding: 50px 40px; max-width: 500px; width: 90%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: slideUp 0.4s ease;">
-        <div style="font-size: 80px; margin-bottom: 20px;">🎉</div>
-        <h1 style="color: #5B7C99; font-size: 32px; margin-bottom: 15px;">Lesson Complete!</h1>
+        <h1 style="color: #305853; font-size: 32px; margin-bottom: 15px;">Lesson Complete!</h1>
         <p style="color: #666; font-size: 18px; margin-bottom: 30px;">
           Great job finishing Lesson ${this.lessonNumber}!<br>
           ${hasNext ? "You're ready for the next lesson!" : "You've completed all lessons!"}
         </p>
 
         <div style="background: #F5F9FF; padding: 20px; border-radius: 16px; margin-bottom: 30px;">
-          <div style="font-size: 48px; font-weight: bold; color: #5B7C99;">
+          <div style="font-size: 48px; font-weight: bold; color: #305853;">
             ${this.lessonNumber}
           </div>
           <div style="font-size: 14px; color: #666; margin-top: 5px;">

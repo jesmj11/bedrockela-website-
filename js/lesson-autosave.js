@@ -168,8 +168,8 @@ class LessonAutosave {
   }
 }
 
-// Initialize autosave when page loads
-window.addEventListener('DOMContentLoaded', () => {
+// Initialize autosave - called from lesson viewer after pages are rendered
+function initializeAutosave() {
   const studentData = JSON.parse(localStorage.getItem('bedrockela_student') || 'null');
   
   if (studentData?.id) {
@@ -178,18 +178,22 @@ window.addEventListener('DOMContentLoaded', () => {
     const lessonId = lessonMatch ? lessonMatch[1] : null;
     
     if (lessonId) {
-      // Wait 1 second for page to fully render, then initialize
-      setTimeout(() => {
-        window.lessonAutosave = new LessonAutosave(studentData.id, lessonId);
-        
-        // Restore any saved answers
-        window.lessonAutosave.restoreAnswers();
-        
-        // Attach input listeners
-        window.lessonAutosave.attachAutoSave();
-      }, 1000);
+      window.lessonAutosave = new LessonAutosave(studentData.id, lessonId);
+      
+      // Restore any saved answers
+      window.lessonAutosave.restoreAnswers();
+      
+      // Attach input listeners
+      window.lessonAutosave.attachAutoSave();
+      
+      console.log('✅ Autosave initialized and ready');
     }
   }
+}
+
+// Also try on DOMContentLoaded as backup
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(initializeAutosave, 1500);
 });
 
 // Save before leaving page

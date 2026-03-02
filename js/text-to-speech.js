@@ -127,19 +127,19 @@ class TextToSpeech {
     
     const states = {
       play: {
-        text: '🔊 Listen to Chapter',
+        text: 'Listen to Chapter',
         class: 'tts-button'
       },
       pause: {
-        text: '⏸️ Pause',
+        text: 'Pause',
         class: 'tts-button playing'
       },
       loading: {
-        text: '⏳ Generating audio...',
+        text: 'Generating audio...',
         class: 'tts-button loading'
       },
       error: {
-        text: '❌ Audio unavailable',
+        text: 'Audio unavailable',
         class: 'tts-button error'
       }
     };
@@ -147,6 +147,12 @@ class TextToSpeech {
     const config = states[state] || states.play;
     button.textContent = config.text;
     button.className = config.class;
+    
+    // Update stop button visibility
+    const stopButton = document.getElementById('tts-stop-button');
+    if (stopButton) {
+      stopButton.style.display = (state === 'pause' || state === 'loading') ? 'inline-block' : 'none';
+    }
   }
 
   // Fallback to browser Web Speech API
@@ -184,9 +190,21 @@ function addTTSButton(chapterText, lessonId, containerSelector) {
   const container = document.querySelector(containerSelector);
   if (!container) return;
 
+  // Create button container
+  const buttonContainer = document.createElement('div');
+  buttonContainer.style.cssText = `
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+  `;
+
+  // Play/Pause button
   const button = document.createElement('button');
+  button.id = 'tts-play-button';
   button.className = 'tts-button';
-  button.textContent = '🔊 Listen to Chapter';
+  button.textContent = 'Listen to Chapter';
   button.style.cssText = `
     background: linear-gradient(135deg, #5B7C99 0%, #305853 100%);
     color: white;
@@ -196,8 +214,6 @@ function addTTSButton(chapterText, lessonId, containerSelector) {
     font-size: 18px;
     font-weight: 700;
     cursor: pointer;
-    margin: 20px auto;
-    display: block;
     transition: transform 0.2s, box-shadow 0.2s;
     box-shadow: 0 4px 15px rgba(48,88,83,0.3);
   `;
@@ -216,7 +232,42 @@ function addTTSButton(chapterText, lessonId, containerSelector) {
     window.tts.play(chapterText, lessonId, button);
   });
 
-  container.insertBefore(button, container.firstChild);
+  // Stop button
+  const stopButton = document.createElement('button');
+  stopButton.id = 'tts-stop-button';
+  stopButton.textContent = 'Stop';
+  stopButton.style.cssText = `
+    background: linear-gradient(135deg, #B06821 0%, #8B5319 100%);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 15px rgba(176,104,33,0.3);
+    display: none;
+  `;
+  
+  stopButton.addEventListener('mouseenter', () => {
+    stopButton.style.transform = 'translateY(-2px)';
+    stopButton.style.boxShadow = '0 6px 20px rgba(176,104,33,0.4)';
+  });
+  
+  stopButton.addEventListener('mouseleave', () => {
+    stopButton.style.transform = 'translateY(0)';
+    stopButton.style.boxShadow = '0 4px 15px rgba(176,104,33,0.3)';
+  });
+  
+  stopButton.addEventListener('click', () => {
+    window.tts.stop();
+    window.tts.updateButton(button, 'play');
+  });
+
+  buttonContainer.appendChild(button);
+  buttonContainer.appendChild(stopButton);
+  container.insertBefore(buttonContainer, container.firstChild);
 }
 
 // Export for use in lessons

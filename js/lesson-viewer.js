@@ -263,6 +263,13 @@ function createLessonViewer(containerId, lessonConfig) {
       page.onLoad();
     }
 
+    // Initialize autosave after page renders
+    setTimeout(() => {
+      if (typeof initializeAutosave === 'function') {
+        initializeAutosave();
+      }
+    }, 100);
+
     // Check if lesson is complete (all activities done, on last page)
     setTimeout(() => checkLessonCompletion(), 500);
   }

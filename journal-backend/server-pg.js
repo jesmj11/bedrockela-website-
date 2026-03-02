@@ -1038,7 +1038,7 @@ app.get('/api/journal/:student_id/recent', async (req, res) => {
 // ========================================
 
 app.post('/api/text-to-speech', async (req, res) => {
-  const { text, voice } = req.body;
+  const { text, voice, voiceId, lessonId } = req.body;
 
   if (!text) {
     return res.status(400).json({ success: false, error: 'Text required' });
@@ -1057,13 +1057,17 @@ app.post('/api/text-to-speech', async (req, res) => {
     'Bella': 'EXAVITQu4vr4xnSDxMaL',
     'Antoni': 'ErXwobaYiN019PkySvjV',
     'Elli': 'MF3mGyEYCl7XYWbV9V6O',
-    'Josh': 'TxGEqnHWrfWFTfGW9XjX'
+    'Josh': 'TxGEqnHWrfWFTfGW9XjX',
+    'Adam': 'pNInz6obpgDQGcFmaJgB'
   };
 
-  const voiceId = voiceIds[voice] || voiceIds['Rachel'];
+  // Use provided voiceId, or map from voice name, or default to Adam
+  const selectedVoiceId = voiceId || voiceIds[voice] || voiceIds['Adam'];
+
+  console.log(`🎤 Generating TTS for lesson ${lessonId || 'unknown'} with voice ${selectedVoiceId}`);
 
   try {
-    const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+    const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${selectedVoiceId}`, {
       method: 'POST',
       headers: {
         'Accept': 'audio/mpeg',
@@ -1075,19 +1079,27 @@ app.post('/api/text-to-speech', async (req, res) => {
         model_id: 'eleven_monolingual_v1',
         voice_settings: {
           stability: 0.5,
-          similarity_boost: 0.75
+          similarity_boost: 0.75,
+          style: 0.0,
+          use_speaker_boost: true
         }
       })
     });
 
     if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`ElevenLabs API error: ${response.status}`, errorText);
       throw new Error(`ElevenLabs API error: ${response.status}`);
     }
 
     // Stream the audio back to client
     res.setHeader('Content-Type', 'audio/mpeg');
-    const audioStream = response.body;
-    audioStream.pipe(res);
+    res.setHeader('Cache-Control', 'public, max-age=86400'); // Cache for 24 hours
+    
+    const buffer = await response.arrayBuffer();
+    res.send(Buffer.from(buffer));
+
+    console.log(`✅ TTS generated successfully for lesson ${lessonId || 'unknown'}`);
 
   } catch (error) {
     console.error('TTS error:', error);

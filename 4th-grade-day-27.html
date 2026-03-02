@@ -19,6 +19,7 @@
     <script src="js/lesson-completion.js"></script>
     <script src="js/lesson-autosave.js"></script>
     <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
     
     <script src="js/digital-book.js"></script>
     
@@ -125,6 +126,24 @@
                                     ]
                                 };
                                 window.digitalBookInstance = new DigitalBook('digital-book-day-27', bookConfig);
+                                
+                                // Add TTS button for chapter reading
+                                setTimeout(() => {
+                                    const chapterText = bookConfig.pages.map(p => p.text).join('\n\n');
+                                    const readingCard = document.querySelector('.lesson-page-card.content-page');
+                                    if (readingCard && chapterText && window.addTTSButton) {
+                                        // Create TTS container at top of digital book
+                                        const ttsContainer = document.createElement('div');
+                                        ttsContainer.id = 'tts-container-day-27';
+                                        ttsContainer.style.cssText = 'margin-bottom: 20px;';
+                                        
+                                        const bookContainer = document.getElementById('digital-book-day-27');
+                                        if (bookContainer && bookContainer.parentElement) {
+                                            bookContainer.parentElement.insertBefore(ttsContainer, bookContainer);
+                                            window.addTTSButton(chapterText, '4th-grade-day-27', '#tts-container-day-27');
+                                        }
+                                    }
+                                }, 500);
                                 window.day27BookInitialized = true;
                             }
                         }, 100);

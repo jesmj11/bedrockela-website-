@@ -1,6 +1,7 @@
 /**
  * BedrockELA Firebase Cloud Functions
  * Text-to-Speech using ElevenLabs API
+ * AI Feedback using Claude API
  */
 
 const {onRequest} = require("firebase-functions/v2/https");
@@ -99,5 +100,117 @@ exports.textToSpeech = onRequest({
   } catch (error) {
     logger.error('TTS error:', error);
     res.status(500).json({ success: false, error: 'TTS generation failed' });
+  }
+});
+
+/**
+ * AI Feedback Function
+ * Reviews student answers and provides constructive feedback
+ * 
+ * Deploy with: firebase deploy --only functions:aiFeedback
+ * Set API key: Set ANTHROPIC_API_KEY in environment
+ */
+exports.aiFeedback = onRequest({
+  cors: true,
+  maxInstances: 5,
+  timeoutSeconds: 30,
+  memory: "256MiB"
+}, async (req, res) => {
+  // Only allow POST
+  if (req.method !== 'POST') {
+    res.status(405).send('Method Not Allowed');
+    return;
+  }
+
+  const { answers } = req.body;
+
+  if (!answers || !Array.isArray(answers) || answers.length === 0) {
+    res.status(400).json({ success: false, error: 'Answers array required' });
+    return;
+  }
+
+  // Get API key from environment variable
+  const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
+  
+  if (!ANTHROPIC_API_KEY) {
+    logger.error('ANTHROPIC_API_KEY not set in environment');
+    res.status(500).json({ success: false, error: 'AI service not configured' });
+    return;
+  }
+
+  // Build prompt
+  const prompt = `You are a helpful 4th grade ELA teacher. Review these student answers and provide encouraging, constructive feedback. Keep feedback brief (2-3 sentences per answer) and age-appropriate.
+
+${answers.map((a, i) => `
+Question ${i + 1}: ${a.question}
+Student's Answer: ${a.answer}
+`).join('\n')}
+
+For each answer, provide:
+1. What they did well
+2. One specific suggestion for improvement (if needed)
+3. Overall encouragement
+
+Format your response as JSON:
+{
+  "feedback": [
+    {
+      "questionNum": 1,
+      "positive": "Great observation about...",
+      "suggestion": "Consider adding...",
+      "encouragement": "Keep up the good work!"
+    }
+  ]
+}`;
+
+  logger.info(`Generating AI feedback for ${answers.length} answers`);
+
+  try {
+    const response = await fetch(
+      'https://api.anthropic.com/v1/messages',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': ANTHROPIC_API_KEY,
+          'anthropic-version': '2023-06-01'
+        },
+        body: JSON.stringify({
+          model: 'claude-3-haiku-20240307',
+          max_tokens: 1024,
+          messages: [{
+            role: 'user',
+            content: prompt
+          }]
+        })
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      logger.error(`Claude API error: ${response.status}`, errorText);
+      throw new Error(`Claude API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const feedbackText = data.content[0].text;
+    
+    // Parse JSON response
+    let feedback;
+    try {
+      feedback = JSON.parse(feedbackText);
+    } catch (parseError) {
+      logger.error('Failed to parse Claude response as JSON:', feedbackText);
+      throw new Error('Invalid AI response format');
+    }
+    
+    // Send feedback
+    res.json({ success: true, feedback: feedback.feedback });
+
+    logger.info(`AI feedback generated successfully for ${answers.length} answers`);
+
+  } catch (error) {
+    logger.error('AI feedback error:', error);
+    res.status(500).json({ success: false, error: 'AI feedback generation failed' });
   }
 });

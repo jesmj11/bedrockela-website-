@@ -26,6 +26,7 @@ function createComprehensionQuestion(questionNumber, questionText, minWords = 30
         <span id="${countId}" style="font-size: 14px; color: #666;">0 / ${minWords} words</span>
         <span id="${countId}-status" style="font-size: 14px; font-weight: 600;"></span>
       </div>
+      ${typeof window.createSubmitButton === 'function' ? window.createSubmitButton(id, questionText, minWords) : ''}
     </div>
   `;
 }
@@ -196,10 +197,23 @@ function createLessonViewer(containerId, lessonConfig) {
       const lessonMatch = lessonId.match(/(?:lesson-|day-)(\d+)/);
       const lessonNumber = lessonMatch ? parseInt(lessonMatch[1]) : 1;
       
-      // Show completion modal
+      // Mark complete first
       if (typeof LessonCompletion !== 'undefined') {
         const completion = new LessonCompletion(studentId, lessonNumber, gradeLevel);
+        window.lessonCompletion = completion; // Store globally for feedback modal
+        
         completion.markComplete().then(() => {
+          // Check if there are answers to review
+          if (window.answerValidation) {
+            const answers = window.answerValidation.getAllSubmittedAnswers();
+            if (Object.keys(answers).length > 0) {
+              // Show AI feedback modal first
+              window.answerValidation.showFeedbackModal();
+              return; // Don't show completion modal yet
+            }
+          }
+          
+          // No answers to review, show completion modal directly
           completion.showCompletionModal();
         });
       }
@@ -267,6 +281,15 @@ function createLessonViewer(containerId, lessonConfig) {
     setTimeout(() => {
       if (typeof initializeAutosave === 'function') {
         initializeAutosave();
+      }
+    }, 100);
+
+    // Register answer fields on this page for validation
+    setTimeout(() => {
+      if (window.answerValidation) {
+        const answerFields = Array.from(document.querySelectorAll('textarea[id^="question-"]'))
+          .map(el => el.id);
+        window.answerValidation.registerPageAnswers(answerFields);
       }
     }, 100);
 

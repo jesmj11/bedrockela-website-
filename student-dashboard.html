@@ -297,26 +297,27 @@
         }
 
         window.goToLesson = function() {
-            const gradeLevel = studentData.gradeLevel;
+            let gradeLevel = studentData.gradeLevel;
             const currentLesson = studentData.currentLesson || 1;
             
-            // Route to appropriate lesson page based on grade
-            if (gradeLevel === '1st Grade' || gradeLevel === '1st' || gradeLevel === 'Grade 1') {
-                window.location.href = `1st-grade-lesson-${currentLesson}-REVISED.html`;
-            } else if (gradeLevel === '2nd Grade' || gradeLevel === '2nd' || gradeLevel === 'Grade 2') {
+            // Normalize grade level if needed
+            if (typeof window.normalizeGradeLevel === 'function') {
+                gradeLevel = window.normalizeGradeLevel(gradeLevel);
+            }
+            
+            // Route to appropriate lesson page based on normalized grade
+            if (gradeLevel === '1st-grade') {
+                window.location.href = `1st-grade-lesson-${currentLesson}.html`;
+            } else if (gradeLevel === '2nd-grade') {
                 window.location.href = `2nd-grade-lesson-${currentLesson}-REVISED.html`;
-            } else if (gradeLevel === '3rd Grade' || gradeLevel === '3rd' || gradeLevel === 'Grade 3') {
+            } else if (gradeLevel === '3rd-grade') {
                 window.location.href = `3rd-grade-lesson-${currentLesson}-REVISED.html`;
-            } else if (gradeLevel === '4th Grade' || gradeLevel === '4th' || gradeLevel === 'Grade 4') {
+            } else if (gradeLevel === '4th-grade') {
                 window.location.href = `4th-grade-day-${currentLesson}.html`;
-            } else if (gradeLevel === '5th Grade' || gradeLevel === '5th' || gradeLevel === 'Grade 5') {
-                window.location.href = `5th-grade-lesson-${currentLesson}-REVISED.html`;
-            } else if (gradeLevel === '6th Grade' || gradeLevel === '6th' || gradeLevel === 'Grade 6') {
+            } else if (gradeLevel === '5th-grade') {
+                window.location.href = `5th-grade-day-${currentLesson}.html`;
+            } else if (gradeLevel === '6th-grade') {
                 window.location.href = `6th-grade-day-${currentLesson}.html`;
-            } else if (gradeLevel === '7th Grade' || gradeLevel === '7th' || gradeLevel === 'Grade 7') {
-                alert(`📚 Lessons for 7th grade are coming soon!`);
-            } else if (gradeLevel === '8th Grade' || gradeLevel === '8th' || gradeLevel === 'Grade 8') {
-                alert(`📚 Lessons for 8th grade are coming soon!`);
             } else {
                 alert(`📚 Lessons for ${gradeLevel} are coming soon!`);
             }
@@ -327,6 +328,9 @@
             window.location.href = 'student-login.html';
         }
     </script>
+    
+    <!-- Grade normalizer (must load first) -->
+    <script src="js/grade-normalizer.js"></script>
     
     <!-- Offline sync system -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>

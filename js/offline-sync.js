@@ -346,18 +346,31 @@ class OfflineSync {
 
 // Initialize offline sync when page loads
 window.addEventListener('DOMContentLoaded', () => {
-  window.offlineSync = new OfflineSync();
-  
-  // Cache lessons when student logs in
-  const studentData = JSON.parse(localStorage.getItem('bedrockela_student') || 'null');
-  if (studentData?.id && studentData?.gradeLevel) {
-    // Get current lesson from Firebase or localStorage
-    const currentLesson = studentData.currentLesson || 1;
+  // Wait a bit for grade normalizer to run first
+  setTimeout(() => {
+    window.offlineSync = new OfflineSync();
     
-    // Normalize grade level before caching (convert "4th Grade" → "4th-grade")
-    const normalizedGrade = studentData.gradeLevel.toLowerCase().replace(/\s+/g, '-');
-    
-    // Cache next 10 lessons
-    window.offlineSync.cacheLessonsAhead(currentLesson, normalizedGrade);
-  }
+    // Cache lessons when student logs in
+    const studentData = JSON.parse(localStorage.getItem('bedrockela_student') || 'null');
+    if (studentData?.id && studentData?.gradeLevel) {
+      // Get current lesson from Firebase or localStorage
+      const currentLesson = studentData.currentLesson || 1;
+      
+      // Grade should already be normalized by grade-normalizer.js
+      // But double-check format
+      let gradeLevel = studentData.gradeLevel;
+      if (!gradeLevel.includes('-')) {
+        // Still needs normalization (fallback)
+        gradeLevel = gradeLevel.toLowerCase().replace(/\s+/g, '-');
+        if (!gradeLevel.includes('grade')) {
+          gradeLevel = gradeLevel + '-grade';
+        }
+      }
+      
+      console.log(`📦 Caching lessons for: ${gradeLevel}`);
+      
+      // Cache next 10 lessons
+      window.offlineSync.cacheLessonsAhead(currentLesson, gradeLevel);
+    }
+  }, 100); // Wait 100ms for normalizer to fix localStorage
 });

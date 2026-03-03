@@ -195,7 +195,20 @@ async function initializeTestStudents() {
 // Middleware
 app.set('trust proxy', true); // Required for Railway/proxies
 app.use(helmet());
-app.use(cors());
+
+// CORS configuration - allow bedrockela.com and localhost
+const corsOptions = {
+  origin: [
+    'https://bedrockela.com',
+    'http://localhost:3000',
+    'http://localhost:5000',
+    'http://127.0.0.1:5000'
+  ],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
+
 app.use(express.json());
 
 // Serve static files from parent directory (the website)

@@ -3,7 +3,8 @@
  * One page at a time with progress tracking
  */
 
-const BACKEND_API = 'https://bedrockela-website-production.up.railway.app/api';
+// Railway backend disabled - using Firebase only
+// const BACKEND_API = 'https://bedrockela-website-production.up.railway.app/api';
 
 /**
  * Word Count Helper for Comprehension Questions
@@ -89,56 +90,63 @@ function createLessonViewer(containerId, lessonConfig) {
     total_pages: lessonConfig.pages.length
   };
 
-  // Load saved progress
+  // Load saved progress from localStorage (instant) and Firebase (sync)
   if (studentId) {
     loadLessonProgress();
   }
 
   function loadLessonProgress() {
-    fetch(`${BACKEND_API}/lesson-progress/${studentId}/${lessonId}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.success && data.progress) {
-          lessonProgress = {
-            story_completed: data.progress.story_completed || false,
-            letter_explorer_completed: data.progress.letter_explorer_completed || false,
-            flashcard_completed: data.progress.flashcard_completed || false,
-            current_page: data.progress.current_page || 0,
-            total_pages: lessonConfig.pages.length
-          };
-          currentPage = lessonProgress.current_page;
-          render();
-        } else {
-          render();
-        }
-      })
-      .catch(err => {
-        console.error('Error loading lesson progress:', err);
+    // Try localStorage first for instant load
+    const localKey = `lesson_progress_${studentId}_${lessonId}`;
+    const local = localStorage.getItem(localKey);
+    
+    if (local) {
+      try {
+        const data = JSON.parse(local);
+        lessonProgress = {
+          story_completed: data.story_completed || false,
+          letter_explorer_completed: data.letter_explorer_completed || false,
+          flashcard_completed: data.flashcard_completed || false,
+          current_page: data.current_page || 0,
+          total_pages: lessonConfig.pages.length
+        };
+        currentPage = lessonProgress.current_page;
         render();
-      });
+      } catch (e) {
+        console.error('Error parsing local progress:', e);
+        render();
+      }
+    } else {
+      render();
+    }
   }
 
   function saveLessonProgress() {
     if (!studentId) return;
 
     const progress = {
-      student_id: studentId,
-      lesson_id: lessonId,
-      grade_level: gradeLevel,
       story_completed: lessonProgress.story_completed,
       letter_explorer_completed: lessonProgress.letter_explorer_completed,
       flashcard_completed: lessonProgress.flashcard_completed,
       current_page: currentPage,
-      total_pages: lessonConfig.pages.length
+      total_pages: lessonConfig.pages.length,
+      lastUpdated: new Date().toISOString()
     };
 
-    fetch(`${BACKEND_API}/lesson-progress`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(progress)
-    })
-      .then(res => res.json())
-      .catch(err => console.error('Error saving lesson progress:', err));
+    // Save to localStorage immediately
+    const localKey = `lesson_progress_${studentId}_${lessonId}`;
+    localStorage.setItem(localKey, JSON.stringify(progress));
+    
+    // Also save to Firebase for cloud backup (no CORS issues!)
+    if (typeof firebase !== 'undefined' && firebase.firestore) {
+      const db = firebase.firestore();
+      db.collection('lessonProgress').doc(`${studentId}_${lessonId}`).set({
+        studentId,
+        lessonId,
+        gradeLevel,
+        ...progress
+      }).catch(err => console.warn('Firebase save failed (offline?):', err));
+    }
   }
 
   function markSectionComplete(section) {

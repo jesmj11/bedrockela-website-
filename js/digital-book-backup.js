@@ -16,7 +16,7 @@ const PAGE_PALETTE = [
   { bg: "#FFF5EB", accent: "#C08050" },
 ];
 
-const BACKEND_API = 'https://bedrockela-website-production.up.railway.app/api';
+// Railway backend removed - using Firebase only
 
 function createDigitalBook(containerId, bookConfig, options = {}) {
   const container = document.getElementById(containerId);

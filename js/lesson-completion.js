@@ -8,58 +8,24 @@ class LessonCompletion {
     this.studentId = studentId;
     this.lessonNumber = lessonNumber;
     this.gradeLevel = gradeLevel;
-    this.API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-      ? 'http://localhost:3001/api' 
-      : 'https://bedrockela-website-production.up.railway.app/api';
   }
 
-  // Mark lesson as complete and save to database
+  // Mark lesson as complete - save to localStorage + Firebase
   async markComplete() {
     try {
-      // Save to localStorage immediately
+      // Save to localStorage immediately (works offline)
       this.saveToLocalStorage();
       
-      // Check if online
-      const isOnline = navigator.onLine;
+      // Save to Firebase if online
+      await this.saveToFirebase();
       
-      if (!isOnline) {
-        // Track offline completion for sync later
-        if (window.offlineSync) {
-          window.offlineSync.trackOfflineCompletion(
-            this.studentId,
-            this.lessonNumber,
-            this.gradeLevel
-          );
-        }
-        console.log(`📝 Lesson ${this.lessonNumber} saved offline - will sync later`);
-        return true;
-      }
+      console.log(`✅ Lesson ${this.lessonNumber} marked complete`);
+      return true;
       
-      // Try to save to database when online
-      const response = await fetch(`${this.API_URL}/student/complete-lesson`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          student_id: this.studentId,
-          grade_level: this.gradeLevel,
-          lesson_number: this.lessonNumber,
-          completed_at: new Date().toISOString()
-        })
-      });
-
-      const data = await response.json();
-      
-      if (data.success) {
-        console.log(`✅ Lesson ${this.lessonNumber} marked complete in database`);
-        return true;
-      } else {
-        console.warn('Database save failed, but saved locally');
-        return false;
-      }
     } catch (error) {
       console.error('Error saving lesson completion:', error);
       
-      // If offline, track for sync
+      // If offline, track for sync later
       if (!navigator.onLine && window.offlineSync) {
         window.offlineSync.trackOfflineCompletion(
           this.studentId,
@@ -70,6 +36,29 @@ class LessonCompletion {
       
       // Still saved locally, so return true
       return true;
+    }
+  }
+
+  // Save to Firebase Firestore
+  async saveToFirebase() {
+    if (typeof firebase === 'undefined' || !navigator.onLine) {
+      console.log('Firebase offline - saved to localStorage');
+      return;
+    }
+
+    try {
+      const db = firebase.firestore();
+      await db.collection('students').doc(this.studentId).update({
+        completedLessons: firebase.firestore.FieldValue.arrayUnion(this.lessonNumber),
+        lastActive: new Date().toISOString(),
+        [`progress.${this.gradeLevel}.lesson${this.lessonNumber}`]: {
+          completedAt: new Date().toISOString()
+        }
+      });
+      
+      console.log(`☁️ Synced to Firebase`);
+    } catch (error) {
+      console.warn('Firebase save failed (offline?):', error);
     }
   }
 

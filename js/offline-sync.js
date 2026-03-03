@@ -19,6 +19,9 @@ class OfflineSync {
   }
 
   async init() {
+    // Clear old cache metadata (from previous versions with wrong URLs)
+    this.clearOldCache();
+    
     // Show online/offline indicator
     this.createOnlineIndicator();
     
@@ -28,6 +31,23 @@ class OfflineSync {
     }
     
     console.log(`📡 Offline sync initialized - ${this.isOnline ? 'ONLINE' : 'OFFLINE'}`);
+  }
+
+  // Clear old cache if it has wrong URL format
+  clearOldCache() {
+    const metadata = this.getCacheMetadata();
+    if (metadata && metadata.gradeLevel && metadata.gradeLevel.includes(' ')) {
+      // Old format detected - clear it
+      console.log('🧹 Clearing old cache with wrong URL format...');
+      localStorage.removeItem(this.storageKey);
+      
+      // Also clear the actual cache
+      if ('caches' in window) {
+        caches.delete('bedrockela-offline-lessons').then(() => {
+          console.log('✅ Old cache cleared');
+        });
+      }
+    }
   }
 
   // Pre-cache next 10 lessons for offline use
@@ -334,7 +354,10 @@ window.addEventListener('DOMContentLoaded', () => {
     // Get current lesson from Firebase or localStorage
     const currentLesson = studentData.currentLesson || 1;
     
+    // Normalize grade level before caching (convert "4th Grade" → "4th-grade")
+    const normalizedGrade = studentData.gradeLevel.toLowerCase().replace(/\s+/g, '-');
+    
     // Cache next 10 lessons
-    window.offlineSync.cacheLessonsAhead(currentLesson, studentData.gradeLevel);
+    window.offlineSync.cacheLessonsAhead(currentLesson, normalizedGrade);
   }
 });

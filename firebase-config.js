@@ -1,7 +1,5 @@
-// Firebase Configuration
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+// Firebase Configuration (Compat version - no imports needed)
+// Firebase SDK loaded via script tags in HTML
 
 const firebaseConfig = {
   apiKey: "AIzaSyBe9j9udmBMxjSgQ9rjlao8bYOGnPcg69Y",
@@ -13,9 +11,10 @@ const firebaseConfig = {
   measurementId: "G-5F2WPVCWXG"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-export { auth, db };
+// Initialize Firebase using compat SDK (loaded via script tags)
+if (typeof firebase !== 'undefined') {
+  firebase.initializeApp(firebaseConfig);
+  console.log('✅ Firebase initialized');
+} else {
+  console.error('❌ Firebase SDK not loaded - check script tags');
+}

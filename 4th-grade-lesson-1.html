@@ -4,147 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lesson 1: The Adventure Begins - BedrockELA</title>
-    <link rel="stylesheet" href="css/flashcard-game.css">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            line-height: 1.8;
-            color: #1B2A30;
-            background: linear-gradient(135deg, #B06821 0%, #305853 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .container { max-width: 900px; margin: 0 auto; }
-        .header {
-            background: white;
-            border-radius: 20px 20px 0 0;
-            padding: 30px;
-            text-align: center;
-            border-bottom: 4px solid #B06821;
-        }
-        .header h1 { color: #305853; font-size: 2rem; margin-bottom: 5px; }
-        .header .meta { color: #666; font-size: 0.9rem; }
-        .lesson-content {
-            background: white;
-            padding: 40px;
-            border-radius: 0 0 20px 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        .lesson-content h2 { color: #B06821; margin: 30px 0 15px 0; font-size: 1.5rem; }
-        .lesson-content h3 { color: #305853; margin: 25px 0 12px 0; font-size: 1.2rem; }
-        .lesson-content h4 { color: #666; margin: 20px 0 10px 0; }
-        .lesson-content p { margin: 15px 0; }
-        .lesson-content ul, .lesson-content ol { margin: 15px 0 15px 30px; }
-        .lesson-content li { margin: 8px 0; }
-        .lesson-content strong { color: #305853; }
-        .lesson-content em { color: #B06821; }
-        .reading-tip {
-            background: #FFF9E6;
-            border-left: 4px solid #B06821;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 5px;
-        }
-        .vocab-box {
-            background: #E8F4F8;
-            border-left: 4px solid #305853;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 5px;
-        }
-        .question {
-            background: #f5f5f5;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 8px;
-        }
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin: 30px 0;
-            gap: 15px;
-        }
-        .nav-btn {
-            background: linear-gradient(135deg, #B06821 0%, #305853 100%);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: transform 0.2s;
-            display: inline-block;
-        }
-        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        .nav-btn.disabled { opacity: 0.4; pointer-events: none; }
-        .top-nav {
-            background: rgba(48,88,83,0.95);
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .top-nav .logo {
-            color: white;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-        .top-nav .dashboard-btn {
-            background: #B06821;
-            color: white;
-            padding: 8px 20px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-        }
-        .top-nav .dashboard-btn:hover {
-            background: #8B4F19;
-            transform: translateY(-2px);
-        }
-    
-        .lesson-sections {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        .section-card {
-            background: white;
-            border-radius: 20px;
-            padding: 35px;
-            box-shadow: 0 4px 20px rgba(48,88,83,0.12);
-            border: 2px solid rgba(48,88,83,0.08);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .section-card:hover {
-            box-shadow: 0 6px 25px rgba(48,88,83,0.18);
-        }
-        .section-card h3, .section-card h4 {
-            margin-top: 0;
-        }
-    </style>
+    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/lesson-completion.js"></script>
 </head>
-<body>
-    <div class="container">
-        <div class="top-nav">
-            <div class="logo">📚 BedrockELA - 4th Grade</div>
-            <a href="student-dashboard-live.html" class="dashboard-btn">← Back to Dashboard</a>
+<body class="lesson-viewer">
+    <!-- Top Navigation -->
+    <div class="lesson-top-nav">
+        <a href="student-dashboard.html" class="nav-home">🏠 Home</a>
+        <div class="lesson-progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+            <span class="progress-text" id="progress-text">0% Complete</span>
         </div>
-        
-        <div class="header">
-            <h1>📚 Lesson 1: The Adventure Begins</h1>
-            <p class="meta">The Wonderful Wizard of Oz  •  Chapter 1: The Cyclone</p>
+        <div class="lesson-day-indicator">
+            Day <span id="current-day">1</span>
+            <span class="online-indicator">● Online</span>
         </div>
-        
-        <div class="lesson-content lesson-sections">
-<div class="section-card">
-<div class="section-card">
+    </div>
 
-<h4>📚  Welcome to Your Reading Adventure!</h4>
+    <!-- Lesson Container -->
+    <div id="lesson-container" class="lesson-container"></div>
+
+    <!-- Scripts -->
+    <script src="js/lesson-viewer.js"></script>
+    
+    <script>
+        // Lesson 1 Configuration
+        const lesson1Config = {
+            lessonId: '4th-grade-day-1',
+            gradeLevel: '4th-grade',
+            title: 'Lesson 1: The Adventure Begins',
+            subtitle: 'The Wonderful Wizard of Oz  •  Chapter 1: The Cyclone',
+            pages: [
+                // Page 1: Title
+                {
+                    render: () => `
+                        <div class="lesson-page-card title-page">
+                            <div class="character">📖</div>
+                            <h1>Day 1</h1>
+                            <p class="subtitle">4th Grade ELA</p>
+                            <p style="font-size: 20px; color: #B06821; margin: 15px 0; font-weight: 600;">The Wonderful Wizard of Oz    Chapter 1: The Cyclone</p>
+                        </div>
+                    `
+                },
+                
+                // Page 2: 📚  Welcome to Your Reading Adventure!
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h4>📚  Welcome to Your Reading Adventure!</h4>
 <p>Hey there, reader! Today is Day 1 of a big year. Over the next 180 lessons, you are going to read incredible stories, travel the world, meet unforgettable characters, and become a stronger reader and writer than you ever thought possible.</p>
 <p>But first — we start with a girl named Dorothy, a little dog named Toto, and a really, really big storm.</p>
 <br>
@@ -159,12 +68,15 @@
 <p>Time: About 45-50 minutes</p>
 <p>Ready? Let’s go.</p>
 <br>
+                        </div>
+                    `
+                },
 
-</div>
-<div class="section-card">
-</div>
-<div class="section-card">
-<h3>🧐  Part 1: Before You Read</h3>
+                // Page 3: 🧐  Part 1: Before You Read
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h3>🧐  Part 1: Before You Read</h3>
 <p>Before we jump into the story, let’s think for a moment.</p>
 <br>
 <p>Think about this: Imagine a huge storm is coming — the biggest storm you’ve ever seen. The wind is shaking your house. What would you do? What would you grab? Where would you hide?</p>
@@ -178,9 +90,15 @@
 <li>How does Dorothy feel? How do you know?</li>
 </ul>
 <br>
-</div>
-<div class="section-card">
-<h3>📖  Part 2: Read Chapter 1 — “The Cyclone”</h3>
+                        </div>
+                    `
+                },
+
+                // Page 4: 📖  Part 2: Read Chapter 1 — “The Cyclone”
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h3>📖  Part 2: Read Chapter 1 — “The Cyclone”</h3>
 <p>Open your digital copy of The Wonderful Wizard of Oz and read Chapter 1: “The Cyclone.”</p>
 <br>
 <p>This is a short chapter — it should take about 10-15 minutes to read.</p>
@@ -190,9 +108,15 @@
 <br>
 <p>When you’re done reading, come back here and keep going. ⬇️</p>
 <br>
-</div>
-<div class="section-card">
-<h3>💬  Part 3: Word of the Day</h3>
+                        </div>
+                    `
+                },
+
+                // Page 5: 💬  Part 3: Word of the Day
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h3>💬  Part 3: Word of the Day</h3>
 <div class="vocab-box"><strong>cyclone  (noun)</strong></div>
 <p>A powerful, spinning windstorm that can cause great destruction.</p>
 <br>
@@ -200,9 +124,15 @@
 <br>
 <p>Think about it: Why do you think L. Frank Baum chose to start Dorothy’s story with a cyclone? What does it do to the story right away?</p>
 <br>
-</div>
-<div class="section-card">
-<h3>✅  Part 4: Check Your Understanding</h3>
+                        </div>
+                    `
+                },
+
+                // Page 6: ✅  Part 4: Check Your Understanding
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h3>✅  Part 4: Check Your Understanding</h3>
 <p>Let’s see what you picked up from Chapter 1. Answer these questions using what you read.</p>
 <br>
 <div class="question">1. Where does Dorothy live at the beginning of the story?</div>
@@ -231,9 +161,15 @@
 <h4>💡 Hint: Think about contrast — if Kansas is gray, what might that tell you about where Dorothy is going?</h4>
 <p>[Your answer]</p>
 <br>
-</div>
-<div class="section-card">
-<h3>✍️  Part 5: Your Reading Journal</h3>
+                        </div>
+                    `
+                },
+
+                // Page 7: ✍️  Part 5: Your Reading Journal
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h3>✍️  Part 5: Your Reading Journal</h3>
 <p>This is your reading journal. You’re going to write in it every single lesson this year. By the end, you’ll have a whole book of your own thoughts about every story you’ve read. Pretty cool, right?</p>
 <br>
 <p>Today’s journal entry:</p>
@@ -263,15 +199,21 @@
 <br>
 <p>See you tomorrow, reader. 📚</p>
 <br>
+                        </div>
+                    `
+                }
+            ]
+        };
 
-</div>
-        </div>
-
-        <div class="nav-buttons">
-            <span class="nav-btn disabled">← First Lesson</span>
-            <a href="student-dashboard-live.html" class="nav-btn">Dashboard</a>
-            <a href="4th-grade-lesson-2.html" class="nav-btn">Lesson 2 →</a>
-        </div>
-    </div>
+        // Initialize lesson viewer
+        createLessonViewer('lesson-container', lesson1Config);
+        
+        // Initialize autosave after a short delay
+        setTimeout(() => {
+            if (typeof initializeAutosave === 'function') {
+                initializeAutosave();
+            }
+        }, 1000);
+    </script>
 </body>
 </html>

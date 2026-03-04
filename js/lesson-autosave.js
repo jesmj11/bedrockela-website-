@@ -94,10 +94,17 @@ class LessonAutosave {
       }, 2000);
     };
     
+    // Remove old listeners first (to avoid duplicates)
+    document.querySelectorAll('textarea, input[type="text"]').forEach(element => {
+      element.removeEventListener('input', saveOnInput);
+    });
+    
     // Attach to all textareas and inputs
     document.querySelectorAll('textarea, input[type="text"]').forEach(element => {
       element.addEventListener('input', saveOnInput);
     });
+    
+    console.log(`✅ Attached autosave listeners to ${document.querySelectorAll('textarea, input[type="text"]').length} fields`);
   }
 
   // Periodic auto-save
@@ -184,15 +191,22 @@ function initializeAutosave() {
     const lessonId = lessonMatch ? lessonMatch[1] : null;
     
     if (lessonId) {
-      window.lessonAutosave = new LessonAutosave(studentData.id, lessonId);
+      // Create autosave instance if it doesn't exist
+      if (!window.lessonAutosave) {
+        window.lessonAutosave = new LessonAutosave(studentData.id, lessonId);
+        console.log('✅ Autosave initialized');
+      }
       
-      // Restore any saved answers
-      window.lessonAutosave.restoreAnswers();
+      // ALWAYS restore answers when this is called (page changes)
+      // This ensures saved data appears when navigating between pages
+      setTimeout(() => {
+        window.lessonAutosave.restoreAnswers();
+      }, 50);
       
-      // Attach input listeners
-      window.lessonAutosave.attachAutoSave();
-      
-      console.log('✅ Autosave initialized and ready');
+      // Re-attach input listeners to new elements
+      setTimeout(() => {
+        window.lessonAutosave.attachAutoSave();
+      }, 100);
     }
   }
 }

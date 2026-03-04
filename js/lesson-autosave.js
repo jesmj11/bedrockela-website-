@@ -1,6 +1,7 @@
 /**
- * Lesson Autosave System
+ * Lesson Autosave System with Firebase Cloud Sync
  * Automatically saves student answers every 30 seconds and on input
+ * Syncs to Firebase for cross-device access and parent dashboard
  */
 
 class LessonAutosave {
@@ -10,6 +11,15 @@ class LessonAutosave {
     this.storageKey = `lesson_answers_${studentId}_${lessonId}`;
     this.saveTimeout = null;
     this.lastSaved = Date.now();
+    this.db = null;
+    
+    // Initialize Firebase if available
+    if (typeof firebase !== 'undefined' && firebase.firestore) {
+      this.db = firebase.firestore();
+      console.log('✅ Firebase connected for cloud sync');
+    } else {
+      console.log('⚠️  Firebase not available - using localStorage only');
+    }
     
     // Auto-save every 30 seconds
     this.autoSaveInterval = setInterval(() => this.autoSave(), 30000);
@@ -18,7 +28,7 @@ class LessonAutosave {
   }
 
   // Save all textareas and inputs
-  saveAllAnswers() {
+  async saveAllAnswers() {
     const answers = {};
     
     // Save all textareas (comprehension questions, journal entries)
@@ -35,12 +45,33 @@ class LessonAutosave {
       }
     });
     
-    // Save to localStorage
-    localStorage.setItem(this.storageKey, JSON.stringify({
+    const saveData = {
       answers,
       savedAt: new Date().toISOString(),
       currentPage: this.getCurrentPage()
-    }));
+    };
+    
+    // Save to localStorage (offline backup)
+    localStorage.setItem(this.storageKey, JSON.stringify(saveData));
+    
+    // Save to Firebase (cloud sync)
+    if (this.db) {
+      try {
+        await this.db.collection('students')
+          .doc(this.studentId)
+          .collection('lessonProgress')
+          .doc(this.lessonId)
+          .set({
+            ...saveData,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          }, { merge: true });
+        
+        console.log('☁️  Saved to Firebase');
+      } catch (error) {
+        console.error('Firebase save error:', error);
+        // Continue - localStorage still works
+      }
+    }
     
     this.lastSaved = Date.now();
     this.showSaveIndicator();
@@ -48,13 +79,44 @@ class LessonAutosave {
     return answers;
   }
 
-  // Restore saved answers
-  restoreAnswers() {
-    const saved = localStorage.getItem(this.storageKey);
-    if (!saved) return null;
+  // Restore saved answers (from Firebase or localStorage)
+  async restoreAnswers() {
+    let data = null;
     
-    try {
-      const data = JSON.parse(saved);
+    // Try Firebase first (most recent data)
+    if (this.db) {
+      try {
+        const doc = await this.db.collection('students')
+          .doc(this.studentId)
+          .collection('lessonProgress')
+          .doc(this.lessonId)
+          .get();
+        
+        if (doc.exists) {
+          data = doc.data();
+          console.log('☁️  Restored from Firebase');
+        }
+      } catch (error) {
+        console.error('Firebase restore error:', error);
+      }
+    }
+    
+    // Fallback to localStorage
+    if (!data) {
+      const saved = localStorage.getItem(this.storageKey);
+      if (saved) {
+        try {
+          data = JSON.parse(saved);
+          console.log('💾 Restored from localStorage');
+        } catch (error) {
+          console.error('Error parsing localStorage:', error);
+          return null;
+        }
+      }
+    }
+    
+    // Apply the restored data
+    if (data && data.answers) {
       const { answers, savedAt } = data;
       
       // Restore each saved answer
@@ -72,12 +134,11 @@ class LessonAutosave {
         }
       });
       
-      console.log(`✅ Restored answers from ${new Date(savedAt).toLocaleString()}`);
+      console.log(`✅ Restored answers from ${savedAt ? new Date(savedAt).toLocaleString() : 'backup'}`);
       return data;
-    } catch (error) {
-      console.error('Error restoring answers:', error);
-      return null;
     }
+    
+    return null;
   }
 
   // Auto-save on typing (debounced)
@@ -137,9 +198,11 @@ class LessonAutosave {
         opacity: 0;
         transition: opacity 0.3s;
       `;
-      indicator.textContent = 'Saved';
       document.body.appendChild(indicator);
     }
+    
+    // Update text based on Firebase availability
+    indicator.textContent = this.db ? '☁️ Saved to Cloud' : '💾 Saved Locally';
     
     // Show indicator
     indicator.style.opacity = '1';
@@ -165,8 +228,24 @@ class LessonAutosave {
   }
 
   // Clear saved data (call when lesson is completed)
-  clearSaved() {
+  async clearSaved() {
+    // Clear localStorage
     localStorage.removeItem(this.storageKey);
+    
+    // Clear Firebase
+    if (this.db) {
+      try {
+        await this.db.collection('students')
+          .doc(this.studentId)
+          .collection('lessonProgress')
+          .doc(this.lessonId)
+          .delete();
+        console.log('☁️  Cleared from Firebase');
+      } catch (error) {
+        console.error('Firebase clear error:', error);
+      }
+    }
+    
     console.log(`✅ Cleared autosave data for ${this.lessonId}`);
   }
 

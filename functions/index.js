@@ -97,6 +97,76 @@ exports.gradeAnswer = functions.https.onRequest((req, res) => {
 });
 
 /**
+ * Billy the Helper Goat - Student Chat Assistant
+ * Endpoint: https://us-central1-bedrockela-96dbd.cloudfunctions.net/billyChat
+ */
+exports.billyChat = functions.https.onRequest((req, res) => {
+  cors(req, res, async () => {
+    // Only accept POST requests
+    if (req.method !== 'POST') {
+      return res.status(405).json({ error: 'Method not allowed' });
+    }
+
+    try {
+      const { messages, system } = req.body;
+
+      if (!messages || !Array.isArray(messages)) {
+        return res.status(400).json({ error: 'Missing messages array' });
+      }
+
+      // Get API key from Secret Manager
+      const client = new SecretManagerServiceClient();
+      const projectId = 'bedrockela-96dbd';
+      const secretName = `projects/${projectId}/secrets/ANTHROPIC_API_KEY/versions/latest`;
+      
+      let apiKey;
+      try {
+        const [version] = await client.accessSecretVersion({ name: secretName });
+        apiKey = version.payload.data.toString('utf8');
+      } catch (error) {
+        console.warn('Failed to fetch API key from Secret Manager:', error.message);
+        return res.status(500).json({ error: 'API key not available' });
+      }
+
+      if (!apiKey) {
+        return res.status(500).json({ error: 'API key not configured' });
+      }
+
+      // Call Anthropic Claude API
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01'
+        },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 400,
+          system: system || 'You are Billy, a helpful learning assistant.',
+          messages: messages
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData?.error?.message || `API error ${response.status}`);
+      }
+
+      const data = await response.json();
+      return res.status(200).json(data);
+
+    } catch (error) {
+      console.error('Billy chat error:', error);
+      return res.status(500).json({ 
+        error: error.message || 'Chat error',
+        fallback: "Whoops, something went wrong — even goats stumble sometimes! Try again in a second."
+      });
+    }
+  });
+});
+
+/**
  * Fallback grading when AI is unavailable
  */
 function fallbackGrade(prompt) {

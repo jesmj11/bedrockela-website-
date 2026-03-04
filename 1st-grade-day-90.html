@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lesson 90: Comprehension Review - BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=1772643711933">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container" class="lesson-container">
@@ -184,5 +185,854 @@
     <script src="js/save-button-injector.js?v=1772643711933"></script>
     <script src="js/answer-validation.js?v=1772643711933"></script>
     <script src="js/lesson-completion.js?v=1772643711933"></script>
+
+<!-- =====================================================
+     BILLY THE HELPER GOAT WIDGET
+     Student chat assistant for BedrockELA
+     Paste before closing </body> tag
+===================================================== -->
+<style>
+  :root {
+    --br-blue: #4a7c3f;
+    --br-blue-light: #6aaa5c;
+    --br-yellow: #f6c94e;
+    --br-yellow-dark: #e5b635;
+    --br-green: #52b788;
+    --br-orange: #f4845f;
+    --br-bg: #fafcf7;
+    --br-bubble-bot: #ffffff;
+    --br-bubble-user: linear-gradient(135deg, #4a7c3f, #6aaa5c);
+    --br-text: #2c3e50;
+    --br-radius: 20px;
+  }
+
+  #br-launcher {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 99999;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  /* ---- Launcher Button ---- */
+  #br-btn {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: var(--br-blue);
+    box-shadow: 0 6px 24px rgba(45,106,159,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: visible;
+  }
+  #br-btn:hover { transform: scale(1.1); box-shadow: 0 8px 32px rgba(74,124,63,0.55); }
+  #br-btn #billy-avatar-btn { transition: transform 0.3s; }
+  #br-btn.open #billy-avatar-btn { transform: rotate(15deg); }
+
+  /* Pulsing ring */
+  #br-btn::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 3px solid var(--br-yellow);
+    animation: br-ring 2.5s ease-out infinite;
+    opacity: 0;
+  }
+  @keyframes br-ring {
+    0% { transform: scale(0.85); opacity: 0.8; }
+    100% { transform: scale(1.4); opacity: 0; }
+  }
+  #br-btn.open::before { animation: none; }
+
+  /* Tooltip */
+  #br-tooltip {
+    position: absolute;
+    bottom: 72px;
+    right: 0;
+    background: var(--br-blue);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.3s;
+    box-shadow: 0 4px 12px rgba(45,106,159,0.3);
+  }
+  #br-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    right: 20px;
+    border: 6px solid transparent;
+    border-top-color: var(--br-blue);
+  }
+  #br-tooltip.hidden { opacity: 0; }
+
+  /* ---- Chat Window ---- */
+  #br-window {
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    width: 370px;
+    height: 560px;
+    border-radius: var(--br-radius);
+    background: var(--br-bg);
+    box-shadow: 0 16px 60px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.06);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform-origin: bottom right;
+    transform: scale(0.85) translateY(20px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), opacity 0.25s ease;
+  }
+  #br-window.open {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* ---- Header ---- */
+  #br-header {
+    background: var(--br-blue);
+    padding: 0;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  #br-header-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 80% 50%, rgba(106,170,92,0.6) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  #br-header-inner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    position: relative;
+  }
+  #br-header-mascot {
+    width: 48px;
+    height: 48px;
+    background: var(--br-yellow);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    animation: br-bob 3s ease-in-out infinite;
+  }
+  @keyframes br-bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+  }
+  #br-header-text h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 800;
+    color: white;
+    letter-spacing: 0.01em;
+  }
+  #br-header-text p {
+    margin: 2px 0 0;
+    font-size: 12px;
+    color: rgba(255,255,255,0.8);
+    font-weight: 600;
+  }
+
+  /* Tab bar */
+  #br-tabs {
+    display: flex;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    position: relative;
+  }
+  .br-tab {
+    flex: 1;
+    padding: 9px 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgba(255,255,255,0.65);
+    font-family: 'Nunito', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+  .br-tab:hover { color: rgba(255,255,255,0.9); }
+  .br-tab.active {
+    color: white;
+    background: rgba(255,255,255,0.12);
+  }
+  .br-tab-icon { font-size: 14px; }
+
+  /* ---- Panels ---- */
+  #br-panel-chat, #br-panel-dict {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  #br-panel-dict { display: none; }
+
+  /* ---- Messages ---- */
+  #br-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  #br-messages::-webkit-scrollbar { width: 4px; }
+  #br-messages::-webkit-scrollbar-thumb { background: #b8d9b0; border-radius: 4px; }
+
+  .br-msg { max-width: 85%; animation: br-fadein 0.25s ease; }
+  @keyframes br-fadein { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .br-bubble {
+    padding: 10px 14px;
+    border-radius: 18px;
+    font-size: 14px;
+    line-height: 1.55;
+    word-wrap: break-word;
+  }
+  .br-msg.bot { align-self: flex-start; }
+  .br-msg.bot .br-bubble {
+    background: var(--br-bubble-bot);
+    color: var(--br-text);
+    border: 1.5px solid #ddeeff;
+    border-bottom-left-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .br-msg.user { align-self: flex-end; }
+  .br-msg.user .br-bubble {
+    background: var(--br-bubble-user);
+    color: white;
+    border-bottom-right-radius: 5px;
+  }
+
+  /* Typing dots */
+  #br-typing {
+    align-self: flex-start;
+    padding: 12px 16px;
+    background: white;
+    border: 1.5px solid #ddeeff;
+    border-radius: 18px;
+    border-bottom-left-radius: 5px;
+    display: none;
+    gap: 5px;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  #br-typing.show { display: flex; }
+  #br-typing span {
+    width: 8px; height: 8px;
+    background: var(--br-blue-light);
+    border-radius: 50%;
+    animation: br-bounce 1.2s infinite;
+  }
+  #br-typing span:nth-child(2) { animation-delay: 0.18s; }
+  #br-typing span:nth-child(3) { animation-delay: 0.36s; }
+  @keyframes br-bounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-6px); }
+  }
+
+  /* Suggestions */
+  #br-suggestions {
+    padding: 6px 14px 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .br-chip {
+    padding: 5px 12px;
+    background: white;
+    border: 1.5px solid var(--br-blue-light);
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--br-blue);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: 'Nunito', sans-serif;
+  }
+  .br-chip:hover { background: var(--br-blue); color: white; border-color: var(--br-blue); }
+
+  /* Input */
+  #br-input-row {
+    padding: 10px 14px 12px;
+    background: white;
+    border-top: 1.5px solid #e8f1fa;
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+    flex-shrink: 0;
+  }
+  #br-input {
+    flex: 1;
+    border: 1.5px solid #cce0f5;
+    border-radius: 22px;
+    padding: 9px 15px;
+    font-size: 14px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    color: var(--br-text);
+    resize: none;
+    outline: none;
+    background: #f5faff;
+    max-height: 80px;
+    overflow-y: auto;
+    line-height: 1.4;
+    transition: border-color 0.2s;
+  }
+  #br-input:focus { border-color: var(--br-blue); background: white; }
+  #br-input::placeholder { color: #9abf94; font-weight: 600; }
+
+  #br-send {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--br-yellow);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.15s, background 0.15s;
+    box-shadow: 0 3px 10px rgba(246,201,78,0.4);
+  }
+  #br-send:hover { transform: scale(1.1); background: var(--br-yellow-dark); }
+  #br-send:disabled { opacity: 0.4; cursor: default; transform: none; }
+  #br-send svg { width: 18px; height: 18px; fill: var(--br-blue); }
+
+  /* ---- Dictionary Panel ---- */
+  #br-dict-search-wrap {
+    padding: 12px 14px 8px;
+    background: white;
+    border-bottom: 1.5px solid #e8f1fa;
+    flex-shrink: 0;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  #br-dict-search {
+    flex: 1;
+    border: 1.5px solid #cce0f5;
+    border-radius: 20px;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    color: var(--br-text);
+    outline: none;
+    background: #f5faff;
+    transition: border-color 0.2s;
+  }
+  #br-dict-search:focus { border-color: var(--br-blue); background: white; }
+  #br-dict-search::placeholder { color: #9abf94; }
+
+  #br-dict-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 14px 14px;
+  }
+  #br-dict-list::-webkit-scrollbar { width: 4px; }
+  #br-dict-list::-webkit-scrollbar-thumb { background: #c8dff5; border-radius: 4px; }
+
+  .br-dict-entry {
+    margin-bottom: 10px;
+    background: white;
+    border-radius: 14px;
+    border: 1.5px solid #ddeeff;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .br-dict-entry:hover { box-shadow: 0 4px 16px rgba(45,106,159,0.1); }
+  .br-dict-word {
+    padding: 10px 14px 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .br-word-label {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--br-blue);
+    flex: 1;
+  }
+  .br-word-cat {
+    font-size: 10px;
+    font-weight: 700;
+    color: white;
+    border-radius: 8px;
+    padding: 2px 7px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+  }
+  .br-word-cat.story { background: #7b5ea7; }
+  .br-word-cat.ela   { background: #4a7c3f; }
+  .br-word-chevron {
+    font-size: 12px;
+    color: #9ab8d4;
+    transition: transform 0.2s;
+  }
+  .br-dict-entry.expanded .br-word-chevron { transform: rotate(180deg); }
+
+  .br-dict-def {
+    padding: 0 14px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.2s;
+  }
+  .br-dict-entry.expanded .br-dict-def {
+    max-height: 200px;
+    padding: 0 14px 12px;
+  }
+  .br-def-text {
+    font-size: 13.5px;
+    color: #3d5a73;
+    line-height: 1.6;
+    padding: 8px 12px;
+    background: #f0f7ff;
+    border-radius: 10px;
+    border-left: 3px solid var(--br-blue-light);
+  }
+  .br-def-example {
+    font-size: 12px;
+    color: #6a8fa8;
+    font-style: italic;
+    margin-top: 6px;
+    padding-left: 4px;
+  }
+  .br-def-example::before { content: 'Example: '; font-style: normal; font-weight: 700; color: #5a8a6a; font-size: 11px; }
+
+  #br-dict-empty {
+    text-align: center;
+    color: #9ab8d4;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 30px 20px;
+    display: none;
+  }
+  #br-dict-empty .br-empty-icon { font-size: 36px; margin-bottom: 8px; }
+
+  /* Footer */
+  #br-footer {
+    text-align: center;
+    font-size: 10px;
+    color: #b0c8df;
+    padding: 5px 0 8px;
+    background: white;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 420px) {
+    #br-window { width: calc(100vw - 28px); right: 0; height: 520px; }
+    #br-launcher { right: 14px; bottom: 14px; }
+  }
+</style>
+
+<div id="br-launcher">
+
+  <div id="br-tooltip">Hey! Need a hand?</div>
+
+  <button id="br-btn" aria-label="Open student helper">
+    <svg id="billy-avatar-btn" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" width="44" height="44">
+      <!-- Horns -->
+      <path d="M20 18 Q15 8 12 4 Q17 7 21 14Z" fill="#c8a96e"/>
+      <path d="M44 18 Q49 8 52 4 Q47 7 43 14Z" fill="#c8a96e"/>
+      <!-- Head -->
+      <ellipse cx="32" cy="28" rx="16" ry="15" fill="#e8d5b0"/>
+      <!-- Ears -->
+      <ellipse cx="16" cy="28" rx="5" ry="7" fill="#e8d5b0"/>
+      <ellipse cx="16" cy="28" rx="3" ry="5" fill="#f5c8c8"/>
+      <ellipse cx="48" cy="28" rx="5" ry="7" fill="#e8d5b0"/>
+      <ellipse cx="48" cy="28" rx="3" ry="5" fill="#f5c8c8"/>
+      <!-- Eyes -->
+      <ellipse cx="26" cy="25" rx="3.5" ry="3" fill="white"/>
+      <ellipse cx="38" cy="25" rx="3.5" ry="3" fill="white"/>
+      <!-- Pupils (horizontal goat pupils) -->
+      <rect x="23.5" y="24" width="5" height="2.5" rx="1.2" fill="#3a2a1a"/>
+      <rect x="35.5" y="24" width="5" height="2.5" rx="1.2" fill="#3a2a1a"/>
+      <!-- Eye shine -->
+      <circle cx="27.5" cy="24.2" r="0.9" fill="white"/>
+      <circle cx="39.5" cy="24.2" r="0.9" fill="white"/>
+      <!-- Snout -->
+      <ellipse cx="32" cy="35" rx="8" ry="6" fill="#d4b896"/>
+      <!-- Nostrils -->
+      <ellipse cx="29" cy="35" rx="1.5" ry="1.2" fill="#b89070"/>
+      <ellipse cx="35" cy="35" rx="1.5" ry="1.2" fill="#b89070"/>
+      <!-- Smile -->
+      <path d="M27 39 Q32 43 37 39" stroke="#9a7050" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <!-- Beard -->
+      <path d="M28 42 Q32 50 36 42" stroke="#c8a96e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <!-- Little tuft on forehead -->
+      <path d="M30 13 Q32 10 34 13 Q32 11 30 13Z" fill="#c8a96e"/>
+    </svg>
+  </button>
+
+  <div id="br-window" role="dialog" aria-label="Student helper">
+
+    <!-- Header -->
+    <div id="br-header">
+      <div id="br-header-bg"></div>
+      <div id="br-header-inner">
+        <div id="br-header-mascot">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" width="38" height="38">
+            <path d="M20 18 Q15 8 12 4 Q17 7 21 14Z" fill="#c8a96e"/>
+            <path d="M44 18 Q49 8 52 4 Q47 7 43 14Z" fill="#c8a96e"/>
+            <ellipse cx="32" cy="28" rx="16" ry="15" fill="#e8d5b0"/>
+            <ellipse cx="16" cy="28" rx="5" ry="7" fill="#e8d5b0"/>
+            <ellipse cx="16" cy="28" rx="3" ry="5" fill="#f5c8c8"/>
+            <ellipse cx="48" cy="28" rx="5" ry="7" fill="#e8d5b0"/>
+            <ellipse cx="48" cy="28" rx="3" ry="5" fill="#f5c8c8"/>
+            <ellipse cx="26" cy="25" rx="3.5" ry="3" fill="white"/>
+            <ellipse cx="38" cy="25" rx="3.5" ry="3" fill="white"/>
+            <rect x="23.5" y="24" width="5" height="2.5" rx="1.2" fill="#3a2a1a"/>
+            <rect x="35.5" y="24" width="5" height="2.5" rx="1.2" fill="#3a2a1a"/>
+            <circle cx="27.5" cy="24.2" r="0.9" fill="white"/>
+            <circle cx="39.5" cy="24.2" r="0.9" fill="white"/>
+            <ellipse cx="32" cy="35" rx="8" ry="6" fill="#d4b896"/>
+            <ellipse cx="29" cy="35" rx="1.5" ry="1.2" fill="#b89070"/>
+            <ellipse cx="35" cy="35" rx="1.5" ry="1.2" fill="#b89070"/>
+            <path d="M27 39 Q32 43 37 39" stroke="#9a7050" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <path d="M28 42 Q32 50 36 42" stroke="#c8a96e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M30 13 Q32 10 34 13 Q32 11 30 13Z" fill="#c8a96e"/>
+          </svg>
+        </div>
+        <div id="br-header-text">
+          <h3>Billy the Helper Goat</h3>
+          <p>Your learning buddy — here to help you figure it out!</p>
+        </div>
+      </div>
+      <div id="br-tabs">
+        <button class="br-tab active" data-tab="chat" onclick="BR.switchTab('chat')">
+          <svg class="br-tab-icon" viewBox="0 0 20 20" fill="currentColor" width="14" height="14"><path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v7a2 2 0 01-2 2H6l-4 4V5z"/></svg>
+          Ask Billy
+        </button>
+        <button class="br-tab" data-tab="dict" onclick="BR.switchTab('dict')">
+          <svg class="br-tab-icon" viewBox="0 0 20 20" fill="currentColor" width="14" height="14"><path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.396 0 2.7.37 3.8 1.016A7.967 7.967 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/></svg>
+          Word Helper
+        </button>
+      </div>
+    </div>
+
+    <!-- CHAT PANEL -->
+    <div id="br-panel-chat">
+      <div id="br-messages"></div>
+      <div id="br-typing"><span></span><span></span><span></span></div>
+
+      <div id="br-suggestions">
+        <button class="br-chip" onclick="BR.suggest(this)">I'm stuck</button>
+        <button class="br-chip" onclick="BR.suggest(this)">What does this word mean?</button>
+        <button class="br-chip" onclick="BR.suggest(this)">How do I start writing?</button>
+        <button class="br-chip" onclick="BR.suggest(this)">I don't get this</button>
+      </div>
+
+      <div id="br-input-row">
+        <textarea id="br-input" placeholder="Ask Billy for help…" rows="1" aria-label="Type your question"></textarea>
+        <button id="br-send" aria-label="Send">
+          <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </div>
+      <div id="br-footer">You've got this — Billy believes in you!</div>
+    </div>
+
+    <!-- DICTIONARY PANEL -->
+    <div id="br-panel-dict">
+      <div id="br-dict-search-wrap">
+        <input id="br-dict-search" type="text" placeholder="Look up a word..." aria-label="Search dictionary" oninput="BR.filterDict()" />
+      </div>
+      <div id="br-dict-list">
+        <div id="br-dict-empty">
+          <div class="br-empty-icon">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" width="36" height="36">
+              <circle cx="18" cy="18" r="11" stroke="#c8dfc8" stroke-width="3"/>
+              <path d="M26 26 L34 34" stroke="#c8dfc8" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          No words match that search!
+        </div>
+      </div>
+      <div id="br-footer">All words — from the story and your lessons!</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const BR = (() => {
+
+  // ============================================================
+  //  CONFIGURATION - Using Firebase Cloud Function backend
+  // ============================================================
+  const CONFIG = {
+    apiEndpoint: 'https://us-central1-bedrockela-96dbd.cloudfunctions.net/billyChat',
+
+    systemPrompt: `You are Billy, a cheerful, enthusiastic goat who is best friends with every student who visits. You are based on the story "The Three Billy Goats Gruff" and you LOVE learning and helping kids figure things out. You are warm, funny, encouraging, and genuinely excited to be here. Think of yourself as that cool older buddy who always makes things less scary and more fun.
+
+Your personality:
+- Energetic and upbeat — you are genuinely happy to help and it shows
+- Warm and personal — use the student's words back to them, notice what they're working on, cheer them on
+- Playful but not silly — you can make a little goat joke or say something like "Trip trap, let's go!" but you're also focused and helpful
+- Patient and kind — if a student is frustrated or confused, you calm them down and make them feel like it's totally okay
+- A buddy first, a teacher second — you are ON THEIR SIDE
+
+Your one rule about answers:
+You never just hand over the direct answer to a homework or assignment question. Not because you're mean — but because you genuinely want them to feel the awesome feeling of figuring it out themselves. You always help them get there by giving hints, asking one good guiding question, or breaking it into a smaller step. You make this feel like an adventure, not a punishment.
+
+For everything else — explaining what a word means, what a concept is, how something works — go ahead and explain it fully and clearly! You are helpful and generous with knowledge.
+
+Keep responses short and punchy: 2–4 sentences. Use simple, fun language. No emojis.
+
+Examples:
+- Student: "What's the answer to question 3?" → You: "Oh I love this one — I can't just give it to you, but I promise you already know more than you think! Read the question one more time and tell me: what is it actually asking you to find?"
+- Student: "I don't get this at all, I give up." → You: "Hey, no giving up — you've got this, I promise! Let's slow down together. What part feels the most confusing right now? Just that one part."
+- Student: "What is a metaphor?" → You: "Great question! A metaphor says one thing IS another thing to paint a picture — like 'the classroom was a zoo.' It doesn't use the words 'like' or 'as,' it just says it straight. Pretty cool, right?"
+- Student: "I don't know how to start my paragraph." → You: "Starting is the hardest part — totally normal! Try this: just write one sentence about the main thing you want to say. Don't worry if it's perfect. What's the big idea you want your reader to know?"`
+  };
+
+  // ============================================================
+  //  MINI DICTIONARY  — kid-friendly definitions
+  // ============================================================
+  const DICTIONARY = [
+    // === FROM THE STORY ===
+    { word: "Troll", type: "noun", cat: "story", def: "A made-up creature from fairy tales and folklore. Trolls are usually mean, scary, and not very smart. In stories, they often live under bridges and try to stop travelers from passing.", example: "The troll under the bridge threatened to eat the Billy Goats Gruff!" },
+    { word: "Bridge", type: "noun", cat: "story", def: "A structure built over a river, road, or valley so people or animals can cross from one side to the other.", example: "The three goats had to cross the bridge to reach the green grass on the other side." },
+    { word: "Gruff", type: "adj", cat: "story", def: "Sounding rough, low, and a little scary — like a growly voice. It can also mean someone who seems unfriendly at first.", example: "The big Billy Goat Gruff had a deep, gruff voice that frightened the troll." },
+    { word: "Meadow", type: "noun", cat: "story", def: "An open field covered with grass and wildflowers — a beautiful place for animals to graze and rest.", example: "The goats wanted to cross the bridge so they could eat the sweet green grass in the meadow." },
+    { word: "Graze", type: "verb", cat: "story", def: "When an animal eats grass by walking slowly and nibbling it right off the ground.", example: "The goats loved to graze on the hillside where the grass was tall and green." },
+    { word: "Cunning", type: "adj", cat: "story", def: "Very clever — especially at tricking others or getting what you want through smart thinking.", example: "The littlest Billy Goat was cunning — he tricked the troll by saying his bigger brother was coming." },
+    { word: "Threat", type: "noun", cat: "story", def: "When someone says they will do something bad to you if you don't do what they want. It's a way of trying to scare someone.", example: "The troll made a threat: 'I'm going to eat you up!'" },
+    { word: "Deceive", type: "verb", cat: "story", def: "To trick someone into believing something that isn't true.", example: "The small goat deceived the troll by promising a bigger, tastier goat was coming." },
+    { word: "Cowardly", type: "adj", cat: "story", def: "Being too scared to do the right thing — running away from problems instead of facing them.", example: "The troll was actually cowardly — when the big goat charged, the troll ran away!" },
+    { word: "Brave", type: "adj", cat: "story", def: "Willing to do something scary or hard even when you feel afraid. It doesn't mean you're not scared — it means you do it anyway!", example: "The big Billy Goat Gruff was brave when he charged at the troll to protect his brothers." },
+    { word: "Villain", type: "noun", cat: "story", def: "The bad character in a story — the one who causes trouble or tries to stop the hero.", example: "The troll is the villain of The Three Billy Goats Gruff." },
+    { word: "Hero", type: "noun", cat: "story", def: "A character who does something brave or good to help others or solve the big problem in the story.", example: "The biggest Billy Goat becomes the hero when he defeats the troll." },
+    { word: "Folklore", type: "noun", cat: "story", def: "Old stories, legends, and traditions passed down from grandparents to parents to children over many, many years.", example: "The Three Billy Goats Gruff is a piece of Norwegian folklore — it came from Norway long ago." },
+    { word: "Fairy Tale", type: "noun", cat: "story", def: "A made-up story, often with magical creatures, that usually has a clear good side and a bad side — and often a happy ending.", example: "Cinderella, Jack and the Beanstalk, and The Three Billy Goats Gruff are all fairy tales." },
+    { word: "Fable", type: "noun", cat: "story", def: "A short story — usually with talking animals — that teaches a lesson called a moral at the end.", example: "The Tortoise and the Hare is a fable. Its moral is: slow and steady wins the race." },
+    { word: "Moral", type: "noun", cat: "story", def: "The lesson a story is trying to teach you — the big idea about how to live or act.", example: "The moral of The Three Billy Goats Gruff is that it's smart to work together and think before you act." },
+    { word: "Antagonist", type: "noun", cat: "story", def: "The character who works against the main character and causes the main problem in the story. Often called 'the bad guy.'", example: "The troll is the antagonist — he blocks the goats' path and threatens them." },
+    { word: "Protagonist", type: "noun", cat: "story", def: "The main character the story follows — the one we usually cheer for.", example: "The three Billy Goats are the protagonists of the story." },
+    { word: "Repetition", type: "noun", cat: "story", def: "When something in a story happens again and again — like the same phrase or the same event repeating with small changes. It builds rhythm and excitement!", example: "Each goat crosses the bridge and faces the troll — the same thing happens three times, with the goats getting bigger each time." },
+    { word: "Sequence", type: "noun", cat: "story", def: "The order that events happen in a story — first, then, next, finally.", example: "In sequence: small goat crosses, medium goat crosses, big goat crosses and defeats the troll." },
+    { word: "Climax", type: "noun", cat: "story", def: "The most exciting moment in a story — the turning point where the big problem finally gets solved (or gets worse).", example: "The climax of the story is when the biggest Billy Goat charges the troll and tosses him into the river." },
+    { word: "Resolution", type: "noun", cat: "story", def: "The part of the story after the climax where everything gets wrapped up and we find out how things end.", example: "The resolution is when all three goats finally reach the meadow and live happily ever after." },
+    // === ELA ESSENTIALS ===
+    { word: "Noun", type: "noun", cat: "ela", def: "A word that names a person, place, thing, or idea — anything you can point to or think about.", example: "Goat, bridge, troll, and courage are all nouns." },
+    { word: "Verb", type: "verb", cat: "ela", def: "An action word — it tells what someone or something is doing.", example: "The goats trotted, crossed, and charged — those are all verbs." },
+    { word: "Adjective", type: "adj", cat: "ela", def: "A word that describes a noun — it tells you what something looks, feels, sounds, or seems like.", example: "The small goat, the grumpy troll, and the green meadow all use adjectives." },
+    { word: "Simile", type: "noun", cat: "ela", def: "A comparison using 'like' or 'as' to help readers picture something more clearly.", example: "The troll's voice was like thunder rumbling under the bridge." },
+    { word: "Metaphor", type: "noun", cat: "ela", def: "A comparison that says one thing IS another — without using 'like' or 'as.'", example: "The bridge was a test — each goat had to prove their courage to cross it." },
+    { word: "Inference", type: "noun", cat: "ela", def: "Using clues from the story plus what you already know to figure out something the author didn't say directly.", example: "We can infer the troll is not very smart because he keeps getting tricked by the goats." },
+    { word: "Character", type: "noun", cat: "ela", def: "A person, animal, or creature in a story. Main characters are the ones the story is mostly about.", example: "The three goats and the troll are all characters in the story." },
+    { word: "Setting", type: "noun", cat: "ela", def: "Where and when a story takes place — the time and place that make up the story's world.", example: "The setting is a hillside, a bridge over a rushing river, and a green meadow beyond it." },
+    { word: "Theme", type: "noun", cat: "ela", def: "The big lesson or message of the story — the idea the author wants you to take away.", example: "One theme of The Three Billy Goats Gruff is that courage and cleverness can defeat a bully." },
+    { word: "Conflict", type: "noun", cat: "ela", def: "The main problem in a story — the thing that creates all the tension and must be solved.", example: "The conflict is that a troll is blocking the bridge and threatening anyone who tries to cross." },
+    { word: "Dialogue", type: "noun", cat: "ela", def: "The words that characters say to each other in a story — their conversations.", example: "'Who is that trip-trapping over my bridge?' said the troll. That's dialogue!" },
+    { word: "Imagery", type: "noun", cat: "ela", def: "Words that paint a picture in your mind by describing what something looks, sounds, smells, feels, or tastes like.", example: "The rushing cold river below, the splintery old bridge, and the growling troll are all imagery." },
+    { word: "Personification", type: "noun", cat: "ela", def: "Giving human feelings or actions to an animal or object.", example: "The river roared angrily beneath the bridge. Rivers can't really be angry — that's personification!" },
+    { word: "Plot", type: "noun", cat: "ela", def: "All the events that happen in a story from beginning to end.", example: "The plot: goats want grass, troll blocks the bridge, goats outsmart the troll, goats reach the meadow." },
+  ].sort((a, b) => a.word.localeCompare(b.word));
+
+  // ============================================================
+  //  STATE
+  // ============================================================
+  let isOpen = false;
+  let isLoading = false;
+  let currentTab = 'chat';
+  const history = [];
+
+  // Elements
+  const launcher   = document.getElementById('br-launcher');
+  const btn        = document.getElementById('br-btn');
+  const win        = document.getElementById('br-window');
+  const tooltip    = document.getElementById('br-tooltip');
+  const messages   = document.getElementById('br-messages');
+  const typing     = document.getElementById('br-typing');
+  const inputEl    = document.getElementById('br-input');
+  const sendBtn    = document.getElementById('br-send');
+  const panelChat  = document.getElementById('br-panel-chat');
+  const panelDict  = document.getElementById('br-panel-dict');
+  const dictList   = document.getElementById('br-dict-list');
+  const dictSearch = document.getElementById('br-dict-search');
+  const dictEmpty  = document.getElementById('br-dict-empty');
+
+  // ---- Init ----
+  function init() {
+    btn.addEventListener('click', toggle);
+    sendBtn.addEventListener('click', handleSend);
+    inputEl.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); }
+    });
+    inputEl.addEventListener('input', () => {
+      inputEl.style.height = 'auto';
+      inputEl.style.height = Math.min(inputEl.scrollHeight, 80) + 'px';
+    });
+    renderDict(DICTIONARY);
+    // Hide tooltip after 5s
+    setTimeout(() => tooltip.classList.add('hidden'), 5000);
+  }
+
+  function toggle() {
+    isOpen = !isOpen;
+    win.classList.toggle('open', isOpen);
+    btn.classList.toggle('open', isOpen);
+    tooltip.classList.add('hidden');
+    if (isOpen && messages.children.length === 0) {
+      addBotMsg("Hey! I'm Billy — your learning buddy! I'm here to help you figure things out and cheer you on. What are you working on today?");
+    }
+    if (isOpen) setTimeout(() => inputEl.focus(), 350);
+  }
+
+  // ---- Tab switching ----
+  function switchTab(tab) {
+    currentTab = tab;
+    document.querySelectorAll('.br-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+    panelChat.style.display = tab === 'chat' ? 'flex' : 'none';
+    panelDict.style.display = tab === 'dict' ? 'flex' : 'none';
+    if (tab === 'dict') setTimeout(() => dictSearch.focus(), 200);
+  }
+
+  // ---- Messages ----
+  function addBotMsg(text) {
+    const d = document.createElement('div');
+    d.className = 'br-msg bot';
+    d.innerHTML = `<div class="br-bubble">${text.replace(/\n/g,'<br>')}</div>`;
+    messages.appendChild(d);
+    messages.scrollTop = messages.scrollHeight;
+  }
+  function addUserMsg(text) {
+    const d = document.createElement('div');
+    d.className = 'br-msg user';
+    d.innerHTML = `<div class="br-bubble">${text.replace(/\n/g,'<br>')}</div>`;
+    messages.appendChild(d);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function setLoading(v) {
+    isLoading = v;
+    sendBtn.disabled = v;
+    typing.classList.toggle('show', v);
+    if (v) messages.scrollTop = messages.scrollHeight;
+  }
+
+  // ---- Send (calls secure Firebase backend) ----
+  async function handleSend() {
+    const text = inputEl.value.trim();
+    if (!text || isLoading) return;
+    inputEl.value = '';
+    inputEl.style.height = 'auto';
+    document.getElementById('br-suggestions').style.display = 'none';
+    addUserMsg(text);
+    history.push({ role: 'user', content: text });
+    setLoading(true);
+    try {
+      const res = await fetch(CONFIG.apiEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system: CONFIG.systemPrompt,
+          messages: history
+        })
+      });
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        if (errorData.fallback) {
+          throw new Error(errorData.fallback);
+        }
+        throw new Error(`Error ${res.status}`);
+      }
+      const data = await res.json();
+      const reply = data.content?.[0]?.text || "Hmm, I didn't catch that — could you try again?";
+      history.push({ role: 'assistant', content: reply });
+      setLoading(false);
+      addBotMsg(reply);
+    } catch(err) {
+      setLoading(false);
+      addBotMsg(`Whoops, something went wrong — even goats stumble sometimes! Try again in a second. (${err.message})`);
+      console.error('Billy error:', err);
+    }
+  }
+
+  function suggest(el) {
+    inputEl.value = el.textContent;
+    handleSend();
+  }
+
+  // ---- Dictionary ----
+  function renderDict(entries) {
+    dictList.querySelectorAll('.br-dict-entry').forEach(e => e.remove());
+    dictEmpty.style.display = entries.length === 0 ? 'block' : 'none';
+    const catLabel = { story: 'Story', ela: 'ELA' };
+    entries.forEach((entry) => {
+      const el = document.createElement('div');
+      el.className = 'br-dict-entry';
+      el.innerHTML = `
+        <div class="br-dict-word" onclick="BR.toggleEntry(this.parentElement)">
+          <span class="br-word-label">${entry.word}</span>
+          <span class="br-word-cat ${entry.cat}">${catLabel[entry.cat] || entry.cat}</span>
+          <span class="br-word-chevron">&#9660;</span>
+        </div>
+        <div class="br-dict-def">
+          <div class="br-def-text">${entry.def}</div>
+          ${entry.example ? `<div class="br-def-example">${entry.example}</div>` : ''}
+        </div>`;
+      dictList.appendChild(el);
+    });
+  }
+
+  function toggleEntry(el) {
+    const wasOpen = el.classList.contains('expanded');
+    document.querySelectorAll('.br-dict-entry.expanded').forEach(e => e.classList.remove('expanded'));
+    if (!wasOpen) el.classList.add('expanded');
+  }
+
+  function filterDict() {
+    const q = dictSearch.value.toLowerCase().trim();
+    const filtered = q
+      ? DICTIONARY.filter(e =>
+          e.word.toLowerCase().includes(q) ||
+          e.def.toLowerCase().includes(q) ||
+          (e.example && e.example.toLowerCase().includes(q)) ||
+          (e.type && e.type.toLowerCase().includes(q)) ||
+          (e.cat && e.cat.toLowerCase().includes(q))
+        )
+      : DICTIONARY;
+    renderDict(filtered);
+  }
+
+  init();
+
+  return { switchTab, suggest, toggleEntry, filterDict };
+})();
+</script>
+
 </body>
 </html>

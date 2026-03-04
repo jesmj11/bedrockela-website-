@@ -93,6 +93,9 @@ function createLessonViewer(containerId, lessonConfig) {
   // Load saved progress from localStorage (instant) and Firebase (sync)
   if (studentId) {
     loadLessonProgress();
+  } else {
+    // No student logged in — still render the lesson
+    render();
   }
 
   function loadLessonProgress() {

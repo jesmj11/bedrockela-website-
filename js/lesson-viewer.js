@@ -378,4 +378,11 @@ function createLessonViewer(containerId, lessonConfig) {
 
 
 // Export as initLessonViewer for backward compatibility
-window.initLessonViewer = createLessonViewer;
+// Handles both: initLessonViewer(config) and initLessonViewer('container', config)
+window.initLessonViewer = function(first, second) {
+  if (typeof first === 'string') {
+    return createLessonViewer(first, second);
+  } else {
+    return createLessonViewer('lesson-container', first);
+  }
+};

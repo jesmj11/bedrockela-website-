@@ -5,6 +5,7 @@
 
 const functions = require('firebase-functions');
 const cors = require('cors')({ origin: true });
+const {SecretManagerServiceClient} = require('@google-cloud/secret-manager');
 
 /**
  * AI Grading Function
@@ -24,8 +25,19 @@ exports.gradeAnswer = functions.https.onRequest((req, res) => {
         return res.status(400).json({ error: 'Missing prompt' });
       }
 
-      // Get API key from environment
-      const apiKey = functions.config().anthropic?.key || process.env.ANTHROPIC_API_KEY;
+      // Get API key from Secret Manager
+      const client = new SecretManagerServiceClient();
+      const projectId = 'bedrockela-96dbd';
+      const secretName = `projects/${projectId}/secrets/ANTHROPIC_API_KEY/versions/latest`;
+      
+      let apiKey;
+      try {
+        const [version] = await client.accessSecretVersion({ name: secretName });
+        apiKey = version.payload.data.toString('utf8');
+      } catch (error) {
+        console.warn('Failed to fetch API key from Secret Manager:', error.message);
+        apiKey = null;
+      }
 
       if (!apiKey) {
         console.warn('No API key found, using fallback grading');

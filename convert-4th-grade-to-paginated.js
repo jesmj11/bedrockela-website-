@@ -84,7 +84,7 @@ function convertToPaginated(lessonNum) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${lessonTitle} - BedrockELA</title>
-    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <link rel="stylesheet" href="css/lesson-viewer.css?v=3.1">
     <script src="js/lesson-autosave.js"></script>
     <script src="js/answer-validation.js"></script>
     <script src="js/lesson-completion.js"></script>

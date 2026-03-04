@@ -27,18 +27,23 @@ class LessonAutosave {
     console.log(`✅ Autosave enabled for ${lessonId}`);
   }
 
-  // Save all textareas and inputs
+  // Save all textareas and inputs (current page + in-memory store from other pages)
   async saveAllAnswers() {
+    // Start with answers from ALL pages (stored in lesson-viewer's allAnswers)
     const answers = {};
     
-    // Save all textareas (comprehension questions, journal entries)
+    // Pull in the in-memory store from lesson-viewer (all pages visited so far)
+    if (window._lessonAllAnswers) {
+      Object.assign(answers, window._lessonAllAnswers);
+    }
+    
+    // Override with current DOM values (most up-to-date for visible page)
     document.querySelectorAll('textarea').forEach(textarea => {
       if (textarea.id) {
         answers[textarea.id] = textarea.value;
       }
     });
     
-    // Save all text inputs (vocabulary, etc.)
     document.querySelectorAll('input[type="text"]').forEach(input => {
       if (input.id) {
         answers[input.id] = input.value;

@@ -277,7 +277,58 @@ function createLessonViewer(containerId, lessonConfig) {
     }
   }
 
+  // In-memory store for ALL answers across ALL pages (persists during lesson)
+  // Exposed globally so autosave can include answers from non-visible pages
+  if (!window._lessonAllAnswers) window._lessonAllAnswers = {};
+  const allAnswers = window._lessonAllAnswers;
+
+  // Save all visible field values before page navigation destroys the DOM
+  function captureCurrentFields() {
+    document.querySelectorAll('textarea, input[type="text"]').forEach(el => {
+      if (el.id && el.value) {
+        allAnswers[el.id] = el.value;
+      }
+    });
+  }
+
+  // Restore saved field values after page renders
+  function restoreFields() {
+    document.querySelectorAll('textarea, input[type="text"]').forEach(el => {
+      if (el.id && allAnswers[el.id]) {
+        el.value = allAnswers[el.id];
+        // Trigger word count update
+        if (typeof updateWordCount === 'function') {
+          const minMatch = el.placeholder?.match(/minimum (\d+) words/);
+          const min = minMatch ? parseInt(minMatch[1]) : 15;
+          // Try common word-count ID patterns
+          const wcId = 'word-count-' + el.id;
+          if (document.getElementById(wcId)) {
+            updateWordCount(el.id, wcId, min);
+          }
+        }
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+    });
+  }
+
+  // Load answers from localStorage on first load
+  function loadSavedAnswers() {
+    if (!studentId) return;
+    const key = `lesson_answers_${studentId}_${lessonId}`;
+    try {
+      const saved = JSON.parse(localStorage.getItem(key) || 'null');
+      if (saved?.answers) {
+        Object.assign(allAnswers, saved.answers);
+        window._lessonAllAnswers = allAnswers;
+      }
+    } catch(e) {}
+  }
+  loadSavedAnswers();
+
   function render() {
+    // Capture fields BEFORE destroying the DOM
+    captureCurrentFields();
+
     const page = lessonConfig.pages[currentPage];
     const progress = calculateProgress();
 
@@ -332,6 +383,11 @@ function createLessonViewer(containerId, lessonConfig) {
     if (page.onLoad) {
       page.onLoad();
     }
+
+    // Restore saved answers into the newly rendered fields
+    setTimeout(() => {
+      restoreFields();
+    }, 50);
 
     // Initialize autosave after page renders
     setTimeout(() => {

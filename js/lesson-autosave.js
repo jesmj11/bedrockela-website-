@@ -130,7 +130,7 @@ class LessonAutosave {
         opacity: 0;
         transition: opacity 0.3s;
       `;
-      indicator.textContent = 'Saved';
+      indicator.textContent = '✓ Saved';
       document.body.appendChild(indicator);
     }
     
@@ -141,6 +141,12 @@ class LessonAutosave {
     setTimeout(() => {
       indicator.style.opacity = '0';
     }, 2000);
+  }
+  
+  // Manual save (called by Save button)
+  manualSave() {
+    this.saveAllAnswers();
+    return true;
   }
 
   // Get current page number (if available)
@@ -202,3 +208,54 @@ window.addEventListener('beforeunload', () => {
     window.lessonAutosave.saveAllAnswers();
   }
 });
+
+// Manual save button click handler
+window.manualSaveAnswers = function() {
+  if (window.lessonAutosave) {
+    const btn = document.getElementById('manual-save-btn');
+    if (btn) {
+      // Change button text temporarily
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '✓ Saved!';
+      btn.style.background = '#4CAF50';
+      
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.style.background = '';
+      }, 2000);
+    }
+    
+    window.lessonAutosave.manualSave();
+  }
+};
+
+// Helper function to create save button HTML
+window.createSaveButton = function() {
+  return `
+    <div style="text-align: center; margin: 25px 0;">
+      <button 
+        id="manual-save-btn"
+        onclick="manualSaveAnswers()"
+        style="
+          background: linear-gradient(135deg, #305853 0%, #B06821 100%);
+          color: white;
+          border: none;
+          padding: 12px 30px;
+          border-radius: 25px;
+          font-size: 16px;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.2s;
+          box-shadow: 0 4px 15px rgba(48,88,83,0.3);
+        "
+        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(48,88,83,0.4)';"
+        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(48,88,83,0.3)';"
+      >
+        💾 Save Progress
+      </button>
+      <p style="font-size: 13px; color: #666; margin-top: 10px;">
+        Auto-saves every 30 seconds
+      </p>
+    </div>
+  `;
+};

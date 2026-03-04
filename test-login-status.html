@@ -79,8 +79,9 @@
                     // Auto-display expected lesson URL
                     const grade = student.gradeLevel;
                     const lesson = student.currentLesson || 1;
-                    const gradeNum = grade.match(/\d+/)[0];
-                    const lessonUrl = `${gradeNum}st${gradeNum === '1' ? '' : gradeNum === '2' ? 'nd' : gradeNum === '3' ? 'rd' : 'th'}-grade-day-${lesson}.html`;
+                    // Normalize: "6th Grade" → "6th-grade"
+                    const normalized = grade.toString().toLowerCase().replace(/\s+/g, '-');
+                    const lessonUrl = `${normalized}-day-${lesson}.html`;
                     
                     document.getElementById('results').textContent = 
                         `✅ Student: ${student.name}\n` +
@@ -106,17 +107,13 @@
             }
             
             const student = JSON.parse(studentData);
-            const grade = student.gradeLevel;
+            const grade = student.gradeLevel; // e.g., "6th Grade"
             const lesson = student.currentLesson || 1;
-            const gradeNum = grade.match(/\d+/)[0];
             
-            // Build URL: {N}st-grade-day-1.html (or nd/rd/th)
-            let suffix = 'th';
-            if (gradeNum === '1') suffix = 'st';
-            else if (gradeNum === '2') suffix = 'nd';
-            else if (gradeNum === '3') suffix = 'rd';
+            // Normalize: "6th Grade" → "6th-grade"
+            const normalized = grade.toString().toLowerCase().replace(/\s+/g, '-');
             
-            const url = `${gradeNum}${suffix}-grade-day-${lesson}.html`;
+            const url = `${normalized}-day-${lesson}.html`;
             console.log('Navigating to:', url);
             window.location.href = url;
         }

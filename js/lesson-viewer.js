@@ -170,7 +170,43 @@ function createLessonViewer(containerId, lessonConfig) {
   }
 
   function nextPage() {
-    goToPage(currentPage + 1);
+    const onLastPage = currentPage === lessonConfig.pages.length - 1;
+    
+    if (onLastPage) {
+      // On last page, clicking Next should complete the lesson
+      handleLessonComplete();
+    } else {
+      goToPage(currentPage + 1);
+    }
+  }
+
+  function handleLessonComplete() {
+    if (!studentId) {
+      alert('Please log in to save your progress!');
+      window.location.href = 'index.html';
+      return;
+    }
+
+    // Extract lesson number from lessonId
+    const lessonMatch = lessonId.match(/(?:lesson-|day-)(\d+)/);
+    const lessonNumber = lessonMatch ? parseInt(lessonMatch[1]) : 1;
+    
+    // Mark complete
+    if (typeof LessonCompletion !== 'undefined') {
+      const completion = new LessonCompletion(studentId, lessonNumber, gradeLevel);
+      
+      completion.markComplete().then(() => {
+        // Show completion modal
+        completion.showCompletionModal();
+      }).catch(err => {
+        console.error('Error saving completion:', err);
+        // Still show modal even if save failed
+        completion.showCompletionModal();
+      });
+    } else {
+      alert('Great job! Lesson complete!');
+      window.location.href = 'student-dashboard.html';
+    }
   }
 
   function prevPage() {
@@ -281,11 +317,10 @@ function createLessonViewer(containerId, lessonConfig) {
         </div>
 
         <button 
-          class="nav-arrow ${currentPage === lessonConfig.pages.length - 1 ? 'disabled' : ''}" 
+          class="nav-arrow" 
           onclick="window.lessonNextPage()"
-          ${currentPage === lessonConfig.pages.length - 1 ? 'disabled' : ''}
         >
-          Next →
+          ${currentPage === lessonConfig.pages.length - 1 ? 'Finish Lesson ✓' : 'Next →'}
         </button>
       </div>
     `;
@@ -312,7 +347,7 @@ function createLessonViewer(containerId, lessonConfig) {
     }, 100);
 
     // Check if lesson is complete (all activities done, on last page)
-    setTimeout(() => checkLessonCompletion(), 500);
+    // Completion handled by Finish Lesson button
   }
 
   // Global functions

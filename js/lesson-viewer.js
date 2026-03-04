@@ -330,3 +330,7 @@ function createLessonViewer(containerId, lessonConfig) {
     delete window.lessonMarkComplete;
   };
 }
+
+
+// Export as initLessonViewer for backward compatibility
+window.initLessonViewer = createLessonViewer;

@@ -178,14 +178,24 @@ function createLessonViewer(containerId, lessonConfig) {
   }
 
   function calculateProgress() {
-    let completed = 0;
-    let total = 3; // story, letter explorer, flashcard
+    // For 1st grade: track activity completion
+    const has1stGradeActivities = 'story_completed' in lessonProgress;
+    
+    if (has1stGradeActivities) {
+      let completed = 0;
+      let total = 3; // story, letter explorer, flashcard
 
-    if (lessonProgress.story_completed) completed++;
-    if (lessonProgress.letter_explorer_completed) completed++;
-    if (lessonProgress.flashcard_completed) completed++;
+      if (lessonProgress.story_completed) completed++;
+      if (lessonProgress.letter_explorer_completed) completed++;
+      if (lessonProgress.flashcard_completed) completed++;
 
-    return Math.round((completed / total) * 100);
+      return Math.round((completed / total) * 100);
+    }
+    
+    // For grades 2-6: calculate based on page progress
+    const totalPages = lessonConfig.pages.length;
+    const completedPages = currentPage + 1; // +1 because currentPage is 0-indexed
+    return Math.round((completedPages / totalPages) * 100);
   }
 
   function checkLessonCompletion() {

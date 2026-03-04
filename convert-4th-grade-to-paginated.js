@@ -158,9 +158,18 @@ ${sections.map((section, index) => `                // Page ${index + 2}: ${sect
   console.log(`✅ Converted lesson ${lessonNum} to paginated format (${sections.length + 1} pages total)`);
 }
 
-// Convert lesson 1 first as a test
-console.log('Converting 4th grade lessons to paginated format...\n');
-convertToPaginated(1);
+// Convert all 4th grade lessons
+console.log('Converting ALL 4th grade lessons to paginated format...\n');
 
-console.log('\n✨ Test lesson 1 converted! Check it at bedrockela.com/4th-grade-lesson-1.html');
-console.log('If it works, run this script again with more lesson numbers.');
+let successCount = 0;
+for (let i = 1; i <= 180; i++) {
+  try {
+    convertToPaginated(i);
+    successCount++;
+  } catch (error) {
+    console.error(`❌ Error converting lesson ${i}:`, error.message);
+  }
+}
+
+console.log(`\n✨ Done! Converted ${successCount} lessons to paginated format!`);
+console.log('Each lesson now has multiple pages with Next/Previous navigation.');

@@ -4,147 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lesson 7: The Deadly Poppy Field - BedrockELA</title>
-    <link rel="stylesheet" href="css/flashcard-game.css">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            line-height: 1.8;
-            color: #1B2A30;
-            background: linear-gradient(135deg, #B06821 0%, #305853 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .container { max-width: 900px; margin: 0 auto; }
-        .header {
-            background: white;
-            border-radius: 20px 20px 0 0;
-            padding: 30px;
-            text-align: center;
-            border-bottom: 4px solid #B06821;
-        }
-        .header h1 { color: #305853; font-size: 2rem; margin-bottom: 5px; }
-        .header .meta { color: #666; font-size: 0.9rem; }
-        .lesson-content {
-            background: white;
-            padding: 40px;
-            border-radius: 0 0 20px 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        .lesson-content h2 { color: #B06821; margin: 30px 0 15px 0; font-size: 1.5rem; }
-        .lesson-content h3 { color: #305853; margin: 25px 0 12px 0; font-size: 1.2rem; }
-        .lesson-content h4 { color: #666; margin: 20px 0 10px 0; }
-        .lesson-content p { margin: 15px 0; }
-        .lesson-content ul, .lesson-content ol { margin: 15px 0 15px 30px; }
-        .lesson-content li { margin: 8px 0; }
-        .lesson-content strong { color: #305853; }
-        .lesson-content em { color: #B06821; }
-        .reading-tip {
-            background: #FFF9E6;
-            border-left: 4px solid #B06821;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 5px;
-        }
-        .vocab-box {
-            background: #E8F4F8;
-            border-left: 4px solid #305853;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 5px;
-        }
-        .question {
-            background: #f5f5f5;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 8px;
-        }
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin: 30px 0;
-            gap: 15px;
-        }
-        .nav-btn {
-            background: linear-gradient(135deg, #B06821 0%, #305853 100%);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: transform 0.2s;
-            display: inline-block;
-        }
-        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        .nav-btn.disabled { opacity: 0.4; pointer-events: none; }
-        .top-nav {
-            background: rgba(48,88,83,0.95);
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .top-nav .logo {
-            color: white;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-        .top-nav .dashboard-btn {
-            background: #B06821;
-            color: white;
-            padding: 8px 20px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-        }
-        .top-nav .dashboard-btn:hover {
-            background: #8B4F19;
-            transform: translateY(-2px);
-        }
-    
-        .lesson-sections {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        .section-card {
-            background: white;
-            border-radius: 20px;
-            padding: 35px;
-            box-shadow: 0 4px 20px rgba(48,88,83,0.12);
-            border: 2px solid rgba(48,88,83,0.08);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .section-card:hover {
-            box-shadow: 0 6px 25px rgba(48,88,83,0.18);
-        }
-        .section-card h3, .section-card h4 {
-            margin-top: 0;
-        }
-    </style>
+    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/lesson-completion.js"></script>
 </head>
-<body>
-    <div class="container">
-        <div class="top-nav">
-            <div class="logo">📚 BedrockELA - 4th Grade</div>
-            <a href="student-dashboard-live.html" class="dashboard-btn">← Back to Dashboard</a>
+<body class="lesson-viewer">
+    <!-- Top Navigation -->
+    <div class="lesson-top-nav">
+        <a href="student-dashboard.html" class="nav-home">🏠 Home</a>
+        <div class="lesson-progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+            <span class="progress-text" id="progress-text">0% Complete</span>
         </div>
-        
-        <div class="header">
-            <h1>📚 Lesson 7: The Deadly Poppy Field</h1>
-            <p class="meta">The Wonderful Wizard of Oz  •  Chapter 8: The Deadly Poppy Field</p>
+        <div class="lesson-day-indicator">
+            Day <span id="current-day">7</span>
+            <span class="online-indicator">● Online</span>
         </div>
-        
-        <div class="lesson-content lesson-sections">
-<div class="section-card">
-<div class="section-card">
+    </div>
 
-<h4>📚  Welcome!</h4>
+    <!-- Lesson Container -->
+    <div id="lesson-container" class="lesson-container"></div>
+
+    <!-- Scripts -->
+    <script src="js/lesson-viewer.js"></script>
+    
+    <script>
+        // Lesson 7 Configuration
+        const lesson7Config = {
+            lessonId: '4th-grade-day-7',
+            gradeLevel: '4th-grade',
+            title: 'Lesson 7: The Deadly Poppy Field',
+            subtitle: 'The Wonderful Wizard of Oz  •  Chapter 8: The Deadly Poppy Field',
+            pages: [
+                // Page 1: Title
+                {
+                    render: () => `
+                        <div class="lesson-page-card title-page">
+                            <div class="character">📖</div>
+                            <h1>Day 7</h1>
+                            <p class="subtitle">4th Grade ELA</p>
+                            <p style="font-size: 20px; color: #B06821; margin: 15px 0; font-weight: 600;">The Wonderful Wizard of Oz    Chapter 8: The Deadly Poppy Field</p>
+                        </div>
+                    `
+                },
+                
+                // Page 2: 📚  Welcome!
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h4>📚  Welcome!</h4>
 <p>Flowers. Beautiful, bright red flowers as far as you can see. Sounds lovely, right? Not this time. Today’s chapter is one of the most suspenseful in the whole book.</p>
 <br>
 <p>Today you will: </p>
@@ -157,12 +66,15 @@
 <br>
 <p>Time: About 45-50 minutes</p>
 <br>
+                        </div>
+                    `
+                },
 
-</div>
-<div class="section-card">
-</div>
-<div class="section-card">
-<h3>🧐  Part 1: Before You Read</h3>
+                // Page 3: 🧐  Part 1: Before You Read
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h3>🧐  Part 1: Before You Read</h3>
 <p>In stories, things that look safe can sometimes be dangerous. The author is about to use this trick on you.</p>
 <br>
 <p>Think about this: Can you think of something in real life that looks harmless but can actually be dangerous? (Maybe something in nature?)</p>
@@ -174,18 +86,30 @@
 <li>How does the group solve this problem?</li>
 </ul>
 <br>
-</div>
-<div class="section-card">
-<h3>📖  Part 2: Read — Chapter 8: The Deadly Poppy Field</h3>
+                        </div>
+                    `
+                },
+
+                // Page 4: 📖  Part 2: Read — Chapter 8: The Deadly Poppy Field
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h3>📖  Part 2: Read — Chapter 8: The Deadly Poppy Field</h3>
 <p>Open your digital copy and read Chapter 8: “The Deadly Poppy Field.”</p>
 <br>
 <p>This is a great chapter for noticing cause and effect — one thing causes another, which causes another. It’s like a chain reaction.</p>
 <br>
 <h4>💡 Reading tip: Cause and effect means asking “What happened?” and “Why did it happen?” Try to connect events like links in a chain.</h4>
 <br>
-</div>
-<div class="section-card">
-<h3>💬  Part 3: Word of the Day</h3>
+                        </div>
+                    `
+                },
+
+                // Page 5: 💬  Part 3: Word of the Day
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h3>💬  Part 3: Word of the Day</h3>
 <div class="vocab-box"><strong>poisonous  (adjective)</strong></div>
 <p>Containing something harmful that can make you sick or cause damage, even if it looks safe.</p>
 <br>
@@ -193,9 +117,15 @@
 <br>
 <p>Think about it: Why is it more dangerous when something harmful looks beautiful? How does this connect to the idea that “things aren’t always what they seem”?</p>
 <br>
-</div>
-<div class="section-card">
-<h3>✅  Part 4: Check Your Understanding</h3>
+                        </div>
+                    `
+                },
+
+                // Page 6: ✅  Part 4: Check Your Understanding
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h3>✅  Part 4: Check Your Understanding</h3>
 <p>Answer these questions using what you read.</p>
 <br>
 <div class="question">1. Why do the poppies make Dorothy, Toto, and the Lion fall asleep?</div>
@@ -225,9 +155,15 @@
 <p>[Your answer]</p>
 <br>
 <br>
-</div>
-<div class="section-card">
-<h3>✍️  Part 5: Your Reading Journal</h3>
+                        </div>
+                    `
+                },
+
+                // Page 7: ✍️  Part 5: Your Reading Journal
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h3>✍️  Part 5: Your Reading Journal</h3>
 <p>Today’s journal entry (2-3 sentences):</p>
 <br>
 <ul>
@@ -255,15 +191,21 @@
 <p>See you next lesson, reader. 📚</p>
 <br>
 <br>
+                        </div>
+                    `
+                }
+            ]
+        };
 
-</div>
-        </div>
-
-        <div class="nav-buttons">
-            <a href="4th-grade-lesson-6.html" class="nav-btn">← Lesson 6</a>
-            <a href="student-dashboard-live.html" class="nav-btn">Dashboard</a>
-            <a href="4th-grade-lesson-8.html" class="nav-btn">Lesson 8 →</a>
-        </div>
-    </div>
+        // Initialize lesson viewer
+        createLessonViewer('lesson-container', lesson7Config);
+        
+        // Initialize autosave after a short delay
+        setTimeout(() => {
+            if (typeof initializeAutosave === 'function') {
+                initializeAutosave();
+            }
+        }, 1000);
+    </script>
 </body>
 </html>

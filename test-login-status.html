@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Login Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h1 { color: #305853; }
+        pre {
+            background: #f8f8f8;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        button {
+            background: #305853;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        button:hover { background: #214239; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🔍 Login Diagnostic Tool</h1>
+        <p>This page checks if you're logged in and shows what data is stored.</p>
+    </div>
+
+    <div class="card">
+        <h2>📦 LocalStorage Data:</h2>
+        <pre id="localStorageData"></pre>
+    </div>
+
+    <div class="card">
+        <h2>🎯 Test Actions:</h2>
+        <button onclick="testDashboard()">Go to Dashboard</button>
+        <button onclick="testLesson()">Go to Lesson 1</button>
+        <button onclick="clearLogin()">Clear Login</button>
+    </div>
+
+    <div class="card">
+        <h2>📋 Test Results:</h2>
+        <pre id="results"></pre>
+    </div>
+
+    <script>
+        function displayData() {
+            const studentData = localStorage.getItem('bedrockela_student');
+            const dataEl = document.getElementById('localStorageData');
+            
+            if (!studentData) {
+                dataEl.textContent = '❌ No student data found!\n\nYou need to log in first.';
+                dataEl.style.color = 'red';
+            } else {
+                try {
+                    const student = JSON.parse(studentData);
+                    dataEl.textContent = JSON.stringify(student, null, 2);
+                    dataEl.style.color = 'green';
+                    
+                    // Auto-display expected lesson URL
+                    const grade = student.gradeLevel;
+                    const lesson = student.currentLesson || 1;
+                    const gradeNum = grade.match(/\d+/)[0];
+                    const lessonUrl = `${gradeNum}st${gradeNum === '1' ? '' : gradeNum === '2' ? 'nd' : gradeNum === '3' ? 'rd' : 'th'}-grade-day-${lesson}.html`;
+                    
+                    document.getElementById('results').textContent = 
+                        `✅ Student: ${student.name}\n` +
+                        `📚 Grade: ${student.gradeLevel}\n` +
+                        `📖 Current Lesson: ${lesson}\n` +
+                        `🔗 Expected URL: ${lessonUrl}`;
+                } catch (error) {
+                    dataEl.textContent = '❌ Error parsing student data!\n\n' + error.message;
+                    dataEl.style.color = 'red';
+                }
+            }
+        }
+
+        function testDashboard() {
+            window.location.href = 'student-dashboard.html';
+        }
+
+        function testLesson() {
+            const studentData = localStorage.getItem('bedrockela_student');
+            if (!studentData) {
+                alert('No student logged in! Go to student-login.html first.');
+                return;
+            }
+            
+            const student = JSON.parse(studentData);
+            const grade = student.gradeLevel;
+            const lesson = student.currentLesson || 1;
+            const gradeNum = grade.match(/\d+/)[0];
+            
+            // Build URL: {N}st-grade-day-1.html (or nd/rd/th)
+            let suffix = 'th';
+            if (gradeNum === '1') suffix = 'st';
+            else if (gradeNum === '2') suffix = 'nd';
+            else if (gradeNum === '3') suffix = 'rd';
+            
+            const url = `${gradeNum}${suffix}-grade-day-${lesson}.html`;
+            console.log('Navigating to:', url);
+            window.location.href = url;
+        }
+
+        function clearLogin() {
+            localStorage.removeItem('bedrockela_student');
+            alert('Login cleared! Refresh to see.');
+            location.reload();
+        }
+
+        displayData();
+    </script>
+</body>
+</html>

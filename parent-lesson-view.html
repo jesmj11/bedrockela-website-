@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asher's Progress - BedrockELA</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #E0F2F1 0%, #B2DFDB 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .header {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .back-btn {
+            background: #305853;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .back-btn:hover {
+            background: #254540;
+        }
+        
+        .student-info h1 {
+            color: #305853;
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .grade-badge {
+            background: #B06821;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        /* Stats Bar */
+        .stats-bar {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #305853;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        /* Lesson Table */
+        .lessons-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            color: #305853;
+            font-weight: 700;
+        }
+        
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .filter-tab {
+            padding: 8px 16px;
+            border: 2px solid #E0E0E0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.2s;
+        }
+        
+        .filter-tab.active {
+            background: #305853;
+            color: white;
+            border-color: #305853;
+        }
+        
+        /* Lesson List */
+        .lesson-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .lesson-row {
+            display: grid;
+            grid-template-columns: 50px 1fr 120px 120px 150px 100px 120px;
+            align-items: center;
+            padding: 16px 20px;
+            background: #F9F9F9;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            gap: 15px;
+        }
+        
+        .lesson-row:hover {
+            border-color: #305853;
+            background: white;
+            box-shadow: 0 4px 12px rgba(48,88,83,0.1);
+        }
+        
+        .lesson-row.completed {
+            background: rgba(76, 175, 80, 0.05);
+        }
+        
+        .lesson-row.in-progress {
+            background: rgba(255, 193, 7, 0.05);
+        }
+        
+        .status-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .status-icon.complete {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .status-icon.in-progress {
+            background: #FFC107;
+            color: white;
+        }
+        
+        .status-icon.not-started {
+            background: #E0E0E0;
+            color: #999;
+        }
+        
+        .lesson-name {
+            font-weight: 600;
+            color: #305853;
+            font-size: 1rem;
+        }
+        
+        .lesson-book {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 3px;
+        }
+        
+        .progress-bar-container {
+            background: #E0E0E0;
+            height: 8px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50 0%, #66BB6A 100%);
+            transition: width 0.3s;
+        }
+        
+        .progress-text {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        .date-text {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .action-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        
+        .view-btn {
+            background: #305853;
+            color: white;
+        }
+        
+        .view-btn:hover {
+            background: #254540;
+        }
+        
+        .mark-complete-btn {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .mark-complete-btn:hover {
+            background: #45a049;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            color: #305853;
+            font-weight: 700;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        @media (max-width: 1200px) {
+            .lesson-row {
+                grid-template-columns: 50px 1fr 100px;
+                gap: 10px;
+            }
+            
+            .hide-mobile {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <a href="parent-dashboard.html" class="back-btn">← Back to Dashboard</a>
+            <div class="student-info">
+                <h1 id="studentName">Loading...</h1>
+            </div>
+            <span class="grade-badge" id="gradeBadge">Loading...</span>
+        </div>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat">
+                <span class="stat-number" id="totalCompleted">0</span>
+                <span class="stat-label">Lessons Completed</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number" id="overallProgress">0%</span>
+                <span class="stat-label">Overall Progress</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number" id="currentStreak">0</span>
+                <span class="stat-label">Day Streak</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number" id="totalTime">0h</span>
+                <span class="stat-label">Total Time</span>
+            </div>
+        </div>
+
+        <!-- Lessons Section -->
+        <div class="lessons-section">
+            <div class="section-header">
+                <h2 class="section-title">Lesson Progress</h2>
+                <div class="filter-tabs">
+                    <button class="filter-tab active" onclick="filterLessons('all')">All</button>
+                    <button class="filter-tab" onclick="filterLessons('completed')">Completed</button>
+                    <button class="filter-tab" onclick="filterLessons('in-progress')">In Progress</button>
+                    <button class="filter-tab" onclick="filterLessons('not-started')">Not Started</button>
+                </div>
+            </div>
+
+            <div class="lesson-list" id="lessonList">
+                <!-- Lesson rows will be inserted here by JavaScript -->
+            </div>
+
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-state-icon">📚</div>
+                <p>No lessons to show</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lesson Detail Modal -->
+    <div class="modal" id="lessonModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Lesson Details</h3>
+                <button class="close-btn" onclick="closeModal()">×</button>
+            </div>
+            <div id="modalBody">
+                <!-- Lesson details will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script>
+        const db = firebase.firestore();
+        const urlParams = new URLSearchParams(window.location.search);
+        const studentId = urlParams.get('student');
+        let currentFilter = 'all';
+        let allLessons = [];
+
+        // Book mapping for 4th grade
+        const BOOKS = {
+            1: { name: "The Wonderful Wizard of Oz", range: [1, 30] },
+            2: { name: "The Adventures of Tom Sawyer", range: [31, 60] },
+            3: { name: "Around the World in 80 Days", range: [61, 90] },
+            4: { name: "Black Beauty", range: [91, 120] },
+            5: { name: "Sherlock Holmes Stories", range: [121, 150] },
+            6: { name: "Alice in Wonderland", range: [151, 180] }
+        };
+
+        function getBookForLesson(day) {
+            for (const book of Object.values(BOOKS)) {
+                if (day >= book.range[0] && day <= book.range[1]) {
+                    return book.name;
+                }
+            }
+            return "BedrockELA";
+        }
+
+        async function loadData() {
+            try {
+                // Load student info
+                const studentDoc = await db.collection('students').doc(studentId).get();
+                const studentData = studentDoc.data();
+                
+                document.getElementById('studentName').textContent = studentData.name;
+                document.getElementById('gradeBadge').textContent = studentData.gradeLevel;
+                
+                // Get completed lessons
+                const completedLessons = studentData.completedLessons || [];
+                document.getElementById('totalCompleted').textContent = completedLessons.length;
+                document.getElementById('overallProgress').textContent = 
+                    Math.round((completedLessons.length / 180) * 100) + '%';
+                
+                // Generate lesson data (Days 1-180 for 4th grade)
+                allLessons = [];
+                for (let day = 1; day <= 180; day++) {
+                    const isCompleted = completedLessons.includes(day);
+                    const bookName = getBookForLesson(day);
+                    
+                    allLessons.push({
+                        day: day,
+                        name: `Day ${day}`,
+                        book: bookName,
+                        status: isCompleted ? 'completed' : 'not-started',
+                        progress: isCompleted ? 100 : 0,
+                        completedDate: isCompleted ? studentData.lastActive : null
+                    });
+                }
+                
+                renderLessons();
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                alert('Error loading student data');
+            }
+        }
+
+        function renderLessons() {
+            const listEl = document.getElementById('lessonList');
+            const emptyEl = document.getElementById('emptyState');
+            
+            let filtered = allLessons;
+            if (currentFilter !== 'all') {
+                filtered = allLessons.filter(l => l.status === currentFilter);
+            }
+            
+            if (filtered.length === 0) {
+                listEl.innerHTML = '';
+                emptyEl.style.display = 'block';
+                return;
+            }
+            
+            emptyEl.style.display = 'none';
+            
+            listEl.innerHTML = filtered.map(lesson => {
+                const statusIcon = lesson.status === 'completed' ? '✓' :
+                                  lesson.status === 'in-progress' ? '◐' : '○';
+                const statusClass = lesson.status;
+                
+                return `
+                    <div class="lesson-row ${statusClass}">
+                        <div class="status-icon ${statusClass}">${statusIcon}</div>
+                        <div>
+                            <div class="lesson-name">${lesson.name}</div>
+                            <div class="lesson-book">${lesson.book}</div>
+                        </div>
+                        <div class="hide-mobile">
+                            <div class="progress-bar-container">
+                                <div class="progress-bar-fill" style="width: ${lesson.progress}%"></div>
+                            </div>
+                            <div class="progress-text">${lesson.progress}%</div>
+                        </div>
+                        <div class="hide-mobile">
+                            <div class="date-text">${lesson.completedDate ? new Date(lesson.completedDate).toLocaleDateString() : '—'}</div>
+                        </div>
+                        <div>
+                            ${lesson.status === 'completed' 
+                                ? `<button class="action-btn view-btn" onclick="viewLesson(${lesson.day})">View</button>`
+                                : `<button class="action-btn mark-complete-btn" onclick="markComplete(${lesson.day})">Mark Complete</button>`
+                            }
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterLessons(filter) {
+            currentFilter = filter;
+            
+            // Update active tab
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            renderLessons();
+        }
+
+        async function markComplete(day) {
+            if (!confirm(`Mark Day ${day} as complete?`)) return;
+            
+            try {
+                await db.collection('students').doc(studentId).update({
+                    completedLessons: firebase.firestore.FieldValue.arrayUnion(day),
+                    lastActive: new Date().toISOString()
+                });
+                
+                alert(`Day ${day} marked complete!`);
+                loadData(); // Reload
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to mark complete');
+            }
+        }
+
+        function viewLesson(day) {
+            document.getElementById('modalTitle').textContent = `Day ${day} - ${getBookForLesson(day)}`;
+            document.getElementById('modalBody').innerHTML = `
+                <p style="color: #666; margin-bottom: 20px;">Lesson details coming soon!</p>
+                <p style="color: #666;">This will show:</p>
+                <ul style="color: #666; margin: 10px 0 0 20px;">
+                    <li>Student answers</li>
+                    <li>Time spent</li>
+                    <li>Completion date</li>
+                    <li>Progress through pages</li>
+                </ul>
+            `;
+            document.getElementById('lessonModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('lessonModal').classList.remove('show');
+        }
+
+        // Close modal on background click
+        document.getElementById('lessonModal').addEventListener('click', (e) => {
+            if (e.target.id === 'lessonModal') closeModal();
+        });
+
+        // Load data on page load
+        if (studentId) {
+            loadData();
+        } else {
+            alert('No student specified');
+            window.location.href = 'parent-dashboard.html';
+        }
+    </script>
+</body>
+</html>

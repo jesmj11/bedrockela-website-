@@ -104,7 +104,9 @@ class LessonCompletion {
       '1st-grade': 180,
       '2nd-grade': 180,
       '3rd-grade': 180,
-      '4th-grade': 180
+      '4th-grade': 180,
+      '5th-grade': 180,
+      '6th-grade': 180
     };
     return this.lessonNumber < (maxLessons[this.gradeLevel] || 180);
   }
@@ -185,32 +187,24 @@ class LessonCompletion {
 
     document.body.appendChild(modal);
 
-    // Setup navigation functions
-    window.goToNextLesson = async () => {
-      // Update Firebase progress first
-      await this.updateFirebaseProgress(nextLesson);
-      
-      // Navigate to next lesson with correct URL format
+    // Setup navigation functions — navigate FIRST, save in background
+    window.goToNextLesson = () => {
       const nextUrl = this.getNextLessonUrl(nextLesson);
+      // Fire and forget — don't block navigation on Firebase
+      this.updateFirebaseProgress(nextLesson).catch(e => console.warn('Firebase save failed:', e));
       window.location.href = nextUrl;
     };
 
-    window.goToDashboard = async () => {
-      // Update Firebase progress
-      await this.updateFirebaseProgress(nextLesson);
+    window.goToDashboard = () => {
+      this.updateFirebaseProgress(nextLesson).catch(e => console.warn('Firebase save failed:', e));
       window.location.href = 'student-dashboard.html';
     };
   }
 
   // Get correct URL for next lesson based on grade
   getNextLessonUrl(lessonNum) {
-    const pad = (n) => n.toString().padStart(3, '0');
-    
-    if (this.gradeLevel === '4th-grade' || this.gradeLevel === '6th-grade') {
-      return `${this.gradeLevel}-day-${lessonNum}.html`;
-    } else {
-      return `${this.gradeLevel}-lesson-${lessonNum}-REVISED.html`;
-    }
+    // All grades use the same URL format: Xth-grade-day-N.html
+    return `${this.gradeLevel}-day-${lessonNum}.html`;
   }
 
   // Update student progress in Firebase

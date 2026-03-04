@@ -130,7 +130,7 @@ class LessonAutosave {
         opacity: 0;
         transition: opacity 0.3s;
       `;
-      indicator.textContent = '✓ Saved';
+      indicator.textContent = 'Saved';
       document.body.appendChild(indicator);
     }
     
@@ -216,7 +216,7 @@ window.manualSaveAnswers = function() {
     if (btn) {
       // Change button text temporarily
       const originalText = btn.innerHTML;
-      btn.innerHTML = '✓ Saved!';
+      btn.innerHTML = 'Saved!';
       btn.style.background = '#4CAF50';
       
       setTimeout(() => {
@@ -251,7 +251,7 @@ window.createSaveButton = function() {
         onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(48,88,83,0.4)';"
         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(48,88,83,0.3)';"
       >
-        💾 Save Progress
+        Save Progress
       </button>
       <p style="font-size: 13px; color: #666; margin-top: 10px;">
         Auto-saves every 30 seconds

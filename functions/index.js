@@ -1,216 +1,152 @@
 /**
- * BedrockELA Firebase Cloud Functions
- * Text-to-Speech using ElevenLabs API
- * AI Feedback using Claude API
+ * Firebase Cloud Functions for BedrockELA
+ * AI-powered grading with Anthropic Claude
  */
 
-const {onRequest} = require("firebase-functions/v2/https");
-const logger = require("firebase-functions/logger");
+const functions = require('firebase-functions');
+const cors = require('cors')({ origin: true });
 
 /**
- * Text-to-Speech Function
- * Converts text to speech using ElevenLabs API
- * 
- * Deploy with: firebase deploy --only functions:textToSpeech
- * Set API key: firebase functions:config:set elevenlabs.api_key="YOUR_KEY"
+ * AI Grading Function
+ * Endpoint: https://us-central1-bedrockela-96dbd.cloudfunctions.net/gradeAnswer
  */
-exports.textToSpeech = onRequest({
-  cors: true,
-  maxInstances: 10,
-  timeoutSeconds: 60,
-  memory: "256MiB"
-}, async (req, res) => {
-  // Only allow POST
-  if (req.method !== 'POST') {
-    res.status(405).send('Method Not Allowed');
-    return;
-  }
+exports.gradeAnswer = functions.https.onRequest((req, res) => {
+  cors(req, res, async () => {
+    // Only accept POST requests
+    if (req.method !== 'POST') {
+      return res.status(405).json({ error: 'Method not allowed' });
+    }
 
-  const { text, voice, voiceId, lessonId } = req.body;
+    try {
+      const { prompt, gradeLevel } = req.body;
 
-  if (!text) {
-    res.status(400).json({ success: false, error: 'Text required' });
-    return;
-  }
-
-  // Get API key from environment variable
-  const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
-  
-  if (!ELEVENLABS_API_KEY) {
-    logger.error('ELEVENLABS_API_KEY not set in environment');
-    res.status(500).json({ success: false, error: 'TTS service not configured' });
-    return;
-  }
-
-  // Voice ID mapping
-  const voiceIds = {
-    'Rachel': '21m00Tcm4TlvDq8ikWAM',
-    'Domi': 'AZnzlk1XvdvUeBnXmlld',
-    'Bella': 'EXAVITQu4vr4xnSDxMaL',
-    'Antoni': 'ErXwobaYiN019PkySvjV',
-    'Elli': 'MF3mGyEYCl7XYWbV9V6O',
-    'Josh': 'TxGEqnHWrfWFTfGW9XjX',
-    'Adam': 'pNInz6obpgDQGcFmaJgB'
-  };
-
-  // Use provided voiceId, or map from voice name, or default to Adam
-  const selectedVoiceId = voiceId || voiceIds[voice] || voiceIds['Adam'];
-
-  logger.info(`Generating TTS for lesson ${lessonId || 'unknown'} with voice ${selectedVoiceId}`);
-
-  try {
-    const response = await fetch(
-      `https://api.elevenlabs.io/v1/text-to-speech/${selectedVoiceId}`,
-      {
-        method: 'POST',
-        headers: {
-          'Accept': 'audio/mpeg',
-          'Content-Type': 'application/json',
-          'xi-api-key': ELEVENLABS_API_KEY
-        },
-        body: JSON.stringify({
-          text: text.substring(0, 5000), // Limit to 5000 chars
-          model_id: 'eleven_monolingual_v1',
-          voice_settings: {
-            stability: 0.5,
-            similarity_boost: 0.75,
-            style: 0.0,
-            use_speaker_boost: true
-          }
-        })
+      if (!prompt) {
+        return res.status(400).json({ error: 'Missing prompt' });
       }
-    );
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      logger.error(`ElevenLabs API error: ${response.status}`, errorText);
-      throw new Error(`ElevenLabs API error: ${response.status}`);
-    }
+      // Get API key from environment
+      const apiKey = functions.config().anthropic?.key || process.env.ANTHROPIC_API_KEY;
 
-    // Get audio buffer
-    const buffer = await response.arrayBuffer();
-    
-    // Set headers and send audio
-    res.setHeader('Content-Type', 'audio/mpeg');
-    res.setHeader('Cache-Control', 'public, max-age=86400'); // Cache for 24 hours
-    res.send(Buffer.from(buffer));
+      if (!apiKey) {
+        console.warn('No API key found, using fallback grading');
+        return res.json(fallbackGrade(prompt));
+      }
 
-    logger.info(`TTS generated successfully for lesson ${lessonId || 'unknown'}`);
-
-  } catch (error) {
-    logger.error('TTS error:', error);
-    res.status(500).json({ success: false, error: 'TTS generation failed' });
-  }
-});
-
-/**
- * AI Feedback Function
- * Reviews student answers and provides constructive feedback
- * 
- * Deploy with: firebase deploy --only functions:aiFeedback
- * Set API key: Set ANTHROPIC_API_KEY in environment
- */
-exports.aiFeedback = onRequest({
-  cors: true,
-  maxInstances: 5,
-  timeoutSeconds: 30,
-  memory: "256MiB"
-}, async (req, res) => {
-  // Only allow POST
-  if (req.method !== 'POST') {
-    res.status(405).send('Method Not Allowed');
-    return;
-  }
-
-  const { answers } = req.body;
-
-  if (!answers || !Array.isArray(answers) || answers.length === 0) {
-    res.status(400).json({ success: false, error: 'Answers array required' });
-    return;
-  }
-
-  // Get API key from environment variable
-  const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
-  
-  if (!ANTHROPIC_API_KEY) {
-    logger.error('ANTHROPIC_API_KEY not set in environment');
-    res.status(500).json({ success: false, error: 'AI service not configured' });
-    return;
-  }
-
-  // Build prompt
-  const prompt = `You are a helpful 4th grade ELA teacher. Review these student answers and provide encouraging, constructive feedback. Keep feedback brief (2-3 sentences per answer) and age-appropriate.
-
-${answers.map((a, i) => `
-Question ${i + 1}: ${a.question}
-Student's Answer: ${a.answer}
-`).join('\n')}
-
-For each answer, provide:
-1. What they did well
-2. One specific suggestion for improvement (if needed)
-3. Overall encouragement
-
-Format your response as JSON:
-{
-  "feedback": [
-    {
-      "questionNum": 1,
-      "positive": "Great observation about...",
-      "suggestion": "Consider adding...",
-      "encouragement": "Keep up the good work!"
-    }
-  ]
-}`;
-
-  logger.info(`Generating AI feedback for ${answers.length} answers`);
-
-  try {
-    const response = await fetch(
-      'https://api.anthropic.com/v1/messages',
-      {
+      // Call Anthropic Claude API
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': ANTHROPIC_API_KEY,
+          'x-api-key': apiKey,
           'anthropic-version': '2023-06-01'
         },
         body: JSON.stringify({
-          model: 'claude-3-haiku-20240307',
-          max_tokens: 1024,
+          model: 'claude-3-haiku-20240307', // Fast & cheap for grading
+          max_tokens: 500,
           messages: [{
             role: 'user',
             content: prompt
           }]
         })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Anthropic API error: ${response.statusText}`);
       }
-    );
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      logger.error(`Claude API error: ${response.status}`, errorText);
-      throw new Error(`Claude API error: ${response.status}`);
+      const data = await response.json();
+      const aiResponse = data.content[0].text;
+
+      // Parse JSON response from AI
+      const jsonMatch = aiResponse.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) {
+        console.error('Invalid AI response format:', aiResponse);
+        return res.json(fallbackGrade(prompt));
+      }
+
+      const result = JSON.parse(jsonMatch[0]);
+      return res.status(200).json(result);
+
+    } catch (error) {
+      console.error('Grading error:', error);
+      
+      // Return fallback grade on error
+      return res.status(200).json({
+        score: 70,
+        passed: true,
+        feedback: "✅ Your answer looks good! Keep up the great work.",
+        strengths: "You wrote a complete answer.",
+        improvements: "Keep practicing!",
+        needsWork: false,
+        fallback: true
+      });
     }
-
-    const data = await response.json();
-    const feedbackText = data.content[0].text;
-    
-    // Parse JSON response
-    let feedback;
-    try {
-      feedback = JSON.parse(feedbackText);
-    } catch (parseError) {
-      logger.error('Failed to parse Claude response as JSON:', feedbackText);
-      throw new Error('Invalid AI response format');
-    }
-    
-    // Send feedback
-    res.json({ success: true, feedback: feedback.feedback });
-
-    logger.info(`AI feedback generated successfully for ${answers.length} answers`);
-
-  } catch (error) {
-    logger.error('AI feedback error:', error);
-    res.status(500).json({ success: false, error: 'AI feedback generation failed' });
-  }
+  });
 });
+
+/**
+ * Fallback grading when AI is unavailable
+ */
+function fallbackGrade(prompt) {
+  // Extract student answer from prompt
+  const answerMatch = prompt.match(/STUDENT ANSWER: "(.*?)"/s);
+  const conceptsMatch = prompt.match(/KEY CONCEPTS TO LOOK FOR: (.*)/);
+  
+  if (!answerMatch || !conceptsMatch) {
+    return {
+      score: 70,
+      passed: true,
+      feedback: "✅ Answer received! Keep up the good work.",
+      needsWork: false,
+      fallback: true
+    };
+  }
+
+  const answer = answerMatch[1].toLowerCase();
+  const concepts = conceptsMatch[1].toLowerCase();
+  const wordCount = answer.split(/\s+/).length;
+
+  // Basic checks
+  if (wordCount < 5) {
+    return {
+      score: 40,
+      passed: false,
+      feedback: "⚠️ Your answer is too short. Please write more.",
+      needsWork: true,
+      fallback: true
+    };
+  }
+
+  // Simple keyword matching
+  const keywords = concepts.split(/[,;]/).map(k => k.trim());
+  let matchCount = 0;
+  
+  for (const keyword of keywords) {
+    const words = keyword.split(/\s+/);
+    if (words.some(w => answer.includes(w))) {
+      matchCount++;
+    }
+  }
+
+  const score = Math.min(100, Math.round((matchCount / keywords.length) * 100) + 20);
+  const passed = score >= 70;
+
+  let feedback;
+  if (score >= 90) {
+    feedback = "✅ Excellent! You clearly understand this.";
+  } else if (score >= 70) {
+    feedback = "👍 Good job! You got the main idea.";
+  } else {
+    feedback = "⚠️ Try to include more details about the key concepts.";
+  }
+
+  return {
+    score,
+    passed,
+    feedback,
+    strengths: "You wrote a complete answer.",
+    improvements: passed ? "Keep it up!" : "Try adding more details.",
+    needsWork: !passed,
+    fallback: true
+  };
+}

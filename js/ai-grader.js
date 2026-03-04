@@ -143,13 +143,13 @@ RESPOND IN THIS EXACT JSON FORMAT:
   }
 
   /**
-   * Call the AI grading API
+   * Call the AI grading API (Firebase Function)
    */
   async callGradingAPI(prompt, gradeLevel) {
-    // For now, we'll use a simple backend endpoint
-    // In production, this would call Anthropic/OpenAI API server-side
+    // Call Firebase Cloud Function
+    const functionUrl = 'https://us-central1-bedrockela-96dbd.cloudfunctions.net/gradeAnswer';
     
-    const response = await fetch('/api/grade', {
+    const response = await fetch(functionUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

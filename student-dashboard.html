@@ -296,14 +296,29 @@
             document.getElementById('dashboardContent').innerHTML = dashboardHTML;
         }
 
+        // Normalize grade level from "6th Grade" to "6th-grade"
+        window.normalizeGradeLevel = function(grade) {
+            if (!grade) return '';
+            // Convert "6th Grade" or "6" to "6th-grade"
+            const normalized = grade.toString().toLowerCase().replace(/\s+/g, '-');
+            // Ensure it has -grade suffix if it's just a number
+            if (/^\d+$/.test(normalized)) {
+                const num = parseInt(normalized);
+                let suffix = 'th';
+                if (num === 1) suffix = 'st';
+                else if (num === 2) suffix = 'nd';
+                else if (num === 3) suffix = 'rd';
+                return `${num}${suffix}-grade`;
+            }
+            return normalized;
+        };
+
         window.goToLesson = function() {
             let gradeLevel = studentData.gradeLevel;
             const currentLesson = studentData.currentLesson || 1;
             
-            // Normalize grade level if needed
-            if (typeof window.normalizeGradeLevel === 'function') {
-                gradeLevel = window.normalizeGradeLevel(gradeLevel);
-            }
+            // Normalize grade level: "6th Grade" → "6th-grade"
+            gradeLevel = window.normalizeGradeLevel(gradeLevel);
             
             // Route to appropriate lesson page based on normalized grade
             // All grades now use the format: {grade}-grade-day-{N}.html

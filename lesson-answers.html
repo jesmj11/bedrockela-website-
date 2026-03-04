@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson Answers - BedrockELA</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #E0F2F1 0%, #B2DFDB 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .back-btn {
+            background: #305853;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .back-btn:hover {
+            background: #254540;
+        }
+        
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .lesson-title {
+            font-size: 2rem;
+            color: #305853;
+            margin-bottom: 10px;
+        }
+        
+        .lesson-meta {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .answers-section {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            color: #305853;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #B06821;
+        }
+        
+        .answer-block {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(48,88,83,0.05);
+            border-radius: 15px;
+            border-left: 4px solid #B06821;
+        }
+        
+        .question-text {
+            font-weight: bold;
+            color: #305853;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        
+        .answer-text {
+            color: #333;
+            font-size: 1rem;
+            line-height: 1.8;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            white-space: pre-wrap;
+        }
+        
+        .word-count {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        
+        .no-answer {
+            color: #999;
+            font-style: italic;
+            padding: 15px;
+            background: rgba(0,0,0,0.02);
+            border-radius: 10px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #305853;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="back-btn" id="backBtn">← Back to Progress</button>
+        
+        <div class="header">
+            <h1 class="lesson-title" id="lessonTitle">Loading...</h1>
+            <p class="lesson-meta" id="lessonMeta">Student answers and work</p>
+        </div>
+        
+        <div id="answersContainer" class="loading">
+            Loading answers...
+        </div>
+    </div>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const progressId = urlParams.get('progress');
+        const studentId = urlParams.get('student');
+        
+        // Back button
+        document.getElementById('backBtn').addEventListener('click', () => {
+            window.location.href = `student-detail-view.html?student=${studentId}`;
+        });
+        
+        async function loadAnswers() {
+            if (!progressId || !studentId) {
+                document.getElementById('answersContainer').innerHTML = `
+                    <div class="empty-state">
+                        <h3>Missing Information</h3>
+                        <p>Could not load lesson answers.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const db = firebase.firestore();
+            
+            try {
+                // Get lesson progress
+                const progressDoc = await db.collection('lessonProgress').doc(progressId).get();
+                if (!progressDoc.exists) {
+                    throw new Error('Lesson progress not found');
+                }
+                
+                const progress = progressDoc.data();
+                const lessonId = progress.lessonId;
+                
+                // Update header
+                document.getElementById('lessonTitle').textContent = lessonId.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                const date = new Date(progress.lastUpdated);
+                document.getElementById('lessonMeta').textContent = `Completed ${date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} at ${date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
+                
+                // Get answers from localStorage
+                const answerKey = `lesson_answers_${studentId}_${lessonId}`;
+                const savedData = localStorage.getItem(answerKey);
+                
+                if (!savedData) {
+                    document.getElementById('answersContainer').innerHTML = `
+                        <div class="empty-state">
+                            <h3>No Answers Found</h3>
+                            <p>This lesson doesn't have any saved answers yet, or they haven't been synced.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                const data = JSON.parse(savedData);
+                const answers = data.answers || {};
+                
+                if (Object.keys(answers).length === 0) {
+                    document.getElementById('answersContainer').innerHTML = `
+                        <div class="empty-state">
+                            <h3>No Answers Yet</h3>
+                            <p>The student hasn't submitted any answers for this lesson.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Organize answers by type
+                const vocabAnswers = {};
+                const questionAnswers = {};
+                const journalAnswers = {};
+                
+                Object.entries(answers).forEach(([id, text]) => {
+                    if (id.startsWith('vocab-')) {
+                        vocabAnswers[id] = text;
+                    } else if (id.startsWith('question-')) {
+                        questionAnswers[id] = text;
+                    } else if (id.includes('journal')) {
+                        journalAnswers[id] = text;
+                    }
+                });
+                
+                // Render sections
+                let html = '';
+                
+                // Vocabulary section
+                if (Object.keys(vocabAnswers).length > 0) {
+                    html += `
+                        <div class="answers-section">
+                            <h2 class="section-title">Vocabulary Definitions</h2>
+                            ${Object.entries(vocabAnswers).map(([id, text]) => {
+                                const wordCount = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+                                const wordNum = id.match(/\d+/)?.[0] || '';
+                                return `
+                                    <div class="answer-block">
+                                        <div class="question-text">Word ${wordNum}</div>
+                                        <div class="answer-text">${text || '<span class="no-answer">No answer provided</span>'}</div>
+                                        <div class="word-count">${wordCount} words</div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    `;
+                }
+                
+                // Comprehension questions section
+                if (Object.keys(questionAnswers).length > 0) {
+                    html += `
+                        <div class="answers-section">
+                            <h2 class="section-title">Comprehension Questions</h2>
+                            ${Object.entries(questionAnswers).map(([id, text]) => {
+                                const wordCount = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+                                const questionNum = id.match(/\d+/)?.[0] || '';
+                                return `
+                                    <div class="answer-block">
+                                        <div class="question-text">Question ${questionNum}</div>
+                                        <div class="answer-text">${text || '<span class="no-answer">No answer provided</span>'}</div>
+                                        <div class="word-count">${wordCount} words</div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    `;
+                }
+                
+                // Journal section
+                if (Object.keys(journalAnswers).length > 0) {
+                    html += `
+                        <div class="answers-section">
+                            <h2 class="section-title">Journal Entry</h2>
+                            ${Object.entries(journalAnswers).map(([id, text]) => {
+                                const wordCount = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+                                return `
+                                    <div class="answer-block">
+                                        <div class="question-text">Today's Journal</div>
+                                        <div class="answer-text">${text || '<span class="no-answer">No entry written</span>'}</div>
+                                        <div class="word-count">${wordCount} words</div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    `;
+                }
+                
+                document.getElementById('answersContainer').innerHTML = html;
+                
+            } catch (error) {
+                console.error('Error loading answers:', error);
+                document.getElementById('answersContainer').innerHTML = `
+                    <div class="empty-state">
+                        <h3>Error Loading Answers</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Check auth and load
+        firebase.auth().onAuthStateChanged(user => {
+            if (!user) {
+                window.location.href = 'parent-login-firebase.html';
+            } else {
+                loadAnswers();
+            }
+        });
+    </script>
+</body>
+</html>

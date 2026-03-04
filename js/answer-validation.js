@@ -367,18 +367,46 @@ window.handleSubmitAnswer = function(questionId, questionText, minWords) {
     textarea.style.display = 'none';
     submitBtn.style.display = 'none';
     
-    // Show success message
-    statusDiv.innerHTML = `
-      <div style="color: #4CAF50; padding: 15px; background: rgba(76,175,80,0.1); border-radius: 10px; border: 2px solid #4CAF50;">
-        ✅ ${result.message} Your answer has been saved for review.
-      </div>
-    `;
-    
     // Hide word count
     const wordCountDisplay = document.getElementById(`word-count-${questionId.replace('question-', '')}`);
     if (wordCountDisplay) {
       wordCountDisplay.style.display = 'none';
     }
+    
+    // Show answer text with Edit button (clean, no box)
+    statusDiv.innerHTML = `
+      <div style="margin-top: 15px;">
+        <div style="color: #305853; font-size: 16px; line-height: 1.8; margin-bottom: 10px; padding: 0;">
+          ${answerText.replace(/\n/g, '<br>')}
+        </div>
+        <div style="display: flex; align-items: center; gap: 15px;">
+          <button 
+            id="edit-${questionId}"
+            class="edit-answer-btn"
+            onclick="window.editAnswer('${questionId}')"
+            style="
+              background: #305853;
+              color: white;
+              border: none;
+              padding: 8px 20px;
+              border-radius: 8px;
+              font-size: 14px;
+              font-weight: 600;
+              cursor: pointer;
+              transition: all 0.2s;
+              box-shadow: 0 2px 8px rgba(48,88,83,0.3);
+            "
+            onmouseover="this.style.background='#254540';"
+            onmouseout="this.style.background='#305853';"
+          >
+            ✏️ Edit
+          </button>
+          <span style="color: #4CAF50; font-weight: 600; font-size: 14px;">
+            ✅ Saved
+          </span>
+        </div>
+      </div>
+    `;
     
   } else {
     // Show error message
@@ -392,6 +420,25 @@ window.handleSubmitAnswer = function(questionId, questionText, minWords) {
       statusDiv.innerHTML = '';
     }, 3000);
   }
+};
+
+// Handle editing an already-submitted answer
+window.editAnswer = function(questionId) {
+  const textarea = document.getElementById(questionId);
+  const submitBtn = document.getElementById(`submit-${questionId}`);
+  const statusDiv = document.getElementById(`submit-status-${questionId}`);
+  const wordCountDisplay = document.getElementById(`word-count-${questionId.replace('question-', '')}`);
+  
+  // Show textarea and submit button again
+  if (textarea) textarea.style.display = 'block';
+  if (submitBtn) submitBtn.style.display = 'inline-block';
+  if (wordCountDisplay) wordCountDisplay.style.display = 'block';
+  
+  // Clear status div
+  statusDiv.innerHTML = '';
+  
+  // Focus the textarea
+  textarea.focus();
 };
 
 // Initialize on page load

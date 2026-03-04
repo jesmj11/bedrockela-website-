@@ -2,7 +2,7 @@ const fs = require('fs');
 
 // Convert static 4th grade lessons to paginated format
 function convertToPaginated(lessonNum) {
-  const staticFile = `4th-grade-lesson-${lessonNum}.html`;
+  const staticFile = `4th-grade-day-${lessonNum}.html`;
   
   if (!fs.existsSync(staticFile)) {
     console.log(`⏭️  ${staticFile} not found`);

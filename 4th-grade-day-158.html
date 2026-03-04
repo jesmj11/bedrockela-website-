@@ -3,13 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 158: Mad Tea Party - 4th Grade BedrockELA</title>
+    <title>Day 158 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=3.2">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container" class="lesson-container"></div>
 
     <script src="js/lesson-viewer.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
     
     <script>
         const lesson158Config = {
@@ -24,206 +35,341 @@
                             <div class="character">📚</div>
                             <h1>Day 158</h1>
                             <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #B06821; font-size: 20px; margin-top: 20px;">
+                            <p style="color: #C7158A; font-size: 20px; margin-top: 20px;">
                                 Alice in Wonderland
                             </p>
                             <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Mad Tea Party
+                                Chapter 8
                             </p>
                         </div>
                     `
                 },
                 
-                
-                // Page 2: Welcome
+                // Page 2: Welcome & Learning Objectives
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
                             <h2>📖 Welcome to Day 158!</h2>
-                            
-                                <p>Today you will:</p>
-                                <ul style="margin: 20px 0; line-height: 2;">
-                                    <li>📖 Read about Nonsense tea</li>
-                                    <li>📝 Learn 2 new vocabulary words</li>
-                                    <li>🎯 Answer comprehension questions</li>
-                                    <li>✍️ Write a journal entry</li>
-                                </ul>
-                                <p><strong>Time needed:</strong> About 30-45 minutes</p>
-                            
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>📖 Read from <em>Alice in Wonderland</em></li>
+                                <li>📝 Learn 2 new vocabulary words</li>
+                                <li>📰 Read informational text: "Related Non-Fiction"</li>
+                                <li>✍️ Practice grammar: Compound Sentences</li>
+                                <li>🎯 Write: Informative Writing</li>
+                                <li>🎨 Explore: Root Words and Affixes</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
                         </div>
                     `
                 },
                 
-                // Page 3: Vocabulary (2 words)
+                // Page 3: Vocabulary (2 words from text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>📚 Today's Vocabulary</h2>
+                            <h2>📚 Vocabulary Words</h2>
                             
-                            
-                                <div style="margin: 30px 0; padding: 25px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 15px; border: 2px solid #B06821;">
-                                    <div style="margin-bottom: 30px;">
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">nonsense</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                    
-                                    <div>
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">riddle</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                </div>
+                            <div style="margin: 30px 0;">
                                 
-                                <div style="padding: 20px; background: rgba(176,104,33,0.05); border-radius: 10px;">
-                                    <p style="margin: 0;">
-                                        💡 <strong>Watch for these words</strong> in today's reading!
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #C7158A;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">anxiously</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
-                            
-                        </div>
-                    `
-                },
-                
-                // Page 4: Reading
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            
-                                <h2>📖 Today's Reading: Nonsense tea</h2>
                                 
-                                <div style="background: white; padding: 25px; border-radius: 12px; border: 3px solid #305853; margin: 20px 0;">
-                                    <p style="font-size: 18px; margin-bottom: 15px;">
-                                        📚 Read from Alice in Wonderland
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #C7158A;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">swift</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
-                                    <p style="font-size: 16px; color: #666; margin-top: 15px;">
-                                        Focus: Chapter 7
-                                    </p>
+                                    <textarea 
+                                      id="vocab-2"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
                                 
-                                <div style="margin-top: 30px; padding: 20px; background: rgba(48,88,83,0.1); border-radius: 10px;">
-                                    <h3 style="color: #305853;">📝 While You Read:</h3>
-                                    <ul style="line-height: 2;">
-                                        <li>Look for the vocabulary words: <strong>nonsense</strong> and <strong>riddle</strong></li>
-                                        <li>What are the main events?</li>
-                                        <li>How do characters change or react?</li>
-                                    </ul>
-                                </div>
+                            </div>
                             
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">💡 <strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 5: Comprehension
+                // Page 4: Literature Reading (placeholder - needs actual book text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
+                            <h2>📖 Reading: Alice in Wonderland</h2>
+                            <h3 style="color: #C7158A;">Chapter 8</h3>
                             
-                                
-    <!-- Digital Book Integration -->
-    <script src="js/digital-book.js"></script>
-    <div id="alice-book"></div>
-    <script>
-      const aliceConfig = {
-  "coverTitle": "Chapter 4",
-  "coverSubtitle": "CHAPTER IV.\nThe Rabbit Sends in a Little Bill",
-  "coverAuthor": "Lewis Carroll",
-  "coverColor": "#6B4C9A",
-  "vocabWords": [],
-  "pages": [
-    {
-      "title": "CHAPTER IV.\nThe Rabbit Sends in a Little Bill",
-      "text": "It was the White Rabbit, trotting slowly back again, and looking\nanxiously about as it went, as if it had lost something; and she heard\nit muttering to itself “The Duchess! The Duchess! Oh my dear paws! Oh\nmy fur and whiskers! She’ll get me executed, as sure as ferrets are\nferrets! Where _can_ I have dropped them, I wonder?” Alice guessed in a\nmoment that it was looking for the fan and the pair of white kid\ngloves, and she very good-naturedly began hunting about for them, but\nthey were nowhere to be seen—everything seemed to have changed since\nher swim in the pool, and the great hall, with the glass table and the\nlittle door, had vanished completely.\n\nVery soon the Rabbit noticed Alice, as she went hunting about, and\ncalled out to her in an angry tone, “Why, Mary Ann, what _are_ you\ndoing out here? Run home this moment, and fetch me a pair of gloves and\na fan! Quick, now!” And Alice was so much frightened that she ran off\nat once in the direction it pointed to, without trying to explain the\nmistake it had made.\n\n“He took me for his housemaid,” she said to herself as she ran. “How\nsurprised he’ll be when he finds out who I am! But I’d better take him\nhis fan and gloves—that is, if I can find them.” As she said this, she\ncame upon a neat little house, on the door of which was a bright brass\nplate with the name “W. RABBIT,” engraved upon it. She went in without\nknocking, and hurried upstairs, in great fear lest she should meet the\nreal Mary Ann, and be turned out of the house before she had found the\nfan and gloves.\n\n“How queer it seems,” Alice said to herself, “to be going messages for\na rabbit! I suppose Dinah’ll be sending me on messages next!” And she\nbegan fancying the sort of thing that would happen: “‘Miss Alice! Come\nhere directly, and get ready for your walk!’ ‘Coming in a minute,\nnurse! But I’ve got to see that the mouse doesn’t get out.’ Only I\ndon’t think,” Alice went on, “that they’d let Dinah stop in the house\nif it began ordering people about like that!”\n\nBy this time she had found her way into a tidy little room with a table\nin the window, and on it (as she had hoped) a fan and two or three\npairs of tiny white kid gloves: she took up the fan and a pair of the\ngloves, and was just going to leave the room, when her eye fell upon a\nlittle bottle that stood near the looking-glass. There was no label\nthis time with the words “DRINK ME,” but nevertheless she uncorked it\nand put it to her lips. “I know _something_ interesting is sure to\nhappen,” she said to herself, “whenever I eat or drink anything; so\nI’ll just see what this bottle does. I do hope it’ll make me grow large\nagain, for really I’m quite tired of being such a tiny little thing!”\n\nIt did so indeed, and much sooner than she had expected: before she had\ndrunk half the bottle, she found her head pressing against the ceiling,\nand had to stoop to save her neck from being broken. She hastily put\ndown the bottle, saying to herself “That’s quite enough—I hope I shan’t\ngrow any more—As it is, I can’t get out at the door—I do wish I hadn’t\ndrunk quite so much!”\n\nAlas! it was too late to wish that! She went on growing, and growing,\nand very soon had to kneel down on the floor: in another minute there\nwas not even room for this, and she tried the effect of lying down with\none elbow against the door, and the other arm curled round her head.\nStill she went on growing, and, as a last resource, she put one arm out\nof the window, and one foot up the chimney, and said to herself “Now I\ncan do no more, whatever happens. What _will_ become of me?”\n\nLuckily for Alice, the little magic bottle had now had its full effect,\nand she grew no larger: still it was very uncomfortable, and, as there\nseemed to be no sort of chance of her ever getting out of the room\nagain, no wonder she felt unhappy.\n\n“It was much pleasanter at home,” thought poor Alice, “when one wasn’t\nalways growing larger and smaller, and being ordered about by mice and\nrabbits. I almost wish I hadn’t gone down that rabbit-hole—and yet—and\nyet—it’s rather curious, you know, this sort of life! I do wonder what\n_can_ have happened to me! When I used to read fairy-tales, I fancied\nthat kind of thing never happened, and now here I am in the middle of\none! There ought to be a book written about me, that there ought! And\nwhen I grow up, I’ll write one—but I’m grown up now,” she added in a\nsorrowful tone; “at least there’s no room to grow up any more _here_.”\n\n“But then,” thought Alice, “shall I _never_ get any older than I am\nnow? That’ll be a comfort, one way—never to be an old woman—but\nthen—always to have lessons to learn! Oh, I shouldn’t like _that!_”\n\n“Oh, you foolish Alice!” she answered herself. “How can you learn\nlessons in here? Why, there’s hardly room for _you_, and no room at all\nfor any lesson-books!”\n\nAnd so she went on, taking first one side and then the other, and\nmaking quite a conversation of it altogether; but after a few minutes\nshe heard a voice outside, and stopped to listen.\n\n“Mary Ann! Mary Ann!” said the voice. “Fetch me my gloves this moment!”\nThen came a little pattering of feet on the stairs. Alice knew it was\nthe Rabbit coming to look for her, and she trembled till she shook the\nhouse, quite forgetting that she was now about a thousand times as\nlarge as the Rabbit, and had no reason to be afraid of it.\n\nPresently the Rabbit came up to the door, and tried to open it; but, as\nthe door opened inwards, and Alice’s elbow was pressed hard against it,\nthat attempt proved a failure. Alice heard it say to itself “Then I’ll\ngo round and get in at the window.”\n\n“_That_ you won’t!” thought Alice, and, after waiting till she fancied\nshe heard the Rabbit just under the window, she suddenly spread out her\nhand, and made a snatch in the air. She did not get hold of anything,\nbut she heard a little shriek and a fall, and a crash of broken glass,\nfrom which she concluded that it was just possible it had fallen into a\ncucumber-frame, or something of the sort.\n\nNext came an angry voice—the Rabbit’s—“Pat! Pat! Where are you?” And\nthen a voice she had never heard before, “Sure then I’m here! Digging\nfor apples, yer honour!”\n\n“Digging for apples, indeed!” said the Rabbit angrily. “Here! Come and\nhelp me out of _this!_” (Sounds of more broken glass.)\n\n“Now tell me, Pat, what’s that in the window?”\n\n“Sure, it’s an arm, yer honour!” (He pronounced it “arrum.”)\n\n“An arm, you goose! Who ever saw one that size? Why, it fills the whole\nwindow!”\n\n“Sure, it does, yer honour: but it’s an arm for all that.”\n\n“Well, it’s got no business there, at any rate: go and take it away!”\n\nThere was a long silence after this, and Alice could only hear whispers\nnow and then; such as, “Sure, I don’t like it, yer honour, at all, at\nall!” “Do as I tell you, you coward!” and at last she spread out her\nhand again, and made another snatch in the air. This time there were\n_two_ little shrieks, and more sounds of broken glass. “What a number\nof cucumber-frames there must be!” thought Alice. “I wonder what\nthey’ll do next! As for pulling me out of the window, I only wish they\n_could!_ I’m sure _I_ don’t want to stay in here any longer!”\n\nShe waited for some time without hearing anything more: at last came a\nrumbling of little cartwheels, and the sound of a good many voices all\ntalking together: she made out the words: “Where’s the other\nladder?—Why, I hadn’t to bring but one; Bill’s got the other—Bill!\nfetch it here, lad!—Here, put ’em up at this corner—No, tie ’em\ntogether first—they don’t reach half high enough yet—Oh! they’ll do\nwell enough; don’t be particular—Here, Bill! catch hold of this\nrope—Will the roof bear?—Mind that loose slate—Oh, it’s coming down!\nHeads below!” (a loud crash)—“Now, who did that?—It was Bill, I\nfancy—Who’s to go down the chimney?—Nay, _I_ shan’t! _You_ do\nit!—_That_ I won’t, then!—Bill’s to go down—Here, Bill! the master says\nyou’re to go down the chimney!”\n\n“Oh! So Bill’s got to come down the chimney, has he?” said Alice to\nherself. “Shy, they seem to put everything upon Bill! I wouldn’t be in\nBill’s place for a good deal: this fireplace is narrow, to be sure; but\nI _think_ I can kick a little!”\n\nShe drew her foot as far down the chimney as she could, and waited till\nshe heard a little animal (she couldn’t guess of what sort it was)\nscratching and scrambling about in the chimney close above her: then,\nsaying to herself “This is Bill,” she gave one sharp kick, and waited\nto see what would happen next.\n\nThe first thing she heard was a general chorus of “There goes Bill!”\nthen the Rabbit’s voice along—“Catch him, you by the hedge!” then\nsilence, and then another confusion of voices—“Hold up his head—Brandy\nnow—Don’t choke him—How was it, old fellow? What happened to you? Tell\nus all about it!”\n\nLast came a little feeble, squeaking voice, (“That’s Bill,” thought\nAlice,) “Well, I hardly know—No more, thank ye; I’m better now—but I’m\na deal too flustered to tell you—all I know is, something comes at me\nlike a Jack-in-the-box, and up I goes like a sky-rocket!”\n\n“So you did, old fellow!” said the others.\n\n“We must burn the house down!” said the Rabbit’s voice; and Alice\ncalled out as loud as she could, “If you do, I’ll set Dinah at you!”\n\nThere was a dead silence instantly, and Alice thought to herself, “I\nwonder what they _will_ do next! If they had any sense, they’d take the\nroof off.” After a minute or two, they began moving about again, and\nAlice heard the Rabbit say, “A barrowful will do, to begin with.”\n\n“A barrowful of _what?_” thought Alice; but she had not long to doubt,\nfor the next moment a shower of little pebbles came rattling in at the\nwindow, and some of them hit her in the face. “I’ll put a stop to\nthis,” she said to herself, and shouted out, “You’d better not do that\nagain!” which produced another dead silence.\n\nAlice noticed with some surprise that the pebbles were all turning into\nlittle cakes as they lay on the floor, and a bright idea came into her\nhead. “If I eat one of these cakes,” she thought, “it’s sure to make\n_some_ change in my size; and as it can’t possibly make me larger, it\nmust make me smaller, I suppose.”\n\nSo she swallowed one of the cakes, and was delighted to find that she\nbegan shrinking directly. As soon as she was small enough to get\nthrough the door, she ran out of the house, and found quite a crowd of\nlittle animals and birds waiting outside. The poor little Lizard, Bill,\nwas in the middle, being held up by two guinea-pigs, who were giving it\nsomething out of a bottle. They all made a rush at Alice the moment she\nappeared; but she ran off as hard as she could, and soon found herself\nsafe in a thick wood.\n\n“The first thing I’ve got to do,” said Alice to herself, as she\nwandered about in the wood, “is to grow to my right size again; and the\nsecond thing is to find my way into that lovely garden. I think that\nwill be the best plan.”\n\nIt sounded an excellent plan, no doubt, and very neatly and simply\narranged; the only difficulty was, that she had not the smallest idea\nhow to set about it; and while she was peering about anxiously among\nthe trees, a little sharp bark just over her head made her look up in a\ngreat hurry.\n\nAn enormous puppy was looking down at her with large round eyes, and\nfeebly stretching out one paw, trying to touch her. “Poor little\nthing!” said Alice, in a coaxing tone, and she tried hard to whistle to\nit; but she was terribly frightened all the time at the thought that it\nmight be hungry, in which case it would be very likely to eat her up in\nspite of all her coaxing.\n\nHardly knowing what she did, she picked up a little bit of stick, and\nheld it out to the puppy; whereupon the puppy jumped into the air off\nall its feet at once, with a yelp of delight, and rushed at the stick,\nand made believe to worry it; then Alice dodged behind a great thistle,\nto keep herself from being run over; and the moment she appeared on the\nother side, the puppy made another rush at the stick, and tumbled head\nover heels in its hurry to get hold of it; then Alice, thinking it was\nvery like having a game of play with a cart-horse, and expecting every\nmoment to be trampled under its feet, ran round the thistle again; then\nthe puppy began a series of short charges at the stick, running a very\nlittle way forwards each time and a long way back, and barking hoarsely\nall the while, till at last it sat down a good way off, panting, with\nits tongue hanging out of its mouth, and its great eyes half shut.\n\nThis seemed to Alice a good opportunity for making her escape; so she\nset off at once, and ran till she was quite tired and out of breath,\nand till the puppy’s bark sounded quite faint in the distance.\n\n“And yet what a dear little puppy it was!” said Alice, as she leant\nagainst a buttercup to rest herself, and fanned herself with one of the\nleaves: “I should have liked teaching it tricks very much, if—if I’d\nonly been the right size to do it! Oh dear! I’d nearly forgotten that\nI’ve got to grow up again! Let me see—how _is_ it to be managed? I\nsuppose I ought to eat or drink something or other; but the great\nquestion is, what?”\n\nThe great question certainly was, what? Alice looked all round her at\nthe flowers and the blades of grass, but she did not see anything that\nlooked like the right thing to eat or drink under the circumstances.\nThere was a large mushroom growing near her, about the same height as\nherself; and when she had looked under it, and on both sides of it, and\nbehind it, it occurred to her that she might as well look and see what\nwas on the top of it.\n\nShe stretched herself up on tiptoe, and peeped over the edge of the\nmushroom, and her eyes immediately met those of a large blue\ncaterpillar, that was sitting on the top with its arms folded, quietly\nsmoking a long hookah, and taking not the smallest notice of her or of\nanything else."
-    }
-  ]
-};
-      window.aliceBook = new DigitalBook('alice-book', aliceConfig);
-    </script>
-  
-
-    <h2>🎯 Comprehension Questions</h2>
-                                <p>Answer these questions about today's reading:</p>
-                                
-                                <div style="margin: 30px 0;">
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">1. What were the main events?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">2. How did the characters feel or react?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">3. What do you predict will happen next?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                </div>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;">
+                                <p><em>[Reading passage from Alice in Wonderland, Chapter 8 will be inserted here from digital book database]</em></p>
+                                <p>This section will include the actual chapter text with vocabulary words highlighted.</p>
+                            </div>
                             
+                            <div style="margin-top: 20px; padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">📚 <strong>Take your time reading!</strong> Think about what's happening in the story.</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 6: Journal 
-                
+                // Page 5: Reading Comprehension
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✍️ Journal Entry</h2>
+                            <h2>🎯 Reading Comprehension</h2>
+                            <p>Answer these questions about today's chapter:</p>
                             
-                            <div style="margin: 25px 0; padding: 25px; background: rgba(176,104,33,0.1); border-left: 4px solid #B06821; border-radius: 8px;">
-                                <h3 style="color: #B06821; margin-bottom: 15px;">Today's Prompt:</h3>
-                                <p style="font-size: 18px; font-style: italic;">
-                                    Write 4-6 sentences about today's reading. What was most interesting or surprising? 
-                                    How did this chapter move the story forward?
+                            <div style="margin: 30px 0;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #C7158A;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 1:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 8]</p>
+                                    <textarea 
+                                      id="comp-1"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #C7158A;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 2:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 8]</p>
+                                    <textarea 
+                                      id="comp-2"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #C7158A;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 3:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 8]</p>
+                                    <textarea 
+                                      id="comp-3"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 6: Journal Reflection
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✍️ Journal Reflection</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 20px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    [Personal reflection prompt related to Chapter 8]
                                 </p>
                             </div>
                             
                             <textarea 
-                                style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #305853; border-radius: 10px; font-size: 16px;"
-                                placeholder="Write your journal entry here..."></textarea>
+                              id="journal"
+                              style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #C7158A; border-radius: 12px; font-family: inherit; font-size: 16px; line-height: 1.6;"
+                              placeholder="Write your thoughts here..."
+                            ></textarea>
                         </div>
                     `
                 },
                 
-                
                 // Page 7: Completion
                 {
                     render: () => `
-                        <div class="lesson-page-card completion-page">
-                            <div class="character">📚</div>
+                        <div class="lesson-page-card content-page">
+                            <div style="text-align: center; padding: 40px 20px;">
+                                <div style="font-size: 72px; margin-bottom: 20px;">🎉</div>
+                                <h2 style="color: #305853; margin-bottom: 20px;">Great Job!</h2>
+                                <p style="font-size: 18px; color: #666; max-width: 500px; margin: 0 auto;">
+                                    You've completed Day 158! Come back tomorrow to continue reading <em>Alice in Wonderland</em>.
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 8: Informational Text 📰
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📰 Informational Text</h2>
+                            <h3 style="color: #C7158A;">Related Non-Fiction</h3>
                             
-                                <h1>Day 158 Complete!</h1>
-                                <p style="font-size: 20px; margin: 20px 0;">Great work today!</p>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px; margin-bottom: 25px;">
+                                <p style="margin-bottom: 15px;">Informational text content goes here.</p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #C7158A;">
+                                <h4 style="margin-bottom: 15px;">📝 Comprehension Questions:</h4>
                                 
-                                <div style="text-align: left; max-width: 400px; margin: 30px auto; background: rgba(48,88,83,0.05); padding: 25px; border-radius: 12px;">
-                                    <h3 style="color: #305853; margin-bottom: 15px;">✅ Today You:</h3>
-                                    <ul style="line-height: 2;">
-                                        
-                                            <li>Read about Nonsense tea</li>
-                                            <li>Learned 2 vocabulary words</li>
-                                            <li>Answered comprehension questions</li>
-                                            <li>Wrote a journal entry</li>
-                                        
-                                    </ul>
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">1. Question 1?</p>
+                                    <textarea 
+                                      id="info-1"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
                                 </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">2. Question 2?</p>
+                                    <textarea 
+                                      id="info-2"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">3. Question 3?</p>
+                                    <textarea 
+                                      id="info-3"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 9: Grammar in Context ✏️
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✏️ Grammar Workshop</h2>
+                            <h3 style="color: #C7158A;">Compound Sentences</h3>
                             
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin-bottom: 15px;">
+                                    <strong>📖 What is it?</strong><br>
+                                    A compound sentence joins two independent clauses with a comma and coordinating conjunction (and, but, or, so, for, yet, nor).
+                                </p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>💡 Example from today's reading:</strong><br>
+                                    <em>"The wind howled horribly, but Dorothy sat quite still."</em>
+                                </p>
+                            </div>
                             
-                            <a href="student-dashboard.html" 
-                               style="display: inline-block; margin-top: 20px; padding: 15px 35px; background: #B06821; color: white; text-decoration: none; border-radius: 12px; font-size: 18px; font-weight: 700;">
-                                Continue →
-                            </a>
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #C7158A;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">✍️ Your Turn:</p>
+                                <p style="margin-bottom: 12px;">Write three compound sentences about today's chapter using different coordinating conjunctions.</p>
+                                <textarea 
+                                  id="grammar"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Write your practice sentences here..."
+                                ></textarea>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 10: Writing Workshop 📝
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📝 Informative Writing</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">📝 Prompt:</p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    Describe what life was like for Dorothy in Kansas before the cyclone. Include at least 3 specific details.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 15px; background: #fffbf0; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 20px;">
+                                <p style="margin: 0; font-size: 14px;">
+                                    <strong>💡 Remember:</strong> Write a paragraph explaining something from the story. Include clear details and examples.
+                                </p>
+                            </div>
+                            
+                            <textarea 
+                              id="writing"
+                              style="width: 100%; min-height: 250px; padding: 15px; border: 2px solid #C7158A; border-radius: 12px; font-size: 16px; line-height: 1.8;"
+                              placeholder="Start writing here..."
+                            ></textarea>
+                            
+                            <div style="margin-top: 15px; padding: 12px; background: #f0f9ff; border-radius: 8px;">
+                                <p style="margin: 0; font-size: 13px; color: #0369a1;">
+                                    ✅ <strong>Checklist:</strong> Did you include a topic sentence? Supporting details? A conclusion?
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 11: Language Skills 🎨
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>🎨 Language Skills</h2>
+                            <h3 style="color: #C7158A;">Root Words and Affixes</h3>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>📖 Learn:</strong><br>
+                                    Many words are built from roots (base words) with prefixes (before) and suffixes (after) added.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #C7158A;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">🎯 Activity:</p>
+                                <p style="margin-bottom: 12px;">Break down vocabulary words into their parts: prefix + root + suffix. Example: uncomfortable = un + comfort + able</p>
+                                <textarea 
+                                  id="language"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Complete the activity here..."
+                                ></textarea>
+                            </div>
+                            
+                            <div style="margin-top: 20px; text-align: center; padding: 30px;">
+                                <div style="font-size: 48px; margin-bottom: 15px;">🌟</div>
+                                <h3 style="color: #305853;">Excellent Work!</h3>
+                                <p style="color: #666;">You've completed all 11 pages of Day 158!</p>
+                            </div>
                         </div>
                     `
                 }
-                
             ]
         };
-
-        createLessonViewer('lesson-container', lesson158Config);
+        
+        // Initialize lesson viewer
+        if (typeof initLessonViewer === 'function') {
+            initLessonViewer(lesson158Config);
+        }
     </script>
 </body>
 </html>

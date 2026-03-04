@@ -3,19 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 145: Week 29 Assessment - 4th Grade BedrockELA</title>
+    <title>Day 145 Assessment - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=3.2">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container" class="lesson-container"></div>
 
     <script src="js/lesson-viewer.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
     
     <script>
         const lesson145Config = {
             lessonId: '4th-grade-day-145',
             gradeLevel: '4th-grade',
-            title: 'Day 145 - 4th Grade',
+            title: 'Day 145 Assessment - 4th Grade',
             pages: [
                 // Page 1: Title
                 {
@@ -23,206 +33,297 @@
                         <div class="lesson-page-card title-page">
                             <div class="character">📝</div>
                             <h1>Day 145</h1>
-                            <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #B06821; font-size: 20px; margin-top: 20px;">
-                                4th Grade Reading
-                            </p>
-                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Week 29 Assessment
+                            <div class="subtitle">Assessment Day</div>
+                            <p style="color: #4A0E4E; font-size: 20px; margin-top: 20px;">
+                                Sherlock Holmes Stories
                             </p>
                         </div>
                     `
                 },
                 
-                
-                // Page 2: Welcome
+                // Page 2: Assessment Instructions
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>📖 Welcome to Day 145!</h2>
-                            
-                                <p style="font-size: 18px;">Time to show what you learned this week!</p>
-                                <div style="margin: 30px 0; padding: 25px; background: rgba(176,104,33,0.1); border-radius: 12px;">
-                                    <h3 style="color: #B06821; margin-bottom: 15px;">Today's Assessment:</h3>
-                                    <ul style="line-height: 2; font-size: 18px;">
-                                        <li>📚 Vocabulary Quiz (8 words from this week)</li>
-                                        <li>🎯 Comprehension Questions</li>
-                                        <li>✍️ Reflection Journal</li>
-                                    </ul>
-                                </div>
-                            
+                            <h2>📝 Assessment Instructions</h2>
+                            <p>Today is an assessment day! You'll be tested on:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>📚 <strong>Vocabulary:</strong> 10 words from Days 141-145</li>
+                                <li>🎯 <strong>Reading Comprehension:</strong> Questions about the chapters</li>
+                                <li>✏️ <strong>Grammar:</strong> Adjectives and Adjective Order</li>
+                                <li>✍️ <strong>Writing:</strong> Opinion Writing</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                            <p style="padding: 15px; background: #fffbf0; border-radius: 8px; border-left: 4px solid #f59e0b; margin-top: 20px;">
+                                <strong>💡 Tip:</strong> Take your time and do your best work!
+                            </p>
                         </div>
                     `
                 },
                 
-                // Page 3: Vocabulary Quiz
+                // Page 3: Vocabulary Quiz (10 words)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>📚 Vocabulary Quiz</h2>
+                            <h2>📚 Vocabulary Assessment</h2>
+                            <p style="margin-bottom: 25px;">Write the definition for each word. Use complete sentences.</p>
                             
-                            
-                                <p>Match each word with its definition. All 8 words are from this week's reading!</p>
-                                <div style="margin: 30px 0;">
-                                    
-                                        <div style="margin-bottom: 25px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                            <p style="font-weight: 700; font-size: 20px; color: #305853; margin-bottom: 10px;">
-                                                1. technology
-                                            </p>
-                                            <textarea style="width: 100%; min-height: 60px; padding: 10px; border: 2px solid #305853; border-radius: 8px;" 
-                                                      placeholder="Write the definition..."></textarea>
-                                        </div>
-                                    
-                                        <div style="margin-bottom: 25px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                            <p style="font-weight: 700; font-size: 20px; color: #305853; margin-bottom: 10px;">
-                                                2. forensics
-                                            </p>
-                                            <textarea style="width: 100%; min-height: 60px; padding: 10px; border: 2px solid #305853; border-radius: 8px;" 
-                                                      placeholder="Write the definition..."></textarea>
-                                        </div>
-                                    
-                                        <div style="margin-bottom: 25px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                            <p style="font-weight: 700; font-size: 20px; color: #305853; margin-bottom: 10px;">
-                                                3. logic
-                                            </p>
-                                            <textarea style="width: 100%; min-height: 60px; padding: 10px; border: 2px solid #305853; border-radius: 8px;" 
-                                                      placeholder="Write the definition..."></textarea>
-                                        </div>
-                                    
-                                        <div style="margin-bottom: 25px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                            <p style="font-weight: 700; font-size: 20px; color: #305853; margin-bottom: 10px;">
-                                                4. inference
-                                            </p>
-                                            <textarea style="width: 100%; min-height: 60px; padding: 10px; border: 2px solid #305853; border-radius: 8px;" 
-                                                      placeholder="Write the definition..."></textarea>
-                                        </div>
-                                    
-                                        <div style="margin-bottom: 25px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                            <p style="font-weight: 700; font-size: 20px; color: #305853; margin-bottom: 10px;">
-                                                5. suspense
-                                            </p>
-                                            <textarea style="width: 100%; min-height: 60px; padding: 10px; border: 2px solid #305853; border-radius: 8px;" 
-                                                      placeholder="Write the definition..."></textarea>
-                                        </div>
-                                    
-                                        <div style="margin-bottom: 25px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                            <p style="font-weight: 700; font-size: 20px; color: #305853; margin-bottom: 10px;">
-                                                6. reveal
-                                            </p>
-                                            <textarea style="width: 100%; min-height: 60px; padding: 10px; border: 2px solid #305853; border-radius: 8px;" 
-                                                      placeholder="Write the definition..."></textarea>
-                                        </div>
-                                    
-                                        <div style="margin-bottom: 25px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                            <p style="font-weight: 700; font-size: 20px; color: #305853; margin-bottom: 10px;">
-                                                7. synthesis
-                                            </p>
-                                            <textarea style="width: 100%; min-height: 60px; padding: 10px; border: 2px solid #305853; border-radius: 8px;" 
-                                                      placeholder="Write the definition..."></textarea>
-                                        </div>
-                                    
-                                        <div style="margin-bottom: 25px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                            <p style="font-weight: 700; font-size: 20px; color: #305853; margin-bottom: 10px;">
-                                                8. analysis
-                                            </p>
-                                            <textarea style="width: 100%; min-height: 60px; padding: 10px; border: 2px solid #305853; border-radius: 8px;" 
-                                                      placeholder="Write the definition..."></textarea>
-                                        </div>
-                                    
-                                </div>
-                            
-                        </div>
-                    `
-                },
-                
-                // Page 4: Comprehension Test
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            
-                                <h2>🎯 Comprehension Test</h2>
-                                <p>Answer these questions about this week's reading:</p>
+                            <div style="margin: 20px 0;">
                                 
-                                <div style="margin: 30px 0;">
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">1. What were the most important events this week?</p>
-                                        <textarea style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">2. How did the characters change or react?</p>
-                                        <textarea style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">3. What do you think will happen next?</p>
-                                        <textarea style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                </div>
-                            
-                        </div>
-                    `
-                },
-                
-                // Page 5: Journal
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            
-                                <h2>✍️ Weekly Reflection</h2>
-                                
-                                <div style="margin: 25px 0; padding: 25px; background: rgba(176,104,33,0.1); border-left: 4px solid #B06821; border-radius: 8px;">
-                                    <h3 style="color: #B06821; margin-bottom: 15px;">Reflection Prompt:</h3>
-                                    <p style="font-size: 18px; font-style: italic;">
-                                        Write a paragraph (5-7 sentences) about your favorite part of this week's reading. 
-                                        Why was it your favorite? What made it interesting?
+                                <div style="margin-bottom: 25px; padding: 18px; background: #f9f9f9; border-radius: 10px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-size: 18px; font-weight: 700; color: #305853; margin-bottom: 10px;">
+                                        1. cyclone
                                     </p>
+                                    <textarea 
+                                      id="vocab-quiz-1"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Write the definition..."
+                                    ></textarea>
                                 </div>
                                 
-                                <textarea 
-                                    style="width: 100%; min-height: 250px; padding: 15px; border: 2px solid #305853; border-radius: 10px; font-size: 16px;"
-                                    placeholder="Write your reflection here..."></textarea>
-                            
+                                <div style="margin-bottom: 25px; padding: 18px; background: #f9f9f9; border-radius: 10px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-size: 18px; font-weight: 700; color: #305853; margin-bottom: 10px;">
+                                        2. prairie
+                                    </p>
+                                    <textarea 
+                                      id="vocab-quiz-2"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Write the definition..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 25px; padding: 18px; background: #f9f9f9; border-radius: 10px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-size: 18px; font-weight: 700; color: #305853; margin-bottom: 10px;">
+                                        3. gaunt
+                                    </p>
+                                    <textarea 
+                                      id="vocab-quiz-3"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Write the definition..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 25px; padding: 18px; background: #f9f9f9; border-radius: 10px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-size: 18px; font-weight: 700; color: #305853; margin-bottom: 10px;">
+                                        4. solemn
+                                    </p>
+                                    <textarea 
+                                      id="vocab-quiz-4"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Write the definition..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 25px; padding: 18px; background: #f9f9f9; border-radius: 10px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-size: 18px; font-weight: 700; color: #305853; margin-bottom: 10px;">
+                                        5. anxiously
+                                    </p>
+                                    <textarea 
+                                      id="vocab-quiz-5"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Write the definition..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 25px; padding: 18px; background: #f9f9f9; border-radius: 10px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-size: 18px; font-weight: 700; color: #305853; margin-bottom: 10px;">
+                                        6. swift
+                                    </p>
+                                    <textarea 
+                                      id="vocab-quiz-6"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Write the definition..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 25px; padding: 18px; background: #f9f9f9; border-radius: 10px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-size: 18px; font-weight: 700; color: #305853; margin-bottom: 10px;">
+                                        7. gleaming
+                                    </p>
+                                    <textarea 
+                                      id="vocab-quiz-7"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Write the definition..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 25px; padding: 18px; background: #f9f9f9; border-radius: 10px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-size: 18px; font-weight: 700; color: #305853; margin-bottom: 10px;">
+                                        8. magnificent
+                                    </p>
+                                    <textarea 
+                                      id="vocab-quiz-8"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Write the definition..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 25px; padding: 18px; background: #f9f9f9; border-radius: 10px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-size: 18px; font-weight: 700; color: #305853; margin-bottom: 10px;">
+                                        9. peculiar
+                                    </p>
+                                    <textarea 
+                                      id="vocab-quiz-9"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Write the definition..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 25px; padding: 18px; background: #f9f9f9; border-radius: 10px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-size: 18px; font-weight: 700; color: #305853; margin-bottom: 10px;">
+                                        10. rescued
+                                    </p>
+                                    <textarea 
+                                      id="vocab-quiz-10"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Write the definition..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 6: Journal (included above)
-                
-                
-                // Page 6: Completion
+                // Page 4: Reading Comprehension Test
                 {
                     render: () => `
-                        <div class="lesson-page-card completion-page">
-                            <div class="character">📝</div>
+                        <div class="lesson-page-card content-page">
+                            <h2>🎯 Reading Comprehension Test</h2>
+                            <p>Answer these questions about the chapters you read this week:</p>
                             
-                                <h1>Day 145 Complete!</h1>
-                                <p style="font-size: 20px; margin: 20px 0;">Great work today!</p>
+                            <div style="margin: 30px 0;">
                                 
-                                <div style="text-align: left; max-width: 400px; margin: 30px auto; background: rgba(48,88,83,0.05); padding: 25px; border-radius: 12px;">
-                                    <h3 style="color: #305853; margin-bottom: 15px;">✅ Today You:</h3>
-                                    <ul style="line-height: 2;">
-                                        
-                                            <li>Took the vocabulary quiz</li>
-                                            <li>Answered comprehension questions</li>
-                                            <li>Wrote a reflection</li>
-                                        
-                                    </ul>
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 1:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about this week's chapters]</p>
+                                    <textarea 
+                                      id="comp-test-1"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
                                 </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 2:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about this week's chapters]</p>
+                                    <textarea 
+                                      id="comp-test-2"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 3:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about this week's chapters]</p>
+                                    <textarea 
+                                      id="comp-test-3"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 4:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about this week's chapters]</p>
+                                    <textarea 
+                                      id="comp-test-4"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 5:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about this week's chapters]</p>
+                                    <textarea 
+                                      id="comp-test-5"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 5: Grammar Test
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✏️ Grammar Assessment</h2>
+                            <h3 style="color: #4A0E4E;">Adjectives and Adjective Order</h3>
                             
+                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6;">
+                                    Write three sentences with multiple adjectives describing characters or places from the chapter.
+                                </p>
+                            </div>
                             
-                            <a href="student-dashboard.html" 
-                               style="display: inline-block; margin-top: 20px; padding: 15px 35px; background: #B06821; color: white; text-decoration: none; border-radius: 12px; font-size: 18px; font-weight: 700;">
-                                Continue →
-                            </a>
+                            <textarea 
+                              id="grammar-test"
+                              style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #4A0E4E; border-radius: 12px; font-size: 16px; line-height: 1.6;"
+                              placeholder="Complete the grammar exercise here..."
+                            ></textarea>
+                        </div>
+                    `
+                },
+                
+                // Page 6: Writing Assessment
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>💭 Writing Assessment</h2>
+                            <h3 style="color: #4A0E4E;">Opinion Writing</h3>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">📝 Prompt:</p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    Should Dorothy have tried harder to get into the cellar, or was it okay that she stopped to get Toto? Defend your opinion.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 15px; background: #fffbf0; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 20px;">
+                                <p style="margin: 0; font-size: 14px;">
+                                    <strong>Requirements:</strong> Write a paragraph stating your opinion with at least 2-3 reasons supporting your view. Include a topic sentence and conclusion.
+                                </p>
+                            </div>
+                            
+                            <textarea 
+                              id="writing-test"
+                              style="width: 100%; min-height: 300px; padding: 15px; border: 2px solid #4A0E4E; border-radius: 12px; font-size: 16px; line-height: 1.8;"
+                              placeholder="Write your response here..."
+                            ></textarea>
+                        </div>
+                    `
+                },
+                
+                // Page 7: Completion
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <div style="text-align: center; padding: 40px 20px;">
+                                <div style="font-size: 72px; margin-bottom: 20px;">🎉</div>
+                                <h2 style="color: #305853; margin-bottom: 20px;">Assessment Complete!</h2>
+                                <p style="font-size: 18px; color: #666; max-width: 500px; margin: 0 auto 30px auto;">
+                                    Great work on your assessment! You've completed 5 full days of <em>Sherlock Holmes Stories</em>.
+                                </p>
+                                <p style="font-size: 16px; color: #B06821; font-weight: 600;">
+                                    See you on Day 146!
+                                </p>
+                            </div>
                         </div>
                     `
                 }
-                
             ]
         };
-
-        createLessonViewer('lesson-container', lesson145Config);
+        
+        // Initialize lesson viewer
+        if (typeof initLessonViewer === 'function') {
+            initLessonViewer(lesson145Config);
+        }
     </script>
 </body>
 </html>

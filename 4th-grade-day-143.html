@@ -3,13 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 143: Writing Mystery Stories - 4th Grade BedrockELA</title>
+    <title>Day 143 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=3.2">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container" class="lesson-container"></div>
 
     <script src="js/lesson-viewer.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
     
     <script>
         const lesson143Config = {
@@ -24,206 +35,341 @@
                             <div class="character">📚</div>
                             <h1>Day 143</h1>
                             <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #B06821; font-size: 20px; margin-top: 20px;">
-                                Review
+                            <p style="color: #4A0E4E; font-size: 20px; margin-top: 20px;">
+                                Sherlock Holmes Stories
                             </p>
                             <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Writing Mystery Stories
+                                Chapter 23
                             </p>
                         </div>
                     `
                 },
                 
-                
-                // Page 2: Welcome
+                // Page 2: Welcome & Learning Objectives
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
                             <h2>📖 Welcome to Day 143!</h2>
-                            
-                                <p>Today you will:</p>
-                                <ul style="margin: 20px 0; line-height: 2;">
-                                    <li>📖 Read about Creating suspense</li>
-                                    <li>📝 Learn 2 new vocabulary words</li>
-                                    <li>🎯 Answer comprehension questions</li>
-                                    <li>✍️ Write a journal entry</li>
-                                </ul>
-                                <p><strong>Time needed:</strong> About 30-45 minutes</p>
-                            
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>📖 Read from <em>Sherlock Holmes Stories</em></li>
+                                <li>📝 Learn 2 new vocabulary words</li>
+                                <li>📰 Read informational text: "Related Non-Fiction"</li>
+                                <li>✍️ Practice grammar: Compound Sentences</li>
+                                <li>🎯 Write: Informative Writing</li>
+                                <li>🎨 Explore: Root Words and Affixes</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
                         </div>
                     `
                 },
                 
-                // Page 3: Vocabulary (2 words)
+                // Page 3: Vocabulary (2 words from text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>📚 Today's Vocabulary</h2>
+                            <h2>📚 Vocabulary Words</h2>
                             
-                            
-                                <div style="margin: 30px 0; padding: 25px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 15px; border: 2px solid #B06821;">
-                                    <div style="margin-bottom: 30px;">
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">suspense</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                    
-                                    <div>
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">reveal</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                </div>
+                            <div style="margin: 30px 0;">
                                 
-                                <div style="padding: 20px; background: rgba(176,104,33,0.05); border-radius: 10px;">
-                                    <p style="margin: 0;">
-                                        💡 <strong>Watch for these words</strong> in today's reading!
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #4A0E4E;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">anxiously</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
-                            
-                        </div>
-                    `
-                },
-                
-                // Page 4: Reading
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            
-                                <h2>📖 Today's Reading: Creating suspense</h2>
                                 
-                                <div style="background: white; padding: 25px; border-radius: 12px; border: 3px solid #305853; margin: 20px 0;">
-                                    <p style="font-size: 18px; margin-bottom: 15px;">
-                                        📚 Read from Review
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #4A0E4E;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">swift</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
-                                    <p style="font-size: 16px; color: #666; margin-top: 15px;">
-                                        Focus: Creating suspense
-                                    </p>
+                                    <textarea 
+                                      id="vocab-2"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
                                 
-                                <div style="margin-top: 30px; padding: 20px; background: rgba(48,88,83,0.1); border-radius: 10px;">
-                                    <h3 style="color: #305853;">📝 While You Read:</h3>
-                                    <ul style="line-height: 2;">
-                                        <li>Look for the vocabulary words: <strong>suspense</strong> and <strong>reveal</strong></li>
-                                        <li>What are the main events?</li>
-                                        <li>How do characters change or react?</li>
-                                    </ul>
-                                </div>
+                            </div>
                             
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">💡 <strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 5: Comprehension
+                // Page 4: Literature Reading (placeholder - needs actual book text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
+                            <h2>📖 Reading: Sherlock Holmes Stories</h2>
+                            <h3 style="color: #4A0E4E;">Chapter 23</h3>
                             
-                                
-    <!-- Digital Book Integration -->
-    <script src="js/digital-book.js"></script>
-    <div id="sherlock-holmes-book"></div>
-    <script>
-      const sherlockHolmesConfig = {
-  "coverTitle": "Sherlock Holmes",
-  "coverSubtitle": "2. THE RED-HEADED LEAGUE",
-  "coverAuthor": "Arthur Conan Doyle",
-  "coverColor": "#4A2C2A",
-  "vocabWords": [],
-  "pages": [
-    {
-      "title": "2. THE RED-HEADED LEAGUE",
-      "text": "I had called upon my friend, Mr. Sherlock Holmes, one day in the\r\n autumn of last year and found him in deep conversation with a very\r\n stout, florid-faced, elderly gentleman with fiery red hair. With an\r\n apology for my intrusion, I was about to withdraw when Holmes pulled\r\n me abruptly into the room and closed the door behind me.\r\n\r\n“You could not possibly have come at a better time, my dear Watson,” he\r\nsaid cordially.\r\n\r\n“I was afraid that you were engaged.”\r\n\r\n“So I am. Very much so.”\r\n\r\n“Then I can wait in the next room.”\r\n\r\n“Not at all. This gentleman, Mr. Wilson, has been my partner and helper\r\nin many of my most successful cases, and I have no doubt that he will\r\nbe of the utmost use to me in yours also.”\r\n\r\nThe stout gentleman half rose from his chair and gave a bob of\r\ngreeting, with a quick little questioning glance from his small\r\nfat-encircled eyes.\r\n\r\n“Try the settee,” said Holmes, relapsing into his armchair and putting\r\nhis fingertips together, as was his custom when in judicial moods. “I\r\nknow, my dear Watson, that you share my love of all that is bizarre and\r\noutside the conventions and humdrum routine of everyday life. You have\r\nshown your relish for it by the enthusiasm which has prompted you to\r\nchronicle, and, if you will excuse my saying so, somewhat to embellish\r\nso many of my own little adventures.”\r\n\r\n“Your cases have indeed been of the greatest interest to me,” I\r\nobserved.\r\n\r\n“You will remember that I remarked the other day, just before we went\r\ninto the very simple problem presented by Miss Mary Sutherland, that\r\nfor strange effects and extraordinary combinations we must go to life\r\nitself, which is always far more daring than any effort of the\r\nimagination.”\r\n\r\n“A proposition which I took the liberty of doubting.”\r\n\r\n“You did, Doctor, but none the less you must come round to my view, for\r\notherwise I shall keep on piling fact upon fact on you until your\r\nreason breaks down under them and acknowledges me to be right. Now, Mr.\r\nJabez Wilson here has been good enough to call upon me this morning,\r\nand to begin a narrative which promises to be one of the most singular\r\nwhich I have listened to for some time. You have heard me remark that\r\nthe strangest and most unique things are very often connected not with\r\nthe larger but with the smaller crimes, and occasionally, indeed, where\r\nthere is room for doubt whether any positive crime has been committed.\r\nAs far as I have heard, it is impossible for me to say whether the\r\npresent case is an instance of crime or not, but the course of events\r\nis certainly among the most singular that I have ever listened to.\r\nPerhaps, Mr. Wilson, you would have the great kindness to recommence\r\nyour narrative. I ask you not merely because my friend Dr. Watson has\r\nnot heard the opening part but also because the peculiar nature of the\r\nstory makes me anxious to have every possible detail from your lips. As\r\na rule, when I have heard some slight indication of the course of\r\nevents, I am able to guide myself by the thousands of other similar\r\ncases which occur to my memory. In the present instance I am forced to\r\nadmit that the facts are, to the best of my belief, unique.”\r\n\r\nThe portly client puffed out his chest with an appearance of some\r\nlittle pride and pulled a dirty and wrinkled newspaper from the inside\r\npocket of his greatcoat. As he glanced down the advertisement column,\r\nwith his head thrust forward and the paper flattened out upon his knee,\r\nI took a good look at the man and endeavoured, after the fashion of my\r\ncompanion, to read the indications which might be presented by his\r\ndress or appearance.\r\n\r\nI did not gain very much, however, by my inspection. Our visitor bore\r\nevery mark of being an average commonplace British tradesman, obese,\r\npompous, and slow. He wore rather baggy grey shepherd’s check trousers,\r\na not over-clean black frock-coat, unbuttoned in the front, and a drab\r\nwaistcoat with a heavy brassy Albert chain, and a square pierced bit of\r\nmetal dangling down as an ornament. A frayed top-hat and a faded brown\r\novercoat with a wrinkled velvet collar lay upon a chair beside him.\r\nAltogether, look as I would, there was nothing remarkable about the man\r\nsave his blazing red head, and the expression of extreme chagrin and\r\ndiscontent upon his features.\r\n\r\nSherlock Holmes’ quick eye took in my occupation, and he shook his head\r\nwith a smile as he noticed my questioning glances. “Beyond the obvious\r\nfacts that he has at some time done manual labour, that he takes snuff,\r\nthat he is a Freemason, that he has been in China, and that he has done\r\na considerable amount of writing lately, I can deduce nothing else.”\r\n\r\nMr. Jabez Wilson started up in his chair, with his forefinger upon the\r\npaper, but his eyes upon my companion.\r\n\r\n“How, in the name of good-fortune, did you know all that, Mr. Holmes?”\r\nhe asked. “How did you know, for example, that I did manual labour.\r\nIt’s as true as gospel, for I began as a ship’s carpenter.”\r\n\r\n“Your hands, my dear sir. Your right hand is quite a size larger than\r\nyour left. You have worked with it, and the muscles are more\r\ndeveloped.”\r\n\r\n“Well, the snuff, then, and the Freemasonry?”\r\n\r\n“I won’t insult your intelligence by telling you how I read that,\r\nespecially as, rather against the strict rules of your order, you use\r\nan arc-and-compass breastpin.”\r\n\r\n“Ah, of course, I forgot that. But the writing?”\r\n\r\n“What else can be indicated by that right cuff so very shiny for five\r\ninches, and the left one with the smooth patch near the elbow where you\r\nrest it upon the desk?”\r\n\r\n“Well, but China?”\r\n\r\n“The fish that you have tattooed immediately above your right wrist\r\ncould only have been done in China. I have made a small study of tattoo\r\nmarks and have even contributed to the literature of the subject. That\r\ntrick of staining the fishes’ scales of a delicate pink is quite\r\npeculiar to China. When, in addition, I see a Chinese coin hanging from\r\nyour watch-chain, the matter becomes even more simple.”\r\n\r\nMr. Jabez Wilson laughed heavily. “Well, I never!” said he. “I thought\r\nat first that you had done something clever, but I see that there was\r\nnothing in it after all.”\r\n\r\n“I begin to think, Watson,” said Holmes, “that I make a mistake in\r\nexplaining. ‘_Omne ignotum pro magnifico_,’ you know, and my poor\r\nlittle reputation, such as it is, will suffer shipwreck if I am so\r\ncandid. Can you not find the advertisement, Mr. Wilson?”\r\n\r\n“Yes, I have got it now,” he answered with his thick red finger planted\r\nhalfway down the column. “Here it is. This is what began it all. You\r\njust read it for yourself, sir.”\r\n\r\nI took the paper from him and read as follows:\r\n\r\n“TO THE RED-HEADED LEAGUE: On account of the bequest of the late\r\nEzekiah Hopkins, of Lebanon, Pennsylvania, U.S.A., there is now another\r\nvacancy open which entitles a member of the League to a salary of £ 4 a\r\nweek for purely nominal services. All red-headed men who are sound in\r\nbody and mind and above the age of twenty-one years, are eligible.\r\nApply in person on Monday, at eleven o’clock, to Duncan Ross, at the\r\noffices of the League, 7 Pope’s Court, Fleet Street.”\r\n\r\n\r\n“What on earth does this mean?” I ejaculated after I had twice read\r\nover the extraordinary announcement.\r\n\r\nHolmes chuckled and wriggled in his chair, as was his habit when in\r\nhigh spirits. “It is a little off the beaten track, isn’t it?” said he.\r\n“And now, Mr. Wilson, off you go at scratch and tell us all about\r\nyourself, your household, and the effect which this advertisement had\r\nupon your fortunes. You will first make a note, Doctor, of the paper\r\nand the date.”\r\n\r\n“It is _The Morning Chronicle_ of April 27, 1890. Just two months ago.”\r\n\r\n“Very good. Now, Mr. Wilson?”\r\n\r\n“Well, it is just as I have been telling you, Mr. Sherlock Holmes,”\r\nsaid Jabez Wilson, mopping his forehead; “I have a small pawnbroker’s\r\nbusiness at Coburg Square, near the City. It’s not a very large affair,\r\nand of late years it has not done more than just give me a living. I\r\nused to be able to keep two assistants, but now I only keep one; and I\r\nwould have a job to pay him but that he is willing to come for half\r\nwages so as to learn the business.”\r\n\r\n“What is the name of this obliging youth?” asked Sherlock Holmes.\r\n\r\n“His name is Vincent Spaulding, and he’s not such a youth, either. It’s\r\nhard to say his age. I should not wish a smarter assistant, Mr. Holmes;\r\nand I know very well that he could better himself and earn twice what I\r\nam able to give him. But, after all, if he is satisfied, why should I\r\nput ideas in his head?”\r\n\r\n“Why, indeed? You seem most fortunate in having an _employé_ who comes\r\nunder the full market price. It is not a common experience among\r\nemployers in this age. I don’t know that your assistant is not as\r\nremarkable as your advertisement.”\r\n\r\n“Oh, he has his faults, too,” said Mr. Wilson. “Never was such a fellow\r\nfor photography. Snapping away with a camera when he ought to be\r\nimproving his mind, and then diving down into the cellar like a rabbit\r\ninto its hole to develop his pictures. That is his main fault, but on\r\nthe whole he’s a good worker. There’s no vice in him.”\r\n\r\n“He is still with you, I presume?”\r\n\r\n“Yes, sir. He and a girl of fourteen, who does a bit of simple cooking\r\nand keeps the place clean—that’s all I have in the house, for I am a\r\nwidower and never had any family. We live very quietly, sir, the three\r\nof us; and we keep a roof over our heads and pay our debts, if we do\r\nnothing more.\r\n\r\n“The first thing that put us out was that advertisement. Spaulding, he\r\ncame down into the office just this day eight weeks, with this very\r\npaper in his hand, and he says:\r\n\r\n“‘I wish to the Lord, Mr. Wilson, that I was a red-headed man.’\r\n\r\n“‘Why that?’ I asks.\r\n\r\n“‘Why,’ says he, ‘here’s another vacancy on the League of the\r\nRed-headed Men. It’s worth quite a little fortune to any man who gets\r\nit, and I understand that there are more vacancies than there are men,\r\nso that the trustees are at their wits’ end what to do with the money.\r\nIf my hair would only change colour, here’s a nice little crib all\r\nready for me to step into.’\r\n\r\n“‘Why, what is it, then?’ I asked. You see, Mr. Holmes, I am a very\r\nstay-at-home man, and as my business came to me instead of my having to\r\ngo to it, I was often weeks on end without putting my foot over the\r\ndoor-mat. In that way I didn’t know much of what was going on outside,\r\nand I was always glad of a bit of news.\r\n\r\n“‘Have you never heard of the League of the Red-headed Men?’ he asked\r\nwith his eyes open.\r\n\r\n“‘Never.’\r\n\r\n“‘Why, I wonder at that, for you are eligible yourself for one of the\r\nvacancies.’\r\n\r\n“‘And what are they worth?’ I asked.\r\n\r\n“‘Oh, merely a couple of hundred a year, but the work is slight, and it\r\nneed not interfere very much with one’s other occupations.’\r\n\r\n“Well, you can easily think that that made me prick up my ears, for the\r\nbusiness has not been over good for some years, and an extra couple of\r\nhundred would have been very handy.\r\n\r\n“‘Tell me all about it,’ said I.\r\n\r\n“‘Well,’ said he, showing me the advertisement, ‘you can see for\r\nyourself that the League has a vacancy, and there is the address where\r\nyou should apply for particulars. As far as I can make out, the League\r\nwas founded by an American millionaire, Ezekiah Hopkins, who was very\r\npeculiar in his ways. He was himself red-headed, and he had a great\r\nsympathy for all red-headed men; so, when he died, it was found that he\r\nhad left his enormous fortune in the hands of trustees, with\r\ninstructions to apply the interest to the providing of easy berths to\r\nmen whose hair is of that colour. From all I hear it is splendid pay\r\nand very little to do.’\r\n\r\n“‘But,’ said I, ‘there would be millions of red-headed men who would\r\napply.’\r\n\r\n“‘Not so many as you might think,’ he answered. ‘You see it is really\r\nconfined to Londoners, and to grown men. This American had started from\r\nLondon when he was young, and he wanted to do the old town a good turn.\r\nThen, again, I have heard it is no use your applying if your hair is\r\nlight red, or dark red, or anything but real bright, blazing, fiery\r\nred. Now, if you cared to apply, Mr. Wilson, you would just walk in;\r\nbut perhaps it would hardly be worth your while to put yourself out of\r\nthe way for the sake of a few hundred pounds.’\r\n\r\n“Now, it is a fact, gentlemen, as you may see for yourselves, that my\r\nhair is of a very full and rich tint, so that it seemed to me that if\r\nthere was to be any competition in the matter I stood as good a chance\r\nas any man that I had ever met. Vincent Spaulding seemed to know so\r\nmuch about it that I thought he might prove useful, so I just ordered\r\nhim to put up the shutters for the day and to come right away with me.\r\nHe was very willing to have a holiday, so we shut the business up and\r\nstarted off for the address that was given us in the advertisement.\r\n\r\n“I never hope to see such a sight as that again, Mr. Holmes. From\r\nnorth, south, east, and west every man who had a shade of red in his\r\nhair had tramped into the city to answer the advertisement. Fleet\r\nStreet was choked with red-headed folk, and Pope’s Court looked like a\r\ncoster’s orange barrow. I should not have thought there were so many in\r\nthe whole country as were brought together by that single\r\nadvertisement. Every shade of colour they were—straw, lemon, orange,\r\nbrick, Irish-setter, liver, clay; but, as Spaulding said, there were\r\nnot many who had the real vivid flame-coloured tint. When I saw how\r\nmany were waiting, I would have given it up in despair; but Spaulding\r\nwould not hear of it. How he did it I could not imagine, but he pushed\r\nand pulled and butted until he got me through the crowd, and right up\r\nto the steps which led to the office. There was a double stream upon\r\nthe stair, some going up in hope, and some coming back dejected; but we\r\nwedged in as well as we could and soon found ourselves in the office.”\r\n\r\n“Your experience has been a most entertaining one,” remarked Holmes as\r\nhis client paused and refreshed his memory with a huge pinch of snuff.\r\n“Pray continue your very interesting statement.”\r\n\r\n“There was nothing in the office but a couple of wooden chairs and a\r\ndeal table, behind which sat a small man with a head that was even\r\nredder than mine. He said a few words to each candidate as he came up,\r\nand then he always managed to find some fault in them which would\r\ndisqualify them. Getting a vacancy did not seem to be such a very easy\r\nmatter, after all. However, when our turn came the little man was much\r\nmore favourable to me than to any of the others, and he closed the door\r\nas we entered, so that he might have a private word with us.\r\n\r\n“‘This is Mr. Jabez Wilson,’ said my assistant, ‘and he is willing to\r\nfill a vacancy in the League.’\r\n\r\n“‘And he is admirably suited for it,’ the other answered. ‘He has every\r\nrequirement. I cannot recall when I have seen anything so fine.’ He\r\ntook a step backward, cocked his head on one side, and gazed at my hair\r\nuntil I felt quite bashful. Then suddenly he plunged forward, wrung my\r\nhand, and congratulated me warmly on my success.\r\n\r\n“‘It would be injustice to hesitate,’ said he. ‘You will, however, I am\r\nsure, excuse me for taking an obvious precaution.’ With that he seized\r\nmy hair in both his hands, and tugged until I yelled with the pain.\r\n‘There is water in your eyes,’ said he as he released me. ‘I perceive\r\nthat all is as it should be. But we have to be careful, for we have\r\ntwice been deceived by wigs and once by paint. I could tell you tales\r\nof cobbler’s wax which would disgust you with human nature.’ He stepped\r\nover to the window and shouted through it at the top of his voice that\r\nthe vacancy was filled. A groan of disappointment came up from below,\r\nand the folk all trooped away in different directions until there was\r\nnot a red-head to be seen except my own and that of the manager.\r\n\r\n“‘My name,’ said he, ‘is Mr. Duncan Ross, and I am myself one of the\r\npensioners upon the fund left by our noble benefactor. Are you a\r\nmarried man, Mr. Wilson? Have you a family?’\r\n\r\n“I answered that I had not.\r\n\r\n“His face fell immediately.\r\n\r\n“‘Dear me!’ he said gravely, ‘that is very serious indeed! I am sorry\r\nto hear you say that. The fund was, of course, for the propagation and\r\nspread of the red-heads as well as for their maintenance. It is\r\nexceedingly unfortunate that you should be a bachelor.’\r\n\r\n“My face lengthened at this, Mr. Holmes, for I thought that I was not\r\nto have the vacancy after all; but after thinking it over for a few\r\nminutes he said that it would be all right.\r\n\r\n“‘In the case of another,’ said he, ‘the objection might be fatal, but\r\nwe must stretch a point in favour of a man with such a head of hair as\r\nyours. When shall you be able to enter upon your new duties?’\r\n\r\n“‘Well, it is a little awkward, for I have a business already,’ said I.\r\n\r\n“‘Oh, never mind about that, Mr. Wilson!’ said Vincent Spaulding. ‘I\r\nshould be able to look after that for you.’\r\n\r\n“‘What would be the hours?’ I asked.\r\n\r\n“‘Ten to two.’\r\n\r\n“Now a pawnbroker’s business is mostly done of an evening, Mr. Holmes,\r\nespecially Thursday and Friday evening, which is just before pay-day;\r\nso it would suit me very well to earn a little in the mornings.\r\nBesides, I knew that my assistant was a good man, and that he would see\r\nto anything that turned up.\r\n\r\n“‘That would suit me very well,’ said I. ‘And the pay?’\r\n\r\n“‘Is £ 4 a week.’\r\n\r\n“‘And the work?’\r\n\r\n“‘Is purely nominal.’\r\n\r\n“‘What do you call purely nominal?’\r\n\r\n“‘Well, you have to be in the office, or at least in the building, the\r\nwhole time. If you leave, you forfeit your whole position forever. The\r\nwill is very clear upon that point. You don’t comply with the\r\nconditions if you budge from the office during that time.’\r\n\r\n“‘It’s only four hours a day, and I should not think of leaving,’ said"
-    }
-  ]
-};
-      window.sherlockHolmesBook = new DigitalBook('sherlock-holmes-book', sherlockHolmesConfig);
-    </script>
-  
-
-    <h2>🎯 Comprehension Questions</h2>
-                                <p>Answer these questions about today's reading:</p>
-                                
-                                <div style="margin: 30px 0;">
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">1. What were the main events?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">2. How did the characters feel or react?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">3. What do you predict will happen next?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                </div>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;">
+                                <p><em>[Reading passage from Sherlock Holmes Stories, Chapter 23 will be inserted here from digital book database]</em></p>
+                                <p>This section will include the actual chapter text with vocabulary words highlighted.</p>
+                            </div>
                             
+                            <div style="margin-top: 20px; padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">📚 <strong>Take your time reading!</strong> Think about what's happening in the story.</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 6: Journal 
-                
+                // Page 5: Reading Comprehension
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✍️ Journal Entry</h2>
+                            <h2>🎯 Reading Comprehension</h2>
+                            <p>Answer these questions about today's chapter:</p>
                             
-                            <div style="margin: 25px 0; padding: 25px; background: rgba(176,104,33,0.1); border-left: 4px solid #B06821; border-radius: 8px;">
-                                <h3 style="color: #B06821; margin-bottom: 15px;">Today's Prompt:</h3>
-                                <p style="font-size: 18px; font-style: italic;">
-                                    Write 4-6 sentences about today's reading. What was most interesting or surprising? 
-                                    How did this chapter move the story forward?
+                            <div style="margin: 30px 0;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 1:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 23]</p>
+                                    <textarea 
+                                      id="comp-1"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 2:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 23]</p>
+                                    <textarea 
+                                      id="comp-2"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 3:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 23]</p>
+                                    <textarea 
+                                      id="comp-3"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 6: Journal Reflection
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✍️ Journal Reflection</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 20px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    [Personal reflection prompt related to Chapter 23]
                                 </p>
                             </div>
                             
                             <textarea 
-                                style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #305853; border-radius: 10px; font-size: 16px;"
-                                placeholder="Write your journal entry here..."></textarea>
+                              id="journal"
+                              style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #4A0E4E; border-radius: 12px; font-family: inherit; font-size: 16px; line-height: 1.6;"
+                              placeholder="Write your thoughts here..."
+                            ></textarea>
                         </div>
                     `
                 },
                 
-                
                 // Page 7: Completion
                 {
                     render: () => `
-                        <div class="lesson-page-card completion-page">
-                            <div class="character">📚</div>
+                        <div class="lesson-page-card content-page">
+                            <div style="text-align: center; padding: 40px 20px;">
+                                <div style="font-size: 72px; margin-bottom: 20px;">🎉</div>
+                                <h2 style="color: #305853; margin-bottom: 20px;">Great Job!</h2>
+                                <p style="font-size: 18px; color: #666; max-width: 500px; margin: 0 auto;">
+                                    You've completed Day 143! Come back tomorrow to continue reading <em>Sherlock Holmes Stories</em>.
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 8: Informational Text 📰
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📰 Informational Text</h2>
+                            <h3 style="color: #4A0E4E;">Related Non-Fiction</h3>
                             
-                                <h1>Day 143 Complete!</h1>
-                                <p style="font-size: 20px; margin: 20px 0;">Great work today!</p>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px; margin-bottom: 25px;">
+                                <p style="margin-bottom: 15px;">Informational text content goes here.</p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #4A0E4E;">
+                                <h4 style="margin-bottom: 15px;">📝 Comprehension Questions:</h4>
                                 
-                                <div style="text-align: left; max-width: 400px; margin: 30px auto; background: rgba(48,88,83,0.05); padding: 25px; border-radius: 12px;">
-                                    <h3 style="color: #305853; margin-bottom: 15px;">✅ Today You:</h3>
-                                    <ul style="line-height: 2;">
-                                        
-                                            <li>Read about Creating suspense</li>
-                                            <li>Learned 2 vocabulary words</li>
-                                            <li>Answered comprehension questions</li>
-                                            <li>Wrote a journal entry</li>
-                                        
-                                    </ul>
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">1. Question 1?</p>
+                                    <textarea 
+                                      id="info-1"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
                                 </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">2. Question 2?</p>
+                                    <textarea 
+                                      id="info-2"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">3. Question 3?</p>
+                                    <textarea 
+                                      id="info-3"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 9: Grammar in Context ✏️
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✏️ Grammar Workshop</h2>
+                            <h3 style="color: #4A0E4E;">Compound Sentences</h3>
                             
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin-bottom: 15px;">
+                                    <strong>📖 What is it?</strong><br>
+                                    A compound sentence joins two independent clauses with a comma and coordinating conjunction (and, but, or, so, for, yet, nor).
+                                </p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>💡 Example from today's reading:</strong><br>
+                                    <em>"The wind howled horribly, but Dorothy sat quite still."</em>
+                                </p>
+                            </div>
                             
-                            <a href="student-dashboard.html" 
-                               style="display: inline-block; margin-top: 20px; padding: 15px 35px; background: #B06821; color: white; text-decoration: none; border-radius: 12px; font-size: 18px; font-weight: 700;">
-                                Continue →
-                            </a>
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #4A0E4E;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">✍️ Your Turn:</p>
+                                <p style="margin-bottom: 12px;">Write three compound sentences about today's chapter using different coordinating conjunctions.</p>
+                                <textarea 
+                                  id="grammar"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Write your practice sentences here..."
+                                ></textarea>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 10: Writing Workshop 📝
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📝 Informative Writing</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">📝 Prompt:</p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    Describe what life was like for Dorothy in Kansas before the cyclone. Include at least 3 specific details.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 15px; background: #fffbf0; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 20px;">
+                                <p style="margin: 0; font-size: 14px;">
+                                    <strong>💡 Remember:</strong> Write a paragraph explaining something from the story. Include clear details and examples.
+                                </p>
+                            </div>
+                            
+                            <textarea 
+                              id="writing"
+                              style="width: 100%; min-height: 250px; padding: 15px; border: 2px solid #4A0E4E; border-radius: 12px; font-size: 16px; line-height: 1.8;"
+                              placeholder="Start writing here..."
+                            ></textarea>
+                            
+                            <div style="margin-top: 15px; padding: 12px; background: #f0f9ff; border-radius: 8px;">
+                                <p style="margin: 0; font-size: 13px; color: #0369a1;">
+                                    ✅ <strong>Checklist:</strong> Did you include a topic sentence? Supporting details? A conclusion?
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 11: Language Skills 🎨
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>🎨 Language Skills</h2>
+                            <h3 style="color: #4A0E4E;">Root Words and Affixes</h3>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>📖 Learn:</strong><br>
+                                    Many words are built from roots (base words) with prefixes (before) and suffixes (after) added.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #4A0E4E;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">🎯 Activity:</p>
+                                <p style="margin-bottom: 12px;">Break down vocabulary words into their parts: prefix + root + suffix. Example: uncomfortable = un + comfort + able</p>
+                                <textarea 
+                                  id="language"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Complete the activity here..."
+                                ></textarea>
+                            </div>
+                            
+                            <div style="margin-top: 20px; text-align: center; padding: 30px;">
+                                <div style="font-size: 48px; margin-bottom: 15px;">🌟</div>
+                                <h3 style="color: #305853;">Excellent Work!</h3>
+                                <p style="color: #666;">You've completed all 11 pages of Day 143!</p>
+                            </div>
                         </div>
                     `
                 }
-                
             ]
         };
-
-        createLessonViewer('lesson-container', lesson143Config);
+        
+        // Initialize lesson viewer
+        if (typeof initLessonViewer === 'function') {
+            initLessonViewer(lesson143Config);
+        }
     </script>
 </body>
 </html>

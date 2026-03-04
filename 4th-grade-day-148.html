@@ -3,13 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 148: Theme Comparison - 4th Grade BedrockELA</title>
+    <title>Day 148 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=3.2">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container" class="lesson-container"></div>
 
     <script src="js/lesson-viewer.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
     
     <script>
         const lesson148Config = {
@@ -24,206 +35,341 @@
                             <div class="character">📚</div>
                             <h1>Day 148</h1>
                             <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #B06821; font-size: 20px; margin-top: 20px;">
-                                Review
+                            <p style="color: #4A0E4E; font-size: 20px; margin-top: 20px;">
+                                Sherlock Holmes Stories
                             </p>
                             <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Theme Comparison
+                                Chapter 28
                             </p>
                         </div>
                     `
                 },
                 
-                
-                // Page 2: Welcome
+                // Page 2: Welcome & Learning Objectives
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
                             <h2>📖 Welcome to Day 148!</h2>
-                            
-                                <p>Today you will:</p>
-                                <ul style="margin: 20px 0; line-height: 2;">
-                                    <li>📖 Read about Universal themes</li>
-                                    <li>📝 Learn 2 new vocabulary words</li>
-                                    <li>🎯 Answer comprehension questions</li>
-                                    <li>✍️ Write a journal entry</li>
-                                </ul>
-                                <p><strong>Time needed:</strong> About 30-45 minutes</p>
-                            
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>📖 Read from <em>Sherlock Holmes Stories</em></li>
+                                <li>📝 Learn 2 new vocabulary words</li>
+                                <li>📰 Read informational text: "Related Non-Fiction"</li>
+                                <li>✍️ Practice grammar: Compound Sentences</li>
+                                <li>🎯 Write: Opinion Writing</li>
+                                <li>🎨 Explore: Root Words and Affixes</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
                         </div>
                     `
                 },
                 
-                // Page 3: Vocabulary (2 words)
+                // Page 3: Vocabulary (2 words from text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>📚 Today's Vocabulary</h2>
+                            <h2>📚 Vocabulary Words</h2>
                             
-                            
-                                <div style="margin: 30px 0; padding: 25px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 15px; border: 2px solid #B06821;">
-                                    <div style="margin-bottom: 30px;">
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">universal</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                    
-                                    <div>
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">human</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                </div>
+                            <div style="margin: 30px 0;">
                                 
-                                <div style="padding: 20px; background: rgba(176,104,33,0.05); border-radius: 10px;">
-                                    <p style="margin: 0;">
-                                        💡 <strong>Watch for these words</strong> in today's reading!
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #4A0E4E;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">anxiously</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
-                            
-                        </div>
-                    `
-                },
-                
-                // Page 4: Reading
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            
-                                <h2>📖 Today's Reading: Universal themes</h2>
                                 
-                                <div style="background: white; padding: 25px; border-radius: 12px; border: 3px solid #305853; margin: 20px 0;">
-                                    <p style="font-size: 18px; margin-bottom: 15px;">
-                                        📚 Read from Review
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #4A0E4E;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">swift</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
-                                    <p style="font-size: 16px; color: #666; margin-top: 15px;">
-                                        Focus: Universal themes
-                                    </p>
+                                    <textarea 
+                                      id="vocab-2"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
                                 
-                                <div style="margin-top: 30px; padding: 20px; background: rgba(48,88,83,0.1); border-radius: 10px;">
-                                    <h3 style="color: #305853;">📝 While You Read:</h3>
-                                    <ul style="line-height: 2;">
-                                        <li>Look for the vocabulary words: <strong>universal</strong> and <strong>human</strong></li>
-                                        <li>What are the main events?</li>
-                                        <li>How do characters change or react?</li>
-                                    </ul>
-                                </div>
+                            </div>
                             
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">💡 <strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 5: Comprehension
+                // Page 4: Literature Reading (placeholder - needs actual book text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
+                            <h2>📖 Reading: Sherlock Holmes Stories</h2>
+                            <h3 style="color: #4A0E4E;">Chapter 28</h3>
                             
-                                
-    <!-- Digital Book Integration -->
-    <script src="js/digital-book.js"></script>
-    <div id="sherlock-holmes-book"></div>
-    <script>
-      const sherlockHolmesConfig = {
-  "coverTitle": "Sherlock Holmes",
-  "coverSubtitle": "7. THE ADVENTURE OF THE BLUE CARBUNCLE",
-  "coverAuthor": "Arthur Conan Doyle",
-  "coverColor": "#4A2C2A",
-  "vocabWords": [],
-  "pages": [
-    {
-      "title": "7. THE ADVENTURE OF THE BLUE CARBUNCLE",
-      "text": "I had called upon my friend Sherlock Holmes upon the second morning\r\nafter Christmas, with the intention of wishing him the compliments of\r\nthe season. He was lounging upon the sofa in a purple dressing-gown, a\r\npipe-rack within his reach upon the right, and a pile of crumpled\r\nmorning papers, evidently newly studied, near at hand. Beside the couch\r\nwas a wooden chair, and on the angle of the back hung a very seedy and\r\ndisreputable hard-felt hat, much the worse for wear, and cracked in\r\nseveral places. A lens and a forceps lying upon the seat of the chair\r\nsuggested that the hat had been suspended in this manner for the\r\npurpose of examination.\r\n\r\n“You are engaged,” said I; “perhaps I interrupt you.”\r\n\r\n“Not at all. I am glad to have a friend with whom I can discuss my\r\nresults. The matter is a perfectly trivial one”—he jerked his thumb in\r\nthe direction of the old hat—“but there are points in connection with\r\nit which are not entirely devoid of interest and even of instruction.”\r\n\r\nI seated myself in his armchair and warmed my hands before his\r\ncrackling fire, for a sharp frost had set in, and the windows were\r\nthick with the ice crystals. “I suppose,” I remarked, “that, homely as\r\nit looks, this thing has some deadly story linked on to it—that it is\r\nthe clue which will guide you in the solution of some mystery and the\r\npunishment of some crime.”\r\n\r\n“No, no. No crime,” said Sherlock Holmes, laughing. “Only one of those\r\nwhimsical little incidents which will happen when you have four million\r\nhuman beings all jostling each other within the space of a few square\r\nmiles. Amid the action and reaction of so dense a swarm of humanity,\r\nevery possible combination of events may be expected to take place, and\r\nmany a little problem will be presented which may be striking and\r\nbizarre without being criminal. We have already had experience of\r\nsuch.”\r\n\r\n“So much so,” I remarked, “that of the last six cases which I have\r\nadded to my notes, three have been entirely free of any legal crime.”\r\n\r\n“Precisely. You allude to my attempt to recover the Irene Adler papers,\r\nto the singular case of Miss Mary Sutherland, and to the adventure of\r\nthe man with the twisted lip. Well, I have no doubt that this small\r\nmatter will fall into the same innocent category. You know Peterson,\r\nthe commissionaire?”\r\n\r\n“Yes.”\r\n\r\n“It is to him that this trophy belongs.”\r\n\r\n“It is his hat.”\r\n\r\n“No, no, he found it. Its owner is unknown. I beg that you will look\r\nupon it not as a battered billycock but as an intellectual problem.\r\nAnd, first, as to how it came here. It arrived upon Christmas morning,\r\nin company with a good fat goose, which is, I have no doubt, roasting\r\nat this moment in front of Peterson’s fire. The facts are these: about\r\nfour o’clock on Christmas morning, Peterson, who, as you know, is a\r\nvery honest fellow, was returning from some small jollification and was\r\nmaking his way homeward down Tottenham Court Road. In front of him he\r\nsaw, in the gaslight, a tallish man, walking with a slight stagger, and\r\ncarrying a white goose slung over his shoulder. As he reached the\r\ncorner of Goodge Street, a row broke out between this stranger and a\r\nlittle knot of roughs. One of the latter knocked off the man’s hat, on\r\nwhich he raised his stick to defend himself and, swinging it over his\r\nhead, smashed the shop window behind him. Peterson had rushed forward\r\nto protect the stranger from his assailants; but the man, shocked at\r\nhaving broken the window, and seeing an official-looking person in\r\nuniform rushing towards him, dropped his goose, took to his heels, and\r\nvanished amid the labyrinth of small streets which lie at the back of\r\nTottenham Court Road. The roughs had also fled at the appearance of\r\nPeterson, so that he was left in possession of the field of battle, and\r\nalso of the spoils of victory in the shape of this battered hat and a\r\nmost unimpeachable Christmas goose.”\r\n\r\n“Which surely he restored to their owner?”\r\n\r\n“My dear fellow, there lies the problem. It is true that ‘For Mrs.\r\nHenry Baker’ was printed upon a small card which was tied to the bird’s\r\nleft leg, and it is also true that the initials ‘H. B.’ are legible\r\nupon the lining of this hat, but as there are some thousands of Bakers,\r\nand some hundreds of Henry Bakers in this city of ours, it is not easy\r\nto restore lost property to any one of them.”\r\n\r\n“What, then, did Peterson do?”\r\n\r\n“He brought round both hat and goose to me on Christmas morning,\r\nknowing that even the smallest problems are of interest to me. The\r\ngoose we retained until this morning, when there were signs that, in\r\nspite of the slight frost, it would be well that it should be eaten\r\nwithout unnecessary delay. Its finder has carried it off, therefore, to\r\nfulfil the ultimate destiny of a goose, while I continue to retain the\r\nhat of the unknown gentleman who lost his Christmas dinner.”\r\n\r\n“Did he not advertise?”\r\n\r\n“No.”\r\n\r\n“Then, what clue could you have as to his identity?”\r\n\r\n“Only as much as we can deduce.”\r\n\r\n“From his hat?”\r\n\r\n“Precisely.”\r\n\r\n“But you are joking. What can you gather from this old battered felt?”\r\n\r\n“Here is my lens. You know my methods. What can you gather yourself as\r\nto the individuality of the man who has worn this article?”\r\n\r\nI took the tattered object in my hands and turned it over rather\r\nruefully. It was a very ordinary black hat of the usual round shape,\r\nhard and much the worse for wear. The lining had been of red silk, but\r\nwas a good deal discoloured. There was no maker’s name; but, as Holmes\r\nhad remarked, the initials “H. B.” were scrawled upon one side. It was\r\npierced in the brim for a hat-securer, but the elastic was missing. For\r\nthe rest, it was cracked, exceedingly dusty, and spotted in several\r\nplaces, although there seemed to have been some attempt to hide the\r\ndiscoloured patches by smearing them with ink.\r\n\r\n“I can see nothing,” said I, handing it back to my friend.\r\n\r\n“On the contrary, Watson, you can see everything. You fail, however, to\r\nreason from what you see. You are too timid in drawing your\r\ninferences.”\r\n\r\n“Then, pray tell me what it is that you can infer from this hat?”\r\n\r\nHe picked it up and gazed at it in the peculiar introspective fashion\r\nwhich was characteristic of him. “It is perhaps less suggestive than it\r\nmight have been,” he remarked, “and yet there are a few inferences\r\nwhich are very distinct, and a few others which represent at least a\r\nstrong balance of probability. That the man was highly intellectual is\r\nof course obvious upon the face of it, and also that he was fairly\r\nwell-to-do within the last three years, although he has now fallen upon\r\nevil days. He had foresight, but has less now than formerly, pointing\r\nto a moral retrogression, which, when taken with the decline of his\r\nfortunes, seems to indicate some evil influence, probably drink, at\r\nwork upon him. This may account also for the obvious fact that his wife\r\nhas ceased to love him.”\r\n\r\n“My dear Holmes!”\r\n\r\n“He has, however, retained some degree of self-respect,” he continued,\r\ndisregarding my remonstrance. “He is a man who leads a sedentary life,\r\ngoes out little, is out of training entirely, is middle-aged, has\r\ngrizzled hair which he has had cut within the last few days, and which\r\nhe anoints with lime-cream. These are the more patent facts which are\r\nto be deduced from his hat. Also, by the way, that it is extremely\r\nimprobable that he has gas laid on in his house.”\r\n\r\n“You are certainly joking, Holmes.”\r\n\r\n“Not in the least. Is it possible that even now, when I give you these\r\nresults, you are unable to see how they are attained?”\r\n\r\n“I have no doubt that I am very stupid, but I must confess that I am\r\nunable to follow you. For example, how did you deduce that this man was\r\nintellectual?”\r\n\r\nFor answer Holmes clapped the hat upon his head. It came right over the\r\nforehead and settled upon the bridge of his nose. “It is a question of\r\ncubic capacity,” said he; “a man with so large a brain must have\r\nsomething in it.”\r\n\r\n“The decline of his fortunes, then?”\r\n\r\n“This hat is three years old. These flat brims curled at the edge came\r\nin then. It is a hat of the very best quality. Look at the band of\r\nribbed silk and the excellent lining. If this man could afford to buy\r\nso expensive a hat three years ago, and has had no hat since, then he\r\nhas assuredly gone down in the world.”\r\n\r\n“Well, that is clear enough, certainly. But how about the foresight and\r\nthe moral retrogression?”\r\n\r\nSherlock Holmes laughed. “Here is the foresight,” said he putting his\r\nfinger upon the little disc and loop of the hat-securer. “They are\r\nnever sold upon hats. If this man ordered one, it is a sign of a\r\ncertain amount of foresight, since he went out of his way to take this\r\nprecaution against the wind. But since we see that he has broken the\r\nelastic and has not troubled to replace it, it is obvious that he has\r\nless foresight now than formerly, which is a distinct proof of a\r\nweakening nature. On the other hand, he has endeavoured to conceal some\r\nof these stains upon the felt by daubing them with ink, which is a sign\r\nthat he has not entirely lost his self-respect.”\r\n\r\n“Your reasoning is certainly plausible.”\r\n\r\n“The further points, that he is middle-aged, that his hair is grizzled,\r\nthat it has been recently cut, and that he uses lime-cream, are all to\r\nbe gathered from a close examination of the lower part of the lining.\r\nThe lens discloses a large number of hair-ends, clean cut by the\r\nscissors of the barber. They all appear to be adhesive, and there is a\r\ndistinct odour of lime-cream. This dust, you will observe, is not the\r\ngritty, grey dust of the street but the fluffy brown dust of the house,\r\nshowing that it has been hung up indoors most of the time, while the\r\nmarks of moisture upon the inside are proof positive that the wearer\r\nperspired very freely, and could therefore, hardly be in the best of\r\ntraining.”\r\n\r\n“But his wife—you said that she had ceased to love him.”\r\n\r\n“This hat has not been brushed for weeks. When I see you, my dear\r\nWatson, with a week’s accumulation of dust upon your hat, and when your\r\nwife allows you to go out in such a state, I shall fear that you also\r\nhave been unfortunate enough to lose your wife’s affection.”\r\n\r\n“But he might be a bachelor.”\r\n\r\n“Nay, he was bringing home the goose as a peace-offering to his wife.\r\nRemember the card upon the bird’s leg.”\r\n\r\n“You have an answer to everything. But how on earth do you deduce that\r\nthe gas is not laid on in his house?”\r\n\r\n“One tallow stain, or even two, might come by chance; but when I see no\r\nless than five, I think that there can be little doubt that the\r\nindividual must be brought into frequent contact with burning\r\ntallow—walks upstairs at night probably with his hat in one hand and a\r\nguttering candle in the other. Anyhow, he never got tallow-stains from\r\na gas-jet. Are you satisfied?”\r\n\r\n“Well, it is very ingenious,” said I, laughing; “but since, as you said\r\njust now, there has been no crime committed, and no harm done save the\r\nloss of a goose, all this seems to be rather a waste of energy.”\r\n\r\nSherlock Holmes had opened his mouth to reply, when the door flew open,\r\nand Peterson, the commissionaire, rushed into the apartment with\r\nflushed cheeks and the face of a man who is dazed with astonishment.\r\n\r\n“The goose, Mr. Holmes! The goose, sir!” he gasped.\r\n\r\n“Eh? What of it, then? Has it returned to life and flapped off through\r\nthe kitchen window?” Holmes twisted himself round upon the sofa to get\r\na fairer view of the man’s excited face.\r\n\r\n“See here, sir! See what my wife found in its crop!” He held out his\r\nhand and displayed upon the centre of the palm a brilliantly\r\nscintillating blue stone, rather smaller than a bean in size, but of\r\nsuch purity and radiance that it twinkled like an electric point in the\r\ndark hollow of his hand.\r\n\r\nSherlock Holmes sat up with a whistle. “By Jove, Peterson!” said he,\r\n“this is treasure trove indeed. I suppose you know what you have got?”\r\n\r\n“A diamond, sir? A precious stone. It cuts into glass as though it were\r\nputty.”\r\n\r\n“It’s more than a precious stone. It is _the_ precious stone.”\r\n\r\n“Not the Countess of Morcar’s blue carbuncle!” I ejaculated.\r\n\r\n“Precisely so. I ought to know its size and shape, seeing that I have\r\nread the advertisement about it in _The Times_ every day lately. It is\r\nabsolutely unique, and its value can only be conjectured, but the\r\nreward offered of £ 1000 is certainly not within a twentieth part of\r\nthe market price.”\r\n\r\n“A thousand pounds! Great Lord of mercy!” The commissionaire plumped\r\ndown into a chair and stared from one to the other of us.\r\n\r\n“That is the reward, and I have reason to know that there are\r\nsentimental considerations in the background which would induce the\r\nCountess to part with half her fortune if she could but recover the\r\ngem.”\r\n\r\n“It was lost, if I remember aright, at the Hotel Cosmopolitan,” I\r\nremarked.\r\n\r\n“Precisely so, on December 22nd, just five days ago. John Horner, a\r\nplumber, was accused of having abstracted it from the lady’s\r\njewel-case. The evidence against him was so strong that the case has\r\nbeen referred to the Assizes. I have some account of the matter here, I\r\nbelieve.” He rummaged amid his newspapers, glancing over the dates,\r\nuntil at last he smoothed one out, doubled it over, and read the\r\nfollowing paragraph:\r\n\r\n“Hotel Cosmopolitan Jewel Robbery. John Horner, 26, plumber, was\r\nbrought up upon the charge of having upon the 22nd inst., abstracted\r\nfrom the jewel-case of the Countess of Morcar the valuable gem known as\r\nthe blue carbuncle. James Ryder, upper-attendant at the hotel, gave his\r\nevidence to the effect that he had shown Horner up to the dressing-room\r\nof the Countess of Morcar upon the day of the robbery in order that he\r\nmight solder the second bar of the grate, which was loose. He had\r\nremained with Horner some little time, but had finally been called\r\naway. On returning, he found that Horner had disappeared, that the\r\nbureau had been forced open, and that the small morocco casket in\r\nwhich, as it afterwards transpired, the Countess was accustomed to keep\r\nher jewel, was lying empty upon the dressing-table. Ryder instantly\r\ngave the alarm, and Horner was arrested the same evening; but the stone\r\ncould not be found either upon his person or in his rooms. Catherine\r\nCusack, maid to the Countess, deposed to having heard Ryder’s cry of\r\ndismay on discovering the robbery, and to having rushed into the room,\r\nwhere she found matters as described by the last witness. Inspector\r\nBradstreet, B division, gave evidence as to the arrest of Horner, who\r\nstruggled frantically, and protested his innocence in the strongest\r\nterms. Evidence of a previous conviction for robbery having been given\r\nagainst the prisoner, the magistrate refused to deal summarily with the\r\noffence, but referred it to the Assizes. Horner, who had shown signs of\r\nintense emotion during the proceedings, fainted away at the conclusion\r\nand was carried out of court.”\r\n\r\n“Hum! So much for the police-court,” said Holmes thoughtfully, tossing\r\naside the paper. “The question for us now to solve is the sequence of\r\nevents leading from a rifled jewel-case at one end to the crop of a\r\ngoose in Tottenham Court Road at the other. You see, Watson, our little\r\ndeductions have suddenly assumed a much more important and less\r\ninnocent aspect. Here is the stone; the stone came from the goose, and\r\nthe goose came from Mr. Henry Baker, the gentleman with the bad hat and\r\nall the other characteristics with which I have bored you. So now we\r\nmust set ourselves very seriously to finding this gentleman and\r\nascertaining what part he has played in this little mystery. To do\r\nthis, we must try the simplest means first, and these lie undoubtedly\r\nin an advertisement in all the evening papers. If this fail, I shall\r\nhave recourse to other methods.”\r\n\r\n“What will you say?”\r\n\r\n“Give me a pencil and that slip of paper. Now, then: ‘Found at the\r\ncorner of Goodge Street, a goose and a black felt hat. Mr. Henry Baker\r\ncan have the same by applying at 6:30 this evening at 221B, Baker\r\nStreet.’ That is clear and concise.”\r\n\r\n“Very. But will he see it?”\r\n\r\n“Well, he is sure to keep an eye on the papers, since, to a poor man,\r\nthe loss was a heavy one. He was clearly so scared by his mischance in\r\nbreaking the window and by the approach of Peterson that he thought of\r\nnothing but flight, but since then he must have bitterly regretted the\r\nimpulse which caused him to drop his bird. Then, again, the\r\nintroduction of his name will cause him to see it, for everyone who\r\nknows him will direct his attention to it. Here you are, Peterson, run\r\ndown to the advertising agency and have this put in the evening\r\npapers.”\r\n\r\n“In which, sir?”\r\n\r\n“Oh, in the _Globe_, _Star_, _Pall Mall_, _St. James’s Gazette_,\r\n_Evening News_, _Standard_, _Echo_, and any others that occur to you.”\r\n\r\n“Very well, sir. And this stone?”\r\n\r\n“Ah, yes, I shall keep the stone. Thank you. And, I say, Peterson, just\r\nbuy a goose on your way back and leave it here with me, for we must\r\nhave one to give to this gentleman in place of the one which your\r\nfamily is now devouring.”\r\n\r\nWhen the commissionaire had gone, Holmes took up the stone and held it\r\nagainst the light. “It’s a bonny thing,” said he. “Just see how it\r\nglints and sparkles. Of course it is a nucleus and focus of crime.\r\nEvery good stone is. They are the devil’s pet baits. In the larger and\r\nolder jewels every facet may stand for a bloody deed. This stone is not\r\nyet twenty years old. It was found in the banks of the Amoy River in\r\nsouthern China and is remarkable in having every characteristic of the\r\ncarbuncle, save that it is blue in shade instead of ruby red. In spite\r\nof its youth, it has already a sinister history. There have been two\r\nmurders, a vitriol-throwing, a suicide, and several robberies brought\r\nabout for the sake of this forty-grain weight of crystallised charcoal.\r\nWho would think that so pretty a toy would be a purveyor to the gallows\r\nand the prison? I’ll lock it up in my strong box now and drop a line to\r\nthe Countess to say that we have it.”\r\n\r\n“Do you think that this man Horner is innocent?”\r\n\r\n“I cannot tell.”\r\n\r\n“Well, then, do you imagine that this other one, Henry Baker, had\r\nanything to do with the matter?”\r\n\r\n“It is, I think, much more likely that Henry Baker is an absolutely\r\ninnocent man, who had no idea that the bird which he was carrying was\r\nof considerably more value than if it were made of solid gold. That,\r\nhowever, I shall determine by a very simple test if we have an answer\r\nto our advertisement.”\r\n\r\n“And you can do nothing until then?”\r\n\r\n“Nothing.”\r\n\r\n“In that case I shall continue my professional round. But I shall come\r\nback in the evening at the hour you have mentioned, for I should like\r\nto see the solution of so tangled a business.”\r\n\r\n“Very glad to see you. I dine at seven. There is a woodcock, I believe.\r\nBy the way, in view of recent occurrences, perhaps I ought to ask Mrs.\r\nHudson to examine its crop.”\r\n\r\nI had been delayed at a case, and it was a little after half-past six\r\nwhen I found myself in Baker Street once more. As I approached the\r\nhouse I saw a tall man in a Scotch bonnet with a coat which was\r\nbuttoned up to his chin waiting outside in the bright semicircle which\r\nwas thrown from the fanlight. Just as I arrived the door was opened,\r\nand we were shown up together to Holmes’ room.\r\n\r\n“Mr. Henry Baker, I believe,” said he, rising from his armchair and\r\ngreeting his visitor with the easy air of geniality which he could so\r\nreadily assume. “Pray take this chair by the fire, Mr. Baker. It is a\r\ncold night, and I observe that your circulation is more adapted for\r\nsummer than for winter. Ah, Watson, you have just come at the right\r\ntime. Is that your hat, Mr. Baker?”\r\n\r\n“Yes, sir, that is undoubtedly my hat.”\r\n\r\nHe was a large man with rounded shoulders, a massive head, and a broad,\r\nintelligent face, sloping down to a pointed beard of grizzled brown. A\r\ntouch of red in nose and cheeks, with a slight tremor of his extended\r\nhand, recalled Holmes’ surmise as to his habits. His rusty black\r\nfrock-coat was buttoned right up in front, with the collar turned up,\r\nand his lank wrists protruded from his sleeves without a sign of cuff\r\nor shirt. He spoke in a slow staccato fashion, choosing his words with\r\ncare, and gave the impression generally of a man of learning and\r\nletters who had had ill-usage at the hands of fortune.\r\n\r\n“We have retained these things for some days,” said Holmes, “because we\r\nexpected to see an advertisement from you giving your address. I am at\r\na loss to know now why you did not advertise.”\r\n\r\nOur visitor gave a rather shamefaced laugh. “Shillings have not been so\r\nplentiful with me as they once were,” he remarked. “I had no doubt that\r\nthe gang of roughs who assaulted me had carried off both my hat and the\r\nbird. I did not care to spend more money in a hopeless attempt at\r\nrecovering them.”\r\n\r\n“Very naturally. By the way, about the bird, we were compelled to eat\r\nit.”\r\n\r\n“To eat it!” Our visitor half rose from his chair in his excitement.\r\n\r\n“Yes, it would have been of no use to anyone had we not done so. But I\r\npresume that this other goose upon the sideboard, which is about the\r\nsame weight and perfectly fresh, will answer your purpose equally\r\nwell?”\r\n\r\n“Oh, certainly, certainly,” answered Mr. Baker with a sigh of relief.\r\n\r\n“Of course, we still have the feathers, legs, crop, and so on of your\r\nown bird, so if you wish—”\r\n\r\nThe man burst into a hearty laugh. “They might be useful to me as\r\nrelics of my adventure,” said he, “but beyond that I can hardly see\r\nwhat use the _disjecta membra_ of my late acquaintance are going to be\r\nto me. No, sir, I think that, with your permission, I will confine my\r\nattentions to the excellent bird which I perceive upon the sideboard.”\r\n\r\nSherlock Holmes glanced sharply across at me with a slight shrug of his\r\nshoulders.\r\n\r\n“There is your hat, then, and there your bird,” said he. “By the way,\r\nwould it bore you to tell me where you got the other one from? I am\r\nsomewhat of a fowl fancier, and I have seldom seen a better grown\r\ngoose.”\r\n\r\n“Certainly, sir,” said Baker, who had risen and tucked his newly gained\r\nproperty under his arm. “There are a few of us who frequent the Alpha\r\nInn, near the Museum—we are to be found in the Museum itself during the\r\nday, you understand. This year our good host, Windigate by name,\r\ninstituted a goose club, by which, on consideration of some few pence\r\nevery week, we were each to receive a bird at Christmas. My pence were\r\nduly paid, and the rest is familiar to you. I am much indebted to you,\r\nsir, for a Scotch bonnet is fitted neither to my years nor my gravity.”\r\nWith a comical pomposity of manner he bowed solemnly to both of us and\r\nstrode off upon his way.\r\n\r\n“So much for Mr. Henry Baker,” said Holmes when he had closed the door\r\nbehind him. “It is quite certain that he knows nothing whatever about\r\nthe matter. Are you hungry, Watson?”\r\n\r\n“Not particularly.”\r\n\r\n“Then I suggest that we turn our dinner into a supper and follow up\r\nthis clue while it is still hot.”\r\n\r\n“By all means.”\r\n\r\nIt was a bitter night, so we drew on our ulsters and wrapped cravats\r\nabout our throats. Outside, the stars were shining coldly in a\r\ncloudless sky, and the breath of the passers-by blew out into smoke\r\nlike so many pistol shots. Our footfalls rang out crisply and loudly as\r\nwe swung through the doctors’ quarter, Wimpole Street, Harley Street,\r\nand so through Wigmore Street into Oxford Street. In a quarter of an\r\nhour we were in Bloomsbury at the Alpha Inn, which is a small\r\npublic-house at the corner of one of the streets which runs down into\r\nHolborn. Holmes pushed open the door of the private bar and ordered two\r\nglasses of beer from the ruddy-faced, white-aproned landlord.\r\n\r\n“Your beer should be excellent if it is as good as your geese,” said\r\nhe.\r\n\r\n“My geese!” The man seemed surprised.\r\n\r\n“Yes. I was speaking only half an hour ago to Mr. Henry Baker, who was\r\na member of your goose club.”\r\n\r\n“Ah! yes, I see. But you see, sir, them’s not _our_ geese.”\r\n\r\n“Indeed! Whose, then?”\r\n\r\n“Well, I got the two dozen from a salesman in Covent Garden.”\r\n\r\n“Indeed? I know some of them. Which was it?”\r\n\r\n“Breckinridge is his name.”\r\n\r\n“Ah! I don’t know him. Well, here’s your good health landlord, and\r\nprosperity to your house. Good-night.”\r\n\r\n“Now for Mr. Breckinridge,” he continued, buttoning up his coat as we\r\ncame out into the frosty air. “Remember, Watson that though we have so\r\nhomely a thing as a goose at one end of this chain, we have at the\r\nother a man who will certainly get seven years’ penal servitude unless\r\nwe can establish his innocence. It is possible that our inquiry may but\r\nconfirm his guilt; but, in any case, we have a line of investigation\r\nwhich has been missed by the police, and which a singular chance has\r\nplaced in our hands. Let us follow it out to the bitter end. Faces to\r\nthe south, then, and quick march!”\r\n\r\nWe passed across Holborn, down Endell Street, and so through a zigzag\r\nof slums to Covent Garden Market. One of the largest stalls bore the\r\nname of Breckinridge upon it, and the proprietor a horsey-looking man,\r\nwith a sharp face and trim side-whiskers was helping a boy to put up\r\nthe shutters.\r\n\r\n“Good-evening. It’s a cold night,” said Holmes.\r\n\r\nThe salesman nodded and shot a questioning glance at my companion.\r\n\r\n“Sold out of geese, I see,” continued Holmes, pointing at the bare\r\nslabs of marble.\r\n\r\n“Let you have five hundred to-morrow morning.”\r\n\r\n“That’s no good.”\r\n\r\n“Well, there are some on the stall with the gas-flare.”\r\n\r\n“Ah, but I was recommended to you.”\r\n\r\n“Who by?”\r\n\r\n“The landlord of the Alpha.”\r\n\r\n“Oh, yes; I sent him a couple of dozen.”\r\n\r\n“Fine birds they were, too. Now where did you get them from?”\r\n\r\nTo my surprise the question provoked a burst of anger from the\r\nsalesman.\r\n\r\n“Now, then, mister,” said he, with his head cocked and his arms akimbo,\r\n“what are you driving at? Let’s have it straight, now.”\r\n\r\n“It is straight enough. I should like to know who sold you the geese\r\nwhich you supplied to the Alpha.”\r\n\r\n“Well then, I shan’t tell you. So now!”\r\n\r\n“Oh, it is a matter of no importance; but I don’t know why you should\r\nbe so warm over such a trifle.”\r\n\r\n“Warm! You’d be as warm, maybe, if you were as pestered as I am. When I\r\npay good money for a good article there should be an end of the\r\nbusiness; but it’s ‘Where are the geese?’ and ‘Who did you sell the\r\ngeese to?’ and ‘What will you take for the geese?’ One would think they\r\nwere the only geese in the world, to hear the fuss that is made over\r\nthem.”\r\n\r\n“Well, I have no connection with any other people who have been making\r\ninquiries,” said Holmes carelessly. “If you won’t tell us the bet is\r\noff, that is all. But I’m always ready to back my opinion on a matter\r\nof fowls, and I have a fiver on it that the bird I ate is country\r\nbred.”\r\n\r\n“Well, then, you’ve lost your fiver, for it’s town bred,” snapped the\r\nsalesman.\r\n\r\n“It’s nothing of the kind.”\r\n\r\n“I say it is.”\r\n\r\n“I don’t believe it.”\r\n\r\n“D’you think you know more about fowls than I, who have handled them\r\never since I was a nipper? I tell you, all those birds that went to the\r\nAlpha were town bred.”\r\n\r\n“You’ll never persuade me to believe that.”\r\n\r\n“Will you bet, then?”\r\n\r\n“It’s merely taking your money, for I know that I am right. But I’ll\r\nhave a sovereign on with you, just to teach you not to be obstinate.”\r\n\r\nThe salesman chuckled grimly. “Bring me the books, Bill,” said he.\r\n\r\nThe small boy brought round a small thin volume and a great\r\ngreasy-backed one, laying them out together beneath the hanging lamp.\r\n\r\n“Now then, Mr. Cocksure,” said the salesman, “I thought that I was out\r\nof geese, but before I finish you’ll find that there is still one left\r\nin my shop. You see this little book?”\r\n\r\n“Well?”\r\n\r\n“That’s the list of the folk from whom I buy. D’you see? Well, then,\r\nhere on this page are the country folk, and the numbers after their\r\nnames are where their accounts are in the big ledger. Now, then! You\r\nsee this other page in red ink? Well, that is a list of my town\r\nsuppliers. Now, look at that third name. Just read it out to me.”\r\n\r\n“Mrs. Oakshott, 117, Brixton Road—249,” read Holmes.\r\n\r\n“Quite so. Now turn that up in the ledger.”\r\n\r\nHolmes turned to the page indicated. “Here you are, ‘Mrs. Oakshott,\r\n117, Brixton Road, egg and poultry supplier.’”\r\n\r\n“Now, then, what’s the last entry?”\r\n\r\n“‘December 22nd. Twenty-four geese at 7_s_. 6_d_.’”\r\n\r\n“Quite so. There you are. And underneath?”\r\n\r\n“‘Sold to Mr. Windigate of the Alpha, at 12_s_.’”\r\n\r\n“What have you to say now?”\r\n\r\nSherlock Holmes looked deeply chagrined. He drew a sovereign from his\r\npocket and threw it down upon the slab, turning away with the air of a\r\nman whose disgust is too deep for words. A few yards off he stopped\r\nunder a lamp-post and laughed in the hearty, noiseless fashion which\r\nwas peculiar to him.\r\n\r\n“When you see a man with whiskers of that cut and the ‘Pink ’un’\r\nprotruding out of his pocket, you can always draw him by a bet,” said\r\nhe. “I daresay that if I had put £ 100 down in front of him, that man\r\nwould not have given me such complete information as was drawn from him\r\nby the idea that he was doing me on a wager. Well, Watson, we are, I\r\nfancy, nearing the end of our quest, and the only point which remains\r\nto be determined is whether we should go on to this Mrs. Oakshott\r\nto-night, or whether we should reserve it for to-morrow. It is clear\r\nfrom what that surly fellow said that there are others besides\r\nourselves who are anxious about the matter, and I should—”\r\n\r\nHis remarks were suddenly cut short by a loud hubbub which broke out\r\nfrom the stall which we had just left. Turning round we saw a little\r\nrat-faced fellow standing in the centre of the circle of yellow light\r\nwhich was thrown by the swinging lamp, while Breckinridge, the\r\nsalesman, framed in the door of his stall, was shaking his fists\r\nfiercely at the cringing figure.\r\n\r\n“I’ve had enough of you and your geese,” he shouted. “I wish you were\r\nall at the devil together. If you come pestering me any more with your\r\nsilly talk I’ll set the dog at you. You bring Mrs. Oakshott here and\r\nI’ll answer her, but what have you to do with it? Did I buy the geese\r\noff you?”\r\n\r\n“No; but one of them was mine all the same,” whined the little man.\r\n\r\n“Well, then, ask Mrs. Oakshott for it.”\r\n\r\n“She told me to ask you.”\r\n\r\n“Well, you can ask the King of Proosia, for all I care. I’ve had enough\r\nof it. Get out of this!” He rushed fiercely forward, and the inquirer\r\nflitted away into the darkness.\r\n\r\n“Ha! this may save us a visit to Brixton Road,” whispered Holmes. “Come\r\nwith me, and we will see what is to be made of this fellow.” Striding\r\nthrough the scattered knots of people who lounged round the flaring\r\nstalls, my companion speedily overtook the little man and touched him\r\nupon the shoulder. He sprang round, and I could see in the gas-light\r\nthat every vestige of colour had been driven from his face.\r\n\r\n“Who are you, then? What do you want?” he asked in a quavering voice.\r\n\r\n“You will excuse me,” said Holmes blandly, “but I could not help\r\noverhearing the questions which you put to the salesman just now. I\r\nthink that I could be of assistance to you.”\r\n\r\n“You? Who are you? How could you know anything of the matter?”\r\n\r\n“My name is Sherlock Holmes. It is my business to know what other\r\npeople don’t know.”\r\n\r\n“But you can know nothing of this?”\r\n\r\n“Excuse me, I know everything of it. You are endeavouring to trace some\r\ngeese which were sold by Mrs. Oakshott, of Brixton Road, to a salesman\r\nnamed Breckinridge, by him in turn to Mr. Windigate, of the Alpha, and\r\nby him to his club, of which Mr. Henry Baker is a member.”\r\n\r\n“Oh, sir, you are the very man whom I have longed to meet,” cried the\r\nlittle fellow with outstretched hands and quivering fingers. “I can\r\nhardly explain to you how interested I am in this matter.”\r\n\r\nSherlock Holmes hailed a four-wheeler which was passing. “In that case\r\nwe had better discuss it in a cosy room rather than in this wind-swept\r\nmarket-place,” said he. “But pray tell me, before we go farther, who it\r\nis that I have the pleasure of assisting.”\r\n\r\nThe man hesitated for an instant. “My name is John Robinson,” he\r\nanswered with a sidelong glance.\r\n\r\n“No, no; the real name,” said Holmes sweetly. “It is always awkward\r\ndoing business with an alias.”\r\n\r\nA flush sprang to the white cheeks of the stranger. “Well then,” said\r\nhe, “my real name is James Ryder.”\r\n\r\n“Precisely so. Head attendant at the Hotel Cosmopolitan. Pray step into\r\nthe cab, and I shall soon be able to tell you everything which you\r\nwould wish to know.”\r\n\r\nThe little man stood glancing from one to the other of us with\r\nhalf-frightened, half-hopeful eyes, as one who is not sure whether he\r\nis on the verge of a windfall or of a catastrophe. Then he stepped into\r\nthe cab, and in half an hour we were back in the sitting-room at Baker\r\nStreet. Nothing had been said during our drive, but the high, thin\r\nbreathing of our new companion, and the claspings and unclaspings of\r\nhis hands, spoke of the nervous tension within him.\r\n\r\n“Here we are!” said Holmes cheerily as we filed into the room. “The\r\nfire looks very seasonable in this weather. You look cold, Mr. Ryder.\r\nPray take the basket-chair. I will just put on my slippers before we\r\nsettle this little matter of yours. Now, then! You want to know what\r\nbecame of those geese?”\r\n\r\n“Yes, sir.”\r\n\r\n“Or rather, I fancy, of that goose. It was one bird, I imagine in which\r\nyou were interested—white, with a black bar across the tail.”\r\n\r\nRyder quivered with emotion. “Oh, sir,” he cried, “can you tell me\r\nwhere it went to?”\r\n\r\n“It came here.”\r\n\r\n“Here?”\r\n\r\n“Yes, and a most remarkable bird it proved. I don’t wonder that you\r\nshould take an interest in it. It laid an egg after it was dead—the\r\nbonniest, brightest little blue egg that ever was seen. I have it here\r\nin my museum.”\r\n\r\nOur visitor staggered to his feet and clutched the mantelpiece with his\r\nright hand. Holmes unlocked his strong-box and held up the blue\r\ncarbuncle, which shone out like a star, with a cold, brilliant,\r\nmany-pointed radiance. Ryder stood glaring with a drawn face, uncertain\r\nwhether to claim or to disown it.\r\n\r\n“The game’s up, Ryder,” said Holmes quietly. “Hold up, man, or you’ll\r\nbe into the fire! Give him an arm back into his chair, Watson. He’s not\r\ngot blood enough to go in for felony with impunity. Give him a dash of\r\nbrandy. So! Now he looks a little more human. What a shrimp it is, to\r\nbe sure!”\r\n\r\nFor a moment he had staggered and nearly fallen, but the brandy brought\r\na tinge of colour into his cheeks, and he sat staring with frightened\r\neyes at his accuser.\r\n\r\n“I have almost every link in my hands, and all the proofs which I could\r\npossibly need, so there is little which you need tell me. Still, that\r\nlittle may as well be cleared up to make the case complete. You had\r\nheard, Ryder, of this blue stone of the Countess of Morcar’s?”\r\n\r\n“It was Catherine Cusack who told me of it,” said he in a crackling\r\nvoice.\r\n\r\n“I see—her ladyship’s waiting-maid. Well, the temptation of sudden\r\nwealth so easily acquired was too much for you, as it has been for\r\nbetter men before you; but you were not very scrupulous in the means\r\nyou used. It seems to me, Ryder, that there is the making of a very\r\npretty villain in you. You knew that this man Horner, the plumber, had\r\nbeen concerned in some such matter before, and that suspicion would\r\nrest the more readily upon him. What did you do, then? You made some\r\nsmall job in my lady’s room—you and your confederate Cusack—and you\r\nmanaged that he should be the man sent for. Then, when he had left, you\r\nrifled the jewel-case, raised the alarm, and had this unfortunate man\r\narrested. You then—”\r\n\r\nRyder threw himself down suddenly upon the rug and clutched at my\r\ncompanion’s knees. “For God’s sake, have mercy!” he shrieked. “Think of\r\nmy father! Of my mother! It would break their hearts. I never went\r\nwrong before! I never will again. I swear it. I’ll swear it on a Bible.\r\nOh, don’t bring it into court! For Christ’s sake, don’t!”\r\n\r\n“Get back into your chair!” said Holmes sternly. “It is very well to\r\ncringe and crawl now, but you thought little enough of this poor Horner\r\nin the dock for a crime of which he knew nothing.”\r\n\r\n“I will fly, Mr. Holmes. I will leave the country, sir. Then the charge\r\nagainst him will break down.”\r\n\r\n“Hum! We will talk about that. And now let us hear a true account of\r\nthe next act. How came the stone into the goose, and how came the goose\r\ninto the open market? Tell us the truth, for there lies your only hope\r\nof safety.”\r\n\r\nRyder passed his tongue over his parched lips. “I will tell you it just\r\nas it happened, sir,” said he. “When Horner had been arrested, it\r\nseemed to me that it would be best for me to get away with the stone at\r\nonce, for I did not know at what moment the police might not take it\r\ninto their heads to search me and my room. There was no place about the\r\nhotel where it would be safe. I went out, as if on some commission, and\r\nI made for my sister’s house. She had married a man named Oakshott, and\r\nlived in Brixton Road, where she fattened fowls for the market. All the\r\nway there every man I met seemed to me to be a policeman or a\r\ndetective; and, for all that it was a cold night, the sweat was pouring\r\ndown my face before I came to the Brixton Road. My sister asked me what\r\nwas the matter, and why I was so pale; but I told her that I had been\r\nupset by the jewel robbery at the hotel. Then I went into the back yard\r\nand smoked a pipe and wondered what it would be best to do.\r\n\r\n“I had a friend once called Maudsley, who went to the bad, and has just\r\nbeen serving his time in Pentonville. One day he had met me, and fell\r\ninto talk about the ways of thieves, and how they could get rid of what\r\nthey stole. I knew that he would be true to me, for I knew one or two\r\nthings about him; so I made up my mind to go right on to Kilburn, where\r\nhe lived, and take him into my confidence. He would show me how to turn\r\nthe stone into money. But how to get to him in safety? I thought of the\r\nagonies I had gone through in coming from the hotel. I might at any\r\nmoment be seized and searched, and there would be the stone in my\r\nwaistcoat pocket. I was leaning against the wall at the time and\r\nlooking at the geese which were waddling about round my feet, and\r\nsuddenly an idea came into my head which showed me how I could beat the\r\nbest detective that ever lived.\r\n\r\n“My sister had told me some weeks before that I might have the pick of\r\nher geese for a Christmas present, and I knew that she was always as\r\ngood as her word. I would take my goose now, and in it I would carry my\r\nstone to Kilburn. There was a little shed in the yard, and behind this\r\nI drove one of the birds—a fine big one, white, with a barred tail. I\r\ncaught it, and prying its bill open, I thrust the stone down its throat\r\nas far as my finger could reach. The bird gave a gulp, and I felt the\r\nstone pass along its gullet and down into its crop. But the creature\r\nflapped and struggled, and out came my sister to know what was the\r\nmatter. As I turned to speak to her the brute broke loose and fluttered\r\noff among the others.\r\n\r\n“‘Whatever were you doing with that bird, Jem?’ says she.\r\n\r\n“‘Well,’ said I, ‘you said you’d give me one for Christmas, and I was\r\nfeeling which was the fattest.’\r\n\r\n“‘Oh,’ says she, ‘we’ve set yours aside for you—Jem’s bird, we call it.\r\nIt’s the big white one over yonder. There’s twenty-six of them, which\r\nmakes one for you, and one for us, and two dozen for the market.’\r\n\r\n“‘Thank you, Maggie,’ says I; ‘but if it is all the same to you, I’d\r\nrather have that one I was handling just now.’\r\n\r\n“‘The other is a good three pound heavier,’ said she, ‘and we fattened\r\nit expressly for you.’\r\n\r\n“‘Never mind. I’ll have the other, and I’ll take it now,’ said I.\r\n\r\n“‘Oh, just as you like,’ said she, a little huffed. ‘Which is it you\r\nwant, then?’\r\n\r\n“‘That white one with the barred tail, right in the middle of the\r\nflock.’\r\n\r\n“‘Oh, very well. Kill it and take it with you.’\r\n\r\n“Well, I did what she said, Mr. Holmes, and I carried the bird all the\r\nway to Kilburn. I told my pal what I had done, for he was a man that it\r\nwas easy to tell a thing like that to. He laughed until he choked, and\r\nwe got a knife and opened the goose. My heart turned to water, for\r\nthere was no sign of the stone, and I knew that some terrible mistake\r\nhad occurred. I left the bird, rushed back to my sister’s, and hurried\r\ninto the back yard. There was not a bird to be seen there.\r\n\r\n“‘Where are they all, Maggie?’ I cried.\r\n\r\n“‘Gone to the dealer’s, Jem.’\r\n\r\n“‘Which dealer’s?’\r\n\r\n“‘Breckinridge, of Covent Garden.’\r\n\r\n“‘But was there another with a barred tail?’ I asked, ‘the same as the\r\none I chose?’\r\n\r\n“‘Yes, Jem; there were two barred-tailed ones, and I could never tell\r\nthem apart.’\r\n\r\n“Well, then, of course I saw it all, and I ran off as hard as my feet\r\nwould carry me to this man Breckinridge; but he had sold the lot at\r\nonce, and not one word would he tell me as to where they had gone. You\r\nheard him yourselves to-night. Well, he has always answered me like\r\nthat. My sister thinks that I am going mad. Sometimes I think that I am\r\nmyself. And now—and now I am myself a branded thief, without ever\r\nhaving touched the wealth for which I sold my character. God help me!\r\nGod help me!” He burst into convulsive sobbing, with his face buried in\r\nhis hands.\r\n\r\nThere was a long silence, broken only by his heavy breathing and by the\r\nmeasured tapping of Sherlock Holmes’ finger-tips upon the edge of the\r\ntable. Then my friend rose and threw open the door.\r\n\r\n“Get out!” said he.\r\n\r\n“What, sir! Oh, Heaven bless you!”\r\n\r\n“No more words. Get out!”\r\n\r\nAnd no more words were needed. There was a rush, a clatter upon the\r\nstairs, the bang of a door, and the crisp rattle of running footfalls\r\nfrom the street.\r\n\r\n“After all, Watson,” said Holmes, reaching up his hand for his clay\r\npipe, “I am not retained by the police to supply their deficiencies. If\r\nHorner were in danger it would be another thing; but this fellow will\r\nnot appear against him, and the case must collapse. I suppose that I am\r\ncommuting a felony, but it is just possible that I am saving a soul.\r\nThis fellow will not go wrong again; he is too terribly frightened.\r\nSend him to gaol now, and you make him a gaol-bird for life. Besides,\r\nit is the season of forgiveness. Chance has put in our way a most\r\nsingular and whimsical problem, and its solution is its own reward. If\r\nyou will have the goodness to touch the bell, Doctor, we will begin\r\nanother investigation, in which, also a bird will be the chief\r\nfeature.”"
-    }
-  ]
-};
-      window.sherlockHolmesBook = new DigitalBook('sherlock-holmes-book', sherlockHolmesConfig);
-    </script>
-  
-
-    <h2>🎯 Comprehension Questions</h2>
-                                <p>Answer these questions about today's reading:</p>
-                                
-                                <div style="margin: 30px 0;">
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">1. What were the main events?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">2. How did the characters feel or react?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">3. What do you predict will happen next?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                </div>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;">
+                                <p><em>[Reading passage from Sherlock Holmes Stories, Chapter 28 will be inserted here from digital book database]</em></p>
+                                <p>This section will include the actual chapter text with vocabulary words highlighted.</p>
+                            </div>
                             
+                            <div style="margin-top: 20px; padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">📚 <strong>Take your time reading!</strong> Think about what's happening in the story.</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 6: Journal 
-                
+                // Page 5: Reading Comprehension
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✍️ Journal Entry</h2>
+                            <h2>🎯 Reading Comprehension</h2>
+                            <p>Answer these questions about today's chapter:</p>
                             
-                            <div style="margin: 25px 0; padding: 25px; background: rgba(176,104,33,0.1); border-left: 4px solid #B06821; border-radius: 8px;">
-                                <h3 style="color: #B06821; margin-bottom: 15px;">Today's Prompt:</h3>
-                                <p style="font-size: 18px; font-style: italic;">
-                                    Write 4-6 sentences about today's reading. What was most interesting or surprising? 
-                                    How did this chapter move the story forward?
+                            <div style="margin: 30px 0;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 1:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 28]</p>
+                                    <textarea 
+                                      id="comp-1"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 2:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 28]</p>
+                                    <textarea 
+                                      id="comp-2"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 3:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 28]</p>
+                                    <textarea 
+                                      id="comp-3"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 6: Journal Reflection
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✍️ Journal Reflection</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 20px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    [Personal reflection prompt related to Chapter 28]
                                 </p>
                             </div>
                             
                             <textarea 
-                                style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #305853; border-radius: 10px; font-size: 16px;"
-                                placeholder="Write your journal entry here..."></textarea>
+                              id="journal"
+                              style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #4A0E4E; border-radius: 12px; font-family: inherit; font-size: 16px; line-height: 1.6;"
+                              placeholder="Write your thoughts here..."
+                            ></textarea>
                         </div>
                     `
                 },
                 
-                
                 // Page 7: Completion
                 {
                     render: () => `
-                        <div class="lesson-page-card completion-page">
-                            <div class="character">📚</div>
+                        <div class="lesson-page-card content-page">
+                            <div style="text-align: center; padding: 40px 20px;">
+                                <div style="font-size: 72px; margin-bottom: 20px;">🎉</div>
+                                <h2 style="color: #305853; margin-bottom: 20px;">Great Job!</h2>
+                                <p style="font-size: 18px; color: #666; max-width: 500px; margin: 0 auto;">
+                                    You've completed Day 148! Come back tomorrow to continue reading <em>Sherlock Holmes Stories</em>.
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 8: Informational Text 📰
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📰 Informational Text</h2>
+                            <h3 style="color: #4A0E4E;">Related Non-Fiction</h3>
                             
-                                <h1>Day 148 Complete!</h1>
-                                <p style="font-size: 20px; margin: 20px 0;">Great work today!</p>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px; margin-bottom: 25px;">
+                                <p style="margin-bottom: 15px;">Informational text content goes here.</p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #4A0E4E;">
+                                <h4 style="margin-bottom: 15px;">📝 Comprehension Questions:</h4>
                                 
-                                <div style="text-align: left; max-width: 400px; margin: 30px auto; background: rgba(48,88,83,0.05); padding: 25px; border-radius: 12px;">
-                                    <h3 style="color: #305853; margin-bottom: 15px;">✅ Today You:</h3>
-                                    <ul style="line-height: 2;">
-                                        
-                                            <li>Read about Universal themes</li>
-                                            <li>Learned 2 vocabulary words</li>
-                                            <li>Answered comprehension questions</li>
-                                            <li>Wrote a journal entry</li>
-                                        
-                                    </ul>
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">1. Question 1?</p>
+                                    <textarea 
+                                      id="info-1"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
                                 </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">2. Question 2?</p>
+                                    <textarea 
+                                      id="info-2"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">3. Question 3?</p>
+                                    <textarea 
+                                      id="info-3"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 9: Grammar in Context ✏️
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✏️ Grammar Workshop</h2>
+                            <h3 style="color: #4A0E4E;">Compound Sentences</h3>
                             
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin-bottom: 15px;">
+                                    <strong>📖 What is it?</strong><br>
+                                    A compound sentence joins two independent clauses with a comma and coordinating conjunction (and, but, or, so, for, yet, nor).
+                                </p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>💡 Example from today's reading:</strong><br>
+                                    <em>"The wind howled horribly, but Dorothy sat quite still."</em>
+                                </p>
+                            </div>
                             
-                            <a href="student-dashboard.html" 
-                               style="display: inline-block; margin-top: 20px; padding: 15px 35px; background: #B06821; color: white; text-decoration: none; border-radius: 12px; font-size: 18px; font-weight: 700;">
-                                Continue →
-                            </a>
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #4A0E4E;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">✍️ Your Turn:</p>
+                                <p style="margin-bottom: 12px;">Write three compound sentences about today's chapter using different coordinating conjunctions.</p>
+                                <textarea 
+                                  id="grammar"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Write your practice sentences here..."
+                                ></textarea>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 10: Writing Workshop 📝
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>💭 Opinion Writing</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">📝 Prompt:</p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    Should Dorothy have tried harder to get into the cellar, or was it okay that she stopped to get Toto? Defend your opinion.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 15px; background: #fffbf0; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 20px;">
+                                <p style="margin: 0; font-size: 14px;">
+                                    <strong>💡 Remember:</strong> Write a paragraph stating your opinion with at least 2-3 reasons supporting your view. Include a topic sentence and conclusion.
+                                </p>
+                            </div>
+                            
+                            <textarea 
+                              id="writing"
+                              style="width: 100%; min-height: 250px; padding: 15px; border: 2px solid #4A0E4E; border-radius: 12px; font-size: 16px; line-height: 1.8;"
+                              placeholder="Start writing here..."
+                            ></textarea>
+                            
+                            <div style="margin-top: 15px; padding: 12px; background: #f0f9ff; border-radius: 8px;">
+                                <p style="margin: 0; font-size: 13px; color: #0369a1;">
+                                    ✅ <strong>Checklist:</strong> Did you include a topic sentence? Supporting details? A conclusion?
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 11: Language Skills 🎨
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>🎨 Language Skills</h2>
+                            <h3 style="color: #4A0E4E;">Root Words and Affixes</h3>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>📖 Learn:</strong><br>
+                                    Many words are built from roots (base words) with prefixes (before) and suffixes (after) added.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #4A0E4E;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">🎯 Activity:</p>
+                                <p style="margin-bottom: 12px;">Break down vocabulary words into their parts: prefix + root + suffix. Example: uncomfortable = un + comfort + able</p>
+                                <textarea 
+                                  id="language"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Complete the activity here..."
+                                ></textarea>
+                            </div>
+                            
+                            <div style="margin-top: 20px; text-align: center; padding: 30px;">
+                                <div style="font-size: 48px; margin-bottom: 15px;">🌟</div>
+                                <h3 style="color: #305853;">Excellent Work!</h3>
+                                <p style="color: #666;">You've completed all 11 pages of Day 148!</p>
+                            </div>
                         </div>
                     `
                 }
-                
             ]
         };
-
-        createLessonViewer('lesson-container', lesson148Config);
+        
+        // Initialize lesson viewer
+        if (typeof initLessonViewer === 'function') {
+            initLessonViewer(lesson148Config);
+        }
     </script>
 </body>
 </html>

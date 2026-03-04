@@ -3,13 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 83: Victory! - 4th Grade BedrockELA</title>
+    <title>Day 83 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=3.2">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container" class="lesson-container"></div>
 
     <script src="js/lesson-viewer.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
     
     <script>
         const lesson83Config = {
@@ -24,206 +35,341 @@
                             <div class="character">📚</div>
                             <h1>Day 83</h1>
                             <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #B06821; font-size: 20px; margin-top: 20px;">
-                                Around the World
+                            <p style="color: #1E3A8A; font-size: 20px; margin-top: 20px;">
+                                Around the World in 80 Days
                             </p>
                             <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Victory!
+                                Chapter 23
                             </p>
                         </div>
                     `
                 },
                 
-                
-                // Page 2: Welcome
+                // Page 2: Welcome & Learning Objectives
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
                             <h2>📖 Welcome to Day 83!</h2>
-                            
-                                <p>Today you will:</p>
-                                <ul style="margin: 20px 0; line-height: 2;">
-                                    <li>📖 Read about Winning the wager</li>
-                                    <li>📝 Learn 2 new vocabulary words</li>
-                                    <li>🎯 Answer comprehension questions</li>
-                                    <li>✍️ Write a journal entry</li>
-                                </ul>
-                                <p><strong>Time needed:</strong> About 30-45 minutes</p>
-                            
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>📖 Read from <em>Around the World in 80 Days</em></li>
+                                <li>📝 Learn 2 new vocabulary words</li>
+                                <li>📰 Read informational text: "Related Non-Fiction"</li>
+                                <li>✍️ Practice grammar: Compound Sentences</li>
+                                <li>🎯 Write: Informative Writing</li>
+                                <li>🎨 Explore: Root Words and Affixes</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
                         </div>
                     `
                 },
                 
-                // Page 3: Vocabulary (2 words)
+                // Page 3: Vocabulary (2 words from text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>📚 Today's Vocabulary</h2>
+                            <h2>📚 Vocabulary Words</h2>
                             
-                            
-                                <div style="margin: 30px 0; padding: 25px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 15px; border: 2px solid #B06821;">
-                                    <div style="margin-bottom: 30px;">
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">victory</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                    
-                                    <div>
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">celebration</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                </div>
+                            <div style="margin: 30px 0;">
                                 
-                                <div style="padding: 20px; background: rgba(176,104,33,0.05); border-radius: 10px;">
-                                    <p style="margin: 0;">
-                                        💡 <strong>Watch for these words</strong> in today's reading!
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #1E3A8A;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">anxiously</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
-                            
-                        </div>
-                    `
-                },
-                
-                // Page 4: Reading
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            
-                                <h2>📖 Today's Reading: Winning the wager</h2>
                                 
-                                <div style="background: white; padding: 25px; border-radius: 12px; border: 3px solid #305853; margin: 20px 0;">
-                                    <p style="font-size: 18px; margin-bottom: 15px;">
-                                        📚 Read from Around the World
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #1E3A8A;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">swift</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
-                                    <p style="font-size: 16px; color: #666; margin-top: 15px;">
-                                        Focus: Chapter 36, 37
-                                    </p>
+                                    <textarea 
+                                      id="vocab-2"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
                                 
-                                <div style="margin-top: 30px; padding: 20px; background: rgba(48,88,83,0.1); border-radius: 10px;">
-                                    <h3 style="color: #305853;">📝 While You Read:</h3>
-                                    <ul style="line-height: 2;">
-                                        <li>Look for the vocabulary words: <strong>victory</strong> and <strong>celebration</strong></li>
-                                        <li>What are the main events?</li>
-                                        <li>How do characters change or react?</li>
-                                    </ul>
-                                </div>
+                            </div>
                             
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">💡 <strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 5: Comprehension
+                // Page 4: Literature Reading (placeholder - needs actual book text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
+                            <h2>📖 Reading: Around the World in 80 Days</h2>
+                            <h3 style="color: #1E3A8A;">Chapter 23</h3>
                             
-                                
-    <!-- Digital Book Integration -->
-    <script src="js/digital-book.js"></script>
-    <div id="around-world-book"></div>
-    <script>
-      const aroundWorldConfig = {
-  "coverTitle": "Chapter 27",
-  "coverSubtitle": "Chapter 27: IN WHICH PASSEPARTOUT UNDERGOES, AT A SPEED OF TWENTY MILES AN HOUR, A",
-  "coverAuthor": "Jules Verne",
-  "coverColor": "#C17817",
-  "vocabWords": [],
-  "pages": [
-    {
-      "title": "Chapter 27: IN WHICH PASSEPARTOUT UNDERGOES, AT A SPEED OF TWENTY MILES AN HOUR, A",
-      "text": "COURSE OF MORMON HISTORY\r\n\r\n\r\nDuring the night of the 5th of December, the train ran south-easterly\r\nfor about fifty miles; then rose an equal distance in a north-easterly\r\ndirection, towards the Great Salt Lake.\r\n\r\nPassepartout, about nine o’clock, went out upon the platform to take\r\nthe air. The weather was cold, the heavens grey, but it was not\r\nsnowing. The sun’s disc, enlarged by the mist, seemed an enormous ring\r\nof gold, and Passepartout was amusing himself by calculating its value\r\nin pounds sterling, when he was diverted from this interesting study by\r\na strange-looking personage who made his appearance on the platform.\r\n\r\nThis personage, who had taken the train at Elko, was tall and dark,\r\nwith black moustache, black stockings, a black silk hat, a black\r\nwaistcoat, black trousers, a white cravat, and dogskin gloves. He might\r\nhave been taken for a clergyman. He went from one end of the train to\r\nthe other, and affixed to the door of each car a notice written in\r\nmanuscript.\r\n\r\nPassepartout approached and read one of these notices, which stated\r\nthat Elder William Hitch, Mormon missionary, taking advantage of his\r\npresence on train No. 48, would deliver a lecture on Mormonism in car\r\nNo. 117, from eleven to twelve o’clock; and that he invited all who\r\nwere desirous of being instructed concerning the mysteries of the\r\nreligion of the “Latter Day Saints” to attend.\r\n\r\n“I’ll go,” said Passepartout to himself. He knew nothing of Mormonism\r\nexcept the custom of polygamy, which is its foundation.\r\n\r\nThe news quickly spread through the train, which contained about one\r\nhundred passengers, thirty of whom, at most, attracted by the notice,\r\nensconced themselves in car No. 117. Passepartout took one of the front\r\nseats. Neither Mr. Fogg nor Fix cared to attend.\r\n\r\nAt the appointed hour Elder William Hitch rose, and, in an irritated\r\nvoice, as if he had already been contradicted, said, “I tell you that\r\nJoe Smith is a martyr, that his brother Hiram is a martyr, and that the\r\npersecutions of the United States Government against the prophets will\r\nalso make a martyr of Brigham Young. Who dares to say the contrary?”\r\n\r\nNo one ventured to gainsay the missionary, whose excited tone\r\ncontrasted curiously with his naturally calm visage. No doubt his anger\r\narose from the hardships to which the Mormons were actually subjected.\r\nThe government had just succeeded, with some difficulty, in reducing\r\nthese independent fanatics to its rule. It had made itself master of\r\nUtah, and subjected that territory to the laws of the Union, after\r\nimprisoning Brigham Young on a charge of rebellion and polygamy. The\r\ndisciples of the prophet had since redoubled their efforts, and\r\nresisted, by words at least, the authority of Congress. Elder Hitch, as\r\nis seen, was trying to make proselytes on the very railway trains.\r\n\r\nThen, emphasising his words with his loud voice and frequent gestures,\r\nhe related the history of the Mormons from Biblical times: how that, in\r\nIsrael, a Mormon prophet of the tribe of Joseph published the annals of\r\nthe new religion, and bequeathed them to his son Mormon; how, many\r\ncenturies later, a translation of this precious book, which was written\r\nin Egyptian, was made by Joseph Smith, junior, a Vermont farmer, who\r\nrevealed himself as a mystical prophet in 1825; and how, in short, the\r\ncelestial messenger appeared to him in an illuminated forest, and gave\r\nhim the annals of the Lord.\r\n\r\nSeveral of the audience, not being much interested in the missionary’s\r\nnarrative, here left the car; but Elder Hitch, continuing his lecture,\r\nrelated how Smith, junior, with his father, two brothers, and a few\r\ndisciples, founded the church of the “Latter Day Saints,” which,\r\nadopted not only in America, but in England, Norway and Sweden, and\r\nGermany, counts many artisans, as well as men engaged in the liberal\r\nprofessions, among its members; how a colony was established in Ohio, a\r\ntemple erected there at a cost of two hundred thousand dollars, and a\r\ntown built at Kirkland; how Smith became an enterprising banker, and\r\nreceived from a simple mummy showman a papyrus scroll written by\r\nAbraham and several famous Egyptians.\r\n\r\nThe Elder’s story became somewhat wearisome, and his audience grew\r\ngradually less, until it was reduced to twenty passengers. But this did\r\nnot disconcert the enthusiast, who proceeded with the story of Joseph\r\nSmith’s bankruptcy in 1837, and how his ruined creditors gave him a\r\ncoat of tar and feathers; his reappearance some years afterwards, more\r\nhonourable and honoured than ever, at Independence, Missouri, the chief\r\nof a flourishing colony of three thousand disciples, and his pursuit\r\nthence by outraged Gentiles, and retirement into the Far West.\r\n\r\nTen hearers only were now left, among them honest Passepartout, who was\r\nlistening with all his ears. Thus he learned that, after long\r\npersecutions, Smith reappeared in Illinois, and in 1839 founded a\r\ncommunity at Nauvoo, on the Mississippi, numbering twenty-five thousand\r\nsouls, of which he became mayor, chief justice, and general-in-chief;\r\nthat he announced himself, in 1843, as a candidate for the Presidency\r\nof the United States; and that finally, being drawn into ambuscade at\r\nCarthage, he was thrown into prison, and assassinated by a band of men\r\ndisguised in masks.\r\n\r\nPassepartout was now the only person left in the car, and the Elder,\r\nlooking him full in the face, reminded him that, two years after the\r\nassassination of Joseph Smith, the inspired prophet, Brigham Young, his\r\nsuccessor, left Nauvoo for the banks of the Great Salt Lake, where, in\r\nthe midst of that fertile region, directly on the route of the\r\nemigrants who crossed Utah on their way to California, the new colony,\r\nthanks to the polygamy practised by the Mormons, had flourished beyond\r\nexpectations.\r\n\r\n“And this,” added Elder William Hitch, “this is why the jealousy of\r\nCongress has been aroused against us! Why have the soldiers of the\r\nUnion invaded the soil of Utah? Why has Brigham Young, our chief, been\r\nimprisoned, in contempt of all justice? Shall we yield to force? Never!\r\nDriven from Vermont, driven from Illinois, driven from Ohio, driven\r\nfrom Missouri, driven from Utah, we shall yet find some independent\r\nterritory on which to plant our tents. And you, my brother,” continued\r\nthe Elder, fixing his angry eyes upon his single auditor, “will you not\r\nplant yours there, too, under the shadow of our flag?”\r\n\r\n“No!” replied Passepartout courageously, in his turn retiring from the\r\ncar, and leaving the Elder to preach to vacancy.\r\n\r\nDuring the lecture the train had been making good progress, and towards\r\nhalf-past twelve it reached the northwest border of the Great Salt\r\nLake. Thence the passengers could observe the vast extent of this\r\ninterior sea, which is also called the Dead Sea, and into which flows\r\nan American Jordan. It is a picturesque expanse, framed in lofty crags\r\nin large strata, encrusted with white salt—a superb sheet of water,\r\nwhich was formerly of larger extent than now, its shores having\r\nencroached with the lapse of time, and thus at once reduced its breadth\r\nand increased its depth.\r\n\r\nThe Salt Lake, seventy miles long and thirty-five wide, is situated\r\nthree miles eight hundred feet above the sea. Quite different from Lake\r\nAsphaltite, whose depression is twelve hundred feet below the sea, it\r\ncontains considerable salt, and one quarter of the weight of its water\r\nis solid matter, its specific weight being 1,170, and, after being\r\ndistilled, 1,000. Fishes are, of course, unable to live in it, and\r\nthose which descend through the Jordan, the Weber, and other streams\r\nsoon perish.\r\n\r\nThe country around the lake was well cultivated, for the Mormons are\r\nmostly farmers; while ranches and pens for domesticated animals, fields\r\nof wheat, corn, and other cereals, luxuriant prairies, hedges of wild\r\nrose, clumps of acacias and milk-wort, would have been seen six months\r\nlater. Now the ground was covered with a thin powdering of snow.\r\n\r\nThe train reached Ogden at two o’clock, where it rested for six hours,\r\nMr. Fogg and his party had time to pay a visit to Salt Lake City,\r\nconnected with Ogden by a branch road; and they spent two hours in this\r\nstrikingly American town, built on the pattern of other cities of the\r\nUnion, like a checker-board, “with the sombre sadness of right-angles,”\r\nas Victor Hugo expresses it. The founder of the City of the Saints\r\ncould not escape from the taste for symmetry which distinguishes the\r\nAnglo-Saxons. In this strange country, where the people are certainly\r\nnot up to the level of their institutions, everything is done\r\n“squarely”—cities, houses, and follies.\r\n\r\nThe travellers, then, were promenading, at three o’clock, about the\r\nstreets of the town built between the banks of the Jordan and the spurs\r\nof the Wahsatch Range. They saw few or no churches, but the prophet’s\r\nmansion, the court-house, and the arsenal, blue-brick houses with\r\nverandas and porches, surrounded by gardens bordered with acacias,\r\npalms, and locusts. A clay and pebble wall, built in 1853, surrounded\r\nthe town; and in the principal street were the market and several\r\nhotels adorned with pavilions. The place did not seem thickly\r\npopulated. The streets were almost deserted, except in the vicinity of\r\nthe temple, which they only reached after having traversed several\r\nquarters surrounded by palisades. There were many women, which was\r\neasily accounted for by the “peculiar institution” of the Mormons; but\r\nit must not be supposed that all the Mormons are polygamists. They are\r\nfree to marry or not, as they please; but it is worth noting that it is\r\nmainly the female citizens of Utah who are anxious to marry, as,\r\naccording to the Mormon religion, maiden ladies are not admitted to the\r\npossession of its highest joys. These poor creatures seemed to be\r\nneither well off nor happy. Some—the more well-to-do, no doubt—wore\r\nshort, open, black silk dresses, under a hood or modest shawl; others\r\nwere habited in Indian fashion.\r\n\r\nPassepartout could not behold without a certain fright these women,\r\ncharged, in groups, with conferring happiness on a single Mormon. His\r\ncommon sense pitied, above all, the husband. It seemed to him a\r\nterrible thing to have to guide so many wives at once across the\r\nvicissitudes of life, and to conduct them, as it were, in a body to the\r\nMormon paradise with the prospect of seeing them in the company of the\r\nglorious Smith, who doubtless was the chief ornament of that delightful\r\nplace, to all eternity. He felt decidedly repelled from such a\r\nvocation, and he imagined—perhaps he was mistaken—that the fair ones of\r\nSalt Lake City cast rather alarming glances on his person. Happily, his\r\nstay there was but brief. At four the party found themselves again at\r\nthe station, took their places in the train, and the whistle sounded\r\nfor starting. Just at the moment, however, that the locomotive wheels\r\nbegan to move, cries of “Stop! stop!” were heard.\r\n\r\nTrains, like time and tide, stop for no one. The gentleman who uttered\r\nthe cries was evidently a belated Mormon. He was breathless with\r\nrunning. Happily for him, the station had neither gates nor barriers.\r\nHe rushed along the track, jumped on the rear platform of the train,\r\nand fell, exhausted, into one of the seats.\r\n\r\nPassepartout, who had been anxiously watching this amateur gymnast,\r\napproached him with lively interest, and learned that he had taken\r\nflight after an unpleasant domestic scene.\r\n\r\nWhen the Mormon had recovered his breath, Passepartout ventured to ask\r\nhim politely how many wives he had; for, from the manner in which he\r\nhad decamped, it might be thought that he had twenty at least.\r\n\r\n“One, sir,” replied the Mormon, raising his arms heavenward —“one, and\r\nthat was enough!”"
-    }
-  ]
-};
-      window.aroundWorldBook = new DigitalBook('around-world-book', aroundWorldConfig);
-    </script>
-  
-
-    <h2>🎯 Comprehension Questions</h2>
-                                <p>Answer these questions about today's reading:</p>
-                                
-                                <div style="margin: 30px 0;">
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">1. What were the main events?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">2. How did the characters feel or react?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">3. What do you predict will happen next?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                </div>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;">
+                                <p><em>[Reading passage from Around the World in 80 Days, Chapter 23 will be inserted here from digital book database]</em></p>
+                                <p>This section will include the actual chapter text with vocabulary words highlighted.</p>
+                            </div>
                             
+                            <div style="margin-top: 20px; padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">📚 <strong>Take your time reading!</strong> Think about what's happening in the story.</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 6: Journal 
-                
+                // Page 5: Reading Comprehension
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✍️ Journal Entry</h2>
+                            <h2>🎯 Reading Comprehension</h2>
+                            <p>Answer these questions about today's chapter:</p>
                             
-                            <div style="margin: 25px 0; padding: 25px; background: rgba(176,104,33,0.1); border-left: 4px solid #B06821; border-radius: 8px;">
-                                <h3 style="color: #B06821; margin-bottom: 15px;">Today's Prompt:</h3>
-                                <p style="font-size: 18px; font-style: italic;">
-                                    Write 4-6 sentences about today's reading. What was most interesting or surprising? 
-                                    How did this chapter move the story forward?
+                            <div style="margin: 30px 0;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1E3A8A;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 1:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 23]</p>
+                                    <textarea 
+                                      id="comp-1"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1E3A8A;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 2:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 23]</p>
+                                    <textarea 
+                                      id="comp-2"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1E3A8A;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 3:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 23]</p>
+                                    <textarea 
+                                      id="comp-3"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 6: Journal Reflection
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✍️ Journal Reflection</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 20px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    [Personal reflection prompt related to Chapter 23]
                                 </p>
                             </div>
                             
                             <textarea 
-                                style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #305853; border-radius: 10px; font-size: 16px;"
-                                placeholder="Write your journal entry here..."></textarea>
+                              id="journal"
+                              style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #1E3A8A; border-radius: 12px; font-family: inherit; font-size: 16px; line-height: 1.6;"
+                              placeholder="Write your thoughts here..."
+                            ></textarea>
                         </div>
                     `
                 },
                 
-                
                 // Page 7: Completion
                 {
                     render: () => `
-                        <div class="lesson-page-card completion-page">
-                            <div class="character">📚</div>
+                        <div class="lesson-page-card content-page">
+                            <div style="text-align: center; padding: 40px 20px;">
+                                <div style="font-size: 72px; margin-bottom: 20px;">🎉</div>
+                                <h2 style="color: #305853; margin-bottom: 20px;">Great Job!</h2>
+                                <p style="font-size: 18px; color: #666; max-width: 500px; margin: 0 auto;">
+                                    You've completed Day 83! Come back tomorrow to continue reading <em>Around the World in 80 Days</em>.
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 8: Informational Text 📰
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📰 Informational Text</h2>
+                            <h3 style="color: #1E3A8A;">Related Non-Fiction</h3>
                             
-                                <h1>Day 83 Complete!</h1>
-                                <p style="font-size: 20px; margin: 20px 0;">Great work today!</p>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px; margin-bottom: 25px;">
+                                <p style="margin-bottom: 15px;">Informational text content goes here.</p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #1E3A8A;">
+                                <h4 style="margin-bottom: 15px;">📝 Comprehension Questions:</h4>
                                 
-                                <div style="text-align: left; max-width: 400px; margin: 30px auto; background: rgba(48,88,83,0.05); padding: 25px; border-radius: 12px;">
-                                    <h3 style="color: #305853; margin-bottom: 15px;">✅ Today You:</h3>
-                                    <ul style="line-height: 2;">
-                                        
-                                            <li>Read about Winning the wager</li>
-                                            <li>Learned 2 vocabulary words</li>
-                                            <li>Answered comprehension questions</li>
-                                            <li>Wrote a journal entry</li>
-                                        
-                                    </ul>
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">1. Question 1?</p>
+                                    <textarea 
+                                      id="info-1"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
                                 </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">2. Question 2?</p>
+                                    <textarea 
+                                      id="info-2"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">3. Question 3?</p>
+                                    <textarea 
+                                      id="info-3"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 9: Grammar in Context ✏️
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✏️ Grammar Workshop</h2>
+                            <h3 style="color: #1E3A8A;">Compound Sentences</h3>
                             
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin-bottom: 15px;">
+                                    <strong>📖 What is it?</strong><br>
+                                    A compound sentence joins two independent clauses with a comma and coordinating conjunction (and, but, or, so, for, yet, nor).
+                                </p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>💡 Example from today's reading:</strong><br>
+                                    <em>"The wind howled horribly, but Dorothy sat quite still."</em>
+                                </p>
+                            </div>
                             
-                            <a href="student-dashboard.html" 
-                               style="display: inline-block; margin-top: 20px; padding: 15px 35px; background: #B06821; color: white; text-decoration: none; border-radius: 12px; font-size: 18px; font-weight: 700;">
-                                Continue →
-                            </a>
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #1E3A8A;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">✍️ Your Turn:</p>
+                                <p style="margin-bottom: 12px;">Write three compound sentences about today's chapter using different coordinating conjunctions.</p>
+                                <textarea 
+                                  id="grammar"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Write your practice sentences here..."
+                                ></textarea>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 10: Writing Workshop 📝
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📝 Informative Writing</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">📝 Prompt:</p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    Describe what life was like for Dorothy in Kansas before the cyclone. Include at least 3 specific details.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 15px; background: #fffbf0; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 20px;">
+                                <p style="margin: 0; font-size: 14px;">
+                                    <strong>💡 Remember:</strong> Write a paragraph explaining something from the story. Include clear details and examples.
+                                </p>
+                            </div>
+                            
+                            <textarea 
+                              id="writing"
+                              style="width: 100%; min-height: 250px; padding: 15px; border: 2px solid #1E3A8A; border-radius: 12px; font-size: 16px; line-height: 1.8;"
+                              placeholder="Start writing here..."
+                            ></textarea>
+                            
+                            <div style="margin-top: 15px; padding: 12px; background: #f0f9ff; border-radius: 8px;">
+                                <p style="margin: 0; font-size: 13px; color: #0369a1;">
+                                    ✅ <strong>Checklist:</strong> Did you include a topic sentence? Supporting details? A conclusion?
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 11: Language Skills 🎨
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>🎨 Language Skills</h2>
+                            <h3 style="color: #1E3A8A;">Root Words and Affixes</h3>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>📖 Learn:</strong><br>
+                                    Many words are built from roots (base words) with prefixes (before) and suffixes (after) added.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #1E3A8A;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">🎯 Activity:</p>
+                                <p style="margin-bottom: 12px;">Break down vocabulary words into their parts: prefix + root + suffix. Example: uncomfortable = un + comfort + able</p>
+                                <textarea 
+                                  id="language"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Complete the activity here..."
+                                ></textarea>
+                            </div>
+                            
+                            <div style="margin-top: 20px; text-align: center; padding: 30px;">
+                                <div style="font-size: 48px; margin-bottom: 15px;">🌟</div>
+                                <h3 style="color: #305853;">Excellent Work!</h3>
+                                <p style="color: #666;">You've completed all 11 pages of Day 83!</p>
+                            </div>
                         </div>
                     `
                 }
-                
             ]
         };
-
-        createLessonViewer('lesson-container', lesson83Config);
+        
+        // Initialize lesson viewer
+        if (typeof initLessonViewer === 'function') {
+            initLessonViewer(lesson83Config);
+        }
     </script>
 </body>
 </html>

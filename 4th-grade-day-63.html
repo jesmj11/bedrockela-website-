@@ -3,13 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 63: Detective Fix - 4th Grade BedrockELA</title>
+    <title>Day 63 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=3.2">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container" class="lesson-container"></div>
 
     <script src="js/lesson-viewer.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
     
     <script>
         const lesson63Config = {
@@ -24,206 +35,341 @@
                             <div class="character">📚</div>
                             <h1>Day 63</h1>
                             <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #B06821; font-size: 20px; margin-top: 20px;">
-                                Around the World
+                            <p style="color: #1E3A8A; font-size: 20px; margin-top: 20px;">
+                                Around the World in 80 Days
                             </p>
                             <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Detective Fix
+                                Chapter 3
                             </p>
                         </div>
                     `
                 },
                 
-                
-                // Page 2: Welcome
+                // Page 2: Welcome & Learning Objectives
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
                             <h2>📖 Welcome to Day 63!</h2>
-                            
-                                <p>Today you will:</p>
-                                <ul style="margin: 20px 0; line-height: 2;">
-                                    <li>📖 Read about Being followed</li>
-                                    <li>📝 Learn 2 new vocabulary words</li>
-                                    <li>🎯 Answer comprehension questions</li>
-                                    <li>✍️ Write a journal entry</li>
-                                </ul>
-                                <p><strong>Time needed:</strong> About 30-45 minutes</p>
-                            
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>📖 Read from <em>Around the World in 80 Days</em></li>
+                                <li>📝 Learn 2 new vocabulary words</li>
+                                <li>📰 Read informational text: "Related Non-Fiction"</li>
+                                <li>✍️ Practice grammar: Compound Sentences</li>
+                                <li>🎯 Write: Narrative Writing</li>
+                                <li>🎨 Explore: Root Words and Affixes</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
                         </div>
                     `
                 },
                 
-                // Page 3: Vocabulary (2 words)
+                // Page 3: Vocabulary (2 words from text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>📚 Today's Vocabulary</h2>
+                            <h2>📚 Vocabulary Words</h2>
                             
-                            
-                                <div style="margin: 30px 0; padding: 25px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 15px; border: 2px solid #B06821;">
-                                    <div style="margin-bottom: 30px;">
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">detective</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                    
-                                    <div>
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">suspicious</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                </div>
+                            <div style="margin: 30px 0;">
                                 
-                                <div style="padding: 20px; background: rgba(176,104,33,0.05); border-radius: 10px;">
-                                    <p style="margin: 0;">
-                                        💡 <strong>Watch for these words</strong> in today's reading!
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #1E3A8A;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">anxiously</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
-                            
-                        </div>
-                    `
-                },
-                
-                // Page 4: Reading
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            
-                                <h2>📖 Today's Reading: Being followed</h2>
                                 
-                                <div style="background: white; padding: 25px; border-radius: 12px; border: 3px solid #305853; margin: 20px 0;">
-                                    <p style="font-size: 18px; margin-bottom: 15px;">
-                                        📚 Read from Around the World
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #1E3A8A;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">swift</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
-                                    <p style="font-size: 16px; color: #666; margin-top: 15px;">
-                                        Focus: Chapter 5, 6
-                                    </p>
+                                    <textarea 
+                                      id="vocab-2"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
                                 
-                                <div style="margin-top: 30px; padding: 20px; background: rgba(48,88,83,0.1); border-radius: 10px;">
-                                    <h3 style="color: #305853;">📝 While You Read:</h3>
-                                    <ul style="line-height: 2;">
-                                        <li>Look for the vocabulary words: <strong>detective</strong> and <strong>suspicious</strong></li>
-                                        <li>What are the main events?</li>
-                                        <li>How do characters change or react?</li>
-                                    </ul>
-                                </div>
+                            </div>
                             
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">💡 <strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 5: Comprehension
+                // Page 4: Literature Reading (placeholder - needs actual book text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
+                            <h2>📖 Reading: Around the World in 80 Days</h2>
+                            <h3 style="color: #1E3A8A;">Chapter 3</h3>
                             
-                                
-    <!-- Digital Book Integration -->
-    <script src="js/digital-book.js"></script>
-    <div id="around-world-book"></div>
-    <script>
-      const aroundWorldConfig = {
-  "coverTitle": "Chapter 3",
-  "coverSubtitle": "Chapter 3: IN WHICH A CONVERSATION TAKES PLACE WHICH SEEMS LIKELY TO COST PHILEAS",
-  "coverAuthor": "Jules Verne",
-  "coverColor": "#C17817",
-  "vocabWords": [],
-  "pages": [
-    {
-      "title": "Chapter 3: IN WHICH A CONVERSATION TAKES PLACE WHICH SEEMS LIKELY TO COST PHILEAS",
-      "text": "FOGG DEAR\r\n\r\n\r\nPhileas Fogg, having shut the door of his house at half-past eleven,\r\nand having put his right foot before his left five hundred and\r\nseventy-five times, and his left foot before his right five hundred and\r\nseventy-six times, reached the Reform Club, an imposing edifice in Pall\r\nMall, which could not have cost less than three millions. He repaired\r\nat once to the dining-room, the nine windows of which open upon a\r\ntasteful garden, where the trees were already gilded with an autumn\r\ncolouring; and took his place at the habitual table, the cover of which\r\nhad already been laid for him. His breakfast consisted of a side-dish,\r\na broiled fish with Reading sauce, a scarlet slice of roast beef\r\ngarnished with mushrooms, a rhubarb and gooseberry tart, and a morsel\r\nof Cheshire cheese, the whole being washed down with several cups of\r\ntea, for which the Reform is famous. He rose at thirteen minutes to\r\none, and directed his steps towards the large hall, a sumptuous\r\napartment adorned with lavishly-framed paintings. A flunkey handed him\r\nan uncut _Times_, which he proceeded to cut with a skill which betrayed\r\nfamiliarity with this delicate operation. The perusal of this paper\r\nabsorbed Phileas Fogg until a quarter before four, whilst the\r\n_Standard_, his next task, occupied him till the dinner hour. Dinner\r\npassed as breakfast had done, and Mr. Fogg re-appeared in the\r\nreading-room and sat down to the _Pall Mall_ at twenty minutes before\r\nsix. Half an hour later several members of the Reform came in and drew\r\nup to the fireplace, where a coal fire was steadily burning. They were\r\nMr. Fogg’s usual partners at whist: Andrew Stuart, an engineer; John\r\nSullivan and Samuel Fallentin, bankers; Thomas Flanagan, a brewer; and\r\nGauthier Ralph, one of the Directors of the Bank of England—all rich\r\nand highly respectable personages, even in a club which comprises the\r\nprinces of English trade and finance.\r\n\r\n“Well, Ralph,” said Thomas Flanagan, “what about that robbery?”\r\n\r\n“Oh,” replied Stuart, “the Bank will lose the money.”\r\n\r\n“On the contrary,” broke in Ralph, “I hope we may put our hands on the\r\nrobber. Skilful detectives have been sent to all the principal ports of\r\nAmerica and the Continent, and he’ll be a clever fellow if he slips\r\nthrough their fingers.”\r\n\r\n“But have you got the robber’s description?” asked Stuart.\r\n\r\n“In the first place, he is no robber at all,” returned Ralph,\r\npositively.\r\n\r\n“What! a fellow who makes off with fifty-five thousand pounds, no\r\nrobber?”\r\n\r\n“No.”\r\n\r\n“Perhaps he’s a manufacturer, then.”\r\n\r\n“The _Daily Telegraph_ says that he is a gentleman.”\r\n\r\nIt was Phileas Fogg, whose head now emerged from behind his newspapers,\r\nwho made this remark. He bowed to his friends, and entered into the\r\nconversation. The affair which formed its subject, and which was town\r\ntalk, had occurred three days before at the Bank of England. A package\r\nof banknotes, to the value of fifty-five thousand pounds, had been\r\ntaken from the principal cashier’s table, that functionary being at the\r\nmoment engaged in registering the receipt of three shillings and\r\nsixpence. Of course, he could not have his eyes everywhere. Let it be\r\nobserved that the Bank of England reposes a touching confidence in the\r\nhonesty of the public. There are neither guards nor gratings to protect\r\nits treasures; gold, silver, banknotes are freely exposed, at the mercy\r\nof the first comer. A keen observer of English customs relates that,\r\nbeing in one of the rooms of the Bank one day, he had the curiosity to\r\nexamine a gold ingot weighing some seven or eight pounds. He took it\r\nup, scrutinised it, passed it to his neighbour, he to the next man, and\r\nso on until the ingot, going from hand to hand, was transferred to the\r\nend of a dark entry; nor did it return to its place for half an hour.\r\nMeanwhile, the cashier had not so much as raised his head. But in the\r\npresent instance things had not gone so smoothly. The package of notes\r\nnot being found when five o’clock sounded from the ponderous clock in\r\nthe “drawing office,” the amount was passed to the account of profit\r\nand loss. As soon as the robbery was discovered, picked detectives\r\nhastened off to Liverpool, Glasgow, Havre, Suez, Brindisi, New York,\r\nand other ports, inspired by the proffered reward of two thousand\r\npounds, and five per cent. on the sum that might be recovered.\r\nDetectives were also charged with narrowly watching those who arrived\r\nat or left London by rail, and a judicial examination was at once\r\nentered upon.\r\n\r\nThere were real grounds for supposing, as the _Daily Telegraph_ said,\r\nthat the thief did not belong to a professional band. On the day of the\r\nrobbery a well-dressed gentleman of polished manners, and with a\r\nwell-to-do air, had been observed going to and fro in the paying room\r\nwhere the crime was committed. A description of him was easily procured\r\nand sent to the detectives; and some hopeful spirits, of whom Ralph was\r\none, did not despair of his apprehension. The papers and clubs were\r\nfull of the affair, and everywhere people were discussing the\r\nprobabilities of a successful pursuit; and the Reform Club was\r\nespecially agitated, several of its members being Bank officials.\r\n\r\nRalph would not concede that the work of the detectives was likely to\r\nbe in vain, for he thought that the prize offered would greatly\r\nstimulate their zeal and activity. But Stuart was far from sharing this\r\nconfidence; and, as they placed themselves at the whist-table, they\r\ncontinued to argue the matter. Stuart and Flanagan played together,\r\nwhile Phileas Fogg had Fallentin for his partner. As the game proceeded\r\nthe conversation ceased, excepting between the rubbers, when it revived\r\nagain.\r\n\r\n“I maintain,” said Stuart, “that the chances are in favour of the\r\nthief, who must be a shrewd fellow.”\r\n\r\n“Well, but where can he fly to?” asked Ralph. “No country is safe for\r\nhim.”\r\n\r\n“Pshaw!”\r\n\r\n“Where could he go, then?”\r\n\r\n“Oh, I don’t know that. The world is big enough.”\r\n\r\n“It was once,” said Phileas Fogg, in a low tone. “Cut, sir,” he added,\r\nhanding the cards to Thomas Flanagan.\r\n\r\nThe discussion fell during the rubber, after which Stuart took up its\r\nthread.\r\n\r\n“What do you mean by ‘once’? Has the world grown smaller?”\r\n\r\n“Certainly,” returned Ralph. “I agree with Mr. Fogg. The world has\r\ngrown smaller, since a man can now go round it ten times more quickly\r\nthan a hundred years ago. And that is why the search for this thief\r\nwill be more likely to succeed.”\r\n\r\n“And also why the thief can get away more easily.”\r\n\r\n“Be so good as to play, Mr. Stuart,” said Phileas Fogg.\r\n\r\nBut the incredulous Stuart was not convinced, and when the hand was\r\nfinished, said eagerly: “You have a strange way, Ralph, of proving that\r\nthe world has grown smaller. So, because you can go round it in three\r\nmonths—”\r\n\r\n“In eighty days,” interrupted Phileas Fogg.\r\n\r\n“That is true, gentlemen,” added John Sullivan. “Only eighty days, now\r\nthat the section between Rothal and Allahabad, on the Great Indian\r\nPeninsula Railway, has been opened. Here is the estimate made by the\r\n_Daily Telegraph:_—\r\n\r\nFrom London to Suez _viâ_ Mont Cenis and Brindisi, by rail and\r\nsteamboats ................. 7 days\r\nFrom Suez to Bombay, by steamer .................... 13 ”\r\nFrom Bombay to Calcutta, by rail ................... 3 ”\r\nFrom Calcutta to Hong Kong, by steamer ............. 13 ”\r\nFrom Hong Kong to Yokohama (Japan), by steamer ..... 6 ”\r\nFrom Yokohama to San Francisco, by steamer ......... 22 ”\r\nFrom San Francisco to New York, by rail ............. 7 ”\r\nFrom New York to London, by steamer and rail ........ 9 ”\r\n-------\r\nTotal ............................................ 80 days.”\r\n\r\n\r\n“Yes, in eighty days!” exclaimed Stuart, who in his excitement made a\r\nfalse deal. “But that doesn’t take into account bad weather, contrary\r\nwinds, shipwrecks, railway accidents, and so on.”\r\n\r\n“All included,” returned Phileas Fogg, continuing to play despite the\r\ndiscussion.\r\n\r\n“But suppose the Hindoos or Indians pull up the rails,” replied Stuart;\r\n“suppose they stop the trains, pillage the luggage-vans, and scalp the\r\npassengers!”\r\n\r\n“All included,” calmly retorted Fogg; adding, as he threw down the\r\ncards, “Two trumps.”\r\n\r\nStuart, whose turn it was to deal, gathered them up, and went on: “You\r\nare right, theoretically, Mr. Fogg, but practically—”\r\n\r\n“Practically also, Mr. Stuart.”\r\n\r\n“I’d like to see you do it in eighty days.”\r\n\r\n“It depends on you. Shall we go?”\r\n\r\n“Heaven preserve me! But I would wager four thousand pounds that such a\r\njourney, made under these conditions, is impossible.”\r\n\r\n“Quite possible, on the contrary,” returned Mr. Fogg.\r\n\r\n“Well, make it, then!”\r\n\r\n“The journey round the world in eighty days?”\r\n\r\n“Yes.”\r\n\r\n“I should like nothing better.”\r\n\r\n“When?”\r\n\r\n“At once. Only I warn you that I shall do it at your expense.”\r\n\r\n“It’s absurd!” cried Stuart, who was beginning to be annoyed at the\r\npersistency of his friend. “Come, let’s go on with the game.”\r\n\r\n“Deal over again, then,” said Phileas Fogg. “There’s a false deal.”\r\n\r\nStuart took up the pack with a feverish hand; then suddenly put them\r\ndown again.\r\n\r\n“Well, Mr. Fogg,” said he, “it shall be so: I will wager the four\r\nthousand on it.”\r\n\r\n“Calm yourself, my dear Stuart,” said Fallentin. “It’s only a joke.”\r\n\r\n“When I say I’ll wager,” returned Stuart, “I mean it.”\r\n\r\n“All right,” said Mr. Fogg; and, turning to the others, he continued:\r\n“I have a deposit of twenty thousand at Baring’s which I will willingly\r\nrisk upon it.”\r\n\r\n“Twenty thousand pounds!” cried Sullivan. “Twenty thousand pounds,\r\nwhich you would lose by a single accidental delay!”\r\n\r\n“The unforeseen does not exist,” quietly replied Phileas Fogg.\r\n\r\n“But, Mr. Fogg, eighty days are only the estimate of the least possible\r\ntime in which the journey can be made.”\r\n\r\n“A well-used minimum suffices for everything.”\r\n\r\n“But, in order not to exceed it, you must jump mathematically from the\r\ntrains upon the steamers, and from the steamers upon the trains again.”\r\n\r\n“I will jump—mathematically.”\r\n\r\n“You are joking.”\r\n\r\n“A true Englishman doesn’t joke when he is talking about so serious a\r\nthing as a wager,” replied Phileas Fogg, solemnly. “I will bet twenty\r\nthousand pounds against anyone who wishes that I will make the tour of\r\nthe world in eighty days or less; in nineteen hundred and twenty hours,\r\nor a hundred and fifteen thousand two hundred minutes. Do you accept?”\r\n\r\n“We accept,” replied Messrs. Stuart, Fallentin, Sullivan, Flanagan, and\r\nRalph, after consulting each other.\r\n\r\n“Good,” said Mr. Fogg. “The train leaves for Dover at a quarter before\r\nnine. I will take it.”\r\n\r\n“This very evening?” asked Stuart.\r\n\r\n“This very evening,” returned Phileas Fogg. He took out and consulted a\r\npocket almanac, and added, “As today is Wednesday, the 2nd of October,\r\nI shall be due in London in this very room of the Reform Club, on\r\nSaturday, the 21st of December, at a quarter before nine p.m.; or else\r\nthe twenty thousand pounds, now deposited in my name at Baring’s, will\r\nbelong to you, in fact and in right, gentlemen. Here is a cheque for\r\nthe amount.”\r\n\r\nA memorandum of the wager was at once drawn up and signed by the six\r\nparties, during which Phileas Fogg preserved a stoical composure. He\r\ncertainly did not bet to win, and had only staked the twenty thousand\r\npounds, half of his fortune, because he foresaw that he might have to\r\nexpend the other half to carry out this difficult, not to say\r\nunattainable, project. As for his antagonists, they seemed much\r\nagitated; not so much by the value of their stake, as because they had\r\nsome scruples about betting under conditions so difficult to their\r\nfriend.\r\n\r\nThe clock struck seven, and the party offered to suspend the game so\r\nthat Mr. Fogg might make his preparations for departure.\r\n\r\n“I am quite ready now,” was his tranquil response. “Diamonds are\r\ntrumps: be so good as to play, gentlemen.”"
-    }
-  ]
-};
-      window.aroundWorldBook = new DigitalBook('around-world-book', aroundWorldConfig);
-    </script>
-  
-
-    <h2>🎯 Comprehension Questions</h2>
-                                <p>Answer these questions about today's reading:</p>
-                                
-                                <div style="margin: 30px 0;">
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">1. What were the main events?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">2. How did the characters feel or react?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">3. What do you predict will happen next?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                </div>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;">
+                                <p><em>[Reading passage from Around the World in 80 Days, Chapter 3 will be inserted here from digital book database]</em></p>
+                                <p>This section will include the actual chapter text with vocabulary words highlighted.</p>
+                            </div>
                             
+                            <div style="margin-top: 20px; padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">📚 <strong>Take your time reading!</strong> Think about what's happening in the story.</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 6: Journal 
-                
+                // Page 5: Reading Comprehension
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✍️ Journal Entry</h2>
+                            <h2>🎯 Reading Comprehension</h2>
+                            <p>Answer these questions about today's chapter:</p>
                             
-                            <div style="margin: 25px 0; padding: 25px; background: rgba(176,104,33,0.1); border-left: 4px solid #B06821; border-radius: 8px;">
-                                <h3 style="color: #B06821; margin-bottom: 15px;">Today's Prompt:</h3>
-                                <p style="font-size: 18px; font-style: italic;">
-                                    Write 4-6 sentences about today's reading. What was most interesting or surprising? 
-                                    How did this chapter move the story forward?
+                            <div style="margin: 30px 0;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1E3A8A;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 1:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 3]</p>
+                                    <textarea 
+                                      id="comp-1"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1E3A8A;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 2:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 3]</p>
+                                    <textarea 
+                                      id="comp-2"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1E3A8A;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 3:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 3]</p>
+                                    <textarea 
+                                      id="comp-3"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 6: Journal Reflection
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✍️ Journal Reflection</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 20px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    [Personal reflection prompt related to Chapter 3]
                                 </p>
                             </div>
                             
                             <textarea 
-                                style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #305853; border-radius: 10px; font-size: 16px;"
-                                placeholder="Write your journal entry here..."></textarea>
+                              id="journal"
+                              style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #1E3A8A; border-radius: 12px; font-family: inherit; font-size: 16px; line-height: 1.6;"
+                              placeholder="Write your thoughts here..."
+                            ></textarea>
                         </div>
                     `
                 },
                 
-                
                 // Page 7: Completion
                 {
                     render: () => `
-                        <div class="lesson-page-card completion-page">
-                            <div class="character">📚</div>
+                        <div class="lesson-page-card content-page">
+                            <div style="text-align: center; padding: 40px 20px;">
+                                <div style="font-size: 72px; margin-bottom: 20px;">🎉</div>
+                                <h2 style="color: #305853; margin-bottom: 20px;">Great Job!</h2>
+                                <p style="font-size: 18px; color: #666; max-width: 500px; margin: 0 auto;">
+                                    You've completed Day 63! Come back tomorrow to continue reading <em>Around the World in 80 Days</em>.
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 8: Informational Text 📰
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📰 Informational Text</h2>
+                            <h3 style="color: #1E3A8A;">Related Non-Fiction</h3>
                             
-                                <h1>Day 63 Complete!</h1>
-                                <p style="font-size: 20px; margin: 20px 0;">Great work today!</p>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px; margin-bottom: 25px;">
+                                <p style="margin-bottom: 15px;">Informational text content goes here.</p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #1E3A8A;">
+                                <h4 style="margin-bottom: 15px;">📝 Comprehension Questions:</h4>
                                 
-                                <div style="text-align: left; max-width: 400px; margin: 30px auto; background: rgba(48,88,83,0.05); padding: 25px; border-radius: 12px;">
-                                    <h3 style="color: #305853; margin-bottom: 15px;">✅ Today You:</h3>
-                                    <ul style="line-height: 2;">
-                                        
-                                            <li>Read about Being followed</li>
-                                            <li>Learned 2 vocabulary words</li>
-                                            <li>Answered comprehension questions</li>
-                                            <li>Wrote a journal entry</li>
-                                        
-                                    </ul>
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">1. Question 1?</p>
+                                    <textarea 
+                                      id="info-1"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
                                 </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">2. Question 2?</p>
+                                    <textarea 
+                                      id="info-2"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">3. Question 3?</p>
+                                    <textarea 
+                                      id="info-3"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 9: Grammar in Context ✏️
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✏️ Grammar Workshop</h2>
+                            <h3 style="color: #1E3A8A;">Compound Sentences</h3>
                             
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin-bottom: 15px;">
+                                    <strong>📖 What is it?</strong><br>
+                                    A compound sentence joins two independent clauses with a comma and coordinating conjunction (and, but, or, so, for, yet, nor).
+                                </p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>💡 Example from today's reading:</strong><br>
+                                    <em>"The wind howled horribly, but Dorothy sat quite still."</em>
+                                </p>
+                            </div>
                             
-                            <a href="student-dashboard.html" 
-                               style="display: inline-block; margin-top: 20px; padding: 15px 35px; background: #B06821; color: white; text-decoration: none; border-radius: 12px; font-size: 18px; font-weight: 700;">
-                                Continue →
-                            </a>
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #1E3A8A;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">✍️ Your Turn:</p>
+                                <p style="margin-bottom: 12px;">Write three compound sentences about today's chapter using different coordinating conjunctions.</p>
+                                <textarea 
+                                  id="grammar"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Write your practice sentences here..."
+                                ></textarea>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 10: Writing Workshop 📝
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📖 Narrative Writing</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">📝 Prompt:</p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    Imagine you are Aunt Em in the cellar. Write about what you're thinking as the storm passes overhead.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 15px; background: #fffbf0; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 20px;">
+                                <p style="margin: 0; font-size: 14px;">
+                                    <strong>💡 Remember:</strong> Write a short story or scene with a clear beginning, middle, and end. Include descriptive details and dialogue if appropriate.
+                                </p>
+                            </div>
+                            
+                            <textarea 
+                              id="writing"
+                              style="width: 100%; min-height: 250px; padding: 15px; border: 2px solid #1E3A8A; border-radius: 12px; font-size: 16px; line-height: 1.8;"
+                              placeholder="Start writing here..."
+                            ></textarea>
+                            
+                            <div style="margin-top: 15px; padding: 12px; background: #f0f9ff; border-radius: 8px;">
+                                <p style="margin: 0; font-size: 13px; color: #0369a1;">
+                                    ✅ <strong>Checklist:</strong> Did you include a topic sentence? Supporting details? A conclusion?
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 11: Language Skills 🎨
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>🎨 Language Skills</h2>
+                            <h3 style="color: #1E3A8A;">Root Words and Affixes</h3>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>📖 Learn:</strong><br>
+                                    Many words are built from roots (base words) with prefixes (before) and suffixes (after) added.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #1E3A8A;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">🎯 Activity:</p>
+                                <p style="margin-bottom: 12px;">Break down vocabulary words into their parts: prefix + root + suffix. Example: uncomfortable = un + comfort + able</p>
+                                <textarea 
+                                  id="language"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Complete the activity here..."
+                                ></textarea>
+                            </div>
+                            
+                            <div style="margin-top: 20px; text-align: center; padding: 30px;">
+                                <div style="font-size: 48px; margin-bottom: 15px;">🌟</div>
+                                <h3 style="color: #305853;">Excellent Work!</h3>
+                                <p style="color: #666;">You've completed all 11 pages of Day 63!</p>
+                            </div>
                         </div>
                     `
                 }
-                
             ]
         };
-
-        createLessonViewer('lesson-container', lesson63Config);
+        
+        // Initialize lesson viewer
+        if (typeof initLessonViewer === 'function') {
+            initLessonViewer(lesson63Config);
+        }
     </script>
 </body>
 </html>

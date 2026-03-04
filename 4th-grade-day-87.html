@@ -3,13 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 87: Character Study - 4th Grade BedrockELA</title>
+    <title>Day 87 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=3.2">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container" class="lesson-container"></div>
 
     <script src="js/lesson-viewer.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
     
     <script>
         const lesson87Config = {
@@ -24,206 +35,341 @@
                             <div class="character">📚</div>
                             <h1>Day 87</h1>
                             <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #B06821; font-size: 20px; margin-top: 20px;">
-                                Around the World
+                            <p style="color: #1E3A8A; font-size: 20px; margin-top: 20px;">
+                                Around the World in 80 Days
                             </p>
                             <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Character Study
+                                Chapter 27
                             </p>
                         </div>
                     `
                 },
                 
-                
-                // Page 2: Welcome
+                // Page 2: Welcome & Learning Objectives
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
                             <h2>📖 Welcome to Day 87!</h2>
-                            
-                                <p>Today you will:</p>
-                                <ul style="margin: 20px 0; line-height: 2;">
-                                    <li>📖 Read about Fogg vs Passepartout</li>
-                                    <li>📝 Learn 2 new vocabulary words</li>
-                                    <li>🎯 Answer comprehension questions</li>
-                                    <li>✍️ Write a journal entry</li>
-                                </ul>
-                                <p><strong>Time needed:</strong> About 30-45 minutes</p>
-                            
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>📖 Read from <em>Around the World in 80 Days</em></li>
+                                <li>📝 Learn 2 new vocabulary words</li>
+                                <li>📰 Read informational text: "Related Non-Fiction"</li>
+                                <li>✍️ Practice grammar: Prepositional Phrases</li>
+                                <li>🎯 Write: Narrative Writing</li>
+                                <li>🎨 Explore: Context Clues</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
                         </div>
                     `
                 },
                 
-                // Page 3: Vocabulary (2 words)
+                // Page 3: Vocabulary (2 words from text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>📚 Today's Vocabulary</h2>
+                            <h2>📚 Vocabulary Words</h2>
                             
-                            
-                                <div style="margin: 30px 0; padding: 25px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 15px; border: 2px solid #B06821;">
-                                    <div style="margin-bottom: 30px;">
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">punctual</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                    
-                                    <div>
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">spontaneous</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                </div>
+                            <div style="margin: 30px 0;">
                                 
-                                <div style="padding: 20px; background: rgba(176,104,33,0.05); border-radius: 10px;">
-                                    <p style="margin: 0;">
-                                        💡 <strong>Watch for these words</strong> in today's reading!
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #1E3A8A;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">gaunt</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
-                            
-                        </div>
-                    `
-                },
-                
-                // Page 4: Reading
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            
-                                <h2>📖 Today's Reading: Fogg vs Passepartout</h2>
                                 
-                                <div style="background: white; padding: 25px; border-radius: 12px; border: 3px solid #305853; margin: 20px 0;">
-                                    <p style="font-size: 18px; margin-bottom: 15px;">
-                                        📚 Read from Around the World
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #1E3A8A;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">solemn</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
-                                    <p style="font-size: 16px; color: #666; margin-top: 15px;">
-                                        Focus: Fogg vs Passepartout
-                                    </p>
+                                    <textarea 
+                                      id="vocab-2"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
                                 
-                                <div style="margin-top: 30px; padding: 20px; background: rgba(48,88,83,0.1); border-radius: 10px;">
-                                    <h3 style="color: #305853;">📝 While You Read:</h3>
-                                    <ul style="line-height: 2;">
-                                        <li>Look for the vocabulary words: <strong>punctual</strong> and <strong>spontaneous</strong></li>
-                                        <li>What are the main events?</li>
-                                        <li>How do characters change or react?</li>
-                                    </ul>
-                                </div>
+                            </div>
                             
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">💡 <strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 5: Comprehension
+                // Page 4: Literature Reading (placeholder - needs actual book text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
+                            <h2>📖 Reading: Around the World in 80 Days</h2>
+                            <h3 style="color: #1E3A8A;">Chapter 27</h3>
                             
-                                
-    <!-- Digital Book Integration -->
-    <script src="js/digital-book.js"></script>
-    <div id="around-world-book"></div>
-    <script>
-      const aroundWorldConfig = {
-  "coverTitle": "Chapter 33",
-  "coverSubtitle": "Chapter 33: IN WHICH PHILEAS FOGG SHOWS HIMSELF EQUAL TO THE OCCASION",
-  "coverAuthor": "Jules Verne",
-  "coverColor": "#C17817",
-  "vocabWords": [],
-  "pages": [
-    {
-      "title": "Chapter 33: IN WHICH PHILEAS FOGG SHOWS HIMSELF EQUAL TO THE OCCASION",
-      "text": "An hour after, the “Henrietta” passed the lighthouse which marks the\r\nentrance of the Hudson, turned the point of Sandy Hook, and put to sea.\r\nDuring the day she skirted Long Island, passed Fire Island, and\r\ndirected her course rapidly eastward.\r\n\r\nAt noon the next day, a man mounted the bridge to ascertain the\r\nvessel’s position. It might be thought that this was Captain Speedy.\r\nNot the least in the world. It was Phileas Fogg, Esquire. As for\r\nCaptain Speedy, he was shut up in his cabin under lock and key, and was\r\nuttering loud cries, which signified an anger at once pardonable and\r\nexcessive.\r\n\r\nWhat had happened was very simple. Phileas Fogg wished to go to\r\nLiverpool, but the captain would not carry him there. Then Phileas Fogg\r\nhad taken passage for Bordeaux, and, during the thirty hours he had\r\nbeen on board, had so shrewdly managed with his banknotes that the\r\nsailors and stokers, who were only an occasional crew, and were not on\r\nthe best terms with the captain, went over to him in a body. This was\r\nwhy Phileas Fogg was in command instead of Captain Speedy; why the\r\ncaptain was a prisoner in his cabin; and why, in short, the “Henrietta”\r\nwas directing her course towards Liverpool. It was very clear, to see\r\nMr. Fogg manage the craft, that he had been a sailor.\r\n\r\nHow the adventure ended will be seen anon. Aouda was anxious, though\r\nshe said nothing. As for Passepartout, he thought Mr. Fogg’s manœuvre\r\nsimply glorious. The captain had said “between eleven and twelve\r\nknots,” and the “Henrietta” confirmed his prediction.\r\n\r\nIf, then—for there were “ifs” still—the sea did not become too\r\nboisterous, if the wind did not veer round to the east, if no accident\r\nhappened to the boat or its machinery, the “Henrietta” might cross the\r\nthree thousand miles from New York to Liverpool in the nine days,\r\nbetween the 12th and the 21st of December. It is true that, once\r\narrived, the affair on board the “Henrietta,” added to that of the Bank\r\nof England, might create more difficulties for Mr. Fogg than he\r\nimagined or could desire.\r\n\r\nDuring the first days, they went along smoothly enough. The sea was not\r\nvery unpropitious, the wind seemed stationary in the north-east, the\r\nsails were hoisted, and the “Henrietta” ploughed across the waves like\r\na real transatlantic steamer.\r\n\r\nPassepartout was delighted. His master’s last exploit, the consequences\r\nof which he ignored, enchanted him. Never had the crew seen so jolly\r\nand dexterous a fellow. He formed warm friendships with the sailors,\r\nand amazed them with his acrobatic feats. He thought they managed the\r\nvessel like gentlemen, and that the stokers fired up like heroes. His\r\nloquacious good-humour infected everyone. He had forgotten the past,\r\nits vexations and delays. He only thought of the end, so nearly\r\naccomplished; and sometimes he boiled over with impatience, as if\r\nheated by the furnaces of the “Henrietta.” Often, also, the worthy\r\nfellow revolved around Fix, looking at him with a keen, distrustful\r\neye; but he did not speak to him, for their old intimacy no longer\r\nexisted.\r\n\r\nFix, it must be confessed, understood nothing of what was going on. The\r\nconquest of the “Henrietta,” the bribery of the crew, Fogg managing the\r\nboat like a skilled seaman, amazed and confused him. He did not know\r\nwhat to think. For, after all, a man who began by stealing fifty-five\r\nthousand pounds might end by stealing a vessel; and Fix was not\r\nunnaturally inclined to conclude that the “Henrietta” under Fogg’s\r\ncommand, was not going to Liverpool at all, but to some part of the\r\nworld where the robber, turned into a pirate, would quietly put himself\r\nin safety. The conjecture was at least a plausible one, and the\r\ndetective began to seriously regret that he had embarked on the affair.\r\n\r\nAs for Captain Speedy, he continued to howl and growl in his cabin; and\r\nPassepartout, whose duty it was to carry him his meals, courageous as\r\nhe was, took the greatest precautions. Mr. Fogg did not seem even to\r\nknow that there was a captain on board.\r\n\r\nOn the 13th they passed the edge of the Banks of Newfoundland, a\r\ndangerous locality; during the winter, especially, there are frequent\r\nfogs and heavy gales of wind. Ever since the evening before the\r\nbarometer, suddenly falling, had indicated an approaching change in the\r\natmosphere; and during the night the temperature varied, the cold\r\nbecame sharper, and the wind veered to the south-east.\r\n\r\nThis was a misfortune. Mr. Fogg, in order not to deviate from his\r\ncourse, furled his sails and increased the force of the steam; but the\r\nvessel’s speed slackened, owing to the state of the sea, the long waves\r\nof which broke against the stern. She pitched violently, and this\r\nretarded her progress. The breeze little by little swelled into a\r\ntempest, and it was to be feared that the “Henrietta” might not be able\r\nto maintain herself upright on the waves.\r\n\r\nPassepartout’s visage darkened with the skies, and for two days the\r\npoor fellow experienced constant fright. But Phileas Fogg was a bold\r\nmariner, and knew how to maintain headway against the sea; and he kept\r\non his course, without even decreasing his steam. The “Henrietta,” when\r\nshe could not rise upon the waves, crossed them, swamping her deck, but\r\npassing safely. Sometimes the screw rose out of the water, beating its\r\nprotruding end, when a mountain of water raised the stern above the\r\nwaves; but the craft always kept straight ahead.\r\n\r\nThe wind, however, did not grow as boisterous as might have been\r\nfeared; it was not one of those tempests which burst, and rush on with\r\na speed of ninety miles an hour. It continued fresh, but, unhappily, it\r\nremained obstinately in the south-east, rendering the sails useless.\r\n\r\nThe 16th of December was the seventy-fifth day since Phileas Fogg’s\r\ndeparture from London, and the “Henrietta” had not yet been seriously\r\ndelayed. Half of the voyage was almost accomplished, and the worst\r\nlocalities had been passed. In summer, success would have been\r\nwell-nigh certain. In winter, they were at the mercy of the bad season.\r\nPassepartout said nothing; but he cherished hope in secret, and\r\ncomforted himself with the reflection that, if the wind failed them,\r\nthey might still count on the steam.\r\n\r\nOn this day the engineer came on deck, went up to Mr. Fogg, and began\r\nto speak earnestly with him. Without knowing why it was a presentiment,\r\nperhaps Passepartout became vaguely uneasy. He would have given one of\r\nhis ears to hear with the other what the engineer was saying. He\r\nfinally managed to catch a few words, and was sure he heard his master\r\nsay, “You are certain of what you tell me?”\r\n\r\n“Certain, sir,” replied the engineer. “You must remember that, since we\r\nstarted, we have kept up hot fires in all our furnaces, and, though we\r\nhad coal enough to go on short steam from New York to Bordeaux, we\r\nhaven’t enough to go with all steam from New York to Liverpool.” “I\r\nwill consider,” replied Mr. Fogg.\r\n\r\nPassepartout understood it all; he was seized with mortal anxiety. The\r\ncoal was giving out! “Ah, if my master can get over that,” muttered he,\r\n“he’ll be a famous man!” He could not help imparting to Fix what he had\r\noverheard.\r\n\r\n“Then you believe that we really are going to Liverpool?”\r\n\r\n“Of course.”\r\n\r\n“Ass!” replied the detective, shrugging his shoulders and turning on\r\nhis heel.\r\n\r\nPassepartout was on the point of vigorously resenting the epithet, the\r\nreason of which he could not for the life of him comprehend; but he\r\nreflected that the unfortunate Fix was probably very much disappointed\r\nand humiliated in his self-esteem, after having so awkwardly followed a\r\nfalse scent around the world, and refrained.\r\n\r\nAnd now what course would Phileas Fogg adopt? It was difficult to\r\nimagine. Nevertheless he seemed to have decided upon one, for that\r\nevening he sent for the engineer, and said to him, “Feed all the fires\r\nuntil the coal is exhausted.”\r\n\r\nA few moments after, the funnel of the “Henrietta” vomited forth\r\ntorrents of smoke. The vessel continued to proceed with all steam on;\r\nbut on the 18th, the engineer, as he had predicted, announced that the\r\ncoal would give out in the course of the day.\r\n\r\n“Do not let the fires go down,” replied Mr. Fogg. “Keep them up to the\r\nlast. Let the valves be filled.”\r\n\r\nTowards noon Phileas Fogg, having ascertained their position, called\r\nPassepartout, and ordered him to go for Captain Speedy. It was as if\r\nthe honest fellow had been commanded to unchain a tiger. He went to the\r\npoop, saying to himself, “He will be like a madman!”\r\n\r\nIn a few moments, with cries and oaths, a bomb appeared on the\r\npoop-deck. The bomb was Captain Speedy. It was clear that he was on the\r\npoint of bursting. “Where are we?” were the first words his anger\r\npermitted him to utter. Had the poor man been an apoplectic, he could\r\nnever have recovered from his paroxysm of wrath.\r\n\r\n“Where are we?” he repeated, with purple face.\r\n\r\n“Seven hundred and seven miles from Liverpool,” replied Mr. Fogg, with\r\nimperturbable calmness.\r\n\r\n“Pirate!” cried Captain Speedy.\r\n\r\n“I have sent for you, sir—”\r\n\r\n“Pickaroon!”\r\n\r\n“—sir,” continued Mr. Fogg, “to ask you to sell me your vessel.”\r\n\r\n“No! By all the devils, no!”\r\n\r\n“But I shall be obliged to burn her.”\r\n\r\n“Burn the ‘Henrietta’!”\r\n\r\n“Yes; at least the upper part of her. The coal has given out.”\r\n\r\n“Burn my vessel!” cried Captain Speedy, who could scarcely pronounce\r\nthe words. “A vessel worth fifty thousand dollars!”\r\n\r\n“Here are sixty thousand,” replied Phileas Fogg, handing the captain a\r\nroll of bank-bills. This had a prodigious effect on Andrew Speedy. An\r\nAmerican can scarcely remain unmoved at the sight of sixty thousand\r\ndollars. The captain forgot in an instant his anger, his imprisonment,\r\nand all his grudges against his passenger. The “Henrietta” was twenty\r\nyears old; it was a great bargain. The bomb would not go off after all.\r\nMr. Fogg had taken away the match.\r\n\r\n“And I shall still have the iron hull,” said the captain in a softer\r\ntone.\r\n\r\n“The iron hull and the engine. Is it agreed?”\r\n\r\n“Agreed.”\r\n\r\nAnd Andrew Speedy, seizing the banknotes, counted them and consigned\r\nthem to his pocket.\r\n\r\nDuring this colloquy, Passepartout was as white as a sheet, and Fix\r\nseemed on the point of having an apoplectic fit. Nearly twenty thousand\r\npounds had been expended, and Fogg left the hull and engine to the\r\ncaptain, that is, near the whole value of the craft! It was true,\r\nhowever, that fifty-five thousand pounds had been stolen from the Bank.\r\n\r\nWhen Andrew Speedy had pocketed the money, Mr. Fogg said to him, “Don’t\r\nlet this astonish you, sir. You must know that I shall lose twenty\r\nthousand pounds, unless I arrive in London by a quarter before nine on\r\nthe evening of the 21st of December. I missed the steamer at New York,\r\nand as you refused to take me to Liverpool—”\r\n\r\n“And I did well!” cried Andrew Speedy; “for I have gained at least\r\nforty thousand dollars by it!” He added, more sedately, “Do you know\r\none thing, Captain—”\r\n\r\n“Fogg.”\r\n\r\n“Captain Fogg, you’ve got something of the Yankee about you.”\r\n\r\nAnd, having paid his passenger what he considered a high compliment, he\r\nwas going away, when Mr. Fogg said, “The vessel now belongs to me?”\r\n\r\n“Certainly, from the keel to the truck of the masts—all the wood, that\r\nis.”\r\n\r\n“Very well. Have the interior seats, bunks, and frames pulled down, and\r\nburn them.”\r\n\r\nIt was necessary to have dry wood to keep the steam up to the adequate\r\npressure, and on that day the poop, cabins, bunks, and the spare deck\r\nwere sacrificed. On the next day, the 19th of December, the masts,\r\nrafts, and spars were burned; the crew worked lustily, keeping up the\r\nfires. Passepartout hewed, cut, and sawed away with all his might.\r\nThere was a perfect rage for demolition.\r\n\r\nThe railings, fittings, the greater part of the deck, and top sides\r\ndisappeared on the 20th, and the “Henrietta” was now only a flat hulk.\r\nBut on this day they sighted the Irish coast and Fastnet Light. By ten\r\nin the evening they were passing Queenstown. Phileas Fogg had only\r\ntwenty-four hours more in which to get to London; that length of time\r\nwas necessary to reach Liverpool, with all steam on. And the steam was\r\nabout to give out altogether!\r\n\r\n“Sir,” said Captain Speedy, who was now deeply interested in Mr. Fogg’s\r\nproject, “I really commiserate you. Everything is against you. We are\r\nonly opposite Queenstown.”\r\n\r\n“Ah,” said Mr. Fogg, “is that place where we see the lights\r\nQueenstown?”\r\n\r\n“Yes.”\r\n\r\n“Can we enter the harbour?”\r\n\r\n“Not under three hours. Only at high tide.”\r\n\r\n“Stay,” replied Mr. Fogg calmly, without betraying in his features that\r\nby a supreme inspiration he was about to attempt once more to conquer\r\nill-fortune.\r\n\r\nQueenstown is the Irish port at which the transatlantic steamers stop\r\nto put off the mails. These mails are carried to Dublin by express\r\ntrains always held in readiness to start; from Dublin they are sent on\r\nto Liverpool by the most rapid boats, and thus gain twelve hours on the\r\nAtlantic steamers.\r\n\r\nPhileas Fogg counted on gaining twelve hours in the same way. Instead\r\nof arriving at Liverpool the next evening by the “Henrietta,” he would\r\nbe there by noon, and would therefore have time to reach London before\r\na quarter before nine in the evening.\r\n\r\nThe “Henrietta” entered Queenstown Harbour at one o’clock in the\r\nmorning, it then being high tide; and Phileas Fogg, after being grasped\r\nheartily by the hand by Captain Speedy, left that gentleman on the\r\nlevelled hulk of his craft, which was still worth half what he had sold\r\nit for.\r\n\r\nThe party went on shore at once. Fix was greatly tempted to arrest Mr.\r\nFogg on the spot; but he did not. Why? What struggle was going on\r\nwithin him? Had he changed his mind about “his man”? Did he understand\r\nthat he had made a grave mistake? He did not, however, abandon Mr.\r\nFogg. They all got upon the train, which was just ready to start, at\r\nhalf-past one; at dawn of day they were in Dublin; and they lost no\r\ntime in embarking on a steamer which, disdaining to rise upon the\r\nwaves, invariably cut through them.\r\n\r\nPhileas Fogg at last disembarked on the Liverpool quay, at twenty\r\nminutes before twelve, 21st December. He was only six hours distant\r\nfrom London.\r\n\r\nBut at this moment Fix came up, put his hand upon Mr. Fogg’s shoulder,\r\nand, showing his warrant, said, “You are really Phileas Fogg?”\r\n\r\n“I am.”\r\n\r\n“I arrest you in the Queen’s name!”"
-    }
-  ]
-};
-      window.aroundWorldBook = new DigitalBook('around-world-book', aroundWorldConfig);
-    </script>
-  
-
-    <h2>🎯 Comprehension Questions</h2>
-                                <p>Answer these questions about today's reading:</p>
-                                
-                                <div style="margin: 30px 0;">
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">1. What were the main events?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">2. How did the characters feel or react?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">3. What do you predict will happen next?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                </div>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;">
+                                <p><em>[Reading passage from Around the World in 80 Days, Chapter 27 will be inserted here from digital book database]</em></p>
+                                <p>This section will include the actual chapter text with vocabulary words highlighted.</p>
+                            </div>
                             
+                            <div style="margin-top: 20px; padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">📚 <strong>Take your time reading!</strong> Think about what's happening in the story.</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 6: Journal 
-                
+                // Page 5: Reading Comprehension
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✍️ Journal Entry</h2>
+                            <h2>🎯 Reading Comprehension</h2>
+                            <p>Answer these questions about today's chapter:</p>
                             
-                            <div style="margin: 25px 0; padding: 25px; background: rgba(176,104,33,0.1); border-left: 4px solid #B06821; border-radius: 8px;">
-                                <h3 style="color: #B06821; margin-bottom: 15px;">Today's Prompt:</h3>
-                                <p style="font-size: 18px; font-style: italic;">
-                                    Write 4-6 sentences about today's reading. What was most interesting or surprising? 
-                                    How did this chapter move the story forward?
+                            <div style="margin: 30px 0;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1E3A8A;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 1:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 27]</p>
+                                    <textarea 
+                                      id="comp-1"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1E3A8A;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 2:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 27]</p>
+                                    <textarea 
+                                      id="comp-2"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1E3A8A;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 3:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 27]</p>
+                                    <textarea 
+                                      id="comp-3"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 6: Journal Reflection
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✍️ Journal Reflection</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 20px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    [Personal reflection prompt related to Chapter 27]
                                 </p>
                             </div>
                             
                             <textarea 
-                                style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #305853; border-radius: 10px; font-size: 16px;"
-                                placeholder="Write your journal entry here..."></textarea>
+                              id="journal"
+                              style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #1E3A8A; border-radius: 12px; font-family: inherit; font-size: 16px; line-height: 1.6;"
+                              placeholder="Write your thoughts here..."
+                            ></textarea>
                         </div>
                     `
                 },
                 
-                
                 // Page 7: Completion
                 {
                     render: () => `
-                        <div class="lesson-page-card completion-page">
-                            <div class="character">📚</div>
+                        <div class="lesson-page-card content-page">
+                            <div style="text-align: center; padding: 40px 20px;">
+                                <div style="font-size: 72px; margin-bottom: 20px;">🎉</div>
+                                <h2 style="color: #305853; margin-bottom: 20px;">Great Job!</h2>
+                                <p style="font-size: 18px; color: #666; max-width: 500px; margin: 0 auto;">
+                                    You've completed Day 87! Come back tomorrow to continue reading <em>Around the World in 80 Days</em>.
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 8: Informational Text 📰
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📰 Informational Text</h2>
+                            <h3 style="color: #1E3A8A;">Related Non-Fiction</h3>
                             
-                                <h1>Day 87 Complete!</h1>
-                                <p style="font-size: 20px; margin: 20px 0;">Great work today!</p>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px; margin-bottom: 25px;">
+                                <p style="margin-bottom: 15px;">Informational text content goes here.</p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #1E3A8A;">
+                                <h4 style="margin-bottom: 15px;">📝 Comprehension Questions:</h4>
                                 
-                                <div style="text-align: left; max-width: 400px; margin: 30px auto; background: rgba(48,88,83,0.05); padding: 25px; border-radius: 12px;">
-                                    <h3 style="color: #305853; margin-bottom: 15px;">✅ Today You:</h3>
-                                    <ul style="line-height: 2;">
-                                        
-                                            <li>Read about Fogg vs Passepartout</li>
-                                            <li>Learned 2 vocabulary words</li>
-                                            <li>Answered comprehension questions</li>
-                                            <li>Wrote a journal entry</li>
-                                        
-                                    </ul>
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">1. Question 1?</p>
+                                    <textarea 
+                                      id="info-1"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
                                 </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">2. Question 2?</p>
+                                    <textarea 
+                                      id="info-2"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">3. Question 3?</p>
+                                    <textarea 
+                                      id="info-3"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 9: Grammar in Context ✏️
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✏️ Grammar Workshop</h2>
+                            <h3 style="color: #1E3A8A;">Prepositional Phrases</h3>
                             
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin-bottom: 15px;">
+                                    <strong>📖 What is it?</strong><br>
+                                    A prepositional phrase starts with a preposition (in, on, under, through, etc.) and ends with a noun or pronoun.
+                                </p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>💡 Example from today's reading:</strong><br>
+                                    <em>"The house rose slowly through the air."</em>
+                                </p>
+                            </div>
                             
-                            <a href="student-dashboard.html" 
-                               style="display: inline-block; margin-top: 20px; padding: 15px 35px; background: #B06821; color: white; text-decoration: none; border-radius: 12px; font-size: 18px; font-weight: 700;">
-                                Continue →
-                            </a>
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #1E3A8A;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">✍️ Your Turn:</p>
+                                <p style="margin-bottom: 12px;">Find three prepositional phrases in today's reading and circle the preposition in each one.</p>
+                                <textarea 
+                                  id="grammar"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Write your practice sentences here..."
+                                ></textarea>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 10: Writing Workshop 📝
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📖 Narrative Writing</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">📝 Prompt:</p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    Imagine you are Aunt Em in the cellar. Write about what you're thinking as the storm passes overhead.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 15px; background: #fffbf0; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 20px;">
+                                <p style="margin: 0; font-size: 14px;">
+                                    <strong>💡 Remember:</strong> Write a short story or scene with a clear beginning, middle, and end. Include descriptive details and dialogue if appropriate.
+                                </p>
+                            </div>
+                            
+                            <textarea 
+                              id="writing"
+                              style="width: 100%; min-height: 250px; padding: 15px; border: 2px solid #1E3A8A; border-radius: 12px; font-size: 16px; line-height: 1.8;"
+                              placeholder="Start writing here..."
+                            ></textarea>
+                            
+                            <div style="margin-top: 15px; padding: 12px; background: #f0f9ff; border-radius: 8px;">
+                                <p style="margin: 0; font-size: 13px; color: #0369a1;">
+                                    ✅ <strong>Checklist:</strong> Did you include a topic sentence? Supporting details? A conclusion?
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 11: Language Skills 🎨
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>🎨 Language Skills</h2>
+                            <h3 style="color: #1E3A8A;">Context Clues</h3>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>📖 Learn:</strong><br>
+                                    Use surrounding words to figure out the meaning of an unfamiliar word.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #1E3A8A;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">🎯 Activity:</p>
+                                <p style="margin-bottom: 12px;">Find an unfamiliar word in the text and use context clues to determine its meaning before looking it up.</p>
+                                <textarea 
+                                  id="language"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Complete the activity here..."
+                                ></textarea>
+                            </div>
+                            
+                            <div style="margin-top: 20px; text-align: center; padding: 30px;">
+                                <div style="font-size: 48px; margin-bottom: 15px;">🌟</div>
+                                <h3 style="color: #305853;">Excellent Work!</h3>
+                                <p style="color: #666;">You've completed all 11 pages of Day 87!</p>
+                            </div>
                         </div>
                     `
                 }
-                
             ]
         };
-
-        createLessonViewer('lesson-container', lesson87Config);
+        
+        // Initialize lesson viewer
+        if (typeof initLessonViewer === 'function') {
+            initLessonViewer(lesson87Config);
+        }
     </script>
 </body>
 </html>

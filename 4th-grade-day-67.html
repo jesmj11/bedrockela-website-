@@ -3,13 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 67: Saving Aouda - 4th Grade BedrockELA</title>
+    <title>Day 67 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=3.2">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container" class="lesson-container"></div>
 
     <script src="js/lesson-viewer.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
     
     <script>
         const lesson67Config = {
@@ -24,206 +35,341 @@
                             <div class="character">📚</div>
                             <h1>Day 67</h1>
                             <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #B06821; font-size: 20px; margin-top: 20px;">
-                                Around the World
+                            <p style="color: #1E3A8A; font-size: 20px; margin-top: 20px;">
+                                Around the World in 80 Days
                             </p>
                             <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Saving Aouda
+                                Chapter 7
                             </p>
                         </div>
                     `
                 },
                 
-                
-                // Page 2: Welcome
+                // Page 2: Welcome & Learning Objectives
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
                             <h2>📖 Welcome to Day 67!</h2>
-                            
-                                <p>Today you will:</p>
-                                <ul style="margin: 20px 0; line-height: 2;">
-                                    <li>📖 Read about The rescue</li>
-                                    <li>📝 Learn 2 new vocabulary words</li>
-                                    <li>🎯 Answer comprehension questions</li>
-                                    <li>✍️ Write a journal entry</li>
-                                </ul>
-                                <p><strong>Time needed:</strong> About 30-45 minutes</p>
-                            
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>📖 Read from <em>Around the World in 80 Days</em></li>
+                                <li>📝 Learn 2 new vocabulary words</li>
+                                <li>📰 Read informational text: "Related Non-Fiction"</li>
+                                <li>✍️ Practice grammar: Prepositional Phrases</li>
+                                <li>🎯 Write: Opinion Writing</li>
+                                <li>🎨 Explore: Context Clues</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
                         </div>
                     `
                 },
                 
-                // Page 3: Vocabulary (2 words)
+                // Page 3: Vocabulary (2 words from text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>📚 Today's Vocabulary</h2>
+                            <h2>📚 Vocabulary Words</h2>
                             
-                            
-                                <div style="margin: 30px 0; padding: 25px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 15px; border: 2px solid #B06821;">
-                                    <div style="margin-bottom: 30px;">
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">rescue</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                    
-                                    <div>
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">ceremony</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                </div>
+                            <div style="margin: 30px 0;">
                                 
-                                <div style="padding: 20px; background: rgba(176,104,33,0.05); border-radius: 10px;">
-                                    <p style="margin: 0;">
-                                        💡 <strong>Watch for these words</strong> in today's reading!
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #1E3A8A;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">gaunt</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
-                            
-                        </div>
-                    `
-                },
-                
-                // Page 4: Reading
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            
-                                <h2>📖 Today's Reading: The rescue</h2>
                                 
-                                <div style="background: white; padding: 25px; border-radius: 12px; border: 3px solid #305853; margin: 20px 0;">
-                                    <p style="font-size: 18px; margin-bottom: 15px;">
-                                        📚 Read from Around the World
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #1E3A8A;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">solemn</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
-                                    <p style="font-size: 16px; color: #666; margin-top: 15px;">
-                                        Focus: Chapter 11, 12
-                                    </p>
+                                    <textarea 
+                                      id="vocab-2"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
                                 
-                                <div style="margin-top: 30px; padding: 20px; background: rgba(48,88,83,0.1); border-radius: 10px;">
-                                    <h3 style="color: #305853;">📝 While You Read:</h3>
-                                    <ul style="line-height: 2;">
-                                        <li>Look for the vocabulary words: <strong>rescue</strong> and <strong>ceremony</strong></li>
-                                        <li>What are the main events?</li>
-                                        <li>How do characters change or react?</li>
-                                    </ul>
-                                </div>
+                            </div>
                             
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">💡 <strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 5: Comprehension
+                // Page 4: Literature Reading (placeholder - needs actual book text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
+                            <h2>📖 Reading: Around the World in 80 Days</h2>
+                            <h3 style="color: #1E3A8A;">Chapter 7</h3>
                             
-                                
-    <!-- Digital Book Integration -->
-    <script src="js/digital-book.js"></script>
-    <div id="around-world-book"></div>
-    <script>
-      const aroundWorldConfig = {
-  "coverTitle": "Chapter 6",
-  "coverSubtitle": "Chapter 6: IN WHICH FIX, THE DETECTIVE, BETRAYS A VERY NATURAL IMPATIENCE",
-  "coverAuthor": "Jules Verne",
-  "coverColor": "#C17817",
-  "vocabWords": [],
-  "pages": [
-    {
-      "title": "Chapter 6: IN WHICH FIX, THE DETECTIVE, BETRAYS A VERY NATURAL IMPATIENCE",
-      "text": "The circumstances under which this telegraphic dispatch about Phileas\r\nFogg was sent were as follows:\r\n\r\nThe steamer “Mongolia,” belonging to the Peninsular and Oriental\r\nCompany, built of iron, of two thousand eight hundred tons burden, and\r\nfive hundred horse-power, was due at eleven o’clock a.m. on Wednesday,\r\nthe 9th of October, at Suez. The “Mongolia” plied regularly between\r\nBrindisi and Bombay _viâ_ the Suez Canal, and was one of the fastest\r\nsteamers belonging to the company, always making more than ten knots an\r\nhour between Brindisi and Suez, and nine and a half between Suez and\r\nBombay.\r\n\r\nTwo men were promenading up and down the wharves, among the crowd of\r\nnatives and strangers who were sojourning at this once straggling\r\nvillage—now, thanks to the enterprise of M. Lesseps, a fast-growing\r\ntown. One was the British consul at Suez, who, despite the prophecies\r\nof the English Government, and the unfavourable predictions of\r\nStephenson, was in the habit of seeing, from his office window, English\r\nships daily passing to and fro on the great canal, by which the old\r\nroundabout route from England to India by the Cape of Good Hope was\r\nabridged by at least a half. The other was a small, slight-built\r\npersonage, with a nervous, intelligent face, and bright eyes peering\r\nout from under eyebrows which he was incessantly twitching. He was just\r\nnow manifesting unmistakable signs of impatience, nervously pacing up\r\nand down, and unable to stand still for a moment. This was Fix, one of\r\nthe detectives who had been dispatched from England in search of the\r\nbank robber; it was his task to narrowly watch every passenger who\r\narrived at Suez, and to follow up all who seemed to be suspicious\r\ncharacters, or bore a resemblance to the description of the criminal,\r\nwhich he had received two days before from the police headquarters at\r\nLondon. The detective was evidently inspired by the hope of obtaining\r\nthe splendid reward which would be the prize of success, and awaited\r\nwith a feverish impatience, easy to understand, the arrival of the\r\nsteamer “Mongolia.”\r\n\r\n“So you say, consul,” asked he for the twentieth time, “that this\r\nsteamer is never behind time?”\r\n\r\n“No, Mr. Fix,” replied the consul. “She was bespoken yesterday at Port\r\nSaid, and the rest of the way is of no account to such a craft. I\r\nrepeat that the ‘Mongolia’ has been in advance of the time required by\r\nthe company’s regulations, and gained the prize awarded for excess of\r\nspeed.”\r\n\r\n“Does she come directly from Brindisi?”\r\n\r\n“Directly from Brindisi; she takes on the Indian mails there, and she\r\nleft there Saturday at five p.m. Have patience, Mr. Fix; she will not\r\nbe late. But really, I don’t see how, from the description you have,\r\nyou will be able to recognise your man, even if he is on board the\r\n‘Mongolia.’”\r\n\r\n“A man rather feels the presence of these fellows, consul, than\r\nrecognises them. You must have a scent for them, and a scent is like a\r\nsixth sense which combines hearing, seeing, and smelling. I’ve arrested\r\nmore than one of these gentlemen in my time, and, if my thief is on\r\nboard, I’ll answer for it; he’ll not slip through my fingers.”\r\n\r\n“I hope so, Mr. Fix, for it was a heavy robbery.”\r\n\r\n“A magnificent robbery, consul; fifty-five thousand pounds! We don’t\r\noften have such windfalls. Burglars are getting to be so contemptible\r\nnowadays! A fellow gets hung for a handful of shillings!”\r\n\r\n“Mr. Fix,” said the consul, “I like your way of talking, and hope\r\nyou’ll succeed; but I fear you will find it far from easy. Don’t you\r\nsee, the description which you have there has a singular resemblance to\r\nan honest man?”\r\n\r\n“Consul,” remarked the detective, dogmatically, “great robbers always\r\nresemble honest folks. Fellows who have rascally faces have only one\r\ncourse to take, and that is to remain honest; otherwise they would be\r\narrested off-hand. The artistic thing is, to unmask honest\r\ncountenances; it’s no light task, I admit, but a real art.”\r\n\r\nMr. Fix evidently was not wanting in a tinge of self-conceit.\r\n\r\nLittle by little the scene on the quay became more animated; sailors of\r\nvarious nations, merchants, ship-brokers, porters, fellahs, bustled to\r\nand fro as if the steamer were immediately expected. The weather was\r\nclear, and slightly chilly. The minarets of the town loomed above the\r\nhouses in the pale rays of the sun. A jetty pier, some two thousand\r\nyards along, extended into the roadstead. A number of fishing-smacks\r\nand coasting boats, some retaining the fantastic fashion of ancient\r\ngalleys, were discernible on the Red Sea.\r\n\r\nAs he passed among the busy crowd, Fix, according to habit, scrutinised\r\nthe passers-by with a keen, rapid glance.\r\n\r\nIt was now half-past ten.\r\n\r\n“The steamer doesn’t come!” he exclaimed, as the port clock struck.\r\n\r\n“She can’t be far off now,” returned his companion.\r\n\r\n“How long will she stop at Suez?”\r\n\r\n“Four hours; long enough to get in her coal. It is thirteen hundred and\r\nten miles from Suez to Aden, at the other end of the Red Sea, and she\r\nhas to take in a fresh coal supply.”\r\n\r\n“And does she go from Suez directly to Bombay?”\r\n\r\n“Without putting in anywhere.”\r\n\r\n“Good!” said Fix. “If the robber is on board he will no doubt get off\r\nat Suez, so as to reach the Dutch or French colonies in Asia by some\r\nother route. He ought to know that he would not be safe an hour in\r\nIndia, which is English soil.”\r\n\r\n“Unless,” objected the consul, “he is exceptionally shrewd. An English\r\ncriminal, you know, is always better concealed in London than anywhere\r\nelse.”\r\n\r\nThis observation furnished the detective food for thought, and\r\nmeanwhile the consul went away to his office. Fix, left alone, was more\r\nimpatient than ever, having a presentiment that the robber was on board\r\nthe “Mongolia.” If he had indeed left London intending to reach the New\r\nWorld, he would naturally take the route _viâ_ India, which was less\r\nwatched and more difficult to watch than that of the Atlantic. But\r\nFix’s reflections were soon interrupted by a succession of sharp\r\nwhistles, which announced the arrival of the “Mongolia.” The porters\r\nand fellahs rushed down the quay, and a dozen boats pushed off from the\r\nshore to go and meet the steamer. Soon her gigantic hull appeared\r\npassing along between the banks, and eleven o’clock struck as she\r\nanchored in the road. She brought an unusual number of passengers, some\r\nof whom remained on deck to scan the picturesque panorama of the town,\r\nwhile the greater part disembarked in the boats, and landed on the\r\nquay.\r\n\r\nFix took up a position, and carefully examined each face and figure\r\nwhich made its appearance. Presently one of the passengers, after\r\nvigorously pushing his way through the importunate crowd of porters,\r\ncame up to him and politely asked if he could point out the English\r\nconsulate, at the same time showing a passport which he wished to have\r\n_visaed_. Fix instinctively took the passport, and with a rapid glance\r\nread the description of its bearer. An involuntary motion of surprise\r\nnearly escaped him, for the description in the passport was identical\r\nwith that of the bank robber which he had received from Scotland Yard.\r\n\r\n“Is this your passport?” asked he.\r\n\r\n“No, it’s my master’s.”\r\n\r\n“And your master is—”\r\n\r\n“He stayed on board.”\r\n\r\n“But he must go to the consul’s in person, so as to establish his\r\nidentity.”\r\n\r\n“Oh, is that necessary?”\r\n\r\n“Quite indispensable.”\r\n\r\n“And where is the consulate?”\r\n\r\n“There, on the corner of the square,” said Fix, pointing to a house two\r\nhundred steps off.\r\n\r\n“I’ll go and fetch my master, who won’t be much pleased, however, to be\r\ndisturbed.”\r\n\r\nThe passenger bowed to Fix, and returned to the steamer."
-    }
-  ]
-};
-      window.aroundWorldBook = new DigitalBook('around-world-book', aroundWorldConfig);
-    </script>
-  
-
-    <h2>🎯 Comprehension Questions</h2>
-                                <p>Answer these questions about today's reading:</p>
-                                
-                                <div style="margin: 30px 0;">
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">1. What were the main events?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">2. How did the characters feel or react?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">3. What do you predict will happen next?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                </div>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;">
+                                <p><em>[Reading passage from Around the World in 80 Days, Chapter 7 will be inserted here from digital book database]</em></p>
+                                <p>This section will include the actual chapter text with vocabulary words highlighted.</p>
+                            </div>
                             
+                            <div style="margin-top: 20px; padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">📚 <strong>Take your time reading!</strong> Think about what's happening in the story.</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 6: Journal 
-                
+                // Page 5: Reading Comprehension
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✍️ Journal Entry</h2>
+                            <h2>🎯 Reading Comprehension</h2>
+                            <p>Answer these questions about today's chapter:</p>
                             
-                            <div style="margin: 25px 0; padding: 25px; background: rgba(176,104,33,0.1); border-left: 4px solid #B06821; border-radius: 8px;">
-                                <h3 style="color: #B06821; margin-bottom: 15px;">Today's Prompt:</h3>
-                                <p style="font-size: 18px; font-style: italic;">
-                                    Write 4-6 sentences about today's reading. What was most interesting or surprising? 
-                                    How did this chapter move the story forward?
+                            <div style="margin: 30px 0;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1E3A8A;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 1:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 7]</p>
+                                    <textarea 
+                                      id="comp-1"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1E3A8A;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 2:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 7]</p>
+                                    <textarea 
+                                      id="comp-2"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1E3A8A;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 3:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 7]</p>
+                                    <textarea 
+                                      id="comp-3"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 6: Journal Reflection
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✍️ Journal Reflection</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 20px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    [Personal reflection prompt related to Chapter 7]
                                 </p>
                             </div>
                             
                             <textarea 
-                                style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #305853; border-radius: 10px; font-size: 16px;"
-                                placeholder="Write your journal entry here..."></textarea>
+                              id="journal"
+                              style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #1E3A8A; border-radius: 12px; font-family: inherit; font-size: 16px; line-height: 1.6;"
+                              placeholder="Write your thoughts here..."
+                            ></textarea>
                         </div>
                     `
                 },
                 
-                
                 // Page 7: Completion
                 {
                     render: () => `
-                        <div class="lesson-page-card completion-page">
-                            <div class="character">📚</div>
+                        <div class="lesson-page-card content-page">
+                            <div style="text-align: center; padding: 40px 20px;">
+                                <div style="font-size: 72px; margin-bottom: 20px;">🎉</div>
+                                <h2 style="color: #305853; margin-bottom: 20px;">Great Job!</h2>
+                                <p style="font-size: 18px; color: #666; max-width: 500px; margin: 0 auto;">
+                                    You've completed Day 67! Come back tomorrow to continue reading <em>Around the World in 80 Days</em>.
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 8: Informational Text 📰
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📰 Informational Text</h2>
+                            <h3 style="color: #1E3A8A;">Related Non-Fiction</h3>
                             
-                                <h1>Day 67 Complete!</h1>
-                                <p style="font-size: 20px; margin: 20px 0;">Great work today!</p>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px; margin-bottom: 25px;">
+                                <p style="margin-bottom: 15px;">Informational text content goes here.</p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #1E3A8A;">
+                                <h4 style="margin-bottom: 15px;">📝 Comprehension Questions:</h4>
                                 
-                                <div style="text-align: left; max-width: 400px; margin: 30px auto; background: rgba(48,88,83,0.05); padding: 25px; border-radius: 12px;">
-                                    <h3 style="color: #305853; margin-bottom: 15px;">✅ Today You:</h3>
-                                    <ul style="line-height: 2;">
-                                        
-                                            <li>Read about The rescue</li>
-                                            <li>Learned 2 vocabulary words</li>
-                                            <li>Answered comprehension questions</li>
-                                            <li>Wrote a journal entry</li>
-                                        
-                                    </ul>
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">1. Question 1?</p>
+                                    <textarea 
+                                      id="info-1"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
                                 </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">2. Question 2?</p>
+                                    <textarea 
+                                      id="info-2"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">3. Question 3?</p>
+                                    <textarea 
+                                      id="info-3"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 9: Grammar in Context ✏️
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✏️ Grammar Workshop</h2>
+                            <h3 style="color: #1E3A8A;">Prepositional Phrases</h3>
                             
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin-bottom: 15px;">
+                                    <strong>📖 What is it?</strong><br>
+                                    A prepositional phrase starts with a preposition (in, on, under, through, etc.) and ends with a noun or pronoun.
+                                </p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>💡 Example from today's reading:</strong><br>
+                                    <em>"The house rose slowly through the air."</em>
+                                </p>
+                            </div>
                             
-                            <a href="student-dashboard.html" 
-                               style="display: inline-block; margin-top: 20px; padding: 15px 35px; background: #B06821; color: white; text-decoration: none; border-radius: 12px; font-size: 18px; font-weight: 700;">
-                                Continue →
-                            </a>
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #1E3A8A;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">✍️ Your Turn:</p>
+                                <p style="margin-bottom: 12px;">Find three prepositional phrases in today's reading and circle the preposition in each one.</p>
+                                <textarea 
+                                  id="grammar"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Write your practice sentences here..."
+                                ></textarea>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 10: Writing Workshop 📝
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>💭 Opinion Writing</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">📝 Prompt:</p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    Should Dorothy have tried harder to get into the cellar, or was it okay that she stopped to get Toto? Defend your opinion.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 15px; background: #fffbf0; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 20px;">
+                                <p style="margin: 0; font-size: 14px;">
+                                    <strong>💡 Remember:</strong> Write a paragraph stating your opinion with at least 2-3 reasons supporting your view. Include a topic sentence and conclusion.
+                                </p>
+                            </div>
+                            
+                            <textarea 
+                              id="writing"
+                              style="width: 100%; min-height: 250px; padding: 15px; border: 2px solid #1E3A8A; border-radius: 12px; font-size: 16px; line-height: 1.8;"
+                              placeholder="Start writing here..."
+                            ></textarea>
+                            
+                            <div style="margin-top: 15px; padding: 12px; background: #f0f9ff; border-radius: 8px;">
+                                <p style="margin: 0; font-size: 13px; color: #0369a1;">
+                                    ✅ <strong>Checklist:</strong> Did you include a topic sentence? Supporting details? A conclusion?
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 11: Language Skills 🎨
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>🎨 Language Skills</h2>
+                            <h3 style="color: #1E3A8A;">Context Clues</h3>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>📖 Learn:</strong><br>
+                                    Use surrounding words to figure out the meaning of an unfamiliar word.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #1E3A8A;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">🎯 Activity:</p>
+                                <p style="margin-bottom: 12px;">Find an unfamiliar word in the text and use context clues to determine its meaning before looking it up.</p>
+                                <textarea 
+                                  id="language"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Complete the activity here..."
+                                ></textarea>
+                            </div>
+                            
+                            <div style="margin-top: 20px; text-align: center; padding: 30px;">
+                                <div style="font-size: 48px; margin-bottom: 15px;">🌟</div>
+                                <h3 style="color: #305853;">Excellent Work!</h3>
+                                <p style="color: #666;">You've completed all 11 pages of Day 67!</p>
+                            </div>
                         </div>
                     `
                 }
-                
             ]
         };
-
-        createLessonViewer('lesson-container', lesson67Config);
+        
+        // Initialize lesson viewer
+        if (typeof initLessonViewer === 'function') {
+            initLessonViewer(lesson67Config);
+        }
     </script>
 </body>
 </html>

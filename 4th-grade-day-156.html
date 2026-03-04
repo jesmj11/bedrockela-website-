@@ -3,13 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 156: Advice from a Caterpillar - 4th Grade BedrockELA</title>
+    <title>Day 156 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=3.2">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container" class="lesson-container"></div>
 
     <script src="js/lesson-viewer.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
     
     <script>
         const lesson156Config = {
@@ -24,206 +35,341 @@
                             <div class="character">📚</div>
                             <h1>Day 156</h1>
                             <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #B06821; font-size: 20px; margin-top: 20px;">
+                            <p style="color: #C7158A; font-size: 20px; margin-top: 20px;">
                                 Alice in Wonderland
                             </p>
                             <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Advice from a Caterpillar
+                                Chapter 6
                             </p>
                         </div>
                     `
                 },
                 
-                
-                // Page 2: Welcome
+                // Page 2: Welcome & Learning Objectives
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
                             <h2>📖 Welcome to Day 156!</h2>
-                            
-                                <p>Today you will:</p>
-                                <ul style="margin: 20px 0; line-height: 2;">
-                                    <li>📖 Read about Who are you?</li>
-                                    <li>📝 Learn 2 new vocabulary words</li>
-                                    <li>🎯 Answer comprehension questions</li>
-                                    <li>✍️ Write a journal entry</li>
-                                </ul>
-                                <p><strong>Time needed:</strong> About 30-45 minutes</p>
-                            
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>📖 Read from <em>Alice in Wonderland</em></li>
+                                <li>📝 Learn 2 new vocabulary words</li>
+                                <li>📰 Read informational text: "Related Non-Fiction"</li>
+                                <li>✍️ Practice grammar: Past Progressive Tense</li>
+                                <li>🎯 Write: Narrative Writing</li>
+                                <li>🎨 Explore: Similes and Metaphors</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
                         </div>
                     `
                 },
                 
-                // Page 3: Vocabulary (2 words)
+                // Page 3: Vocabulary (2 words from text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>📚 Today's Vocabulary</h2>
+                            <h2>📚 Vocabulary Words</h2>
                             
-                            
-                                <div style="margin: 30px 0; padding: 25px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 15px; border: 2px solid #B06821;">
-                                    <div style="margin-bottom: 30px;">
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">caterpillar</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                    
-                                    <div>
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">advice</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                </div>
+                            <div style="margin: 30px 0;">
                                 
-                                <div style="padding: 20px; background: rgba(176,104,33,0.05); border-radius: 10px;">
-                                    <p style="margin: 0;">
-                                        💡 <strong>Watch for these words</strong> in today's reading!
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #C7158A;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">cyclone</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
-                            
-                        </div>
-                    `
-                },
-                
-                // Page 4: Reading
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            
-                                <h2>📖 Today's Reading: Who are you?</h2>
                                 
-                                <div style="background: white; padding: 25px; border-radius: 12px; border: 3px solid #305853; margin: 20px 0;">
-                                    <p style="font-size: 18px; margin-bottom: 15px;">
-                                        📚 Read from Alice in Wonderland
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #C7158A;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">prairie</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
-                                    <p style="font-size: 16px; color: #666; margin-top: 15px;">
-                                        Focus: Chapter 5
-                                    </p>
+                                    <textarea 
+                                      id="vocab-2"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
                                 
-                                <div style="margin-top: 30px; padding: 20px; background: rgba(48,88,83,0.1); border-radius: 10px;">
-                                    <h3 style="color: #305853;">📝 While You Read:</h3>
-                                    <ul style="line-height: 2;">
-                                        <li>Look for the vocabulary words: <strong>caterpillar</strong> and <strong>advice</strong></li>
-                                        <li>What are the main events?</li>
-                                        <li>How do characters change or react?</li>
-                                    </ul>
-                                </div>
+                            </div>
                             
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">💡 <strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 5: Comprehension
+                // Page 4: Literature Reading (placeholder - needs actual book text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
+                            <h2>📖 Reading: Alice in Wonderland</h2>
+                            <h3 style="color: #C7158A;">Chapter 6</h3>
                             
-                                
-    <!-- Digital Book Integration -->
-    <script src="js/digital-book.js"></script>
-    <div id="alice-book"></div>
-    <script>
-      const aliceConfig = {
-  "coverTitle": "Chapter 3",
-  "coverSubtitle": "CHAPTER III.\nA Caucus-Race and a Long Tale",
-  "coverAuthor": "Lewis Carroll",
-  "coverColor": "#6B4C9A",
-  "vocabWords": [],
-  "pages": [
-    {
-      "title": "CHAPTER III.\nA Caucus-Race and a Long Tale",
-      "text": "They were indeed a queer-looking party that assembled on the bank—the\nbirds with draggled feathers, the animals with their fur clinging close\nto them, and all dripping wet, cross, and uncomfortable.\n\nThe first question of course was, how to get dry again: they had a\nconsultation about this, and after a few minutes it seemed quite\nnatural to Alice to find herself talking familiarly with them, as if\nshe had known them all her life. Indeed, she had quite a long argument\nwith the Lory, who at last turned sulky, and would only say, “I am\nolder than you, and must know better;” and this Alice would not allow\nwithout knowing how old it was, and, as the Lory positively refused to\ntell its age, there was no more to be said.\n\nAt last the Mouse, who seemed to be a person of authority among them,\ncalled out, “Sit down, all of you, and listen to me! _I’ll_ soon make\nyou dry enough!” They all sat down at once, in a large ring, with the\nMouse in the middle. Alice kept her eyes anxiously fixed on it, for she\nfelt sure she would catch a bad cold if she did not get dry very soon.\n\n“Ahem!” said the Mouse with an important air, “are you all ready? This\nis the driest thing I know. Silence all round, if you please! ‘William\nthe Conqueror, whose cause was favoured by the pope, was soon submitted\nto by the English, who wanted leaders, and had been of late much\naccustomed to usurpation and conquest. Edwin and Morcar, the earls of\nMercia and Northumbria—’”\n\n“Ugh!” said the Lory, with a shiver.\n\n“I beg your pardon!” said the Mouse, frowning, but very politely: “Did\nyou speak?”\n\n“Not I!” said the Lory hastily.\n\n“I thought you did,” said the Mouse. “—I proceed. ‘Edwin and Morcar,\nthe earls of Mercia and Northumbria, declared for him: and even\nStigand, the patriotic archbishop of Canterbury, found it advisable—’”\n\n“Found _what_?” said the Duck.\n\n“Found _it_,” the Mouse replied rather crossly: “of course you know\nwhat ‘it’ means.”\n\n“I know what ‘it’ means well enough, when _I_ find a thing,” said the\nDuck: “it’s generally a frog or a worm. The question is, what did the\narchbishop find?”\n\nThe Mouse did not notice this question, but hurriedly went on, “‘—found\nit advisable to go with Edgar Atheling to meet William and offer him\nthe crown. William’s conduct at first was moderate. But the insolence\nof his Normans—’ How are you getting on now, my dear?” it continued,\nturning to Alice as it spoke.\n\n“As wet as ever,” said Alice in a melancholy tone: “it doesn’t seem to\ndry me at all.”\n\n“In that case,” said the Dodo solemnly, rising to its feet, “I move\nthat the meeting adjourn, for the immediate adoption of more energetic\nremedies—”\n\n“Speak English!” said the Eaglet. “I don’t know the meaning of half\nthose long words, and, what’s more, I don’t believe you do either!” And\nthe Eaglet bent down its head to hide a smile: some of the other birds\ntittered audibly.\n\n“What I was going to say,” said the Dodo in an offended tone, “was,\nthat the best thing to get us dry would be a Caucus-race.”\n\n“What _is_ a Caucus-race?” said Alice; not that she wanted much to\nknow, but the Dodo had paused as if it thought that _somebody_ ought to\nspeak, and no one else seemed inclined to say anything.\n\n“Why,” said the Dodo, “the best way to explain it is to do it.” (And,\nas you might like to try the thing yourself, some winter day, I will\ntell you how the Dodo managed it.)\n\nFirst it marked out a race-course, in a sort of circle, (“the exact\nshape doesn’t matter,” it said,) and then all the party were placed\nalong the course, here and there. There was no “One, two, three, and\naway,” but they began running when they liked, and left off when they\nliked, so that it was not easy to know when the race was over. However,\nwhen they had been running half an hour or so, and were quite dry\nagain, the Dodo suddenly called out “The race is over!” and they all\ncrowded round it, panting, and asking, “But who has won?”\n\nThis question the Dodo could not answer without a great deal of\nthought, and it sat for a long time with one finger pressed upon its\nforehead (the position in which you usually see Shakespeare, in the\npictures of him), while the rest waited in silence. At last the Dodo\nsaid, “_Everybody_ has won, and all must have prizes.”\n\n“But who is to give the prizes?” quite a chorus of voices asked.\n\n“Why, _she_, of course,” said the Dodo, pointing to Alice with one\nfinger; and the whole party at once crowded round her, calling out in a\nconfused way, “Prizes! Prizes!”\n\nAlice had no idea what to do, and in despair she put her hand in her\npocket, and pulled out a box of comfits, (luckily the salt water had\nnot got into it), and handed them round as prizes. There was exactly\none a-piece, all round.\n\n“But she must have a prize herself, you know,” said the Mouse.\n\n“Of course,” the Dodo replied very gravely. “What else have you got in\nyour pocket?” he went on, turning to Alice.\n\n“Only a thimble,” said Alice sadly.\n\n“Hand it over here,” said the Dodo.\n\nThen they all crowded round her once more, while the Dodo solemnly\npresented the thimble, saying “We beg your acceptance of this elegant\nthimble;” and, when it had finished this short speech, they all\ncheered.\n\nAlice thought the whole thing very absurd, but they all looked so grave\nthat she did not dare to laugh; and, as she could not think of anything\nto say, she simply bowed, and took the thimble, looking as solemn as\nshe could.\n\nThe next thing was to eat the comfits: this caused some noise and\nconfusion, as the large birds complained that they could not taste\ntheirs, and the small ones choked and had to be patted on the back.\nHowever, it was over at last, and they sat down again in a ring, and\nbegged the Mouse to tell them something more.\n\n“You promised to tell me your history, you know,” said Alice, “and why\nit is you hate—C and D,” she added in a whisper, half afraid that it\nwould be offended again.\n\n“Mine is a long and a sad tale!” said the Mouse, turning to Alice, and\nsighing.\n\n“It _is_ a long tail, certainly,” said Alice, looking down with wonder\nat the Mouse’s tail; “but why do you call it sad?” And she kept on\npuzzling about it while the Mouse was speaking, so that her idea of the\ntale was something like this:—\n\n         “Fury said to a mouse, That he met in the house, ‘Let us both\n         go to law: _I_ will prosecute _you_.—Come, I’ll take no\n         denial; We must have a trial: For really this morning I’ve\n         nothing to do.’ Said the mouse to the cur, ‘Such a trial, dear\n         sir, With no jury or judge, would be wasting our breath.’\n         ‘I’ll be judge, I’ll be jury,’ Said cunning old Fury: ‘I’ll\n         try the whole cause, and condemn you to death.’”\n\n“You are not attending!” said the Mouse to Alice severely. “What are\nyou thinking of?”\n\n“I beg your pardon,” said Alice very humbly: “you had got to the fifth\nbend, I think?”\n\n“I had _not!_” cried the Mouse, sharply and very angrily.\n\n“A knot!” said Alice, always ready to make herself useful, and looking\nanxiously about her. “Oh, do let me help to undo it!”\n\n“I shall do nothing of the sort,” said the Mouse, getting up and\nwalking away. “You insult me by talking such nonsense!”\n\n“I didn’t mean it!” pleaded poor Alice. “But you’re so easily offended,\nyou know!”\n\nThe Mouse only growled in reply.\n\n“Please come back and finish your story!” Alice called after it; and\nthe others all joined in chorus, “Yes, please do!” but the Mouse only\nshook its head impatiently, and walked a little quicker.\n\n“What a pity it wouldn’t stay!” sighed the Lory, as soon as it was\nquite out of sight; and an old Crab took the opportunity of saying to\nher daughter “Ah, my dear! Let this be a lesson to you never to lose\n_your_ temper!” “Hold your tongue, Ma!” said the young Crab, a little\nsnappishly. “You’re enough to try the patience of an oyster!”\n\n“I wish I had our Dinah here, I know I do!” said Alice aloud,\naddressing nobody in particular. “She’d soon fetch it back!”\n\n“And who is Dinah, if I might venture to ask the question?” said the\nLory.\n\nAlice replied eagerly, for she was always ready to talk about her pet:\n“Dinah’s our cat. And she’s such a capital one for catching mice you\ncan’t think! And oh, I wish you could see her after the birds! Why,\nshe’ll eat a little bird as soon as look at it!”\n\nThis speech caused a remarkable sensation among the party. Some of the\nbirds hurried off at once: one old Magpie began wrapping itself up very\ncarefully, remarking, “I really must be getting home; the night-air\ndoesn’t suit my throat!” and a Canary called out in a trembling voice\nto its children, “Come away, my dears! It’s high time you were all in\nbed!” On various pretexts they all moved off, and Alice was soon left\nalone.\n\n“I wish I hadn’t mentioned Dinah!” she said to herself in a melancholy\ntone. “Nobody seems to like her, down here, and I’m sure she’s the best\ncat in the world! Oh, my dear Dinah! I wonder if I shall ever see you\nany more!” And here poor Alice began to cry again, for she felt very\nlonely and low-spirited. In a little while, however, she again heard a\nlittle pattering of footsteps in the distance, and she looked up\neagerly, half hoping that the Mouse had changed his mind, and was\ncoming back to finish his story."
-    }
-  ]
-};
-      window.aliceBook = new DigitalBook('alice-book', aliceConfig);
-    </script>
-  
-
-    <h2>🎯 Comprehension Questions</h2>
-                                <p>Answer these questions about today's reading:</p>
-                                
-                                <div style="margin: 30px 0;">
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">1. What were the main events?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">2. How did the characters feel or react?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">3. What do you predict will happen next?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                </div>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;">
+                                <p><em>[Reading passage from Alice in Wonderland, Chapter 6 will be inserted here from digital book database]</em></p>
+                                <p>This section will include the actual chapter text with vocabulary words highlighted.</p>
+                            </div>
                             
+                            <div style="margin-top: 20px; padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">📚 <strong>Take your time reading!</strong> Think about what's happening in the story.</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 6: Journal 
-                
+                // Page 5: Reading Comprehension
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✍️ Journal Entry</h2>
+                            <h2>🎯 Reading Comprehension</h2>
+                            <p>Answer these questions about today's chapter:</p>
                             
-                            <div style="margin: 25px 0; padding: 25px; background: rgba(176,104,33,0.1); border-left: 4px solid #B06821; border-radius: 8px;">
-                                <h3 style="color: #B06821; margin-bottom: 15px;">Today's Prompt:</h3>
-                                <p style="font-size: 18px; font-style: italic;">
-                                    Write 4-6 sentences about today's reading. What was most interesting or surprising? 
-                                    How did this chapter move the story forward?
+                            <div style="margin: 30px 0;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #C7158A;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 1:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 6]</p>
+                                    <textarea 
+                                      id="comp-1"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #C7158A;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 2:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 6]</p>
+                                    <textarea 
+                                      id="comp-2"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #C7158A;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 3:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 6]</p>
+                                    <textarea 
+                                      id="comp-3"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 6: Journal Reflection
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✍️ Journal Reflection</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 20px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    [Personal reflection prompt related to Chapter 6]
                                 </p>
                             </div>
                             
                             <textarea 
-                                style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #305853; border-radius: 10px; font-size: 16px;"
-                                placeholder="Write your journal entry here..."></textarea>
+                              id="journal"
+                              style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #C7158A; border-radius: 12px; font-family: inherit; font-size: 16px; line-height: 1.6;"
+                              placeholder="Write your thoughts here..."
+                            ></textarea>
                         </div>
                     `
                 },
                 
-                
                 // Page 7: Completion
                 {
                     render: () => `
-                        <div class="lesson-page-card completion-page">
-                            <div class="character">📚</div>
+                        <div class="lesson-page-card content-page">
+                            <div style="text-align: center; padding: 40px 20px;">
+                                <div style="font-size: 72px; margin-bottom: 20px;">🎉</div>
+                                <h2 style="color: #305853; margin-bottom: 20px;">Great Job!</h2>
+                                <p style="font-size: 18px; color: #666; max-width: 500px; margin: 0 auto;">
+                                    You've completed Day 156! Come back tomorrow to continue reading <em>Alice in Wonderland</em>.
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 8: Informational Text 📰
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📰 Informational Text</h2>
+                            <h3 style="color: #C7158A;">Related Non-Fiction</h3>
                             
-                                <h1>Day 156 Complete!</h1>
-                                <p style="font-size: 20px; margin: 20px 0;">Great work today!</p>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px; margin-bottom: 25px;">
+                                <p style="margin-bottom: 15px;">Informational text content goes here.</p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #C7158A;">
+                                <h4 style="margin-bottom: 15px;">📝 Comprehension Questions:</h4>
                                 
-                                <div style="text-align: left; max-width: 400px; margin: 30px auto; background: rgba(48,88,83,0.05); padding: 25px; border-radius: 12px;">
-                                    <h3 style="color: #305853; margin-bottom: 15px;">✅ Today You:</h3>
-                                    <ul style="line-height: 2;">
-                                        
-                                            <li>Read about Who are you?</li>
-                                            <li>Learned 2 vocabulary words</li>
-                                            <li>Answered comprehension questions</li>
-                                            <li>Wrote a journal entry</li>
-                                        
-                                    </ul>
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">1. Question 1?</p>
+                                    <textarea 
+                                      id="info-1"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
                                 </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">2. Question 2?</p>
+                                    <textarea 
+                                      id="info-2"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">3. Question 3?</p>
+                                    <textarea 
+                                      id="info-3"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 9: Grammar in Context ✏️
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✏️ Grammar Workshop</h2>
+                            <h3 style="color: #C7158A;">Past Progressive Tense</h3>
                             
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin-bottom: 15px;">
+                                    <strong>📖 What is it?</strong><br>
+                                    The past progressive tense shows an action that was ongoing in the past. Form it by using 'was' or 'were' + verb ending in '-ing'.
+                                </p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>💡 Example from today's reading:</strong><br>
+                                    <em>"Dorothy was walking (past progressive) when she saw (simple past) the Scarecrow."</em>
+                                </p>
+                            </div>
                             
-                            <a href="student-dashboard.html" 
-                               style="display: inline-block; margin-top: 20px; padding: 15px 35px; background: #B06821; color: white; text-decoration: none; border-radius: 12px; font-size: 18px; font-weight: 700;">
-                                Continue →
-                            </a>
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #C7158A;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">✍️ Your Turn:</p>
+                                <p style="margin-bottom: 12px;">Write three sentences using the past progressive tense to describe things happening in today's chapter.</p>
+                                <textarea 
+                                  id="grammar"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Write your practice sentences here..."
+                                ></textarea>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 10: Writing Workshop 📝
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📖 Narrative Writing</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">📝 Prompt:</p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    Imagine you are Aunt Em in the cellar. Write about what you're thinking as the storm passes overhead.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 15px; background: #fffbf0; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 20px;">
+                                <p style="margin: 0; font-size: 14px;">
+                                    <strong>💡 Remember:</strong> Write a short story or scene with a clear beginning, middle, and end. Include descriptive details and dialogue if appropriate.
+                                </p>
+                            </div>
+                            
+                            <textarea 
+                              id="writing"
+                              style="width: 100%; min-height: 250px; padding: 15px; border: 2px solid #C7158A; border-radius: 12px; font-size: 16px; line-height: 1.8;"
+                              placeholder="Start writing here..."
+                            ></textarea>
+                            
+                            <div style="margin-top: 15px; padding: 12px; background: #f0f9ff; border-radius: 8px;">
+                                <p style="margin: 0; font-size: 13px; color: #0369a1;">
+                                    ✅ <strong>Checklist:</strong> Did you include a topic sentence? Supporting details? A conclusion?
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 11: Language Skills 🎨
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>🎨 Language Skills</h2>
+                            <h3 style="color: #C7158A;">Similes and Metaphors</h3>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>📖 Learn:</strong><br>
+                                    A simile compares two things using 'like' or 'as'. A metaphor says one thing IS another thing.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #C7158A;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">🎯 Activity:</p>
+                                <p style="margin-bottom: 12px;">Find the simile in today's reading or create your own simile about the story.</p>
+                                <textarea 
+                                  id="language"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Complete the activity here..."
+                                ></textarea>
+                            </div>
+                            
+                            <div style="margin-top: 20px; text-align: center; padding: 30px;">
+                                <div style="font-size: 48px; margin-bottom: 15px;">🌟</div>
+                                <h3 style="color: #305853;">Excellent Work!</h3>
+                                <p style="color: #666;">You've completed all 11 pages of Day 156!</p>
+                            </div>
                         </div>
                     `
                 }
-                
             ]
         };
-
-        createLessonViewer('lesson-container', lesson156Config);
+        
+        // Initialize lesson viewer
+        if (typeof initLessonViewer === 'function') {
+            initLessonViewer(lesson156Config);
+        }
     </script>
 </body>
 </html>

@@ -3,13 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 161: The Croquet Game - 4th Grade BedrockELA</title>
+    <title>Day 161 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=3.2">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container" class="lesson-container"></div>
 
     <script src="js/lesson-viewer.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
     
     <script>
         const lesson161Config = {
@@ -24,206 +35,341 @@
                             <div class="character">📚</div>
                             <h1>Day 161</h1>
                             <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #B06821; font-size: 20px; margin-top: 20px;">
+                            <p style="color: #C7158A; font-size: 20px; margin-top: 20px;">
                                 Alice in Wonderland
                             </p>
                             <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                The Croquet Game
+                                Chapter 11
                             </p>
                         </div>
                     `
                 },
                 
-                
-                // Page 2: Welcome
+                // Page 2: Welcome & Learning Objectives
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
                             <h2>📖 Welcome to Day 161!</h2>
-                            
-                                <p>Today you will:</p>
-                                <ul style="margin: 20px 0; line-height: 2;">
-                                    <li>📖 Read about Impossible game</li>
-                                    <li>📝 Learn 2 new vocabulary words</li>
-                                    <li>🎯 Answer comprehension questions</li>
-                                    <li>✍️ Write a journal entry</li>
-                                </ul>
-                                <p><strong>Time needed:</strong> About 30-45 minutes</p>
-                            
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>📖 Read from <em>Alice in Wonderland</em></li>
+                                <li>📝 Learn 2 new vocabulary words</li>
+                                <li>📰 Read informational text: "Related Non-Fiction"</li>
+                                <li>✍️ Practice grammar: Past Progressive Tense</li>
+                                <li>🎯 Write: Informative Writing</li>
+                                <li>🎨 Explore: Similes and Metaphors</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
                         </div>
                     `
                 },
                 
-                // Page 3: Vocabulary (2 words)
+                // Page 3: Vocabulary (2 words from text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>📚 Today's Vocabulary</h2>
+                            <h2>📚 Vocabulary Words</h2>
                             
-                            
-                                <div style="margin: 30px 0; padding: 25px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 15px; border: 2px solid #B06821;">
-                                    <div style="margin-bottom: 30px;">
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">croquet</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                    
-                                    <div>
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">chaos</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                </div>
+                            <div style="margin: 30px 0;">
                                 
-                                <div style="padding: 20px; background: rgba(176,104,33,0.05); border-radius: 10px;">
-                                    <p style="margin: 0;">
-                                        💡 <strong>Watch for these words</strong> in today's reading!
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #C7158A;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">cyclone</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
-                            
-                        </div>
-                    `
-                },
-                
-                // Page 4: Reading
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            
-                                <h2>📖 Today's Reading: Impossible game</h2>
                                 
-                                <div style="background: white; padding: 25px; border-radius: 12px; border: 3px solid #305853; margin: 20px 0;">
-                                    <p style="font-size: 18px; margin-bottom: 15px;">
-                                        📚 Read from Alice in Wonderland
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #C7158A;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">prairie</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
-                                    <p style="font-size: 16px; color: #666; margin-top: 15px;">
-                                        Focus: Chapter 9
-                                    </p>
+                                    <textarea 
+                                      id="vocab-2"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
                                 
-                                <div style="margin-top: 30px; padding: 20px; background: rgba(48,88,83,0.1); border-radius: 10px;">
-                                    <h3 style="color: #305853;">📝 While You Read:</h3>
-                                    <ul style="line-height: 2;">
-                                        <li>Look for the vocabulary words: <strong>croquet</strong> and <strong>chaos</strong></li>
-                                        <li>What are the main events?</li>
-                                        <li>How do characters change or react?</li>
-                                    </ul>
-                                </div>
+                            </div>
                             
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">💡 <strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 5: Comprehension
+                // Page 4: Literature Reading (placeholder - needs actual book text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
+                            <h2>📖 Reading: Alice in Wonderland</h2>
+                            <h3 style="color: #C7158A;">Chapter 11</h3>
                             
-                                
-    <!-- Digital Book Integration -->
-    <script src="js/digital-book.js"></script>
-    <div id="alice-book"></div>
-    <script>
-      const aliceConfig = {
-  "coverTitle": "Chapter 5",
-  "coverSubtitle": "CHAPTER V.\nAdvice from a Caterpillar",
-  "coverAuthor": "Lewis Carroll",
-  "coverColor": "#6B4C9A",
-  "vocabWords": [],
-  "pages": [
-    {
-      "title": "CHAPTER V.\nAdvice from a Caterpillar",
-      "text": "The Caterpillar and Alice looked at each other for some time in\nsilence: at last the Caterpillar took the hookah out of its mouth, and\naddressed her in a languid, sleepy voice.\n\n“Who are _you?_” said the Caterpillar.\n\nThis was not an encouraging opening for a conversation. Alice replied,\nrather shyly, “I—I hardly know, sir, just at present—at least I know\nwho I _was_ when I got up this morning, but I think I must have been\nchanged several times since then.”\n\n“What do you mean by that?” said the Caterpillar sternly. “Explain\nyourself!”\n\n“I can’t explain _myself_, I’m afraid, sir,” said Alice, “because I’m\nnot myself, you see.”\n\n“I don’t see,” said the Caterpillar.\n\n“I’m afraid I can’t put it more clearly,” Alice replied very politely,\n“for I can’t understand it myself to begin with; and being so many\ndifferent sizes in a day is very confusing.”\n\n“It isn’t,” said the Caterpillar.\n\n“Well, perhaps you haven’t found it so yet,” said Alice; “but when you\nhave to turn into a chrysalis—you will some day, you know—and then\nafter that into a butterfly, I should think you’ll feel it a little\nqueer, won’t you?”\n\n“Not a bit,” said the Caterpillar.\n\n“Well, perhaps your feelings may be different,” said Alice; “all I know\nis, it would feel very queer to _me_.”\n\n“You!” said the Caterpillar contemptuously. “Who are _you?_”\n\nWhich brought them back again to the beginning of the conversation.\nAlice felt a little irritated at the Caterpillar’s making such _very_\nshort remarks, and she drew herself up and said, very gravely, “I\nthink, you ought to tell me who _you_ are, first.”\n\n“Why?” said the Caterpillar.\n\nHere was another puzzling question; and as Alice could not think of any\ngood reason, and as the Caterpillar seemed to be in a _very_ unpleasant\nstate of mind, she turned away.\n\n“Come back!” the Caterpillar called after her. “I’ve something\nimportant to say!”\n\nThis sounded promising, certainly: Alice turned and came back again.\n\n“Keep your temper,” said the Caterpillar.\n\n“Is that all?” said Alice, swallowing down her anger as well as she\ncould.\n\n“No,” said the Caterpillar.\n\nAlice thought she might as well wait, as she had nothing else to do,\nand perhaps after all it might tell her something worth hearing. For\nsome minutes it puffed away without speaking, but at last it unfolded\nits arms, took the hookah out of its mouth again, and said, “So you\nthink you’re changed, do you?”\n\n“I’m afraid I am, sir,” said Alice; “I can’t remember things as I\nused—and I don’t keep the same size for ten minutes together!”\n\n“Can’t remember _what_ things?” said the Caterpillar.\n\n“Well, I’ve tried to say “How doth the little busy bee,” but it all\ncame different!” Alice replied in a very melancholy voice.\n\n“Repeat, ‘_You are old, Father William_,’” said the Caterpillar.\n\nAlice folded her hands, and began:—\n\n“You are old, Father William,” the young man said,\n    “And your hair has become very white;\nAnd yet you incessantly stand on your head—\n    Do you think, at your age, it is right?”\n\n“In my youth,” Father William replied to his son,\n    “I feared it might injure the brain;\nBut, now that I’m perfectly sure I have none,\n    Why, I do it again and again.”\n\n“You are old,” said the youth, “as I mentioned before,\n    And have grown most uncommonly fat;\nYet you turned a back-somersault in at the door—\n    Pray, what is the reason of that?”\n\n“In my youth,” said the sage, as he shook his grey locks,\n    “I kept all my limbs very supple\nBy the use of this ointment—one shilling the box—\n    Allow me to sell you a couple?”\n\n“You are old,” said the youth, “and your jaws are too weak\n    For anything tougher than suet;\nYet you finished the goose, with the bones and the beak—\n    Pray, how did you manage to do it?”\n\n“In my youth,” said his father, “I took to the law,\n    And argued each case with my wife;\nAnd the muscular strength, which it gave to my jaw,\n    Has lasted the rest of my life.”\n\n“You are old,” said the youth, “one would hardly suppose\n    That your eye was as steady as ever;\nYet you balanced an eel on the end of your nose—\n    What made you so awfully clever?”\n\n“I have answered three questions, and that is enough,”\n    Said his father; “don’t give yourself airs!\nDo you think I can listen all day to such stuff?\n    Be off, or I’ll kick you down stairs!”\n\n\n“That is not said right,” said the Caterpillar.\n\n“Not _quite_ right, I’m afraid,” said Alice, timidly; “some of the\nwords have got altered.”\n\n“It is wrong from beginning to end,” said the Caterpillar decidedly,\nand there was silence for some minutes.\n\nThe Caterpillar was the first to speak.\n\n“What size do you want to be?” it asked.\n\n“Oh, I’m not particular as to size,” Alice hastily replied; “only one\ndoesn’t like changing so often, you know.”\n\n“I _don’t_ know,” said the Caterpillar.\n\nAlice said nothing: she had never been so much contradicted in her life\nbefore, and she felt that she was losing her temper.\n\n“Are you content now?” said the Caterpillar.\n\n“Well, I should like to be a _little_ larger, sir, if you wouldn’t\nmind,” said Alice: “three inches is such a wretched height to be.”\n\n“It is a very good height indeed!” said the Caterpillar angrily,\nrearing itself upright as it spoke (it was exactly three inches high).\n\n“But I’m not used to it!” pleaded poor Alice in a piteous tone. And she\nthought of herself, “I wish the creatures wouldn’t be so easily\noffended!”\n\n“You’ll get used to it in time,” said the Caterpillar; and it put the\nhookah into its mouth and began smoking again.\n\nThis time Alice waited patiently until it chose to speak again. In a\nminute or two the Caterpillar took the hookah out of its mouth and\nyawned once or twice, and shook itself. Then it got down off the\nmushroom, and crawled away in the grass, merely remarking as it went,\n“One side will make you grow taller, and the other side will make you\ngrow shorter.”\n\n“One side of _what?_ The other side of _what?_” thought Alice to\nherself.\n\n“Of the mushroom,” said the Caterpillar, just as if she had asked it\naloud; and in another moment it was out of sight.\n\nAlice remained looking thoughtfully at the mushroom for a minute,\ntrying to make out which were the two sides of it; and as it was\nperfectly round, she found this a very difficult question. However, at\nlast she stretched her arms round it as far as they would go, and broke\noff a bit of the edge with each hand.\n\n“And now which is which?” she said to herself, and nibbled a little of\nthe right-hand bit to try the effect: the next moment she felt a\nviolent blow underneath her chin: it had struck her foot!\n\nShe was a good deal frightened by this very sudden change, but she felt\nthat there was no time to be lost, as she was shrinking rapidly; so she\nset to work at once to eat some of the other bit. Her chin was pressed\nso closely against her foot, that there was hardly room to open her\nmouth; but she did it at last, and managed to swallow a morsel of the\nlefthand bit.\n\n*      *      *      *      *      *      *\n\n    *      *      *      *      *      *\n\n*      *      *      *      *      *      *\n\n\n“Come, my head’s free at last!” said Alice in a tone of delight, which\nchanged into alarm in another moment, when she found that her shoulders\nwere nowhere to be found: all she could see, when she looked down, was\nan immense length of neck, which seemed to rise like a stalk out of a\nsea of green leaves that lay far below her.\n\n“What _can_ all that green stuff be?” said Alice. “And where _have_ my\nshoulders got to? And oh, my poor hands, how is it I can’t see you?”\nShe was moving them about as she spoke, but no result seemed to follow,\nexcept a little shaking among the distant green leaves.\n\nAs there seemed to be no chance of getting her hands up to her head,\nshe tried to get her head down to them, and was delighted to find that\nher neck would bend about easily in any direction, like a serpent. She\nhad just succeeded in curving it down into a graceful zigzag, and was\ngoing to dive in among the leaves, which she found to be nothing but\nthe tops of the trees under which she had been wandering, when a sharp\nhiss made her draw back in a hurry: a large pigeon had flown into her\nface, and was beating her violently with its wings.\n\n“Serpent!” screamed the Pigeon.\n\n“I’m _not_ a serpent!” said Alice indignantly. “Let me alone!”\n\n“Serpent, I say again!” repeated the Pigeon, but in a more subdued\ntone, and added with a kind of sob, “I’ve tried every way, and nothing\nseems to suit them!”\n\n“I haven’t the least idea what you’re talking about,” said Alice.\n\n“I’ve tried the roots of trees, and I’ve tried banks, and I’ve tried\nhedges,” the Pigeon went on, without attending to her; “but those\nserpents! There’s no pleasing them!”\n\nAlice was more and more puzzled, but she thought there was no use in\nsaying anything more till the Pigeon had finished.\n\n“As if it wasn’t trouble enough hatching the eggs,” said the Pigeon;\n“but I must be on the look-out for serpents night and day! Why, I\nhaven’t had a wink of sleep these three weeks!”\n\n“I’m very sorry you’ve been annoyed,” said Alice, who was beginning to\nsee its meaning.\n\n“And just as I’d taken the highest tree in the wood,” continued the\nPigeon, raising its voice to a shriek, “and just as I was thinking I\nshould be free of them at last, they must needs come wriggling down\nfrom the sky! Ugh, Serpent!”\n\n“But I’m _not_ a serpent, I tell you!” said Alice. “I’m a—I’m a—”\n\n“Well! _What_ are you?” said the Pigeon. “I can see you’re trying to\ninvent something!”\n\n“I—I’m a little girl,” said Alice, rather doubtfully, as she remembered\nthe number of changes she had gone through that day.\n\n“A likely story indeed!” said the Pigeon in a tone of the deepest\ncontempt. “I’ve seen a good many little girls in my time, but never\n_one_ with such a neck as that! No, no! You’re a serpent; and there’s\nno use denying it. I suppose you’ll be telling me next that you never\ntasted an egg!”\n\n“I _have_ tasted eggs, certainly,” said Alice, who was a very truthful\nchild; “but little girls eat eggs quite as much as serpents do, you\nknow.”\n\n“I don’t believe it,” said the Pigeon; “but if they do, why then\nthey’re a kind of serpent, that’s all I can say.”\n\nThis was such a new idea to Alice, that she was quite silent for a\nminute or two, which gave the Pigeon the opportunity of adding, “You’re\nlooking for eggs, I know _that_ well enough; and what does it matter to\nme whether you’re a little girl or a serpent?”\n\n“It matters a good deal to _me_,” said Alice hastily; “but I’m not\nlooking for eggs, as it happens; and if I was, I shouldn’t want\n_yours_: I don’t like them raw.”\n\n“Well, be off, then!” said the Pigeon in a sulky tone, as it settled\ndown again into its nest. Alice crouched down among the trees as well\nas she could, for her neck kept getting entangled among the branches,\nand every now and then she had to stop and untwist it. After a while\nshe remembered that she still held the pieces of mushroom in her hands,\nand she set to work very carefully, nibbling first at one and then at\nthe other, and growing sometimes taller and sometimes shorter, until\nshe had succeeded in bringing herself down to her usual height.\n\nIt was so long since she had been anything near the right size, that it\nfelt quite strange at first; but she got used to it in a few minutes,\nand began talking to herself, as usual. “Come, there’s half my plan\ndone now! How puzzling all these changes are! I’m never sure what I’m\ngoing to be, from one minute to another! However, I’ve got back to my\nright size: the next thing is, to get into that beautiful garden—how\n_is_ that to be done, I wonder?” As she said this, she came suddenly\nupon an open place, with a little house in it about four feet high.\n“Whoever lives there,” thought Alice, “it’ll never do to come upon them\n_this_ size: why, I should frighten them out of their wits!” So she\nbegan nibbling at the righthand bit again, and did not venture to go\nnear the house till she had brought herself down to nine inches high."
-    }
-  ]
-};
-      window.aliceBook = new DigitalBook('alice-book', aliceConfig);
-    </script>
-  
-
-    <h2>🎯 Comprehension Questions</h2>
-                                <p>Answer these questions about today's reading:</p>
-                                
-                                <div style="margin: 30px 0;">
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">1. What were the main events?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">2. How did the characters feel or react?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">3. What do you predict will happen next?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                </div>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;">
+                                <p><em>[Reading passage from Alice in Wonderland, Chapter 11 will be inserted here from digital book database]</em></p>
+                                <p>This section will include the actual chapter text with vocabulary words highlighted.</p>
+                            </div>
                             
+                            <div style="margin-top: 20px; padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">📚 <strong>Take your time reading!</strong> Think about what's happening in the story.</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 6: Journal 
-                
+                // Page 5: Reading Comprehension
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✍️ Journal Entry</h2>
+                            <h2>🎯 Reading Comprehension</h2>
+                            <p>Answer these questions about today's chapter:</p>
                             
-                            <div style="margin: 25px 0; padding: 25px; background: rgba(176,104,33,0.1); border-left: 4px solid #B06821; border-radius: 8px;">
-                                <h3 style="color: #B06821; margin-bottom: 15px;">Today's Prompt:</h3>
-                                <p style="font-size: 18px; font-style: italic;">
-                                    Write 4-6 sentences about today's reading. What was most interesting or surprising? 
-                                    How did this chapter move the story forward?
+                            <div style="margin: 30px 0;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #C7158A;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 1:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 11]</p>
+                                    <textarea 
+                                      id="comp-1"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #C7158A;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 2:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 11]</p>
+                                    <textarea 
+                                      id="comp-2"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #C7158A;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 3:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 11]</p>
+                                    <textarea 
+                                      id="comp-3"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 6: Journal Reflection
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✍️ Journal Reflection</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 20px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    [Personal reflection prompt related to Chapter 11]
                                 </p>
                             </div>
                             
                             <textarea 
-                                style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #305853; border-radius: 10px; font-size: 16px;"
-                                placeholder="Write your journal entry here..."></textarea>
+                              id="journal"
+                              style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #C7158A; border-radius: 12px; font-family: inherit; font-size: 16px; line-height: 1.6;"
+                              placeholder="Write your thoughts here..."
+                            ></textarea>
                         </div>
                     `
                 },
                 
-                
                 // Page 7: Completion
                 {
                     render: () => `
-                        <div class="lesson-page-card completion-page">
-                            <div class="character">📚</div>
+                        <div class="lesson-page-card content-page">
+                            <div style="text-align: center; padding: 40px 20px;">
+                                <div style="font-size: 72px; margin-bottom: 20px;">🎉</div>
+                                <h2 style="color: #305853; margin-bottom: 20px;">Great Job!</h2>
+                                <p style="font-size: 18px; color: #666; max-width: 500px; margin: 0 auto;">
+                                    You've completed Day 161! Come back tomorrow to continue reading <em>Alice in Wonderland</em>.
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 8: Informational Text 📰
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📰 Informational Text</h2>
+                            <h3 style="color: #C7158A;">Related Non-Fiction</h3>
                             
-                                <h1>Day 161 Complete!</h1>
-                                <p style="font-size: 20px; margin: 20px 0;">Great work today!</p>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px; margin-bottom: 25px;">
+                                <p style="margin-bottom: 15px;">Informational text content goes here.</p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #C7158A;">
+                                <h4 style="margin-bottom: 15px;">📝 Comprehension Questions:</h4>
                                 
-                                <div style="text-align: left; max-width: 400px; margin: 30px auto; background: rgba(48,88,83,0.05); padding: 25px; border-radius: 12px;">
-                                    <h3 style="color: #305853; margin-bottom: 15px;">✅ Today You:</h3>
-                                    <ul style="line-height: 2;">
-                                        
-                                            <li>Read about Impossible game</li>
-                                            <li>Learned 2 vocabulary words</li>
-                                            <li>Answered comprehension questions</li>
-                                            <li>Wrote a journal entry</li>
-                                        
-                                    </ul>
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">1. Question 1?</p>
+                                    <textarea 
+                                      id="info-1"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
                                 </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">2. Question 2?</p>
+                                    <textarea 
+                                      id="info-2"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">3. Question 3?</p>
+                                    <textarea 
+                                      id="info-3"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 9: Grammar in Context ✏️
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✏️ Grammar Workshop</h2>
+                            <h3 style="color: #C7158A;">Past Progressive Tense</h3>
                             
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin-bottom: 15px;">
+                                    <strong>📖 What is it?</strong><br>
+                                    The past progressive tense shows an action that was ongoing in the past. Form it by using 'was' or 'were' + verb ending in '-ing'.
+                                </p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>💡 Example from today's reading:</strong><br>
+                                    <em>"Dorothy was walking (past progressive) when she saw (simple past) the Scarecrow."</em>
+                                </p>
+                            </div>
                             
-                            <a href="student-dashboard.html" 
-                               style="display: inline-block; margin-top: 20px; padding: 15px 35px; background: #B06821; color: white; text-decoration: none; border-radius: 12px; font-size: 18px; font-weight: 700;">
-                                Continue →
-                            </a>
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #C7158A;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">✍️ Your Turn:</p>
+                                <p style="margin-bottom: 12px;">Write three sentences using the past progressive tense to describe things happening in today's chapter.</p>
+                                <textarea 
+                                  id="grammar"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Write your practice sentences here..."
+                                ></textarea>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 10: Writing Workshop 📝
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📝 Informative Writing</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">📝 Prompt:</p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    Describe what life was like for Dorothy in Kansas before the cyclone. Include at least 3 specific details.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 15px; background: #fffbf0; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 20px;">
+                                <p style="margin: 0; font-size: 14px;">
+                                    <strong>💡 Remember:</strong> Write a paragraph explaining something from the story. Include clear details and examples.
+                                </p>
+                            </div>
+                            
+                            <textarea 
+                              id="writing"
+                              style="width: 100%; min-height: 250px; padding: 15px; border: 2px solid #C7158A; border-radius: 12px; font-size: 16px; line-height: 1.8;"
+                              placeholder="Start writing here..."
+                            ></textarea>
+                            
+                            <div style="margin-top: 15px; padding: 12px; background: #f0f9ff; border-radius: 8px;">
+                                <p style="margin: 0; font-size: 13px; color: #0369a1;">
+                                    ✅ <strong>Checklist:</strong> Did you include a topic sentence? Supporting details? A conclusion?
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 11: Language Skills 🎨
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>🎨 Language Skills</h2>
+                            <h3 style="color: #C7158A;">Similes and Metaphors</h3>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>📖 Learn:</strong><br>
+                                    A simile compares two things using 'like' or 'as'. A metaphor says one thing IS another thing.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #C7158A;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">🎯 Activity:</p>
+                                <p style="margin-bottom: 12px;">Find the simile in today's reading or create your own simile about the story.</p>
+                                <textarea 
+                                  id="language"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Complete the activity here..."
+                                ></textarea>
+                            </div>
+                            
+                            <div style="margin-top: 20px; text-align: center; padding: 30px;">
+                                <div style="font-size: 48px; margin-bottom: 15px;">🌟</div>
+                                <h3 style="color: #305853;">Excellent Work!</h3>
+                                <p style="color: #666;">You've completed all 11 pages of Day 161!</p>
+                            </div>
                         </div>
                     `
                 }
-                
             ]
         };
-
-        createLessonViewer('lesson-container', lesson161Config);
+        
+        // Initialize lesson viewer
+        if (typeof initLessonViewer === 'function') {
+            initLessonViewer(lesson161Config);
+        }
     </script>
 </body>
 </html>

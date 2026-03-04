@@ -3,13 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 56: Cave Escape - 4th Grade BedrockELA</title>
+    <title>Day 56 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=3.2">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container" class="lesson-container"></div>
 
     <script src="js/lesson-viewer.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
     
     <script>
         const lesson56Config = {
@@ -24,206 +35,341 @@
                             <div class="character">📚</div>
                             <h1>Day 56</h1>
                             <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #B06821; font-size: 20px; margin-top: 20px;">
-                                Tom Sawyer
+                            <p style="color: #8B4513; font-size: 20px; margin-top: 20px;">
+                                The Adventures of Tom Sawyer
                             </p>
                             <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Cave Escape
+                                Chapter 26
                             </p>
                         </div>
                     `
                 },
                 
-                
-                // Page 2: Welcome
+                // Page 2: Welcome & Learning Objectives
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
                             <h2>📖 Welcome to Day 56!</h2>
-                            
-                                <p>Today you will:</p>
-                                <ul style="margin: 20px 0; line-height: 2;">
-                                    <li>📖 Read about Finding the way out</li>
-                                    <li>📝 Learn 2 new vocabulary words</li>
-                                    <li>🎯 Answer comprehension questions</li>
-                                    <li>✍️ Write a journal entry</li>
-                                </ul>
-                                <p><strong>Time needed:</strong> About 30-45 minutes</p>
-                            
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>📖 Read from <em>The Adventures of Tom Sawyer</em></li>
+                                <li>📝 Learn 2 new vocabulary words</li>
+                                <li>📰 Read informational text: "Related Non-Fiction"</li>
+                                <li>✍️ Practice grammar: Past Progressive Tense</li>
+                                <li>🎯 Write: Informative Writing</li>
+                                <li>🎨 Explore: Similes and Metaphors</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
                         </div>
                     `
                 },
                 
-                // Page 3: Vocabulary (2 words)
+                // Page 3: Vocabulary (2 words from text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>📚 Today's Vocabulary</h2>
+                            <h2>📚 Vocabulary Words</h2>
                             
-                            
-                                <div style="margin: 30px 0; padding: 25px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 15px; border: 2px solid #B06821;">
-                                    <div style="margin-bottom: 30px;">
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">escape</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                    
-                                    <div>
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">relief</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                </div>
+                            <div style="margin: 30px 0;">
                                 
-                                <div style="padding: 20px; background: rgba(176,104,33,0.05); border-radius: 10px;">
-                                    <p style="margin: 0;">
-                                        💡 <strong>Watch for these words</strong> in today's reading!
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">cyclone</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
-                            
-                        </div>
-                    `
-                },
-                
-                // Page 4: Reading
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            
-                                <h2>📖 Today's Reading: Finding the way out</h2>
                                 
-                                <div style="background: white; padding: 25px; border-radius: 12px; border: 3px solid #305853; margin: 20px 0;">
-                                    <p style="font-size: 18px; margin-bottom: 15px;">
-                                        📚 Read from Tom Sawyer
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">prairie</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
-                                    <p style="font-size: 16px; color: #666; margin-top: 15px;">
-                                        Focus: Chapter 30
-                                    </p>
+                                    <textarea 
+                                      id="vocab-2"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
                                 
-                                <div style="margin-top: 30px; padding: 20px; background: rgba(48,88,83,0.1); border-radius: 10px;">
-                                    <h3 style="color: #305853;">📝 While You Read:</h3>
-                                    <ul style="line-height: 2;">
-                                        <li>Look for the vocabulary words: <strong>escape</strong> and <strong>relief</strong></li>
-                                        <li>What are the main events?</li>
-                                        <li>How do characters change or react?</li>
-                                    </ul>
-                                </div>
+                            </div>
                             
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">💡 <strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 5: Comprehension
+                // Page 4: Literature Reading (placeholder - needs actual book text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
+                            <h2>📖 Reading: The Adventures of Tom Sawyer</h2>
+                            <h3 style="color: #8B4513;">Chapter 26</h3>
                             
-                                
-    <!-- Digital Book Integration -->
-    <script src="js/digital-book.js"></script>
-    <div id="tom-sawyer-book"></div>
-    <script>
-      const tomSawyerConfig = {
-  "coverTitle": "Chapter 21",
-  "coverSubtitle": "CHAPTER XXI",
-  "coverAuthor": "Mark Twain",
-  "coverColor": "#8B4513",
-  "vocabWords": [],
-  "pages": [
-    {
-      "title": "CHAPTER XXI",
-      "text": "CHAPTER XXI\n\n\nVacation was approaching. The schoolmaster, always severe, grew severer\nand more exacting than ever, for he wanted the school to make a good\nshowing on “Examination” day. His rod and his ferule were seldom idle\nnow—at least among the smaller pupils. Only the biggest boys, and young\nladies of eighteen and twenty, escaped lashing. Mr. Dobbins’ lashings\nwere very vigorous ones, too; for although he carried, under his wig, a\nperfectly bald and shiny head, he had only reached middle age, and there\nwas no sign of feebleness in his muscle. As the great day approached,\nall the tyranny that was in him came to the surface; he seemed to take a\nvindictive pleasure in punishing the least shortcomings. The consequence\nwas, that the smaller boys spent their days in terror and suffering and\ntheir nights in plotting revenge. They threw away no opportunity to do\nthe master a mischief. But he kept ahead all the time. The retribution\nthat followed every vengeful success was so sweeping and majestic that\nthe boys always retired from the field badly worsted. At last they\nconspired together and hit upon a plan that promised a dazzling victory.\nThey swore in the signpainter’s boy, told him the scheme, and asked his\nhelp. He had his own reasons for being delighted, for the master boarded\nin his father’s family and had given the boy ample cause to hate him.\nThe master’s wife would go on a visit to the country in a few days, and\nthere would be nothing to interfere with the plan; the master always\nprepared himself for great occasions by getting pretty well fuddled, and\nthe signpainter’s boy said that when the dominie had reached the proper\ncondition on Examination Evening he would “manage the thing” while he\nnapped in his chair; then he would have him awakened at the right time\nand hurried away to school.\n\nIn the fulness of time the interesting occasion arrived. At eight in\nthe evening the schoolhouse was brilliantly lighted, and adorned with\nwreaths and festoons of foliage and flowers. The master sat throned in\nhis great chair upon a raised platform, with his blackboard behind him.\nHe was looking tolerably mellow. Three rows of benches on each side and\nsix rows in front of him were occupied by the dignitaries of the town\nand by the parents of the pupils. To his left, back of the rows of\ncitizens, was a spacious temporary platform upon which were seated the\nscholars who were to take part in the exercises of the evening; rows of\nsmall boys, washed and dressed to an intolerable state of discomfort;\nrows of gawky big boys; snowbanks of girls and young ladies clad in\nlawn and muslin and conspicuously conscious of their bare arms, their\ngrandmothers’ ancient trinkets, their bits of pink and blue ribbon and\nthe flowers in their hair. All the rest of the house was filled with\nnon-participating scholars.\n\nThe exercises began. A very little boy stood up and sheepishly recited,\n“You’d scarce expect one of my age to speak in public on the stage,”\n etc.—accompanying himself with the painfully exact and spasmodic\ngestures which a machine might have used—supposing the machine to be a\ntrifle out of order. But he got through safely, though cruelly scared,\nand got a fine round of applause when he made his manufactured bow and\nretired.\n\nA little shamefaced girl lisped, “Mary had a little lamb,” etc.,\nperformed a compassion-inspiring curtsy, got her meed of applause, and\nsat down flushed and happy.\n\nTom Sawyer stepped forward with conceited confidence and soared into\nthe unquenchable and indestructible “Give me liberty or give me death”\n speech, with fine fury and frantic gesticulation, and broke down in the\nmiddle of it. A ghastly stage-fright seized him, his legs quaked under\nhim and he was like to choke. True, he had the manifest sympathy of the\nhouse but he had the house’s silence, too, which was even worse than\nits sympathy. The master frowned, and this completed the disaster. Tom\nstruggled awhile and then retired, utterly defeated. There was a weak\nattempt at applause, but it died early.\n\n“The Boy Stood on the Burning Deck” followed; also “The Assyrian Came\nDown,” and other declamatory gems. Then there were reading exercises,\nand a spelling fight. The meagre Latin class recited with honor. The\nprime feature of the evening was in order, now—original “compositions”\nby the young ladies. Each in her turn stepped forward to the edge of the\nplatform, cleared her throat, held up her manuscript (tied with dainty\nribbon), and proceeded to read, with labored attention to “expression”\nand punctuation. The themes were the same that had been illuminated upon\nsimilar occasions by their mothers before them, their grandmothers, and\ndoubtless all their ancestors in the female line clear back to the\nCrusades. “Friendship” was one; “Memories of Other Days”; “Religion in\nHistory”; “Dream Land”; “The Advantages of Culture”; “Forms of Political\nGovernment Compared and Contrasted”; “Melancholy”; “Filial Love”; “Heart\nLongings,” etc., etc.\n\nA prevalent feature in these compositions was a nursed and petted\nmelancholy; another was a wasteful and opulent gush of “fine language”;\nanother was a tendency to lug in by the ears particularly prized words\nand phrases until they were worn entirely out; and a peculiarity that\nconspicuously marked and marred them was the inveterate and intolerable\nsermon that wagged its crippled tail at the end of each and every one of\nthem. No matter what the subject might be, a brainracking effort was\nmade to squirm it into some aspect or other that the moral and religious\nmind could contemplate with edification. The glaring insincerity of\nthese sermons was not sufficient to compass the banishment of the\nfashion from the schools, and it is not sufficient today; it never will\nbe sufficient while the world stands, perhaps. There is no school in all\nour land where the young ladies do not feel obliged to close their\ncompositions with a sermon; and you will find that the sermon of the\nmost frivolous and the least religious girl in the school is always the\nlongest and the most relentlessly pious. But enough of this. Homely\ntruth is unpalatable.\n\nLet us return to the “Examination.” The first composition that was read\nwas one entitled “Is this, then, Life?” Perhaps the reader can endure an\nextract from it:\n\n“In the common walks of life, with what delightful emotions does the\nyouthful mind look forward to some anticipated scene of festivity!\nImagination is busy sketching rose-tinted pictures of joy. In fancy, the\nvoluptuous votary of fashion sees herself amid the festive throng, ‘the\nobserved of all observers.’ Her graceful form, arrayed in snowy robes,\nis whirling through the mazes of the joyous dance; her eye is brightest,\nher step is lightest in the gay assembly.\n\n“In such delicious fancies time quickly glides by, and the welcome hour\narrives for her entrance into the Elysian world, of which she has\nhad such bright dreams. How fairy-like does everything appear to her\nenchanted vision! Each new scene is more charming than the last. But\nafter a while she finds that beneath this goodly exterior, all is\nvanity, the flattery which once charmed her soul, now grates harshly\nupon her ear; the ballroom has lost its charms; and with wasted health\nand imbittered heart, she turns away with the conviction that earthly\npleasures cannot satisfy the longings of the soul!”\n\nAnd so forth and so on. There was a buzz of gratification from time to\ntime during the reading, accompanied by whispered ejaculations of “How\nsweet!” “How eloquent!” “So true!” etc., and after the thing had closed\nwith a peculiarly afflicting sermon the applause was enthusiastic.\n\nThen arose a slim, melancholy girl, whose face had the “interesting”\n paleness that comes of pills and indigestion, and read a “poem.” Two\nstanzas of it will do:\n\n“A MISSOURI MAIDEN’S FAREWELL TO ALABAMA\n\n“Alabama, goodbye! I love thee well!\n    But yet for a while do I leave thee now!\nSad, yes, sad thoughts of thee my heart doth swell,\n    And burning recollections throng my brow!\nFor I have wandered through thy flowery woods;\n    Have roamed and read near Tallapoosa’s stream;\nHave listened to Tallassee’s warring floods,\n    And wooed on Coosa’s side Aurora’s beam.\n\n“Yet shame I not to bear an o’erfull heart,\n    Nor blush to turn behind my tearful eyes;\n’Tis from no stranger land I now must part,\n    ’Tis to no strangers left I yield these sighs.\nWelcome and home were mine within this State,\n    Whose vales I leave—whose spires fade fast from me\nAnd cold must be mine eyes, and heart, and tête,\n    When, dear Alabama! they turn cold on thee!”\n\nThere were very few there who knew what “_tête_” meant, but the poem\nwas very satisfactory, nevertheless.\n\nNext appeared a dark-complexioned, black-eyed, black-haired young lady,\nwho paused an impressive moment, assumed a tragic expression, and began\nto read in a measured, solemn tone:\n\n                              A VISION\n\nDark and tempestuous was night. Around the throne on high not a single\nstar quivered; but the deep intonations of the heavy thunder constantly\nvibrated upon the ear; whilst the terrific lightning revelled in angry\nmood through the cloudy chambers of heaven, seeming to scorn the power\nexerted over its terror by the illustrious Franklin! Even the boisterous\nwinds unanimously came forth from their mystic homes, and blustered\nabout as if to enhance by their aid the wildness of the scene.\n\nAt such a time, so dark, so dreary, for human sympathy my very spirit\nsighed; but instead thereof,\n\n     ‘My dearest friend, my counsellor, my comforter and guide—\n     My joy in grief, my second bliss in joy,’ came to my side.\n\nShe moved like one of those bright beings pictured in the sunny walks\nof fancy’s Eden by the romantic and young, a queen of beauty unadorned\nsave by her own transcendent loveliness. So soft was her step, it\nfailed to make even a sound, and but for the magical thrill imparted by\nher genial touch, as other unobtrusive beauties, she would have glided\naway unperceived—unsought. A strange sadness rested upon her features,\nlike icy tears upon the robe of December, as she pointed to the\ncontending elements without, and bade me contemplate the two beings\npresented.\n\nThis nightmare occupied some ten pages of manuscript and wound up with a\nsermon so destructive of all hope to non-Presbyterians that it took\nthe first prize. This composition was considered to be the very finest\neffort of the evening. The mayor of the village, in delivering the prize\nto the author of it, made a warm speech in which he said that it was by\nfar the most “eloquent” thing he had ever listened to, and that Daniel\nWebster himself might well be proud of it.\n\nIt may be remarked, in passing, that the number of compositions in which\nthe word “beauteous” was over-fondled, and human experience referred to\nas “life’s page,” was up to the usual average.\n\nNow the master, mellow almost to the verge of geniality, put his chair\naside, turned his back to the audience, and began to draw a map of\nAmerica on the blackboard, to exercise the geography class upon. But he\nmade a sad business of it with his unsteady hand, and a smothered titter\nrippled over the house. He knew what the matter was, and set himself to\nright it. He sponged out lines and remade them; but he only distorted\nthem more than ever, and the tittering was more pronounced. He threw his\nentire attention upon his work, now, as if determined not to be put down\nby the mirth. He felt that all eyes were fastened upon him; he imagined\nhe was succeeding, and yet the tittering continued; it even manifestly\nincreased. And well it might. There was a garret above, pierced with\na scuttle over his head; and down through this scuttle came a cat,\nsuspended around the haunches by a string; she had a rag tied about\nher head and jaws to keep her from mewing; as she slowly descended she\ncurved upward and clawed at the string, she swung downward and clawed\nat the intangible air. The tittering rose higher and higher—the cat was\nwithin six inches of the absorbed teacher’s head—down, down, a little\nlower, and she grabbed his wig with her desperate claws, clung to it,\nand was snatched up into the garret in an instant with her trophy still\nin her possession! And how the light did blaze abroad from the master’s\nbald pate—for the signpainter’s boy had _gilded_ it!\n\nThat broke up the meeting. The boys were avenged. Vacation had come.\n\n[*] NOTE:—The pretended “compositions” quoted in this chapter are taken\nwithout alteration from a volume entitled “Prose and Poetry, by a\nWestern Lady”—but they are exactly and precisely after the schoolgirl\npattern, and hence are much happier than any mere imitations could be."
-    }
-  ]
-};
-      window.tomSawyerBook = new DigitalBook('tom-sawyer-book', tomSawyerConfig);
-    </script>
-  
-
-    <h2>🎯 Comprehension Questions</h2>
-                                <p>Answer these questions about today's reading:</p>
-                                
-                                <div style="margin: 30px 0;">
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">1. What were the main events?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">2. How did the characters feel or react?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">3. What do you predict will happen next?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                </div>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;">
+                                <p><em>[Reading passage from The Adventures of Tom Sawyer, Chapter 26 will be inserted here from digital book database]</em></p>
+                                <p>This section will include the actual chapter text with vocabulary words highlighted.</p>
+                            </div>
                             
+                            <div style="margin-top: 20px; padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">📚 <strong>Take your time reading!</strong> Think about what's happening in the story.</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 6: Journal 
-                
+                // Page 5: Reading Comprehension
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✍️ Journal Entry</h2>
+                            <h2>🎯 Reading Comprehension</h2>
+                            <p>Answer these questions about today's chapter:</p>
                             
-                            <div style="margin: 25px 0; padding: 25px; background: rgba(176,104,33,0.1); border-left: 4px solid #B06821; border-radius: 8px;">
-                                <h3 style="color: #B06821; margin-bottom: 15px;">Today's Prompt:</h3>
-                                <p style="font-size: 18px; font-style: italic;">
-                                    Write 4-6 sentences about today's reading. What was most interesting or surprising? 
-                                    How did this chapter move the story forward?
+                            <div style="margin: 30px 0;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #8B4513;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 1:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 26]</p>
+                                    <textarea 
+                                      id="comp-1"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #8B4513;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 2:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 26]</p>
+                                    <textarea 
+                                      id="comp-2"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #8B4513;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 3:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 26]</p>
+                                    <textarea 
+                                      id="comp-3"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 6: Journal Reflection
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✍️ Journal Reflection</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 20px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    [Personal reflection prompt related to Chapter 26]
                                 </p>
                             </div>
                             
                             <textarea 
-                                style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #305853; border-radius: 10px; font-size: 16px;"
-                                placeholder="Write your journal entry here..."></textarea>
+                              id="journal"
+                              style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #8B4513; border-radius: 12px; font-family: inherit; font-size: 16px; line-height: 1.6;"
+                              placeholder="Write your thoughts here..."
+                            ></textarea>
                         </div>
                     `
                 },
                 
-                
                 // Page 7: Completion
                 {
                     render: () => `
-                        <div class="lesson-page-card completion-page">
-                            <div class="character">📚</div>
+                        <div class="lesson-page-card content-page">
+                            <div style="text-align: center; padding: 40px 20px;">
+                                <div style="font-size: 72px; margin-bottom: 20px;">🎉</div>
+                                <h2 style="color: #305853; margin-bottom: 20px;">Great Job!</h2>
+                                <p style="font-size: 18px; color: #666; max-width: 500px; margin: 0 auto;">
+                                    You've completed Day 56! Come back tomorrow to continue reading <em>The Adventures of Tom Sawyer</em>.
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 8: Informational Text 📰
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📰 Informational Text</h2>
+                            <h3 style="color: #8B4513;">Related Non-Fiction</h3>
                             
-                                <h1>Day 56 Complete!</h1>
-                                <p style="font-size: 20px; margin: 20px 0;">Great work today!</p>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px; margin-bottom: 25px;">
+                                <p style="margin-bottom: 15px;">Informational text content goes here.</p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                <h4 style="margin-bottom: 15px;">📝 Comprehension Questions:</h4>
                                 
-                                <div style="text-align: left; max-width: 400px; margin: 30px auto; background: rgba(48,88,83,0.05); padding: 25px; border-radius: 12px;">
-                                    <h3 style="color: #305853; margin-bottom: 15px;">✅ Today You:</h3>
-                                    <ul style="line-height: 2;">
-                                        
-                                            <li>Read about Finding the way out</li>
-                                            <li>Learned 2 vocabulary words</li>
-                                            <li>Answered comprehension questions</li>
-                                            <li>Wrote a journal entry</li>
-                                        
-                                    </ul>
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">1. Question 1?</p>
+                                    <textarea 
+                                      id="info-1"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
                                 </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">2. Question 2?</p>
+                                    <textarea 
+                                      id="info-2"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">3. Question 3?</p>
+                                    <textarea 
+                                      id="info-3"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 9: Grammar in Context ✏️
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✏️ Grammar Workshop</h2>
+                            <h3 style="color: #8B4513;">Past Progressive Tense</h3>
                             
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin-bottom: 15px;">
+                                    <strong>📖 What is it?</strong><br>
+                                    The past progressive tense shows an action that was ongoing in the past. Form it by using 'was' or 'were' + verb ending in '-ing'.
+                                </p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>💡 Example from today's reading:</strong><br>
+                                    <em>"Dorothy was walking (past progressive) when she saw (simple past) the Scarecrow."</em>
+                                </p>
+                            </div>
                             
-                            <a href="student-dashboard.html" 
-                               style="display: inline-block; margin-top: 20px; padding: 15px 35px; background: #B06821; color: white; text-decoration: none; border-radius: 12px; font-size: 18px; font-weight: 700;">
-                                Continue →
-                            </a>
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">✍️ Your Turn:</p>
+                                <p style="margin-bottom: 12px;">Write three sentences using the past progressive tense to describe things happening in today's chapter.</p>
+                                <textarea 
+                                  id="grammar"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Write your practice sentences here..."
+                                ></textarea>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 10: Writing Workshop 📝
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📝 Informative Writing</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">📝 Prompt:</p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    Describe what life was like for Dorothy in Kansas before the cyclone. Include at least 3 specific details.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 15px; background: #fffbf0; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 20px;">
+                                <p style="margin: 0; font-size: 14px;">
+                                    <strong>💡 Remember:</strong> Write a paragraph explaining something from the story. Include clear details and examples.
+                                </p>
+                            </div>
+                            
+                            <textarea 
+                              id="writing"
+                              style="width: 100%; min-height: 250px; padding: 15px; border: 2px solid #8B4513; border-radius: 12px; font-size: 16px; line-height: 1.8;"
+                              placeholder="Start writing here..."
+                            ></textarea>
+                            
+                            <div style="margin-top: 15px; padding: 12px; background: #f0f9ff; border-radius: 8px;">
+                                <p style="margin: 0; font-size: 13px; color: #0369a1;">
+                                    ✅ <strong>Checklist:</strong> Did you include a topic sentence? Supporting details? A conclusion?
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 11: Language Skills 🎨
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>🎨 Language Skills</h2>
+                            <h3 style="color: #8B4513;">Similes and Metaphors</h3>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>📖 Learn:</strong><br>
+                                    A simile compares two things using 'like' or 'as'. A metaphor says one thing IS another thing.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">🎯 Activity:</p>
+                                <p style="margin-bottom: 12px;">Find the simile in today's reading or create your own simile about the story.</p>
+                                <textarea 
+                                  id="language"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Complete the activity here..."
+                                ></textarea>
+                            </div>
+                            
+                            <div style="margin-top: 20px; text-align: center; padding: 30px;">
+                                <div style="font-size: 48px; margin-bottom: 15px;">🌟</div>
+                                <h3 style="color: #305853;">Excellent Work!</h3>
+                                <p style="color: #666;">You've completed all 11 pages of Day 56!</p>
+                            </div>
                         </div>
                     `
                 }
-                
             ]
         };
-
-        createLessonViewer('lesson-container', lesson56Config);
+        
+        // Initialize lesson viewer
+        if (typeof initLessonViewer === 'function') {
+            initLessonViewer(lesson56Config);
+        }
     </script>
 </body>
 </html>

@@ -3,13 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 127: The Investigation - 4th Grade BedrockELA</title>
+    <title>Day 127 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=3.2">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container" class="lesson-container"></div>
 
     <script src="js/lesson-viewer.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
     
     <script>
         const lesson127Config = {
@@ -24,206 +35,341 @@
                             <div class="character">📚</div>
                             <h1>Day 127</h1>
                             <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #B06821; font-size: 20px; margin-top: 20px;">
-                                Sherlock Holmes
+                            <p style="color: #4A0E4E; font-size: 20px; margin-top: 20px;">
+                                Sherlock Holmes Stories
                             </p>
                             <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                The Investigation
+                                Chapter 7
                             </p>
                         </div>
                     `
                 },
                 
-                
-                // Page 2: Welcome
+                // Page 2: Welcome & Learning Objectives
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
                             <h2>📖 Welcome to Day 127!</h2>
-                            
-                                <p>Today you will:</p>
-                                <ul style="margin: 20px 0; line-height: 2;">
-                                    <li>📖 Read about Holmes investigates</li>
-                                    <li>📝 Learn 2 new vocabulary words</li>
-                                    <li>🎯 Answer comprehension questions</li>
-                                    <li>✍️ Write a journal entry</li>
-                                </ul>
-                                <p><strong>Time needed:</strong> About 30-45 minutes</p>
-                            
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>📖 Read from <em>Sherlock Holmes Stories</em></li>
+                                <li>📝 Learn 2 new vocabulary words</li>
+                                <li>📰 Read informational text: "Related Non-Fiction"</li>
+                                <li>✍️ Practice grammar: Prepositional Phrases</li>
+                                <li>🎯 Write: Opinion Writing</li>
+                                <li>🎨 Explore: Context Clues</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
                         </div>
                     `
                 },
                 
-                // Page 3: Vocabulary (2 words)
+                // Page 3: Vocabulary (2 words from text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>📚 Today's Vocabulary</h2>
+                            <h2>📚 Vocabulary Words</h2>
                             
-                            
-                                <div style="margin: 30px 0; padding: 25px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 15px; border: 2px solid #B06821;">
-                                    <div style="margin-bottom: 30px;">
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">investigate</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                    
-                                    <div>
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">clue</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                </div>
+                            <div style="margin: 30px 0;">
                                 
-                                <div style="padding: 20px; background: rgba(176,104,33,0.05); border-radius: 10px;">
-                                    <p style="margin: 0;">
-                                        💡 <strong>Watch for these words</strong> in today's reading!
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #4A0E4E;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">gaunt</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
-                            
-                        </div>
-                    `
-                },
-                
-                // Page 4: Reading
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            
-                                <h2>📖 Today's Reading: Holmes investigates</h2>
                                 
-                                <div style="background: white; padding: 25px; border-radius: 12px; border: 3px solid #305853; margin: 20px 0;">
-                                    <p style="font-size: 18px; margin-bottom: 15px;">
-                                        📚 Read from Sherlock Holmes
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #4A0E4E;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">solemn</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
-                                    <p style="font-size: 16px; color: #666; margin-top: 15px;">
-                                        Focus: Holmes investigates
-                                    </p>
+                                    <textarea 
+                                      id="vocab-2"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
                                 
-                                <div style="margin-top: 30px; padding: 20px; background: rgba(48,88,83,0.1); border-radius: 10px;">
-                                    <h3 style="color: #305853;">📝 While You Read:</h3>
-                                    <ul style="line-height: 2;">
-                                        <li>Look for the vocabulary words: <strong>investigate</strong> and <strong>clue</strong></li>
-                                        <li>What are the main events?</li>
-                                        <li>How do characters change or react?</li>
-                                    </ul>
-                                </div>
+                            </div>
                             
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">💡 <strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 5: Comprehension
+                // Page 4: Literature Reading (placeholder - needs actual book text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
+                            <h2>📖 Reading: Sherlock Holmes Stories</h2>
+                            <h3 style="color: #4A0E4E;">Chapter 7</h3>
                             
-                                
-    <!-- Digital Book Integration -->
-    <script src="js/digital-book.js"></script>
-    <div id="sherlock-holmes-book"></div>
-    <script>
-      const sherlockHolmesConfig = {
-  "coverTitle": "Sherlock Holmes",
-  "coverSubtitle": "4. THE BOSCOMBE VALLEY MYSTERY",
-  "coverAuthor": "Arthur Conan Doyle",
-  "coverColor": "#4A2C2A",
-  "vocabWords": [],
-  "pages": [
-    {
-      "title": "4. THE BOSCOMBE VALLEY MYSTERY",
-      "text": "We were seated at breakfast one morning, my wife and I, when the maid\r\nbrought in a telegram. It was from Sherlock Holmes and ran in this way:\r\n\r\n“Have you a couple of days to spare? Have just been wired for from the\r\nwest of England in connection with Boscombe Valley tragedy. Shall be\r\nglad if you will come with me. Air and scenery perfect. Leave\r\nPaddington by the 11:15.”\r\n\r\n“What do you say, dear?” said my wife, looking across at me. “Will you\r\ngo?”\r\n\r\n“I really don’t know what to say. I have a fairly long list at\r\npresent.”\r\n\r\n“Oh, Anstruther would do your work for you. You have been looking a\r\nlittle pale lately. I think that the change would do you good, and you\r\nare always so interested in Mr. Sherlock Holmes’ cases.”\r\n\r\n“I should be ungrateful if I were not, seeing what I gained through one\r\nof them,” I answered. “But if I am to go, I must pack at once, for I\r\nhave only half an hour.”\r\n\r\nMy experience of camp life in Afghanistan had at least had the effect\r\nof making me a prompt and ready traveller. My wants were few and\r\nsimple, so that in less than the time stated I was in a cab with my\r\nvalise, rattling away to Paddington Station. Sherlock Holmes was pacing\r\nup and down the platform, his tall, gaunt figure made even gaunter and\r\ntaller by his long grey travelling-cloak and close-fitting cloth cap.\r\n\r\n“It is really very good of you to come, Watson,” said he. “It makes a\r\nconsiderable difference to me, having someone with me on whom I can\r\nthoroughly rely. Local aid is always either worthless or else biassed.\r\nIf you will keep the two corner seats I shall get the tickets.”\r\n\r\nWe had the carriage to ourselves save for an immense litter of papers\r\nwhich Holmes had brought with him. Among these he rummaged and read,\r\nwith intervals of note-taking and of meditation, until we were past\r\nReading. Then he suddenly rolled them all into a gigantic ball and\r\ntossed them up onto the rack.\r\n\r\n“Have you heard anything of the case?” he asked.\r\n\r\n“Not a word. I have not seen a paper for some days.”\r\n\r\n“The London press has not had very full accounts. I have just been\r\nlooking through all the recent papers in order to master the\r\nparticulars. It seems, from what I gather, to be one of those simple\r\ncases which are so extremely difficult.”\r\n\r\n“That sounds a little paradoxical.”\r\n\r\n“But it is profoundly true. Singularity is almost invariably a clue.\r\nThe more featureless and commonplace a crime is, the more difficult it\r\nis to bring it home. In this case, however, they have established a\r\nvery serious case against the son of the murdered man.”\r\n\r\n“It is a murder, then?”\r\n\r\n“Well, it is conjectured to be so. I shall take nothing for granted\r\nuntil I have the opportunity of looking personally into it. I will\r\nexplain the state of things to you, as far as I have been able to\r\nunderstand it, in a very few words.\r\n\r\n“Boscombe Valley is a country district not very far from Ross, in\r\nHerefordshire. The largest landed proprietor in that part is a Mr. John\r\nTurner, who made his money in Australia and returned some years ago to\r\nthe old country. One of the farms which he held, that of Hatherley, was\r\nlet to Mr. Charles McCarthy, who was also an ex-Australian. The men had\r\nknown each other in the colonies, so that it was not unnatural that\r\nwhen they came to settle down they should do so as near each other as\r\npossible. Turner was apparently the richer man, so McCarthy became his\r\ntenant but still remained, it seems, upon terms of perfect equality, as\r\nthey were frequently together. McCarthy had one son, a lad of eighteen,\r\nand Turner had an only daughter of the same age, but neither of them\r\nhad wives living. They appear to have avoided the society of the\r\nneighbouring English families and to have led retired lives, though\r\nboth the McCarthys were fond of sport and were frequently seen at the\r\nrace-meetings of the neighbourhood. McCarthy kept two servants—a man\r\nand a girl. Turner had a considerable household, some half-dozen at the\r\nleast. That is as much as I have been able to gather about the\r\nfamilies. Now for the facts.\r\n\r\n“On June 3rd, that is, on Monday last, McCarthy left his house at\r\nHatherley about three in the afternoon and walked down to the Boscombe\r\nPool, which is a small lake formed by the spreading out of the stream\r\nwhich runs down the Boscombe Valley. He had been out with his\r\nserving-man in the morning at Ross, and he had told the man that he\r\nmust hurry, as he had an appointment of importance to keep at three.\r\nFrom that appointment he never came back alive.\r\n\r\n“From Hatherley Farmhouse to the Boscombe Pool is a quarter of a mile,\r\nand two people saw him as he passed over this ground. One was an old\r\nwoman, whose name is not mentioned, and the other was William Crowder,\r\na game-keeper in the employ of Mr. Turner. Both these witnesses depose\r\nthat Mr. McCarthy was walking alone. The game-keeper adds that within a\r\nfew minutes of his seeing Mr. McCarthy pass he had seen his son, Mr.\r\nJames McCarthy, going the same way with a gun under his arm. To the\r\nbest of his belief, the father was actually in sight at the time, and\r\nthe son was following him. He thought no more of the matter until he\r\nheard in the evening of the tragedy that had occurred.\r\n\r\n“The two McCarthys were seen after the time when William Crowder, the\r\ngame-keeper, lost sight of them. The Boscombe Pool is thickly wooded\r\nround, with just a fringe of grass and of reeds round the edge. A girl\r\nof fourteen, Patience Moran, who is the daughter of the lodge-keeper of\r\nthe Boscombe Valley estate, was in one of the woods picking flowers.\r\nShe states that while she was there she saw, at the border of the wood\r\nand close by the lake, Mr. McCarthy and his son, and that they appeared\r\nto be having a violent quarrel. She heard Mr. McCarthy the elder using\r\nvery strong language to his son, and she saw the latter raise up his\r\nhand as if to strike his father. She was so frightened by their\r\nviolence that she ran away and told her mother when she reached home\r\nthat she had left the two McCarthys quarrelling near Boscombe Pool, and\r\nthat she was afraid that they were going to fight. She had hardly said\r\nthe words when young Mr. McCarthy came running up to the lodge to say\r\nthat he had found his father dead in the wood, and to ask for the help\r\nof the lodge-keeper. He was much excited, without either his gun or his\r\nhat, and his right hand and sleeve were observed to be stained with\r\nfresh blood. On following him they found the dead body stretched out\r\nupon the grass beside the pool. The head had been beaten in by repeated\r\nblows of some heavy and blunt weapon. The injuries were such as might\r\nvery well have been inflicted by the butt-end of his son’s gun, which\r\nwas found lying on the grass within a few paces of the body. Under\r\nthese circumstances the young man was instantly arrested, and a verdict\r\nof ‘wilful murder’ having been returned at the inquest on Tuesday, he\r\nwas on Wednesday brought before the magistrates at Ross, who have\r\nreferred the case to the next Assizes. Those are the main facts of the\r\ncase as they came out before the coroner and the police-court.”\r\n\r\n“I could hardly imagine a more damning case,” I remarked. “If ever\r\ncircumstantial evidence pointed to a criminal it does so here.”\r\n\r\n“Circumstantial evidence is a very tricky thing,” answered Holmes\r\nthoughtfully. “It may seem to point very straight to one thing, but if\r\nyou shift your own point of view a little, you may find it pointing in\r\nan equally uncompromising manner to something entirely different. It\r\nmust be confessed, however, that the case looks exceedingly grave\r\nagainst the young man, and it is very possible that he is indeed the\r\nculprit. There are several people in the neighbourhood, however, and\r\namong them Miss Turner, the daughter of the neighbouring landowner, who\r\nbelieve in his innocence, and who have retained Lestrade, whom you may\r\nrecollect in connection with the Study in Scarlet, to work out the case\r\nin his interest. Lestrade, being rather puzzled, has referred the case\r\nto me, and hence it is that two middle-aged gentlemen are flying\r\nwestward at fifty miles an hour instead of quietly digesting their\r\nbreakfasts at home.”\r\n\r\n“I am afraid,” said I, “that the facts are so obvious that you will\r\nfind little credit to be gained out of this case.”\r\n\r\n“There is nothing more deceptive than an obvious fact,” he answered,\r\nlaughing. “Besides, we may chance to hit upon some other obvious facts\r\nwhich may have been by no means obvious to Mr. Lestrade. You know me\r\ntoo well to think that I am boasting when I say that I shall either\r\nconfirm or destroy his theory by means which he is quite incapable of\r\nemploying, or even of understanding. To take the first example to hand,\r\nI very clearly perceive that in your bedroom the window is upon the\r\nright-hand side, and yet I question whether Mr. Lestrade would have\r\nnoted even so self-evident a thing as that.”\r\n\r\n“How on earth—”\r\n\r\n“My dear fellow, I know you well. I know the military neatness which\r\ncharacterises you. You shave every morning, and in this season you\r\nshave by the sunlight; but since your shaving is less and less complete\r\nas we get farther back on the left side, until it becomes positively\r\nslovenly as we get round the angle of the jaw, it is surely very clear\r\nthat that side is less illuminated than the other. I could not imagine\r\na man of your habits looking at himself in an equal light and being\r\nsatisfied with such a result. I only quote this as a trivial example of\r\nobservation and inference. Therein lies my _métier_, and it is just\r\npossible that it may be of some service in the investigation which lies\r\nbefore us. There are one or two minor points which were brought out in\r\nthe inquest, and which are worth considering.”\r\n\r\n“What are they?”\r\n\r\n“It appears that his arrest did not take place at once, but after the\r\nreturn to Hatherley Farm. On the inspector of constabulary informing\r\nhim that he was a prisoner, he remarked that he was not surprised to\r\nhear it, and that it was no more than his deserts. This observation of\r\nhis had the natural effect of removing any traces of doubt which might\r\nhave remained in the minds of the coroner’s jury.”\r\n\r\n“It was a confession,” I ejaculated.\r\n\r\n“No, for it was followed by a protestation of innocence.”\r\n\r\n“Coming on the top of such a damning series of events, it was at least\r\na most suspicious remark.”\r\n\r\n“On the contrary,” said Holmes, “it is the brightest rift which I can\r\nat present see in the clouds. However innocent he might be, he could\r\nnot be such an absolute imbecile as not to see that the circumstances\r\nwere very black against him. Had he appeared surprised at his own\r\narrest, or feigned indignation at it, I should have looked upon it as\r\nhighly suspicious, because such surprise or anger would not be natural\r\nunder the circumstances, and yet might appear to be the best policy to\r\na scheming man. His frank acceptance of the situation marks him as\r\neither an innocent man, or else as a man of considerable self-restraint\r\nand firmness. As to his remark about his deserts, it was also not\r\nunnatural if you consider that he stood beside the dead body of his\r\nfather, and that there is no doubt that he had that very day so far\r\nforgotten his filial duty as to bandy words with him, and even,\r\naccording to the little girl whose evidence is so important, to raise\r\nhis hand as if to strike him. The self-reproach and contrition which\r\nare displayed in his remark appear to me to be the signs of a healthy\r\nmind rather than of a guilty one.”\r\n\r\nI shook my head. “Many men have been hanged on far slighter evidence,”\r\nI remarked.\r\n\r\n“So they have. And many men have been wrongfully hanged.”\r\n\r\n“What is the young man’s own account of the matter?”\r\n\r\n“It is, I am afraid, not very encouraging to his supporters, though\r\nthere are one or two points in it which are suggestive. You will find\r\nit here, and may read it for yourself.”\r\n\r\nHe picked out from his bundle a copy of the local Herefordshire paper,\r\nand having turned down the sheet he pointed out the paragraph in which\r\nthe unfortunate young man had given his own statement of what had\r\noccurred. I settled myself down in the corner of the carriage and read\r\nit very carefully. It ran in this way:\r\n\r\n“Mr. James McCarthy, the only son of the deceased, was then called and\r\ngave evidence as follows: ‘I had been away from home for three days at\r\nBristol, and had only just returned upon the morning of last Monday,\r\nthe 3rd. My father was absent from home at the time of my arrival, and\r\nI was informed by the maid that he had driven over to Ross with John\r\nCobb, the groom. Shortly after my return I heard the wheels of his trap\r\nin the yard, and, looking out of my window, I saw him get out and walk\r\nrapidly out of the yard, though I was not aware in which direction he\r\nwas going. I then took my gun and strolled out in the direction of the\r\nBoscombe Pool, with the intention of visiting the rabbit warren which\r\nis upon the other side. On my way I saw William Crowder, the\r\ngame-keeper, as he had stated in his evidence; but he is mistaken in\r\nthinking that I was following my father. I had no idea that he was in\r\nfront of me. When about a hundred yards from the pool I heard a cry of\r\n“Cooee!” which was a usual signal between my father and myself. I then\r\nhurried forward, and found him standing by the pool. He appeared to be\r\nmuch surprised at seeing me and asked me rather roughly what I was\r\ndoing there. A conversation ensued which led to high words and almost\r\nto blows, for my father was a man of a very violent temper. Seeing that\r\nhis passion was becoming ungovernable, I left him and returned towards\r\nHatherley Farm. I had not gone more than 150 yards, however, when I\r\nheard a hideous outcry behind me, which caused me to run back again. I\r\nfound my father expiring upon the ground, with his head terribly\r\ninjured. I dropped my gun and held him in my arms, but he almost\r\ninstantly expired. I knelt beside him for some minutes, and then made\r\nmy way to Mr. Turner’s lodge-keeper, his house being the nearest, to\r\nask for assistance. I saw no one near my father when I returned, and I\r\nhave no idea how he came by his injuries. He was not a popular man,\r\nbeing somewhat cold and forbidding in his manners, but he had, as far\r\nas I know, no active enemies. I know nothing further of the matter.’\r\n\r\n“The Coroner: Did your father make any statement to you before he died?\r\n\r\n“Witness: He mumbled a few words, but I could only catch some allusion\r\nto a rat.\r\n\r\n“The Coroner: What did you understand by that?\r\n\r\n“Witness: It conveyed no meaning to me. I thought that he was\r\ndelirious.\r\n\r\n“The Coroner: What was the point upon which you and your father had\r\nthis final quarrel?\r\n\r\n“Witness: I should prefer not to answer.\r\n\r\n“The Coroner: I am afraid that I must press it.\r\n\r\n“Witness: It is really impossible for me to tell you. I can assure you\r\nthat it has nothing to do with the sad tragedy which followed.\r\n\r\n“The Coroner: That is for the court to decide. I need not point out to\r\nyou that your refusal to answer will prejudice your case considerably\r\nin any future proceedings which may arise.\r\n\r\n“Witness: I must still refuse.\r\n\r\n“The Coroner: I understand that the cry of ‘Cooee’ was a common signal\r\nbetween you and your father?\r\n\r\n“Witness: It was.\r\n\r\n“The Coroner: How was it, then, that he uttered it before he saw you,\r\nand before he even knew that you had returned from Bristol?\r\n\r\n“Witness (with considerable confusion): I do not know.\r\n\r\n“A Juryman: Did you see nothing which aroused your suspicions when you\r\nreturned on hearing the cry and found your father fatally injured?\r\n\r\n“Witness: Nothing definite.\r\n\r\n“The Coroner: What do you mean?\r\n\r\n“Witness: I was so disturbed and excited as I rushed out into the open,\r\nthat I could think of nothing except of my father. Yet I have a vague\r\nimpression that as I ran forward something lay upon the ground to the\r\nleft of me. It seemed to me to be something grey in colour, a coat of\r\nsome sort, or a plaid perhaps. When I rose from my father I looked\r\nround for it, but it was gone.\r\n\r\n“‘Do you mean that it disappeared before you went for help?’\r\n\r\n“‘Yes, it was gone.’\r\n\r\n“‘You cannot say what it was?’\r\n\r\n“‘No, I had a feeling something was there.’\r\n\r\n“‘How far from the body?’\r\n\r\n“‘A dozen yards or so.’\r\n\r\n“‘And how far from the edge of the wood?’\r\n\r\n“‘About the same.’\r\n\r\n“‘Then if it was removed it was while you were within a dozen yards of\r\nit?’\r\n\r\n“‘Yes, but with my back towards it.’\r\n\r\n“This concluded the examination of the witness.”\r\n\r\n“I see,” said I as I glanced down the column, “that the coroner in his\r\nconcluding remarks was rather severe upon young McCarthy. He calls\r\nattention, and with reason, to the discrepancy about his father having\r\nsignalled to him before seeing him, also to his refusal to give details\r\nof his conversation with his father, and his singular account of his\r\nfather’s dying words. They are all, as he remarks, very much against\r\nthe son.”\r\n\r\nHolmes laughed softly to himself and stretched himself out upon the\r\ncushioned seat. “Both you and the coroner have been at some pains,”\r\nsaid he, “to single out the very strongest points in the young man’s\r\nfavour. Don’t you see that you alternately give him credit for having\r\ntoo much imagination and too little? Too little, if he could not invent\r\na cause of quarrel which would give him the sympathy of the jury; too\r\nmuch, if he evolved from his own inner consciousness anything so\r\n_outré_ as a dying reference to a rat, and the incident of the\r\nvanishing cloth. No, sir, I shall approach this case from the point of\r\nview that what this young man says is true, and we shall see whither\r\nthat hypothesis will lead us. And now here is my pocket Petrarch, and\r\nnot another word shall I say of this case until we are on the scene of\r\naction. We lunch at Swindon, and I see that we shall be there in twenty\r\nminutes.”\r\n\r\nIt was nearly four o’clock when we at last, after passing through the\r\nbeautiful Stroud Valley, and over the broad gleaming Severn, found\r\nourselves at the pretty little country-town of Ross. A lean,\r\nferret-like man, furtive and sly-looking, was waiting for us upon the\r\nplatform. In spite of the light brown dustcoat and leather-leggings\r\nwhich he wore in deference to his rustic surroundings, I had no\r\ndifficulty in recognising Lestrade, of Scotland Yard. With him we drove\r\nto the Hereford Arms where a room had already been engaged for us.\r\n\r\n“I have ordered a carriage,” said Lestrade as we sat over a cup of tea.\r\n“I knew your energetic nature, and that you would not be happy until\r\nyou had been on the scene of the crime.”\r\n\r\n“It was very nice and complimentary of you,” Holmes answered. “It is\r\nentirely a question of barometric pressure.”\r\n\r\nLestrade looked startled. “I do not quite follow,” he said.\r\n\r\n“How is the glass? Twenty-nine, I see. No wind, and not a cloud in the\r\nsky. I have a caseful of cigarettes here which need smoking, and the\r\nsofa is very much superior to the usual country hotel abomination. I do\r\nnot think that it is probable that I shall use the carriage to-night.”\r\n\r\nLestrade laughed indulgently. “You have, no doubt, already formed your\r\nconclusions from the newspapers,” he said. “The case is as plain as a\r\npikestaff, and the more one goes into it the plainer it becomes. Still,\r\nof course, one can’t refuse a lady, and such a very positive one, too.\r\nShe has heard of you, and would have your opinion, though I repeatedly\r\ntold her that there was nothing which you could do which I had not\r\nalready done. Why, bless my soul! here is her carriage at the door.”\r\n\r\nHe had hardly spoken before there rushed into the room one of the most\r\nlovely young women that I have ever seen in my life. Her violet eyes\r\nshining, her lips parted, a pink flush upon her cheeks, all thought of\r\nher natural reserve lost in her overpowering excitement and concern.\r\n\r\n“Oh, Mr. Sherlock Holmes!” she cried, glancing from one to the other of\r\nus, and finally, with a woman’s quick intuition, fastening upon my\r\ncompanion, “I am so glad that you have come. I have driven down to tell\r\nyou so. I know that James didn’t do it. I know it, and I want you to\r\nstart upon your work knowing it, too. Never let yourself doubt upon\r\nthat point. We have known each other since we were little children, and\r\nI know his faults as no one else does; but he is too tender-hearted to\r\nhurt a fly. Such a charge is absurd to anyone who really knows him.”\r\n\r\n“I hope we may clear him, Miss Turner,” said Sherlock Holmes. “You may\r\nrely upon my doing all that I can.”\r\n\r\n“But you have read the evidence. You have formed some conclusion? Do\r\nyou not see some loophole, some flaw? Do you not yourself think that he\r\nis innocent?”\r\n\r\n“I think that it is very probable.”\r\n\r\n“There, now!” she cried, throwing back her head and looking defiantly\r\nat Lestrade. “You hear! He gives me hopes.”\r\n\r\nLestrade shrugged his shoulders. “I am afraid that my colleague has\r\nbeen a little quick in forming his conclusions,” he said.\r\n\r\n“But he is right. Oh! I know that he is right. James never did it. And\r\nabout his quarrel with his father, I am sure that the reason why he\r\nwould not speak about it to the coroner was because I was concerned in\r\nit.”\r\n\r\n“In what way?” asked Holmes.\r\n\r\n“It is no time for me to hide anything. James and his father had many\r\ndisagreements about me. Mr. McCarthy was very anxious that there should\r\nbe a marriage between us. James and I have always loved each other as\r\nbrother and sister; but of course he is young and has seen very little\r\nof life yet, and—and—well, he naturally did not wish to do anything\r\nlike that yet. So there were quarrels, and this, I am sure, was one of\r\nthem.”\r\n\r\n“And your father?” asked Holmes. “Was he in favour of such a union?”\r\n\r\n“No, he was averse to it also. No one but Mr. McCarthy was in favour of\r\nit.” A quick blush passed over her fresh young face as Holmes shot one\r\nof his keen, questioning glances at her.\r\n\r\n“Thank you for this information,” said he. “May I see your father if I\r\ncall to-morrow?”\r\n\r\n“I am afraid the doctor won’t allow it.”\r\n\r\n“The doctor?”\r\n\r\n“Yes, have you not heard? Poor father has never been strong for years\r\nback, but this has broken him down completely. He has taken to his bed,\r\nand Dr. Willows says that he is a wreck and that his nervous system is\r\nshattered. Mr. McCarthy was the only man alive who had known dad in the\r\nold days in Victoria.”\r\n\r\n“Ha! In Victoria! That is important.”\r\n\r\n“Yes, at the mines.”\r\n\r\n“Quite so; at the gold-mines, where, as I understand, Mr. Turner made\r\nhis money.”\r\n\r\n“Yes, certainly.”\r\n\r\n“Thank you, Miss Turner. You have been of material assistance to me.”\r\n\r\n“You will tell me if you have any news to-morrow. No doubt you will go\r\nto the prison to see James. Oh, if you do, Mr. Holmes, do tell him that\r\nI know him to be innocent.”\r\n\r\n“I will, Miss Turner.”\r\n\r\n“I must go home now, for dad is very ill, and he misses me so if I\r\nleave him. Good-bye, and God help you in your undertaking.” She hurried\r\nfrom the room as impulsively as she had entered, and we heard the\r\nwheels of her carriage rattle off down the street.\r\n\r\n“I am ashamed of you, Holmes,” said Lestrade with dignity after a few\r\nminutes’ silence. “Why should you raise up hopes which you are bound to\r\ndisappoint? I am not over-tender of heart, but I call it cruel.”\r\n\r\n“I think that I see my way to clearing James McCarthy,” said Holmes.\r\n“Have you an order to see him in prison?”\r\n\r\n“Yes, but only for you and me.”\r\n\r\n“Then I shall reconsider my resolution about going out. We have still\r\ntime to take a train to Hereford and see him to-night?”\r\n\r\n“Ample.”\r\n\r\n“Then let us do so. Watson, I fear that you will find it very slow, but\r\nI shall only be away a couple of hours.”\r\n\r\nI walked down to the station with them, and then wandered through the\r\nstreets of the little town, finally returning to the hotel, where I lay\r\nupon the sofa and tried to interest myself in a yellow-backed novel.\r\nThe puny plot of the story was so thin, however, when compared to the\r\ndeep mystery through which we were groping, and I found my attention\r\nwander so continually from the action to the fact, that I at last flung\r\nit across the room and gave myself up entirely to a consideration of\r\nthe events of the day. Supposing that this unhappy young man’s story\r\nwere absolutely true, then what hellish thing, what absolutely\r\nunforeseen and extraordinary calamity could have occurred between the\r\ntime when he parted from his father, and the moment when, drawn back by\r\nhis screams, he rushed into the glade? It was something terrible and\r\ndeadly. What could it be? Might not the nature of the injuries reveal\r\nsomething to my medical instincts? I rang the bell and called for the\r\nweekly county paper, which contained a verbatim account of the inquest.\r\nIn the surgeon’s deposition it was stated that the posterior third of\r\nthe left parietal bone and the left half of the occipital bone had been\r\nshattered by a heavy blow from a blunt weapon. I marked the spot upon\r\nmy own head. Clearly such a blow must have been struck from behind.\r\nThat was to some extent in favour of the accused, as when seen\r\nquarrelling he was face to face with his father. Still, it did not go\r\nfor very much, for the older man might have turned his back before the\r\nblow fell. Still, it might be worth while to call Holmes’ attention to\r\nit. Then there was the peculiar dying reference to a rat. What could\r\nthat mean? It could not be delirium. A man dying from a sudden blow\r\ndoes not commonly become delirious. No, it was more likely to be an\r\nattempt to explain how he met his fate. But what could it indicate? I\r\ncudgelled my brains to find some possible explanation. And then the\r\nincident of the grey cloth seen by young McCarthy. If that were true\r\nthe murderer must have dropped some part of his dress, presumably his\r\novercoat, in his flight, and must have had the hardihood to return and\r\nto carry it away at the instant when the son was kneeling with his back\r\nturned not a dozen paces off. What a tissue of mysteries and\r\nimprobabilities the whole thing was! I did not wonder at Lestrade’s\r\nopinion, and yet I had so much faith in Sherlock Holmes’ insight that I\r\ncould not lose hope as long as every fresh fact seemed to strengthen\r\nhis conviction of young McCarthy’s innocence.\r\n\r\nIt was late before Sherlock Holmes returned. He came back alone, for\r\nLestrade was staying in lodgings in the town.\r\n\r\n“The glass still keeps very high,” he remarked as he sat down. “It is\r\nof importance that it should not rain before we are able to go over the\r\nground. On the other hand, a man should be at his very best and keenest\r\nfor such nice work as that, and I did not wish to do it when fagged by\r\na long journey. I have seen young McCarthy.”\r\n\r\n“And what did you learn from him?”\r\n\r\n“Nothing.”\r\n\r\n“Could he throw no light?”\r\n\r\n“None at all. I was inclined to think at one time that he knew who had\r\ndone it and was screening him or her, but I am convinced now that he is\r\nas puzzled as everyone else. He is not a very quick-witted youth,\r\nthough comely to look at and, I should think, sound at heart.”\r\n\r\n“I cannot admire his taste,” I remarked, “if it is indeed a fact that\r\nhe was averse to a marriage with so charming a young lady as this Miss\r\nTurner.”\r\n\r\n“Ah, thereby hangs a rather painful tale. This fellow is madly,\r\ninsanely, in love with her, but some two years ago, when he was only a\r\nlad, and before he really knew her, for she had been away five years at\r\na boarding-school, what does the idiot do but get into the clutches of\r\na barmaid in Bristol and marry her at a registry office? No one knows a\r\nword of the matter, but you can imagine how maddening it must be to him\r\nto be upbraided for not doing what he would give his very eyes to do,\r\nbut what he knows to be absolutely impossible. It was sheer frenzy of\r\nthis sort which made him throw his hands up into the air when his\r\nfather, at their last interview, was goading him on to propose to Miss\r\nTurner. On the other hand, he had no means of supporting himself, and\r\nhis father, who was by all accounts a very hard man, would have thrown\r\nhim over utterly had he known the truth. It was with his barmaid wife\r\nthat he had spent the last three days in Bristol, and his father did\r\nnot know where he was. Mark that point. It is of importance. Good has\r\ncome out of evil, however, for the barmaid, finding from the papers\r\nthat he is in serious trouble and likely to be hanged, has thrown him\r\nover utterly and has written to him to say that she has a husband\r\nalready in the Bermuda Dockyard, so that there is really no tie between\r\nthem. I think that that bit of news has consoled young McCarthy for all\r\nthat he has suffered.”\r\n\r\n“But if he is innocent, who has done it?”\r\n\r\n“Ah! who? I would call your attention very particularly to two points.\r\nOne is that the murdered man had an appointment with someone at the\r\npool, and that the someone could not have been his son, for his son was\r\naway, and he did not know when he would return. The second is that the\r\nmurdered man was heard to cry ‘Cooee!’ before he knew that his son had\r\nreturned. Those are the crucial points upon which the case depends. And\r\nnow let us talk about George Meredith, if you please, and we shall\r\nleave all minor matters until to-morrow.”\r\n\r\nThere was no rain, as Holmes had foretold, and the morning broke bright\r\nand cloudless. At nine o’clock Lestrade called for us with the\r\ncarriage, and we set off for Hatherley Farm and the Boscombe Pool.\r\n\r\n“There is serious news this morning,” Lestrade observed. “It is said\r\nthat Mr. Turner, of the Hall, is so ill that his life is despaired of.”\r\n\r\n“An elderly man, I presume?” said Holmes.\r\n\r\n“About sixty; but his constitution has been shattered by his life\r\nabroad, and he has been in failing health for some time. This business\r\nhas had a very bad effect upon him. He was an old friend of McCarthy’s,\r\nand, I may add, a great benefactor to him, for I have learned that he\r\ngave him Hatherley Farm rent free.”\r\n\r\n“Indeed! That is interesting,” said Holmes.\r\n\r\n“Oh, yes! In a hundred other ways he has helped him. Everybody about\r\nhere speaks of his kindness to him.”\r\n\r\n“Really! Does it not strike you as a little singular that this\r\nMcCarthy, who appears to have had little of his own, and to have been\r\nunder such obligations to Turner, should still talk of marrying his son\r\nto Turner’s daughter, who is, presumably, heiress to the estate, and\r\nthat in such a very cocksure manner, as if it were merely a case of a\r\nproposal and all else would follow? It is the more strange, since we\r\nknow that Turner himself was averse to the idea. The daughter told us\r\nas much. Do you not deduce something from that?”\r\n\r\n“We have got to the deductions and the inferences,” said Lestrade,\r\nwinking at me. “I find it hard enough to tackle facts, Holmes, without\r\nflying away after theories and fancies.”\r\n\r\n“You are right,” said Holmes demurely; “you do find it very hard to\r\ntackle the facts.”\r\n\r\n“Anyhow, I have grasped one fact which you seem to find it difficult to\r\nget hold of,” replied Lestrade with some warmth.\r\n\r\n“And that is—”\r\n\r\n“That McCarthy senior met his death from McCarthy junior and that all\r\ntheories to the contrary are the merest moonshine.”\r\n\r\n“Well, moonshine is a brighter thing than fog,” said Holmes, laughing.\r\n“But I am very much mistaken if this is not Hatherley Farm upon the\r\nleft.”\r\n\r\n“Yes, that is it.” It was a widespread, comfortable-looking building,\r\ntwo-storied, slate-roofed, with great yellow blotches of lichen upon\r\nthe grey walls. The drawn blinds and the smokeless chimneys, however,\r\ngave it a stricken look, as though the weight of this horror still lay\r\nheavy upon it. We called at the door, when the maid, at Holmes’\r\nrequest, showed us the boots which her master wore at the time of his\r\ndeath, and also a pair of the son’s, though not the pair which he had\r\nthen had. Having measured these very carefully from seven or eight\r\ndifferent points, Holmes desired to be led to the court-yard, from\r\nwhich we all followed the winding track which led to Boscombe Pool.\r\n\r\nSherlock Holmes was transformed when he was hot upon such a scent as\r\nthis. Men who had only known the quiet thinker and logician of Baker\r\nStreet would have failed to recognise him. His face flushed and\r\ndarkened. His brows were drawn into two hard black lines, while his\r\neyes shone out from beneath them with a steely glitter. His face was\r\nbent downward, his shoulders bowed, his lips compressed, and the veins\r\nstood out like whipcord in his long, sinewy neck. His nostrils seemed\r\nto dilate with a purely animal lust for the chase, and his mind was so\r\nabsolutely concentrated upon the matter before him that a question or\r\nremark fell unheeded upon his ears, or, at the most, only provoked a\r\nquick, impatient snarl in reply. Swiftly and silently he made his way\r\nalong the track which ran through the meadows, and so by way of the\r\nwoods to the Boscombe Pool. It was damp, marshy ground, as is all that\r\ndistrict, and there were marks of many feet, both upon the path and\r\namid the short grass which bounded it on either side. Sometimes Holmes\r\nwould hurry on, sometimes stop dead, and once he made quite a little\r\ndetour into the meadow. Lestrade and I walked behind him, the detective\r\nindifferent and contemptuous, while I watched my friend with the\r\ninterest which sprang from the conviction that every one of his actions\r\nwas directed towards a definite end.\r\n\r\nThe Boscombe Pool, which is a little reed-girt sheet of water some\r\nfifty yards across, is situated at the boundary between the Hatherley\r\nFarm and the private park of the wealthy Mr. Turner. Above the woods\r\nwhich lined it upon the farther side we could see the red, jutting\r\npinnacles which marked the site of the rich landowner’s dwelling. On\r\nthe Hatherley side of the pool the woods grew very thick, and there was\r\na narrow belt of sodden grass twenty paces across between the edge of\r\nthe trees and the reeds which lined the lake. Lestrade showed us the\r\nexact spot at which the body had been found, and, indeed, so moist was\r\nthe ground, that I could plainly see the traces which had been left by\r\nthe fall of the stricken man. To Holmes, as I could see by his eager\r\nface and peering eyes, very many other things were to be read upon the\r\ntrampled grass. He ran round, like a dog who is picking up a scent, and\r\nthen turned upon my companion.\r\n\r\n“What did you go into the pool for?” he asked.\r\n\r\n“I fished about with a rake. I thought there might be some weapon or\r\nother trace. But how on earth—”\r\n\r\n“Oh, tut, tut! I have no time! That left foot of yours with its inward\r\ntwist is all over the place. A mole could trace it, and there it\r\nvanishes among the reeds. Oh, how simple it would all have been had I\r\nbeen here before they came like a herd of buffalo and wallowed all over\r\nit. Here is where the party with the lodge-keeper came, and they have\r\ncovered all tracks for six or eight feet round the body. But here are\r\nthree separate tracks of the same feet.” He drew out a lens and lay\r\ndown upon his waterproof to have a better view, talking all the time\r\nrather to himself than to us. “These are young McCarthy’s feet. Twice\r\nhe was walking, and once he ran swiftly, so that the soles are deeply\r\nmarked and the heels hardly visible. That bears out his story. He ran\r\nwhen he saw his father on the ground. Then here are the father’s feet\r\nas he paced up and down. What is this, then? It is the butt-end of the\r\ngun as the son stood listening. And this? Ha, ha! What have we here?\r\nTiptoes! tiptoes! Square, too, quite unusual boots! They come, they go,\r\nthey come again—of course that was for the cloak. Now where did they\r\ncome from?” He ran up and down, sometimes losing, sometimes finding the\r\ntrack until we were well within the edge of the wood and under the\r\nshadow of a great beech, the largest tree in the neighbourhood. Holmes\r\ntraced his way to the farther side of this and lay down once more upon\r\nhis face with a little cry of satisfaction. For a long time he remained\r\nthere, turning over the leaves and dried sticks, gathering up what\r\nseemed to me to be dust into an envelope and examining with his lens\r\nnot only the ground but even the bark of the tree as far as he could\r\nreach. A jagged stone was lying among the moss, and this also he\r\ncarefully examined and retained. Then he followed a pathway through the\r\nwood until he came to the high road, where all traces were lost.\r\n\r\n“It has been a case of considerable interest,” he remarked, returning\r\nto his natural manner. “I fancy that this grey house on the right must\r\nbe the lodge. I think that I will go in and have a word with Moran, and\r\nperhaps write a little note. Having done that, we may drive back to our\r\nluncheon. You may walk to the cab, and I shall be with you presently.”\r\n\r\nIt was about ten minutes before we regained our cab and drove back into\r\nRoss, Holmes still carrying with him the stone which he had picked up\r\nin the wood.\r\n\r\n“This may interest you, Lestrade,” he remarked, holding it out. “The\r\nmurder was done with it.”\r\n\r\n“I see no marks.”\r\n\r\n“There are none.”\r\n\r\n“How do you know, then?”\r\n\r\n“The grass was growing under it. It had only lain there a few days.\r\nThere was no sign of a place whence it had been taken. It corresponds\r\nwith the injuries. There is no sign of any other weapon.”\r\n\r\n“And the murderer?”\r\n\r\n“Is a tall man, left-handed, limps with the right leg, wears\r\nthick-soled shooting-boots and a grey cloak, smokes Indian cigars, uses\r\na cigar-holder, and carries a blunt pen-knife in his pocket. There are\r\nseveral other indications, but these may be enough to aid us in our\r\nsearch.”\r\n\r\nLestrade laughed. “I am afraid that I am still a sceptic,” he said.\r\n“Theories are all very well, but we have to deal with a hard-headed\r\nBritish jury.”\r\n\r\n“_Nous verrons_,” answered Holmes calmly. “You work your own method,\r\nand I shall work mine. I shall be busy this afternoon, and shall\r\nprobably return to London by the evening train.”\r\n\r\n“And leave your case unfinished?”\r\n\r\n“No, finished.”\r\n\r\n“But the mystery?”\r\n\r\n“It is solved.”\r\n\r\n“Who was the criminal, then?”\r\n\r\n“The gentleman I describe.”\r\n\r\n“But who is he?”\r\n\r\n“Surely it would not be difficult to find out. This is not such a\r\npopulous neighbourhood.”\r\n\r\nLestrade shrugged his shoulders. “I am a practical man,” he said, “and\r\nI really cannot undertake to go about the country looking for a\r\nleft-handed gentleman with a game leg. I should become the\r\nlaughing-stock of Scotland Yard.”\r\n\r\n“All right,” said Holmes quietly. “I have given you the chance. Here\r\nare your lodgings. Good-bye. I shall drop you a line before I leave.”\r\n\r\nHaving left Lestrade at his rooms, we drove to our hotel, where we\r\nfound lunch upon the table. Holmes was silent and buried in thought\r\nwith a pained expression upon his face, as one who finds himself in a\r\nperplexing position.\r\n\r\n“Look here, Watson,” he said when the cloth was cleared “just sit down\r\nin this chair and let me preach to you for a little. I don’t know quite\r\nwhat to do, and I should value your advice. Light a cigar and let me\r\nexpound.”\r\n\r\n “Pray do so.”\r\n\r\n“Well, now, in considering this case there are two points about young\r\nMcCarthy’s narrative which struck us both instantly, although they\r\nimpressed me in his favour and you against him. One was the fact that\r\nhis father should, according to his account, cry ‘Cooee!’ before seeing\r\nhim. The other was his singular dying reference to a rat. He mumbled\r\nseveral words, you understand, but that was all that caught the son’s\r\near. Now from this double point our research must commence, and we will\r\nbegin it by presuming that what the lad says is absolutely true.”\r\n\r\n“What of this ‘Cooee!’ then?”\r\n\r\n“Well, obviously it could not have been meant for the son. The son, as\r\nfar as he knew, was in Bristol. It was mere chance that he was within\r\nearshot. The ‘Cooee!’ was meant to attract the attention of whoever it\r\nwas that he had the appointment with. But ‘Cooee’ is a distinctly\r\nAustralian cry, and one which is used between Australians. There is a\r\nstrong presumption that the person whom McCarthy expected to meet him\r\nat Boscombe Pool was someone who had been in Australia.”\r\n\r\n“What of the rat, then?”\r\n\r\nSherlock Holmes took a folded paper from his pocket and flattened it\r\nout on the table. “This is a map of the Colony of Victoria,” he said.\r\n“I wired to Bristol for it last night.” He put his hand over part of\r\nthe map. “What do you read?”\r\n\r\n“ARAT,” I read.\r\n\r\n“And now?” He raised his hand.\r\n\r\n“BALLARAT.”\r\n\r\n“Quite so. That was the word the man uttered, and of which his son only\r\ncaught the last two syllables. He was trying to utter the name of his\r\nmurderer. So and so, of Ballarat.”\r\n\r\n“It is wonderful!” I exclaimed.\r\n\r\n“It is obvious. And now, you see, I had narrowed the field down\r\nconsiderably. The possession of a grey garment was a third point which,\r\ngranting the son’s statement to be correct, was a certainty. We have\r\ncome now out of mere vagueness to the definite conception of an\r\nAustralian from Ballarat with a grey cloak.”\r\n\r\n“Certainly.”\r\n\r\n“And one who was at home in the district, for the pool can only be\r\napproached by the farm or by the estate, where strangers could hardly\r\nwander.”\r\n\r\n“Quite so.”\r\n\r\n“Then comes our expedition of to-day. By an examination of the ground I\r\ngained the trifling details which I gave to that imbecile Lestrade, as\r\nto the personality of the criminal.”\r\n\r\n“But how did you gain them?”\r\n\r\n“You know my method. It is founded upon the observation of trifles.”\r\n\r\n“His height I know that you might roughly judge from the length of his\r\nstride. His boots, too, might be told from their traces.”\r\n\r\n“Yes, they were peculiar boots.”\r\n\r\n“But his lameness?”\r\n\r\n“The impression of his right foot was always less distinct than his\r\nleft. He put less weight upon it. Why? Because he limped—he was lame.”\r\n\r\n“But his left-handedness.”\r\n\r\n“You were yourself struck by the nature of the injury as recorded by\r\nthe surgeon at the inquest. The blow was struck from immediately\r\nbehind, and yet was upon the left side. Now, how can that be unless it\r\nwere by a left-handed man? He had stood behind that tree during the\r\ninterview between the father and son. He had even smoked there. I found\r\nthe ash of a cigar, which my special knowledge of tobacco ashes enables\r\nme to pronounce as an Indian cigar. I have, as you know, devoted some\r\nattention to this, and written a little monograph on the ashes of 140\r\ndifferent varieties of pipe, cigar, and cigarette tobacco. Having found\r\nthe ash, I then looked round and discovered the stump among the moss\r\nwhere he had tossed it. It was an Indian cigar, of the variety which\r\nare rolled in Rotterdam.”\r\n\r\n“And the cigar-holder?”\r\n\r\n“I could see that the end had not been in his mouth. Therefore he used\r\na holder. The tip had been cut off, not bitten off, but the cut was not\r\na clean one, so I deduced a blunt pen-knife.”\r\n\r\n“Holmes,” I said, “you have drawn a net round this man from which he\r\ncannot escape, and you have saved an innocent human life as truly as if\r\nyou had cut the cord which was hanging him. I see the direction in\r\nwhich all this points. The culprit is—”\r\n\r\n“Mr. John Turner,” cried the hotel waiter, opening the door of our\r\nsitting-room, and ushering in a visitor.\r\n\r\nThe man who entered was a strange and impressive figure. His slow,\r\nlimping step and bowed shoulders gave the appearance of decrepitude,\r\nand yet his hard, deep-lined, craggy features, and his enormous limbs\r\nshowed that he was possessed of unusual strength of body and of\r\ncharacter. His tangled beard, grizzled hair, and outstanding, drooping\r\neyebrows combined to give an air of dignity and power to his\r\nappearance, but his face was of an ashen white, while his lips and the\r\ncorners of his nostrils were tinged with a shade of blue. It was clear\r\nto me at a glance that he was in the grip of some deadly and chronic\r\ndisease.\r\n\r\n“Pray sit down on the sofa,” said Holmes gently. “You had my note?”\r\n\r\n“Yes, the lodge-keeper brought it up. You said that you wished to see\r\nme here to avoid scandal.”\r\n\r\n“I thought people would talk if I went to the Hall.”\r\n\r\n“And why did you wish to see me?” He looked across at my companion with\r\ndespair in his weary eyes, as though his question was already answered.\r\n\r\n“Yes,” said Holmes, answering the look rather than the words. “It is\r\nso. I know all about McCarthy.”\r\n\r\nThe old man sank his face in his hands. “God help me!” he cried. “But I\r\nwould not have let the young man come to harm. I give you my word that\r\nI would have spoken out if it went against him at the Assizes.”\r\n\r\n“I am glad to hear you say so,” said Holmes gravely.\r\n\r\n“I would have spoken now had it not been for my dear girl. It would\r\nbreak her heart—it will break her heart when she hears that I am\r\narrested.”\r\n\r\n“It may not come to that,” said Holmes.\r\n\r\n“What?”\r\n\r\n“I am no official agent. I understand that it was your daughter who\r\nrequired my presence here, and I am acting in her interests. Young\r\nMcCarthy must be got off, however.”\r\n\r\n“I am a dying man,” said old Turner. “I have had diabetes for years. My\r\ndoctor says it is a question whether I shall live a month. Yet I would\r\nrather die under my own roof than in a gaol.”\r\n\r\nHolmes rose and sat down at the table with his pen in his hand and a\r\nbundle of paper before him. “Just tell us the truth,” he said. “I shall\r\njot down the facts. You will sign it, and Watson here can witness it.\r\nThen I could produce your confession at the last extremity to save\r\nyoung McCarthy. I promise you that I shall not use it unless it is\r\nabsolutely needed.”\r\n\r\n“It’s as well,” said the old man; “it’s a question whether I shall live\r\nto the Assizes, so it matters little to me, but I should wish to spare\r\nAlice the shock. And now I will make the thing clear to you; it has\r\nbeen a long time in the acting, but will not take me long to tell.\r\n\r\n“You didn’t know this dead man, McCarthy. He was a devil incarnate. I\r\ntell you that. God keep you out of the clutches of such a man as he.\r\nHis grip has been upon me these twenty years, and he has blasted my\r\nlife. I’ll tell you first how I came to be in his power.\r\n\r\n“It was in the early ’60’s at the diggings. I was a young chap then,\r\nhot-blooded and reckless, ready to turn my hand at anything; I got\r\namong bad companions, took to drink, had no luck with my claim, took to\r\nthe bush, and in a word became what you would call over here a highway\r\nrobber. There were six of us, and we had a wild, free life of it,\r\nsticking up a station from time to time, or stopping the wagons on the\r\nroad to the diggings. Black Jack of Ballarat was the name I went under,\r\nand our party is still remembered in the colony as the Ballarat Gang.\r\n\r\n“One day a gold convoy came down from Ballarat to Melbourne, and we lay\r\nin wait for it and attacked it. There were six troopers and six of us,\r\nso it was a close thing, but we emptied four of their saddles at the\r\nfirst volley. Three of our boys were killed, however, before we got the\r\nswag. I put my pistol to the head of the wagon-driver, who was this\r\nvery man McCarthy. I wish to the Lord that I had shot him then, but I\r\nspared him, though I saw his wicked little eyes fixed on my face, as\r\nthough to remember every feature. We got away with the gold, became\r\nwealthy men, and made our way over to England without being suspected.\r\nThere I parted from my old pals and determined to settle down to a\r\nquiet and respectable life. I bought this estate, which chanced to be\r\nin the market, and I set myself to do a little good with my money, to\r\nmake up for the way in which I had earned it. I married, too, and\r\nthough my wife died young she left me my dear little Alice. Even when\r\nshe was just a baby her wee hand seemed to lead me down the right path\r\nas nothing else had ever done. In a word, I turned over a new leaf and\r\ndid my best to make up for the past. All was going well when McCarthy\r\nlaid his grip upon me.\r\n\r\n“I had gone up to town about an investment, and I met him in Regent\r\nStreet with hardly a coat to his back or a boot to his foot.\r\n\r\n“‘Here we are, Jack,’ says he, touching me on the arm; ‘we’ll be as\r\ngood as a family to you. There’s two of us, me and my son, and you can\r\nhave the keeping of us. If you don’t—it’s a fine, law-abiding country\r\nis England, and there’s always a policeman within hail.’\r\n\r\n“Well, down they came to the west country, there was no shaking them\r\noff, and there they have lived rent free on my best land ever since.\r\nThere was no rest for me, no peace, no forgetfulness; turn where I\r\nwould, there was his cunning, grinning face at my elbow. It grew worse\r\nas Alice grew up, for he soon saw I was more afraid of her knowing my\r\npast than of the police. Whatever he wanted he must have, and whatever\r\nit was I gave him without question, land, money, houses, until at last\r\nhe asked a thing which I could not give. He asked for Alice.\r\n\r\n“His son, you see, had grown up, and so had my girl, and as I was known\r\nto be in weak health, it seemed a fine stroke to him that his lad\r\nshould step into the whole property. But there I was firm. I would not\r\nhave his cursed stock mixed with mine; not that I had any dislike to\r\nthe lad, but his blood was in him, and that was enough. I stood firm.\r\nMcCarthy threatened. I braved him to do his worst. We were to meet at\r\nthe pool midway between our houses to talk it over.\r\n\r\n“When I went down there I found him talking with his son, so I smoked a\r\ncigar and waited behind a tree until he should be alone. But as I\r\nlistened to his talk all that was black and bitter in me seemed to come\r\nuppermost. He was urging his son to marry my daughter with as little\r\nregard for what she might think as if she were a slut from off the\r\nstreets. It drove me mad to think that I and all that I held most dear\r\nshould be in the power of such a man as this. Could I not snap the\r\nbond? I was already a dying and a desperate man. Though clear of mind\r\nand fairly strong of limb, I knew that my own fate was sealed. But my\r\nmemory and my girl! Both could be saved if I could but silence that\r\nfoul tongue. I did it, Mr. Holmes. I would do it again. Deeply as I\r\nhave sinned, I have led a life of martyrdom to atone for it. But that\r\nmy girl should be entangled in the same meshes which held me was more\r\nthan I could suffer. I struck him down with no more compunction than if\r\nhe had been some foul and venomous beast. His cry brought back his son;\r\nbut I had gained the cover of the wood, though I was forced to go back\r\nto fetch the cloak which I had dropped in my flight. That is the true\r\nstory, gentlemen, of all that occurred.”\r\n\r\n“Well, it is not for me to judge you,” said Holmes as the old man\r\nsigned the statement which had been drawn out. “I pray that we may\r\nnever be exposed to such a temptation.”\r\n\r\n“I pray not, sir. And what do you intend to do?”\r\n\r\n“In view of your health, nothing. You are yourself aware that you will\r\nsoon have to answer for your deed at a higher court than the Assizes. I\r\nwill keep your confession, and if McCarthy is condemned I shall be\r\nforced to use it. If not, it shall never be seen by mortal eye; and\r\nyour secret, whether you be alive or dead, shall be safe with us.”\r\n\r\n“Farewell, then,” said the old man solemnly. “Your own deathbeds, when\r\nthey come, will be the easier for the thought of the peace which you\r\nhave given to mine.” Tottering and shaking in all his giant frame, he\r\nstumbled slowly from the room.\r\n\r\n“God help us!” said Holmes after a long silence. “Why does fate play\r\nsuch tricks with poor, helpless worms? I never hear of such a case as\r\nthis that I do not think of Baxter’s words, and say, ‘There, but for\r\nthe grace of God, goes Sherlock Holmes.’”\r\n\r\nJames McCarthy was acquitted at the Assizes on the strength of a number\r\nof objections which had been drawn out by Holmes and submitted to the\r\ndefending counsel. Old Turner lived for seven months after our\r\ninterview, but he is now dead; and there is every prospect that the son\r\nand daughter may come to live happily together in ignorance of the\r\nblack cloud which rests upon their past."
-    }
-  ]
-};
-      window.sherlockHolmesBook = new DigitalBook('sherlock-holmes-book', sherlockHolmesConfig);
-    </script>
-  
-
-    <h2>🎯 Comprehension Questions</h2>
-                                <p>Answer these questions about today's reading:</p>
-                                
-                                <div style="margin: 30px 0;">
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">1. What were the main events?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">2. How did the characters feel or react?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">3. What do you predict will happen next?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                </div>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;">
+                                <p><em>[Reading passage from Sherlock Holmes Stories, Chapter 7 will be inserted here from digital book database]</em></p>
+                                <p>This section will include the actual chapter text with vocabulary words highlighted.</p>
+                            </div>
                             
+                            <div style="margin-top: 20px; padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">📚 <strong>Take your time reading!</strong> Think about what's happening in the story.</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 6: Journal 
-                
+                // Page 5: Reading Comprehension
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✍️ Journal Entry</h2>
+                            <h2>🎯 Reading Comprehension</h2>
+                            <p>Answer these questions about today's chapter:</p>
                             
-                            <div style="margin: 25px 0; padding: 25px; background: rgba(176,104,33,0.1); border-left: 4px solid #B06821; border-radius: 8px;">
-                                <h3 style="color: #B06821; margin-bottom: 15px;">Today's Prompt:</h3>
-                                <p style="font-size: 18px; font-style: italic;">
-                                    Write 4-6 sentences about today's reading. What was most interesting or surprising? 
-                                    How did this chapter move the story forward?
+                            <div style="margin: 30px 0;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 1:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 7]</p>
+                                    <textarea 
+                                      id="comp-1"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 2:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 7]</p>
+                                    <textarea 
+                                      id="comp-2"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 3:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 7]</p>
+                                    <textarea 
+                                      id="comp-3"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 6: Journal Reflection
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✍️ Journal Reflection</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 20px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    [Personal reflection prompt related to Chapter 7]
                                 </p>
                             </div>
                             
                             <textarea 
-                                style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #305853; border-radius: 10px; font-size: 16px;"
-                                placeholder="Write your journal entry here..."></textarea>
+                              id="journal"
+                              style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #4A0E4E; border-radius: 12px; font-family: inherit; font-size: 16px; line-height: 1.6;"
+                              placeholder="Write your thoughts here..."
+                            ></textarea>
                         </div>
                     `
                 },
                 
-                
                 // Page 7: Completion
                 {
                     render: () => `
-                        <div class="lesson-page-card completion-page">
-                            <div class="character">📚</div>
+                        <div class="lesson-page-card content-page">
+                            <div style="text-align: center; padding: 40px 20px;">
+                                <div style="font-size: 72px; margin-bottom: 20px;">🎉</div>
+                                <h2 style="color: #305853; margin-bottom: 20px;">Great Job!</h2>
+                                <p style="font-size: 18px; color: #666; max-width: 500px; margin: 0 auto;">
+                                    You've completed Day 127! Come back tomorrow to continue reading <em>Sherlock Holmes Stories</em>.
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 8: Informational Text 📰
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📰 Informational Text</h2>
+                            <h3 style="color: #4A0E4E;">Related Non-Fiction</h3>
                             
-                                <h1>Day 127 Complete!</h1>
-                                <p style="font-size: 20px; margin: 20px 0;">Great work today!</p>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px; margin-bottom: 25px;">
+                                <p style="margin-bottom: 15px;">Informational text content goes here.</p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #4A0E4E;">
+                                <h4 style="margin-bottom: 15px;">📝 Comprehension Questions:</h4>
                                 
-                                <div style="text-align: left; max-width: 400px; margin: 30px auto; background: rgba(48,88,83,0.05); padding: 25px; border-radius: 12px;">
-                                    <h3 style="color: #305853; margin-bottom: 15px;">✅ Today You:</h3>
-                                    <ul style="line-height: 2;">
-                                        
-                                            <li>Read about Holmes investigates</li>
-                                            <li>Learned 2 vocabulary words</li>
-                                            <li>Answered comprehension questions</li>
-                                            <li>Wrote a journal entry</li>
-                                        
-                                    </ul>
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">1. Question 1?</p>
+                                    <textarea 
+                                      id="info-1"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
                                 </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">2. Question 2?</p>
+                                    <textarea 
+                                      id="info-2"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">3. Question 3?</p>
+                                    <textarea 
+                                      id="info-3"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 9: Grammar in Context ✏️
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✏️ Grammar Workshop</h2>
+                            <h3 style="color: #4A0E4E;">Prepositional Phrases</h3>
                             
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin-bottom: 15px;">
+                                    <strong>📖 What is it?</strong><br>
+                                    A prepositional phrase starts with a preposition (in, on, under, through, etc.) and ends with a noun or pronoun.
+                                </p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>💡 Example from today's reading:</strong><br>
+                                    <em>"The house rose slowly through the air."</em>
+                                </p>
+                            </div>
                             
-                            <a href="student-dashboard.html" 
-                               style="display: inline-block; margin-top: 20px; padding: 15px 35px; background: #B06821; color: white; text-decoration: none; border-radius: 12px; font-size: 18px; font-weight: 700;">
-                                Continue →
-                            </a>
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #4A0E4E;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">✍️ Your Turn:</p>
+                                <p style="margin-bottom: 12px;">Find three prepositional phrases in today's reading and circle the preposition in each one.</p>
+                                <textarea 
+                                  id="grammar"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Write your practice sentences here..."
+                                ></textarea>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 10: Writing Workshop 📝
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>💭 Opinion Writing</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">📝 Prompt:</p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    Should Dorothy have tried harder to get into the cellar, or was it okay that she stopped to get Toto? Defend your opinion.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 15px; background: #fffbf0; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 20px;">
+                                <p style="margin: 0; font-size: 14px;">
+                                    <strong>💡 Remember:</strong> Write a paragraph stating your opinion with at least 2-3 reasons supporting your view. Include a topic sentence and conclusion.
+                                </p>
+                            </div>
+                            
+                            <textarea 
+                              id="writing"
+                              style="width: 100%; min-height: 250px; padding: 15px; border: 2px solid #4A0E4E; border-radius: 12px; font-size: 16px; line-height: 1.8;"
+                              placeholder="Start writing here..."
+                            ></textarea>
+                            
+                            <div style="margin-top: 15px; padding: 12px; background: #f0f9ff; border-radius: 8px;">
+                                <p style="margin: 0; font-size: 13px; color: #0369a1;">
+                                    ✅ <strong>Checklist:</strong> Did you include a topic sentence? Supporting details? A conclusion?
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 11: Language Skills 🎨
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>🎨 Language Skills</h2>
+                            <h3 style="color: #4A0E4E;">Context Clues</h3>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>📖 Learn:</strong><br>
+                                    Use surrounding words to figure out the meaning of an unfamiliar word.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #4A0E4E;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">🎯 Activity:</p>
+                                <p style="margin-bottom: 12px;">Find an unfamiliar word in the text and use context clues to determine its meaning before looking it up.</p>
+                                <textarea 
+                                  id="language"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Complete the activity here..."
+                                ></textarea>
+                            </div>
+                            
+                            <div style="margin-top: 20px; text-align: center; padding: 30px;">
+                                <div style="font-size: 48px; margin-bottom: 15px;">🌟</div>
+                                <h3 style="color: #305853;">Excellent Work!</h3>
+                                <p style="color: #666;">You've completed all 11 pages of Day 127!</p>
+                            </div>
                         </div>
                     `
                 }
-                
             ]
         };
-
-        createLessonViewer('lesson-container', lesson127Config);
+        
+        // Initialize lesson viewer
+        if (typeof initLessonViewer === 'function') {
+            initLessonViewer(lesson127Config);
+        }
     </script>
 </body>
 </html>

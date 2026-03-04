@@ -3,13 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 97: Treatment of Horses - 4th Grade BedrockELA</title>
+    <title>Day 97 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=3.2">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container" class="lesson-container"></div>
 
     <script src="js/lesson-viewer.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
     
     <script>
         const lesson97Config = {
@@ -24,210 +35,341 @@
                             <div class="character">📚</div>
                             <h1>Day 97</h1>
                             <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #B06821; font-size: 20px; margin-top: 20px;">
+                            <p style="color: #2D3436; font-size: 20px; margin-top: 20px;">
                                 Black Beauty
                             </p>
                             <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Treatment of Horses
+                                Chapter 7
                             </p>
                         </div>
                     `
                 },
                 
-                
-                // Page 2: Welcome
+                // Page 2: Welcome & Learning Objectives
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
                             <h2>📖 Welcome to Day 97!</h2>
-                            
-                                <p>Today you will:</p>
-                                <ul style="margin: 20px 0; line-height: 2;">
-                                    <li>📖 Read about Good vs bad care</li>
-                                    <li>📝 Learn 2 new vocabulary words</li>
-                                    <li>🎯 Answer comprehension questions</li>
-                                    <li>✍️ Write a journal entry</li>
-                                </ul>
-                                <p><strong>Time needed:</strong> About 30-45 minutes</p>
-                            
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>📖 Read from <em>Black Beauty</em></li>
+                                <li>📝 Learn 2 new vocabulary words</li>
+                                <li>📰 Read informational text: "Related Non-Fiction"</li>
+                                <li>✍️ Practice grammar: Prepositional Phrases</li>
+                                <li>🎯 Write: Opinion Writing</li>
+                                <li>🎨 Explore: Context Clues</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
                         </div>
                     `
                 },
                 
-                // Page 3: Vocabulary (2 words)
+                // Page 3: Vocabulary (2 words from text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>📚 Today's Vocabulary</h2>
+                            <h2>📚 Vocabulary Words</h2>
                             
-                            
-                                <div style="margin: 30px 0; padding: 25px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 15px; border: 2px solid #B06821;">
-                                    <div style="margin-bottom: 30px;">
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">compassion</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                    
-                                    <div>
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">neglect</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                </div>
+                            <div style="margin: 30px 0;">
                                 
-                                <div style="padding: 20px; background: rgba(176,104,33,0.05); border-radius: 10px;">
-                                    <p style="margin: 0;">
-                                        💡 <strong>Watch for these words</strong> in today's reading!
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #2D3436;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">gaunt</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
-                            
-                        </div>
-                    `
-                },
-                
-                // Page 4: Reading
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            
-                                <h2>📖 Today's Reading: Good vs bad care</h2>
                                 
-                                <div style="background: white; padding: 25px; border-radius: 12px; border: 3px solid #305853; margin: 20px 0;">
-                                    <p style="font-size: 18px; margin-bottom: 15px;">
-                                        📚 Read from Black Beauty
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #2D3436;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">solemn</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
-                                    <p style="font-size: 16px; color: #666; margin-top: 15px;">
-                                        Focus: Chapter 11, 12
-                                    </p>
+                                    <textarea 
+                                      id="vocab-2"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
                                 
-                                <div style="margin-top: 30px; padding: 20px; background: rgba(48,88,83,0.1); border-radius: 10px;">
-                                    <h3 style="color: #305853;">📝 While You Read:</h3>
-                                    <ul style="line-height: 2;">
-                                        <li>Look for the vocabulary words: <strong>compassion</strong> and <strong>neglect</strong></li>
-                                        <li>What are the main events?</li>
-                                        <li>How do characters change or react?</li>
-                                    </ul>
-                                </div>
+                            </div>
                             
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">💡 <strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 5: Comprehension
+                // Page 4: Literature Reading (placeholder - needs actual book text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
+                            <h2>📖 Reading: Black Beauty</h2>
+                            <h3 style="color: #2D3436;">Chapter 7</h3>
                             
-                                
-    <!-- Digital Book Integration -->
-    <script src="js/digital-book.js"></script>
-    <div id="black-beauty-book"></div>
-    <script>
-      const blackBeautyConfig = {
-  "coverTitle": "Chapters 11-12",
-  "coverSubtitle": "Chapter 11: Plain Speaking",
-  "coverAuthor": "Anna Sewell",
-  "coverColor": "#2C2416",
-  "vocabWords": [],
-  "pages": [
-    {
-      "title": "Chapter 11: Plain Speaking",
-      "text": "The longer I lived at Birtwick the more proud and happy I felt at having\r\nsuch a place. Our master and mistress were respected and beloved by all\r\nwho knew them; they were good and kind to everybody and everything; not\r\nonly men and women, but horses and donkeys, dogs and cats, cattle and\r\nbirds; there was no oppressed or ill-used creature that had not a friend\r\nin them, and their servants took the same tone. If any of the village\r\nchildren were known to treat any creature cruelly they soon heard about\r\nit from the Hall.\r\n\r\nThe squire and Farmer Grey had worked together, as they said, for more\r\nthan twenty years to get check-reins on the cart-horses done away with,\r\nand in our parts you seldom saw them; and sometimes, if mistress met\r\na heavily laden horse with his head strained up she would stop the\r\ncarriage and get out, and reason with the driver in her sweet serious\r\nvoice, and try to show him how foolish and cruel it was.\r\n\r\nI don't think any man could withstand our mistress. I wish all ladies\r\nwere like her. Our master, too, used to come down very heavy sometimes.\r\nI remember he was riding me toward home one morning when we saw a\r\npowerful man driving toward us in a light pony chaise, with a beautiful\r\nlittle bay pony, with slender legs and a high-bred sensitive head and\r\nface. Just as he came to the park gates the little thing turned toward\r\nthem; the man, without word or warning, wrenched the creature's head\r\nround with such a force and suddenness that he nearly threw it on its\r\nhaunches. Recovering itself it was going on, when he began to lash it\r\nfuriously. The pony plunged forward, but the strong, heavy hand held the\r\npretty creature back with force almost enough to break its jaw, while\r\nthe whip still cut into him. It was a dreadful sight to me, for I knew\r\nwhat fearful pain it gave that delicate little mouth; but master gave me\r\nthe word, and we were up with him in a second.\r\n\r\n“Sawyer,” he cried in a stern voice, “is that pony made of flesh and\r\nblood?”\r\n\r\n“Flesh and blood and temper,” he said; “he's too fond of his own will,\r\nand that won't suit me.” He spoke as if he was in a strong passion. He\r\nwas a builder who had often been to the park on business.\r\n\r\n“And do you think,” said master sternly, “that treatment like this will\r\nmake him fond of your will?”\r\n\r\n“He had no business to make that turn; his road was straight on!” said\r\nthe man roughly.\r\n\r\n“You have often driven that pony up to my place,” said master; “it only\r\nshows the creature's memory and intelligence; how did he know that you\r\nwere not going there again? But that has little to do with it. I must\r\nsay, Mr. Sawyer, that a more unmanly, brutal treatment of a little\r\npony it was never my painful lot to witness, and by giving way to such\r\npassion you injure your own character as much, nay more, than you injure\r\nyour horse; and remember, we shall all have to be judged according to\r\nour works, whether they be toward man or toward beast.”\r\n\r\nMaster rode me home slowly, and I could tell by his voice how the thing\r\nhad grieved him. He was just as free to speak to gentlemen of his own\r\nrank as to those below him; for another day, when we were out, we met\r\na Captain Langley, a friend of our master's; he was driving a splendid\r\npair of grays in a kind of break. After a little conversation the\r\ncaptain said:\r\n\r\n“What do you think of my new team, Mr. Douglas? You know, you are the\r\njudge of horses in these parts, and I should like your opinion.”\r\n\r\nThe master backed me a little, so as to get a good view of them. “They\r\nare an uncommonly handsome pair,” he said, “and if they are as good as\r\nthey look I am sure you need not wish for anything better; but I see\r\nyou still hold that pet scheme of yours for worrying your horses and\r\nlessening their power.”\r\n\r\n“What do you mean,” said the other, “the check-reins? Oh, ah! I know\r\nthat's a hobby of yours; well, the fact is, I like to see my horses hold\r\ntheir heads up.”\r\n\r\n“So do I,” said master, “as well as any man, but I don't like to\r\nsee them held up; that takes all the shine out of it. Now, you are a\r\nmilitary man, Langley, and no doubt like to see your regiment look well\r\non parade, 'heads up', and all that; but you would not take much credit\r\nfor your drill if all your men had their heads tied to a backboard! It\r\nmight not be much harm on parade, except to worry and fatigue them; but\r\nhow would it be in a bayonet charge against the enemy, when they want\r\nthe free use of every muscle, and all their strength thrown forward? I\r\nwould not give much for their chance of victory. And it is just the same\r\nwith horses: you fret and worry their tempers, and decrease their power;\r\nyou will not let them throw their weight against their work, and so\r\nthey have to do too much with their joints and muscles, and of course\r\nit wears them up faster. You may depend upon it, horses were intended\r\nto have their heads free, as free as men's are; and if we could act a\r\nlittle more according to common sense, and a good deal less according\r\nto fashion, we should find many things work easier; besides, you know as\r\nwell as I that if a horse makes a false step, he has much less chance\r\nof recovering himself if his head and neck are fastened back. And now,”\r\n said the master, laughing, “I have given my hobby a good trot out, can't\r\nyou make up your mind to mount him, too, captain? Your example would go\r\na long way.”\r\n\r\n“I believe you are right in theory,” said the other, “and that's rather\r\na hard hit about the soldiers; but--well--I'll think about it,” and so\r\nthey parted."
-    },
-    {
-      "title": "Chapter 12: A Stormy Day",
-      "text": "One day late in the autumn my master had a long journey to go on\r\nbusiness. I was put into the dog-cart, and John went with his master. I\r\nalways liked to go in the dog-cart, it was so light and the high wheels\r\nran along so pleasantly. There had been a great deal of rain, and now\r\nthe wind was very high and blew the dry leaves across the road in a\r\nshower. We went along merrily till we came to the toll-bar and the low\r\nwooden bridge. The river banks were rather high, and the bridge, instead\r\nof rising, went across just level, so that in the middle, if the river\r\nwas full, the water would be nearly up to the woodwork and planks; but\r\nas there were good substantial rails on each side, people did not mind\r\nit.\r\n\r\nThe man at the gate said the river was rising fast, and he feared it\r\nwould be a bad night. Many of the meadows were under water, and in one\r\nlow part of the road the water was halfway up to my knees; the bottom\r\nwas good, and master drove gently, so it was no matter.\r\n\r\nWhen we got to the town of course I had a good bait, but as the master's\r\nbusiness engaged him a long time we did not start for home till rather\r\nlate in the afternoon. The wind was then much higher, and I heard the\r\nmaster say to John that he had never been out in such a storm; and so I\r\nthought, as we went along the skirts of a wood, where the great branches\r\nwere swaying about like twigs, and the rushing sound was terrible.\r\n\r\n“I wish we were well out of this wood,” said my master.\r\n\r\n“Yes, sir,” said John, “it would be rather awkward if one of these\r\nbranches came down upon us.”\r\n\r\nThe words were scarcely out of his mouth when there was a groan, and a\r\ncrack, and a splitting sound, and tearing, crashing down among the other\r\ntrees came an oak, torn up by the roots, and it fell right across the\r\nroad just before us. I will never say I was not frightened, for I was. I\r\nstopped still, and I believe I trembled; of course I did not turn round\r\nor run away; I was not brought up to that. John jumped out and was in a\r\nmoment at my head.\r\n\r\n“That was a very near touch,” said my master. “What's to be done now?”\r\n\r\n“Well, sir, we can't drive over that tree, nor yet get round it; there\r\nwill be nothing for it, but to go back to the four crossways, and that\r\nwill be a good six miles before we get round to the wooden bridge again;\r\nit will make us late, but the horse is fresh.”\r\n\r\nSo back we went and round by the crossroads, but by the time we got to\r\nthe bridge it was very nearly dark; we could just see that the water was\r\nover the middle of it; but as that happened sometimes when the floods\r\nwere out, master did not stop. We were going along at a good pace, but\r\nthe moment my feet touched the first part of the bridge I felt sure\r\nthere was something wrong. I dare not go forward, and I made a dead\r\nstop. “Go on, Beauty,” said my master, and he gave me a touch with the\r\nwhip, but I dare not stir; he gave me a sharp cut; I jumped, but I dare\r\nnot go forward.\r\n\r\n“There's something wrong, sir,” said John, and he sprang out of the\r\ndog-cart and came to my head and looked all about. He tried to lead me\r\nforward. “Come on, Beauty, what's the matter?” Of course I could not\r\ntell him, but I knew very well that the bridge was not safe.\r\n\r\nJust then the man at the toll-gate on the other side ran out of the\r\nhouse, tossing a torch about like one mad.\r\n\r\n“Hoy, hoy, hoy! halloo! stop!” he cried.\r\n\r\n“What's the matter?” shouted my master.\r\n\r\n“The bridge is broken in the middle, and part of it is carried away; if\r\nyou come on you'll be into the river.”\r\n\r\n“Thank God!” said my master. “You Beauty!” said John, and took the\r\nbridle and gently turned me round to the right-hand road by the river\r\nside. The sun had set some time; the wind seemed to have lulled off\r\nafter that furious blast which tore up the tree. It grew darker and\r\ndarker, stiller and stiller. I trotted quietly along, the wheels hardly\r\nmaking a sound on the soft road. For a good while neither master nor\r\nJohn spoke, and then master began in a serious voice. I could not\r\nunderstand much of what they said, but I found they thought, if I had\r\ngone on as the master wanted me, most likely the bridge would have given\r\nway under us, and horse, chaise, master, and man would have fallen into\r\nthe river; and as the current was flowing very strongly, and there was\r\nno light and no help at hand, it was more than likely we should all have\r\nbeen drowned. Master said, God had given men reason, by which they could\r\nfind out things for themselves; but he had given animals knowledge which\r\ndid not depend on reason, and which was much more prompt and perfect in\r\nits way, and by which they had often saved the lives of men. John had\r\nmany stories to tell of dogs and horses, and the wonderful things they\r\nhad done; he thought people did not value their animals half enough nor\r\nmake friends of them as they ought to do. I am sure he makes friends of\r\nthem if ever a man did.\r\n\r\nAt last we came to the park gates and found the gardener looking out for\r\nus. He said that mistress had been in a dreadful way ever since dark,\r\nfearing some accident had happened, and that she had sent James off on\r\nJustice, the roan cob, toward the wooden bridge to make inquiry after\r\nus.\r\n\r\nWe saw a light at the hall-door and at the upper windows, and as we came\r\nup mistress ran out, saying, “Are you really safe, my dear? Oh! I\r\nhave been so anxious, fancying all sorts of things. Have you had no\r\naccident?”\r\n\r\n“No, my dear; but if your Black Beauty had not been wiser than we were\r\nwe should all have been carried down the river at the wooden bridge.”\r\n I heard no more, as they went into the house, and John took me to the\r\nstable. Oh, what a good supper he gave me that night, a good bran mash\r\nand some crushed beans with my oats, and such a thick bed of straw! and\r\nI was glad of it, for I was tired."
-    }
-  ]
-};
-      window.blackBeautyBook = new DigitalBook('black-beauty-book', blackBeautyConfig);
-    </script>
-  
-
-    <h2>🎯 Comprehension Questions</h2>
-                                <p>Answer these questions about today's reading:</p>
-                                
-                                <div style="margin: 30px 0;">
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">1. What were the main events?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">2. How did the characters feel or react?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">3. What do you predict will happen next?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                </div>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;">
+                                <p><em>[Reading passage from Black Beauty, Chapter 7 will be inserted here from digital book database]</em></p>
+                                <p>This section will include the actual chapter text with vocabulary words highlighted.</p>
+                            </div>
                             
+                            <div style="margin-top: 20px; padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">📚 <strong>Take your time reading!</strong> Think about what's happening in the story.</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 6: Journal 
-                
+                // Page 5: Reading Comprehension
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✍️ Journal Entry</h2>
+                            <h2>🎯 Reading Comprehension</h2>
+                            <p>Answer these questions about today's chapter:</p>
                             
-                            <div style="margin: 25px 0; padding: 25px; background: rgba(176,104,33,0.1); border-left: 4px solid #B06821; border-radius: 8px;">
-                                <h3 style="color: #B06821; margin-bottom: 15px;">Today's Prompt:</h3>
-                                <p style="font-size: 18px; font-style: italic;">
-                                    Write 4-6 sentences about today's reading. What was most interesting or surprising? 
-                                    How did this chapter move the story forward?
+                            <div style="margin: 30px 0;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #2D3436;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 1:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 7]</p>
+                                    <textarea 
+                                      id="comp-1"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #2D3436;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 2:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 7]</p>
+                                    <textarea 
+                                      id="comp-2"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #2D3436;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 3:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 7]</p>
+                                    <textarea 
+                                      id="comp-3"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 6: Journal Reflection
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✍️ Journal Reflection</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 20px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    [Personal reflection prompt related to Chapter 7]
                                 </p>
                             </div>
                             
                             <textarea 
-                                style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #305853; border-radius: 10px; font-size: 16px;"
-                                placeholder="Write your journal entry here..."></textarea>
+                              id="journal"
+                              style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #2D3436; border-radius: 12px; font-family: inherit; font-size: 16px; line-height: 1.6;"
+                              placeholder="Write your thoughts here..."
+                            ></textarea>
                         </div>
                     `
                 },
                 
-                
                 // Page 7: Completion
                 {
                     render: () => `
-                        <div class="lesson-page-card completion-page">
-                            <div class="character">📚</div>
+                        <div class="lesson-page-card content-page">
+                            <div style="text-align: center; padding: 40px 20px;">
+                                <div style="font-size: 72px; margin-bottom: 20px;">🎉</div>
+                                <h2 style="color: #305853; margin-bottom: 20px;">Great Job!</h2>
+                                <p style="font-size: 18px; color: #666; max-width: 500px; margin: 0 auto;">
+                                    You've completed Day 97! Come back tomorrow to continue reading <em>Black Beauty</em>.
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 8: Informational Text 📰
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📰 Informational Text</h2>
+                            <h3 style="color: #2D3436;">Related Non-Fiction</h3>
                             
-                                <h1>Day 97 Complete!</h1>
-                                <p style="font-size: 20px; margin: 20px 0;">Great work today!</p>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px; margin-bottom: 25px;">
+                                <p style="margin-bottom: 15px;">Informational text content goes here.</p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #2D3436;">
+                                <h4 style="margin-bottom: 15px;">📝 Comprehension Questions:</h4>
                                 
-                                <div style="text-align: left; max-width: 400px; margin: 30px auto; background: rgba(48,88,83,0.05); padding: 25px; border-radius: 12px;">
-                                    <h3 style="color: #305853; margin-bottom: 15px;">✅ Today You:</h3>
-                                    <ul style="line-height: 2;">
-                                        
-                                            <li>Read about Good vs bad care</li>
-                                            <li>Learned 2 vocabulary words</li>
-                                            <li>Answered comprehension questions</li>
-                                            <li>Wrote a journal entry</li>
-                                        
-                                    </ul>
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">1. Question 1?</p>
+                                    <textarea 
+                                      id="info-1"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
                                 </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">2. Question 2?</p>
+                                    <textarea 
+                                      id="info-2"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">3. Question 3?</p>
+                                    <textarea 
+                                      id="info-3"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 9: Grammar in Context ✏️
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✏️ Grammar Workshop</h2>
+                            <h3 style="color: #2D3436;">Prepositional Phrases</h3>
                             
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin-bottom: 15px;">
+                                    <strong>📖 What is it?</strong><br>
+                                    A prepositional phrase starts with a preposition (in, on, under, through, etc.) and ends with a noun or pronoun.
+                                </p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>💡 Example from today's reading:</strong><br>
+                                    <em>"The house rose slowly through the air."</em>
+                                </p>
+                            </div>
                             
-                            <a href="student-dashboard.html" 
-                               style="display: inline-block; margin-top: 20px; padding: 15px 35px; background: #B06821; color: white; text-decoration: none; border-radius: 12px; font-size: 18px; font-weight: 700;">
-                                Continue →
-                            </a>
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #2D3436;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">✍️ Your Turn:</p>
+                                <p style="margin-bottom: 12px;">Find three prepositional phrases in today's reading and circle the preposition in each one.</p>
+                                <textarea 
+                                  id="grammar"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Write your practice sentences here..."
+                                ></textarea>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 10: Writing Workshop 📝
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>💭 Opinion Writing</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">📝 Prompt:</p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    Should Dorothy have tried harder to get into the cellar, or was it okay that she stopped to get Toto? Defend your opinion.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 15px; background: #fffbf0; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 20px;">
+                                <p style="margin: 0; font-size: 14px;">
+                                    <strong>💡 Remember:</strong> Write a paragraph stating your opinion with at least 2-3 reasons supporting your view. Include a topic sentence and conclusion.
+                                </p>
+                            </div>
+                            
+                            <textarea 
+                              id="writing"
+                              style="width: 100%; min-height: 250px; padding: 15px; border: 2px solid #2D3436; border-radius: 12px; font-size: 16px; line-height: 1.8;"
+                              placeholder="Start writing here..."
+                            ></textarea>
+                            
+                            <div style="margin-top: 15px; padding: 12px; background: #f0f9ff; border-radius: 8px;">
+                                <p style="margin: 0; font-size: 13px; color: #0369a1;">
+                                    ✅ <strong>Checklist:</strong> Did you include a topic sentence? Supporting details? A conclusion?
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 11: Language Skills 🎨
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>🎨 Language Skills</h2>
+                            <h3 style="color: #2D3436;">Context Clues</h3>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>📖 Learn:</strong><br>
+                                    Use surrounding words to figure out the meaning of an unfamiliar word.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #2D3436;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">🎯 Activity:</p>
+                                <p style="margin-bottom: 12px;">Find an unfamiliar word in the text and use context clues to determine its meaning before looking it up.</p>
+                                <textarea 
+                                  id="language"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Complete the activity here..."
+                                ></textarea>
+                            </div>
+                            
+                            <div style="margin-top: 20px; text-align: center; padding: 30px;">
+                                <div style="font-size: 48px; margin-bottom: 15px;">🌟</div>
+                                <h3 style="color: #305853;">Excellent Work!</h3>
+                                <p style="color: #666;">You've completed all 11 pages of Day 97!</p>
+                            </div>
                         </div>
                     `
                 }
-                
             ]
         };
-
-        createLessonViewer('lesson-container', lesson97Config);
+        
+        // Initialize lesson viewer
+        if (typeof initLessonViewer === 'function') {
+            initLessonViewer(lesson97Config);
+        }
     </script>
 </body>
 </html>

@@ -3,13 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 46: The Pirates Set Sail - 4th Grade BedrockELA</title>
+    <title>Day 46 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=3.2">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container" class="lesson-container"></div>
 
     <script src="js/lesson-viewer.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
     
     <script>
         const lesson46Config = {
@@ -24,206 +35,341 @@
                             <div class="character">📚</div>
                             <h1>Day 46</h1>
                             <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #B06821; font-size: 20px; margin-top: 20px;">
-                                Tom Sawyer
+                            <p style="color: #8B4513; font-size: 20px; margin-top: 20px;">
+                                The Adventures of Tom Sawyer
                             </p>
                             <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                The Pirates Set Sail
+                                Chapter 16
                             </p>
                         </div>
                     `
                 },
                 
-                
-                // Page 2: Welcome
+                // Page 2: Welcome & Learning Objectives
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
                             <h2>📖 Welcome to Day 46!</h2>
-                            
-                                <p>Today you will:</p>
-                                <ul style="margin: 20px 0; line-height: 2;">
-                                    <li>📖 Read about Jackson's Island</li>
-                                    <li>📝 Learn 2 new vocabulary words</li>
-                                    <li>🎯 Answer comprehension questions</li>
-                                    <li>✍️ Write a journal entry</li>
-                                </ul>
-                                <p><strong>Time needed:</strong> About 30-45 minutes</p>
-                            
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>📖 Read from <em>The Adventures of Tom Sawyer</em></li>
+                                <li>📝 Learn 2 new vocabulary words</li>
+                                <li>📰 Read informational text: "Related Non-Fiction"</li>
+                                <li>✍️ Practice grammar: Past Progressive Tense</li>
+                                <li>🎯 Write: Opinion Writing</li>
+                                <li>🎨 Explore: Similes and Metaphors</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
                         </div>
                     `
                 },
                 
-                // Page 3: Vocabulary (2 words)
+                // Page 3: Vocabulary (2 words from text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>📚 Today's Vocabulary</h2>
+                            <h2>📚 Vocabulary Words</h2>
                             
-                            
-                                <div style="margin: 30px 0; padding: 25px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 15px; border: 2px solid #B06821;">
-                                    <div style="margin-bottom: 30px;">
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">expedition</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                    
-                                    <div>
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">outcast</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                </div>
+                            <div style="margin: 30px 0;">
                                 
-                                <div style="padding: 20px; background: rgba(176,104,33,0.05); border-radius: 10px;">
-                                    <p style="margin: 0;">
-                                        💡 <strong>Watch for these words</strong> in today's reading!
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">cyclone</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
-                            
-                        </div>
-                    `
-                },
-                
-                // Page 4: Reading
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            
-                                <h2>📖 Today's Reading: Jackson's Island</h2>
                                 
-                                <div style="background: white; padding: 25px; border-radius: 12px; border: 3px solid #305853; margin: 20px 0;">
-                                    <p style="font-size: 18px; margin-bottom: 15px;">
-                                        📚 Read from Tom Sawyer
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">prairie</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
-                                    <p style="font-size: 16px; color: #666; margin-top: 15px;">
-                                        Focus: Chapter 13
-                                    </p>
+                                    <textarea 
+                                      id="vocab-2"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
                                 
-                                <div style="margin-top: 30px; padding: 20px; background: rgba(48,88,83,0.1); border-radius: 10px;">
-                                    <h3 style="color: #305853;">📝 While You Read:</h3>
-                                    <ul style="line-height: 2;">
-                                        <li>Look for the vocabulary words: <strong>expedition</strong> and <strong>outcast</strong></li>
-                                        <li>What are the main events?</li>
-                                        <li>How do characters change or react?</li>
-                                    </ul>
-                                </div>
+                            </div>
                             
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">💡 <strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 5: Comprehension
+                // Page 4: Literature Reading (placeholder - needs actual book text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
+                            <h2>📖 Reading: The Adventures of Tom Sawyer</h2>
+                            <h3 style="color: #8B4513;">Chapter 16</h3>
                             
-                                
-    <!-- Digital Book Integration -->
-    <script src="js/digital-book.js"></script>
-    <div id="tom-sawyer-book"></div>
-    <script>
-      const tomSawyerConfig = {
-  "coverTitle": "Chapter 13",
-  "coverSubtitle": "CHAPTER XIII",
-  "coverAuthor": "Mark Twain",
-  "coverColor": "#8B4513",
-  "vocabWords": [],
-  "pages": [
-    {
-      "title": "CHAPTER XIII",
-      "text": "CHAPTER XIII\n\n\nTom’s mind was made up now. He was gloomy and desperate. He was a\nforsaken, friendless boy, he said; nobody loved him; when they found out\nwhat they had driven him to, perhaps they would be sorry; he had tried\nto do right and get along, but they would not let him; since nothing\nwould do them but to be rid of him, let it be so; and let them blame\n_him_ for the consequences—why shouldn’t they? What right had the\nfriendless to complain? Yes, they had forced him to it at last: he would\nlead a life of crime. There was no choice.\n\nBy this time he was far down Meadow Lane, and the bell for school to\n“take up” tinkled faintly upon his ear. He sobbed, now, to think he\nshould never, never hear that old familiar sound any more—it was very\nhard, but it was forced on him; since he was driven out into the cold\nworld, he must submit—but he forgave them. Then the sobs came thick and\nfast.\n\nJust at this point he met his soul’s sworn comrade, Joe\nHarper—hard-eyed, and with evidently a great and dismal purpose in his\nheart. Plainly here were “two souls with but a single thought.” Tom,\nwiping his eyes with his sleeve, began to blubber out something about\na resolution to escape from hard usage and lack of sympathy at home by\nroaming abroad into the great world never to return; and ended by hoping\nthat Joe would not forget him.\n\nBut it transpired that this was a request which Joe had just been going\nto make of Tom, and had come to hunt him up for that purpose. His mother\nhad whipped him for drinking some cream which he had never tasted and\nknew nothing about; it was plain that she was tired of him and wished\nhim to go; if she felt that way, there was nothing for him to do but\nsuccumb; he hoped she would be happy, and never regret having driven her\npoor boy out into the unfeeling world to suffer and die.\n\nAs the two boys walked sorrowing along, they made a new compact to stand\nby each other and be brothers and never separate till death relieved\nthem of their troubles. Then they began to lay their plans. Joe was for\nbeing a hermit, and living on crusts in a remote cave, and dying,\nsome time, of cold and want and grief; but after listening to Tom, he\nconceded that there were some conspicuous advantages about a life of\ncrime, and so he consented to be a pirate.\n\nThree miles below St. Petersburg, at a point where the Mississippi River\nwas a trifle over a mile wide, there was a long, narrow, wooded island,\nwith a shallow bar at the head of it, and this offered well as a\nrendezvous. It was not inhabited; it lay far over toward the further\nshore, abreast a dense and almost wholly unpeopled forest. So Jackson’s\nIsland was chosen. Who were to be the subjects of their piracies was a\nmatter that did not occur to them. Then they hunted up Huckleberry Finn,\nand he joined them promptly, for all careers were one to him; he was\nindifferent. They presently separated to meet at a lonely spot on the\nriver-bank two miles above the village at the favorite hour—which was\nmidnight. There was a small log raft there which they meant to capture.\nEach would bring hooks and lines, and such provision as he could steal\nin the most dark and mysterious way—as became outlaws. And before the\nafternoon was done, they had all managed to enjoy the sweet glory of\nspreading the fact that pretty soon the town would “hear something.” All\nwho got this vague hint were cautioned to “be mum and wait.”\n\nAbout midnight Tom arrived with a boiled ham and a few trifles,\nand stopped in a dense undergrowth on a small bluff overlooking the\nmeeting-place. It was starlight, and very still. The mighty river lay\nlike an ocean at rest. Tom listened a moment, but no sound disturbed the\nquiet. Then he gave a low, distinct whistle. It was answered from under\nthe bluff. Tom whistled twice more; these signals were answered in the\nsame way. Then a guarded voice said:\n\n“Who goes there?”\n\n“Tom Sawyer, the Black Avenger of the Spanish Main. Name your names.”\n\n“Huck Finn the Red-Handed, and Joe Harper the Terror of the Seas.” Tom\nhad furnished these titles, from his favorite literature.\n\n“’Tis well. Give the countersign.”\n\nTwo hoarse whispers delivered the same awful word simultaneously to the\nbrooding night:\n\n“_Blood_!”\n\nThen Tom tumbled his ham over the bluff and let himself down after it,\ntearing both skin and clothes to some extent in the effort. There was\nan easy, comfortable path along the shore under the bluff, but it lacked\nthe advantages of difficulty and danger so valued by a pirate.\n\nThe Terror of the Seas had brought a side of bacon, and had about worn\nhimself out with getting it there. Finn the Red-Handed had stolen a\nskillet and a quantity of half-cured leaf tobacco, and had also brought\na few corn-cobs to make pipes with. But none of the pirates smoked or\n“chewed” but himself. The Black Avenger of the Spanish Main said it\nwould never do to start without some fire. That was a wise thought;\nmatches were hardly known there in that day. They saw a fire smouldering\nupon a great raft a hundred yards above, and they went stealthily\nthither and helped themselves to a chunk. They made an imposing\nadventure of it, saying, “Hist!” every now and then, and suddenly\nhalting with finger on lip; moving with hands on imaginary dagger-hilts;\nand giving orders in dismal whispers that if “the foe” stirred, to “let\nhim have it to the hilt,” because “dead men tell no tales.” They knew\nwell enough that the raftsmen were all down at the village laying\nin stores or having a spree, but still that was no excuse for their\nconducting this thing in an unpiratical way.\n\nThey shoved off, presently, Tom in command, Huck at the after oar and\nJoe at the forward. Tom stood amidships, gloomy-browed, and with folded\narms, and gave his orders in a low, stern whisper:\n\n“Luff, and bring her to the wind!”\n\n“Aye-aye, sir!”\n\n“Steady, steady-y-y-y!”\n\n“Steady it is, sir!”\n\n“Let her go off a point!”\n\n“Point it is, sir!”\n\nAs the boys steadily and monotonously drove the raft toward mid-stream\nit was no doubt understood that these orders were given only for\n“style,” and were not intended to mean anything in particular.\n\n“What sail’s she carrying?”\n\n“Courses, tops’ls, and flying-jib, sir.”\n\n“Send the r’yals up! Lay out aloft, there, half a dozen of\nye—foretopmaststuns’l! Lively, now!”\n\n“Aye-aye, sir!”\n\n“Shake out that maintogalans’l! Sheets and braces! _now_ my hearties!”\n\n“Aye-aye, sir!”\n\n“Hellum-a-lee—hard a port! Stand by to meet her when she comes! Port,\nport! _Now_, men! With a will! Stead-y-y-y!”\n\n“Steady it is, sir!”\n\nThe raft drew beyond the middle of the river; the boys pointed her head\nright, and then lay on their oars. The river was not high, so there was\nnot more than a two or three mile current. Hardly a word was said during\nthe next three-quarters of an hour. Now the raft was passing before\nthe distant town. Two or three glimmering lights showed where it lay,\npeacefully sleeping, beyond the vague vast sweep of star-gemmed water,\nunconscious of the tremendous event that was happening. The Black\nAvenger stood still with folded arms, “looking his last” upon the scene\nof his former joys and his later sufferings, and wishing “she” could see\nhim now, abroad on the wild sea, facing peril and death with dauntless\nheart, going to his doom with a grim smile on his lips. It was but\na small strain on his imagination to remove Jackson’s Island beyond\neye-shot of the village, and so he “looked his last” with a broken and\nsatisfied heart. The other pirates were looking their last, too; and\nthey all looked so long that they came near letting the current drift\nthem out of the range of the island. But they discovered the danger in\ntime, and made shift to avert it. About two o’clock in the morning the\nraft grounded on the bar two hundred yards above the head of the island,\nand they waded back and forth until they had landed their freight. Part\nof the little raft’s belongings consisted of an old sail, and this they\nspread over a nook in the bushes for a tent to shelter their provisions;\nbut they themselves would sleep in the open air in good weather, as\nbecame outlaws.\n\nThey built a fire against the side of a great log twenty or thirty steps\nwithin the sombre depths of the forest, and then cooked some bacon in\nthe frying-pan for supper, and used up half of the corn “pone” stock\nthey had brought. It seemed glorious sport to be feasting in that wild,\nfree way in the virgin forest of an unexplored and uninhabited island,\nfar from the haunts of men, and they said they never would return to\ncivilization. The climbing fire lit up their faces and threw its ruddy\nglare upon the pillared tree-trunks of their forest temple, and upon the\nvarnished foliage and festooning vines.\n\nWhen the last crisp slice of bacon was gone, and the last allowance\nof corn pone devoured, the boys stretched themselves out on the grass,\nfilled with contentment. They could have found a cooler place, but\nthey would not deny themselves such a romantic feature as the roasting\ncampfire.\n\n“_Ain’t_ it gay?” said Joe.\n\n“It’s _nuts_!” said Tom. “What would the boys say if they could see us?”\n\n“Say? Well, they’d just die to be here—hey, Hucky!”\n\n“I reckon so,” said Huckleberry; “anyways, I’m suited. I don’t want\nnothing better’n this. I don’t ever get enough to eat, gen’ally—and here\nthey can’t come and pick at a feller and bullyrag him so.”\n\n“It’s just the life for me,” said Tom. “You don’t have to get up,\nmornings, and you don’t have to go to school, and wash, and all that\nblame foolishness. You see a pirate don’t have to do _anything_, Joe,\nwhen he’s ashore, but a hermit _he_ has to be praying considerable, and\nthen he don’t have any fun, anyway, all by himself that way.”\n\n“Oh yes, that’s so,” said Joe, “but I hadn’t thought much about it, you\nknow. I’d a good deal rather be a pirate, now that I’ve tried it.”\n\n“You see,” said Tom, “people don’t go much on hermits, nowadays, like\nthey used to in old times, but a pirate’s always respected. And\na hermit’s got to sleep on the hardest place he can find, and put\nsackcloth and ashes on his head, and stand out in the rain, and—”\n\n“What does he put sackcloth and ashes on his head for?” inquired Huck.\n\n“I dono. But they’ve _got_ to do it. Hermits always do. You’d have to do\nthat if you was a hermit.”\n\n“Dern’d if I would,” said Huck.\n\n“Well, what would you do?”\n\n“I dono. But I wouldn’t do that.”\n\n“Why, Huck, you’d _have_ to. How’d you get around it?”\n\n“Why, I just wouldn’t stand it. I’d run away.”\n\n“Run away! Well, you _would_ be a nice old slouch of a hermit. You’d be\na disgrace.”\n\nThe Red-Handed made no response, being better employed. He had finished\ngouging out a cob, and now he fitted a weed stem to it, loaded it with\ntobacco, and was pressing a coal to the charge and blowing a cloud of\nfragrant smoke—he was in the full bloom of luxurious contentment. The\nother pirates envied him this majestic vice, and secretly resolved to\nacquire it shortly. Presently Huck said:\n\n“What does pirates have to do?”\n\nTom said:\n\n“Oh, they have just a bully time—take ships and burn them, and get the\nmoney and bury it in awful places in their island where there’s ghosts\nand things to watch it, and kill everybody in the ships—make ’em walk a\nplank.”\n\n“And they carry the women to the island,” said Joe; “they don’t kill the\nwomen.”\n\n“No,” assented Tom, “they don’t kill the women—they’re too noble. And\nthe women’s always beautiful, too.”\n\n“And don’t they wear the bulliest clothes! Oh no! All gold and silver\nand di’monds,” said Joe, with enthusiasm.\n\n“Who?” said Huck.\n\n“Why, the pirates.”\n\nHuck scanned his own clothing forlornly.\n\n“I reckon I ain’t dressed fitten for a pirate,” said he, with a\nregretful pathos in his voice; “but I ain’t got none but these.”\n\nBut the other boys told him the fine clothes would come fast enough,\nafter they should have begun their adventures. They made him understand\nthat his poor rags would do to begin with, though it was customary for\nwealthy pirates to start with a proper wardrobe.\n\nGradually their talk died out and drowsiness began to steal upon the\neyelids of the little waifs. The pipe dropped from the fingers of the\nRed-Handed, and he slept the sleep of the conscience-free and the weary.\nThe Terror of the Seas and the Black Avenger of the Spanish Main had\nmore difficulty in getting to sleep. They said their prayers inwardly,\nand lying down, since there was nobody there with authority to make them\nkneel and recite aloud; in truth, they had a mind not to say them at\nall, but they were afraid to proceed to such lengths as that, lest they\nmight call down a sudden and special thunderbolt from heaven. Then at\nonce they reached and hovered upon the imminent verge of sleep—but an\nintruder came, now, that would not “down.” It was conscience. They began\nto feel a vague fear that they had been doing wrong to run away; and\nnext they thought of the stolen meat, and then the real torture came.\nThey tried to argue it away by reminding conscience that they had\npurloined sweetmeats and apples scores of times; but conscience was not\nto be appeased by such thin plausibilities; it seemed to them, in the\nend, that there was no getting around the stubborn fact that taking\nsweetmeats was only “hooking,” while taking bacon and hams and such\nvaluables was plain simple stealing—and there was a command against that\nin the Bible. So they inwardly resolved that so long as they remained in\nthe business, their piracies should not again be sullied with the\ncrime of stealing. Then conscience granted a truce, and these curiously\ninconsistent pirates fell peacefully to sleep."
-    }
-  ]
-};
-      window.tomSawyerBook = new DigitalBook('tom-sawyer-book', tomSawyerConfig);
-    </script>
-  
-
-    <h2>🎯 Comprehension Questions</h2>
-                                <p>Answer these questions about today's reading:</p>
-                                
-                                <div style="margin: 30px 0;">
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">1. What were the main events?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">2. How did the characters feel or react?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">3. What do you predict will happen next?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                </div>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;">
+                                <p><em>[Reading passage from The Adventures of Tom Sawyer, Chapter 16 will be inserted here from digital book database]</em></p>
+                                <p>This section will include the actual chapter text with vocabulary words highlighted.</p>
+                            </div>
                             
+                            <div style="margin-top: 20px; padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">📚 <strong>Take your time reading!</strong> Think about what's happening in the story.</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 6: Journal 
-                
+                // Page 5: Reading Comprehension
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✍️ Journal Entry</h2>
+                            <h2>🎯 Reading Comprehension</h2>
+                            <p>Answer these questions about today's chapter:</p>
                             
-                            <div style="margin: 25px 0; padding: 25px; background: rgba(176,104,33,0.1); border-left: 4px solid #B06821; border-radius: 8px;">
-                                <h3 style="color: #B06821; margin-bottom: 15px;">Today's Prompt:</h3>
-                                <p style="font-size: 18px; font-style: italic;">
-                                    Write 4-6 sentences about today's reading. What was most interesting or surprising? 
-                                    How did this chapter move the story forward?
+                            <div style="margin: 30px 0;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #8B4513;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 1:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 16]</p>
+                                    <textarea 
+                                      id="comp-1"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #8B4513;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 2:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 16]</p>
+                                    <textarea 
+                                      id="comp-2"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #8B4513;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 3:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 16]</p>
+                                    <textarea 
+                                      id="comp-3"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 6: Journal Reflection
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✍️ Journal Reflection</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 20px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    [Personal reflection prompt related to Chapter 16]
                                 </p>
                             </div>
                             
                             <textarea 
-                                style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #305853; border-radius: 10px; font-size: 16px;"
-                                placeholder="Write your journal entry here..."></textarea>
+                              id="journal"
+                              style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #8B4513; border-radius: 12px; font-family: inherit; font-size: 16px; line-height: 1.6;"
+                              placeholder="Write your thoughts here..."
+                            ></textarea>
                         </div>
                     `
                 },
                 
-                
                 // Page 7: Completion
                 {
                     render: () => `
-                        <div class="lesson-page-card completion-page">
-                            <div class="character">📚</div>
+                        <div class="lesson-page-card content-page">
+                            <div style="text-align: center; padding: 40px 20px;">
+                                <div style="font-size: 72px; margin-bottom: 20px;">🎉</div>
+                                <h2 style="color: #305853; margin-bottom: 20px;">Great Job!</h2>
+                                <p style="font-size: 18px; color: #666; max-width: 500px; margin: 0 auto;">
+                                    You've completed Day 46! Come back tomorrow to continue reading <em>The Adventures of Tom Sawyer</em>.
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 8: Informational Text 📰
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📰 Informational Text</h2>
+                            <h3 style="color: #8B4513;">Related Non-Fiction</h3>
                             
-                                <h1>Day 46 Complete!</h1>
-                                <p style="font-size: 20px; margin: 20px 0;">Great work today!</p>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px; margin-bottom: 25px;">
+                                <p style="margin-bottom: 15px;">Informational text content goes here.</p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                <h4 style="margin-bottom: 15px;">📝 Comprehension Questions:</h4>
                                 
-                                <div style="text-align: left; max-width: 400px; margin: 30px auto; background: rgba(48,88,83,0.05); padding: 25px; border-radius: 12px;">
-                                    <h3 style="color: #305853; margin-bottom: 15px;">✅ Today You:</h3>
-                                    <ul style="line-height: 2;">
-                                        
-                                            <li>Read about Jackson's Island</li>
-                                            <li>Learned 2 vocabulary words</li>
-                                            <li>Answered comprehension questions</li>
-                                            <li>Wrote a journal entry</li>
-                                        
-                                    </ul>
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">1. Question 1?</p>
+                                    <textarea 
+                                      id="info-1"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
                                 </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">2. Question 2?</p>
+                                    <textarea 
+                                      id="info-2"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">3. Question 3?</p>
+                                    <textarea 
+                                      id="info-3"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 9: Grammar in Context ✏️
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✏️ Grammar Workshop</h2>
+                            <h3 style="color: #8B4513;">Past Progressive Tense</h3>
                             
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin-bottom: 15px;">
+                                    <strong>📖 What is it?</strong><br>
+                                    The past progressive tense shows an action that was ongoing in the past. Form it by using 'was' or 'were' + verb ending in '-ing'.
+                                </p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>💡 Example from today's reading:</strong><br>
+                                    <em>"Dorothy was walking (past progressive) when she saw (simple past) the Scarecrow."</em>
+                                </p>
+                            </div>
                             
-                            <a href="student-dashboard.html" 
-                               style="display: inline-block; margin-top: 20px; padding: 15px 35px; background: #B06821; color: white; text-decoration: none; border-radius: 12px; font-size: 18px; font-weight: 700;">
-                                Continue →
-                            </a>
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">✍️ Your Turn:</p>
+                                <p style="margin-bottom: 12px;">Write three sentences using the past progressive tense to describe things happening in today's chapter.</p>
+                                <textarea 
+                                  id="grammar"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Write your practice sentences here..."
+                                ></textarea>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 10: Writing Workshop 📝
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>💭 Opinion Writing</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">📝 Prompt:</p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    Should Dorothy have tried harder to get into the cellar, or was it okay that she stopped to get Toto? Defend your opinion.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 15px; background: #fffbf0; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 20px;">
+                                <p style="margin: 0; font-size: 14px;">
+                                    <strong>💡 Remember:</strong> Write a paragraph stating your opinion with at least 2-3 reasons supporting your view. Include a topic sentence and conclusion.
+                                </p>
+                            </div>
+                            
+                            <textarea 
+                              id="writing"
+                              style="width: 100%; min-height: 250px; padding: 15px; border: 2px solid #8B4513; border-radius: 12px; font-size: 16px; line-height: 1.8;"
+                              placeholder="Start writing here..."
+                            ></textarea>
+                            
+                            <div style="margin-top: 15px; padding: 12px; background: #f0f9ff; border-radius: 8px;">
+                                <p style="margin: 0; font-size: 13px; color: #0369a1;">
+                                    ✅ <strong>Checklist:</strong> Did you include a topic sentence? Supporting details? A conclusion?
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 11: Language Skills 🎨
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>🎨 Language Skills</h2>
+                            <h3 style="color: #8B4513;">Similes and Metaphors</h3>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>📖 Learn:</strong><br>
+                                    A simile compares two things using 'like' or 'as'. A metaphor says one thing IS another thing.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">🎯 Activity:</p>
+                                <p style="margin-bottom: 12px;">Find the simile in today's reading or create your own simile about the story.</p>
+                                <textarea 
+                                  id="language"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Complete the activity here..."
+                                ></textarea>
+                            </div>
+                            
+                            <div style="margin-top: 20px; text-align: center; padding: 30px;">
+                                <div style="font-size: 48px; margin-bottom: 15px;">🌟</div>
+                                <h3 style="color: #305853;">Excellent Work!</h3>
+                                <p style="color: #666;">You've completed all 11 pages of Day 46!</p>
+                            </div>
                         </div>
                     `
                 }
-                
             ]
         };
-
-        createLessonViewer('lesson-container', lesson46Config);
+        
+        // Initialize lesson viewer
+        if (typeof initLessonViewer === 'function') {
+            initLessonViewer(lesson46Config);
+        }
     </script>
 </body>
 </html>

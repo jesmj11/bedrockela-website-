@@ -3,13 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 81: Too Late? - 4th Grade BedrockELA</title>
+    <title>Day 81 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=3.2">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container" class="lesson-container"></div>
 
     <script src="js/lesson-viewer.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
     
     <script>
         const lesson81Config = {
@@ -24,206 +35,341 @@
                             <div class="character">📚</div>
                             <h1>Day 81</h1>
                             <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #B06821; font-size: 20px; margin-top: 20px;">
-                                Around the World
+                            <p style="color: #1E3A8A; font-size: 20px; margin-top: 20px;">
+                                Around the World in 80 Days
                             </p>
                             <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Too Late?
+                                Chapter 21
                             </p>
                         </div>
                     `
                 },
                 
-                
-                // Page 2: Welcome
+                // Page 2: Welcome & Learning Objectives
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
                             <h2>📖 Welcome to Day 81!</h2>
-                            
-                                <p>Today you will:</p>
-                                <ul style="margin: 20px 0; line-height: 2;">
-                                    <li>📖 Read about Missing the deadline</li>
-                                    <li>📝 Learn 2 new vocabulary words</li>
-                                    <li>🎯 Answer comprehension questions</li>
-                                    <li>✍️ Write a journal entry</li>
-                                </ul>
-                                <p><strong>Time needed:</strong> About 30-45 minutes</p>
-                            
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>📖 Read from <em>Around the World in 80 Days</em></li>
+                                <li>📝 Learn 2 new vocabulary words</li>
+                                <li>📰 Read informational text: "Related Non-Fiction"</li>
+                                <li>✍️ Practice grammar: Past Progressive Tense</li>
+                                <li>🎯 Write: Narrative Writing</li>
+                                <li>🎨 Explore: Similes and Metaphors</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
                         </div>
                     `
                 },
                 
-                // Page 3: Vocabulary (2 words)
+                // Page 3: Vocabulary (2 words from text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>📚 Today's Vocabulary</h2>
+                            <h2>📚 Vocabulary Words</h2>
                             
-                            
-                                <div style="margin: 30px 0; padding: 25px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 15px; border: 2px solid #B06821;">
-                                    <div style="margin-bottom: 30px;">
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">deadline</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                    
-                                    <div>
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">defeat</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                </div>
+                            <div style="margin: 30px 0;">
                                 
-                                <div style="padding: 20px; background: rgba(176,104,33,0.05); border-radius: 10px;">
-                                    <p style="margin: 0;">
-                                        💡 <strong>Watch for these words</strong> in today's reading!
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #1E3A8A;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">cyclone</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
-                            
-                        </div>
-                    `
-                },
-                
-                // Page 4: Reading
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            
-                                <h2>📖 Today's Reading: Missing the deadline</h2>
                                 
-                                <div style="background: white; padding: 25px; border-radius: 12px; border: 3px solid #305853; margin: 20px 0;">
-                                    <p style="font-size: 18px; margin-bottom: 15px;">
-                                        📚 Read from Around the World
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #1E3A8A;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">prairie</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
-                                    <p style="font-size: 16px; color: #666; margin-top: 15px;">
-                                        Focus: Chapter 32, 33
-                                    </p>
+                                    <textarea 
+                                      id="vocab-2"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
                                 
-                                <div style="margin-top: 30px; padding: 20px; background: rgba(48,88,83,0.1); border-radius: 10px;">
-                                    <h3 style="color: #305853;">📝 While You Read:</h3>
-                                    <ul style="line-height: 2;">
-                                        <li>Look for the vocabulary words: <strong>deadline</strong> and <strong>defeat</strong></li>
-                                        <li>What are the main events?</li>
-                                        <li>How do characters change or react?</li>
-                                    </ul>
-                                </div>
+                            </div>
                             
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">💡 <strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 5: Comprehension
+                // Page 4: Literature Reading (placeholder - needs actual book text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
+                            <h2>📖 Reading: Around the World in 80 Days</h2>
+                            <h3 style="color: #1E3A8A;">Chapter 21</h3>
                             
-                                
-    <!-- Digital Book Integration -->
-    <script src="js/digital-book.js"></script>
-    <div id="around-world-book"></div>
-    <script>
-      const aroundWorldConfig = {
-  "coverTitle": "Chapter 23",
-  "coverSubtitle": "Chapter 23: IN WHICH PASSEPARTOUT’S NOSE BECOMES OUTRAGEOUSLY LONG",
-  "coverAuthor": "Jules Verne",
-  "coverColor": "#C17817",
-  "vocabWords": [],
-  "pages": [
-    {
-      "title": "Chapter 23: IN WHICH PASSEPARTOUT’S NOSE BECOMES OUTRAGEOUSLY LONG",
-      "text": "The next morning poor, jaded, famished Passepartout said to himself\r\nthat he must get something to eat at all hazards, and the sooner he did\r\nso the better. He might, indeed, sell his watch; but he would have\r\nstarved first. Now or never he must use the strong, if not melodious\r\nvoice which nature had bestowed upon him. He knew several French and\r\nEnglish songs, and resolved to try them upon the Japanese, who must be\r\nlovers of music, since they were for ever pounding on their cymbals,\r\ntam-tams, and tambourines, and could not but appreciate European\r\ntalent.\r\n\r\nIt was, perhaps, rather early in the morning to get up a concert, and\r\nthe audience prematurely aroused from their slumbers, might not\r\npossibly pay their entertainer with coin bearing the Mikado’s features.\r\nPassepartout therefore decided to wait several hours; and, as he was\r\nsauntering along, it occurred to him that he would seem rather too well\r\ndressed for a wandering artist. The idea struck him to change his\r\ngarments for clothes more in harmony with his project; by which he\r\nmight also get a little money to satisfy the immediate cravings of\r\nhunger. The resolution taken, it remained to carry it out.\r\n\r\nIt was only after a long search that Passepartout discovered a native\r\ndealer in old clothes, to whom he applied for an exchange. The man\r\nliked the European costume, and ere long Passepartout issued from his\r\nshop accoutred in an old Japanese coat, and a sort of one-sided turban,\r\nfaded with long use. A few small pieces of silver, moreover, jingled in\r\nhis pocket.\r\n\r\n“Good!” thought he. “I will imagine I am at the Carnival!”\r\n\r\nHis first care, after being thus “Japanesed,” was to enter a tea-house\r\nof modest appearance, and, upon half a bird and a little rice, to\r\nbreakfast like a man for whom dinner was as yet a problem to be solved.\r\n\r\n“Now,” thought he, when he had eaten heartily, “I mustn’t lose my head.\r\nI can’t sell this costume again for one still more Japanese. I must\r\nconsider how to leave this country of the Sun, of which I shall not\r\nretain the most delightful of memories, as quickly as possible.”\r\n\r\nIt occurred to him to visit the steamers which were about to leave for\r\nAmerica. He would offer himself as a cook or servant, in payment of his\r\npassage and meals. Once at San Francisco, he would find some means of\r\ngoing on. The difficulty was, how to traverse the four thousand seven\r\nhundred miles of the Pacific which lay between Japan and the New World.\r\n\r\nPassepartout was not the man to let an idea go begging, and directed\r\nhis steps towards the docks. But, as he approached them, his project,\r\nwhich at first had seemed so simple, began to grow more and more\r\nformidable to his mind. What need would they have of a cook or servant\r\non an American steamer, and what confidence would they put in him,\r\ndressed as he was? What references could he give?\r\n\r\nAs he was reflecting in this wise, his eyes fell upon an immense\r\nplacard which a sort of clown was carrying through the streets. This\r\nplacard, which was in English, read as follows:\r\n\r\nACROBATIC JAPANESE TROUPE,\r\nHONOURABLE WILLIAM BATULCAR, PROPRIETOR,\r\nLAST REPRESENTATIONS,\r\nPRIOR TO THEIR DEPARTURE TO THE UNITED STATES,\r\nOF THE\r\nLONG NOSES! LONG NOSES!\r\nUNDER THE DIRECT PATRONAGE OF THE GOD TINGOU!\r\nGREAT ATTRACTION!\r\n\r\n\r\n“The United States!” said Passepartout; “that’s just what I want!”\r\n\r\nHe followed the clown, and soon found himself once more in the Japanese\r\nquarter. A quarter of an hour later he stopped before a large cabin,\r\nadorned with several clusters of streamers, the exterior walls of which\r\nwere designed to represent, in violent colours and without perspective,\r\na company of jugglers.\r\n\r\nThis was the Honourable William Batulcar’s establishment. That\r\ngentleman was a sort of Barnum, the director of a troupe of\r\nmountebanks, jugglers, clowns, acrobats, equilibrists, and gymnasts,\r\nwho, according to the placard, was giving his last performances before\r\nleaving the Empire of the Sun for the States of the Union.\r\n\r\nPassepartout entered and asked for Mr. Batulcar, who straightway\r\nappeared in person.\r\n\r\n“What do you want?” said he to Passepartout, whom he at first took for\r\na native.\r\n\r\n“Would you like a servant, sir?” asked Passepartout.\r\n\r\n“A servant!” cried Mr. Batulcar, caressing the thick grey beard which\r\nhung from his chin. “I already have two who are obedient and faithful,\r\nhave never left me, and serve me for their nourishment and here they\r\nare,” added he, holding out his two robust arms, furrowed with veins as\r\nlarge as the strings of a bass-viol.\r\n\r\n“So I can be of no use to you?”\r\n\r\n“None.”\r\n\r\n“The devil! I should so like to cross the Pacific with you!”\r\n\r\n“Ah!” said the Honourable Mr. Batulcar. “You are no more a Japanese\r\nthan I am a monkey! Who are you dressed up in that way?”\r\n\r\n“A man dresses as he can.”\r\n\r\n“That’s true. You are a Frenchman, aren’t you?”\r\n\r\n“Yes; a Parisian of Paris.”\r\n\r\n“Then you ought to know how to make grimaces?”\r\n\r\n“Why,” replied Passepartout, a little vexed that his nationality should\r\ncause this question, “we Frenchmen know how to make grimaces, it is\r\ntrue but not any better than the Americans do.”\r\n\r\n“True. Well, if I can’t take you as a servant, I can as a clown. You\r\nsee, my friend, in France they exhibit foreign clowns, and in foreign\r\nparts French clowns.”\r\n\r\n“Ah!”\r\n\r\n“You are pretty strong, eh?”\r\n\r\n“Especially after a good meal.”\r\n\r\n“And you can sing?”\r\n\r\n“Yes,” returned Passepartout, who had formerly been wont to sing in the\r\nstreets.\r\n\r\n“But can you sing standing on your head, with a top spinning on your\r\nleft foot, and a sabre balanced on your right?”\r\n\r\n“Humph! I think so,” replied Passepartout, recalling the exercises of\r\nhis younger days.\r\n\r\n“Well, that’s enough,” said the Honourable William Batulcar.\r\n\r\nThe engagement was concluded there and then.\r\n\r\nPassepartout had at last found something to do. He was engaged to act\r\nin the celebrated Japanese troupe. It was not a very dignified\r\nposition, but within a week he would be on his way to San Francisco.\r\n\r\nThe performance, so noisily announced by the Honourable Mr. Batulcar,\r\nwas to commence at three o’clock, and soon the deafening instruments of\r\na Japanese orchestra resounded at the door. Passepartout, though he had\r\nnot been able to study or rehearse a part, was designated to lend the\r\naid of his sturdy shoulders in the great exhibition of the “human\r\npyramid,” executed by the Long Noses of the god Tingou. This “great\r\nattraction” was to close the performance.\r\n\r\nBefore three o’clock the large shed was invaded by the spectators,\r\ncomprising Europeans and natives, Chinese and Japanese, men, women and\r\nchildren, who precipitated themselves upon the narrow benches and into\r\nthe boxes opposite the stage. The musicians took up a position inside,\r\nand were vigorously performing on their gongs, tam-tams, flutes, bones,\r\ntambourines, and immense drums.\r\n\r\nThe performance was much like all acrobatic displays; but it must be\r\nconfessed that the Japanese are the first equilibrists in the world.\r\n\r\nOne, with a fan and some bits of paper, performed the graceful trick of\r\nthe butterflies and the flowers; another traced in the air, with the\r\nodorous smoke of his pipe, a series of blue words, which composed a\r\ncompliment to the audience; while a third juggled with some lighted\r\ncandles, which he extinguished successively as they passed his lips,\r\nand relit again without interrupting for an instant his juggling.\r\nAnother reproduced the most singular combinations with a spinning-top;\r\nin his hands the revolving tops seemed to be animated with a life of\r\ntheir own in their interminable whirling; they ran over pipe-stems, the\r\nedges of sabres, wires and even hairs stretched across the stage; they\r\nturned around on the edges of large glasses, crossed bamboo ladders,\r\ndispersed into all the corners, and produced strange musical effects by\r\nthe combination of their various pitches of tone. The jugglers tossed\r\nthem in the air, threw them like shuttlecocks with wooden battledores,\r\nand yet they kept on spinning; they put them into their pockets, and\r\ntook them out still whirling as before.\r\n\r\nIt is useless to describe the astonishing performances of the acrobats\r\nand gymnasts. The turning on ladders, poles, balls, barrels, &c., was\r\nexecuted with wonderful precision.\r\n\r\nBut the principal attraction was the exhibition of the Long Noses, a\r\nshow to which Europe is as yet a stranger.\r\n\r\nThe Long Noses form a peculiar company, under the direct patronage of\r\nthe god Tingou. Attired after the fashion of the Middle Ages, they bore\r\nupon their shoulders a splendid pair of wings; but what especially\r\ndistinguished them was the long noses which were fastened to their\r\nfaces, and the uses which they made of them. These noses were made of\r\nbamboo, and were five, six, and even ten feet long, some straight,\r\nothers curved, some ribboned, and some having imitation warts upon\r\nthem. It was upon these appendages, fixed tightly on their real noses,\r\nthat they performed their gymnastic exercises. A dozen of these\r\nsectaries of Tingou lay flat upon their backs, while others, dressed to\r\nrepresent lightning-rods, came and frolicked on their noses, jumping\r\nfrom one to another, and performing the most skilful leapings and\r\nsomersaults.\r\n\r\nAs a last scene, a “human pyramid” had been announced, in which fifty\r\nLong Noses were to represent the Car of Juggernaut. But, instead of\r\nforming a pyramid by mounting each other’s shoulders, the artists were\r\nto group themselves on top of the noses. It happened that the performer\r\nwho had hitherto formed the base of the Car had quitted the troupe, and\r\nas, to fill this part, only strength and adroitness were necessary,\r\nPassepartout had been chosen to take his place.\r\n\r\nThe poor fellow really felt sad when—melancholy reminiscence of his\r\nyouth!—he donned his costume, adorned with vari-coloured wings, and\r\nfastened to his natural feature a false nose six feet long. But he\r\ncheered up when he thought that this nose was winning him something to\r\neat.\r\n\r\nHe went upon the stage, and took his place beside the rest who were to\r\ncompose the base of the Car of Juggernaut. They all stretched\r\nthemselves on the floor, their noses pointing to the ceiling. A second\r\ngroup of artists disposed themselves on these long appendages, then a\r\nthird above these, then a fourth, until a human monument reaching to\r\nthe very cornices of the theatre soon arose on top of the noses. This\r\nelicited loud applause, in the midst of which the orchestra was just\r\nstriking up a deafening air, when the pyramid tottered, the balance was\r\nlost, one of the lower noses vanished from the pyramid, and the human\r\nmonument was shattered like a castle built of cards!\r\n\r\nIt was Passepartout’s fault. Abandoning his position, clearing the\r\nfootlights without the aid of his wings, and, clambering up to the\r\nright-hand gallery, he fell at the feet of one of the spectators,\r\ncrying, “Ah, my master! my master!”\r\n\r\n“You here?”\r\n\r\n“Myself.”\r\n\r\n“Very well; then let us go to the steamer, young man!”\r\n\r\nMr. Fogg, Aouda, and Passepartout passed through the lobby of the\r\ntheatre to the outside, where they encountered the Honourable Mr.\r\nBatulcar, furious with rage. He demanded damages for the “breakage” of\r\nthe pyramid; and Phileas Fogg appeased him by giving him a handful of\r\nbanknotes.\r\n\r\nAt half-past six, the very hour of departure, Mr. Fogg and Aouda,\r\nfollowed by Passepartout, who in his hurry had retained his wings, and\r\nnose six feet long, stepped upon the American steamer."
-    }
-  ]
-};
-      window.aroundWorldBook = new DigitalBook('around-world-book', aroundWorldConfig);
-    </script>
-  
-
-    <h2>🎯 Comprehension Questions</h2>
-                                <p>Answer these questions about today's reading:</p>
-                                
-                                <div style="margin: 30px 0;">
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">1. What were the main events?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">2. How did the characters feel or react?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">3. What do you predict will happen next?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                </div>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;">
+                                <p><em>[Reading passage from Around the World in 80 Days, Chapter 21 will be inserted here from digital book database]</em></p>
+                                <p>This section will include the actual chapter text with vocabulary words highlighted.</p>
+                            </div>
                             
+                            <div style="margin-top: 20px; padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">📚 <strong>Take your time reading!</strong> Think about what's happening in the story.</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 6: Journal 
-                
+                // Page 5: Reading Comprehension
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✍️ Journal Entry</h2>
+                            <h2>🎯 Reading Comprehension</h2>
+                            <p>Answer these questions about today's chapter:</p>
                             
-                            <div style="margin: 25px 0; padding: 25px; background: rgba(176,104,33,0.1); border-left: 4px solid #B06821; border-radius: 8px;">
-                                <h3 style="color: #B06821; margin-bottom: 15px;">Today's Prompt:</h3>
-                                <p style="font-size: 18px; font-style: italic;">
-                                    Write 4-6 sentences about today's reading. What was most interesting or surprising? 
-                                    How did this chapter move the story forward?
+                            <div style="margin: 30px 0;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1E3A8A;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 1:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 21]</p>
+                                    <textarea 
+                                      id="comp-1"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1E3A8A;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 2:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 21]</p>
+                                    <textarea 
+                                      id="comp-2"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1E3A8A;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 3:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 21]</p>
+                                    <textarea 
+                                      id="comp-3"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 6: Journal Reflection
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✍️ Journal Reflection</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 20px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    [Personal reflection prompt related to Chapter 21]
                                 </p>
                             </div>
                             
                             <textarea 
-                                style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #305853; border-radius: 10px; font-size: 16px;"
-                                placeholder="Write your journal entry here..."></textarea>
+                              id="journal"
+                              style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #1E3A8A; border-radius: 12px; font-family: inherit; font-size: 16px; line-height: 1.6;"
+                              placeholder="Write your thoughts here..."
+                            ></textarea>
                         </div>
                     `
                 },
                 
-                
                 // Page 7: Completion
                 {
                     render: () => `
-                        <div class="lesson-page-card completion-page">
-                            <div class="character">📚</div>
+                        <div class="lesson-page-card content-page">
+                            <div style="text-align: center; padding: 40px 20px;">
+                                <div style="font-size: 72px; margin-bottom: 20px;">🎉</div>
+                                <h2 style="color: #305853; margin-bottom: 20px;">Great Job!</h2>
+                                <p style="font-size: 18px; color: #666; max-width: 500px; margin: 0 auto;">
+                                    You've completed Day 81! Come back tomorrow to continue reading <em>Around the World in 80 Days</em>.
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 8: Informational Text 📰
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📰 Informational Text</h2>
+                            <h3 style="color: #1E3A8A;">Related Non-Fiction</h3>
                             
-                                <h1>Day 81 Complete!</h1>
-                                <p style="font-size: 20px; margin: 20px 0;">Great work today!</p>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px; margin-bottom: 25px;">
+                                <p style="margin-bottom: 15px;">Informational text content goes here.</p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #1E3A8A;">
+                                <h4 style="margin-bottom: 15px;">📝 Comprehension Questions:</h4>
                                 
-                                <div style="text-align: left; max-width: 400px; margin: 30px auto; background: rgba(48,88,83,0.05); padding: 25px; border-radius: 12px;">
-                                    <h3 style="color: #305853; margin-bottom: 15px;">✅ Today You:</h3>
-                                    <ul style="line-height: 2;">
-                                        
-                                            <li>Read about Missing the deadline</li>
-                                            <li>Learned 2 vocabulary words</li>
-                                            <li>Answered comprehension questions</li>
-                                            <li>Wrote a journal entry</li>
-                                        
-                                    </ul>
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">1. Question 1?</p>
+                                    <textarea 
+                                      id="info-1"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
                                 </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">2. Question 2?</p>
+                                    <textarea 
+                                      id="info-2"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">3. Question 3?</p>
+                                    <textarea 
+                                      id="info-3"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 9: Grammar in Context ✏️
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✏️ Grammar Workshop</h2>
+                            <h3 style="color: #1E3A8A;">Past Progressive Tense</h3>
                             
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin-bottom: 15px;">
+                                    <strong>📖 What is it?</strong><br>
+                                    The past progressive tense shows an action that was ongoing in the past. Form it by using 'was' or 'were' + verb ending in '-ing'.
+                                </p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>💡 Example from today's reading:</strong><br>
+                                    <em>"Dorothy was walking (past progressive) when she saw (simple past) the Scarecrow."</em>
+                                </p>
+                            </div>
                             
-                            <a href="student-dashboard.html" 
-                               style="display: inline-block; margin-top: 20px; padding: 15px 35px; background: #B06821; color: white; text-decoration: none; border-radius: 12px; font-size: 18px; font-weight: 700;">
-                                Continue →
-                            </a>
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #1E3A8A;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">✍️ Your Turn:</p>
+                                <p style="margin-bottom: 12px;">Write three sentences using the past progressive tense to describe things happening in today's chapter.</p>
+                                <textarea 
+                                  id="grammar"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Write your practice sentences here..."
+                                ></textarea>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 10: Writing Workshop 📝
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📖 Narrative Writing</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">📝 Prompt:</p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    Imagine you are Aunt Em in the cellar. Write about what you're thinking as the storm passes overhead.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 15px; background: #fffbf0; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 20px;">
+                                <p style="margin: 0; font-size: 14px;">
+                                    <strong>💡 Remember:</strong> Write a short story or scene with a clear beginning, middle, and end. Include descriptive details and dialogue if appropriate.
+                                </p>
+                            </div>
+                            
+                            <textarea 
+                              id="writing"
+                              style="width: 100%; min-height: 250px; padding: 15px; border: 2px solid #1E3A8A; border-radius: 12px; font-size: 16px; line-height: 1.8;"
+                              placeholder="Start writing here..."
+                            ></textarea>
+                            
+                            <div style="margin-top: 15px; padding: 12px; background: #f0f9ff; border-radius: 8px;">
+                                <p style="margin: 0; font-size: 13px; color: #0369a1;">
+                                    ✅ <strong>Checklist:</strong> Did you include a topic sentence? Supporting details? A conclusion?
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 11: Language Skills 🎨
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>🎨 Language Skills</h2>
+                            <h3 style="color: #1E3A8A;">Similes and Metaphors</h3>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>📖 Learn:</strong><br>
+                                    A simile compares two things using 'like' or 'as'. A metaphor says one thing IS another thing.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #1E3A8A;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">🎯 Activity:</p>
+                                <p style="margin-bottom: 12px;">Find the simile in today's reading or create your own simile about the story.</p>
+                                <textarea 
+                                  id="language"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Complete the activity here..."
+                                ></textarea>
+                            </div>
+                            
+                            <div style="margin-top: 20px; text-align: center; padding: 30px;">
+                                <div style="font-size: 48px; margin-bottom: 15px;">🌟</div>
+                                <h3 style="color: #305853;">Excellent Work!</h3>
+                                <p style="color: #666;">You've completed all 11 pages of Day 81!</p>
+                            </div>
                         </div>
                     `
                 }
-                
             ]
         };
-
-        createLessonViewer('lesson-container', lesson81Config);
+        
+        // Initialize lesson viewer
+        if (typeof initLessonViewer === 'function') {
+            initLessonViewer(lesson81Config);
+        }
     </script>
 </body>
 </html>

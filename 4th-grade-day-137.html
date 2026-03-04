@@ -3,13 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 137: Character Study - 4th Grade BedrockELA</title>
+    <title>Day 137 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=3.2">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container" class="lesson-container"></div>
 
     <script src="js/lesson-viewer.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
     
     <script>
         const lesson137Config = {
@@ -24,206 +35,341 @@
                             <div class="character">📚</div>
                             <h1>Day 137</h1>
                             <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #B06821; font-size: 20px; margin-top: 20px;">
-                                Sherlock Holmes
+                            <p style="color: #4A0E4E; font-size: 20px; margin-top: 20px;">
+                                Sherlock Holmes Stories
                             </p>
                             <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Character Study
+                                Chapter 17
                             </p>
                         </div>
                     `
                 },
                 
-                
-                // Page 2: Welcome
+                // Page 2: Welcome & Learning Objectives
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
                             <h2>📖 Welcome to Day 137!</h2>
-                            
-                                <p>Today you will:</p>
-                                <ul style="margin: 20px 0; line-height: 2;">
-                                    <li>📖 Read about Holmes and Watson</li>
-                                    <li>📝 Learn 2 new vocabulary words</li>
-                                    <li>🎯 Answer comprehension questions</li>
-                                    <li>✍️ Write a journal entry</li>
-                                </ul>
-                                <p><strong>Time needed:</strong> About 30-45 minutes</p>
-                            
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>📖 Read from <em>Sherlock Holmes Stories</em></li>
+                                <li>📝 Learn 2 new vocabulary words</li>
+                                <li>📰 Read informational text: "Related Non-Fiction"</li>
+                                <li>✍️ Practice grammar: Prepositional Phrases</li>
+                                <li>🎯 Write: Informative Writing</li>
+                                <li>🎨 Explore: Context Clues</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
                         </div>
                     `
                 },
                 
-                // Page 3: Vocabulary (2 words)
+                // Page 3: Vocabulary (2 words from text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>📚 Today's Vocabulary</h2>
+                            <h2>📚 Vocabulary Words</h2>
                             
-                            
-                                <div style="margin: 30px 0; padding: 25px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 15px; border: 2px solid #B06821;">
-                                    <div style="margin-bottom: 30px;">
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">partnership</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                    
-                                    <div>
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">contrast</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                </div>
+                            <div style="margin: 30px 0;">
                                 
-                                <div style="padding: 20px; background: rgba(176,104,33,0.05); border-radius: 10px;">
-                                    <p style="margin: 0;">
-                                        💡 <strong>Watch for these words</strong> in today's reading!
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #4A0E4E;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">gaunt</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
-                            
-                        </div>
-                    `
-                },
-                
-                // Page 4: Reading
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            
-                                <h2>📖 Today's Reading: Holmes and Watson</h2>
                                 
-                                <div style="background: white; padding: 25px; border-radius: 12px; border: 3px solid #305853; margin: 20px 0;">
-                                    <p style="font-size: 18px; margin-bottom: 15px;">
-                                        📚 Read from Sherlock Holmes
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #4A0E4E;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">solemn</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
-                                    <p style="font-size: 16px; color: #666; margin-top: 15px;">
-                                        Focus: Holmes and Watson
-                                    </p>
+                                    <textarea 
+                                      id="vocab-2"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
                                 
-                                <div style="margin-top: 30px; padding: 20px; background: rgba(48,88,83,0.1); border-radius: 10px;">
-                                    <h3 style="color: #305853;">📝 While You Read:</h3>
-                                    <ul style="line-height: 2;">
-                                        <li>Look for the vocabulary words: <strong>partnership</strong> and <strong>contrast</strong></li>
-                                        <li>What are the main events?</li>
-                                        <li>How do characters change or react?</li>
-                                    </ul>
-                                </div>
+                            </div>
                             
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">💡 <strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 5: Comprehension
+                // Page 4: Literature Reading (placeholder - needs actual book text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
+                            <h2>📖 Reading: Sherlock Holmes Stories</h2>
+                            <h3 style="color: #4A0E4E;">Chapter 17</h3>
                             
-                                
-    <!-- Digital Book Integration -->
-    <script src="js/digital-book.js"></script>
-    <div id="sherlock-holmes-book"></div>
-    <script>
-      const sherlockHolmesConfig = {
-  "coverTitle": "Sherlock Holmes",
-  "coverSubtitle": "10. THE ADVENTURE OF THE NOBLE BACHELOR",
-  "coverAuthor": "Arthur Conan Doyle",
-  "coverColor": "#4A2C2A",
-  "vocabWords": [],
-  "pages": [
-    {
-      "title": "10. THE ADVENTURE OF THE NOBLE BACHELOR",
-      "text": "The Lord St. Simon marriage, and its curious termination, have long\r\nceased to be a subject of interest in those exalted circles in which\r\nthe unfortunate bridegroom moves. Fresh scandals have eclipsed it, and\r\ntheir more piquant details have drawn the gossips away from this\r\nfour-year-old drama. As I have reason to believe, however, that the\r\nfull facts have never been revealed to the general public, and as my\r\nfriend Sherlock Holmes had a considerable share in clearing the matter\r\nup, I feel that no memoir of him would be complete without some little\r\nsketch of this remarkable episode.\r\n\r\nIt was a few weeks before my own marriage, during the days when I was\r\nstill sharing rooms with Holmes in Baker Street, that he came home from\r\nan afternoon stroll to find a letter on the table waiting for him. I\r\nhad remained indoors all day, for the weather had taken a sudden turn\r\nto rain, with high autumnal winds, and the jezail bullet which I had\r\nbrought back in one of my limbs as a relic of my Afghan campaign\r\nthrobbed with dull persistence. With my body in one easy-chair and my\r\nlegs upon another, I had surrounded myself with a cloud of newspapers\r\nuntil at last, saturated with the news of the day, I tossed them all\r\naside and lay listless, watching the huge crest and monogram upon the\r\nenvelope upon the table and wondering lazily who my friend’s noble\r\ncorrespondent could be.\r\n\r\n“Here is a very fashionable epistle,” I remarked as he entered. “Your\r\nmorning letters, if I remember right, were from a fish-monger and a\r\ntide-waiter.”\r\n\r\n“Yes, my correspondence has certainly the charm of variety,” he\r\nanswered, smiling, “and the humbler are usually the more interesting.\r\nThis looks like one of those unwelcome social summonses which call upon\r\na man either to be bored or to lie.”\r\n\r\nHe broke the seal and glanced over the contents.\r\n\r\n“Oh, come, it may prove to be something of interest, after all.”\r\n\r\n“Not social, then?”\r\n\r\n“No, distinctly professional.”\r\n\r\n“And from a noble client?”\r\n\r\n“One of the highest in England.”\r\n\r\n“My dear fellow, I congratulate you.”\r\n\r\n“I assure you, Watson, without affectation, that the status of my\r\nclient is a matter of less moment to me than the interest of his case.\r\nIt is just possible, however, that that also may not be wanting in this\r\nnew investigation. You have been reading the papers diligently of late,\r\nhave you not?”\r\n\r\n“It looks like it,” said I ruefully, pointing to a huge bundle in the\r\ncorner. “I have had nothing else to do.”\r\n\r\n“It is fortunate, for you will perhaps be able to post me up. I read\r\nnothing except the criminal news and the agony column. The latter is\r\nalways instructive. But if you have followed recent events so closely\r\nyou must have read about Lord St. Simon and his wedding?”\r\n\r\n“Oh, yes, with the deepest interest.”\r\n\r\n“That is well. The letter which I hold in my hand is from Lord St.\r\nSimon. I will read it to you, and in return you must turn over these\r\npapers and let me have whatever bears upon the matter. This is what he\r\nsays:\r\n\r\n    “‘MY DEAR MR. SHERLOCK HOLMES,—Lord Backwater tells me that I may\r\n    place implicit reliance upon your judgment and discretion. I have\r\n    determined, therefore, to call upon you and to consult you in\r\n    reference to the very painful event which has occurred in\r\n    connection with my wedding. Mr. Lestrade, of Scotland Yard, is\r\n    acting already in the matter, but he assures me that he sees no\r\n    objection to your co-operation, and that he even thinks that it\r\n    might be of some assistance. I will call at four o’clock in the\r\n    afternoon, and, should you have any other engagement at that time,\r\n    I hope that you will postpone it, as this matter is of paramount\r\n    importance. Yours faithfully,\r\n\r\n\r\n    “‘ROBERT ST. SIMON.’\r\n\r\n\r\n“It is dated from Grosvenor Mansions, written with a quill pen, and the\r\nnoble lord has had the misfortune to get a smear of ink upon the outer\r\nside of his right little finger,” remarked Holmes as he folded up the\r\nepistle.\r\n\r\n“He says four o’clock. It is three now. He will be here in an hour.”\r\n\r\n“Then I have just time, with your assistance, to get clear upon the\r\nsubject. Turn over those papers and arrange the extracts in their order\r\nof time, while I take a glance as to who our client is.” He picked a\r\nred-covered volume from a line of books of reference beside the\r\nmantelpiece. “Here he is,” said he, sitting down and flattening it out\r\nupon his knee. “‘Lord Robert Walsingham de Vere St. Simon, second son\r\nof the Duke of Balmoral.’ Hum! ‘Arms: Azure, three caltrops in chief\r\nover a fess sable. Born in 1846.’ He’s forty-one years of age, which is\r\nmature for marriage. Was Under-Secretary for the colonies in a late\r\nadministration. The Duke, his father, was at one time Secretary for\r\nForeign Affairs. They inherit Plantagenet blood by direct descent, and\r\nTudor on the distaff side. Ha! Well, there is nothing very instructive\r\nin all this. I think that I must turn to you Watson, for something more\r\nsolid.”\r\n\r\n“I have very little difficulty in finding what I want,” said I, “for\r\nthe facts are quite recent, and the matter struck me as remarkable. I\r\nfeared to refer them to you, however, as I knew that you had an inquiry\r\non hand and that you disliked the intrusion of other matters.”\r\n\r\n“Oh, you mean the little problem of the Grosvenor Square furniture van.\r\nThat is quite cleared up now—though, indeed, it was obvious from the\r\nfirst. Pray give me the results of your newspaper selections.”\r\n\r\n“Here is the first notice which I can find. It is in the personal\r\ncolumn of the _Morning Post_, and dates, as you see, some weeks back:\r\n‘A marriage has been arranged,’ it says, ‘and will, if rumour is\r\ncorrect, very shortly take place, between Lord Robert St. Simon, second\r\nson of the Duke of Balmoral, and Miss Hatty Doran, the only daughter of\r\nAloysius Doran. Esq., of San Francisco, Cal., U.S.A.’ That is all.”\r\n\r\n“Terse and to the point,” remarked Holmes, stretching his long, thin\r\nlegs towards the fire.\r\n\r\n“There was a paragraph amplifying this in one of the society papers of\r\nthe same week. Ah, here it is: ‘There will soon be a call for\r\nprotection in the marriage  market, for the present free-trade\r\nprinciple appears to tell heavily against our home product. One by one\r\nthe management of the noble houses of Great Britain is passing into the\r\nhands of our fair cousins from across the Atlantic. An important\r\naddition has been made during the last week to the list of the prizes\r\nwhich have been borne away by these charming invaders. Lord St. Simon,\r\nwho has shown himself for over twenty years proof against the little\r\ngod’s arrows, has now definitely announced his approaching marriage\r\nwith Miss Hatty Doran, the fascinating daughter of a California\r\nmillionaire. Miss Doran, whose graceful figure and striking face\r\nattracted much attention at the Westbury House festivities, is an only\r\nchild, and it is currently reported that her dowry will run to\r\nconsiderably over the six figures, with expectancies for the future. As\r\nit is an open secret that the Duke of Balmoral has been compelled to\r\nsell his pictures within the last few years, and as Lord St. Simon has\r\nno property of his own save the small estate of Birchmoor, it is\r\nobvious that the Californian heiress is not the only gainer by an\r\nalliance which will enable her to make the easy and common transition\r\nfrom a Republican lady to a British peeress.’”\r\n\r\n“Anything else?” asked Holmes, yawning.\r\n\r\n“Oh, yes; plenty. Then there is another note in the _Morning Post_ to\r\nsay that the marriage would be an absolutely quiet one, that it would\r\nbe at St. George’s, Hanover Square, that only half a dozen intimate\r\nfriends would be invited, and that the party would return to the\r\nfurnished house at Lancaster Gate which has been taken by Mr. Aloysius\r\nDoran. Two days later—that is, on Wednesday last—there is a curt\r\nannouncement that the wedding had taken place, and that the honeymoon\r\nwould be passed at Lord Backwater’s place, near Petersfield. Those are\r\nall the notices which appeared before the disappearance of the bride.”\r\n\r\n“Before the what?” asked Holmes with a start.\r\n\r\n“The vanishing of the lady.”\r\n\r\n“When did she vanish, then?”\r\n\r\n“At the wedding breakfast.”\r\n\r\n“Indeed. This is more interesting than it promised to be; quite\r\ndramatic, in fact.”\r\n\r\n“Yes; it struck me as being a little out of the common.”\r\n\r\n“They often vanish before the ceremony, and occasionally during the\r\nhoneymoon; but I cannot call to mind anything quite so prompt as this.\r\nPray let me have the details.”\r\n\r\n“I warn you that they are very incomplete.”\r\n\r\n“Perhaps we may make them less so.”\r\n\r\n“Such as they are, they are set forth in a single article of a morning\r\npaper of yesterday, which I will read to you. It is headed, ‘Singular\r\nOccurrence at a Fashionable Wedding’:\r\n\r\n“‘The family of Lord Robert St. Simon has been thrown into the greatest\r\nconsternation by the strange and painful episodes which have taken\r\nplace in connection with his wedding. The ceremony, as shortly\r\nannounced in the papers of yesterday, occurred on the previous morning;\r\nbut it is only now that it has been possible to confirm the strange\r\nrumours which have been so persistently floating about. In spite of the\r\nattempts of the friends to hush the matter up, so much public attention\r\nhas now been drawn to it that no good purpose can be served by\r\naffecting to disregard what is a common subject for conversation.\r\n\r\n“‘The ceremony, which was performed at St. George’s, Hanover Square,\r\nwas a very quiet one, no one being present save the father of the\r\nbride, Mr. Aloysius Doran, the Duchess of Balmoral, Lord Backwater,\r\nLord Eustace and Lady Clara St. Simon (the younger brother and sister\r\nof the bridegroom), and Lady Alicia Whittington. The whole party\r\nproceeded afterwards to the house of Mr. Aloysius Doran, at Lancaster\r\nGate, where breakfast had been prepared. It appears that some little\r\ntrouble was caused by a woman, whose name has not been ascertained, who\r\nendeavoured to force her way into the house after the bridal party,\r\nalleging that she had some claim upon Lord St. Simon. It was only after\r\na painful and prolonged scene that she was ejected by the butler and\r\nthe footman. The bride, who had fortunately entered the house before\r\nthis unpleasant interruption, had sat down to breakfast with the rest,\r\nwhen she complained of a sudden indisposition and retired to her room.\r\nHer prolonged absence having caused some comment, her father followed\r\nher, but learned from her maid that she had only come up to her chamber\r\nfor an instant, caught up an ulster and bonnet, and hurried down to the\r\npassage. One of the footmen declared that he had seen a lady leave the\r\nhouse thus apparelled, but had refused to credit that it was his\r\nmistress, believing her to be with the company. On ascertaining that\r\nhis daughter had disappeared, Mr. Aloysius Doran, in conjunction with\r\nthe bridegroom, instantly put themselves in communication with the\r\npolice, and very energetic inquiries are being made, which will\r\nprobably result in a speedy clearing up of this very singular business.\r\nUp to a late hour last night, however, nothing had transpired as to the\r\nwhereabouts of the missing lady. There are rumours of foul play in the\r\nmatter, and it is said that the police have caused the arrest of the\r\nwoman who had caused the original disturbance, in the belief that, from\r\njealousy or some other motive, she may have been concerned in the\r\nstrange disappearance of the bride.’”\r\n\r\n“And is that all?”\r\n\r\n“Only one little item in another of the morning papers, but it is a\r\nsuggestive one.”\r\n\r\n“And it is—”\r\n\r\n“That Miss Flora Millar, the lady who had caused the disturbance, has\r\nactually been arrested. It appears that she was formerly a _danseuse_\r\nat the Allegro, and that she has known the bridegroom for some years.\r\nThere are no further particulars, and the whole case is in your hands\r\nnow—so far as it has been set forth in the public press.”\r\n\r\n“And an exceedingly interesting case it appears to be. I would not have\r\nmissed it for worlds. But there is a ring at the bell, Watson, and as\r\nthe clock makes it a few minutes after four, I have no doubt that this\r\nwill prove to be our noble client. Do not dream of going, Watson, for I\r\nvery much prefer having a witness, if only as a check to my own\r\nmemory.”\r\n\r\n“Lord Robert St. Simon,” announced our page-boy, throwing open the\r\ndoor. A gentleman entered, with a pleasant, cultured face, high-nosed\r\nand pale, with something perhaps of petulance about the mouth, and with\r\nthe steady, well-opened eye of a man whose pleasant lot it had ever\r\nbeen to command and to be obeyed. His manner was brisk, and yet his\r\ngeneral appearance gave an undue impression of age, for he had a slight\r\nforward stoop and a little bend of the knees as he walked. His hair,\r\ntoo, as he swept off his very curly-brimmed hat, was grizzled round the\r\nedges and thin upon the top. As to his dress, it was careful to the\r\nverge of foppishness, with high collar, black frock-coat, white\r\nwaistcoat, yellow gloves, patent-leather shoes, and light-coloured\r\ngaiters. He advanced slowly into the room, turning his head from left\r\nto right, and swinging in his right hand the cord which held his golden\r\neyeglasses.\r\n\r\n“Good-day, Lord St. Simon,” said Holmes, rising and bowing. “Pray take\r\nthe basket-chair. This is my friend and colleague, Dr. Watson. Draw up\r\na little to the fire, and we will talk this matter over.”\r\n\r\n“A most painful matter to me, as you can most readily imagine, Mr.\r\nHolmes. I have been cut to the quick. I understand that you have\r\nalready managed several delicate cases of this sort, sir, though I\r\npresume that they were hardly from the same class of society.”\r\n\r\n“No, I am descending.”\r\n\r\n“I beg pardon.”\r\n\r\n“My last client of the sort was a king.”\r\n\r\n“Oh, really! I had no idea. And which king?”\r\n\r\n“The King of Scandinavia.”\r\n\r\n“What! Had he lost his wife?”\r\n\r\n“You can understand,” said Holmes suavely, “that I extend to the\r\naffairs of my other clients the same secrecy which I promise to you in\r\nyours.”\r\n\r\n“Of course! Very right! very right! I’m sure I beg pardon. As to my own\r\ncase, I am ready to give you any information which may assist you in\r\nforming an opinion.”\r\n\r\n“Thank you. I have already learned all that is in the public prints,\r\nnothing more. I presume that I may take it as correct—this article, for\r\nexample, as to the disappearance of the bride.”\r\n\r\nLord St. Simon glanced over it. “Yes, it is correct, as far as it\r\ngoes.”\r\n\r\n“But it needs a great deal of supplementing before anyone could offer\r\nan opinion. I think that I may arrive at my facts most directly by\r\nquestioning you.”\r\n\r\n“Pray do so.”\r\n\r\n“When did you first meet Miss Hatty Doran?”\r\n\r\n“In San Francisco, a year ago.”\r\n\r\n“You were travelling in the States?”\r\n\r\n“Yes.”\r\n\r\n“Did you become engaged then?”\r\n\r\n“No.”\r\n\r\n“But you were on a friendly footing?”\r\n\r\n“I was amused by her society, and she could see that I was amused.”\r\n\r\n“Her father is very rich?”\r\n\r\n“He is said to be the richest man on the Pacific slope.”\r\n\r\n“And how did he make his money?”\r\n\r\n“In mining. He had nothing a few years ago. Then he struck gold,\r\ninvested it, and came up by leaps and bounds.”\r\n\r\n“Now, what is your own impression as to the young lady’s—your wife’s\r\ncharacter?”\r\n\r\nThe nobleman swung his glasses a little faster and stared down into the\r\nfire. “You see, Mr. Holmes,” said he, “my wife was twenty before her\r\nfather became a rich man. During that time she ran free in a mining\r\ncamp and wandered through woods or mountains, so that her education has\r\ncome from Nature rather than from the schoolmaster. She is what we call\r\nin England a tomboy, with a strong nature, wild and free, unfettered by\r\nany sort of traditions. She is impetuous—volcanic, I was about to say.\r\nShe is swift in making up her mind and fearless in carrying out her\r\nresolutions. On the other hand, I would not have given her the name\r\nwhich I have the honour to bear”—he gave a little stately cough—“had I\r\nnot thought her to be at bottom a noble woman. I believe that she is\r\ncapable of heroic self-sacrifice and that anything dishonourable would\r\nbe repugnant to her.”\r\n\r\n“Have you her photograph?”\r\n\r\n“I brought this with me.” He opened a locket and showed us the full\r\nface of a very lovely woman. It was not a photograph but an ivory\r\nminiature, and the artist had brought out the full effect of the\r\nlustrous black hair, the large dark eyes, and the exquisite mouth.\r\nHolmes gazed long and earnestly at it. Then he closed the locket and\r\nhanded it back to Lord St. Simon.\r\n\r\n“The young lady came to London, then, and you renewed your\r\nacquaintance?”\r\n\r\n“Yes, her father brought her over for this last London season. I met\r\nher several times, became engaged to her, and have now married her.”\r\n\r\n“She brought, I understand, a considerable dowry?”\r\n\r\n“A fair dowry. Not more than is usual in my family.”\r\n\r\n“And this, of course, remains to you, since the marriage is a _fait\r\naccompli_?”\r\n\r\n“I really have made no inquiries on the subject.”\r\n\r\n“Very naturally not. Did you see Miss Doran on the day before the\r\nwedding?”\r\n\r\n“Yes.”\r\n\r\n“Was she in good spirits?”\r\n\r\n“Never better. She kept talking of what we should do in our future\r\nlives.”\r\n\r\n“Indeed! That is very interesting. And on the morning of the wedding?”\r\n\r\n“She was as bright as possible—at least until after the ceremony.”\r\n\r\n“And did you observe any change in her then?”\r\n\r\n“Well, to tell the truth, I saw then the first signs that I had ever\r\nseen that her temper was just a little sharp. The incident however, was\r\ntoo trivial to relate and can have no possible bearing upon the case.”\r\n\r\n“Pray let us have it, for all that.”\r\n\r\n“Oh, it is childish. She dropped her bouquet as we went towards the\r\nvestry. She was passing the front pew at the time, and it fell over\r\ninto the pew. There was a moment’s delay, but the gentleman in the pew\r\nhanded it up to her again, and it did not appear to be the worse for\r\nthe fall. Yet when I spoke to her of the matter, she answered me\r\nabruptly; and in the carriage, on our way home, she seemed absurdly\r\nagitated over this trifling cause.”\r\n\r\n“Indeed! You say that there was a gentleman in the pew. Some of the\r\ngeneral public were present, then?”\r\n\r\n“Oh, yes. It is impossible to exclude them when the church is open.”\r\n\r\n“This gentleman was not one of your wife’s friends?”\r\n\r\n“No, no; I call him a gentleman by courtesy, but he was quite a\r\ncommon-looking person. I hardly noticed his appearance. But really I\r\nthink that we are wandering rather far from the point.”\r\n\r\n“Lady St. Simon, then, returned from the wedding in a less cheerful\r\nframe of mind than she had gone to it. What did she do on re-entering\r\nher father’s house?”\r\n\r\n“I saw her in conversation with her maid.”\r\n\r\n“And who is her maid?”\r\n\r\n“Alice is her name. She is an American and came from California with\r\nher.”\r\n\r\n“A confidential servant?”\r\n\r\n“A little too much so. It seemed to me that her mistress allowed her to\r\ntake great liberties. Still, of course, in America they look upon these\r\nthings in a different way.”\r\n\r\n“How long did she speak to this Alice?”\r\n\r\n“Oh, a few minutes. I had something else to think of.”\r\n\r\n“You did not overhear what they said?”\r\n\r\n“Lady St. Simon said something about ‘jumping a claim.’ She was\r\naccustomed to use slang of the kind. I have no idea what she meant.”\r\n\r\n“American slang is very expressive sometimes. And what did your wife do\r\nwhen she finished speaking to her maid?”\r\n\r\n“She walked into the breakfast-room.”\r\n\r\n“On your arm?”\r\n\r\n“No, alone. She was very independent in little matters like that. Then,\r\nafter we had sat down for ten minutes or so, she rose hurriedly,\r\nmuttered some words of apology, and left the room. She never came\r\nback.”\r\n\r\n“But this maid, Alice, as I understand, deposes that she went to her\r\nroom, covered her bride’s dress with a long ulster, put on a bonnet,\r\nand went out.”\r\n\r\n“Quite so. And she was afterwards seen walking into Hyde Park in\r\ncompany with Flora Millar, a woman who is now in custody, and who had\r\nalready made a disturbance at Mr. Doran’s house that morning.”\r\n\r\n“Ah, yes. I should like a few particulars as to this young lady, and\r\nyour relations to her.”\r\n\r\nLord St. Simon shrugged his shoulders and raised his eyebrows. “We have\r\nbeen on a friendly footing for some years—I may say on a _very_\r\nfriendly footing. She used to be at the Allegro. I have not treated her\r\nungenerously, and she had no just cause of complaint against me, but\r\nyou know what women are, Mr. Holmes. Flora was a dear little thing, but\r\nexceedingly hot-headed and devotedly attached to me. She wrote me\r\ndreadful letters when she heard that I was about to be married, and, to\r\ntell the truth, the reason why I had the marriage celebrated so quietly\r\nwas that I feared lest there might be a scandal in the church. She came\r\nto Mr. Doran’s door just after we returned, and she endeavoured to push\r\nher way in, uttering very abusive expressions towards my wife, and even\r\nthreatening her, but I had foreseen the possibility of something of the\r\nsort, and I had two police fellows there in private clothes, who soon\r\npushed her out again. She was quiet when she saw that there was no good\r\nin making a row.”\r\n\r\n“Did your wife hear all this?”\r\n\r\n“No, thank goodness, she did not.”\r\n\r\n“And she was seen walking with this very woman afterwards?”\r\n\r\n“Yes. That is what Mr. Lestrade, of Scotland Yard, looks upon as so\r\nserious. It is thought that Flora decoyed my wife out and laid some\r\nterrible trap for her.”\r\n\r\n“Well, it is a possible supposition.”\r\n\r\n“You think so, too?”\r\n\r\n“I did not say a probable one. But you do not yourself look upon this\r\nas likely?”\r\n\r\n“I do not think Flora would hurt a fly.”\r\n\r\n“Still, jealousy is a strange transformer of characters. Pray what is\r\nyour own theory as to what took place?”\r\n\r\n“Well, really, I came to seek a theory, not to propound one. I have\r\ngiven you all the facts. Since you ask me, however, I may say that it\r\nhas occurred to me as possible that the excitement of this affair, the\r\nconsciousness that she had made so immense a social stride, had the\r\neffect of causing some little nervous disturbance in my wife.”\r\n\r\n“In short, that she had become suddenly deranged?”\r\n\r\n“Well, really, when I consider that she has turned her back—I will not\r\nsay upon me, but upon so much that many have aspired to without\r\nsuccess—I can hardly explain it in any other fashion.”\r\n\r\n“Well, certainly that is also a conceivable hypothesis,” said Holmes,\r\nsmiling. “And now, Lord St. Simon, I think that I have nearly all my\r\ndata. May I ask whether you were seated at the breakfast-table so that\r\nyou could see out of the window?”\r\n\r\n“We could see the other side of the road and the Park.”\r\n\r\n“Quite so. Then I do not think that I need to detain you longer. I\r\nshall communicate with you.”\r\n\r\n“Should you be fortunate enough to solve this problem,” said our\r\nclient, rising.\r\n\r\n“I have solved it.”\r\n\r\n“Eh? What was that?”\r\n\r\n“I say that I have solved it.”\r\n\r\n“Where, then, is my wife?”\r\n\r\n“That is a detail which I shall speedily supply.”\r\n\r\nLord St. Simon shook his head. “I am afraid that it will take wiser\r\nheads than yours or mine,” he remarked, and bowing in a stately,\r\nold-fashioned manner he departed.\r\n\r\n“It is very good of Lord St. Simon to honour my head by putting it on a\r\nlevel with his own,” said Sherlock Holmes, laughing. “I think that I\r\nshall have a whisky and soda and a cigar after all this\r\ncross-questioning. I had formed my conclusions as to the case before\r\nour client came into the room.”\r\n\r\n“My dear Holmes!”\r\n\r\n“I have notes of several similar cases, though none, as I remarked\r\nbefore, which were quite as prompt. My whole examination served to turn\r\nmy conjecture into a certainty. Circumstantial evidence is occasionally\r\nvery convincing, as when you find a trout in the milk, to quote\r\nThoreau’s example.”\r\n\r\n“But I have heard all that you have heard.”\r\n\r\n“Without, however, the knowledge of pre-existing cases which serves me\r\nso well. There was a parallel instance in Aberdeen some years back, and\r\nsomething on very much the same lines at Munich the year after the\r\nFranco-Prussian War. It is one of these cases—but, hullo, here is\r\nLestrade! Good-afternoon, Lestrade! You will find an extra tumbler upon\r\nthe sideboard, and there are cigars in the box.”\r\n\r\nThe official detective was attired in a pea-jacket and cravat, which\r\ngave him a decidedly nautical appearance, and he carried a black canvas\r\nbag in his hand. With a short greeting he seated himself and lit the\r\ncigar which had been offered to him.\r\n\r\n“What’s up, then?” asked Holmes with a twinkle in his eye. “You look\r\ndissatisfied.”\r\n\r\n“And I feel dissatisfied. It is this infernal St. Simon marriage case.\r\nI can make neither head nor tail of the business.”\r\n\r\n“Really! You surprise me.”\r\n\r\n“Who ever heard of such a mixed affair? Every clue seems to slip\r\nthrough my fingers. I have been at work upon it all day.”\r\n\r\n“And very wet it seems to have made you,” said Holmes laying his hand\r\nupon the arm of the pea-jacket.\r\n\r\n“Yes, I have been dragging the Serpentine.”\r\n\r\n“In Heaven’s name, what for?”\r\n\r\n“In search of the body of Lady St. Simon.”\r\n\r\nSherlock Holmes leaned back in his chair and laughed heartily.\r\n\r\n“Have you dragged the basin of Trafalgar Square fountain?” he asked.\r\n\r\n“Why? What do you mean?”\r\n\r\n“Because you have just as good a chance of finding this lady in the one\r\nas in the other.”\r\n\r\nLestrade shot an angry glance at my companion. “I suppose you know all\r\nabout it,” he snarled.\r\n\r\n“Well, I have only just heard the facts, but my mind is made up.”\r\n\r\n“Oh, indeed! Then you think that the Serpentine plays no part in the\r\nmatter?”\r\n\r\n“I think it very unlikely.”\r\n\r\n“Then perhaps you will kindly explain how it is that we found this in\r\nit?” He opened his bag as he spoke, and tumbled onto the floor a\r\nwedding-dress of watered silk, a pair of white satin shoes and a\r\nbride’s wreath and veil, all discoloured and soaked in water. “There,”\r\nsaid he, putting a new wedding-ring upon the top of the pile. “There is\r\na little nut for you to crack, Master Holmes.”\r\n\r\n“Oh, indeed!” said my friend, blowing blue rings into the air. “You\r\ndragged them from the Serpentine?”\r\n\r\n“No. They were found floating near the margin by a park-keeper. They\r\nhave been identified as her clothes, and it seemed to me that if the\r\nclothes were there the body would not be far off.”\r\n\r\n“By the same brilliant reasoning, every man’s body is to be found in\r\nthe neighbourhood of his wardrobe. And pray what did you hope to arrive\r\nat through this?”\r\n\r\n“At some evidence implicating Flora Millar in the disappearance.”\r\n\r\n“I am afraid that you will find it difficult.”\r\n\r\n“Are you, indeed, now?” cried Lestrade with some bitterness. “I am\r\nafraid, Holmes, that you are not very practical with your deductions\r\nand your inferences. You have made two blunders in as many minutes.\r\nThis dress does implicate Miss Flora Millar.”\r\n\r\n“And how?”\r\n\r\n“In the dress is a pocket. In the pocket is a card-case. In the\r\ncard-case is a note. And here is the very note.” He slapped it down\r\nupon the table in front of him. “Listen to this: ‘You will see me when\r\nall is ready. Come at once. F. H. M.’ Now my theory all along has been\r\nthat Lady St. Simon was decoyed away by Flora Millar, and that she,\r\nwith confederates, no doubt, was responsible for her disappearance.\r\nHere, signed with her initials, is the very note which was no doubt\r\nquietly slipped into her hand at the door and which lured her within\r\ntheir reach.”\r\n\r\n“Very good, Lestrade,” said Holmes, laughing. “You really are very fine\r\nindeed. Let me see it.” He took up the paper in a listless way, but his\r\nattention instantly became riveted, and he gave a little cry of\r\nsatisfaction. “This is indeed important,” said he.\r\n\r\n“Ha! you find it so?”\r\n\r\n“Extremely so. I congratulate you warmly.”\r\n\r\nLestrade rose in his triumph and bent his head to look. “Why,” he\r\nshrieked, “you’re looking at the wrong side!”\r\n\r\n“On the contrary, this is the right side.”\r\n\r\n“The right side? You’re mad! Here is the note written in pencil over\r\nhere.”\r\n\r\n“And over here is what appears to be the fragment of a hotel bill,\r\nwhich interests me deeply.”\r\n\r\n“There’s nothing in it. I looked at it before,” said Lestrade. “‘Oct.\r\n4th, rooms 8_s_., breakfast 2_s_. 6_d_., cocktail 1_s_., lunch 2_s_.\r\n6_d_., glass sherry, 8_d_.’ I see nothing in that.”\r\n\r\n“Very likely not. It is most important, all the same. As to the note,\r\nit is important also, or at least the initials are, so I congratulate\r\nyou again.”\r\n\r\n“I’ve wasted time enough,” said Lestrade, rising. “I believe in hard\r\nwork and not in sitting by the fire spinning fine theories. Good-day,\r\nMr. Holmes, and we shall see which gets to the bottom of the matter\r\nfirst.” He gathered up the garments, thrust them into the bag, and made\r\nfor the door.\r\n\r\n“Just one hint to you, Lestrade,” drawled Holmes before his rival\r\nvanished; “I will tell you the true solution of the matter. Lady St.\r\nSimon is a myth. There is not, and there never has been, any such\r\nperson.”\r\n\r\nLestrade looked sadly at my companion. Then he turned to me, tapped his\r\nforehead three times, shook his head solemnly, and hurried away.\r\n\r\nHe had hardly shut the door behind him when Holmes rose to put on his\r\novercoat. “There is something in what the fellow says about outdoor\r\nwork,” he remarked, “so I think, Watson, that I must leave you to your\r\npapers for a little.”\r\n\r\nIt was after five o’clock when Sherlock Holmes left me, but I had no\r\ntime to be lonely, for within an hour there arrived a confectioner’s\r\nman with a very large flat box. This he unpacked with the help of a\r\nyouth whom he had brought with him, and presently, to my very great\r\nastonishment, a quite epicurean little cold supper began to be laid out\r\nupon our humble lodging-house mahogany. There were a couple of brace of\r\ncold woodcock, a pheasant, a _pâté de foie gras_ pie with a group of\r\nancient and cobwebby bottles. Having laid out all these luxuries, my\r\ntwo visitors vanished away, like the genii of the Arabian Nights, with\r\nno explanation save that the things had been paid for and were ordered\r\nto this address.\r\n\r\nJust before nine o’clock Sherlock Holmes stepped briskly into the room.\r\nHis features were gravely set, but there was a light in his eye which\r\nmade me think that he had not been disappointed in his conclusions.\r\n\r\n“They have laid the supper, then,” he said, rubbing his hands.\r\n\r\n“You seem to expect company. They have laid for five.”\r\n\r\n“Yes, I fancy we may have some company dropping in,” said he. “I am\r\nsurprised that Lord St. Simon has not already arrived. Ha! I fancy that\r\nI hear his step now upon the stairs.”\r\n\r\nIt was indeed our visitor of the afternoon who came bustling in,\r\ndangling his glasses more vigorously than ever, and with a very\r\nperturbed expression upon his aristocratic features.\r\n\r\n“My messenger reached you, then?” asked Holmes.\r\n\r\n“Yes, and I confess that the contents startled me beyond measure. Have\r\nyou good authority for what you say?”\r\n\r\n“The best possible.”\r\n\r\nLord St. Simon sank into a chair and passed his hand over his forehead.\r\n\r\n“What will the Duke say,” he murmured, “when he hears that one of the\r\nfamily has been subjected to such humiliation?”\r\n\r\n“It is the purest accident. I cannot allow that there is any\r\nhumiliation.”\r\n\r\n“Ah, you look on these things from another standpoint.”\r\n\r\n“I fail to see that anyone is to blame. I can hardly see how the lady\r\ncould have acted otherwise, though her abrupt method of doing it was\r\nundoubtedly to be regretted. Having no mother, she had no one to advise\r\nher at such a crisis.”\r\n\r\n“It was a slight, sir, a public slight,” said Lord St. Simon, tapping\r\nhis fingers upon the table.\r\n\r\n“You must make allowance for this poor girl, placed in so unprecedented\r\na position.”\r\n\r\n“I will make no allowance. I am very angry indeed, and I have been\r\nshamefully used.”\r\n\r\n“I think that I heard a ring,” said Holmes. “Yes, there are steps on\r\nthe landing. If I cannot persuade you to take a lenient view of the\r\nmatter, Lord St. Simon, I have brought an advocate here who may be more\r\nsuccessful.” He opened the door and ushered in a lady and gentleman.\r\n“Lord St. Simon,” said he “allow me to introduce you to Mr. and Mrs.\r\nFrancis Hay Moulton. The lady, I think, you have already met.”\r\n\r\nAt the sight of these newcomers our client had sprung from his seat and\r\nstood very erect, with his eyes cast down and his hand thrust into the\r\nbreast of his frock-coat, a picture of offended dignity. The lady had\r\ntaken a quick step forward and had held out her hand to him, but he\r\nstill refused to raise his eyes. It was as well for his resolution,\r\nperhaps, for her pleading face was one which it was hard to resist.\r\n\r\n“You’re angry, Robert,” said she. “Well, I guess you have every cause\r\nto be.”\r\n\r\n“Pray make no apology to me,” said Lord St. Simon bitterly.\r\n\r\n“Oh, yes, I know that I have treated you real bad and that I should\r\nhave spoken to you before I went; but I was kind of rattled, and from\r\nthe time when I saw Frank here again I just didn’t know what I was\r\ndoing or saying. I only wonder I didn’t fall down and do a faint right\r\nthere before the altar.”\r\n\r\n“Perhaps, Mrs. Moulton, you would like my friend and me to leave the\r\nroom while you explain this matter?”\r\n\r\n“If I may give an opinion,” remarked the strange gentleman, “we’ve had\r\njust a little too much secrecy over this business already. For my part,\r\nI should like all Europe and America to hear the rights of it.” He was\r\na small, wiry, sunburnt man, clean-shaven, with a sharp face and alert\r\nmanner.\r\n\r\n“Then I’ll tell our story right away,” said the lady. “Frank here and I\r\nmet in ’84, in McQuire’s camp, near the Rockies, where Pa was working a\r\nclaim. We were engaged to each other, Frank and I; but then one day\r\nfather struck a rich pocket and made a pile, while poor Frank here had\r\na claim that petered out and came to nothing. The richer Pa grew the\r\npoorer was Frank; so at last Pa wouldn’t hear of our engagement lasting\r\nany longer, and he took me away to ’Frisco. Frank wouldn’t throw up his\r\nhand, though; so he followed me there, and he saw me without Pa knowing\r\nanything about it. It would only have made him mad to know, so we just\r\nfixed it all up for ourselves. Frank said that he would go and make his\r\npile, too, and never come back to claim me until he had as much as Pa.\r\nSo then I promised to wait for him to the end of time and pledged\r\nmyself not to marry anyone else while he lived. ‘Why shouldn’t we be\r\nmarried right away, then,’ said he, ‘and then I will feel sure of you;\r\nand I won’t claim to be your husband until I come back?’ Well, we\r\ntalked it over, and he had fixed it all up so nicely, with a clergyman\r\nall ready in waiting, that we just did it right there; and then Frank\r\nwent off to seek his fortune, and I went back to Pa.\r\n\r\n“The next I heard of Frank was that he was in Montana, and then he went\r\nprospecting in Arizona, and then I heard of him from New Mexico. After\r\nthat came a long newspaper story about how a miners’ camp had been\r\nattacked by Apache Indians, and there was my Frank’s name among the\r\nkilled. I fainted dead away, and I was very sick for months after. Pa\r\nthought I had a decline and took me to half the doctors in ’Frisco. Not\r\na word of news came for a year and more, so that I never doubted that\r\nFrank was really dead. Then Lord St. Simon came to ’Frisco, and we came\r\nto London, and a marriage was arranged, and Pa was very pleased, but I\r\nfelt all the time that no man on this earth would ever take the place\r\nin my heart that had been given to my poor Frank.\r\n\r\n“Still, if I had married Lord St. Simon, of course I’d have done my\r\nduty by him. We can’t command our love, but we can our actions. I went\r\nto the altar with him with the intention to make him just as good a\r\nwife as it was in me to be. But you may imagine what I felt when, just\r\nas I came to the altar rails, I glanced back and saw Frank standing and\r\nlooking at me out of the first pew. I thought it was his ghost at\r\nfirst; but when I looked again there he was still, with a kind of\r\nquestion in his eyes, as if to ask me whether I were glad or sorry to\r\nsee him. I wonder I didn’t drop. I know that everything was turning\r\nround, and the words of the clergyman were just like the buzz of a bee\r\nin my ear. I didn’t know what to do. Should I stop the service and make\r\na scene in the church? I glanced at him again, and he seemed to know\r\nwhat I was thinking, for he raised his finger to his lips to tell me to\r\nbe still. Then I saw him scribble on a piece of paper, and I knew that\r\nhe was writing me a note. As I passed his pew on the way out I dropped\r\nmy bouquet over to him, and he slipped the note into my hand when he\r\nreturned me the flowers. It was only a line asking me to join him when\r\nhe made the sign to me to do so. Of course I never doubted for a moment\r\nthat my first duty was now to him, and I determined to do just whatever\r\nhe might direct.\r\n\r\n“When I got back I told my maid, who had known him in California, and\r\nhad always been his friend. I ordered her to say nothing, but to get a\r\nfew things packed and my ulster ready. I know I ought to have spoken to\r\nLord St. Simon, but it was dreadful hard before his mother and all\r\nthose great people. I just made up my mind to run away and explain\r\nafterwards. I hadn’t been at the table ten minutes before I saw Frank\r\nout of the window at the other side of the road. He beckoned to me and\r\nthen began walking into the Park. I slipped out, put on my things, and\r\nfollowed him. Some woman came talking something or other about Lord St.\r\nSimon to me—seemed to me from the little I heard as if he had a little\r\nsecret of his own before marriage also—but I managed to get away from\r\nher and soon overtook Frank. We got into a cab together, and away we\r\ndrove to some lodgings he had taken in Gordon Square, and that was my\r\ntrue wedding after all those years of waiting. Frank had been a\r\nprisoner among the Apaches, had escaped, came on to ’Frisco, found that\r\nI had given him up for dead and had gone to England, followed me there,\r\nand had come upon me at last on the very morning of my second wedding.”\r\n\r\n“I saw it in a paper,” explained the American. “It gave the name and\r\nthe church but not where the lady lived.”\r\n\r\n“Then we had a talk as to what we should do, and Frank was all for\r\nopenness, but I was so ashamed of it all that I felt as if I should\r\nlike to vanish away and never see any of them again—just sending a line\r\nto Pa, perhaps, to show him that I was alive. It was awful to me to\r\nthink of all those lords and ladies sitting round that breakfast-table\r\nand waiting for me to come back. So Frank took my wedding-clothes and\r\nthings and made a bundle of them, so that I should not be traced, and\r\ndropped them away somewhere where no one could find them. It is likely\r\nthat we should have gone on to Paris to-morrow, only that this good\r\ngentleman, Mr. Holmes, came round to us this evening, though how he\r\nfound us is more than I can think, and he showed us very clearly and\r\nkindly that I was wrong and that Frank was right, and that we should be\r\nputting ourselves in the wrong if we were so secret. Then he offered to\r\ngive us a chance of talking to Lord St. Simon alone, and so we came\r\nright away round to his rooms at once. Now, Robert, you have heard it\r\nall, and I am very sorry if I have given you pain, and I hope that you\r\ndo not think very meanly of me.”\r\n\r\nLord St. Simon had by no means relaxed his rigid attitude, but had\r\nlistened with a frowning brow and a compressed lip to this long\r\nnarrative.\r\n\r\n“Excuse me,” he said, “but it is not my custom to discuss my most\r\nintimate personal affairs in this public manner.”\r\n\r\n“Then you won’t forgive me? You won’t shake hands before I go?”\r\n\r\n“Oh, certainly, if it would give you any pleasure.” He put out his hand\r\nand coldly grasped that which she extended to him.\r\n\r\n“I had hoped,” suggested Holmes, “that you would have joined us in a\r\nfriendly supper.”\r\n\r\n“I think that there you ask a little too much,” responded his Lordship.\r\n“I may be forced to acquiesce in these recent developments, but I can\r\nhardly be expected to make merry over them. I think that with your\r\npermission I will now wish you all a very good-night.” He included us\r\nall in a sweeping bow and stalked out of the room.\r\n\r\n“Then I trust that you at least will honour me with your company,” said\r\nSherlock Holmes. “It is always a joy to meet an American, Mr. Moulton,\r\nfor I am one of those who believe that the folly of a monarch and the\r\nblundering of a minister in far-gone years will not prevent our\r\nchildren from being some day citizens of the same world-wide country\r\nunder a flag which shall be a quartering of the Union Jack with the\r\nStars and Stripes.”\r\n\r\n“The case has been an interesting one,” remarked Holmes when our\r\nvisitors had left us, “because it serves to show very clearly how\r\nsimple the explanation may be of an affair which at first sight seems\r\nto be almost inexplicable. Nothing could be more natural than the\r\nsequence of events as narrated by this lady, and nothing stranger than\r\nthe result when viewed, for instance, by Mr. Lestrade of Scotland\r\nYard.”\r\n\r\n“You were not yourself at fault at all, then?”\r\n\r\n“From the first, two facts were very obvious to me, the one that the\r\nlady had been quite willing to undergo the wedding ceremony, the other\r\nthat she had repented of it within a few minutes of returning home.\r\nObviously something had occurred during the morning, then, to cause her\r\nto change her mind. What could that something be? She could not have\r\nspoken to anyone when she was out, for she had been in the company of\r\nthe bridegroom. Had she seen someone, then? If she had, it must be\r\nsomeone from America because she had spent so short a time in this\r\ncountry that she could hardly have allowed anyone to acquire so deep an\r\ninfluence over her that the mere sight of him would induce her to\r\nchange her plans so completely. You see we have already arrived, by a\r\nprocess of exclusion, at the idea that she might have seen an American.\r\nThen who could this American be, and why should he possess so much\r\ninfluence over her? It might be a lover; it might be a husband. Her\r\nyoung womanhood had, I knew, been spent in rough scenes and under\r\nstrange conditions. So far I had got before I ever heard Lord St.\r\nSimon’s narrative. When he told us of a man in a pew, of the change in\r\nthe bride’s manner, of so transparent a device for obtaining a note as\r\nthe dropping of a bouquet, of her resort to her confidential maid, and\r\nof her very significant allusion to claim-jumping—which in miners’\r\nparlance means taking possession of that which another person has a\r\nprior claim to—the whole situation became absolutely clear. She had\r\ngone off with a man, and the man was either a lover or was a previous\r\nhusband—the chances being in favour of the latter.”\r\n\r\n“And how in the world did you find them?”\r\n\r\n“It might have been difficult, but friend Lestrade held information in\r\nhis hands the value of which he did not himself know. The initials\r\nwere, of course, of the highest importance, but more valuable still was\r\nit to know that within a week he had settled his bill at one of the\r\nmost select London hotels.”\r\n\r\n“How did you deduce the select?”\r\n\r\n“By the select prices. Eight shillings for a bed and eightpence for a\r\nglass of sherry pointed to one of the most expensive hotels. There are\r\nnot many in London which charge at that rate. In the second one which I\r\nvisited in Northumberland Avenue, I learned by an inspection of the\r\nbook that Francis H. Moulton, an American gentleman, had left only the\r\nday before, and on looking over the entries against him, I came upon\r\nthe very items which I had seen in the duplicate bill. His letters were\r\nto be forwarded to 226 Gordon Square; so thither I travelled, and being\r\nfortunate enough to find the loving couple at home, I ventured to give\r\nthem some paternal advice and to point out to them that it would be\r\nbetter in every way that they should make their position a little\r\nclearer both to the general public and to Lord St. Simon in particular.\r\nI invited them to meet him here, and, as you see, I made him keep the\r\nappointment.”\r\n\r\n“But with no very good result,” I remarked. “His conduct was certainly\r\nnot very gracious.”\r\n\r\n“Ah, Watson,” said Holmes, smiling, “perhaps you would not be very\r\ngracious either, if, after all the trouble of wooing and wedding, you\r\nfound yourself deprived in an instant of wife and of fortune. I think\r\nthat we may judge Lord St. Simon very mercifully and thank our stars\r\nthat we are never likely to find ourselves in the same position. Draw\r\nyour chair up and hand me my violin, for the only problem we have still\r\nto solve is how to while away these bleak autumnal evenings.”"
-    }
-  ]
-};
-      window.sherlockHolmesBook = new DigitalBook('sherlock-holmes-book', sherlockHolmesConfig);
-    </script>
-  
-
-    <h2>🎯 Comprehension Questions</h2>
-                                <p>Answer these questions about today's reading:</p>
-                                
-                                <div style="margin: 30px 0;">
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">1. What were the main events?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">2. How did the characters feel or react?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">3. What do you predict will happen next?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                </div>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;">
+                                <p><em>[Reading passage from Sherlock Holmes Stories, Chapter 17 will be inserted here from digital book database]</em></p>
+                                <p>This section will include the actual chapter text with vocabulary words highlighted.</p>
+                            </div>
                             
+                            <div style="margin-top: 20px; padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">📚 <strong>Take your time reading!</strong> Think about what's happening in the story.</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 6: Journal 
-                
+                // Page 5: Reading Comprehension
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✍️ Journal Entry</h2>
+                            <h2>🎯 Reading Comprehension</h2>
+                            <p>Answer these questions about today's chapter:</p>
                             
-                            <div style="margin: 25px 0; padding: 25px; background: rgba(176,104,33,0.1); border-left: 4px solid #B06821; border-radius: 8px;">
-                                <h3 style="color: #B06821; margin-bottom: 15px;">Today's Prompt:</h3>
-                                <p style="font-size: 18px; font-style: italic;">
-                                    Write 4-6 sentences about today's reading. What was most interesting or surprising? 
-                                    How did this chapter move the story forward?
+                            <div style="margin: 30px 0;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 1:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 17]</p>
+                                    <textarea 
+                                      id="comp-1"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 2:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 17]</p>
+                                    <textarea 
+                                      id="comp-2"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 3:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 17]</p>
+                                    <textarea 
+                                      id="comp-3"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 6: Journal Reflection
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✍️ Journal Reflection</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 20px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    [Personal reflection prompt related to Chapter 17]
                                 </p>
                             </div>
                             
                             <textarea 
-                                style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #305853; border-radius: 10px; font-size: 16px;"
-                                placeholder="Write your journal entry here..."></textarea>
+                              id="journal"
+                              style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #4A0E4E; border-radius: 12px; font-family: inherit; font-size: 16px; line-height: 1.6;"
+                              placeholder="Write your thoughts here..."
+                            ></textarea>
                         </div>
                     `
                 },
                 
-                
                 // Page 7: Completion
                 {
                     render: () => `
-                        <div class="lesson-page-card completion-page">
-                            <div class="character">📚</div>
+                        <div class="lesson-page-card content-page">
+                            <div style="text-align: center; padding: 40px 20px;">
+                                <div style="font-size: 72px; margin-bottom: 20px;">🎉</div>
+                                <h2 style="color: #305853; margin-bottom: 20px;">Great Job!</h2>
+                                <p style="font-size: 18px; color: #666; max-width: 500px; margin: 0 auto;">
+                                    You've completed Day 137! Come back tomorrow to continue reading <em>Sherlock Holmes Stories</em>.
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 8: Informational Text 📰
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📰 Informational Text</h2>
+                            <h3 style="color: #4A0E4E;">Related Non-Fiction</h3>
                             
-                                <h1>Day 137 Complete!</h1>
-                                <p style="font-size: 20px; margin: 20px 0;">Great work today!</p>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px; margin-bottom: 25px;">
+                                <p style="margin-bottom: 15px;">Informational text content goes here.</p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #4A0E4E;">
+                                <h4 style="margin-bottom: 15px;">📝 Comprehension Questions:</h4>
                                 
-                                <div style="text-align: left; max-width: 400px; margin: 30px auto; background: rgba(48,88,83,0.05); padding: 25px; border-radius: 12px;">
-                                    <h3 style="color: #305853; margin-bottom: 15px;">✅ Today You:</h3>
-                                    <ul style="line-height: 2;">
-                                        
-                                            <li>Read about Holmes and Watson</li>
-                                            <li>Learned 2 vocabulary words</li>
-                                            <li>Answered comprehension questions</li>
-                                            <li>Wrote a journal entry</li>
-                                        
-                                    </ul>
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">1. Question 1?</p>
+                                    <textarea 
+                                      id="info-1"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
                                 </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">2. Question 2?</p>
+                                    <textarea 
+                                      id="info-2"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">3. Question 3?</p>
+                                    <textarea 
+                                      id="info-3"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 9: Grammar in Context ✏️
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✏️ Grammar Workshop</h2>
+                            <h3 style="color: #4A0E4E;">Prepositional Phrases</h3>
                             
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin-bottom: 15px;">
+                                    <strong>📖 What is it?</strong><br>
+                                    A prepositional phrase starts with a preposition (in, on, under, through, etc.) and ends with a noun or pronoun.
+                                </p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>💡 Example from today's reading:</strong><br>
+                                    <em>"The house rose slowly through the air."</em>
+                                </p>
+                            </div>
                             
-                            <a href="student-dashboard.html" 
-                               style="display: inline-block; margin-top: 20px; padding: 15px 35px; background: #B06821; color: white; text-decoration: none; border-radius: 12px; font-size: 18px; font-weight: 700;">
-                                Continue →
-                            </a>
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #4A0E4E;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">✍️ Your Turn:</p>
+                                <p style="margin-bottom: 12px;">Find three prepositional phrases in today's reading and circle the preposition in each one.</p>
+                                <textarea 
+                                  id="grammar"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Write your practice sentences here..."
+                                ></textarea>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 10: Writing Workshop 📝
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📝 Informative Writing</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">📝 Prompt:</p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    Describe what life was like for Dorothy in Kansas before the cyclone. Include at least 3 specific details.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 15px; background: #fffbf0; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 20px;">
+                                <p style="margin: 0; font-size: 14px;">
+                                    <strong>💡 Remember:</strong> Write a paragraph explaining something from the story. Include clear details and examples.
+                                </p>
+                            </div>
+                            
+                            <textarea 
+                              id="writing"
+                              style="width: 100%; min-height: 250px; padding: 15px; border: 2px solid #4A0E4E; border-radius: 12px; font-size: 16px; line-height: 1.8;"
+                              placeholder="Start writing here..."
+                            ></textarea>
+                            
+                            <div style="margin-top: 15px; padding: 12px; background: #f0f9ff; border-radius: 8px;">
+                                <p style="margin: 0; font-size: 13px; color: #0369a1;">
+                                    ✅ <strong>Checklist:</strong> Did you include a topic sentence? Supporting details? A conclusion?
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 11: Language Skills 🎨
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>🎨 Language Skills</h2>
+                            <h3 style="color: #4A0E4E;">Context Clues</h3>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>📖 Learn:</strong><br>
+                                    Use surrounding words to figure out the meaning of an unfamiliar word.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #4A0E4E;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">🎯 Activity:</p>
+                                <p style="margin-bottom: 12px;">Find an unfamiliar word in the text and use context clues to determine its meaning before looking it up.</p>
+                                <textarea 
+                                  id="language"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Complete the activity here..."
+                                ></textarea>
+                            </div>
+                            
+                            <div style="margin-top: 20px; text-align: center; padding: 30px;">
+                                <div style="font-size: 48px; margin-bottom: 15px;">🌟</div>
+                                <h3 style="color: #305853;">Excellent Work!</h3>
+                                <p style="color: #666;">You've completed all 11 pages of Day 137!</p>
+                            </div>
                         </div>
                     `
                 }
-                
             ]
         };
-
-        createLessonViewer('lesson-container', lesson137Config);
+        
+        // Initialize lesson viewer
+        if (typeof initLessonViewer === 'function') {
+            initLessonViewer(lesson137Config);
+        }
     </script>
 </body>
 </html>

@@ -3,13 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 131: The Blue Carbuncle - 4th Grade BedrockELA</title>
+    <title>Day 131 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=3.2">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container" class="lesson-container"></div>
 
     <script src="js/lesson-viewer.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
     
     <script>
         const lesson131Config = {
@@ -24,206 +35,341 @@
                             <div class="character">📚</div>
                             <h1>Day 131</h1>
                             <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #B06821; font-size: 20px; margin-top: 20px;">
-                                Sherlock Holmes
+                            <p style="color: #4A0E4E; font-size: 20px; margin-top: 20px;">
+                                Sherlock Holmes Stories
                             </p>
                             <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                The Blue Carbuncle
+                                Chapter 11
                             </p>
                         </div>
                     `
                 },
                 
-                
-                // Page 2: Welcome
+                // Page 2: Welcome & Learning Objectives
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
                             <h2>📖 Welcome to Day 131!</h2>
-                            
-                                <p>Today you will:</p>
-                                <ul style="margin: 20px 0; line-height: 2;">
-                                    <li>📖 Read about Christmas mystery pt 1</li>
-                                    <li>📝 Learn 2 new vocabulary words</li>
-                                    <li>🎯 Answer comprehension questions</li>
-                                    <li>✍️ Write a journal entry</li>
-                                </ul>
-                                <p><strong>Time needed:</strong> About 30-45 minutes</p>
-                            
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>📖 Read from <em>Sherlock Holmes Stories</em></li>
+                                <li>📝 Learn 2 new vocabulary words</li>
+                                <li>📰 Read informational text: "Related Non-Fiction"</li>
+                                <li>✍️ Practice grammar: Past Progressive Tense</li>
+                                <li>🎯 Write: Informative Writing</li>
+                                <li>🎨 Explore: Similes and Metaphors</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
                         </div>
                     `
                 },
                 
-                // Page 3: Vocabulary (2 words)
+                // Page 3: Vocabulary (2 words from text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>📚 Today's Vocabulary</h2>
+                            <h2>📚 Vocabulary Words</h2>
                             
-                            
-                                <div style="margin: 30px 0; padding: 25px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 15px; border: 2px solid #B06821;">
-                                    <div style="margin-bottom: 30px;">
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">carbuncle</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                    
-                                    <div>
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">goose</span>
-                                        <p style="font-size: 18px; line-height: 1.6; color: #333; margin-top: 10px;">
-                                            [Definition from the story]
-                                        </p>
-                                    </div>
-                                </div>
+                            <div style="margin: 30px 0;">
                                 
-                                <div style="padding: 20px; background: rgba(176,104,33,0.05); border-radius: 10px;">
-                                    <p style="margin: 0;">
-                                        💡 <strong>Watch for these words</strong> in today's reading!
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #4A0E4E;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">cyclone</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
-                            
-                        </div>
-                    `
-                },
-                
-                // Page 4: Reading
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            
-                                <h2>📖 Today's Reading: Christmas mystery pt 1</h2>
                                 
-                                <div style="background: white; padding: 25px; border-radius: 12px; border: 3px solid #305853; margin: 20px 0;">
-                                    <p style="font-size: 18px; margin-bottom: 15px;">
-                                        📚 Read from Sherlock Holmes
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #4A0E4E;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">prairie</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        📖 Look up this word in a dictionary, then write the definition in your own words:
                                     </p>
-                                    <p style="font-size: 16px; color: #666; margin-top: 15px;">
-                                        Focus: Christmas mystery pt 1
-                                    </p>
+                                    <textarea 
+                                      id="vocab-2"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
                                 </div>
                                 
-                                <div style="margin-top: 30px; padding: 20px; background: rgba(48,88,83,0.1); border-radius: 10px;">
-                                    <h3 style="color: #305853;">📝 While You Read:</h3>
-                                    <ul style="line-height: 2;">
-                                        <li>Look for the vocabulary words: <strong>carbuncle</strong> and <strong>goose</strong></li>
-                                        <li>What are the main events?</li>
-                                        <li>How do characters change or react?</li>
-                                    </ul>
-                                </div>
+                            </div>
                             
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">💡 <strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 5: Comprehension
+                // Page 4: Literature Reading (placeholder - needs actual book text)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
+                            <h2>📖 Reading: Sherlock Holmes Stories</h2>
+                            <h3 style="color: #4A0E4E;">Chapter 11</h3>
                             
-                                
-    <!-- Digital Book Integration -->
-    <script src="js/digital-book.js"></script>
-    <div id="sherlock-holmes-book"></div>
-    <script>
-      const sherlockHolmesConfig = {
-  "coverTitle": "Sherlock Holmes",
-  "coverSubtitle": "6. THE MAN WITH THE TWISTED LIP",
-  "coverAuthor": "Arthur Conan Doyle",
-  "coverColor": "#4A2C2A",
-  "vocabWords": [],
-  "pages": [
-    {
-      "title": "6. THE MAN WITH THE TWISTED LIP",
-      "text": "Isa Whitney, brother of the late Elias Whitney, D.D., Principal of the\r\nTheological College of St. George’s, was much addicted to opium. The\r\nhabit grew upon him, as I understand, from some foolish freak when he\r\nwas at college; for having read De Quincey’s description of his dreams\r\nand sensations, he had drenched his tobacco with laudanum in an attempt\r\nto produce the same effects. He found, as so many more have done, that\r\nthe practice is easier to attain than to get rid of, and for many years\r\nhe continued to be a slave to the drug, an object of mingled horror and\r\npity to his friends and relatives. I can see him now, with yellow,\r\npasty face, drooping lids, and pin-point pupils, all huddled in a\r\nchair, the wreck and ruin of a noble man.\r\n\r\nOne night—it was in June, ’89—there came a ring to my bell, about the\r\nhour when a man gives his first yawn and glances at the clock. I sat up\r\nin my chair, and my wife laid her needle-work down in her lap and made\r\na little face of disappointment.\r\n\r\n“A patient!” said she. “You’ll have to go out.”\r\n\r\nI groaned, for I was newly come back from a weary day.\r\n\r\nWe heard the door open, a few hurried words, and then quick steps upon\r\nthe linoleum. Our own door flew open, and a lady, clad in some\r\ndark-coloured stuff, with a black veil, entered the room.\r\n\r\n“You will excuse my calling so late,” she began, and then, suddenly\r\nlosing her self-control, she ran forward, threw her arms about my\r\nwife’s neck, and sobbed upon her shoulder. “Oh, I’m in such trouble!”\r\nshe cried; “I do so want a little help.”\r\n\r\n“Why,” said my wife, pulling up her veil, “it is Kate Whitney. How you\r\nstartled me, Kate! I had not an idea who you were when you came in.”\r\n\r\n“I didn’t know what to do, so I came straight to you.” That was always\r\nthe way. Folk who were in grief came to my wife like birds to a\r\nlighthouse.\r\n\r\n“It was very sweet of you to come. Now, you must have some wine and\r\nwater, and sit here comfortably and tell us all about it. Or should you\r\nrather that I sent James off to bed?”\r\n\r\n“Oh, no, no! I want the doctor’s advice and help, too. It’s about Isa.\r\nHe has not been home for two days. I am so frightened about him!”\r\n\r\nIt was not the first time that she had spoken to us of her husband’s\r\ntrouble, to me as a doctor, to my wife as an old friend and school\r\ncompanion. We soothed and comforted her by such words as we could find.\r\nDid she know where her husband was? Was it possible that we could bring\r\nhim back to her?\r\n\r\nIt seems that it was. She had the surest information that of late he\r\nhad, when the fit was on him, made use of an opium den in the farthest\r\neast of the City. Hitherto his orgies had always been confined to one\r\nday, and he had come back, twitching and shattered, in the evening. But\r\nnow the spell had been upon him eight-and-forty hours, and he lay\r\nthere, doubtless among the dregs of the docks, breathing in the poison\r\nor sleeping off the effects. There he was to be found, she was sure of\r\nit, at the Bar of Gold, in Upper Swandam Lane. But what was she to do?\r\nHow could she, a young and timid woman, make her way into such a place\r\nand pluck her husband out from among the ruffians who surrounded him?\r\n\r\nThere was the case, and of course there was but one way out of it.\r\nMight I not escort her to this place? And then, as a second thought,\r\nwhy should she come at all? I was Isa Whitney’s medical adviser, and as\r\nsuch I had influence over him. I could manage it better if I were\r\nalone. I promised her on my word that I would send him home in a cab\r\nwithin two hours if he were indeed at the address which she had given\r\nme. And so in ten minutes I had left my armchair and cheery\r\nsitting-room behind me, and was speeding eastward in a hansom on a\r\nstrange errand, as it seemed to me at the time, though the future only\r\ncould show how strange it was to be.\r\n\r\nBut there was no great difficulty in the first stage of my adventure.\r\nUpper Swandam Lane is a vile alley lurking behind the high wharves\r\nwhich line the north side of the river to the east of London Bridge.\r\nBetween a slop-shop and a gin-shop, approached by a steep flight of\r\nsteps leading down to a black gap like the mouth of a cave, I found the\r\nden of which I was in search. Ordering my cab to wait, I passed down\r\nthe steps, worn hollow in the centre by the ceaseless tread of drunken\r\nfeet; and by the light of a flickering oil-lamp above the door I found\r\nthe latch and made my way into a long, low room, thick and heavy with\r\nthe brown opium smoke, and terraced with wooden berths, like the\r\nforecastle of an emigrant ship.\r\n\r\nThrough the gloom one could dimly catch a glimpse of bodies lying in\r\nstrange fantastic poses, bowed shoulders, bent knees, heads thrown\r\nback, and chins pointing upward, with here and there a dark,\r\nlack-lustre eye turned upon the newcomer. Out of the black shadows\r\nthere glimmered little red circles of light, now bright, now faint, as\r\nthe burning poison waxed or waned in the bowls of the metal pipes. The\r\nmost lay silent, but some muttered to themselves, and others talked\r\ntogether in a strange, low, monotonous voice, their conversation coming\r\nin gushes, and then suddenly tailing off into silence, each mumbling\r\nout his own thoughts and paying little heed to the words of his\r\nneighbour. At the farther end was a small brazier of burning charcoal,\r\nbeside which on a three-legged wooden stool there sat a tall, thin old\r\nman, with his jaw resting upon his two fists, and his elbows upon his\r\nknees, staring into the fire.\r\n\r\nAs I entered, a sallow Malay attendant had hurried up with a pipe for\r\nme and a supply of the drug, beckoning me to an empty berth.\r\n\r\n“Thank you. I have not come to stay,” said I. “There is a friend of\r\nmine here, Mr. Isa Whitney, and I wish to speak with him.”\r\n\r\nThere was a movement and an exclamation from my right, and peering\r\nthrough the gloom, I saw Whitney, pale, haggard, and unkempt, staring\r\nout at me.\r\n\r\n“My God! It’s Watson,” said he. He was in a pitiable state of reaction,\r\nwith every nerve in a twitter. “I say, Watson, what o’clock is it?”\r\n\r\n“Nearly eleven.”\r\n\r\n“Of what day?”\r\n\r\n“Of Friday, June 19th.”\r\n\r\n“Good heavens! I thought it was Wednesday. It is Wednesday. What d’you\r\nwant to frighten a chap for?” He sank his face onto his arms and began\r\nto sob in a high treble key.\r\n\r\n“I tell you that it is Friday, man. Your wife has been waiting this two\r\ndays for you. You should be ashamed of yourself!”\r\n\r\n“So I am. But you’ve got mixed, Watson, for I have only been here a few\r\nhours, three pipes, four pipes—I forget how many. But I’ll go home with\r\nyou. I wouldn’t frighten Kate—poor little Kate. Give me your hand! Have\r\nyou a cab?”\r\n\r\n“Yes, I have one waiting.”\r\n\r\n“Then I shall go in it. But I must owe something. Find what I owe,\r\nWatson. I am all off colour. I can do nothing for myself.”\r\n\r\nI walked down the narrow passage between the double row of sleepers,\r\nholding my breath to keep out the vile, stupefying fumes of the drug,\r\nand looking about for the manager. As I passed the tall man who sat by\r\nthe brazier I felt a sudden pluck at my skirt, and a low voice\r\nwhispered, “Walk past me, and then look back at me.” The words fell\r\nquite distinctly upon my ear. I glanced down. They could only have come\r\nfrom the old man at my side, and yet he sat now as absorbed as ever,\r\nvery thin, very wrinkled, bent with age, an opium pipe dangling down\r\nfrom between his knees, as though it had dropped in sheer lassitude\r\nfrom his fingers. I took two steps forward and looked back. It took all\r\nmy self-control to prevent me from breaking out into a cry of\r\nastonishment. He had turned his back so that none could see him but I.\r\nHis form had filled out, his wrinkles were gone, the dull eyes had\r\nregained their fire, and there, sitting by the fire and grinning at my\r\nsurprise, was none other than Sherlock Holmes. He made a slight motion\r\nto me to approach him, and instantly, as he turned his face half round\r\nto the company once more, subsided into a doddering, loose-lipped\r\nsenility.\r\n\r\n“Holmes!” I whispered, “what on earth are you doing in this den?”\r\n\r\n“As low as you can,” he answered; “I have excellent ears. If you would\r\nhave the great kindness to get rid of that sottish friend of yours I\r\nshould be exceedingly glad to have a little talk with you.”\r\n\r\n“I have a cab outside.”\r\n\r\n“Then pray send him home in it. You may safely trust him, for he\r\nappears to be too limp to get into any mischief. I should recommend you\r\nalso to send a note by the cabman to your wife to say that you have\r\nthrown in your lot with me. If you will wait outside, I shall be with\r\nyou in five minutes.”\r\n\r\nIt was difficult to refuse any of Sherlock Holmes’ requests, for they\r\nwere always so exceedingly definite, and put forward with such a quiet\r\nair of mastery. I felt, however, that when Whitney was once confined in\r\nthe cab my mission was practically accomplished; and for the rest, I\r\ncould not wish anything better than to be associated with my friend in\r\none of those singular adventures which were the normal condition of his\r\nexistence. In a few minutes I had written my note, paid Whitney’s bill,\r\nled him out to the cab, and seen him driven through the darkness. In a\r\nvery short time a decrepit figure had emerged from the opium den, and I\r\nwas walking down the street with Sherlock Holmes. For two streets he\r\nshuffled along with a bent back and an uncertain foot. Then, glancing\r\nquickly round, he straightened himself out and burst into a hearty fit\r\nof laughter.\r\n\r\n“I suppose, Watson,” said he, “that you imagine that I have added\r\nopium-smoking to cocaine injections, and all the other little\r\nweaknesses on which you have favoured me with your medical views.”\r\n\r\n“I was certainly surprised to find you there.”\r\n\r\n“But not more so than I to find you.”\r\n\r\n“I came to find a friend.”\r\n\r\n“And I to find an enemy.”\r\n\r\n“An enemy?”\r\n\r\n“Yes; one of my natural enemies, or, shall I say, my natural prey.\r\nBriefly, Watson, I am in the midst of a very remarkable inquiry, and I\r\nhave hoped to find a clue in the incoherent ramblings of these sots, as\r\nI have done before now. Had I been recognised in that den my life would\r\nnot have been worth an hour’s purchase; for I have used it before now\r\nfor my own purposes, and the rascally Lascar who runs it has sworn to\r\nhave vengeance upon me. There is a trap-door at the back of that\r\nbuilding, near the corner of Paul’s Wharf, which could tell some\r\nstrange tales of what has passed through it upon the moonless nights.”\r\n\r\n“What! You do not mean bodies?”\r\n\r\n“Ay, bodies, Watson. We should be rich men if we had £ 1000 for every\r\npoor devil who has been done to death in that den. It is the vilest\r\nmurder-trap on the whole riverside, and I fear that Neville St. Clair\r\nhas entered it never to leave it more. But our trap should be here.” He\r\nput his two forefingers between his teeth and whistled shrilly—a signal\r\nwhich was answered by a similar whistle from the distance, followed\r\nshortly by the rattle of wheels and the clink of horses’ hoofs.\r\n\r\n“Now, Watson,” said Holmes, as a tall dog-cart dashed up through the\r\ngloom, throwing out two golden tunnels of yellow light from its side\r\nlanterns. “You’ll come with me, won’t you?”\r\n\r\n“If I can be of use.”\r\n\r\n“Oh, a trusty comrade is always of use; and a chronicler still more so.\r\nMy room at The Cedars is a double-bedded one.”\r\n\r\n“The Cedars?”\r\n\r\n“Yes; that is Mr. St. Clair’s house. I am staying there while I conduct\r\nthe inquiry.”\r\n\r\n“Where is it, then?”\r\n\r\n“Near Lee, in Kent. We have a seven-mile drive before us.”\r\n\r\n“But I am all in the dark.”\r\n\r\n“Of course you are. You’ll know all about it presently. Jump up here.\r\nAll right, John; we shall not need you. Here’s half a crown. Look out\r\nfor me to-morrow, about eleven. Give her her head. So long, then!”\r\n\r\nHe flicked the horse with his whip, and we dashed away through the\r\nendless succession of sombre and deserted streets, which widened\r\ngradually, until we were flying across a broad balustraded bridge, with\r\nthe murky river flowing sluggishly beneath us. Beyond lay another dull\r\nwilderness of bricks and mortar, its silence broken only by the heavy,\r\nregular footfall of the policeman, or the songs and shouts of some\r\nbelated party of revellers. A dull wrack was drifting slowly across the\r\nsky, and a star or two twinkled dimly here and there through the rifts\r\nof the clouds. Holmes drove in silence, with his head sunk upon his\r\nbreast, and the air of a man who is lost in thought, while I sat beside\r\nhim, curious to learn what this new quest might be which seemed to tax\r\nhis powers so sorely, and yet afraid to break in upon the current of\r\nhis thoughts. We had driven several miles, and were beginning to get to\r\nthe fringe of the belt of suburban villas, when he shook himself,\r\nshrugged his shoulders, and lit up his pipe with the air of a man who\r\nhas satisfied himself that he is acting for the best.\r\n\r\n“You have a grand gift of silence, Watson,” said he. “It makes you\r\nquite invaluable as a companion. ’Pon my word, it is a great thing for\r\nme to have someone to talk to, for my own thoughts are not\r\nover-pleasant. I was wondering what I should say to this dear little\r\nwoman to-night when she meets me at the door.”\r\n\r\n“You forget that I know nothing about it.”\r\n\r\n“I shall just have time to tell you the facts of the case before we get\r\nto Lee. It seems absurdly simple, and yet, somehow I can get nothing to\r\ngo upon. There’s plenty of thread, no doubt, but I can’t get the end of\r\nit into my hand. Now, I’ll state the case clearly and concisely to you,\r\nWatson, and maybe you can see a spark where all is dark to me.”\r\n\r\n“Proceed, then.”\r\n\r\n“Some years ago—to be definite, in May, 1884—there came to Lee a\r\ngentleman, Neville St. Clair by name, who appeared to have plenty of\r\nmoney. He took a large villa, laid out the grounds very nicely, and\r\nlived generally in good style. By degrees he made friends in the\r\nneighbourhood, and in 1887 he married the daughter of a local brewer,\r\nby whom he now has two children. He had no occupation, but was\r\ninterested in several companies and went into town as a rule in the\r\nmorning, returning by the 5:14 from Cannon Street every night. Mr. St.\r\nClair is now thirty-seven years of age, is a man of temperate habits, a\r\ngood husband, a very affectionate father, and a man who is popular with\r\nall who know him. I may add that his whole debts at the present moment,\r\nas far as we have been able to ascertain, amount to £ 88 10_s_., while\r\nhe has £ 220 standing to his credit in the Capital and Counties Bank.\r\nThere is no reason, therefore, to think that money troubles have been\r\nweighing upon his mind.\r\n\r\n“Last Monday Mr. Neville St. Clair went into town rather earlier than\r\nusual, remarking before he started that he had two important\r\ncommissions to perform, and that he would bring his little boy home a\r\nbox of bricks. Now, by the merest chance, his wife received a telegram\r\nupon this same Monday, very shortly after his departure, to the effect\r\nthat a small parcel of considerable value which she had been expecting\r\nwas waiting for her at the offices of the Aberdeen Shipping Company.\r\nNow, if you are well up in your London, you will know that the office\r\nof the company is in Fresno Street, which branches out of Upper Swandam\r\nLane, where you found me to-night. Mrs. St. Clair had her lunch,\r\nstarted for the City, did some shopping, proceeded to the company’s\r\noffice, got her packet, and found herself at exactly 4:35 walking\r\nthrough Swandam Lane on her way back to the station. Have you followed\r\nme so far?”\r\n\r\n“It is very clear.”\r\n\r\n“If you remember, Monday was an exceedingly hot day, and Mrs. St. Clair\r\nwalked slowly, glancing about in the hope of seeing a cab, as she did\r\nnot like the neighbourhood in which she found herself. While she was\r\nwalking in this way down Swandam Lane, she suddenly heard an\r\nejaculation or cry, and was struck cold to see her husband looking down\r\nat her and, as it seemed to her, beckoning to her from a second-floor\r\nwindow. The window was open, and she distinctly saw his face, which she\r\ndescribes as being terribly agitated. He waved his hands frantically to\r\nher, and then vanished from the window so suddenly that it seemed to\r\nher that he had been plucked back by some irresistible force from\r\nbehind. One singular point which struck her quick feminine eye was that\r\nalthough he wore some dark coat, such as he had started to town in, he\r\nhad on neither collar nor necktie.\r\n\r\n“Convinced that something was amiss with him, she rushed down the\r\nsteps—for the house was none other than the opium den in which you\r\nfound me to-night—and running through the front room she attempted to\r\nascend the stairs which led to the first floor. At the foot of the\r\nstairs, however, she met this Lascar scoundrel of whom I have spoken,\r\nwho thrust her back and, aided by a Dane, who acts as assistant there,\r\npushed her out into the street. Filled with the most maddening doubts\r\nand fears, she rushed down the lane and, by rare good-fortune, met in\r\nFresno Street a number of constables with an inspector, all on their\r\nway to their beat. The inspector and two men accompanied her back, and\r\nin spite of the continued resistance of the proprietor, they made their\r\nway to the room in which Mr. St. Clair had last been seen. There was no\r\nsign of him there. In fact, in the whole of that floor there was no one\r\nto be found save a crippled wretch of hideous aspect, who, it seems,\r\nmade his home there. Both he and the Lascar stoutly swore that no one\r\nelse had been in the front room during the afternoon. So determined was\r\ntheir denial that the inspector was staggered, and had almost come to\r\nbelieve that Mrs. St. Clair had been deluded when, with a cry, she\r\nsprang at a small deal box which lay upon the table and tore the lid\r\nfrom it. Out there fell a cascade of children’s bricks. It was the toy\r\nwhich he had promised to bring home.\r\n\r\n“This discovery, and the evident confusion which the cripple showed,\r\nmade the inspector realise that the matter was serious. The rooms were\r\ncarefully examined, and results all pointed to an abominable crime. The\r\nfront room was plainly furnished as a sitting-room and led into a small\r\nbedroom, which looked out upon the back of one of the wharves. Between\r\nthe wharf and the bedroom window is a narrow strip, which is dry at low\r\ntide but is covered at high tide with at least four and a half feet of\r\nwater. The bedroom window was a broad one and opened from below. On\r\nexamination traces of blood were to be seen upon the windowsill, and\r\nseveral scattered drops were visible upon the wooden floor of the\r\nbedroom. Thrust away behind a curtain in the front room were all the\r\nclothes of Mr. Neville St. Clair, with the exception of his coat. His\r\nboots, his socks, his hat, and his watch—all were there. There were no\r\nsigns of violence upon any of these garments, and there were no other\r\ntraces of Mr. Neville St. Clair. Out of the window he must apparently\r\nhave gone for no other exit could be discovered, and the ominous\r\nbloodstains upon the sill gave little promise that he could save\r\nhimself by swimming, for the tide was at its very highest at the moment\r\nof the tragedy.\r\n\r\n“And now as to the villains who seemed to be immediately implicated in\r\nthe matter. The Lascar was known to be a man of the vilest antecedents,\r\nbut as, by Mrs. St. Clair’s story, he was known to have been at the\r\nfoot of the stair within a very few seconds of her husband’s appearance\r\nat the window, he could hardly have been more than an accessory to the\r\ncrime. His defence was one of absolute ignorance, and he protested that\r\nhe had no knowledge as to the doings of Hugh Boone, his lodger, and\r\nthat he could not account in any way for the presence of the missing\r\ngentleman’s clothes.\r\n\r\n“So much for the Lascar manager. Now for the sinister cripple who lives\r\nupon the second floor of the opium den, and who was certainly the last\r\nhuman being whose eyes rested upon Neville St. Clair. His name is Hugh\r\nBoone, and his hideous face is one which is familiar to every man who\r\ngoes much to the City. He is a professional beggar, though in order to\r\navoid the police regulations he pretends to a small trade in wax\r\nvestas. Some little distance down Threadneedle Street, upon the\r\nleft-hand side, there is, as you may have remarked, a small angle in\r\nthe wall. Here it is that this creature takes his daily seat,\r\ncross-legged with his tiny stock of matches on his lap, and as he is a\r\npiteous spectacle a small rain of charity descends into the greasy\r\nleather cap which lies upon the pavement beside him. I have watched the\r\nfellow more than once before ever I thought of making his professional\r\nacquaintance, and I have been surprised at the harvest which he has\r\nreaped in a short time. His appearance, you see, is so remarkable that\r\nno one can pass him without observing him. A shock of orange hair, a\r\npale face disfigured by a horrible scar, which, by its contraction, has\r\nturned up the outer edge of his upper lip, a bulldog chin, and a pair\r\nof very penetrating dark eyes, which present a singular contrast to the\r\ncolour of his hair, all mark him out from amid the common crowd of\r\nmendicants and so, too, does his wit, for he is ever ready with a reply\r\nto any piece of chaff which may be thrown at him by the passers-by.\r\nThis is the man whom we now learn to have been the lodger at the opium\r\nden, and to have been the last man to see the gentleman of whom we are\r\nin quest.”\r\n\r\n“But a cripple!” said I. “What could he have done single-handed against\r\na man in the prime of life?”\r\n\r\n“He is a cripple in the sense that he walks with a limp; but in other\r\nrespects he appears to be a powerful and well-nurtured man. Surely your\r\nmedical experience would tell you, Watson, that weakness in one limb is\r\noften compensated for by exceptional strength in the others.”\r\n\r\n“Pray continue your narrative.”\r\n\r\n“Mrs. St. Clair had fainted at the sight of the blood upon the window,\r\nand she was escorted home in a cab by the police, as her presence could\r\nbe of no help to them in their investigations. Inspector Barton, who\r\nhad charge of the case, made a very careful examination of the\r\npremises, but without finding anything which threw any light upon the\r\nmatter. One mistake had been made in not arresting Boone instantly, as\r\nhe was allowed some few minutes during which he might have communicated\r\nwith his friend the Lascar, but this fault was soon remedied, and he\r\nwas seized and searched, without anything being found which could\r\nincriminate him. There were, it is true, some blood-stains upon his\r\nright shirt-sleeve, but he pointed to his ring-finger, which had been\r\ncut near the nail, and explained that the bleeding came from there,\r\nadding that he had been to the window not long before, and that the\r\nstains which had been observed there came doubtless from the same\r\nsource. He denied strenuously having ever seen Mr. Neville St. Clair\r\nand swore that the presence of the clothes in his room was as much a\r\nmystery to him as to the police. As to Mrs. St. Clair’s assertion that\r\nshe had actually seen her husband at the window, he declared that she\r\nmust have been either mad or dreaming. He was removed, loudly\r\nprotesting, to the police-station, while the inspector remained upon\r\nthe premises in the hope that the ebbing tide might afford some fresh\r\nclue.\r\n\r\n“And it did, though they hardly found upon the mud-bank what they had\r\nfeared to find. It was Neville St. Clair’s coat, and not Neville St.\r\nClair, which lay uncovered as the tide receded. And what do you think\r\nthey found in the pockets?”\r\n\r\n“I cannot imagine.”\r\n\r\n“No, I don’t think you would guess. Every pocket stuffed with pennies\r\nand half-pennies—421 pennies and 270 half-pennies. It was no wonder\r\nthat it had not been swept away by the tide. But a human body is a\r\ndifferent matter. There is a fierce eddy between the wharf and the\r\nhouse. It seemed likely enough that the weighted coat had remained when\r\nthe stripped body had been sucked away into the river.”\r\n\r\n“But I understand that all the other clothes were found in the room.\r\nWould the body be dressed in a coat alone?”\r\n\r\n“No, sir, but the facts might be met speciously enough. Suppose that\r\nthis man Boone had thrust Neville St. Clair through the window, there\r\nis no human eye which could have seen the deed. What would he do then?\r\nIt would of course instantly strike him that he must get rid of the\r\ntell-tale garments. He would seize the coat, then, and be in the act of\r\nthrowing it out, when it would occur to him that it would swim and not\r\nsink. He has little time, for he has heard the scuffle downstairs when\r\nthe wife tried to force her way up, and perhaps he has already heard\r\nfrom his Lascar confederate that the police are hurrying up the street.\r\nThere is not an instant to be lost. He rushes to some secret hoard,\r\nwhere he has accumulated the fruits of his beggary, and he stuffs all\r\nthe coins upon which he can lay his hands into the pockets to make sure\r\nof the coat’s sinking. He throws it out, and would have done the same\r\nwith the other garments had not he heard the rush of steps below, and\r\nonly just had time to close the window when the police appeared.”\r\n\r\n“It certainly sounds feasible.”\r\n\r\n“Well, we will take it as a working hypothesis for want of a better.\r\nBoone, as I have told you, was arrested and taken to the station, but\r\nit could not be shown that there had ever before been anything against\r\nhim. He had for years been known as a professional beggar, but his life\r\nappeared to have been a very quiet and innocent one. There the matter\r\nstands at present, and the questions which have to be solved—what\r\nNeville St. Clair was doing in the opium den, what happened to him when\r\nthere, where is he now, and what Hugh Boone had to do with his\r\ndisappearance—are all as far from a solution as ever. I confess that I\r\ncannot recall any case within my experience which looked at the first\r\nglance so simple and yet which presented such difficulties.”\r\n\r\nWhile Sherlock Holmes had been detailing this singular series of\r\nevents, we had been whirling through the outskirts of the great town\r\nuntil the last straggling houses had been left behind, and we rattled\r\nalong with a country hedge upon either side of us. Just as he finished,\r\nhowever, we drove through two scattered villages, where a few lights\r\nstill glimmered in the windows.\r\n\r\n“We are on the outskirts of Lee,” said my companion. “We have touched\r\non three English counties in our short drive, starting in Middlesex,\r\npassing over an angle of Surrey, and ending in Kent. See that light\r\namong the trees? That is The Cedars, and beside that lamp sits a woman\r\nwhose anxious ears have already, I have little doubt, caught the clink\r\nof our horse’s feet.”\r\n\r\n“But why are you not conducting the case from Baker Street?” I asked.\r\n\r\n“Because there are many inquiries which must be made out here. Mrs. St.\r\nClair has most kindly put two rooms at my disposal, and you may rest\r\nassured that she will have nothing but a welcome for my friend and\r\ncolleague. I hate to meet her, Watson, when I have no news of her\r\nhusband. Here we are. Whoa, there, whoa!”\r\n\r\nWe had pulled up in front of a large villa which stood within its own\r\ngrounds. A stable-boy had run out to the horse’s head, and springing\r\ndown, I followed Holmes up the small, winding gravel-drive which led to\r\nthe house. As we approached, the door flew open, and a little blonde\r\nwoman stood in the opening, clad in some sort of light mousseline de\r\nsoie, with a touch of fluffy pink chiffon at her neck and wrists. She\r\nstood with her figure outlined against the flood of light, one hand\r\nupon the door, one half-raised in her eagerness, her body slightly\r\nbent, her head and face protruded, with eager eyes and parted lips, a\r\nstanding question.\r\n\r\n“Well?” she cried, “well?” And then, seeing that there were two of us,\r\nshe gave a cry of hope which sank into a groan as she saw that my\r\ncompanion shook his head and shrugged his shoulders.\r\n\r\n“No good news?”\r\n\r\n“None.”\r\n\r\n“No bad?”\r\n\r\n“No.”\r\n\r\n“Thank God for that. But come in. You must be weary, for you have had a\r\nlong day.”\r\n\r\n“This is my friend, Dr. Watson. He has been of most vital use to me in\r\nseveral of my cases, and a lucky chance has made it possible for me to\r\nbring him out and associate him with this investigation.”\r\n\r\n“I am delighted to see you,” said she, pressing my hand warmly. “You\r\nwill, I am sure, forgive anything that may be wanting in our\r\narrangements, when you consider the blow which has come so suddenly\r\nupon us.”\r\n\r\n“My dear madam,” said I, “I am an old campaigner, and if I were not I\r\ncan very well see that no apology is needed. If I can be of any\r\nassistance, either to you or to my friend here, I shall be indeed\r\nhappy.”\r\n\r\n“Now, Mr. Sherlock Holmes,” said the lady as we entered a well-lit\r\ndining-room, upon the table of which a cold supper had been laid out,\r\n“I should very much like to ask you one or two plain questions, to\r\nwhich I beg that you will give a plain answer.”\r\n\r\n“Certainly, madam.”\r\n\r\n“Do not trouble about my feelings. I am not hysterical, nor given to\r\nfainting. I simply wish to hear your real, real opinion.”\r\n\r\n“Upon what point?”\r\n\r\n“In your heart of hearts, do you think that Neville is alive?”\r\n\r\nSherlock Holmes seemed to be embarrassed by the question. “Frankly,\r\nnow!” she repeated, standing upon the rug and looking keenly down at\r\nhim as he leaned back in a basket-chair.\r\n\r\n“Frankly, then, madam, I do not.”\r\n\r\n“You think that he is dead?”\r\n\r\n“I do.”\r\n\r\n“Murdered?”\r\n\r\n“I don’t say that. Perhaps.”\r\n\r\n“And on what day did he meet his death?”\r\n\r\n“On Monday.”\r\n\r\n“Then perhaps, Mr. Holmes, you will be good enough to explain how it is\r\nthat I have received a letter from him to-day.”\r\n\r\nSherlock Holmes sprang out of his chair as if he had been galvanised.\r\n\r\n“What!” he roared.\r\n\r\n“Yes, to-day.” She stood smiling, holding up a little slip of paper in\r\nthe air.\r\n\r\n“May I see it?”\r\n\r\n“Certainly.”\r\n\r\nHe snatched it from her in his eagerness, and smoothing it out upon the\r\ntable he drew over the lamp and examined it intently. I had left my\r\nchair and was gazing at it over his shoulder. The envelope was a very\r\ncoarse one and was stamped with the Gravesend postmark and with the\r\ndate of that very day, or rather of the day before, for it was\r\nconsiderably after midnight.\r\n\r\n“Coarse writing,” murmured Holmes. “Surely this is not your husband’s\r\nwriting, madam.”\r\n\r\n“No, but the enclosure is.”\r\n\r\n“I perceive also that whoever addressed the envelope had to go and\r\ninquire as to the address.”\r\n\r\n“How can you tell that?”\r\n\r\n“The name, you see, is in perfectly black ink, which has dried itself.\r\nThe rest is of the greyish colour, which shows that blotting-paper has\r\nbeen used. If it had been written straight off, and then blotted, none\r\nwould be of a deep black shade. This man has written the name, and\r\nthere has then been a pause before he wrote the address, which can only\r\nmean that he was not familiar with it. It is, of course, a trifle, but\r\nthere is nothing so important as trifles. Let us now see the letter.\r\nHa! there has been an enclosure here!”\r\n\r\n“Yes, there was a ring. His signet-ring.”\r\n\r\n“And you are sure that this is your husband’s hand?”\r\n\r\n“One of his hands.”\r\n\r\n“One?”\r\n\r\n“His hand when he wrote hurriedly. It is very unlike his usual writing,\r\nand yet I know it well.”\r\n\r\n“‘Dearest do not be frightened. All will come well. There is a huge\r\nerror which it may take some little time to rectify. Wait in\r\npatience.—NEVILLE.’ Written in pencil upon the fly-leaf of a book,\r\noctavo size, no water-mark. Hum! Posted to-day in Gravesend by a man\r\nwith a dirty thumb. Ha! And the flap has been gummed, if I am not very\r\nmuch in error, by a person who had been chewing tobacco. And you have\r\nno doubt that it is your husband’s hand, madam?”\r\n\r\n“None. Neville wrote those words.”\r\n\r\n“And they were posted to-day at Gravesend. Well, Mrs. St. Clair, the\r\nclouds lighten, though I should not venture to say that the danger is\r\nover.”\r\n\r\n“But he must be alive, Mr. Holmes.”\r\n\r\n“Unless this is a clever forgery to put us on the wrong scent. The\r\nring, after all, proves nothing. It may have been taken from him.”\r\n\r\n“No, no; it is, it is his very own writing!”\r\n\r\n“Very well. It may, however, have been written on Monday and only\r\nposted to-day.”\r\n\r\n“That is possible.”\r\n\r\n“If so, much may have happened between.”\r\n\r\n“Oh, you must not discourage me, Mr. Holmes. I know that all is well\r\nwith him. There is so keen a sympathy between us that I should know if\r\nevil came upon him. On the very day that I saw him last he cut himself\r\nin the bedroom, and yet I in the dining-room rushed upstairs instantly\r\nwith the utmost certainty that something had happened. Do you think\r\nthat I would respond to such a trifle and yet be ignorant of his\r\ndeath?”\r\n\r\n“I have seen too much not to know that the impression of a woman may be\r\nmore valuable than the conclusion of an analytical reasoner. And in\r\nthis letter you certainly have a very strong piece of evidence to\r\ncorroborate your view. But if your husband is alive and able to write\r\nletters, why should he remain away from you?”\r\n\r\n“I cannot imagine. It is unthinkable.”\r\n\r\n“And on Monday he made no remarks before leaving you?”\r\n\r\n“No.”\r\n\r\n“And you were surprised to see him in Swandam Lane?”\r\n\r\n“Very much so.”\r\n\r\n“Was the window open?”\r\n\r\n“Yes.”\r\n\r\n“Then he might have called to you?”\r\n\r\n“He might.”\r\n\r\n“He only, as I understand, gave an inarticulate cry?”\r\n\r\n“Yes.”\r\n\r\n“A call for help, you thought?”\r\n\r\n“Yes. He waved his hands.”\r\n\r\n“But it might have been a cry of surprise. Astonishment at the\r\nunexpected sight of you might cause him to throw up his hands?”\r\n\r\n“It is possible.”\r\n\r\n“And you thought he was pulled back?”\r\n\r\n“He disappeared so suddenly.”\r\n\r\n“He might have leaped back. You did not see anyone else in the room?”\r\n\r\n“No, but this horrible man confessed to having been there, and the\r\nLascar was at the foot of the stairs.”\r\n\r\n“Quite so. Your husband, as far as you could see, had his ordinary\r\nclothes on?”\r\n\r\n“But without his collar or tie. I distinctly saw his bare throat.”\r\n\r\n“Had he ever spoken of Swandam Lane?”\r\n\r\n“Never.”\r\n\r\n“Had he ever showed any signs of having taken opium?”\r\n\r\n“Never.”\r\n\r\n“Thank you, Mrs. St. Clair. Those are the principal points about which\r\nI wished to be absolutely clear. We shall now have a little supper and\r\nthen retire, for we may have a very busy day to-morrow.”\r\n\r\nA large and comfortable double-bedded room had been placed at our\r\ndisposal, and I was quickly between the sheets, for I was weary after\r\nmy night of adventure. Sherlock Holmes was a man, however, who, when he\r\nhad an unsolved problem upon his mind, would go for days, and even for\r\na week, without rest, turning it over, rearranging his facts, looking\r\nat it from every point of view until he had either fathomed it or\r\nconvinced himself that his data were insufficient. It was soon evident\r\nto me that he was now preparing for an all-night sitting. He took off\r\nhis coat and waistcoat, put on a large blue dressing-gown, and then\r\nwandered about the room collecting pillows from his bed and cushions\r\nfrom the sofa and armchairs. With these he constructed a sort of\r\nEastern divan, upon which he perched himself cross-legged, with an\r\nounce of shag tobacco and a box of matches laid out in front of him. In\r\nthe dim light of the lamp I saw him sitting there, an old briar pipe\r\nbetween his lips, his eyes fixed vacantly upon the corner of the\r\nceiling, the blue smoke curling up from him, silent, motionless, with\r\nthe light shining upon his strong-set aquiline features. So he sat as I\r\ndropped off to sleep, and so he sat when a sudden ejaculation caused me\r\nto wake up, and I found the summer sun shining into the apartment. The\r\npipe was still between his lips, the smoke still curled upward, and the\r\nroom was full of a dense tobacco haze, but nothing remained of the heap\r\nof shag which I had seen upon the previous night.\r\n\r\n“Awake, Watson?” he asked.\r\n\r\n“Yes.”\r\n\r\n“Game for a morning drive?”\r\n\r\n“Certainly.”\r\n\r\n“Then dress. No one is stirring yet, but I know where the stable-boy\r\nsleeps, and we shall soon have the trap out.” He chuckled to himself as\r\nhe spoke, his eyes twinkled, and he seemed a different man to the\r\nsombre thinker of the previous night.\r\n\r\nAs I dressed I glanced at my watch. It was no wonder that no one was\r\nstirring. It was twenty-five minutes past four. I had hardly finished\r\nwhen Holmes returned with the news that the boy was putting in the\r\nhorse.\r\n\r\n“I want to test a little theory of mine,” said he, pulling on his\r\nboots. “I think, Watson, that you are now standing in the presence of\r\none of the most absolute fools in Europe. I deserve to be kicked from\r\nhere to Charing Cross. But I think I have the key of the affair now.”\r\n\r\n“And where is it?” I asked, smiling.\r\n\r\n“In the bathroom,” he answered. “Oh, yes, I am not joking,” he\r\ncontinued, seeing my look of incredulity. “I have just been there, and\r\nI have taken it out, and I have got it in this Gladstone bag. Come on,\r\nmy boy, and we shall see whether it will not fit the lock.”\r\n\r\nWe made our way downstairs as quietly as possible, and out into the\r\nbright morning sunshine. In the road stood our horse and trap, with the\r\nhalf-clad stable-boy waiting at the head. We both sprang in, and away\r\nwe dashed down the London Road. A few country carts were stirring,\r\nbearing in vegetables to the metropolis, but the lines of villas on\r\neither side were as silent and lifeless as some city in a dream.\r\n\r\n“It has been in some points a singular case,” said Holmes, flicking the\r\nhorse on into a gallop. “I confess that I have been as blind as a mole,\r\nbut it is better to learn wisdom late than never to learn it at all.”\r\n\r\nIn town the earliest risers were just beginning to look sleepily from\r\ntheir windows as we drove through the streets of the Surrey side.\r\nPassing down the Waterloo Bridge Road we crossed over the river, and\r\ndashing up Wellington Street wheeled sharply to the right and found\r\nourselves in Bow Street. Sherlock Holmes was well known to the force,\r\nand the two constables at the door saluted him. One of them held the\r\nhorse’s head while the other led us in.\r\n\r\n“Who is on duty?” asked Holmes.\r\n\r\n“Inspector Bradstreet, sir.”\r\n\r\n“Ah, Bradstreet, how are you?” A tall, stout official had come down the\r\nstone-flagged passage, in a peaked cap and frogged jacket. “I wish to\r\nhave a quiet word with you, Bradstreet.”\r\n\r\n“Certainly, Mr. Holmes. Step into my room here.”\r\n\r\nIt was a small, office-like room, with a huge ledger upon the table,\r\nand a telephone projecting from the wall. The inspector sat down at his\r\ndesk.\r\n\r\n“What can I do for you, Mr. Holmes?”\r\n\r\n“I called about that beggarman, Boone—the one who was charged with\r\nbeing concerned in the disappearance of Mr. Neville St. Clair, of Lee.”\r\n\r\n“Yes. He was brought up and remanded for further inquiries.”\r\n\r\n“So I heard. You have him here?”\r\n\r\n“In the cells.”\r\n\r\n“Is he quiet?”\r\n\r\n“Oh, he gives no trouble. But he is a dirty scoundrel.”\r\n\r\n“Dirty?”\r\n\r\n“Yes, it is all we can do to make him wash his hands, and his face is\r\nas black as a tinker’s. Well, when once his case has been settled, he\r\nwill have a regular prison bath; and I think, if you saw him, you would\r\nagree with me that he needed it.”\r\n\r\n“I should like to see him very much.”\r\n\r\n“Would you? That is easily done. Come this way. You can leave your\r\nbag.”\r\n\r\n“No, I think that I’ll take it.”\r\n\r\n“Very good. Come this way, if you please.” He led us down a passage,\r\nopened a barred door, passed down a winding stair, and brought us to a\r\nwhitewashed corridor with a line of doors on each side.\r\n\r\n“The third on the right is his,” said the inspector. “Here it is!” He\r\nquietly shot back a panel in the upper part of the door and glanced\r\nthrough.\r\n\r\n“He is asleep,” said he. “You can see him very well.”\r\n\r\nWe both put our eyes to the grating. The prisoner lay with his face\r\ntowards us, in a very deep sleep, breathing slowly and heavily. He was\r\na middle-sized man, coarsely clad as became his calling, with a\r\ncoloured shirt protruding through the rent in his tattered coat. He\r\nwas, as the inspector had said, extremely dirty, but the grime which\r\ncovered his face could not conceal its repulsive ugliness. A broad\r\nwheal from an old scar ran right across it from eye to chin, and by its\r\ncontraction had turned up one side of the upper lip, so that three\r\nteeth were exposed in a perpetual snarl. A shock of very bright red\r\nhair grew low over his eyes and forehead.\r\n\r\n“He’s a beauty, isn’t he?” said the inspector.\r\n\r\n“He certainly needs a wash,” remarked Holmes. “I had an idea that he\r\nmight, and I took the liberty of bringing the tools with me.” He opened\r\nthe Gladstone bag as he spoke, and took out, to my astonishment, a very\r\nlarge bath-sponge.\r\n\r\n“He! he! You are a funny one,” chuckled the inspector.\r\n\r\n“Now, if you will have the great goodness to open that door very\r\nquietly, we will soon make him cut a much more respectable figure.”\r\n\r\n“Well, I don’t know why not,” said the inspector. “He doesn’t look a\r\ncredit to the Bow Street cells, does he?” He slipped his key into the\r\nlock, and we all very quietly entered the cell. The sleeper half\r\nturned, and then settled down once more into a deep slumber. Holmes\r\nstooped to the water-jug, moistened his sponge, and then rubbed it\r\ntwice vigorously across and down the prisoner’s face.\r\n\r\n“Let me introduce you,” he shouted, “to Mr. Neville St. Clair, of Lee,\r\nin the county of Kent.”\r\n\r\nNever in my life have I seen such a sight. The man’s face peeled off\r\nunder the sponge like the bark from a tree. Gone was the coarse brown\r\ntint! Gone, too, was the horrid scar which had seamed it across, and\r\nthe twisted lip which had given the repulsive sneer to the face! A\r\ntwitch brought away the tangled red hair, and there, sitting up in his\r\nbed, was a pale, sad-faced, refined-looking man, black-haired and\r\nsmooth-skinned, rubbing his eyes and staring about him with sleepy\r\nbewilderment. Then suddenly realising the exposure, he broke into a\r\nscream and threw himself down with his face to the pillow.\r\n\r\n“Great heavens!” cried the inspector, “it is, indeed, the missing man.\r\nI know him from the photograph.”\r\n\r\nThe prisoner turned with the reckless air of a man who abandons himself\r\nto his destiny. “Be it so,” said he. “And pray what am I charged with?”\r\n\r\n“With making away with Mr. Neville St.— Oh, come, you can’t be charged\r\nwith that unless they make a case of attempted suicide of it,” said the\r\ninspector with a grin. “Well, I have been twenty-seven years in the\r\nforce, but this really takes the cake.”\r\n\r\n“If I am Mr. Neville St. Clair, then it is obvious that no crime has\r\nbeen committed, and that, therefore, I am illegally detained.”\r\n\r\n“No crime, but a very great error has been committed,” said Holmes.\r\n“You would have done better to have trusted your wife.”\r\n\r\n“It was not the wife; it was the children,” groaned the prisoner. “God\r\nhelp me, I would not have them ashamed of their father. My God! What an\r\nexposure! What can I do?”\r\n\r\nSherlock Holmes sat down beside him on the couch and patted him kindly\r\non the shoulder.\r\n\r\n“If you leave it to a court of law to clear the matter up,” said he,\r\n“of course you can hardly avoid publicity. On the other hand, if you\r\nconvince the police authorities that there is no possible case against\r\nyou, I do not know that there is any reason that the details should\r\nfind their way into the papers. Inspector Bradstreet would, I am sure,\r\nmake notes upon anything which you might tell us and submit it to the\r\nproper authorities. The case would then never go into court at all.”\r\n\r\n“God bless you!” cried the prisoner passionately. “I would have endured\r\nimprisonment, ay, even execution, rather than have left my miserable\r\nsecret as a family blot to my children.\r\n\r\n“You are the first who have ever heard my story. My father was a\r\nschoolmaster in Chesterfield, where I received an excellent education.\r\nI travelled in my youth, took to the stage, and finally became a\r\nreporter on an evening paper in London. One day my editor wished to\r\nhave a series of articles upon begging in the metropolis, and I\r\nvolunteered to supply them. There was the point from which all my\r\nadventures started. It was only by trying begging as an amateur that I\r\ncould get the facts upon which to base my articles. When an actor I\r\nhad, of course, learned all the secrets of making up, and had been\r\nfamous in the green-room for my skill. I took advantage now of my\r\nattainments. I painted my face, and to make myself as pitiable as\r\npossible I made a good scar and fixed one side of my lip in a twist by\r\nthe aid of a small slip of flesh-coloured plaster. Then with a red head\r\nof hair, and an appropriate dress, I took my station in the business\r\npart of the city, ostensibly as a match-seller but really as a beggar.\r\nFor seven hours I plied my trade, and when I returned home in the\r\nevening I found to my surprise that I had received no less than 26_s_.\r\n4_d_.\r\n\r\n“I wrote my articles and thought little more of the matter until, some\r\ntime later, I backed a bill for a friend and had a writ served upon me\r\nfor £ 25. I was at my wit’s end where to get the money, but a sudden\r\nidea came to me. I begged a fortnight’s grace from the creditor, asked\r\nfor a holiday from my employers, and spent the time in begging in the\r\nCity under my disguise. In ten days I had the money and had paid the\r\ndebt.\r\n\r\n“Well, you can imagine how hard it was to settle down to arduous work\r\nat £ 2 a week when I knew that I could earn as much in a day by\r\nsmearing my face with a little paint, laying my cap on the ground, and\r\nsitting still. It was a long fight between my pride and the money, but\r\nthe dollars won at last, and I threw up reporting and sat day after day\r\nin the corner which I had first chosen, inspiring pity by my ghastly\r\nface and filling my pockets with coppers. Only one man knew my secret.\r\nHe was the keeper of a low den in which I used to lodge in Swandam\r\nLane, where I could every morning emerge as a squalid beggar and in the\r\nevenings transform myself into a well-dressed man about town. This\r\nfellow, a Lascar, was well paid by me for his rooms, so that I knew\r\nthat my secret was safe in his possession.\r\n\r\n“Well, very soon I found that I was saving considerable sums of money.\r\nI do not mean that any beggar in the streets of London could earn £ 700\r\na year—which is less than my average takings—but I had exceptional\r\nadvantages in my power of making up, and also in a facility of\r\nrepartee, which improved by practice and made me quite a recognised\r\ncharacter in the City. All day a stream of pennies, varied by silver,\r\npoured in upon me, and it was a very bad day in which I failed to take\r\n£ 2.\r\n\r\n“As I grew richer I grew more ambitious, took a house in the country,\r\nand eventually married, without anyone having a suspicion as to my real\r\noccupation. My dear wife knew that I had business in the City. She\r\nlittle knew what.\r\n\r\n“Last Monday I had finished for the day and was dressing in my room\r\nabove the opium den when I looked out of my window and saw, to my\r\nhorror and astonishment, that my wife was standing in the street, with\r\nher eyes fixed full upon me. I gave a cry of surprise, threw up my arms\r\nto cover my face, and, rushing to my confidant, the Lascar, entreated\r\nhim to prevent anyone from coming up to me. I heard her voice\r\ndownstairs, but I knew that she could not ascend. Swiftly I threw off\r\nmy clothes, pulled on those of a beggar, and put on my pigments and\r\nwig. Even a wife’s eyes could not pierce so complete a disguise. But\r\nthen it occurred to me that there might be a search in the room, and\r\nthat the clothes might betray me. I threw open the window, reopening by\r\nmy violence a small cut which I had inflicted upon myself in the\r\nbedroom that morning. Then I seized my coat, which was weighted by the\r\ncoppers which I had just transferred to it from the leather bag in\r\nwhich I carried my takings. I hurled it out of the window, and it\r\ndisappeared into the Thames. The other clothes would have followed, but\r\nat that moment there was a rush of constables up the stair, and a few\r\nminutes after I found, rather, I confess, to my relief, that instead of\r\nbeing identified as Mr. Neville St. Clair, I was arrested as his\r\nmurderer.\r\n\r\n“I do not know that there is anything else for me to explain. I was\r\ndetermined to preserve my disguise as long as possible, and hence my\r\npreference for a dirty face. Knowing that my wife would be terribly\r\nanxious, I slipped off my ring and confided it to the Lascar at a\r\nmoment when no constable was watching me, together with a hurried\r\nscrawl, telling her that she had no cause to fear.”\r\n\r\n“That note only reached her yesterday,” said Holmes.\r\n\r\n“Good God! What a week she must have spent!”\r\n\r\n“The police have watched this Lascar,” said Inspector Bradstreet, “and\r\nI can quite understand that he might find it difficult to post a letter\r\nunobserved. Probably he handed it to some sailor customer of his, who\r\nforgot all about it for some days.”\r\n\r\n“That was it,” said Holmes, nodding approvingly; “I have no doubt of\r\nit. But have you never been prosecuted for begging?”\r\n\r\n“Many times; but what was a fine to me?”\r\n\r\n“It must stop here, however,” said Bradstreet. “If the police are to\r\nhush this thing up, there must be no more of Hugh Boone.”\r\n\r\n“I have sworn it by the most solemn oaths which a man can take.”\r\n\r\n“In that case I think that it is probable that no further steps may be\r\ntaken. But if you are found again, then all must come out. I am sure,\r\nMr. Holmes, that we are very much indebted to you for having cleared\r\nthe matter up. I wish I knew how you reach your results.”\r\n\r\n“I reached this one,” said my friend, “by sitting upon five pillows and\r\nconsuming an ounce of shag. I think, Watson, that if we drive to Baker\r\nStreet we shall just be in time for breakfast.”"
-    }
-  ]
-};
-      window.sherlockHolmesBook = new DigitalBook('sherlock-holmes-book', sherlockHolmesConfig);
-    </script>
-  
-
-    <h2>🎯 Comprehension Questions</h2>
-                                <p>Answer these questions about today's reading:</p>
-                                
-                                <div style="margin: 30px 0;">
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">1. What were the main events?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">2. How did the characters feel or react?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(48,88,83,0.05); border-radius: 10px;">
-                                        <p style="font-weight: 700; margin-bottom: 10px;">3. What do you predict will happen next?</p>
-                                        <textarea style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #305853; border-radius: 8px;"></textarea>
-                                    </div>
-                                </div>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;">
+                                <p><em>[Reading passage from Sherlock Holmes Stories, Chapter 11 will be inserted here from digital book database]</em></p>
+                                <p>This section will include the actual chapter text with vocabulary words highlighted.</p>
+                            </div>
                             
+                            <div style="margin-top: 20px; padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;">📚 <strong>Take your time reading!</strong> Think about what's happening in the story.</p>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 6: Journal 
-                
+                // Page 5: Reading Comprehension
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✍️ Journal Entry</h2>
+                            <h2>🎯 Reading Comprehension</h2>
+                            <p>Answer these questions about today's chapter:</p>
                             
-                            <div style="margin: 25px 0; padding: 25px; background: rgba(176,104,33,0.1); border-left: 4px solid #B06821; border-radius: 8px;">
-                                <h3 style="color: #B06821; margin-bottom: 15px;">Today's Prompt:</h3>
-                                <p style="font-size: 18px; font-style: italic;">
-                                    Write 4-6 sentences about today's reading. What was most interesting or surprising? 
-                                    How did this chapter move the story forward?
+                            <div style="margin: 30px 0;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 1:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 11]</p>
+                                    <textarea 
+                                      id="comp-1"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 2:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 11]</p>
+                                    <textarea 
+                                      id="comp-2"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #4A0E4E;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 3:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about Chapter 11]</p>
+                                    <textarea 
+                                      id="comp-3"
+                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      placeholder="Write your answer here..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 6: Journal Reflection
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✍️ Journal Reflection</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 20px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    [Personal reflection prompt related to Chapter 11]
                                 </p>
                             </div>
                             
                             <textarea 
-                                style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #305853; border-radius: 10px; font-size: 16px;"
-                                placeholder="Write your journal entry here..."></textarea>
+                              id="journal"
+                              style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #4A0E4E; border-radius: 12px; font-family: inherit; font-size: 16px; line-height: 1.6;"
+                              placeholder="Write your thoughts here..."
+                            ></textarea>
                         </div>
                     `
                 },
                 
-                
                 // Page 7: Completion
                 {
                     render: () => `
-                        <div class="lesson-page-card completion-page">
-                            <div class="character">📚</div>
+                        <div class="lesson-page-card content-page">
+                            <div style="text-align: center; padding: 40px 20px;">
+                                <div style="font-size: 72px; margin-bottom: 20px;">🎉</div>
+                                <h2 style="color: #305853; margin-bottom: 20px;">Great Job!</h2>
+                                <p style="font-size: 18px; color: #666; max-width: 500px; margin: 0 auto;">
+                                    You've completed Day 131! Come back tomorrow to continue reading <em>Sherlock Holmes Stories</em>.
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 8: Informational Text 📰
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📰 Informational Text</h2>
+                            <h3 style="color: #4A0E4E;">Related Non-Fiction</h3>
                             
-                                <h1>Day 131 Complete!</h1>
-                                <p style="font-size: 20px; margin: 20px 0;">Great work today!</p>
+                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px; margin-bottom: 25px;">
+                                <p style="margin-bottom: 15px;">Informational text content goes here.</p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #4A0E4E;">
+                                <h4 style="margin-bottom: 15px;">📝 Comprehension Questions:</h4>
                                 
-                                <div style="text-align: left; max-width: 400px; margin: 30px auto; background: rgba(48,88,83,0.05); padding: 25px; border-radius: 12px;">
-                                    <h3 style="color: #305853; margin-bottom: 15px;">✅ Today You:</h3>
-                                    <ul style="line-height: 2;">
-                                        
-                                            <li>Read about Christmas mystery pt 1</li>
-                                            <li>Learned 2 vocabulary words</li>
-                                            <li>Answered comprehension questions</li>
-                                            <li>Wrote a journal entry</li>
-                                        
-                                    </ul>
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">1. Question 1?</p>
+                                    <textarea 
+                                      id="info-1"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
                                 </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">2. Question 2?</p>
+                                    <textarea 
+                                      id="info-2"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <p style="font-weight: 600; margin-bottom: 8px;">3. Question 3?</p>
+                                    <textarea 
+                                      id="info-3"
+                                      style="width: 100%; min-height: 70px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
+                                      placeholder="Your answer..."
+                                    ></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 9: Grammar in Context ✏️
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✏️ Grammar Workshop</h2>
+                            <h3 style="color: #4A0E4E;">Past Progressive Tense</h3>
                             
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin-bottom: 15px;">
+                                    <strong>📖 What is it?</strong><br>
+                                    The past progressive tense shows an action that was ongoing in the past. Form it by using 'was' or 'were' + verb ending in '-ing'.
+                                </p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>💡 Example from today's reading:</strong><br>
+                                    <em>"Dorothy was walking (past progressive) when she saw (simple past) the Scarecrow."</em>
+                                </p>
+                            </div>
                             
-                            <a href="student-dashboard.html" 
-                               style="display: inline-block; margin-top: 20px; padding: 15px 35px; background: #B06821; color: white; text-decoration: none; border-radius: 12px; font-size: 18px; font-weight: 700;">
-                                Continue →
-                            </a>
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #4A0E4E;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">✍️ Your Turn:</p>
+                                <p style="margin-bottom: 12px;">Write three sentences using the past progressive tense to describe things happening in today's chapter.</p>
+                                <textarea 
+                                  id="grammar"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Write your practice sentences here..."
+                                ></textarea>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 10: Writing Workshop 📝
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📝 Informative Writing</h2>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">📝 Prompt:</p>
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    Describe what life was like for Dorothy in Kansas before the cyclone. Include at least 3 specific details.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 15px; background: #fffbf0; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 20px;">
+                                <p style="margin: 0; font-size: 14px;">
+                                    <strong>💡 Remember:</strong> Write a paragraph explaining something from the story. Include clear details and examples.
+                                </p>
+                            </div>
+                            
+                            <textarea 
+                              id="writing"
+                              style="width: 100%; min-height: 250px; padding: 15px; border: 2px solid #4A0E4E; border-radius: 12px; font-size: 16px; line-height: 1.8;"
+                              placeholder="Start writing here..."
+                            ></textarea>
+                            
+                            <div style="margin-top: 15px; padding: 12px; background: #f0f9ff; border-radius: 8px;">
+                                <p style="margin: 0; font-size: 13px; color: #0369a1;">
+                                    ✅ <strong>Checklist:</strong> Did you include a topic sentence? Supporting details? A conclusion?
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // NEW PAGE 11: Language Skills 🎨
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>🎨 Language Skills</h2>
+                            <h3 style="color: #4A0E4E;">Similes and Metaphors</h3>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
+                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
+                                    <strong>📖 Learn:</strong><br>
+                                    A simile compares two things using 'like' or 'as'. A metaphor says one thing IS another thing.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #4A0E4E;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">🎯 Activity:</p>
+                                <p style="margin-bottom: 12px;">Find the simile in today's reading or create your own simile about the story.</p>
+                                <textarea 
+                                  id="language"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Complete the activity here..."
+                                ></textarea>
+                            </div>
+                            
+                            <div style="margin-top: 20px; text-align: center; padding: 30px;">
+                                <div style="font-size: 48px; margin-bottom: 15px;">🌟</div>
+                                <h3 style="color: #305853;">Excellent Work!</h3>
+                                <p style="color: #666;">You've completed all 11 pages of Day 131!</p>
+                            </div>
                         </div>
                     `
                 }
-                
             ]
         };
-
-        createLessonViewer('lesson-container', lesson131Config);
+        
+        // Initialize lesson viewer
+        if (typeof initLessonViewer === 'function') {
+            initLessonViewer(lesson131Config);
+        }
     </script>
 </body>
 </html>

@@ -96,8 +96,11 @@ function addDigitalBookToLesson(lessonPath, chapterNumbers) {
   // Create the digital book HTML
   const digitalBookHTML = createDigitalBookHTML(chapterNumbers, vocabWords);
 
-  // Find insertion point (after reading section, before comprehension)
-  const insertionPoint = html.indexOf('<h2>📝 Comprehension Questions</h2>');
+  // Find insertion point (try multiple headings for different grade levels)
+  let insertionPoint = html.indexOf('<h2>🎯 Comprehension Questions</h2>'); // 4th grade
+  if (insertionPoint === -1) {
+    insertionPoint = html.indexOf('<h2>🤔 Close Reading Questions</h2>'); // 6th grade
+  }
   if (insertionPoint === -1) {
     console.log(`⚠️  Could not find insertion point in ${path.basename(lessonPath)}`);
     return false;

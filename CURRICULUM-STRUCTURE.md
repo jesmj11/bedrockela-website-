@@ -15,7 +15,7 @@ Last Updated: 2026-03-06
 
 ## 📚 COMPLETE LESSON STRUCTURE
 
-### Regular Day (Mon-Thu): 10 PAGES
+### Regular Day (Mon-Thu): 11 PAGES
 
 1. **Title Page**
    - Lesson number
@@ -61,11 +61,14 @@ Last Updated: 2026-03-06
    - **EVEN days (2, 4):** Language Skills
    - Explanation + examples + 3 practice exercises
 
-10. **Informational Text OR Journal OR Writing Skills** ⭐ ROTATING
-    - **Day 1:** Informational Text (culture/history article + 2 questions)
-    - **Day 2:** Writing Skills (CCSS standards - opinion/informative/narrative)
-    - **Day 3:** Journal Response (creative reflection on story)
-    - **Day 4:** Informational Text (culture/history article + 2 questions)
+10. **Informational Text** ⭐ EVERY DAY
+    - Culture/history article (400-600 words)
+    - 2 comprehension questions
+    - Faith-friendly content
+
+11. **Writing Skills OR Journal** ⭐ ALTERNATING
+    - **ODD days (1, 3):** Writing Skills (CCSS W.5.1, W.5.2, W.5.3)
+    - **EVEN days (2, 4):** Journal Response (reflection on story)
 
 ---
 
@@ -76,28 +79,32 @@ Last Updated: 2026-03-06
 - Vocab Game: Matching
 - Story + Comprehension
 - **Grammar Practice**
-- **Informational Text #1**
+- **Informational Text + Questions**
+- **Writing Skills (CCSS)**
 
 ### Day 2 (Tuesday)
 - 3 new vocab words (words 4-6)
 - Vocab Game: Fill-in-the-blank (reviews words 1-6)
 - Story + Comprehension
 - **Language Skills**
-- **Writing Skills (CCSS)**
+- **Informational Text + Questions**
+- **Journal Response**
 
 ### Day 3 (Wednesday)
 - 3 new vocab words (words 7-9)
 - Vocab Game: Sentence Writing (reviews words 1-9)
 - Story + Comprehension
 - **Grammar Practice**
-- **Journal Response**
+- **Informational Text + Questions**
+- **Writing Skills (CCSS)**
 
 ### Day 4 (Thursday)
 - 3 new vocab words (words 10-12)
 - Vocab Game: Context Clues (reviews words 1-12)
 - Story + Comprehension
 - **Language Skills**
-- **Informational Text #2**
+- **Informational Text + Questions**
+- **Journal Response**
 
 ### Day 5 (Friday) - ASSESSMENT
 - 12-word vocabulary quiz (all words from the week)
@@ -165,11 +172,12 @@ Last Updated: 2026-03-06
 
 ## 📰 INFORMATIONAL TEXT / JOURNAL / WRITING SKILLS
 
-### Informational Text (Days 1 & 4)
+### Informational Text (EVERY DAY - Days 1, 2, 3, 4)
 - 400-600 word non-fiction article
 - Related to the mythology unit (Viking culture, Ancient Greece, etc.)
 - **FAITH-FRIENDLY:** Focus on culture, archaeology, history (avoid creation debates)
 - 2 comprehension questions
+- **Required on every regular day**
 
 **Example Topics:**
 - Viking longships and navigation
@@ -178,8 +186,13 @@ Last Updated: 2026-03-06
 - Trade routes and cultural exchange
 - Archaeological discoveries
 - Daily life in ancient civilizations
+- Art, architecture, and craftsmanship
+- Military tactics and warfare
+- Food, clothing, and daily routines
 
-### Writing Skills - CCSS (Day 2)
+**Note:** Need 4 different informational texts per week (one for each day)
+
+### Writing Skills - CCSS (Days 1 & 3)
 **Aligned to 5th Grade CCSS Writing Standards:**
 
 - **W.5.1 - Opinion Writing**
@@ -197,7 +210,7 @@ Last Updated: 2026-03-06
   - Use dialogue, description, pacing
   - Establish a situation and narrator
 
-### Journal Response (Day 3)
+### Journal Response (Days 2 & 4)
 - Personal reflection on the story
 - Creative prompts like:
   - "What does this story teach about [value]?"
@@ -298,9 +311,11 @@ if (typeof initLessonViewer === 'function') {
 2. **ALWAYS follow the rotation pattern** (don't randomize)
 3. **Stories must split across 3 pages** (no scrolling)
 4. **Vocabulary must come from the actual story text** (not generic words)
-5. **Informational texts must be faith-friendly** (culture/history, not religion/science debates)
-6. **Assessment every 5th day** (Friday)
-7. **Regular lessons = 10 pages, Assessments = 6-8 pages**
+5. **Informational text EVERY DAY** (required on all regular lessons, faith-friendly content)
+6. **Informational texts must be faith-friendly** (culture/history, not religion/science debates)
+7. **Assessment every 5th day** (Friday)
+8. **Regular lessons = 11 pages, Assessments = 6-8 pages**
+9. **Need 4 different informational texts per week** (Days 1-4 each get unique content)
 
 ---
 
@@ -312,10 +327,12 @@ When rebuilding lessons, verify:
 - ✅ Story split into 3 parts
 - ✅ 3 comprehension questions
 - ✅ Grammar (Days 1, 3) OR Language (Days 2, 4)
-- ✅ Informational Text (Days 1, 4) OR Writing Skills (Day 2) OR Journal (Day 3)
+- ✅ **Informational Text + 2 questions (EVERY DAY)**
+- ✅ Writing Skills (Days 1, 3) OR Journal (Days 2, 4)
 - ✅ All textareas have proper IDs
 - ✅ `initLessonViewer()` called correctly
 - ✅ File paths are correct (`css/`, not `../../css/`)
+- ✅ Total pages = 11 (regular day) or 6-8 (assessment)
 
 ---
 

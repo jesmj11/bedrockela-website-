@@ -10,98 +10,101 @@ const days = [121, 122, 123, 124, 126, 127, 128, 129, 131, 132, 133, 134, 136, 1
 console.log('Starting Roman Mythology content injection...\n');
 
 days.forEach(day => {
-  const filename = `5th-grade-day-${day}.html`;
-  const filePath = path.join(__dirname, filename);
-  
-  if (!fs.existsSync(filePath)) {
-    console.log(`❌ File not found: ${filename}`);
-    return;
-  }
-  
-  let html = fs.readFileSync(filePath, 'utf-8');
-  const data = content[day];
+  const dayStr = day.toString();
+  const data = content[dayStr];
   
   if (!data) {
-    console.log(`⚠️  No content data for day ${day}`);
+    console.log(`⚠️  No content for day ${day}`);
     return;
   }
   
-  // 1. Update Vocabulary Section (Page 2)
-  const vocabWords = data.vocabulary.map((v, i) => `
-                <div class="vocab-word">
-                    <h4>${i + 1}. ${v.word}</h4>
-                    <p class="definition"><strong>Definition:</strong> ${v.definition}</p>
-                    <p class="example"><strong>Example:</strong> ${v.sentence}</p>
-                </div>`).join('\n');
+  const filename = `5th-grade-day-${day}.html`;
+  const filepath = path.join(__dirname, filename);
   
+  if (!fs.existsSync(filepath)) {
+    console.log(`⚠️  File not found: ${filename}`);
+    return;
+  }
+  
+  let html = fs.readFileSync(filepath, 'utf-8');
+  
+  // Extract vocabulary words (3 per day for Roman mythology)
+  const vocab1 = data.vocabulary[0];
+  const vocab2 = data.vocabulary[1];
+  const vocab3 = data.vocabulary[2];
+  
+  // 1. Update vocabulary words (replace all 3 occurrences)
+  let vocabCount = 0;
   html = html.replace(
-    /<div class="vocab-list">[\s\S]*?<\/div>\s*<\/div>\s*<!-- End Vocabulary List -->/,
-    `<div class="vocab-list">${vocabWords}
-            </div>
-        </div>
-        <!-- End Vocabulary List -->`
+    /<span style="font-size: 28px; font-weight: 800; color: #305853;">.*?<\/span>/g,
+    (match) => {
+      vocabCount++;
+      if (vocabCount === 1) {
+        return `<span style="font-size: 28px; font-weight: 800; color: #305853;">${vocab1.word}</span>`;
+      } else if (vocabCount === 2) {
+        return `<span style="font-size: 28px; font-weight: 800; color: #305853;">${vocab2.word}</span>`;
+      } else if (vocabCount === 3) {
+        return `<span style="font-size: 28px; font-weight: 800; color: #305853;">${vocab3.word}</span>`;
+      }
+      return match;
+    }
   );
   
-  // 2. Update Reading Comprehension Questions (Page 4)
-  const comprehensionQuestions = data.comprehension.map((q, i) => `
-                <div class="question">
-                    <label for="q${i + 1}-day${day}">${i + 1}. ${q}</label>
-                    <textarea id="q${i + 1}-day${day}" rows="3" placeholder="Write your answer here..."></textarea>
-                </div>`).join('\n');
-  
+  // 2. Update comprehension questions
+  let questionCount = 0;
   html = html.replace(
-    /<div class="questions">[\s\S]*?<\/div>\s*<button class="nav-button next-page">Next Page/,
-    `<div class="questions">${comprehensionQuestions}
-            </div>
-            <button class="nav-button next-page">Next Page`
+    /<p style="margin-bottom: 12px; color: #444;">.*?<\/p>/g,
+    (match) => {
+      if (questionCount < data.comprehension.length) {
+        const question = data.comprehension[questionCount];
+        questionCount++;
+        return `<p style="margin-bottom: 12px; color: #444;">${question}</p>`;
+      }
+      return match;
+    }
   );
   
-  // 3. Update Journal Reflection (Page 5)
+  // 3. Update journal prompt
   html = html.replace(
-    /<p class="journal-prompt">.*?<\/p>/,
-    `<p class="journal-prompt">${data.journal}</p>`
+    /(<h2>Journal Reflection<\/h2>\s*<p style="[^"]*">)[^<]+(<\/p>)/s,
+    `$1${data.journal}$2`
   );
   
-  // 4. Update Informational Text (Pages 7-8)
-  // Page 7 - First paragraph
+  // 4. Update informational text title
   html = html.replace(
-    /<!-- Page 7: Informational Text -->[\s\S]*?<h3>.*?<\/h3>\s*<div class="reading-passage">\s*<p>([\s\S]*?)<\/p>/,
-    `<!-- Page 7: Informational Text -->
-        <div class="page">
-            <h2>Day ${day}: ${data.title}</h2>
-            <h3>${data.informational.title}</h3>
-            <div class="reading-passage">
-                <p>${data.informational.part1}</p>`
+    /(<h2>Informational Text<\/h2>\s*<h3 style="[^"]*">)[^<]+(<\/h3>)/s,
+    `$1${data.informational.title}$2`
   );
   
-  // Page 8 - Second paragraph
+  // 5. Update informational text content (2 paragraphs)
+  const infoRegex = new RegExp(
+    '(<div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1\\.8;" class="reading-passage">\\s*<p>)[^<]+(</p>\\s*<p>)[^<]+(</p>)',
+    's'
+  );
+  html = html.replace(infoRegex, `$1${data.informational.part1}$2${data.informational.part2}$3`);
+  
+  // 6. Update opinion writing prompt
   html = html.replace(
-    /<!-- Page 8: Informational Text Continued -->[\s\S]*?<div class="reading-passage">\s*<p>([\s\S]*?)<\/p>/,
-    `<!-- Page 8: Informational Text Continued -->
-        <div class="page">
-            <div class="reading-passage">
-                <p>${data.informational.part2}</p>`
+    /(<h2>Writing Practice: Opinion<\/h2>\s*<p style="[^"]*">)[^<]+(<\/p>)/s,
+    `$1${data.opinion}$2`
   );
   
-  // 5. Update Opinion Writing (Page 9)
+  // 7. Update grammar skill
   html = html.replace(
-    /<p class="writing-prompt"><strong>Prompt:<\/strong>.*?<\/p>/,
-    `<p class="writing-prompt"><strong>Prompt:</strong> ${data.opinion}</p>`
+    /(<h2>Grammar Workshop<\/h2>\s*<h3 style="[^"]*">Today's Skill: )[^<]+(<\/h3>)/s,
+    `$1${data.grammar.skill}$2`
   );
   
-  // 6. Update Grammar Workshop (Page 10)
+  // 8. Update grammar example
   html = html.replace(
-    /<p><strong>Today's Skill:<\/strong>.*?<\/p>\s*<div class="example-box">\s*<p><strong>Example:<\/strong>[\s\S]*?<\/p>\s*<\/div>/,
-    `<p><strong>Today's Skill:</strong> ${data.grammar.skill}</p>
-            <div class="example-box">
-                <p><strong>Example:</strong> ${data.grammar.example}</p>
-            </div>`
+    /(<p style="[^"]*"><strong>Example from the story:<\/strong> <em>)[^<]+(<\/em><\/p>)/s,
+    `$1${data.grammar.example}$2`
   );
   
   // Write the updated file
-  fs.writeFileSync(filePath, html, 'utf-8');
-  console.log(`✅ Updated ${filename} - ${data.title}`);
+  fs.writeFileSync(filepath, html, 'utf-8');
+  console.log(`✅ Day ${day}: ${data.title}`);
 });
 
-console.log('\n🎉 Roman Mythology content injection complete!');
-console.log(`Updated ${days.length} lessons (Days 121-139, skipping assessments at 125, 130, 135, 140)`);
+console.log(`\n🎉 Roman Mythology content injection complete!`);
+console.log(`Updated ${days.length} lessons (Days 121-139, skipping assessments)`);

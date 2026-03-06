@@ -50,6 +50,20 @@
             font-size: 1rem;
         }
         
+        .btn-export {
+            padding: 10px 20px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .btn-export:hover {
+            background: #218838;
+        }
+        
         .btn-logout {
             padding: 10px 20px;
             background: #dc3545;
@@ -281,6 +295,7 @@
             <h1>📚 BedrockELA Dashboard</h1>
             <div class="header-right">
                 <span class="welcome-text" id="welcomeText">Welcome!</span>
+                <button class="btn-export" id="exportBtn">📥 Export Records</button>
                 <button class="btn-logout" id="logoutBtn">Sign Out</button>
             </div>
         </div>
@@ -341,6 +356,61 @@
                     <button type="submit" class="btn-save">Save Student</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Export Records Modal -->
+    <div class="modal" id="exportModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📥 Export Student Records</h2>
+                <p style="color: #666; margin-top: 10px;">Download student work for your records</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="exportStudent">Select Student</label>
+                <select id="exportStudent" required>
+                    <option value="">Choose a student...</option>
+                    <option value="all">📚 All Students</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="exportRange">Date Range</label>
+                <select id="exportRange" required>
+                    <option value="all">All Time</option>
+                    <option value="current-year">Current School Year (Aug-June)</option>
+                    <option value="last-30">Last 30 Days</option>
+                    <option value="last-90">Last 90 Days</option>
+                    <option value="custom">Custom Range</option>
+                </select>
+            </div>
+            
+            <div class="form-group" id="customRangeFields" style="display: none;">
+                <label>Custom Date Range</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="date" id="exportStartDate" placeholder="Start Date" style="flex: 1;">
+                    <input type="date" id="exportEndDate" placeholder="End Date" style="flex: 1;">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="exportFormat">Format</label>
+                <select id="exportFormat" required>
+                    <option value="csv">CSV (Excel compatible)</option>
+                    <option value="pdf" disabled>PDF (Coming Soon)</option>
+                </select>
+            </div>
+            
+            <div id="exportSummary" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 20px 0; display: none;">
+                <strong>Export Preview:</strong>
+                <div id="exportSummaryText" style="margin-top: 10px; color: #666;"></div>
+            </div>
+            
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" id="exportCancelBtn">Cancel</button>
+                <button type="button" class="btn-save" id="exportDownloadBtn">📥 Download</button>
+            </div>
         </div>
     </div>
 
@@ -533,6 +603,200 @@
                     alert('Error deleting student. Please try again.');
                 }
             }
+        }
+
+        // === EXPORT FUNCTIONALITY ===
+        
+        // Open export modal
+        document.getElementById('exportBtn').addEventListener('click', async () => {
+            // Populate student dropdown
+            const exportSelect = document.getElementById('exportStudent');
+            exportSelect.innerHTML = '<option value="">Choose a student...</option><option value="all">📚 All Students</option>';
+            
+            const studentsRef = collection(db, 'students');
+            const q = query(studentsRef, where('parentId', '==', currentUser.uid));
+            const querySnapshot = await getDocs(q);
+            
+            querySnapshot.forEach((doc) => {
+                const student = doc.data();
+                const option = document.createElement('option');
+                option.value = doc.id;
+                option.textContent = `${student.name} (Grade ${student.gradeLevel})`;
+                exportSelect.appendChild(option);
+            });
+            
+            document.getElementById('exportModal').classList.add('active');
+        });
+
+        // Close export modal
+        document.getElementById('exportCancelBtn').addEventListener('click', () => {
+            document.getElementById('exportModal').classList.remove('active');
+        });
+
+        // Show/hide custom date range
+        document.getElementById('exportRange').addEventListener('change', (e) => {
+            const customFields = document.getElementById('customRangeFields');
+            customFields.style.display = e.target.value === 'custom' ? 'block' : 'none';
+        });
+
+        // Download export
+        document.getElementById('exportDownloadBtn').addEventListener('click', async () => {
+            const studentId = document.getElementById('exportStudent').value;
+            const rangeType = document.getElementById('exportRange').value;
+            const format = document.getElementById('exportFormat').value;
+            
+            if (!studentId) {
+                alert('Please select a student');
+                return;
+            }
+            
+            try {
+                document.getElementById('exportDownloadBtn').disabled = true;
+                document.getElementById('exportDownloadBtn').textContent = '⏳ Generating...';
+                
+                // Calculate date range
+                let dateRange = null;
+                if (rangeType !== 'all') {
+                    const now = new Date();
+                    let startDate;
+                    
+                    switch(rangeType) {
+                        case 'current-year':
+                            // Aug 1 to June 30 of current school year
+                            const year = now.getMonth() >= 7 ? now.getFullYear() : now.getFullYear() - 1;
+                            startDate = new Date(year, 7, 1); // Aug 1
+                            break;
+                        case 'last-30':
+                            startDate = new Date(now.getTime() - (30 * 24 * 60 * 60 * 1000));
+                            break;
+                        case 'last-90':
+                            startDate = new Date(now.getTime() - (90 * 24 * 60 * 60 * 1000));
+                            break;
+                        case 'custom':
+                            startDate = new Date(document.getElementById('exportStartDate').value);
+                            const endDate = new Date(document.getElementById('exportEndDate').value);
+                            dateRange = { start: startDate, end: endDate };
+                            break;
+                    }
+                    
+                    if (!dateRange) {
+                        dateRange = { start: startDate, end: now };
+                    }
+                }
+                
+                // Export based on selection
+                if (studentId === 'all') {
+                    await exportAllStudents(dateRange);
+                } else {
+                    await exportSingleStudent(studentId, dateRange);
+                }
+                
+                document.getElementById('exportModal').classList.remove('active');
+                alert('✅ Export downloaded successfully!');
+                
+            } catch (error) {
+                console.error('Export error:', error);
+                alert('Error generating export. Please try again.');
+            } finally {
+                document.getElementById('exportDownloadBtn').disabled = false;
+                document.getElementById('exportDownloadBtn').textContent = '📥 Download';
+            }
+        });
+
+        // Export single student
+        async function exportSingleStudent(studentId, dateRange) {
+            const studentDoc = await getDoc(doc(db, 'students', studentId));
+            const student = studentDoc.data();
+            
+            const csvRows = [];
+            csvRows.push(['Student Name', 'Grade', 'Lesson', 'Date', 'Status', 'Score']);
+            
+            // Get lesson progress
+            const progressRef = collection(db, 'students', studentId, 'lessonProgress');
+            const progressSnapshot = await getDocs(progressRef);
+            
+            progressSnapshot.forEach((doc) => {
+                const lesson = doc.data();
+                const completedDate = lesson.completedAt ? new Date(lesson.completedAt.toDate()).toLocaleDateString() : 'In Progress';
+                
+                // Filter by date range if specified
+                if (dateRange && lesson.completedAt) {
+                    const lessonDate = lesson.completedAt.toDate();
+                    if (lessonDate < dateRange.start || lessonDate > dateRange.end) {
+                        return; // Skip this lesson
+                    }
+                }
+                
+                csvRows.push([
+                    student.name,
+                    student.gradeLevel,
+                    doc.id,
+                    completedDate,
+                    lesson.completedAt ? 'Completed' : 'In Progress',
+                    lesson.score || 'N/A'
+                ]);
+            });
+            
+            downloadCSV(csvRows, `${student.name}_BedrockELA_${new Date().toISOString().split('T')[0]}.csv`);
+        }
+
+        // Export all students
+        async function exportAllStudents(dateRange) {
+            const csvRows = [];
+            csvRows.push(['Student Name', 'Grade', 'Lesson', 'Date', 'Status', 'Score']);
+            
+            const studentsRef = collection(db, 'students');
+            const q = query(studentsRef, where('parentId', '==', currentUser.uid));
+            const studentsSnapshot = await getDocs(q);
+            
+            for (const studentDoc of studentsSnapshot.docs) {
+                const student = studentDoc.data();
+                const progressRef = collection(db, 'students', studentDoc.id, 'lessonProgress');
+                const progressSnapshot = await getDocs(progressRef);
+                
+                progressSnapshot.forEach((doc) => {
+                    const lesson = doc.data();
+                    const completedDate = lesson.completedAt ? new Date(lesson.completedAt.toDate()).toLocaleDateString() : 'In Progress';
+                    
+                    // Filter by date range if specified
+                    if (dateRange && lesson.completedAt) {
+                        const lessonDate = lesson.completedAt.toDate();
+                        if (lessonDate < dateRange.start || lessonDate > dateRange.end) {
+                            return;
+                        }
+                    }
+                    
+                    csvRows.push([
+                        student.name,
+                        student.gradeLevel,
+                        doc.id,
+                        completedDate,
+                        lesson.completedAt ? 'Completed' : 'In Progress',
+                        lesson.score || 'N/A'
+                    ]);
+                });
+            }
+            
+            downloadCSV(csvRows, `BedrockELA_All_Students_${new Date().toISOString().split('T')[0]}.csv`);
+        }
+
+        // Helper: Download CSV
+        function downloadCSV(rows, filename) {
+            const csvContent = rows.map(row => 
+                row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')
+            ).join('\n');
+            
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
     </script>
 </body>

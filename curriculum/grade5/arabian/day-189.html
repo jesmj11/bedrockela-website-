@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 189: Arabian Nights Review</title>
+  <link rel="stylesheet" href="../../../css/lesson-styles.css">
+  <link rel="stylesheet" href="../../../css/lesson-complete-styles.css">
+</head>
+<body>
+  <div class="lesson-container" id="lessonContainer">
+    
+    <!-- Page 1: Title & Objectives -->
+    <div class="page page-active">
+      <div class="page-header">
+        <div class="lesson-number">Day 189 • Week 38</div>
+        <div class="unit-label">Arabian Nights Review</div>
+      </div>
+      <h1 class="lesson-title">📚 Arabian Nights Unit Review</h1>
+      <div class="objectives">
+        <h3>Today's Goals</h3>
+        <p>Review everything from the Arabian Nights unit:</p>
+        <ul>
+          <li>Practice all 21 vocabulary words</li>
+          <li>Reflect on the 7 stories</li>
+          <li>Identify themes and connections</li>
+          <li>Prepare for tomorrow's assessment</li>
+        </ul>
+      </div>
+      <div class="page-footer">
+        <button class="nav-button next-button" onclick="nextPage()">Begin Review →</button>
+      </div>
+    </div>
+
+    <!-- Page 2: Vocabulary Review Game -->
+    <div class="page">
+      <div class="page-header">
+        <div class="lesson-number">Day 189 • Week 38</div>
+        <div class="unit-label">Vocabulary Review</div>
+      </div>
+      <h2>🎮 Vocabulary Practice Game</h2>
+      <p class="instructions">Review all 21 words from the Arabian Nights unit:</p>
+      <div id="vocabGame" class="vocab-game-container"></div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Page 3: Story Review -->
+    <div class="page">
+      <div class="page-header">
+        <div class="lesson-number">Day 189 • Week 38</div>
+        <div class="unit-label">Story Review</div>
+      </div>
+      <h2>📖 Stories from Arabian Nights</h2>
+      <p class="instructions">You've read 7 amazing stories. Can you match each story to its main theme?</p>
+      <div class="story-review">
+        <div class="story-list">
+          <h3>Stories</h3>
+          <ol>
+            <li>Aladdin and the Magic Lamp</li>
+            <li>Ali Baba and the Forty Thieves</li>
+            <li>Sinbad and the Valley of Diamonds</li>
+            <li>The Fisherman and the Genie</li>
+            <li>The Three Princes and Princess Nouronnihar</li>
+            <li>The Ebony Horse</li>
+            <li>Ali Cogia, the Merchant of Baghdad</li>
+          </ol>
+        </div>
+        <div class="question-group">
+          <p class="question-text">Which story best shows the theme of "cleverness over power"? Explain your choice.</p>
+          <textarea class="answer-input" rows="3"></textarea>
+        </div>
+        <div class="question-group">
+          <p class="question-text">Which character changed the most during their story? What changed them?</p>
+          <textarea class="answer-input" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Page 4: Themes & Connections -->
+    <div class="page">
+      <div class="page-header">
+        <div class="lesson-number">Day 189 • Week 38</div>
+        <div class="unit-label">Themes</div>
+      </div>
+      <h2>💭 Common Themes</h2>
+      <p class="instructions">Many Arabian Nights stories share similar themes:</p>
+      <ul>
+        <li>Cleverness defeats power</li>
+        <li>Trust and betrayal</li>
+        <li>Resourcefulness in difficult situations</li>
+        <li>Transformation and growth</li>
+        <li>The importance of thinking before acting</li>
+      </ul>
+      <div class="question-group">
+        <p class="question-text">Choose two stories that share a theme. Explain how each story explores that theme differently.</p>
+        <textarea class="answer-input" rows="4"></textarea>
+      </div>
+      <div class="question-group">
+        <p class="question-text">What do you think these stories teach about how to solve problems?</p>
+        <textarea class="answer-input" rows="3"></textarea>
+      </div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Finish Review →</button>
+      </div>
+    </div>
+
+    <!-- Page 5: Completion -->
+    <div class="page completion-page">
+      <div class="completion-container">
+        <div class="completion-icon">📚</div>
+        <h1>Review Complete!</h1>
+        <p class="completion-message">You're ready for tomorrow's assessment!</p>
+        <div class="completion-stats">
+          <div class="stat-item">
+            <div class="stat-number">21</div>
+            <div class="stat-label">Vocab Words</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">7</div>
+            <div class="stat-label">Stories</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">✓</div>
+            <div class="stat-label">Ready!</div>
+          </div>
+        </div>
+        <button class="completion-button" onclick="markComplete()">Mark Complete</button>
+        <div class="completion-footer">
+          <button class="nav-button prev-button" onclick="prevPage()">← Review Again</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module">
+    import { createVocabGame } from '../../../js/vocab-games.js';
+    
+    let currentPage = 0;
+    const pages = document.querySelectorAll('.page');
+    
+    window.nextPage = function() {
+      if (currentPage < pages.length - 1) {
+        pages[currentPage].classList.remove('page-active');
+        currentPage++;
+        pages[currentPage].classList.add('page-active');
+        window.scrollTo(0, 0);
+        
+        // Initialize vocab game when reaching that page
+        if (currentPage === 1) initVocabGame();
+      }
+    };
+    
+    window.prevPage = function() {
+      if (currentPage > 0) {
+        pages[currentPage].classList.remove('page-active');
+        currentPage--;
+        pages[currentPage].classList.add('page-active');
+        window.scrollTo(0, 0);
+      }
+    };
+    
+    function initVocabGame() {
+      const gameContainer = document.getElementById('vocabGame');
+      if (gameContainer && !gameContainer.hasChildNodes()) {
+        const vocabWords = [{"word":"idle","definition":"Avoiding work or effort; happy to do nothing when something should be done."},{"word":"enchanted","definition":"Under a magical spell, or made magical by someone with special powers."},{"word":"desperation","definition":"A state of panic or urgency — doing something reckless because you feel you have no other choice."},{"word":"accumulate","definition":"To gather or collect something over a long period of time, little by little."},{"word":"resourceful","definition":"Able to find clever solutions to difficult problems, especially when you don't have much to work with."},{"word":"methodical","definition":"Doing things carefully and in order, step by step, without rushing or skipping anything."},{"word":"exhilarated","definition":"Filled with excitement and energy — a rushing feeling of joy, often from something fast or thrilling."},{"word":"desolate","definition":"Completely empty and lonely — a place with nothing and no one, where you feel utterly alone."},{"word":"improvise","definition":"To come up with a solution on the spot using whatever you happen to have available."},{"word":"gratitude","definition":"The feeling of being thankful — appreciating what someone has done for you."},{"word":"composure","definition":"Staying calm and in control of yourself, even when things are frightening or going badly."},{"word":"cunning","definition":"Clever in a sly way — using your wits to outsmart someone rather than facing them directly."},{"word":"extraordinary","definition":"Far beyond what is normal or expected — remarkable enough to stop you in your tracks."},{"word":"contribute","definition":"To give or add something that helps achieve a shared goal — to be part of making something happen."},{"word":"contemplation","definition":"Quiet, serious thinking — spending time in thought rather than in action."},{"word":"methodical","definition":"Working through a problem carefully and in order, testing each possibility before moving to the next."},{"word":"impulsive","definition":"Acting on a sudden desire without stopping to think about what might go wrong."},{"word":"negotiate","definition":"To talk through a disagreement and work toward an agreement both sides can accept."},{"word":"pilgrimage","definition":"A long journey made for religious reasons — to visit a holy place as an act of faith."},{"word":"testimony","definition":"A spoken or written statement about what someone knows or saw — used in a trial or dispute."},{"word":"verdict","definition":"The final decision made by a judge or court after hearing all the evidence."}];
+        createVocabGame(gameContainer, vocabWords);
+      }
+    }
+    
+    window.markComplete = function() {
+      alert('Review complete! (Save functionality will be added with Firebase integration)');
+    };
+  </script>
+</body>
+</html>

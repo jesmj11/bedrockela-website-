@@ -73,12 +73,44 @@ class BillyInstructor {
     const continueBtn = document.getElementById('billy-continue');
     
     if (replayBtn) {
-      replayBtn.addEventListener('click', () => this.replayCurrentSpeech());
+      replayBtn.addEventListener('click', () => this.toggleSpeech());
     }
     
     if (continueBtn) {
       continueBtn.addEventListener('click', () => this.nextStep());
     }
+  }
+  
+  /**
+   * Toggle speech on/off
+   */
+  toggleSpeech() {
+    const replayBtn = document.getElementById('billy-replay');
+    
+    if (this.state.isPlaying) {
+      // Stop current audio
+      this.stopAudio();
+      if (replayBtn) replayBtn.textContent = '🔊';
+    } else {
+      // Play current text
+      if (replayBtn) replayBtn.textContent = '⏸️';
+      this.replayCurrentSpeech();
+    }
+  }
+  
+  /**
+   * Stop all audio playback
+   */
+  stopAudio() {
+    if (this.currentAudio) {
+      this.currentAudio.pause();
+      this.currentAudio = null;
+    }
+    if (window.speechSynthesis) {
+      speechSynthesis.cancel();
+    }
+    this.state.isPlaying = false;
+    this.animateBilly('idle');
   }
   
   getBillyAvatarSVG() {
@@ -138,6 +170,8 @@ class BillyInstructor {
    */
   async speak(text, options = {}) {
     const speechText = document.getElementById('billy-speech-text');
+    const replayBtn = document.getElementById('billy-replay');
+    
     if (speechText) {
       speechText.textContent = text;
     }
@@ -165,6 +199,9 @@ class BillyInstructor {
         this.audioCache.set(cacheKey, audioBlob);
       }
       
+      // Update button state
+      if (replayBtn) replayBtn.textContent = '⏸️';
+      
       // Play audio
       await this.playAudio(audioBlob);
       
@@ -174,6 +211,7 @@ class BillyInstructor {
     } finally {
       this.state.isPlaying = false;
       this.animateBilly('idle');
+      if (replayBtn) replayBtn.textContent = '🔊';
     }
   }
   
@@ -196,6 +234,8 @@ class BillyInstructor {
         return;
       }
       
+      speechSynthesis.cancel(); // Stop any previous speech
+      
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.rate = 0.9;
       utterance.pitch = 1.1;
@@ -209,8 +249,14 @@ class BillyInstructor {
       );
       if (childVoice) utterance.voice = childVoice;
       
-      utterance.onend = () => resolve(null);
-      utterance.onerror = reject;
+      utterance.onend = () => {
+        this.state.isPlaying = false;
+        resolve(null);
+      };
+      utterance.onerror = (e) => {
+        this.state.isPlaying = false;
+        reject(e);
+      };
       
       speechSynthesis.speak(utterance);
     });

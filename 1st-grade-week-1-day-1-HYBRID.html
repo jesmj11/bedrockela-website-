@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 1: Short A (-at family) - BedrockELA Hybrid</title>
+    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Billy in card system - compact instructor mode */
+        .billy-mini-instructor {
+            background: linear-gradient(135deg, #4a7c3f, #6aaa5c);
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 4px 12px rgba(74, 124, 63, 0.3);
+        }
+        
+        .billy-mini-avatar {
+            width: 60px;
+            height: 60px;
+            flex-shrink: 0;
+        }
+        
+        .billy-mini-speech {
+            flex: 1;
+            color: white;
+        }
+        
+        .billy-mini-speech p {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        
+        .billy-speak-btn {
+            background: #f6c94e;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        .billy-speak-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .billy-speak-btn:active {
+            transform: scale(0.95);
+        }
+        
+        /* Activity styles within cards */
+        .activity-word-builder {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .onset-cards {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .onset-card {
+            width: 70px;
+            height: 70px;
+            background: white;
+            border: 3px solid #4a7c3f;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 800;
+            color: #305853;
+            cursor: move;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .onset-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .rime-zone {
+            display: inline-block;
+            min-width: 150px;
+            height: 80px;
+            background: #fff4e6;
+            border: 3px dashed #B06821;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: 800;
+            color: #B06821;
+            margin: 20px auto;
+        }
+        
+        .word-result {
+            font-size: 48px;
+            font-weight: 800;
+            color: #305853;
+            margin: 20px 0;
+            min-height: 60px;
+        }
+        
+        .multiple-choice-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            max-width: 400px;
+            margin: 20px auto;
+        }
+        
+        .choice-btn {
+            padding: 20px;
+            background: white;
+            border: 3px solid #4a7c3f;
+            border-radius: 12px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #305853;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Nunito', sans-serif;
+        }
+        
+        .choice-btn:hover {
+            background: #4a7c3f;
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .choice-btn.correct {
+            background: #52b788;
+            border-color: #52b788;
+            color: white;
+        }
+        
+        .choice-btn.incorrect {
+            background: #f4845f;
+            border-color: #f4845f;
+            color: white;
+            animation: shake 0.3s ease;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+    </style>
+</head>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container">
+        <!-- Navigation will be inserted here -->
+    </div>
+
+    <script>
+        const pages = [
+        // Page 1: Title
+        `<div class="lesson-page-card title-page">
+            <h1>Day 1</h1>
+            <div class="subtitle">Short A Sound</div>
+            <p style="color: #5B7C99; font-size: 18px; margin-top: 20px;">
+                The -at Family<br>Sam's Van
+            </p>
+        </div>`,
+
+        // Page 2: Billy's Welcome
+        `<div class="lesson-page-card content-page">
+            <div class="billy-mini-instructor">
+                <svg class="billy-mini-avatar" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 18 Q15 8 12 4 Q17 7 21 14Z" fill="#c8a96e"/>
+                    <path d="M44 18 Q49 8 52 4 Q47 7 43 14Z" fill="#c8a96e"/>
+                    <ellipse cx="32" cy="28" rx="16" ry="15" fill="#e8d5b0"/>
+                    <ellipse cx="16" cy="28" rx="5" ry="7" fill="#e8d5b0"/>
+                    <ellipse cx="16" cy="28" rx="3" ry="5" fill="#f5c8c8"/>
+                    <ellipse cx="48" cy="28" rx="5" ry="7" fill="#e8d5b0"/>
+                    <ellipse cx="48" cy="28" rx="3" ry="5" fill="#f5c8c8"/>
+                    <ellipse cx="26" cy="25" rx="3.5" ry="3" fill="white"/>
+                    <ellipse cx="38" cy="25" rx="3.5" ry="3" fill="white"/>
+                    <rect x="23.5" y="24" width="5" height="2.5" rx="1.2" fill="#3a2a1a"/>
+                    <rect x="35.5" y="24" width="5" height="2.5" rx="1.2" fill="#3a2a1a"/>
+                    <circle cx="27.5" cy="24.2" r="0.9" fill="white"/>
+                    <circle cx="39.5" cy="24.2" r="0.9" fill="white"/>
+                    <ellipse cx="32" cy="35" rx="8" ry="6" fill="#d4b896"/>
+                    <ellipse cx="29" cy="35" rx="1.5" ry="1.2" fill="#b89070"/>
+                    <ellipse cx="35" cy="35" rx="1.5" ry="1.2" fill="#b89070"/>
+                    <path d="M27 39 Q32 43 37 39" stroke="#9a7050" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                    <path d="M28 42 Q32 50 36 42" stroke="#c8a96e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <path d="M30 13 Q32 10 34 13 Q32 11 30 13Z" fill="#c8a96e"/>
+                </svg>
+                <div class="billy-mini-speech">
+                    <p>Hi! I'm Billy the Helper Goat. Today we learn the short a sound /a/ like in cat. Let's get started!</p>
+                </div>
+                <button class="billy-speak-btn" onclick="speakBilly('Hi! I\\'m Billy the Helper Goat. Today we learn the short a sound, like in cat. Let\\'s get started!')" title="Hear Billy speak">🔊</button>
+            </div>
+            <h2>🎯 Today You Will...</h2>
+            <div style="text-align: left; max-width: 500px; margin: 20px auto;">
+                <p style="margin: 15px 0; font-size: 18px;">✓ Learn the short <strong>a</strong> sound: /a/</p>
+                <p style="margin: 15px 0; font-size: 18px;">✓ Build words with <strong>-at</strong></p>
+                <p style="margin: 15px 0; font-size: 18px;">✓ Read: <strong>Sam's Van</strong></p>
+                <p style="margin: 15px 0; font-size: 18px;">✓ Practice sight words: <strong>a, the</strong></p>
+            </div>
+        </div>`,
+
+        // Page 3: Phoneme Introduction
+        `<div class="lesson-page-card content-page">
+            <div class="billy-mini-instructor">
+                <svg class="billy-mini-avatar" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 18 Q15 8 12 4 Q17 7 21 14Z" fill="#c8a96e"/>
+                    <path d="M44 18 Q49 8 52 4 Q47 7 43 14Z" fill="#c8a96e"/>
+                    <ellipse cx="32" cy="28" rx="16" ry="15" fill="#e8d5b0"/>
+                    <ellipse cx="16" cy="28" rx="5" ry="7" fill="#e8d5b0"/>
+                    <ellipse cx="16" cy="28" rx="3" ry="5" fill="#f5c8c8"/>
+                    <ellipse cx="48" cy="28" rx="5" ry="7" fill="#e8d5b0"/>
+                    <ellipse cx="48" cy="28" rx="3" ry="5" fill="#f5c8c8"/>
+                    <ellipse cx="26" cy="25" rx="3.5" ry="3" fill="white"/>
+                    <ellipse cx="38" cy="25" rx="3.5" ry="3" fill="white"/>
+                    <rect x="23.5" y="24" width="5" height="2.5" rx="1.2" fill="#3a2a1a"/>
+                    <rect x="35.5" y="24" width="5" height="2.5" rx="1.2" fill="#3a2a1a"/>
+                    <circle cx="27.5" cy="24.2" r="0.9" fill="white"/>
+                    <circle cx="39.5" cy="24.2" r="0.9" fill="white"/>
+                    <ellipse cx="32" cy="35" rx="8" ry="6" fill="#d4b896"/>
+                    <ellipse cx="29" cy="35" rx="1.5" ry="1.2" fill="#b89070"/>
+                    <ellipse cx="35" cy="35" rx="1.5" ry="1.2" fill="#b89070"/>
+                    <path d="M27 39 Q32 43 37 39" stroke="#9a7050" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                    <path d="M28 42 Q32 50 36 42" stroke="#c8a96e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <path d="M30 13 Q32 10 34 13 Q32 11 30 13Z" fill="#c8a96e"/>
+                </svg>
+                <div class="billy-mini-speech">
+                    <p>Watch my mouth: /a/. Now listen to blending: c-at-cat. Say it with me: c...at-cat!</p>
+                </div>
+                <button class="billy-speak-btn" onclick="speakBilly('Watch my mouth. /a/. Now listen to blending. c at cat. Say it with me. c at cat!')" title="Hear Billy speak">🔊</button>
+            </div>
+            <h2>📝 The Short A Sound</h2>
+            <div style="text-align: center; margin: 40px 0;">
+                <div style="font-size: 120px; font-weight: 800; color: #305853; margin: 20px 0;">a</div>
+                <div style="font-size: 48px; color: #B06821; margin: 20px 0;">/a/</div>
+                <p style="font-size: 24px; color: #666; margin-top: 30px;">Say it out loud: <strong>/a/</strong></p>
+            </div>
+        </div>`,
+
+        // Page 4: Word Building Activity
+        `<div class="lesson-page-card content-page">
+            <div class="billy-mini-instructor">
+                <svg class="billy-mini-avatar" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 18 Q15 8 12 4 Q17 7 21 14Z" fill="#c8a96e"/>
+                    <path d="M44 18 Q49 8 52 4 Q47 7 43 14Z" fill="#c8a96e"/>
+                    <ellipse cx="32" cy="28" rx="16" ry="15" fill="#e8d5b0"/>
+                    <ellipse cx="16" cy="28" rx="5" ry="7" fill="#e8d5b0"/>
+                    <ellipse cx="16" cy="28" rx="3" ry="5" fill="#f5c8c8"/>
+                    <ellipse cx="48" cy="28" rx="5" ry="7" fill="#e8d5b0"/>
+                    <ellipse cx="48" cy="28" rx="3" ry="5" fill="#f5c8c8"/>
+                    <ellipse cx="26" cy="25" rx="3.5" ry="3" fill="white"/>
+                    <ellipse cx="38" cy="25" rx="3.5" ry="3" fill="white"/>
+                    <rect x="23.5" y="24" width="5" height="2.5" rx="1.2" fill="#3a2a1a"/>
+                    <rect x="35.5" y="24" width="5" height="2.5" rx="1.2" fill="#3a2a1a"/>
+                    <circle cx="27.5" cy="24.2" r="0.9" fill="white"/>
+                    <circle cx="39.5" cy="24.2" r="0.9" fill="white"/>
+                    <ellipse cx="32" cy="35" rx="8" ry="6" fill="#d4b896"/>
+                    <ellipse cx="29" cy="35" rx="1.5" ry="1.2" fill="#b89070"/>
+                    <ellipse cx="35" cy="35" rx="1.5" ry="1.2" fill="#b89070"/>
+                    <path d="M27 39 Q32 43 37 39" stroke="#9a7050" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                    <path d="M28 42 Q32 50 36 42" stroke="#c8a96e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <path d="M30 13 Q32 10 34 13 Q32 11 30 13Z" fill="#c8a96e"/>
+                </svg>
+                <div class="billy-mini-speech">
+                    <p>Tap a letter to build a word with -at. Can you make 'cat'? Try it!</p>
+                </div>
+                <button class="billy-speak-btn" onclick="speakBilly('Tap a letter to build a word with at. Can you make cat? Try it!')" title="Hear Billy speak">🔊</button>
+            </div>
+            <div class="activity-word-builder">
+                <h3 style="color: #305853; margin-bottom: 20px;">Build a Word!</h3>
+                <div class="onset-cards">
+                    <div class="onset-card" onclick="buildWord('c')">c</div>
+                    <div class="onset-card" onclick="buildWord('m')">m</div>
+                    <div class="onset-card" onclick="buildWord('b')">b</div>
+                    <div class="onset-card" onclick="buildWord('s')">s</div>
+                    <div class="onset-card" onclick="buildWord('r')">r</div>
+                </div>
+                <div class="rime-zone">-at</div>
+                <div class="word-result" id="word-result"></div>
+                <div id="word-feedback" style="font-size: 20px; font-weight: 600; min-height: 30px;"></div>
+            </div>
+        </div>`,
+
+        // Page 5: Story
+        `<div class="lesson-page-card content-page">
+            <div class="billy-mini-instructor">
+                <svg class="billy-mini-avatar" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 18 Q15 8 12 4 Q17 7 21 14Z" fill="#c8a96e"/>
+                    <path d="M44 18 Q49 8 52 4 Q47 7 43 14Z" fill="#c8a96e"/>
+                    <ellipse cx="32" cy="28" rx="16" ry="15" fill="#e8d5b0"/>
+                    <ellipse cx="16" cy="28" rx="5" ry="7" fill="#e8d5b0"/>
+                    <ellipse cx="16" cy="28" rx="3" ry="5" fill="#f5c8c8"/>
+                    <ellipse cx="48" cy="28" rx="5" ry="7" fill="#e8d5b0"/>
+                    <ellipse cx="48" cy="28" rx="3" ry="5" fill="#f5c8c8"/>
+                    <ellipse cx="26" cy="25" rx="3.5" ry="3" fill="white"/>
+                    <ellipse cx="38" cy="25" rx="3.5" ry="3" fill="white"/>
+                    <rect x="23.5" y="24" width="5" height="2.5" rx="1.2" fill="#3a2a1a"/>
+                    <rect x="35.5" y="24" width="5" height="2.5" rx="1.2" fill="#3a2a1a"/>
+                    <circle cx="27.5" cy="24.2" r="0.9" fill="white"/>
+                    <circle cx="39.5" cy="24.2" r="0.9" fill="white"/>
+                    <ellipse cx="32" cy="35" rx="8" ry="6" fill="#d4b896"/>
+                    <ellipse cx="29" cy="35" rx="1.5" ry="1.2" fill="#b89070"/>
+                    <ellipse cx="35" cy="35" rx="1.5" ry="1.2" fill="#b89070"/>
+                    <path d="M27 39 Q32 43 37 39" stroke="#9a7050" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                    <path d="M28 42 Q32 50 36 42" stroke="#c8a96e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <path d="M30 13 Q32 10 34 13 Q32 11 30 13Z" fill="#c8a96e"/>
+                </svg>
+                <div class="billy-mini-speech">
+                    <p>Now let's read our story! I'll read it first, then you can read with me. Ready?</p>
+                </div>
+                <button class="billy-speak-btn" onclick="speakBilly('Now let\\'s read our story! I\\'ll read it first, then you can read with me. Ready?')" title="Hear Billy speak">🔊</button>
+            </div>
+            <h2>📖 Sam's Van</h2>
+            <div style="padding: 30px; background: #f5f9ff; border-radius: 15px; margin: 20px 0;">
+                <p style="font-size: 22px; line-height: 1.8; color: #2c3e50;">
+                    Sam has a van. The van can ram a big tan log. Sam and Pam push the van. At last the van can go.
+                </p>
+            </div>
+            <button onclick="speakBilly('Sam has a van. The van can ram a big tan log. Sam and Pam push the van. At last the van can go.')" style="padding: 12px 24px; background: #4a7c3f; color: white; border: none; border-radius: 30px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 10px;">🔊 Hear Billy Read</button>
+        </div>`,
+
+        // Page 6: Comprehension
+        `<div class="lesson-page-card content-page">
+            <div class="billy-mini-instructor">
+                <svg class="billy-mini-avatar" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 18 Q15 8 12 4 Q17 7 21 14Z" fill="#c8a96e"/>
+                    <path d="M44 18 Q49 8 52 4 Q47 7 43 14Z" fill="#c8a96e"/>
+                    <ellipse cx="32" cy="28" rx="16" ry="15" fill="#e8d5b0"/>
+                    <ellipse cx="16" cy="28" rx="5" ry="7" fill="#e8d5b0"/>
+                    <ellipse cx="16" cy="28" rx="3" ry="5" fill="#f5c8c8"/>
+                    <ellipse cx="48" cy="28" rx="5" ry="7" fill="#e8d5b0"/>
+                    <ellipse cx="48" cy="28" rx="3" ry="5" fill="#f5c8c8"/>
+                    <ellipse cx="26" cy="25" rx="3.5" ry="3" fill="white"/>
+                    <ellipse cx="38" cy="25" rx="3.5" ry="3" fill="white"/>
+                    <rect x="23.5" y="24" width="5" height="2.5" rx="1.2" fill="#3a2a1a"/>
+                    <rect x="35.5" y="24" width="5" height="2.5" rx="1.2" fill="#3a2a1a"/>
+                    <circle cx="27.5" cy="24.2" r="0.9" fill="white"/>
+                    <circle cx="39.5" cy="24.2" r="0.9" fill="white"/>
+                    <ellipse cx="32" cy="35" rx="8" ry="6" fill="#d4b896"/>
+                    <ellipse cx="29" cy="35" rx="1.5" ry="1.2" fill="#b89070"/>
+                    <ellipse cx="35" cy="35" rx="1.5" ry="1.2" fill="#b89070"/>
+                    <path d="M27 39 Q32 43 37 39" stroke="#9a7050" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                    <path d="M28 42 Q32 50 36 42" stroke="#c8a96e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <path d="M30 13 Q32 10 34 13 Q32 11 30 13Z" fill="#c8a96e"/>
+                </svg>
+                <div class="billy-mini-speech">
+                    <p>Great reading! Now let's see if you remember the story. Who has a van?</p>
+                </div>
+                <button class="billy-speak-btn" onclick="speakBilly('Great reading! Now let\\'s see if you remember the story. Who has a van?')" title="Hear Billy speak">🔊</button>
+            </div>
+            <h2>🤔 Comprehension Check</h2>
+            <h3 style="text-align: center; color: #305853; margin: 30px 0;">Who has a van?</h3>
+            <div class="multiple-choice-grid">
+                <button class="choice-btn" onclick="checkAnswer(this, 'Sam', true)">Sam</button>
+                <button class="choice-btn" onclick="checkAnswer(this, 'Pam', false)">Pam</button>
+                <button class="choice-btn" onclick="checkAnswer(this, 'Cat', false)">Cat</button>
+                <button class="choice-btn" onclick="checkAnswer(this, 'Dan', false)">Dan</button>
+            </div>
+            <div id="answer-feedback" style="text-align: center; font-size: 22px; font-weight: 700; margin-top: 30px; min-height: 40px;"></div>
+        </div>`,
+
+        // Page 7: Sight Words
+        `<div class="lesson-page-card content-page">
+            <div class="billy-mini-instructor">
+                <svg class="billy-mini-avatar" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 18 Q15 8 12 4 Q17 7 21 14Z" fill="#c8a96e"/>
+                    <path d="M44 18 Q49 8 52 4 Q47 7 43 14Z" fill="#c8a96e"/>
+                    <ellipse cx="32" cy="28" rx="16" ry="15" fill="#e8d5b0"/>
+                    <ellipse cx="16" cy="28" rx="5" ry="7" fill="#e8d5b0"/>
+                    <ellipse cx="16" cy="28" rx="3" ry="5" fill="#f5c8c8"/>
+                    <ellipse cx="48" cy="28" rx="5" ry="7" fill="#e8d5b0"/>
+                    <ellipse cx="48" cy="28" rx="3" ry="5" fill="#f5c8c8"/>
+                    <ellipse cx="26" cy="25" rx="3.5" ry="3" fill="white"/>
+                    <ellipse cx="38" cy="25" rx="3.5" ry="3" fill="white"/>
+                    <rect x="23.5" y="24" width="5" height="2.5" rx="1.2" fill="#3a2a1a"/>
+                    <rect x="35.5" y="24" width="5" height="2.5" rx="1.2" fill="#3a2a1a"/>
+                    <circle cx="27.5" cy="24.2" r="0.9" fill="white"/>
+                    <circle cx="39.5" cy="24.2" r="0.9" fill="white"/>
+                    <ellipse cx="32" cy="35" rx="8" ry="6" fill="#d4b896"/>
+                    <ellipse cx="29" cy="35" rx="1.5" ry="1.2" fill="#b89070"/>
+                    <ellipse cx="35" cy="35" rx="1.5" ry="1.2" fill="#b89070"/>
+                    <path d="M27 39 Q32 43 37 39" stroke="#9a7050" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                    <path d="M28 42 Q32 50 36 42" stroke="#c8a96e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <path d="M30 13 Q32 10 34 13 Q32 11 30 13Z" fill="#c8a96e"/>
+                </svg>
+                <div class="billy-mini-speech">
+                    <p>Time to learn our sight words! These are special words we read by sight. Tap each word to hear it!</p>
+                </div>
+                <button class="billy-speak-btn" onclick="speakBilly('Time to learn our sight words! These are special words we read by sight. Tap each word to hear it!')" title="Hear Billy speak">🔊</button>
+            </div>
+            <h2>👀 Sight Words</h2>
+            <div style="text-align: center; margin: 40px 0;">
+                <div style="display: flex; gap: 30px; justify-content: center; flex-wrap: wrap;">
+                    <button onclick="speakBilly('a')" style="padding: 30px 50px; background: #fff4e6; border: 4px solid #B06821; border-radius: 20px; font-size: 72px; font-weight: 800; color: #305853; cursor: pointer;">a</button>
+                    <button onclick="speakBilly('the')" style="padding: 30px 50px; background: #fff4e6; border: 4px solid #B06821; border-radius: 20px; font-size: 72px; font-weight: 800; color: #305853; cursor: pointer;">the</button>
+                </div>
+                <p style="font-size: 18px; color: #666; margin-top: 40px;">Tap each word to hear it!</p>
+            </div>
+        </div>`,
+
+        // Page 8: Completion
+        `<div class="lesson-page-card content-page">
+            <div class="billy-mini-instructor" style="background: linear-gradient(135deg, #52b788, #6aaa5c);">
+                <svg class="billy-mini-avatar" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 18 Q15 8 12 4 Q17 7 21 14Z" fill="#c8a96e"/>
+                    <path d="M44 18 Q49 8 52 4 Q47 7 43 14Z" fill="#c8a96e"/>
+                    <ellipse cx="32" cy="28" rx="16" ry="15" fill="#e8d5b0"/>
+                    <ellipse cx="16" cy="28" rx="5" ry="7" fill="#e8d5b0"/>
+                    <ellipse cx="16" cy="28" rx="3" ry="5" fill="#f5c8c8"/>
+                    <ellipse cx="48" cy="28" rx="5" ry="7" fill="#e8d5b0"/>
+                    <ellipse cx="48" cy="28" rx="3" ry="5" fill="#f5c8c8"/>
+                    <ellipse cx="26" cy="25" rx="3.5" ry="3" fill="white"/>
+                    <ellipse cx="38" cy="25" rx="3.5" ry="3" fill="white"/>
+                    <rect x="23.5" y="24" width="5" height="2.5" rx="1.2" fill="#3a2a1a"/>
+                    <rect x="35.5" y="24" width="5" height="2.5" rx="1.2" fill="#3a2a1a"/>
+                    <circle cx="27.5" cy="24.2" r="0.9" fill="white"/>
+                    <circle cx="39.5" cy="24.2" r="0.9" fill="white"/>
+                    <ellipse cx="32" cy="35" rx="8" ry="6" fill="#d4b896"/>
+                    <ellipse cx="29" cy="35" rx="1.5" ry="1.2" fill="#b89070"/>
+                    <ellipse cx="35" cy="35" rx="1.5" ry="1.2" fill="#b89070"/>
+                    <path d="M27 39 Q32 43 37 39" stroke="#9a7050" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                    <path d="M28 42 Q32 50 36 42" stroke="#c8a96e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <path d="M30 13 Q32 10 34 13 Q32 11 30 13Z" fill="#c8a96e"/>
+                </svg>
+                <div class="billy-mini-speech">
+                    <p>Awesome work! You finished Day 1! You're already getting better at reading!</p>
+                </div>
+                <button class="billy-speak-btn" onclick="speakBilly('Awesome work! You finished Day 1! You\\'re already getting better at reading!')" title="Hear Billy speak">🔊</button>
+            </div>
+            <h2>🎉 Great Job!</h2>
+            <div class="completion-badge">Day 1 Complete!</div>
+            <p style="font-size: 18px; margin: 30px 0;">You learned:</p>
+            <div style="text-align: left; max-width: 400px; margin: 20px auto;">
+                <p style="margin: 10px 0;">✓ The short a sound: /a/</p>
+                <p style="margin: 10px 0;">✓ Words: cat, mat, bat, sat, rat</p>
+                <p style="margin: 10px 0;">✓ Sight words: a, the</p>
+                <p style="margin: 10px 0;">✓ Story: Sam's Van</p>
+            </div>
+            <p style="font-size: 16px; color: #666; margin-top: 30px;">Ready for Day 2! 🎉</p>
+        </div>`
+        ];
+
+        let currentPage = 0;
+
+        function renderPage() {
+            const container = document.getElementById('lesson-container');
+            
+            const nav = `
+                <div class="lesson-nav">
+                    <button class="nav-arrow" onclick="prevPage()" ${currentPage === 0 ? 'disabled' : ''}>←</button>
+                    <span class="page-number">Page ${currentPage + 1} of ${pages.length}</span>
+                    <button class="nav-arrow" onclick="nextPage()" ${currentPage === pages.length - 1 ? 'disabled' : ''}>→</button>
+                </div>
+            `;
+
+            const content = `
+                <div class="lesson-content">
+                    ${pages[currentPage]}
+                </div>
+            `;
+
+            container.innerHTML = content + nav;
+        }
+
+        function nextPage() {
+            if (currentPage < pages.length - 1) {
+                currentPage++;
+                renderPage();
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 0) {
+                currentPage--;
+                renderPage();
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // Billy speaks using browser TTS
+        function speakBilly(text) {
+            if (!window.speechSynthesis) {
+                alert(text);
+                return;
+            }
+            
+            // Cancel any current speech
+            speechSynthesis.cancel();
+            
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 0.9;
+            utterance.pitch = 1.1;
+            
+            // Try to find a child-friendly voice
+            const voices = speechSynthesis.getVoices();
+            const childVoice = voices.find(v => 
+                v.name.includes('Samantha') || 
+                v.name.includes('Karen') || 
+                v.name.includes('female')
+            );
+            if (childVoice) utterance.voice = childVoice;
+            
+            speechSynthesis.speak(utterance);
+        }
+
+        // Word building activity
+        function buildWord(onset) {
+            const result = document.getElementById('word-result');
+            const feedback = document.getElementById('word-feedback');
+            const word = onset + 'at';
+            
+            result.textContent = word;
+            speakBilly(word);
+            
+            feedback.textContent = `Great! You made "${word}"! 🎉`;
+            feedback.style.color = '#52b788';
+            
+            setTimeout(() => {
+                feedback.textContent = 'Try another letter!';
+                feedback.style.color = '#305853';
+            }, 3000);
+        }
+
+        // Comprehension check
+        function checkAnswer(button, answer, isCorrect) {
+            const feedback = document.getElementById('answer-feedback');
+            
+            // Disable all buttons
+            document.querySelectorAll('.choice-btn').forEach(btn => {
+                btn.style.pointerEvents = 'none';
+            });
+            
+            if (isCorrect) {
+                button.classList.add('correct');
+                feedback.textContent = "Yes! That's correct! Sam has a van! 🎉";
+                feedback.style.color = '#52b788';
+                speakBilly("Yes! That's correct! Sam has a van!");
+            } else {
+                button.classList.add('incorrect');
+                feedback.textContent = "Not quite. Try again!";
+                feedback.style.color = '#f4845f';
+                speakBilly("Not quite. Try again!");
+                
+                // Re-enable buttons after 2 seconds
+                setTimeout(() => {
+                    button.classList.remove('incorrect');
+                    document.querySelectorAll('.choice-btn').forEach(btn => {
+                        btn.style.pointerEvents = 'auto';
+                    });
+                    feedback.textContent = '';
+                }, 2000);
+            }
+        }
+
+        // Load voices when available
+        if (window.speechSynthesis) {
+            speechSynthesis.addEventListener('voiceschanged', () => {
+                // Voices are now available
+            });
+        }
+
+        renderPage();
+    </script>
+</body>
+</html>

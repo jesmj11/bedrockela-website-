@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 13: Robin Hood and Guy of Gisborne</title>
+    <link rel="stylesheet" href="../../../css/lesson-viewer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
+
+    <script src="../../../js/lesson-viewer.js"></script>
+    <script src="../../../firebase-config.js"></script>
+    <script src="../../../js/lesson-completion.js"></script>
+    <script src="../../../js/lesson-autosave.js"></script>
+    <script src="../../../js/save-button-injector.js"></script>
+    <script src="../../../js/answer-validation.js"></script>
+    <script src="../../../js/grade-normalizer.js"></script>
+    <script src="../../../js/offline-sync.js"></script>
+    <script src="../../../js/text-to-speech.js"></script>
+    <script src="../../../js/digital-book.js"></script>
+    <script type="module" src="../../../js/vocab-games.js"></script>
+    
+    <script>
+        const lesson13Config = {
+            lessonId: '5th-grade-robin-hood-day-13',
+            gradeLevel: '5th-grade',
+            title: 'Day 13: Robin Hood and Guy of Gisborne',
+            pages: [
+                {
+                    render: () => `<div class="lesson-page-card title-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 13 • Week 3</div>
+        <div class="unit-label">The Merry Adventures of Robin Hood</div>
+      </div>
+      <h1 class="lesson-title">Robin Hood and Guy of Gisborne</h1>
+      <div class="objectives">
+        <h3>📚 Today's Learning Goals</h3>
+        <ul>
+          <li><strong>Vocabulary:</strong> Learn 3 new words from Chapter 12</li>
+          <li><strong>Reading:</strong> Read "Robin Hood and Guy of Gisborne"</li>
+          <li><strong>Comprehension:</strong> Answer questions about the story</li>
+          <li><strong>Informational Text:</strong> Bounty Hunters and Mercenaries</li>
+          <li><strong>Writing:</strong> Journal response</li>
+        </ul>
+      </div>
+      <div class="page-footer">
+        <button class="nav-button next-button" onclick="nextPage()">Start Lesson →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 13 • Week 3</div>
+        <div class="unit-label">Vocabulary</div>
+      </div>
+      <h2>📖 New Vocabulary Words</h2>
+      <p class="instructions">Read each word and its definition. You'll see these words in today's story.</p>
+      <div class="vocab-list">
+        
+        <div class="vocab-card">
+          <div class="vocab-word">merciless</div>
+          <div class="vocab-definition">Showing no mercy or kindness; cruel and unforgiving.</div>
+          <div class="vocab-input-group">
+            <label>Write the definition in your own words:</label>
+            <textarea class="answer-input" id="vocab1" rows="2"></textarea>
+          </div>
+        </div>
+        
+        <div class="vocab-card">
+          <div class="vocab-word">composure</div>
+          <div class="vocab-definition">The state of being calm and in control of your emotions, especially in a difficult situation.</div>
+          <div class="vocab-input-group">
+            <label>Write the definition in your own words:</label>
+            <textarea class="answer-input" id="vocab2" rows="2"></textarea>
+          </div>
+        </div>
+        
+        <div class="vocab-card">
+          <div class="vocab-word">adversary</div>
+          <div class="vocab-definition">An enemy or opponent, especially one in a conflict or contest.</div>
+          <div class="vocab-input-group">
+            <label>Write the definition in your own words:</label>
+            <textarea class="answer-input" id="vocab3" rows="2"></textarea>
+          </div>
+        </div>
+        
+      </div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 13 • Week 3</div>
+        <div class="unit-label">Vocabulary Practice</div>
+      </div>
+      <h2>🎮 Vocabulary Matching Game</h2>
+      <div id="vocabGame" class="vocab-game-container"></div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 13 • Week 3</div>
+        <div class="unit-label">Chapter 12 • Part 1 of 4</div>
+      </div>
+      <div class="story-text">
+        <h2>Robin Hood and Guy of Gisborne</h2>
+        <p>[Chapter text excerpt - Part 1]</p>
+      </div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 13 • Week 3</div>
+        <div class="unit-label">Chapter 12 • Part 2 of 4</div>
+      </div>
+      <div class="story-text">
+        <p>[Chapter text excerpt - Part 2]</p>
+      </div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 13 • Week 3</div>
+        <div class="unit-label">Chapter 12 • Part 3 of 4</div>
+      </div>
+      <div class="story-text">
+        <p>[Chapter text excerpt - Part 3]</p>
+      </div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 13 • Week 3</div>
+        <div class="unit-label">Chapter 12 • Part 4 of 4</div>
+      </div>
+      <div class="story-text">
+        <p>[Chapter text excerpt - Part 4]</p>
+      </div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 13 • Week 3</div>
+        <div class="unit-label">Reading Comprehension</div>
+      </div>
+      <h2>💭 Understanding the Story</h2>
+      <p class="instructions">Answer these questions about "Robin Hood and Guy of Gisborne":</p>
+      <div class="comprehension-questions">
+        
+        <div class="question-group">
+          <div class="question-number">Question 1</div>
+          <p class="question-text">How is Guy of Gisborne different from the Sheriff as a villain? What makes him more dangerous?</p>
+          <textarea class="answer-input" id="comp1" rows="3"></textarea>
+        </div>
+        
+        <div class="question-group">
+          <div class="question-number">Question 2</div>
+          <p class="question-text">Robin chooses not to kill Guy after defeating him. Do you think this was the right decision? What are the arguments for and against Robin's choice?</p>
+          <textarea class="answer-input" id="comp2" rows="3"></textarea>
+        </div>
+        
+        <div class="question-group">
+          <div class="question-number">Question 3</div>
+          <p class="question-text">Little John says Robin is "a good man." How does Robin's decision to show mercy prove this? How does it connect to the rules Robin set for the Merry Men in Chapter 1?</p>
+          <textarea class="answer-input" id="comp3" rows="3"></textarea>
+        </div>
+        
+      </div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 13 • Week 3</div>
+        <div class="unit-label">Informational Text</div>
+      </div>
+      <h2>📰 Bounty Hunters and Mercenaries</h2>
+      <div class="info-text">
+        <p>[Informational text content]</p>
+      </div>
+      <h3>Understanding the Text</h3>
+      <div class="comprehension-questions">
+        
+        <div class="question-group">
+          <div class="question-number">Question 1</div>
+          <p class="question-text">What was the role of bounty hunters and mercenaries in medieval law enforcement?</p>
+          <textarea class="answer-input" id="info1" rows="2"></textarea>
+        </div>
+        
+        <div class="question-group">
+          <div class="question-number">Question 2</div>
+          <p class="question-text">How does the contrast between Guy of Gisborne and Robin Hood highlight different kinds of strength?</p>
+          <textarea class="answer-input" id="info2" rows="2"></textarea>
+        </div>
+        
+      </div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 13 • Week 3</div>
+        <div class="unit-label">Language Skills</div>
+      </div>
+      <h2>✏️ Language Practice</h2>
+      <p class="instructions">Practice identifying figurative language from the story:</p>
+      <div class="question-group">
+        <p class="question-text">Find an example of descriptive language or figurative language in today's chapter. Write the phrase and explain what it helps you understand.</p>
+        <textarea class="answer-input" rows="3"></textarea>
+      </div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 13 • Week 3</div>
+        <div class="unit-label">Journal Response</div>
+      </div>
+      <h2>✍️ Your Response</h2>
+      <div class="journal-prompt">
+        <p><strong>Choose one:</strong></p>
+        <ul>
+          <li>Which character in this chapter showed the most courage or cleverness? Explain your choice with examples from the text.</li>
+          <li>If you could ask the main character one question, what would it be and why?</li>
+          <li>Write about a time when you faced a similar situation or challenge as a character in this chapter.</li>
+        </ul>
+      </div>
+      <textarea class="answer-input journal-input" rows="8" placeholder="Write your response here..."></textarea>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Finish Lesson →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card completion-page">
+      <div class="completion-container">
+        <div class="completion-icon">🎉</div>
+        <h1>Day 13 Complete!</h1>
+        <p class="completion-message">Great work on "Robin Hood and Guy of Gisborne"!</p>
+        <div class="completion-stats">
+          <div class="stat-item">
+            <div class="stat-number">3</div>
+            <div class="stat-label">New Words</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">1</div>
+            <div class="stat-label">Chapter Read</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">5</div>
+            <div class="stat-label">Questions</div>
+          </div>
+        </div>
+        <button class="completion-button" onclick="markComplete()">Mark Complete & Save Progress</button>
+        <div class="completion-footer">
+          <button class="nav-button prev-button" onclick="prevPage()">← Review Lesson</button>
+        </div>
+      </div>
+    </div>`
+                }
+            ]
+        };
+
+        // Initialize the lesson viewer
+        window.addEventListener('DOMContentLoaded', () => {
+            createLessonViewer('lesson-container', lesson13Config);
+        });
+    </script>
+</body>
+</html>

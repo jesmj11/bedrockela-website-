@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 14: Little John Goes to the Fair</title>
+    <link rel="stylesheet" href="../../../css/lesson-viewer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
+
+    <script src="../../../js/lesson-viewer.js"></script>
+    <script src="../../../firebase-config.js"></script>
+    <script src="../../../js/lesson-completion.js"></script>
+    <script src="../../../js/lesson-autosave.js"></script>
+    <script src="../../../js/save-button-injector.js"></script>
+    <script src="../../../js/answer-validation.js"></script>
+    <script src="../../../js/grade-normalizer.js"></script>
+    <script src="../../../js/offline-sync.js"></script>
+    <script src="../../../js/text-to-speech.js"></script>
+    <script src="../../../js/digital-book.js"></script>
+    <script type="module" src="../../../js/vocab-games.js"></script>
+    
+    <script>
+        const lesson14Config = {
+            lessonId: '5th-grade-robin-hood-day-14',
+            gradeLevel: '5th-grade',
+            title: 'Day 14: Little John Goes to the Fair',
+            pages: [
+                {
+                    render: () => `<div class="lesson-page-card title-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 14 • Week 3</div>
+        <div class="unit-label">The Merry Adventures of Robin Hood</div>
+      </div>
+      <h1 class="lesson-title">Little John Goes to the Fair</h1>
+      <div class="objectives">
+        <h3>📚 Today's Learning Goals</h3>
+        <ul>
+          <li><strong>Vocabulary:</strong> Learn 3 new words from Chapter 13</li>
+          <li><strong>Reading:</strong> Read "Little John Goes to the Fair"</li>
+          <li><strong>Comprehension:</strong> Answer questions about the story</li>
+          <li><strong>Informational Text:</strong> Espionage and Intelligence</li>
+          <li><strong>Writing:</strong> Journal response</li>
+        </ul>
+      </div>
+      <div class="page-footer">
+        <button class="nav-button next-button" onclick="nextPage()">Start Lesson →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 14 • Week 3</div>
+        <div class="unit-label">Vocabulary</div>
+      </div>
+      <h2>📖 New Vocabulary Words</h2>
+      <p class="instructions">Read each word and its definition. You'll see these words in today's story.</p>
+      <div class="vocab-list">
+        
+        <div class="vocab-card">
+          <div class="vocab-word">infiltrate</div>
+          <div class="vocab-definition">To secretly enter or join a group or place in order to gather information or cause change from the inside.</div>
+          <div class="vocab-input-group">
+            <label>Write the definition in your own words:</label>
+            <textarea class="answer-input" id="vocab1" rows="2"></textarea>
+          </div>
+        </div>
+        
+        <div class="vocab-card">
+          <div class="vocab-word">espionage</div>
+          <div class="vocab-definition">The practice of spying; secretly gathering information about an enemy or competitor.</div>
+          <div class="vocab-input-group">
+            <label>Write the definition in your own words:</label>
+            <textarea class="answer-input" id="vocab2" rows="2"></textarea>
+          </div>
+        </div>
+        
+        <div class="vocab-card">
+          <div class="vocab-word">audacity</div>
+          <div class="vocab-definition">Bold, daring behavior that shows a willingness to take risks, sometimes to a shocking degree.</div>
+          <div class="vocab-input-group">
+            <label>Write the definition in your own words:</label>
+            <textarea class="answer-input" id="vocab3" rows="2"></textarea>
+          </div>
+        </div>
+        
+      </div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 14 • Week 3</div>
+        <div class="unit-label">Vocabulary Practice</div>
+      </div>
+      <h2>🎮 Vocabulary Matching Game</h2>
+      <div id="vocabGame" class="vocab-game-container"></div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 14 • Week 3</div>
+        <div class="unit-label">Chapter 13 • Part 1 of 4</div>
+      </div>
+      <div class="story-text">
+        <h2>Little John Goes to the Fair</h2>
+        <p>[Chapter text excerpt - Part 1]</p>
+      </div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 14 • Week 3</div>
+        <div class="unit-label">Chapter 13 • Part 2 of 4</div>
+      </div>
+      <div class="story-text">
+        <p>[Chapter text excerpt - Part 2]</p>
+      </div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 14 • Week 3</div>
+        <div class="unit-label">Chapter 13 • Part 3 of 4</div>
+      </div>
+      <div class="story-text">
+        <p>[Chapter text excerpt - Part 3]</p>
+      </div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 14 • Week 3</div>
+        <div class="unit-label">Chapter 13 • Part 4 of 4</div>
+      </div>
+      <div class="story-text">
+        <p>[Chapter text excerpt - Part 4]</p>
+      </div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 14 • Week 3</div>
+        <div class="unit-label">Reading Comprehension</div>
+      </div>
+      <h2>💭 Understanding the Story</h2>
+      <p class="instructions">Answer these questions about "Little John Goes to the Fair":</p>
+      <div class="comprehension-questions">
+        
+        <div class="question-group">
+          <div class="question-number">Question 1</div>
+          <p class="question-text">Why does Little John decide to accept the Sheriff's job offer instead of refusing? What makes this decision both brilliant and risky?</p>
+          <textarea class="answer-input" id="comp1" rows="3"></textarea>
+        </div>
+        
+        <div class="question-group">
+          <div class="question-number">Question 2</div>
+          <p class="question-text">What kinds of information does Little John gather while working inside the castle? Why is this intelligence so valuable to Robin?</p>
+          <textarea class="answer-input" id="comp2" rows="3"></textarea>
+        </div>
+        
+        <div class="question-group">
+          <div class="question-number">Question 3</div>
+          <p class="question-text">Little John's cover is blown because he criticizes the cook's food. What does this funny moment reveal about Little John's character and his loyalty to Much?</p>
+          <textarea class="answer-input" id="comp3" rows="3"></textarea>
+        </div>
+        
+      </div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 14 • Week 3</div>
+        <div class="unit-label">Informational Text</div>
+      </div>
+      <h2>📰 Espionage and Intelligence</h2>
+      <div class="info-text">
+        <p>[Informational text content]</p>
+      </div>
+      <h3>Understanding the Text</h3>
+      <div class="comprehension-questions">
+        
+        <div class="question-group">
+          <div class="question-number">Question 1</div>
+          <p class="question-text">How did infiltration and spying work in medieval times?</p>
+          <textarea class="answer-input" id="info1" rows="2"></textarea>
+        </div>
+        
+        <div class="question-group">
+          <div class="question-number">Question 2</div>
+          <p class="question-text">What does Little John's slip-up reveal about the psychological difficulty of maintaining a false identity?</p>
+          <textarea class="answer-input" id="info2" rows="2"></textarea>
+        </div>
+        
+      </div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 14 • Week 3</div>
+        <div class="unit-label">Language Skills</div>
+      </div>
+      <h2>✏️ Language Practice</h2>
+      <p class="instructions">Practice identifying figurative language from the story:</p>
+      <div class="question-group">
+        <p class="question-text">Find an example of descriptive language or figurative language in today's chapter. Write the phrase and explain what it helps you understand.</p>
+        <textarea class="answer-input" rows="3"></textarea>
+      </div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 14 • Week 3</div>
+        <div class="unit-label">Journal Response</div>
+      </div>
+      <h2>✍️ Your Response</h2>
+      <div class="journal-prompt">
+        <p><strong>Choose one:</strong></p>
+        <ul>
+          <li>Which character in this chapter showed the most courage or cleverness? Explain your choice with examples from the text.</li>
+          <li>If you could ask the main character one question, what would it be and why?</li>
+          <li>Write about a time when you faced a similar situation or challenge as a character in this chapter.</li>
+        </ul>
+      </div>
+      <textarea class="answer-input journal-input" rows="8" placeholder="Write your response here..."></textarea>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Finish Lesson →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card completion-page">
+      <div class="completion-container">
+        <div class="completion-icon">🎉</div>
+        <h1>Day 14 Complete!</h1>
+        <p class="completion-message">Great work on "Little John Goes to the Fair"!</p>
+        <div class="completion-stats">
+          <div class="stat-item">
+            <div class="stat-number">3</div>
+            <div class="stat-label">New Words</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">1</div>
+            <div class="stat-label">Chapter Read</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">5</div>
+            <div class="stat-label">Questions</div>
+          </div>
+        </div>
+        <button class="completion-button" onclick="markComplete()">Mark Complete & Save Progress</button>
+        <div class="completion-footer">
+          <button class="nav-button prev-button" onclick="prevPage()">← Review Lesson</button>
+        </div>
+      </div>
+    </div>`
+                }
+            ]
+        };
+
+        // Initialize the lesson viewer
+        window.addEventListener('DOMContentLoaded', () => {
+            createLessonViewer('lesson-container', lesson14Config);
+        });
+    </script>
+</body>
+</html>

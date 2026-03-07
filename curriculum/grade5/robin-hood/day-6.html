@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 6: Alan-a-Dale's Wedding</title>
+    <link rel="stylesheet" href="../../../css/lesson-viewer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
+
+    <script src="../../../js/lesson-viewer.js"></script>
+    <script src="../../../firebase-config.js"></script>
+    <script src="../../../js/lesson-completion.js"></script>
+    <script src="../../../js/lesson-autosave.js"></script>
+    <script src="../../../js/save-button-injector.js"></script>
+    <script src="../../../js/answer-validation.js"></script>
+    <script src="../../../js/grade-normalizer.js"></script>
+    <script src="../../../js/offline-sync.js"></script>
+    <script src="../../../js/text-to-speech.js"></script>
+    <script src="../../../js/digital-book.js"></script>
+    <script type="module" src="../../../js/vocab-games.js"></script>
+    
+    <script>
+        const lesson6Config = {
+            lessonId: '5th-grade-robin-hood-day-6',
+            gradeLevel: '5th-grade',
+            title: 'Day 6: Alan-a-Dale's Wedding',
+            pages: [
+                {
+                    render: () => `<div class="lesson-page-card title-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 6 • Week 2</div>
+        <div class="unit-label">The Merry Adventures of Robin Hood</div>
+      </div>
+      <h1 class="lesson-title">Alan-a-Dale's Wedding</h1>
+      <div class="objectives">
+        <h3>📚 Today's Learning Goals</h3>
+        <ul>
+          <li><strong>Vocabulary:</strong> Learn 3 new words from Chapter 5</li>
+          <li><strong>Reading:</strong> Read "Alan-a-Dale's Wedding"</li>
+          <li><strong>Comprehension:</strong> Answer questions about the story</li>
+          <li><strong>Informational Text:</strong> Marriage and Love in Medieval Times</li>
+          <li><strong>Writing:</strong> Journal response</li>
+        </ul>
+      </div>
+      <div class="page-footer">
+        <button class="nav-button next-button" onclick="nextPage()">Start Lesson →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 6 • Week 2</div>
+        <div class="unit-label">Vocabulary</div>
+      </div>
+      <h2>📖 New Vocabulary Words</h2>
+      <p class="instructions">Read each word and its definition. You'll see these words in today's story.</p>
+      <div class="vocab-list">
+        
+        <div class="vocab-card">
+          <div class="vocab-word">minstrel</div>
+          <div class="vocab-definition">A traveling musician and singer who performs songs and tells stories, often about heroes and adventures.</div>
+          <div class="vocab-input-group">
+            <label>Write the definition in your own words:</label>
+            <textarea class="answer-input" id="vocab1" rows="2"></textarea>
+          </div>
+        </div>
+        
+        <div class="vocab-card">
+          <div class="vocab-word">matrimony</div>
+          <div class="vocab-definition">The formal union of two people in marriage; a wedding ceremony.</div>
+          <div class="vocab-input-group">
+            <label>Write the definition in your own words:</label>
+            <textarea class="answer-input" id="vocab2" rows="2"></textarea>
+          </div>
+        </div>
+        
+        <div class="vocab-card">
+          <div class="vocab-word">thwarted</div>
+          <div class="vocab-definition">Prevented from accomplishing a goal; stopped or blocked from succeeding.</div>
+          <div class="vocab-input-group">
+            <label>Write the definition in your own words:</label>
+            <textarea class="answer-input" id="vocab3" rows="2"></textarea>
+          </div>
+        </div>
+        
+      </div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 6 • Week 2</div>
+        <div class="unit-label">Vocabulary Practice</div>
+      </div>
+      <h2>🎮 Vocabulary Matching Game</h2>
+      <div id="vocabGame" class="vocab-game-container"></div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 6 • Week 2</div>
+        <div class="unit-label">Chapter 5 • Part 1 of 4</div>
+      </div>
+      <div class="story-text">
+        <h2>Alan-a-Dale's Wedding</h2>
+        <p>[Chapter text excerpt - Part 1]</p>
+      </div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 6 • Week 2</div>
+        <div class="unit-label">Chapter 5 • Part 2 of 4</div>
+      </div>
+      <div class="story-text">
+        <p>[Chapter text excerpt - Part 2]</p>
+      </div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 6 • Week 2</div>
+        <div class="unit-label">Chapter 5 • Part 3 of 4</div>
+      </div>
+      <div class="story-text">
+        <p>[Chapter text excerpt - Part 3]</p>
+      </div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 6 • Week 2</div>
+        <div class="unit-label">Chapter 5 • Part 4 of 4</div>
+      </div>
+      <div class="story-text">
+        <p>[Chapter text excerpt - Part 4]</p>
+      </div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 6 • Week 2</div>
+        <div class="unit-label">Reading Comprehension</div>
+      </div>
+      <h2>💭 Understanding the Story</h2>
+      <p class="instructions">Answer these questions about "Alan-a-Dale's Wedding":</p>
+      <div class="comprehension-questions">
+        
+        <div class="question-group">
+          <div class="question-number">Question 1</div>
+          <p class="question-text">Why does Robin decide to help Alan-a-Dale? What principle or value drives his decision?</p>
+          <textarea class="answer-input" id="comp1" rows="3"></textarea>
+        </div>
+        
+        <div class="question-group">
+          <div class="question-number">Question 2</div>
+          <p class="question-text">How does Robin's band use teamwork to stop the wedding? Describe each person's role in the plan.</p>
+          <textarea class="answer-input" id="comp2" rows="3"></textarea>
+        </div>
+        
+        <div class="question-group">
+          <div class="question-number">Question 3</div>
+          <p class="question-text">The chapter ends by saying Robin Hood's legend "was born from a love song." What does this mean? Why might stories and songs be more powerful than swords in building a legend?</p>
+          <textarea class="answer-input" id="comp3" rows="3"></textarea>
+        </div>
+        
+      </div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 6 • Week 2</div>
+        <div class="unit-label">Informational Text</div>
+      </div>
+      <h2>📰 Marriage and Love in Medieval Times</h2>
+      <div class="info-text">
+        <p>[Informational text content]</p>
+      </div>
+      <h3>Understanding the Text</h3>
+      <div class="comprehension-questions">
+        
+        <div class="question-group">
+          <div class="question-number">Question 1</div>
+          <p class="question-text">How were marriages arranged among wealthy families in medieval England?</p>
+          <textarea class="answer-input" id="info1" rows="2"></textarea>
+        </div>
+        
+        <div class="question-group">
+          <div class="question-number">Question 2</div>
+          <p class="question-text">Why were stories about true love triumphing over arranged marriages so popular?</p>
+          <textarea class="answer-input" id="info2" rows="2"></textarea>
+        </div>
+        
+      </div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 6 • Week 2</div>
+        <div class="unit-label">Language Skills</div>
+      </div>
+      <h2>✏️ Language Practice</h2>
+      <p class="instructions">Practice identifying figurative language from the story:</p>
+      <div class="question-group">
+        <p class="question-text">Find an example of descriptive language or figurative language in today's chapter. Write the phrase and explain what it helps you understand.</p>
+        <textarea class="answer-input" rows="3"></textarea>
+      </div>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 6 • Week 2</div>
+        <div class="unit-label">Journal Response</div>
+      </div>
+      <h2>✍️ Your Response</h2>
+      <div class="journal-prompt">
+        <p><strong>Choose one:</strong></p>
+        <ul>
+          <li>Which character in this chapter showed the most courage or cleverness? Explain your choice with examples from the text.</li>
+          <li>If you could ask the main character one question, what would it be and why?</li>
+          <li>Write about a time when you faced a similar situation or challenge as a character in this chapter.</li>
+        </ul>
+      </div>
+      <textarea class="answer-input journal-input" rows="8" placeholder="Write your response here..."></textarea>
+      <div class="page-footer">
+        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
+        <button class="nav-button next-button" onclick="nextPage()">Finish Lesson →</button>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card completion-page">
+      <div class="completion-container">
+        <div class="completion-icon">🎉</div>
+        <h1>Day 6 Complete!</h1>
+        <p class="completion-message">Great work on "Alan-a-Dale's Wedding"!</p>
+        <div class="completion-stats">
+          <div class="stat-item">
+            <div class="stat-number">3</div>
+            <div class="stat-label">New Words</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">1</div>
+            <div class="stat-label">Chapter Read</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">5</div>
+            <div class="stat-label">Questions</div>
+          </div>
+        </div>
+        <button class="completion-button" onclick="markComplete()">Mark Complete & Save Progress</button>
+        <div class="completion-footer">
+          <button class="nav-button prev-button" onclick="prevPage()">← Review Lesson</button>
+        </div>
+      </div>
+    </div>`
+                }
+            ]
+        };
+
+        // Initialize the lesson viewer
+        window.addEventListener('DOMContentLoaded', () => {
+            createLessonViewer('lesson-container', lesson6Config);
+        });
+    </script>
+</body>
+</html>

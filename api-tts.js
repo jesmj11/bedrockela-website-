@@ -25,12 +25,14 @@ if (!ELEVENLABS_API_KEY) {
   process.exit(1);
 }
 
-// Voice IDs for BedrockELA characters
+// Voice IDs for BedrockELA characters (using YOUR custom voices!)
 const VOICES = {
-  'billy': 'IKne3meq5aSn9XLyUdCD', // Charlie - energetic, confident
-  'laura': 'FGY2WhTYpPnrIDTdsKH5', // Laura - enthusiastic
-  'liam': 'TX3LPaxmHKxFdv7VOQHJ', // Liam - energetic male
-  'default': 'IKne3meq5aSn9XLyUdCD' // Charlie by default
+  'billy': 'UgBBYS2sOqTuMpoF3BR0', // Mark - Natural Conversations (BILLY!)
+  'mark': 'UgBBYS2sOqTuMpoF3BR0', // Mark - Natural Conversations
+  'john': '7rQX8r6PVq3gfJ8rZzyE', // John of the North - Warm character voice
+  'adam': 'NFG5qt843uXKj4pFvR7C', // Adam Stone - Smooth narrator
+  'marshal': 'nzeAacJi50IvxcyDnMXa', // Marshal - Friendly, Funny Professor
+  'default': 'UgBBYS2sOqTuMpoF3BR0' // Mark by default
 };
 
 /**

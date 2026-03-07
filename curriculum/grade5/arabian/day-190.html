@@ -1,18 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Day 190: Week 38 Assessment</title>
-  <link rel="stylesheet" href="../../../css/lesson-styles.css">
-  <link rel="stylesheet" href="../../../css/lesson-complete-styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 190: Week 38 Assessment</title>
+    <link rel="stylesheet" href="../../../css/lesson-viewer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
-<body>
-  <div class="lesson-container" id="lessonContainer">
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
+
+    <script src="../../../js/lesson-viewer.js"></script>
+    <script src="../../../firebase-config.js"></script>
+    <script src="../../../js/lesson-completion.js"></script>
+    <script src="../../../js/lesson-autosave.js"></script>
+    <script src="../../../js/save-button-injector.js"></script>
+    <script src="../../../js/answer-validation.js"></script>
+    <script src="../../../js/grade-normalizer.js"></script>
+    <script src="../../../js/offline-sync.js"></script>
+    <script src="../../../js/text-to-speech.js"></script>
+    <script src="../../../js/digital-book.js"></script>
+    <script type="module" src="../../../js/vocab-games.js"></script>
     
-    <!-- Page 1: Title & Instructions -->
-    <div class="page page-active">
-      <div class="page-header">
+    <script>
+        const lesson190Config = {
+            lessonId: '5th-grade-day-190',
+            gradeLevel: '5th-grade',
+            title: 'Day 190: Week 38 Assessment',
+            pages: [
+                {
+                    render: () => `<div class="page-header">
         <div class="lesson-number">Day 190 • Week 38</div>
         <div class="unit-label">Weekly Assessment</div>
       </div>
@@ -26,15 +43,10 @@
           <li><strong>Writing:</strong> Short reflection</li>
         </ul>
         <p class="instructions"><strong>Take your time and do your best!</strong></p>
-      </div>
-      <div class="page-footer">
-        <button class="nav-button next-button" onclick="nextPage()">Begin Assessment →</button>
-      </div>
-    </div>
-
-    <!-- Page 2: Vocabulary Quiz -->
-    <div class="page">
-      <div class="page-header">
+      </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
         <div class="lesson-number">Day 190 • Week 38</div>
         <div class="unit-label">Vocabulary Quiz</div>
       </div>
@@ -96,16 +108,10 @@
           <textarea class="answer-input" id="quiz9" rows="2" placeholder="Write the definition..."></textarea>
         </div>
         
-      </div>
-      <div class="page-footer">
-        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
-        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
-      </div>
-    </div>
-
-    <!-- Page 3: Language Skills Game -->
-    <div class="page">
-      <div class="page-header">
+      </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
         <div class="lesson-number">Day 190 • Week 38</div>
         <div class="unit-label">Language Skills</div>
       </div>
@@ -233,16 +239,10 @@
           </div>
         </div>
         
-      </div>
-      <div class="page-footer">
-        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
-        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
-      </div>
-    </div>
-
-    <!-- Page 4: Story Comprehension (review from this week) -->
-    <div class="page">
-      <div class="page-header">
+      </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
         <div class="lesson-number">Day 190 • Week 38</div>
         <div class="unit-label">Comprehension Review</div>
       </div>
@@ -264,16 +264,10 @@
           <p class="question-text">Choose one character from this week's stories. What made them memorable?</p>
           <textarea class="answer-input" rows="3"></textarea>
         </div>
-      </div>
-      <div class="page-footer">
-        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
-        <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
-      </div>
-    </div>
-
-    <!-- Page 5: Writing -->
-    <div class="page">
-      <div class="page-header">
+      </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
         <div class="lesson-number">Day 190 • Week 38</div>
         <div class="unit-label">Writing</div>
       </div>
@@ -282,16 +276,10 @@
         <p><strong>Writing Prompt:</strong></p>
         <p>The Arabian Nights stories often feature characters who solve problems through cleverness rather than strength. Write about a time when you (or someone you know) solved a difficult problem by thinking creatively. What was the problem? What creative solution worked?</p>
       </div>
-      <textarea class="answer-input journal-input" rows="10" placeholder="Write your reflection here..."></textarea>
-      <div class="page-footer">
-        <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
-        <button class="nav-button next-button" onclick="nextPage()">Finish Assessment →</button>
-      </div>
-    </div>
-
-    <!-- Page 6: Completion -->
-    <div class="page completion-page">
-      <div class="completion-container">
+      <textarea class="answer-input journal-input" rows="10" placeholder="Write your reflection here..."></textarea>`
+                },
+                {
+                    render: () => `<div class="completion-container">
         <div class="completion-icon">🎉</div>
         <h1>Assessment Complete!</h1>
         <p class="completion-message">Great work on Week 38!</p>
@@ -313,36 +301,17 @@
         <div class="completion-footer">
           <button class="nav-button prev-button" onclick="prevPage()">← Review Assessment</button>
         </div>
-      </div>
-    </div>
+      </div>`
+                }
+            ]
+        };
 
-  </div>
-
-  <script>
-    let currentPage = 0;
-    const pages = document.querySelectorAll('.page');
-    
-    window.nextPage = function() {
-      if (currentPage < pages.length - 1) {
-        pages[currentPage].classList.remove('page-active');
-        currentPage++;
-        pages[currentPage].classList.add('page-active');
-        window.scrollTo(0, 0);
-      }
-    };
-    
-    window.prevPage = function() {
-      if (currentPage > 0) {
-        pages[currentPage].classList.remove('page-active');
-        currentPage--;
-        pages[currentPage].classList.add('page-active');
-        window.scrollTo(0, 0);
-      }
-    };
-    
-    window.markComplete = function() {
-      alert('Assessment submitted! (Save functionality will be added with Firebase integration)');
-    };
-  </script>
+        // Initialize lesson viewer
+        if (typeof initLessonViewer === 'function') {
+            initLessonViewer('lesson-container', lesson190Config);
+        } else {
+            console.error('lesson-viewer.js not loaded! Check file paths.');
+        }
+    </script>
 </body>
 </html>

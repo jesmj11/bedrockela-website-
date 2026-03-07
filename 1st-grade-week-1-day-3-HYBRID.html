@@ -3,16 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 3: Short A (-ap, -ag, -ad, -ab families) - BedrockELA Hybrid</title>
+    <title>Day 3: Short A (-ap, -ag, -ad, -ab families) - BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
     <script src="js/billy-mini-lesson.js"></script>
     <script src="js/billy-week1-lessons.js"></script>
     <script src="js/billy-games.js"></script>
-    <script src="js/billy-storybook.js"></script>
-    <script src="stories/dads-cap.js"></script>
+    <script src="js/billy-day3-storybook.js"></script>
     <style>
-        /* Billy corner widget - gold circle with speaker */
         .billy-corner-widget {
             position: fixed;
             bottom: 80px;
@@ -67,12 +65,6 @@
             transform: scale(0.95);
         }
         
-        /* Hide text instructions - Billy speaks them */
-        .billy-instruction-text {
-            display: none;
-        }
-        
-        /* Activity styles within cards */
         .activity-word-builder {
             text-align: center;
             padding: 20px;
@@ -98,670 +90,533 @@
             font-size: 32px;
             font-weight: 800;
             color: #305853;
-            cursor: move;
+            cursor: pointer;
             transition: all 0.2s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         
         .onset-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-        
-        .rime-zone {
-            display: inline-block;
-            min-width: 150px;
-            height: 80px;
-            background: #fff4e6;
-            border: 3px dashed #B06821;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 36px;
-            font-weight: 800;
-            color: #B06821;
-            margin: 20px auto;
-        }
-        
-        .word-result {
-            font-size: 48px;
-            font-weight: 800;
-            color: #305853;
-            margin: 20px 0;
-            min-height: 60px;
-        }
-        
-        .multiple-choice-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            max-width: 400px;
-            margin: 20px auto;
-        }
-        
-        .choice-btn {
-            padding: 20px;
-            background: white;
-            border: 3px solid #4a7c3f;
-            border-radius: 12px;
-            font-size: 20px;
-            font-weight: 700;
-            color: #305853;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'Nunito', sans-serif;
-        }
-        
-        .choice-btn:hover {
-            background: #4a7c3f;
-            color: white;
+            background: #f0f7ed;
             transform: scale(1.05);
         }
         
-        .choice-btn.correct {
-            background: #52b788;
-            border-color: #52b788;
+        .onset-card.selected {
+            background: #4a7c3f;
             color: white;
         }
         
-        .choice-btn.incorrect {
-            background: #f4845f;
-            border-color: #f4845f;
-            color: white;
-            animation: shake 0.3s ease;
+        .rime-display {
+            font-size: 48px;
+            font-weight: 800;
+            color: #B06821;
+            margin: 30px 0;
+            min-height: 60px;
         }
         
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-8px); }
-            75% { transform: translateX(8px); }
+        .word-result {
+            font-size: 56px;
+            font-weight: 800;
+            color: #305853;
+            margin: 20px 0;
+            min-height: 70px;
+        }
+        
+        .comprehension-question {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .comprehension-question h3 {
+            color: #305853;
+            margin-bottom: 15px;
+        }
+        
+        .answer-choices {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .answer-choice {
+            background: #f0f7ed;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .answer-choice:hover {
+            background: #e1f0da;
+            border-color: #4a7c3f;
+        }
+        
+        .answer-choice.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .answer-choice.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .sight-words-display {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+        
+        .sight-word-card {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 15px;
+            border: 4px solid #B06821;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .sight-word-card .word {
+            font-size: 48px;
+            font-weight: 800;
+            color: #305853;
+            margin-bottom: 10px;
+        }
+        
+        .sight-word-card .type {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
     </style>
 </head>
-<body class="lesson-viewer">
-    <div id="lesson-container" class="lesson-container">
-        <!-- Navigation will be inserted here -->
-    </div>
-
-    <script>
-        const pages = [
-        // Page 1: Title
-        `<div class="lesson-page-card title-page">
-            <h1>Day 3</h1>
-            <div class="subtitle">Short A Sound</div>
-            <p style="color: #5B7C99; font-size: 18px; margin-top: 20px;">
-                More Rimes: -ap, -ag, -ad, -ab<br>Word Chains
-            </p>
-        </div>`,
-
-        // Page 2: Welcome & Objectives
-        `<div class="lesson-page-card content-page">
-            <h2>🎯 Today You Will...</h2>
-            <div style="text-align: left; max-width: 500px; margin: 20px auto;">
-                <p style="margin: 15px 0; font-size: 18px;">✓ Review <strong>-at, -an, -am</strong> families</p>
-                <p style="margin: 15px 0; font-size: 18px;">✓ Learn new rimes: <strong>-ap, -ag, -ad, -ab</strong></p>
-                <p style="margin: 15px 0; font-size: 18px;">✓ Build words: <strong>cap, bag, dad, cab</strong></p>
-                <p style="margin: 15px 0; font-size: 18px;">✓ Practice sight word: <strong>the</strong></p>
+<body>
+    <div class="lesson-container">
+        <!-- Navigation Header -->
+        <div class="nav-header">
+            <button class="nav-arrow" id="prevCard">←</button>
+            <div class="page-indicator">
+                <span class="current-page">1</span> of <span class="total-pages">11</span>
             </div>
-        </div>`,
+            <button class="nav-arrow" id="nextCard">→</button>
+        </div>
 
-        // Page 3: Mini-Lesson - More Word Families
-        `<div class="lesson-page-card content-page">
-            
-            <h2>📝 More Word Families</h2>
-            <div style="text-align: center; margin: 40px 0;">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 600px; margin: 0 auto;">
-                    <div>
-                        <div style="font-size: 56px; font-weight: 800; color: #305853;">-ap</div>
-                        <p style="font-size: 18px; color: #666;">cap, map, tap</p>
-                    </div>
-                    <div>
-                        <div style="font-size: 56px; font-weight: 800; color: #B06821;">-ag</div>
-                        <p style="font-size: 18px; color: #666;">bag, tag, rag</p>
-                    </div>
-                    <div>
-                        <div style="font-size: 56px; font-weight: 800; color: #305853;">-ad</div>
-                        <p style="font-size: 18px; color: #666;">dad, mad, sad</p>
-                    </div>
-                    <div>
-                        <div style="font-size: 56px; font-weight: 800; color: #B06821;">-ab</div>
-                        <p style="font-size: 18px; color: #666;">cab, tab, dab</p>
-                    </div>
+        <!-- CARD 1: Title Page -->
+        <div class="lesson-card active" data-page="1">
+            <div class="title-card">
+                <div class="grade-badge">1st Grade</div>
+                <h1 class="lesson-title">Day 3: Short A</h1>
+                <div class="lesson-subtitle">Week 1 | -ap, -ag, -ad, -ab word families</div>
+                <div class="story-badge">
+                    <span class="badge-icon">📚</span>
+                    <span>Max and the Hat</span>
                 </div>
-                <p style="font-size: 24px; color: #666; margin-top: 40px;">Billy will teach word chains!</p>
             </div>
-        </div>`,
+        </div>
 
-        // Page 4: Word Building Activity
-        `<div class="lesson-page-card content-page">
+        <!-- CARD 2: Welcome & Objectives -->
+        <div class="lesson-card" data-page="2">
+            <h2>Welcome to Day 3! 🎉</h2>
+            <p style="font-size: 18px; line-height: 1.6;">Great progress! Today we're learning even MORE Short A word families!</p>
+            
+            <div class="objectives-box">
+                <h3>📋 Today's Goals</h3>
+                <ul>
+                    <li>Review <strong>/a/</strong> sound and previous families</li>
+                    <li>Learn <strong>-ap</strong> words (cap, map, tap)</li>
+                    <li>Learn <strong>-ag</strong> words (bag, wag, tag)</li>
+                    <li>Learn <strong>-ad</strong> words (dad, sad, mad)</li>
+                    <li>Learn <strong>-ab</strong> words (cab, tab, dab)</li>
+                    <li>Read our story: <strong>Max and the Hat</strong></li>
+                    <li>Practice sight word: <strong>"the"</strong></li>
+                </ul>
+            </div>
+            
+            <div id="billy-widget" class="billy-corner-widget" style="position: relative; bottom: 0; right: 0; margin-top: 20px;">
+                <div class="billy-avatar-circle" title="Billy the Goat">
+                    <img src="img/billy-avatar.png" alt="Billy" class="billy-mini-avatar" 
+                         onerror="this.style.display='none'; this.parentElement.innerHTML='🐐'">
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 3: Mini-Lesson (Billy auto-starts) -->
+        <div class="lesson-card" data-page="3">
+            <h2>📖 Today's Mini-Lesson</h2>
+            <p style="font-size: 18px; margin-bottom: 20px;">Billy will teach you four new word families. Listen carefully!</p>
+            
+            <div id="mini-lesson-container" style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                <div id="billy-widget" class="billy-corner-widget" style="position: relative; bottom: 0; right: 0; justify-content: center;">
+                    <div class="billy-avatar-circle" title="Billy the Goat" style="width: 90px; height: 90px;">
+                        <img src="img/billy-avatar.png" alt="Billy" class="billy-mini-avatar" 
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='🐐'">
+                    </div>
+                    <button class="billy-speak-btn" id="replay-lesson" title="Replay lesson">🔊</button>
+                </div>
+                
+                <p style="text-align: center; color: #666; margin-top: 20px;">Billy will guide you through today's lesson...</p>
+            </div>
+        </div>
+
+        <!-- CARD 4: Word Building Activity -->
+        <div class="lesson-card" data-page="4">
+            <h2>🔨 Build Words!</h2>
+            <p style="font-size: 18px; text-align: center;">Tap a letter, then pick a word family!</p>
             
             <div class="activity-word-builder">
-                <h3 style="color: #305853; margin-bottom: 20px;">Build a Word!</h3>
                 <div class="onset-cards">
-                    <div class="onset-card" onclick="buildWord('c', this)">c</div>
-                    <div class="onset-card" onclick="buildWord('m', this)">m</div>
-                    <div class="onset-card" onclick="buildWord('b', this)">b</div>
-                    <div class="onset-card" onclick="buildWord('s', this)">s</div>
-                    <div class="onset-card" onclick="buildWord('r', this)">r</div>
+                    <div class="onset-card" data-onset="c">c</div>
+                    <div class="onset-card" data-onset="m">m</div>
+                    <div class="onset-card" data-onset="t">t</div>
+                    <div class="onset-card" data-onset="b">b</div>
+                    <div class="onset-card" data-onset="w">w</div>
+                    <div class="onset-card" data-onset="d">d</div>
                 </div>
-                <div class="rime-zone">-at</div>
-                <div class="word-result" id="word-result"></div>
-                <div id="word-feedback" style="font-size: 20px; font-weight: 600; min-height: 30px;"></div>
-            </div>
-        </div>`,
-
-        // Page 5: Story (Storybook)
-        `<div class="lesson-page-card content-page">
-            <div id="storybook-container"></div>
-        </div>`,
-
-                // Page 6: Comprehension
-        `<div class="lesson-page-card content-page">
-            
-            <h2>🤔 Comprehension Check</h2>
-            <p style="text-align: center; color: #666; margin-bottom: 30px;">Answer questions about the story</p>
-            
-            <!-- Question 1 -->
-            <div class="comprehension-question">
-                <h3 style="color: #305853; margin-bottom: 15px;">1. What did Dad have?</h3>
-                <div class="multiple-choice-grid">
-                    <button class="choice-btn" onclick="checkAnswer(this, 'q1', 'A red cap', true)">A red cap</button>
-                    <button class="choice-btn" onclick="checkAnswer(this, 'q1', 'A van', false)">A van</button>
-                    <button class="choice-btn" onclick="checkAnswer(this, 'q1', 'A cat', false)">A cat</button>
-                    <button class="choice-btn" onclick="checkAnswer(this, 'q1', 'Jam', false)">Jam</button>
+                
+                <div class="rime-display">
+                    <select id="rime-selector" style="font-size: 36px; padding: 10px; border: 3px solid #B06821; border-radius: 10px; background: white; cursor: pointer;">
+                        <option value="ap">-ap</option>
+                        <option value="ag">-ag</option>
+                        <option value="ad">-ad</option>
+                        <option value="ab">-ab</option>
+                    </select>
                 </div>
-                <div id="answer-feedback-q1" class="answer-feedback"></div>
+                
+                <div class="word-result" id="word-result">Pick a letter!</div>
             </div>
             
-            <!-- Question 2 -->
-            <div class="comprehension-question">
-                <h3 style="color: #305853; margin-bottom: 15px;">2. What got the cap?</h3>
-                <div class="multiple-choice-grid">
-                    <button class="choice-btn" onclick="checkAnswer(this, 'q2', 'A tag', true)">A tag</button>
-                    <button class="choice-btn" onclick="checkAnswer(this, 'q2', 'A bag', false)">A bag</button>
-                    <button class="choice-btn" onclick="checkAnswer(this, 'q2', 'A cat', false)">A cat</button>
-                    <button class="choice-btn" onclick="checkAnswer(this, 'q2', 'Sam', false)">Sam</button>
-                </div>
-                <div id="answer-feedback-q2" class="answer-feedback"></div>
-            </div>
-            
-            <!-- Question 3 -->
-            <div class="comprehension-question">
-                <h3 style="color: #305853; margin-bottom: 15px;">3. How did Dad feel at the end?</h3>
-                <div class="multiple-choice-grid">
-                    <button class="choice-btn" onclick="checkAnswer(this, 'q3', 'Glad', true)">Glad</button>
-                    <button class="choice-btn" onclick="checkAnswer(this, 'q3', 'Sad', false)">Sad</button>
-                    <button class="choice-btn" onclick="checkAnswer(this, 'q3', 'Mad', false)">Mad</button>
-                    <button class="choice-btn" onclick="checkAnswer(this, 'q3', 'Bad', false)">Bad</button>
-                </div>
-                <div id="answer-feedback-q3" class="answer-feedback"></div>
-            </div>
-            
-            <style>
-                .comprehension-question {
-                    margin: 30px 0;
-                    padding: 20px;
-                    background: #f5f9ff;
-                    border-radius: 15px;
-                }
-                .multiple-choice-grid {
-                    display: grid;
-                    grid-template-columns: 1fr 1fr;
-                    gap: 15px;
-                    max-width: 500px;
-                    margin: 0 auto;
-                }
-                .answer-feedback {
-                    text-align: center;
-                    font-size: 18px;
-                    font-weight: 700;
-                    margin-top: 15px;
-                    min-height: 30px;
-                }
-            </style>
-        </div>`,
-
-        // Page 7: Sight Words
-        `<div class="lesson-page-card content-page">
-            
-            <h2>👀 Sight Words</h2>
-            <div style="text-align: center; margin: 40px 0;">
-                <div style="display: flex; gap: 30px; justify-content: center; flex-wrap: wrap;">
-                    <button onclick="speakSightWord('a')" style="padding: 30px 50px; background: #fff4e6; border: 4px solid #B06821; border-radius: 20px; font-size: 72px; font-weight: 800; color: #305853; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">a</button>
-                    <button onclick="speakSightWord('the')" style="padding: 30px 50px; background: #fff4e6; border: 4px solid #B06821; border-radius: 20px; font-size: 72px; font-weight: 800; color: #305853; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">the</button>
-                </div>
-                <p style="font-size: 18px; color: #666; margin-top: 40px;">Tap each word to hear it!</p>
-            </div>
-        </div>`,
-
-        // Page 8: Memory Game
-        `<div class="lesson-page-card content-page">
-            <div id="memory-game-container"></div>
-        </div>`,
-        
-        // Page 9: Matching Game
-        `<div class="lesson-page-card content-page">
-            <div id="matching-game-container"></div>
-        </div>`,
-        
-        // Page 8: Completion
-        `<div class="lesson-page-card content-page">
-            
-            <h2>🎉 Great Job!</h2>
-            <div class="completion-badge">Day 1 Complete!</div>
-            <p style="font-size: 18px; margin: 30px 0;">You learned:</p>
-            <div style="text-align: left; max-width: 400px; margin: 20px auto;">
-                <p style="margin: 10px 0;">✓ The short a sound: /a/</p>
-                <p style="margin: 10px 0;">✓ Words: cat, mat, bat, sat, rat</p>
-                <p style="margin: 10px 0;">✓ Sight words: a, the</p>
-                <p style="margin: 10px 0;">✓ Story: Sam's Van</p>
-            </div>
-            <p style="font-size: 16px; color: #666; margin-top: 30px;">Ready for Day 2! 🎉</p>
-        </div>`
-        
-        ];
-
-        let currentPage = 0;
-        let miniLessonAutoStarted = false;
-
-        // Billy's instructions for each page
-        const billyInstructions = [
-            "", // Page 1 (title) - no Billy
-            "Hi! I'm Billy! Today we're learning the short a sound, like in cat. Let's get started! Here's what we'll do today. We'll learn the short a sound. We'll build words with at. We'll read Sam's Van. And we'll practice sight words a and the. Ready? Let's go!",
-            "", // Page 3 uses mini-lesson (auto-starts, no simple instruction)
-            "Tap a letter to build a word with at. Can you make cat? Try it!",
-            "Now let's read our story! I'll read it first, then you can read with me. Ready?",
-            "Great reading! Now let's see if you remember the story. Who has a van?",
-            "Time to learn our sight words. These are special words, we read them by sight. Listen carefully. Tap each word, to hear it slowly.",
-            "Awesome work! You finished Day 1! You're already getting better at reading!"
-        ];
-
-        function renderPage() {
-            const container = document.getElementById('lesson-container');
-            const progress = Math.round(((currentPage + 1) / pages.length) * 100);
-            
-            const showBilly = currentPage > 0; // Billy appears on all pages except title
-            
-            container.innerHTML = `
-                <!-- Top Navigation -->
-                <div class="lesson-nav-top">
-                    <button class="nav-btn-home" onclick="window.location.href='student-dashboard.html'">
-                        🏠 Home
-                    </button>
-                    
-                    <div class="lesson-progress-bar">
-                        <div class="lesson-progress-fill" style="width: ${progress}%;"></div>
-                        <span class="lesson-progress-text">${progress}% Complete</span>
-                    </div>
-
-                    <div class="lesson-info">
-                        <span style="margin-right: 10px;">Day 1</span>
-                        <span style="background: #52b788; color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px;">● Online</span>
-                    </div>
-                </div>
-
-                <!-- Page Content -->
-                <div class="lesson-page-content">
-                    ${pages[currentPage]}
-                </div>
-
-                <!-- Bottom Navigation -->
-                <div class="lesson-nav-bottom">
-                    <button 
-                        class="nav-arrow ${currentPage === 0 ? 'disabled' : ''}" 
-                        onclick="prevPage()"
-                        ${currentPage === 0 ? 'disabled' : ''}
-                    >
-                        ← Previous
-                    </button>
-
-                    <div class="page-indicator">
-                        ${pages.map((_, i) => `
-                            <div class="page-dot ${i === currentPage ? 'active' : ''} ${i < currentPage ? 'completed' : ''}"></div>
-                        `).join('')}
-                    </div>
-
-                    <button 
-                        class="nav-arrow" 
-                        onclick="nextPage()"
-                    >
-                        ${currentPage === pages.length - 1 ? 'Finish ✓' : 'Next →'}
-                    </button>
-                </div>
-
-                <!-- Billy Corner Widget -->
-                ${showBilly ? `
-                <div class="billy-corner-widget">
-                    <div class="billy-avatar-circle" onclick="speakCurrentPage()">
-                        <img src="images/billy-avatar.jpg" alt="Billy" class="billy-mini-avatar">
-                    </div>
-                    <button class="billy-speak-btn" id="billy-speaker" onclick="speakCurrentPage()" title="Hear Billy's instructions">🔊</button>
-                </div>
-                ` : ''}
-            `;
-            
-            // Auto-start mini-lesson on Page 3 (phoneme introduction) - only once
-            if (currentPage === 2 && showBilly && !miniLessonAutoStarted) {
-                miniLessonAutoStarted = true;
-                setTimeout(() => {
-                    if (window.billyMiniLesson) {
-                        console.log('[Page 3] Auto-starting mini-lesson');
-                        window.billyMiniLesson.start();
-                    }
-                }, 500);
-            } else if (currentPage !== 2) {
-                // Reset flag when leaving Page 3
-                miniLessonAutoStarted = false;
-            }
-            
-            
-            // Initialize storybook on Page 5
-            if (currentPage === 4) {
-                // Page 5 - Storybook
-                setTimeout(() => {
-                    if (window.DADS_CAP_STORY) {
-                        window.storybook = new BillyStorybook(window.DADS_CAP_STORY, 'storybook-container');
-                    }
-                }, 100);
-            }
-            
-// Initialize games on their pages
-            if (currentPage === 7) {
-                // Page 8 - Memory Game
-                setTimeout(() => {
-                    window.memoryGame = new BillyMemoryGame(3, 'memory-game-container');
-                }, 100);
-            } else if (currentPage === 8) {
-                // Page 9 - Matching Game
-                setTimeout(() => {
-                    window.matchingGame = new BillyMatchingGame(3, 'matching-game-container');
-                }, 100);
-            }
-        }
-        
-        function speakCurrentPage() {
-            // Page 3 uses the interactive mini-lesson
-            if (currentPage === 2) {
-                if (window.billyMiniLesson) {
-                    window.billyMiniLesson.toggle();
-                }
-                return;
-            }
-            
-            // Other pages use simple instruction playback
-            const instruction = billyInstructions[currentPage];
-            if (instruction) {
-                const btn = document.getElementById('billy-speaker');
-                speakBilly(instruction, btn);
-            }
-        }
-
-        function nextPage() {
-            // Stop ALL audio when navigating
-            stopAllAudio();
-            
-            if (currentPage < pages.length - 1) {
-                currentPage++;
-                renderPage();
-                window.scrollTo(0, 0);
-            }
-        }
-
-        function prevPage() {
-            // Stop ALL audio when navigating
-            stopAllAudio();
-            
-            if (currentPage > 0) {
-                currentPage--;
-                renderPage();
-                window.scrollTo(0, 0);
-            }
-        }
-        
-        function stopAllAudio() {
-            // Stop mini-lesson if active
-            if (window.billyMiniLesson && window.billyMiniLesson.isPlaying) {
-                console.log('[Navigation] Stopping mini-lesson');
-                window.billyMiniLesson.stop();
-            }
-            
-            // Stop any regular Billy audio
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio = null;
-            }
-            
-            // Stop browser TTS
-            if (window.speechSynthesis) {
-                speechSynthesis.cancel();
-            }
-            
-            // Reset button states
-            const btn = document.getElementById('billy-speaker');
-            if (btn) {
-                btn.textContent = '🔊';
-            }
-            if (currentButton) {
-                currentButton.textContent = '🔊';
-                currentButton = null;
-            }
-        }
-            
-            if (currentPage > 0) {
-                currentPage--;
-                renderPage();
-                window.scrollTo(0, 0);
-            }
-        }
-
-        // Billy speaks using ElevenLabs TTS
-        let currentAudio = null;
-        let currentButton = null;
-        
-        async function speakBilly(text, button) {
-            // Don't use this function on Page 3 - mini-lesson handles it
-            if (currentPage === 2) {
-                console.log('[speakBilly] Skipping - Page 3 uses mini-lesson');
-                return;
-            }
-            
-            // If audio is playing, stop it
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio = null;
-                if (window.speechSynthesis) {
-                    speechSynthesis.cancel();
-                }
-                if (currentButton) {
-                    currentButton.textContent = '🔊';
-                    currentButton = null;
-                }
-                return;
-            }
-            
-            // Store button reference
-            if (button) {
-                currentButton = button;
-                button.textContent = '⏸️';
-            }
-            
-            try {
-                // Call TTS endpoint
-                const response = await fetch('http://localhost:3002/tts', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        text: text,
-                        voice: 'mark' // Mark - Jes's custom ElevenLabs voice
-                    })
-                });
-                
-                if (!response.ok) {
-                    console.error('TTS error:', response.statusText);
-                    // Fallback to browser TTS
-                    fallbackBrowserTTS(text, button);
-                    return;
-                }
-                
-                // Get audio blob
-                const audioBlob = await response.blob();
-                const audioUrl = URL.createObjectURL(audioBlob);
-                
-                // Play audio
-                currentAudio = new Audio(audioUrl);
-                currentAudio.play();
-                
-                // Cleanup when done
-                currentAudio.onended = () => {
-                    URL.revokeObjectURL(audioUrl);
-                    currentAudio = null;
-                    if (currentButton) {
-                        currentButton.textContent = '🔊';
-                        currentButton = null;
-                    }
-                };
-                
-            } catch (error) {
-                console.error('TTS error:', error);
-                // Fallback to browser TTS
-                fallbackBrowserTTS(text, button);
-            }
-        }
-        
-        // Fallback to browser TTS if ElevenLabs fails
-        function fallbackBrowserTTS(text, button) {
-            if (!window.speechSynthesis) {
-                console.log('Billy says:', text);
-                if (currentButton) {
-                    currentButton.textContent = '🔊';
-                    currentButton = null;
-                }
-                return;
-            }
-            
-            speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.rate = 0.9;
-            utterance.pitch = 1.1;
-            
-            const voices = speechSynthesis.getVoices();
-            const childVoice = voices.find(v => 
-                v.name.includes('Samantha') || 
-                v.name.includes('Karen') || 
-                v.name.includes('female')
-            );
-            if (childVoice) utterance.voice = childVoice;
-            
-            utterance.onend = () => {
-                if (currentButton) {
-                    currentButton.textContent = '🔊';
-                    currentButton = null;
-                }
-            };
-            
-            speechSynthesis.speak(utterance);
-        }
-
-        
-        // Speak sight word - simpler version that doesn't change button text
-        async function speakSightWord(word) {
-            try {
-                const response = await fetch('http://localhost:3002/tts', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ text: word, voice: 'mark' })
-                });
-                
-                if (response.ok) {
-                    const audioBlob = await response.blob();
-                    const audioUrl = URL.createObjectURL(audioBlob);
-                    const audio = new Audio(audioUrl);
-                    audio.onended = () => URL.revokeObjectURL(audioUrl);
-                    audio.play();
-                } else {
-                    // Fallback to browser TTS
-                    if (window.speechSynthesis) {
-                        speechSynthesis.cancel();
+            <script>
+                document.querySelectorAll('.onset-card').forEach(card => {
+                    card.addEventListener('click', function() {
+                        const onset = this.dataset.onset;
+                        const rime = document.getElementById('rime-selector').value;
+                        const word = onset + rime;
+                        document.getElementById('word-result').textContent = word;
+                        
+                        document.querySelectorAll('.onset-card').forEach(c => c.classList.remove('selected'));
+                        this.classList.add('selected');
+                        
                         const utterance = new SpeechSynthesisUtterance(word);
-                        utterance.rate = 0.8; // Slower for sight words
+                        utterance.rate = 0.8;
+                        speechSynthesis.speak(utterance);
+                    });
+                });
+                
+                document.getElementById('rime-selector').addEventListener('change', function() {
+                    document.getElementById('word-result').textContent = 'Pick a letter!';
+                    document.querySelectorAll('.onset-card').forEach(c => c.classList.remove('selected'));
+                });
+            </script>
+        </div>
+
+        <!-- CARD 5: Max and the Hat Story -->
+        <div class="lesson-card" data-page="5">
+            <h2>📖 Max and the Hat</h2>
+            <div style="background: white; padding: 30px; border-radius: 15px; line-height: 2; font-size: 22px;">
+                <p>Max the cat had a hat.</p>
+                <p>The hat was on the mat.</p>
+                <p>A bag sat by the hat.</p>
+                <p>Max ran and sat on the bag.</p>
+                <p>"The bag is flat!" said Max.</p>
+                <p>Max got the hat and sat on the mat.</p>
+                <p>"The mat is not flat," said Max.</p>
+                <p>Max had a nap on the mat with the hat.</p>
+            </div>
+        </div>
+
+        <!-- CARD 6: Comprehension Q1 -->
+        <div class="lesson-card" data-page="6">
+            <h2>🤔 Reading Comprehension</h2>
+            
+            <div class="comprehension-question">
+                <h3>1. What did Max have?</h3>
+                <div class="answer-choices">
+                    <div class="answer-choice" data-correct="true" onclick="checkAnswer(this)">A hat</div>
+                    <div class="answer-choice" data-correct="false" onclick="checkAnswer(this)">A bag</div>
+                    <div class="answer-choice" data-correct="false" onclick="checkAnswer(this)">A map</div>
+                </div>
+                <div class="feedback" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- CARD 7: Comprehension Q2 -->
+        <div class="lesson-card" data-page="7">
+            <h2>🤔 Reading Comprehension</h2>
+            
+            <div class="comprehension-question">
+                <h3>2. What did Max sit on that was flat?</h3>
+                <div class="answer-choices">
+                    <div class="answer-choice" data-correct="false" onclick="checkAnswer(this)">The hat</div>
+                    <div class="answer-choice" data-correct="true" onclick="checkAnswer(this)">The bag</div>
+                    <div class="answer-choice" data-correct="false" onclick="checkAnswer(this)">The cat</div>
+                </div>
+                <div class="feedback" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- CARD 8: Sight Words -->
+        <div class="lesson-card" data-page="8">
+            <h2>⭐ Practice Sight Word</h2>
+            <p style="text-align: center; font-size: 18px; margin-bottom: 30px;">
+                Let's practice this important word:
+            </p>
+            
+            <div class="sight-words-display">
+                <div class="sight-word-card" onclick="speakSightWord('the')" style="cursor: pointer;">
+                    <div class="word">the</div>
+                    <div class="type">Sight Word</div>
+                </div>
+            </div>
+            
+            <div style="background: #f0f7ed; padding: 20px; border-radius: 15px; margin-top: 30px;">
+                <h3 style="color: #305853;">Practice Sentences:</h3>
+                <ul style="font-size: 20px; line-height: 2;">
+                    <li><strong>The</strong> cat has a hat.</li>
+                    <li><strong>The</strong> bag is flat.</li>
+                    <li>Max sat on <strong>the</strong> mat.</li>
+                </ul>
+            </div>
+            
+            <script>
+                async function speakSightWord(word) {
+                    try {
+                        const response = await fetch('http://localhost:3002/tts', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ text: word, voice: 'mark' })
+                        });
+                        
+                        if (response.ok) {
+                            const audioBlob = await response.blob();
+                            const audioUrl = URL.createObjectURL(audioBlob);
+                            const audio = new Audio(audioUrl);
+                            audio.onended = () => URL.revokeObjectURL(audioUrl);
+                            audio.play();
+                        } else {
+                            fallbackTTS(word);
+                        }
+                    } catch (error) {
+                        fallbackTTS(word);
+                    }
+                }
+                
+                function fallbackTTS(word) {
+                    if (window.speechSynthesis) {
+                        const utterance = new SpeechSynthesisUtterance(word);
+                        utterance.rate = 0.8;
                         utterance.pitch = 1.1;
                         speechSynthesis.speak(utterance);
                     }
                 }
-            } catch (error) {
-                console.error('Sight word TTS error:', error);
-                // Fallback to browser TTS
-                if (window.speechSynthesis) {
-                    const utterance = new SpeechSynthesisUtterance(word);
-                    utterance.rate = 0.8;
-                    utterance.pitch = 1.1;
-                    speechSynthesis.speak(utterance);
-                }
-            }
-        }
+            </script>
+        </div>
 
-        // Word building activity
-        function buildWord(onset) {
-            const result = document.getElementById('word-result');
-            const feedback = document.getElementById('word-feedback');
-            const word = onset + 'at';
+        <!-- CARD 9: The Barn Band Storybook -->
+        <div class="lesson-card" data-page="9">
+            <h2>📖 Interactive Story Time!</h2>
+            <p style="text-align: center; font-size: 18px; margin-bottom: 20px;">
+                Billy will read some pages, then YOU read some pages! Listen carefully and follow along.
+            </p>
             
-            result.textContent = word;
-            speakBilly(word);
-            
-            feedback.textContent = `Great! You made "${word}"! 🎉`;
-            feedback.style.color = '#52b788';
-            
-            setTimeout(() => {
-                feedback.textContent = 'Try another letter!';
-                feedback.style.color = '#305853';
-            }, 3000);
-        }
+            <div id="storybook-container" style="margin-top: 20px;">
+                <!-- Storybook will load here -->
+            </div>
+        </div>
 
-        // Comprehension check
-                function checkAnswer(button, questionId, answer, isCorrect) {
-            const feedback = document.getElementById(`answer-feedback-${questionId}`);
-            const questionDiv = button.closest('.comprehension-question');
+        <!-- CARD 10: Memory Game -->
+        <div class="lesson-card" data-page="10">
+            <h2>🧠 Memory Game</h2>
+            <p style="text-align: center; font-size: 18px;">Match the Short A words!</p>
             
-            // Disable all buttons in this question
-            questionDiv.querySelectorAll('.choice-btn').forEach(btn => {
-                btn.style.pointerEvents = 'none';
-            });
+            <div id="memory-game" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; max-width: 600px; margin: 30px auto; padding: 20px;">
+                <!-- Game will be generated by JS -->
+            </div>
             
-            if (isCorrect) {
-                button.classList.add('correct');
-                feedback.textContent = "✅ Yes! That's correct!";
-                feedback.style.color = '#52b788';
-            } else {
-                button.classList.add('incorrect');
-                feedback.textContent = "❌ Not quite. Try again!";
-                feedback.style.color = '#f4845f';
+            <script>
+                const memoryWords = ['cap', 'cap', 'bag', 'bag', 'dad', 'dad', 'cab', 'cab'];
+                const shuffled = memoryWords.sort(() => Math.random() - 0.5);
+                let flipped = [];
                 
-                // Re-enable buttons after 2 seconds
-                setTimeout(() => {
-                    button.classList.remove('incorrect');
-                    questionDiv.querySelectorAll('.choice-btn').forEach(btn => {
-                        btn.style.pointerEvents = 'auto';
+                const gameContainer = document.getElementById('memory-game');
+                shuffled.forEach((word, index) => {
+                    const card = document.createElement('div');
+                    card.style.cssText = 'background: #4a7c3f; color: white; padding: 30px; border-radius: 12px; font-size: 28px; font-weight: 800; text-align: center; cursor: pointer; transition: all 0.3s;';
+                    card.textContent = '?';
+                    card.dataset.word = word;
+                    card.dataset.index = index;
+                    
+                    card.addEventListener('click', function() {
+                        if (flipped.length < 2 && !this.classList.contains('matched') && !this.classList.contains('flipped')) {
+                            this.textContent = word;
+                            this.classList.add('flipped');
+                            flipped.push({element: this, word: word});
+                            
+                            if (flipped.length === 2) {
+                                setTimeout(() => {
+                                    if (flipped[0].word === flipped[1].word) {
+                                        flipped[0].element.classList.add('matched');
+                                        flipped[1].element.classList.add('matched');
+                                        flipped[0].element.style.background = '#28a745';
+                                        flipped[1].element.style.background = '#28a745';
+                                    } else {
+                                        flipped[0].element.textContent = '?';
+                                        flipped[1].element.textContent = '?';
+                                        flipped[0].element.classList.remove('flipped');
+                                        flipped[1].element.classList.remove('flipped');
+                                    }
+                                    flipped = [];
+                                }, 1000);
+                            }
+                        }
                     });
-                    feedback.textContent = '';
-                }, 2000);
+                    
+                    gameContainer.appendChild(card);
+                });
+            </script>
+        </div>
+
+        <!-- CARD 11: Completion -->
+        <div class="lesson-card" data-page="11">
+            <div class="completion-card">
+                <div class="completion-icon">🎉</div>
+                <h2>Amazing Work!</h2>
+                <p style="font-size: 20px; line-height: 1.6;">
+                    You learned FOUR new word families today! You're doing great!
+                </p>
+                <div class="completion-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">Day 3</div>
+                        <div class="stat-label">Complete</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">Week 1</div>
+                        <div class="stat-label">In Progress</div>
+                    </div>
+                </div>
+                <button class="cta-button" onclick="window.location.href='student-dashboard.html'">
+                    Return to Dashboard
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Navigation Dots -->
+    <div class="nav-dots"></div>
+
+    <script>
+        let currentCard = 1;
+        const totalCards = document.querySelectorAll('.lesson-card').length;
+        
+        function updateCard() {
+            document.querySelectorAll('.lesson-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            const activeCard = document.querySelector(`.lesson-card[data-page="${currentCard}"]`);
+            if (activeCard) {
+                activeCard.classList.add('active');
+            }
+            
+            document.querySelector('.current-page').textContent = currentCard;
+            document.querySelector('.total-pages').textContent = totalCards;
+            
+            document.querySelectorAll('.dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index + 1 === currentCard);
+            });
+            
+            if (currentCard === 3 && window.billyLesson) {
+                setTimeout(() => window.billyLesson.start(), 500);
+            }
+            
+            if (currentCard === 9 && window.barnBandStory) {
+                setTimeout(() => window.barnBandStory.start(), 500);
             }
         }
-
-        // Load voices when available
-        if (window.speechSynthesis) {
-            speechSynthesis.addEventListener('voiceschanged', () => {
-                // Voices are now available
+        
+        document.getElementById('prevCard').addEventListener('click', () => {
+            if (currentCard > 1) {
+                currentCard--;
+                updateCard();
+            }
+        });
+        
+        document.getElementById('nextCard').addEventListener('click', () => {
+            if (currentCard < totalCards) {
+                currentCard++;
+                updateCard();
+            }
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' && currentCard > 1) {
+                currentCard--;
+                updateCard();
+            } else if (e.key === 'ArrowRight' && currentCard < totalCards) {
+                currentCard++;
+                updateCard();
+            }
+        });
+        
+        const navDots = document.querySelector('.nav-dots');
+        for (let i = 1; i <= totalCards; i++) {
+            const dot = document.createElement('span');
+            dot.className = 'dot';
+            if (i === 1) dot.classList.add('active');
+            dot.addEventListener('click', () => {
+                currentCard = i;
+                updateCard();
             });
+            navDots.appendChild(dot);
         }
-
-        // Initialize Day 3 lesson (overrides default from billy-mini-lesson.js)
-        window.billyMiniLesson = new BillyWeek1Lesson(3);
-
-        renderPage();
+        
+        function checkAnswer(element) {
+            const question = element.closest('.comprehension-question');
+            const feedback = question.querySelector('.feedback');
+            const isCorrect = element.dataset.correct === 'true';
+            
+            question.querySelectorAll('.answer-choice').forEach(c => {
+                c.classList.remove('correct', 'incorrect');
+            });
+            
+            element.classList.add(isCorrect ? 'correct' : 'incorrect');
+            
+            feedback.style.display = 'block';
+            feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'incorrect');
+            feedback.textContent = isCorrect ? 
+                '✅ Correct! Great reading!' : 
+                '❌ Not quite. Try reading that part again!';
+        }
+        
+        window.addEventListener('DOMContentLoaded', () => {
+            window.billyLesson = new BillyWeek1Lesson(3);
+            
+            const replayBtn = document.getElementById('replay-lesson');
+            if (replayBtn) {
+                replayBtn.addEventListener('click', () => {
+                    window.billyLesson.start();
+                });
+            }
+        });
     </script>
 </body>
 </html>

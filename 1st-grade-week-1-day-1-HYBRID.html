@@ -496,21 +496,69 @@
             }
         }
 
-        // Billy speaks using browser TTS
-        function speakBilly(text) {
+        // Billy speaks using ElevenLabs TTS
+        let currentAudio = null;
+        
+        async function speakBilly(text) {
+            // Cancel any current audio
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+            
+            try {
+                // Call TTS endpoint
+                const response = await fetch('http://localhost:3001/tts', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        text: text,
+                        voice: 'billy' // Charlie - energetic goat voice
+                    })
+                });
+                
+                if (!response.ok) {
+                    console.error('TTS error:', response.statusText);
+                    // Fallback to browser TTS
+                    fallbackBrowserTTS(text);
+                    return;
+                }
+                
+                // Get audio blob
+                const audioBlob = await response.blob();
+                const audioUrl = URL.createObjectURL(audioBlob);
+                
+                // Play audio
+                currentAudio = new Audio(audioUrl);
+                currentAudio.play();
+                
+                // Cleanup when done
+                currentAudio.onended = () => {
+                    URL.revokeObjectURL(audioUrl);
+                    currentAudio = null;
+                };
+                
+            } catch (error) {
+                console.error('TTS error:', error);
+                // Fallback to browser TTS
+                fallbackBrowserTTS(text);
+            }
+        }
+        
+        // Fallback to browser TTS if ElevenLabs fails
+        function fallbackBrowserTTS(text) {
             if (!window.speechSynthesis) {
-                alert(text);
+                console.log('Billy says:', text);
                 return;
             }
             
-            // Cancel any current speech
             speechSynthesis.cancel();
-            
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.rate = 0.9;
             utterance.pitch = 1.1;
             
-            // Try to find a child-friendly voice
             const voices = speechSynthesis.getVoices();
             const childVoice = voices.find(v => 
                 v.name.includes('Samantha') || 

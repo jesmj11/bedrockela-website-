@@ -6,6 +6,7 @@
     <title>Day 1: Short A (-at family) - BedrockELA Hybrid</title>
     <link rel="stylesheet" href="css/lesson-viewer.css">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <script src="js/billy-mini-lesson.js"></script>
     <style>
         /* Billy corner widget - gold circle with speaker */
         .billy-corner-widget {
@@ -362,9 +363,27 @@
                 </div>
                 ` : ''}
             `;
+            
+            // Auto-start mini-lesson on Page 3 (phoneme introduction)
+            if (currentPage === 2 && showBilly) {
+                setTimeout(() => {
+                    if (window.billyMiniLesson) {
+                        window.billyMiniLesson.start();
+                    }
+                }, 500);
+            }
         }
         
         function speakCurrentPage() {
+            // Page 3 uses the interactive mini-lesson
+            if (currentPage === 2) {
+                if (window.billyMiniLesson) {
+                    window.billyMiniLesson.toggle();
+                }
+                return;
+            }
+            
+            // Other pages use simple instruction playback
             const instruction = billyInstructions[currentPage];
             if (instruction) {
                 const btn = document.getElementById('billy-speaker');
@@ -373,6 +392,11 @@
         }
 
         function nextPage() {
+            // Stop mini-lesson if leaving Page 3
+            if (currentPage === 2 && window.billyMiniLesson) {
+                window.billyMiniLesson.stop();
+            }
+            
             if (currentPage < pages.length - 1) {
                 currentPage++;
                 renderPage();
@@ -381,6 +405,11 @@
         }
 
         function prevPage() {
+            // Stop mini-lesson if leaving Page 3
+            if (currentPage === 2 && window.billyMiniLesson) {
+                window.billyMiniLesson.stop();
+            }
+            
             if (currentPage > 0) {
                 currentPage--;
                 renderPage();

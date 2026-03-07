@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3002;
 
 // Enable CORS for bedrockela.com
 app.use(cors({
-  origin: ['http://localhost:8000', 'http://localhost:8001', 'https://bedrockela.com', 'http://bedrockela.com']
+  origin: ['http://localhost:3000', 'http://localhost:8000', 'http://localhost:8001', 'https://bedrockela.com', 'http://bedrockela.com']
 }));
 
 app.use(express.json());

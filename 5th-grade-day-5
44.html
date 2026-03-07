@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 44: The Fisherman and the Genie</title>
+    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
+
+    <script src="js/lesson-viewer.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
+        
+    <script>
+        const lesson44Config = {
+            lessonId: '5th-grade-lesson-44',
+            gradeLevel: '5th-grade',
+            title: 'Day 44: The Fisherman and the Genie',
+            pages: [
+                {
+                    render: () => `
+<div class="lesson-page-card title-page">
+                            
+                            <h1>Lesson 44</h1>
+                            <div class="subtitle">5th Grade ELA</div>
+                            <p style="color: #8B4513; font-size: 20px; margin-top: 20px;">
+                                Arabian Nights
+                            </p>
+                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
+                                The Fisherman and the Genie
+                            </p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Welcome to Lesson 44!</h2>
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>Read from <em>The Fisherman and the Genie</em></li>
+                                <li>Learn 3 new vocabulary words</li>
+                                <li>Answer reading comprehension questions</li>
+                                <li>Read an informational text</li>
+                                <li>Practice grammar and writing skills</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Vocabulary Words</h2>
+                            
+                            <div style="margin: 30px 0;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">gratitude</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">composure</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-2"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">cunning</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-3"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-3', 'vocab-count-3', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-3" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-3-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;"><strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>🎮 Vocabulary Game</h2>
+                            <p style="color: #666; margin-bottom: 5px;">Match each word to its definition! (12 words this week so far)</p>
+                            <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 12</p>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                                <div id="wordColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                                    <div class="match-word" data-word="idle" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">idle</div>
+                                    <div class="match-word" data-word="enchanted" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">enchanted</div>
+                                    <div class="match-word" data-word="desperation" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">desperation</div>
+                                    <div class="match-word" data-word="accumulate" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">accumulate</div>
+                                    <div class="match-word" data-word="resourceful" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">resourceful</div>
+                                    <div class="match-word" data-word="methodical" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">methodical</div>
+                                    <div class="match-word" data-word="exhilarated" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">exhilarated</div>
+                                    <div class="match-word" data-word="desolate" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">desolate</div>
+                                    <div class="match-word" data-word="improvise" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">improvise</div>
+                                    <div class="match-word" data-word="gratitude" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">gratitude</div>
+                                    <div class="match-word" data-word="composure" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">composure</div>
+                                    <div class="match-word" data-word="cunning" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">cunning</div>
+                                </div>
+                                <div id="defColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                                    <div class="match-def" data-word="idle" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Avoiding work or effort; happy to do nothing when something should be done.</div>
+                                    <div class="match-def" data-word="enchanted" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Under a magical spell, or made magical by someone with special powers.</div>
+                                    <div class="match-def" data-word="desperation" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">A state of panic or urgency — doing something reckless because you feel you have no other choice.</div>
+                                    <div class="match-def" data-word="accumulate" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">To gather or collect something over a long period of time, little by little.</div>
+                                    <div class="match-def" data-word="resourceful" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Able to find clever solutions to difficult problems, especially when you don't have much to work with.</div>
+                                    <div class="match-def" data-word="methodical" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Doing things carefully and in order, step by step, without rushing or skipping anything.</div>
+                                    <div class="match-def" data-word="exhilarated" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Filled with excitement and energy — a rushing feeling of joy, often from something fast or thrilling.</div>
+                                    <div class="match-def" data-word="desolate" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Completely empty and lonely — a place with nothing and no one, where you feel utterly alone.</div>
+                                    <div class="match-def" data-word="improvise" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">To come up with a solution on the spot using whatever you happen to have available.</div>
+                                    <div class="match-def" data-word="gratitude" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">The feeling of being thankful — appreciating what someone has done for you.</div>
+                                    <div class="match-def" data-word="composure" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Staying calm and in control of yourself, even when things are frightening or going badly.</div>
+                                    <div class="match-def" data-word="cunning" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Clever in a sly way — using your wits to outsmart someone rather than facing them directly.</div>
+                                </div>
+                            </div>
+                            
+                            <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                            
+                            
+                        </div>
+                    `
+                ,
+                    onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 44 • Week 37</div>
+        <div class="unit-label">The Fisherman and the Genie • Part 1 of 4</div>
+      </div>
+      <div class="story-text">
+        <p>The fisherman was old, and he was poor, and he went to the sea every morning because that was what he did — had done for forty years — and his wife and children ate what he pulled out of the water.</p>
+<p>He cast his net four times a day. That was his rule.</p>
+<p>The first cast that morning pulled up mud and stones. The second brought up a broken clay pot. The third came back tangled with old bones and broken glass. He cleaned the net carefully each time, the way you do when patience is the only tool you have.</p>
+<p>Fourth cast. He said quietly, "God be with me," which he always said on the fourth cast, and pulled the net in heavy.</p>
+<p>It was a jar. Brass, yellowish with age, sealed with a lead cap stamped with a design he didn't recognize. He turned it in his hands. It was clearly very old. It might be worth something.</p>
+<p>He pried off the cap with his knife. This took some effort.</p>
+<p>Thick smoke poured out — and kept pouring, far more than the jar could possibly hold. It rose and rose and then gathered and shaped itself into something with a face. A face the size of a building. Eyes like coals. The expression of someone who has been waiting a very long time and is not happy about it.</p>
+<p>"SOLOMON!" the genie roared. "I repent! I repent! I will never disobey again!"</p>
+<p>The fisherman, from the beach, very small and very alone, said: "Solomon has been dead for many centuries. I am just a fisherman."</p>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 44 • Week 37</div>
+        <div class="unit-label">The Fisherman and the Genie • Part 2 of 4</div>
+      </div>
+      <div class="story-text">
+        <p>The genie looked down at him. The genie's anger slowly reorganized itself into something worse: a decision.</p>
+<p>"You released me?" the genie said.</p>
+<p>"I did."</p>
+<p>"Then listen carefully." The genie's voice dropped, which was somehow more frightening than the shouting. "I was imprisoned in that jar as punishment. For the first hundred years, I vowed that whoever freed me would receive great treasures. No one came. For the second hundred years, I vowed three wishes. No one came. By the third century, my <span class="vocab-highlight">gratitude</span> had curdled completely." The genie looked at him with enormous, ancient eyes. "I decided that whoever freed me — I would kill."</p>
+<p>The fisherman stood on his beach with his net in his hands.</p>
+<p>He was not strong. He had no weapon. He was sixty years old and his back hurt most mornings and he was very obviously not a match for a supernatural being of ancient power.</p>
+<p>But he had lived a long time and heard many stories.</p>
+<p>"Before I die," the fisherman said, as calmly as he could manage, "I have just one question."</p>
+<p>The genie waited.</p>
+<p>"That jar." The fisherman tilted his head at it. "I am an old man and I've seen many things, but I cannot picture how someone of your — your size and magnificence — could fit inside something so small. A lesser genie, maybe. But you." He shook his head, almost admiringly. "It seems impossible."</p>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 44 • Week 37</div>
+        <div class="unit-label">The Fisherman and the Genie • Part 3 of 4</div>
+      </div>
+      <div class="story-text">
+        <p>The genie's eyes narrowed. "You doubt me?"</p>
+<p>"I mean no disrespect. I simply cannot imagine it."</p>
+<p>The genie, who had a great deal of pride and had been sitting in a jar for nine hundred years with no one to tell about it, said: "I will show you."</p>
+<p>He contracted. The smoke gathered, swirled, compressed, and poured back into the jar. The fisherman grabbed the lead cap and pressed it down hard.</p>
+<p>He sat on the jar.</p>
+<p>"Now," the fisherman said to the jar, "hear what I have decided. You told me you planned to kill the person who freed you. Since you have such poor judgment about <span class="vocab-highlight">gratitude</span>, I will throw you back into the sea. You can wait another thousand years for someone else."</p>
+<p>The jar, muffled: "Wait."</p>
+<p>"I am listening."</p>
+<p>A long pause. "If I swear by the name of God to serve you well — will you free me?"</p>
+<p>The fisherman thought about it. He was not a cruel man. He was not even particularly angry. He was a practical man who understood that a genie sworn by the name of God was considerably more useful than a genie in a jar.</p>
+<p>"Swear," he said.</p>
+<p>The genie swore.</p>
+<p>The fisherman opened the jar.</p>
+<p>What followed was a good partnership. The genie led the fisherman to a lake full of fish of colors he had never seen — red and blue and white and yellow fish, each color a different kingdom's waters, the genie said. He showed him how to cast only once, to the king's palace, and bring up more than his whole family needed.</p>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 44 • Week 37</div>
+        <div class="unit-label">The Fisherman and the Genie • Part 4 of 4</div>
+      </div>
+      <div class="story-text">
+        <p>The fisherman came home that evening with more fish than he had ever caught in a single day. His wife asked what had happened. He told her the whole story.</p>
+<p>She was quiet for a moment.</p>
+<p>"You sat on the jar," she said.</p>
+<p>"I did."</p>
+<p>"You, personally. Sat on the genie."</p>
+<p>"It seemed like the right move at the time."</p>
+<p>She looked at the fish — enough for a week, piled in the yard — and then at her husband, old and thin and entirely pleased with himself.</p>
+<p>"It was," she said.</p>
+<p>He went back to the lake every day after that. He became, in time, known throughout the city. Not as the man who had tricked a genie — he never told that part to strangers — but as the finest fisherman on the coast, with the best catch, in the worst weather, reliable as the tide.</p>
+<p>He cast his net four times a day. He always said "God be with me" on the fourth cast.</p>
+<p>He always meant it.</p>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 44 • Week 37</div>
+        <div class="unit-label">Reading Comprehension</div>
+      </div>
+      <h2>💭 Understanding the Story</h2>
+      <p class="instructions">Answer these questions about "The Fisherman and the Genie":</p>
+      <div class="comprehension-questions">
+        
+        <div class="question-group">
+          <div class="question-number">Question 1</div>
+          <p class="question-text">The genie had started out planning to give great gifts to whoever freed him, then dropped to three wishes, and finally decided to kill them — all because no one came for nine hundred years. Do you think his anger was understandable? At what point, if any, did the fisherman owe the genie something for freeing him — and at what point did the genie give up any right to gratitude?</p>
+          <textarea class="answer-input" id="comp1" rows="3"></textarea>
+        </div>
+        
+        <div class="question-group">
+          <div class="question-number">Question 2</div>
+          <p class="question-text">The fisherman defeated a supernatural being of enormous power using nothing but words and his understanding of the genie's pride. He found the one weakness — the need to prove himself — and used it perfectly. Have you ever solved a problem by understanding what the other person cared about most? What happened?</p>
+          <textarea class="answer-input" id="comp2" rows="3"></textarea>
+        </div>
+        
+        <div class="question-group">
+          <div class="question-number">Question 3</div>
+          <p class="question-text">After the genie swears to serve him well, the fisherman lets him out of the jar. Was that wise? The genie had just tried to kill him. What made the fisherman trust the oath — and do you think he was right to? What does a sworn promise mean, and when should you believe one?</p>
+          <textarea class="answer-input" id="comp3" rows="3"></textarea>
+        </div>
+        
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 44 • Week 37</div>
+        <div class="unit-label">Informational Text</div>
+      </div>
+      <h2>📰 The Art of Arabian Calligraphy</h2>
+      <div class="info-text">
+        <p>In Islamic culture, beautiful handwriting became a sacred art. Because religious texts were central to faith and learning, copying them accurately and beautifully was considered an act of devotion. Calligraphers spent years perfecting their craft.</p>
+<p>Arabic script flows from right to left in elegant, connected curves. Different styles emerged: Kufic script, with bold, angular letters, was used for early manuscripts and architectural decoration. Naskh script, with rounded, readable letters, became standard for books. Thuluth script, elaborate and decorative, adorned mosque walls and important documents.</p>
+<p>Calligraphers used reed pens cut at precise angles. They mixed their own ink from soot, gum arabic, and water. The best paper came from carefully prepared cotton or linen rags. Creating a single page of fine calligraphy could take days.</p>
+<p>Beyond religious texts, calligraphers decorated poetry, medical texts, mathematical works, and historical chronicles. The most skilled calligraphers gained fame and royal patronage. Their work appeared on everything from manuscripts to pottery, textiles, and building facades.</p>
+<p>Today, Arabic calligraphy remains a respected art form. Modern artists continue to explore its beauty, blending traditional techniques with contemporary expression.</p>
+      </div>
+      <h3>Understanding the Text</h3>
+      <div class="comprehension-questions">
+        
+        <div class="question-group">
+          <div class="question-number">Question 1</div>
+          <p class="question-text">Why did calligraphy become such an important art in Islamic culture?</p>
+          <textarea class="answer-input" id="info1" rows="2"></textarea>
+        </div>
+        
+        <div class="question-group">
+          <div class="question-number">Question 2</div>
+          <p class="question-text">Name two different styles of Arabic script and describe how they were used.</p>
+          <textarea class="answer-input" id="info2" rows="2"></textarea>
+        </div>
+        
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 44 • Week 37</div>
+        <div class="unit-label">Language Skills</div>
+      </div>
+      <h2>✏️ Language Practice</h2>
+      <p class="instructions">Practice identifying figurative language from the story:</p>
+      <div class="question-group">
+        <p class="question-text">Find an example of descriptive language in today's story that helped you picture the scene. Write the phrase and explain what it helped you visualize.</p>
+        <textarea class="answer-input" rows="3"></textarea>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 44 • Week 37</div>
+        <div class="unit-label">Journal Response</div>
+      </div>
+      <h2>✍️ Your Response</h2>
+      <div class="journal-prompt">
+        <p><strong>Choose one:</strong></p>
+        <ul>
+          <li>Which character in this story showed the most courage or cleverness? Explain your choice with examples from the text.</li>
+          <li>If you could ask the main character one question, what would it be and why?</li>
+          <li>Write about a time when you had to solve a problem creatively, like a character in this story.</li>
+        </ul>
+      </div>
+      <textarea class="answer-input journal-input" rows="8" placeholder="Write your response here..."></textarea>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card completion-page">
+      <div class="completion-container">
+        <div class="completion-icon">🎉</div>
+        <h1>Day 44 Complete!</h1>
+        <p class="completion-message">Great work on "The Fisherman and the Genie"!</p>
+        <div class="completion-stats">
+          <div class="stat-item">
+            <div class="stat-number">3</div>
+            <div class="stat-label">New Words</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">1</div>
+            <div class="stat-label">Story Read</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">5</div>
+            <div class="stat-label">Questions</div>
+          </div>
+        </div>
+        <button class="completion-button" onclick="markComplete()">Mark Complete &amp; Save Progress</button>
+        <div class="completion-footer">
+          <button class="nav-button prev-button" onclick="prevPage()">← Review Lesson</button>
+        </div>
+      </div>
+    </div>`
+                }
+            ]
+        };
+
+        // Initialize the lesson viewer
+        window.addEventListener('DOMContentLoaded', () => {
+            createLessonViewer('lesson-container', lesson44Config);
+        });
+    </script>
+</body>
+</html>

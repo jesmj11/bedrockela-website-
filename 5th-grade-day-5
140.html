@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5th Grade - Day 140: The Nine Worlds of Yggdrasil</title>
+    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
+
+    <script src="js/lesson-viewer.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
+        
+    <script>
+        const lesson140Config = {
+            lessonId: '5th-grade-lesson-140',
+            gradeLevel: '5th-grade',
+            title: '5th Grade - Day 140: The Nine Worlds of Yggdrasil',
+            pages: [
+                {
+                    render: () => `
+<div class="lesson-page-card title-page">
+                            
+                            <h1>Lesson 140</h1>
+                            <div class="subtitle">5th Grade ELA</div>
+                            <p style="color: #8B4513; font-size: 20px; margin-top: 20px;">
+                                Norse Mythology
+                            </p>
+                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
+                                Weekly Assessment
+                            </p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>📖 Vocabulary</h2>
+            <p>Week 28 - Day 2 of 5</p>
+        </div>
+        <div class="vocab-section">
+            <h3>Today's New Words</h3>
+            <p class="vocab-intro">Learn these 3 words before reading. They appear in today's story!</p>
+            
+            <div class="vocab-word">
+                <h4>1. cosmic</h4>
+                <div class="vocab-input-section">
+                    <label><strong>Write the definition:</strong></label>
+                    <textarea rows="2" placeholder="Type your definition here..." data-answer="Relating to the whole universe — on the largest possible scale."></textarea>
+                </div>
+                <p class="context"><strong>As used in the story:</strong> <em>"Yggdrasil was a cosmic tree: its roots and branches held all nine worlds together."</em></p>
+            </div>
+
+            <div class="vocab-word">
+                <h4>2. subterranean</h4>
+                <div class="vocab-input-section">
+                    <label><strong>Write the definition:</strong></label>
+                    <textarea rows="2" placeholder="Type your definition here..." data-answer="Underground — below the surface of the earth."></textarea>
+                </div>
+                <p class="context"><strong>As used in the story:</strong> <em>"Niflheim was a subterranean world of ice and mist, deep below the other realms."</em></p>
+            </div>
+
+            <div class="vocab-word">
+                <h4>3. axis</h4>
+                <div class="vocab-input-section">
+                    <label><strong>Write the definition:</strong></label>
+                    <textarea rows="2" placeholder="Type your definition here..." data-answer="A central line or structure around which everything else is organized."></textarea>
+                </div>
+                <p class="context"><strong>As used in the story:</strong> <em>"Yggdrasil served as the axis of the Norse universe — remove it, and everything falls apart."</em></p>
+            </div>
+            <div class="vocab-tracker">
+                <p><strong>📚 This Week's Words:</strong> 6 of 12 learned</p>
+                <p class="tracker-note">Keep reviewing! Quiz on Friday (Day 145).</p>
+            </div>
+        </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>🎯 Vocabulary Practice</h2>
+            <p>Day 2 - Fill in the Blank</p>
+        </div>
+        <div id="vocabGameContainer"></div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>📚 Reading (Part 1 of 4)</h2>
+            <p>The Nine Worlds of Yggdrasil</p>
+        </div>
+        <div class="reading-text">
+            <p>The Nine Worlds of Yggdrasil</p>
+            <p>A Guide to the Norse Universe</p>
+            <p>The Nine Worlds of Yggdrasil</p>
+            <p>A Guide to the Norse Universe</p>
+            <p>Imagine a tree so enormous that its roots reach into three different worlds and its branches shelter six more. Imagine it has been growing since before time had a name. Imagine a squirrel running up and down its trunk all day carrying insults between a serpent at the roots and an eagle at the top, because even the <span class="vocab-highlight">cosmic</span> World Tree needs a troublemaker.</p>
+            <p>This was Yggdrasil. This was the Norse universe.</p>
+        </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>📚 Reading (Part 2 of 4)</h2>
+            <p>The Nine Worlds of Yggdrasil</p>
+        </div>
+        <div class="reading-text">
+            <p>Nine worlds, all connected by the tree. All real. All full of creatures who would very much like to either help you or eat you, and not always easy to tell which.</p>
+            <p>Asgard was at the top — the gleaming realm of the Aesir gods, perched above everything, connected to Midgard by the rainbow bridge Bifrost. If you'd looked up at Asgard from below, you would have seen the gold of Valhalla's roof and the light from Freyja's hall and the distant figure of Heimdall at the bridge, watching everything. It was beautiful and it was full of gods who were arguing about something.</p>
+            <p>Midgard was the middle — our world, the human world, set at the center of everything like the hearthstone of the universe. It was surrounded by the deep ocean where the Midgard Serpent Jormungand lay coiled around the whole of it, biting his own tail, waiting. Outside the ocean was Utgard, the realm of giants, and the wall made from Ymir's eyebrows was the only thing between you and them.</p>
+            <p>Jotunheim was where the giants lived — frost giants, mountain giants, giants who were sometimes wise and sometimes monstrous and sometimes both at once. The gods hated the giants but also borrowed things from them, married them occasionally, and visited them for wrestling competitions. The relationship was complicated.</p>
+            <p>Vanaheim was home to the Vanir — the other gods, older gods, gods of nature and the sea and the deep magic of living things. Freyr and Freyja were Vanir who had come to live in Asgard as part of a peace treaty, which is why the Aesir had a god of sunshine and a goddess of love, both of whom were sometimes useful.</p>
+            <p>Alfheim was home to the light elves — brilliant, graceful beings associated with light and beauty. The Norse didn't write many detailed stories about them, perhaps because beings who are purely graceful are less interesting to tell stories about than beings who make terrible decisions.</p>
+        </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>📚 Reading (Part 3 of 4)</h2>
+            <p>The Nine Worlds of Yggdrasil</p>
+        </div>
+        <div class="reading-text">
+            <p>Svartalfheim was where the dwarves lived and worked — the master craftsmen of the nine worlds, small and often ill-tempered and capable of making anything. Mjolnir came from here. Gleipnir came from here. The Mead of Poetry's vessels, Odin's spear, Freyr's ship, Sif's golden hair. If it was extraordinary, a dwarf made it.</p>
+            <p>Niflheim was the oldest place — primal ice and darkness and the cold mist that had existed since before the world. The spring Hvergelmir was here, the source of eleven rivers that had started everything. Nidhogg the serpent gnawed at Yggdrasil's roots here, trying to bring the whole tree down, every day, failing, starting again tomorrow.</p>
+            <p>Helheim was where the dead went — most of the dead, the ones who hadn't died in battle. Hel governed it, cold and fair. It was vast and dim and quiet and the dead wandered it in something like their old lives, but less.</p>
+            <p>Muspelheim was fire. Just fire, always fire, roaring at the southern edge of everything. Surt was still there, still holding his sword, still waiting.</p>
+            <p>Between these nine worlds, Yggdrasil grew. Its roots were gnawed. Its branches sheltered. A deer ate its leaves. An eagle quarreled with a serpent through the medium of a very busy squirrel.</p>
+            <p>The tree endured.</p>
+        </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>📚 Reading (Part 4 of 4)</h2>
+            <p>The Nine Worlds of Yggdrasil</p>
+        </div>
+        <div class="reading-text">
+            <p>It will endure, the Norse believed, right up until Ragnarok. When it won't.</p>
+            <p>And then a new world will grow from the old roots.</p>
+            <p>The tree is patient. Trees always are.</p>
+        </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>✍️ Comprehension Questions</h2>
+            <p>Show what you understood</p>
+        </div>
+        <div class="questions-section">
+            
+            <div class="question">
+                <p><strong>1.</strong> The nine worlds are all connected by Yggdrasil — the World Tree — and a serpent is constantly gnawing at its roots while everything else depends on it holding together. What do you think the World Tree represents? Why might the Norse have imagined the universe as something fragile that requires constant maintenance?</p>
+                <textarea rows="4" placeholder="Write your answer here..."></textarea>
+            </div>
+            
+            <div class="question">
+                <p><strong>2.</strong> Each of the nine worlds has a very different character — fire, ice, light, dark, the living, the dead. If you could visit one of the nine worlds for a day (other than Midgard, where you already live), which would you choose and why? What would you want to find there?</p>
+                <textarea rows="4" placeholder="Write your answer here..."></textarea>
+            </div>
+            
+            <div class="question">
+                <p><strong>3.</strong> The dwarves of Svartalfheim made almost every great weapon and treasure in the myths — Mjolnir, Gleipnir, Odin's spear — and yet they rarely appear as main characters. Why do you think the makers of the most important things often stay in the background of the stories?</p>
+                <textarea rows="4" placeholder="Write your answer here..."></textarea>
+            </div>
+        </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>📰 Informational Text</h2>
+            <p>Connect Myth to Reality</p>
+        </div>
+        <div class="informational-section">
+            
+            <h3>Viking Geography: How the Norse Understood Their World</h3>
+            <p>The Norse didn't have modern maps, but they were brilliant navigators who explored farther than almost any other medieval culture. They reached North America around the year 1000 — nearly 500 years before Columbus!</p>
+            <p>Vikings organized their world into nine realms connected by the World Tree, but their REAL world was organized around fjords, seas, and settlements. They used landmarks, currents, whale migrations, and even the position of the sun and stars to navigate across open ocean.</p>
+            <p>The Norse concept of 'Midgard' (Middle Earth) reflects their understanding that they lived in a middle zone — surrounded by ocean (which they knew was vast and dangerous) and bordered by wilderness. The idea of being 'in the middle' of hostile forces wasn't just mythological — it was their daily reality.</p>
+            <p>Archaeological evidence shows Vikings traveled incredible distances: east to Russia and Constantinople, west to Iceland, Greenland, and Newfoundland, south to the Mediterranean and North Africa. They didn't think their world had only nine realms — they KNEW the world was enormous because they explored it.</p>
+            <p>The World Tree concept might reflect the Norse understanding that everything is connected. Just as Yggdrasil linked the nine worlds, Viking trade routes linked distant lands. Archaeologists have found Viking swords in Russia, Arabic coins in Norway, and Norse jewelry in England — proof that their 'tree' of connections was very real.</p>
+            
+            
+            
+            
+            <div class="lesson-box" style="background: #f0f7ff; padding: 20px; border-radius: 8px; margin-top: 20px; border-left: 4px solid #2c5aa0;">
+                <h4 style="color: #2c5aa0; margin-bottom: 10px;">💡 The Lesson</h4>
+                <p>The Norse created myths that reflected their real experiences as explorers and traders. Their stories weren't just fantasy — they were ways of making sense of a world they were actively discovering.</p>
+            </div>
+            
+            
+        </div>
+        
+        <div class="questions-section" style="margin-top: 30px;">
+            <h3 style="color: #2c5aa0; margin-bottom: 20px;">✍️ Comprehension Questions</h3>
+            
+            <div class="question">
+                <p><strong>1.</strong> According to the article, Vikings explored as far as North America, Russia, and North Africa. How did they navigate across open ocean without modern maps or GPS? Name at least two methods mentioned in the article.</p>
+                <textarea rows="4" placeholder="Write your answer here..."></textarea>
+            </div>
+            
+            <div class="question">
+                <p><strong>2.</strong> The article says the World Tree concept might reflect the Norse understanding that 'everything is connected.' Based on the archaeological evidence described (Viking swords in Russia, Arabic coins in Norway), explain how Viking trade routes were like the branches of a tree connecting different places.</p>
+                <textarea rows="4" placeholder="Write your answer here..."></textarea>
+            </div>
+        </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>🎨 Language Skills</h2>
+            <p>Week 28 Focus: Figurative Language: Metaphor and Simile</p>
+        </div>
+        <div class="language-section">
+            
+            <div class="skill-explanation">
+                <h3>📚 What You're Learning:</h3>
+                <p>A simile compares two things using 'like' or 'as'. A metaphor says one thing IS another thing. Both create vivid images.</p>
+            </div>
+            
+            <div class="skill-examples">
+                <h3>✨ Examples:</h3>
+                <p class="language-example">SIMILE: Frost giants sweated out of Ymir the way breath fogs in cold air.</p>
+                <p class="language-example">METAPHOR: His skull became the dome of the sky.</p>
+                <p class="language-example">SIMILE: The void gaped like an empty mouth between fire and ice.</p>
+            </div>
+            
+            <div class="skill-practice">
+                <h3>🎯 Your Turn:</h3>
+                
+                <div class="practice-item">
+                    <p><strong>1.</strong> Is this a simile or metaphor?</p>
+                    <p class="practice-sentence">"The World Tree was an enormous umbrella sheltering all nine worlds."</p>
+                    
+                    
+                    
+                    
+                    
+                    <textarea rows="3" placeholder="Write your answer here..." data-answer="Metaphor (it says the tree WAS an umbrella, not LIKE an umbrella)"></textarea>
+                </div>
+                
+                <div class="practice-item">
+                    <p><strong>2.</strong> Is this a simile or metaphor?</p>
+                    <p class="practice-sentence">"Audhumbla licked the ice as calmly as a cow chewing cud."</p>
+                    
+                    
+                    
+                    
+                    
+                    <textarea rows="3" placeholder="Write your answer here..." data-answer="Simile (uses 'as')"></textarea>
+                </div>
+                
+                <div class="practice-item">
+                    <p><strong>3.</strong> Write your own simile or metaphor comparing a mythological creature to something from your everyday life:</p>
+                    
+                    
+                    
+                    
+                    
+                    
+                    <textarea rows="3" placeholder="Write your answer here..." data-answer="(Student's creative answer)"></textarea>
+                </div>
+            </div>
+            
+        </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>📝 Writing Practice</h2>
+            <p>Practice your writing skills</p>
+        </div>
+        <div class="writing-section">
+            <div class="writing-prompt">
+                <h3>Writing Prompt:</h3>
+                <p>[Writing Practice prompt for The Nine Worlds of Yggdrasil]</p>
+                <p class="vocab-reminder">🎯 <strong>Challenge:</strong> Use at least two vocabulary word(s) from this week!</p>
+            </div>
+            <textarea class="writing-text" rows="15" placeholder="Write your response here..."></textarea>
+        </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="completion-page">
+            <h1>🎉 Day 140 Complete!</h1>
+            <h2>The Nine Worlds of Yggdrasil</h2>
+            <div class="completion-summary">
+                <h3>What You Accomplished Today:</h3>
+                <ul>
+                    <li>✅ Learned 3 new vocabulary words</li>
+                    <li>✅ Practiced with fill in the blank</li>
+                    <li>✅ Read The Nine Worlds of Yggdrasil</li>
+                    <li>✅ Explored informational text</li>
+                    <li>✅ Answered comprehension questions</li>
+                    <li>✅ Practiced language skills</li>
+                    <li>✅ Completed writing practice</li>
+                </ul>
+            </div>
+            <div class="weekly-tracker">
+                <h3>📚 Week 28 Progress:</h3>
+                <p><strong>Vocabulary:</strong> 6 of 12 words learned</p>
+                <p><strong>Assessment Day:</strong> Day 145 (Friday)</p>
+            </div>
+            <button class="btn-finish" onclick="returnToDashboard()">Return to Dashboard</button>
+        </div>
+    </div>`
+                }
+            ]
+        };
+
+        // Initialize the lesson viewer
+        window.addEventListener('DOMContentLoaded', () => {
+            createLessonViewer('lesson-container', lesson140Config);
+        });
+    </script>
+</body>
+</html>

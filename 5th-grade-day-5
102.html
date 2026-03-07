@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5th Grade - Day 102: Pandoras Box</title>
+    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
+
+    <script src="js/lesson-viewer.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
+        
+    <script>
+        const lesson102Config = {
+            lessonId: '5th-grade-lesson-102',
+            gradeLevel: '5th-grade',
+            title: '5th Grade - Day 102: Pandoras Box',
+            pages: [
+                {
+                    render: () => `
+<div class="lesson-page-card title-page">
+                            
+                            <h1>Lesson 102</h1>
+                            <div class="subtitle">5th Grade ELA</div>
+                            <p style="color: #8B4513; font-size: 20px; margin-top: 20px;">
+                                Greek Mythology
+                            </p>
+                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
+                                Pandoras Box
+                            </p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Welcome to Lesson 102!</h2>
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>Read from <em>Pandoras Box</em></li>
+                                <li>Learn 3 new vocabulary words</li>
+                                <li>Answer reading comprehension questions</li>
+                                <li>Read an informational text</li>
+                                <li>Practice grammar and writing skills</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Vocabulary Words</h2>
+                            <div style="margin: 30px 0;">
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">prohibition</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">Look up this word in a dictionary, then write the definition in your own words:</p>
+                                    <textarea id="vocab-1" style="width:100%;min-height:80px;padding:10px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;" oninput="updateWordCount('vocab-1','vocab-count-1',10)" onpaste="return false" placeholder="Type the definition here (minimum 10 words, no pasting)..."></textarea>
+                                    <div style="display:flex;justify-content:space-between;margin-top:8px;"><span id="vocab-count-1" style="font-size:13px;color:#666;">0 / 10 words</span></div>
+                                </div>
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">inevitable</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">Look up this word in a dictionary, then write the definition in your own words:</p>
+                                    <textarea id="vocab-2" style="width:100%;min-height:80px;padding:10px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;" oninput="updateWordCount('vocab-2','vocab-count-2',10)" onpaste="return false" placeholder="Type the definition here (minimum 10 words, no pasting)..."></textarea>
+                                    <div style="display:flex;justify-content:space-between;margin-top:8px;"><span id="vocab-count-2" style="font-size:13px;color:#666;">0 / 10 words</span></div>
+                                </div>
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">perseverance</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">Look up this word in a dictionary, then write the definition in your own words:</p>
+                                    <textarea id="vocab-3" style="width:100%;min-height:80px;padding:10px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;" oninput="updateWordCount('vocab-3','vocab-count-3',10)" onpaste="return false" placeholder="Type the definition here (minimum 10 words, no pasting)..."></textarea>
+                                    <div style="display:flex;justify-content:space-between;margin-top:8px;"><span id="vocab-count-3" style="font-size:13px;color:#666;">0 / 10 words</span></div>
+                                </div>
+                            </div>
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;"><strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>🎮 Vocabulary Game</h2>
+                            <p style="color:#666;margin-bottom:5px;">Match each word to its definition! (6 words this week so far)</p>
+                            <p style="color:#305853;font-weight:600;margin-bottom:20px;">Score: <span id="gameScore">0</span> / 6</p>
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:900px;margin:0 auto;">
+                                <div id="wordColumn" style="display:flex;flex-direction:column;"><h3 style="text-align:center;color:#305853;margin-bottom:10px;">Words</h3><div class="match-word" data-word="forethought" onclick="selectWord(this)" style="padding:12px 16px;margin:6px;background:#305853;color:white;border-radius:8px;cursor:pointer;font-weight:600;text-align:center;">forethought</div><div class="match-word" data-word="defiance" onclick="selectWord(this)" style="padding:12px 16px;margin:6px;background:#305853;color:white;border-radius:8px;cursor:pointer;font-weight:600;text-align:center;">defiance</div><div class="match-word" data-word="penance" onclick="selectWord(this)" style="padding:12px 16px;margin:6px;background:#305853;color:white;border-radius:8px;cursor:pointer;font-weight:600;text-align:center;">penance</div><div class="match-word" data-word="prohibition" onclick="selectWord(this)" style="padding:12px 16px;margin:6px;background:#305853;color:white;border-radius:8px;cursor:pointer;font-weight:600;text-align:center;">prohibition</div><div class="match-word" data-word="inevitable" onclick="selectWord(this)" style="padding:12px 16px;margin:6px;background:#305853;color:white;border-radius:8px;cursor:pointer;font-weight:600;text-align:center;">inevitable</div><div class="match-word" data-word="perseverance" onclick="selectWord(this)" style="padding:12px 16px;margin:6px;background:#305853;color:white;border-radius:8px;cursor:pointer;font-weight:600;text-align:center;">perseverance</div></div>
+                                <div id="defColumn" style="display:flex;flex-direction:column;"><h3 style="text-align:center;color:#8B4513;margin-bottom:10px;">Definitions</h3><div class="match-def" data-word="forethought" onclick="selectDef(this)" style="padding:12px 16px;margin:6px;background:white;border:2px solid #8B4513;border-radius:8px;cursor:pointer;font-size:14px;">A vocabulary word</div><div class="match-def" data-word="defiance" onclick="selectDef(this)" style="padding:12px 16px;margin:6px;background:white;border:2px solid #8B4513;border-radius:8px;cursor:pointer;font-size:14px;">A vocabulary word</div><div class="match-def" data-word="penance" onclick="selectDef(this)" style="padding:12px 16px;margin:6px;background:white;border:2px solid #8B4513;border-radius:8px;cursor:pointer;font-size:14px;">A vocabulary word</div><div class="match-def" data-word="prohibition" onclick="selectDef(this)" style="padding:12px 16px;margin:6px;background:white;border:2px solid #8B4513;border-radius:8px;cursor:pointer;font-size:14px;">A rule that forbids something — a clear instruction not to do a specific thing.</div><div class="match-def" data-word="inevitable" onclick="selectDef(this)" style="padding:12px 16px;margin:6px;background:white;border:2px solid #8B4513;border-radius:8px;cursor:pointer;font-size:14px;">Certain to happen — impossible to avoid no matter what you do.</div><div class="match-def" data-word="perseverance" onclick="selectDef(this)" style="padding:12px 16px;margin:6px;background:white;border:2px solid #8B4513;border-radius:8px;cursor:pointer;font-size:14px;">Continuing to work at something difficult without giving up, even over a long time.</div></div>
+                            </div>
+                            <div id="gameFeedback" style="margin-top:20px;padding:15px;border-radius:10px;text-align:center;display:none;"></div>
+                            
+                        </div>
+                    `
+                ,
+                    onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>🎯 Vocabulary Practice</h2>
+            <p>Review your words</p>
+        </div>
+        <div class="vocab-review">
+            
+        </div>
+    </div>`
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>📚 Reading (Part 1 of 4)</h2>
+            <p>Pandoras Box</p>
+        </div>
+        <div class="reading-text">
+            <p>Pandora&#x27;s Box</p>
+            <p>A Tale from Ancient Greek Mythology</p>
+            <p>After Prometheus gave fire to humanity, Zeus decided to send a gift of his own.</p>
+            <p>He went to Hephaestus and asked him to make a woman out of clay — the first mortal woman, shaped by divine hands. Then he invited every god on Olympus to contribute something to her.</p>
+            <p>Aphrodite gave her beauty. Athena gave her skill in weaving and the arts. Hermes gave her curiosity and a persuasive voice. Apollo gave her music. The Graces gave her charm. Hera gave her perseverance. The Seasons dressed her in flowers.</p>
+            <p>Zeus named her Pandora — all-gifted — and gave her one more thing: a large sealed jar with very clear instructions attached to it.</p>
+            <p>Do not open this.</p>
+            <p>Then he sent her to earth, to be the wife of Epimetheus. Epimetheus was the brother of Prometheus, and his name meant Afterthought — because unlike his brother, who understood the future, Epimetheus understood things only after they had already happened. Prometheus had warned him: never accept a gift from Zeus.</p>
+        </div>
+    </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>📚 Reading (Part 2 of 4)</h2>
+            <p>Pandoras Box</p>
+        </div>
+        <div class="reading-text">
+            <p>Epimetheus forgot this warning the moment he saw Pandora, which is perhaps the most Afterthought thing he ever did.</p>
+            <p>They were happy together. The jar sat in the corner of their house, sealed, waiting.</p>
+            <p>The problem was Hermes&#x27;s gift. Curiosity is wonderful — it drives invention and discovery and the desire to understand — but it does not combine well with a sealed jar you&#x27;ve been told never to open. The jar was there every day. Every day Pandora walked past it. Every day the wondering grew a little larger and a little harder to ignore.</p>
+            <p>What was inside? Why couldn&#x27;t she open it? Zeus had given it to her — surely it was hers in some sense. Surely she had a right to know what she owned.</p>
+            <p>One day she opened it.</p>
+            <p>What came out was everything difficult about human life — all the things the world had not yet known: sickness, sorrow, envy, cruelty, conflict, old age, disappointment, grief, all the hard and painful things that make a human life difficult. They had been locked in the jar, and now they poured out like smoke, spreading into the world, into the air, into the future of every person who would ever live.</p>
+        </div>
+    </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>📚 Reading (Part 3 of 4)</h2>
+            <p>Pandoras Box</p>
+        </div>
+        <div class="reading-text">
+            <p>Pandora slammed the lid down.</p>
+            <p>In the bottom of the jar, still inside, was one thing that had not escaped.</p>
+            <p>Hope.</p>
+            <p>The Greeks argued about this for centuries, the way they argued about everything worth arguing about. Was hope left behind because Pandora caught it in time — something preserved for humanity in the disaster? Or was hope itself a kind of trap — the thing that keeps you suffering when you might otherwise give up? Was it a gift or one more complication?</p>
+            <p>They never fully agreed.</p>
+            <p>What they did agree on is this: Pandora was not evil. She was curious, which is one of the best things a person can be. She had been given curiosity as a gift, by a god who knew exactly what curiosity would do with a sealed jar and a prohibition. The question of who was really responsible for what got loose in the world — the woman who opened the jar, or the god who made the jar and put her within reach of it — is a question the Greeks considered worth asking.</p>
+        </div>
+    </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>📚 Reading (Part 4 of 4)</h2>
+            <p>Pandoras Box</p>
+        </div>
+        <div class="reading-text">
+            <p>They were, in this way, honest about their gods.</p>
+            <p>The jar is empty now. Everything that was in it is already out in the world.</p>
+            <p>But hope is still there, in the bottom, if you look for it.</p>
+        </div>
+    </div>
+                    `
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>✍️ Comprehension Questions</h2>
+            <p>Show what you understood</p>
+        </div>
+        <div class="questions-section">
+            
+        </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>🎨 Language Skills</h2>
+            <p>Week 33 Focus: Greek/Latin Roots in English</p>
+        </div>
+        <div class="language-section">
+            
+            <div class="skill-explanation">
+                <h3>📚 What You're Learning:</h3>
+                <p>Many English words come from Greek roots</p>
+            </div>
+            
+            <div class="skill-examples">
+                <h3>✨ Examples:</h3>
+                <p class="language-example">HYDRO (water): dehydrate, hydroelectric</p>
+                <p class="language-example">CHRON (time): chronic, chronological</p>
+                <p class="language-example">PHOTO (light): photograph, photosynthesis</p>
+            </div>
+            
+            <div class="skill-practice">
+                <h3>🎯 Your Turn:</h3>
+                
+                <div class="practice-item">
+                    <p><strong>1.</strong> What does 'mythology' mean if MYTH=story and LOGY=study?</p>
+                    
+                    
+                    <textarea rows="3" placeholder="Write your answer here..."></textarea>
+                </div>
+                
+                <div class="practice-item">
+                    <p><strong>2.</strong> What does 'biography' mean if BIO=life and GRAPHY=writing?</p>
+                    
+                    
+                    <textarea rows="3" placeholder="Write your answer here..."></textarea>
+                </div>
+                
+                <div class="practice-item">
+                    <p><strong>3.</strong> Find a word with a Greek root and explain it</p>
+                    
+                    
+                    <textarea rows="3" placeholder="Write your answer here..."></textarea>
+                </div>
+            </div>
+            
+        </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>📝 Writing Practice</h2>
+            <p>Practice your writing</p>
+        </div>
+        <div class="writing-section">
+            <div class="journal-prompt">
+                <h3>Writing Prompt:</h3>
+                <p>Retell today's myth from a different character's perspective. How would their version differ?</p>
+                <p class="vocab-reminder">🎯 <strong>Challenge:</strong> Use at least one vocabulary word from this week!</p>
+            </div>
+            <textarea rows="12" placeholder="Write your response here..."></textarea>
+        </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="completion-page">
+            <h1>🎉 Day 102 Complete!</h1>
+            <h2>Pandoras Box</h2>
+            <div class="completion-summary">
+                <h3>What You Accomplished Today:</h3>
+                <ul>
+                    <li>✅ Learned 3 new vocabulary words</li>
+                    <li>✅ Read: Pandoras Box</li>
+                    <li>✅ Answered comprehension questions</li>
+                    
+                    <li>✅ Practiced language skills</li>
+                    <li>✅ Completed writing practice</li>
+                </ul>
+            </div>
+            <div class="weekly-tracker">
+                <h3>📚 Week 33 Progress:</h3>
+                <p><strong>Vocabulary:</strong> 12 of 12 words learned</p>
+                <p><strong>Assessment Day:</strong> Tomorrow!</p>
+            </div>
+            <button class="btn-finish" onclick="returnToDashboard()">Return to Dashboard</button>
+        </div>
+    </div>`
+                }
+            ]
+        };
+
+        // Initialize the lesson viewer
+        window.addEventListener('DOMContentLoaded', () => {
+            createLessonViewer('lesson-container', lesson102Config);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5th Grade - Day 152: Sigurd and the Dragon Fafnir</title>
+    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
+
+    <script src="js/lesson-viewer.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
+        
+    <script>
+        const lesson152Config = {
+            lessonId: '5th-grade-lesson-152',
+            gradeLevel: '5th-grade',
+            title: '5th Grade - Day 152: Sigurd and the Dragon Fafnir',
+            pages: [
+                {
+                    render: () => `
+<div class="lesson-page-card title-page">
+                            
+                            <h1>Lesson 152</h1>
+                            <div class="subtitle">5th Grade ELA</div>
+                            <p style="color: #8B4513; font-size: 20px; margin-top: 20px;">
+                                Norse Mythology
+                            </p>
+                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
+                                Sigurd and the Dragon Fafnir
+                            </p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Welcome to Lesson 152!</h2>
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>Read from <em>Sigurd and the Dragon Fafnir</em></li>
+                                <li>Learn 3 new vocabulary words</li>
+                                <li>Answer reading comprehension questions</li>
+                                <li>Read an informational text</li>
+                                <li>Practice grammar and writing skills</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Vocabulary Words</h2>
+                            
+                            <div style="margin: 30px 0;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">cursed</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">treacherous</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-2"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">transformed</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-3"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-3', 'vocab-count-3', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-3" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-3-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;"><strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>🎮 Vocabulary Game</h2>
+                            <p style="color: #666; margin-bottom: 5px;">Match each word to its definition! (2 words this week so far)</p>
+                            <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 2</p>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                                <div id="wordColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                                    <div class="match-word" data-word="1. inevitable" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">1. inevitable</div>
+                                    <div class="match-word" data-word="1. cursed" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">1. cursed</div>
+                                </div>
+                                <div id="defColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                                    <div class="match-def" data-word="1. inevitable" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Keep reviewing! Quiz on Friday (Day 155).</div>
+                                    <div class="match-def" data-word="1. cursed" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Keep reviewing! Quiz on Friday (Day 155).</div>
+                                </div>
+                            </div>
+                            
+                            <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                            
+                            
+                        </div>
+                    `
+                ,
+                    onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>📚 Reading (Part 1 of 4)</h2>
+            <p>Sigurd and the Dragon Fafnir</p>
+        </div>
+        <div class="reading-text">
+            <p>Sigurd and the Dragon Fafnir</p>
+            <p>A Tale from </p>
+            <p>Sigurd and the Dragon Fafnir</p>
+            <p>A Tale from The sword was called Gram, and it had been broken and reforged, and it was so sharp that when Sigurd tested it in the river it cut a tuft of wool floating on the current clean in two.</p>
+            <p>He had a dragon to kill.</p>
+            <p>The dragon's name was Fafnir. He had not always been a dragon. Once he had been a man — the son of a farmer, ordinary except for his strength and his greed. He had killed his own father for a hoard of <span class="vocab-highlight">cursed</span> gold, then <span class="vocab-highlight">transformed</span> himself over years into something that matched the darkness inside him: scales, venom, a terrible size. He lay on the treasure in the wilderness, breathing poison fog, and the curse on the gold kept working on him from within.</p>
+            <p>The man who had reforged Sigurd's sword was named Regin, and he was Fafnir's brother, which explained the sword and also the problem.</p>
+            <p>"Kill Fafnir," said Regin. "Bring me the treasure."</p>
+            <p>Sigurd went to find the path the dragon used between his lair and the river where he drank. He began to dig a pit in the middle of it. An old man wandered up — one eye, wide-brimmed hat, the look of someone who knows far more than he's going to say. He suggested that Sigurd also dig drainage ditches around the main pit, so the blood would flow away and not drown him when it came.</p>
+            <p>Sigurd dug the pit and the drainage ditches. He climbed in and waited.</p>
+        </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>📚 Reading (Part 2 of 4)</h2>
+            <p>Sigurd and the Dragon Fafnir</p>
+        </div>
+        <div class="reading-text">
+            <p>The ground shook. Fafnir came.</p>
+            <p>He was very large. He moved the way things move that have forgotten they were ever anything else, heavy and certain and trailing poison in the air around him. He passed over the pit.</p>
+            <p>Sigurd drove Gram upward with everything he had.</p>
+            <p>Fafnir stopped.</p>
+            <p>He looked down at the pit, at the figure in it, at the sword. He lowered his massive head and said, with the dignity of something dying slowly and knowing it: "Who are you? Who sent you?"</p>
+            <p>Sigurd told him his name.</p>
+            <p>Fafnir spent his last breaths giving a warning. The gold was <span class="vocab-highlight">cursed</span>. Everyone who touched it died. It had destroyed their father. It had destroyed Fafnir himself. Leave it where it lies.</p>
+            <p>Sigurd listened politely. Then he took the treasure.</p>
+            <p>He roasted Fafnir's heart for Regin, as Regin had asked. While he cooked it, he pressed his finger to it to test if it was done, burned himself, and put his finger in his mouth.</p>
+            <p>Dragon blood.</p>
+        </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>📚 Reading (Part 3 of 4)</h2>
+            <p>Sigurd and the Dragon Fafnir</p>
+        </div>
+        <div class="reading-text">
+            <p>In the trees above him, several birds were having a very clear conversation.</p>
+            <p>"Regin is going to kill him," one said.</p>
+            <p>"Obviously," said another. "He's just waiting for the heart."</p>
+            <p>"He should take the treasure, cut off Regin's head, and ride for the sleeping Valkyrie on the mountain."</p>
+            <p>The birds went on talking. Sigurd listened.</p>
+            <p>He made a decision.</p>
+            <p>He rode on with the treasure — the <span class="vocab-highlight">cursed</span> gold and the ring at its center called Andvaranaut, which a dwarf had once <span class="vocab-highlight">cursed</span> with every ounce of spite he had: everyone who holds this will be destroyed by it.</p>
+            <p>Sigurd rode through fire to a mountaintop, where a figure lay sleeping in full armor. He cut through the armor and found a woman — a Valkyrie named Brynhild, put to sleep by Odin for defying his will, surrounded by fire that only someone who feared nothing could ride through.</p>
+            <p>He woke her.</p>
+            <p>She sat up and looked at him, this young man who had just killed a dragon and ridden through fire to find her, and she saw what he was. He saw what she was.</p>
+        </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>📚 Reading (Part 4 of 4)</h2>
+            <p>Sigurd and the Dragon Fafnir</p>
+        </div>
+        <div class="reading-text">
+            <p>He gave her Andvaranaut as a pledge of his promise to come back.</p>
+            <p>He had just given her the <span class="vocab-highlight">cursed</span> ring. He didn't know that yet.</p>
+            <p>He rode on. The curse went with him. The curse worked the way curses do — not through thunder and lightning, but through ordinary human choices, each one understandable, all of them terrible together. A drink that made him forget. A marriage to the wrong person. Brynhild waking up and finding herself somewhere else, with someone else, unable to understand why he had abandoned her.</p>
+            <p>The end was dark.</p>
+            <p>The Norse knew it was coming when they started the story. They told it anyway, every word, every tragedy.</p>
+            <p>Because Sigurd had killed the dragon. He had ridden through the fire. He had woken the sleeper on the mountain.</p>
+            <p>Those things were real. The curse couldn't take them back.</p>
+            <p>Some things you do are yours forever, even if everything else falls apart.</p>
+        </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>✍️ Comprehension Questions</h2>
+            <p>Show what you understood</p>
+        </div>
+        <div class="questions-section">
+            
+            <div class="question">
+                <p><strong>1.</strong> Fafnir warned Sigurd to leave the gold behind — told him directly that the curse was real and everyone who took it would be destroyed. Sigurd took it anyway. Why do you think he didn't listen? Have you ever been warned about something and chosen not to listen? What happened?</p>
+                <textarea rows="4" placeholder="Write your answer here..."></textarea>
+            </div>
+            
+            <div class="question">
+                <p><strong>2.</strong> The curse on the gold didn't work through dramatic magic — it worked through ordinary human choices, each one understandable, all of them terrible together. What does that suggest about how the Norse thought curses and bad luck really operated in the world?</p>
+                <textarea rows="4" placeholder="Write your answer here..."></textarea>
+            </div>
+            
+            <div class="question">
+                <p><strong>3.</strong> Sigurd killed the dragon, rode through fire, and woke Brynhild — but the story still ends in tragedy. Does a hero have to succeed in order to be a hero? What made Sigurd heroic, even if the ending was dark?</p>
+                <textarea rows="4" placeholder="Write your answer here..."></textarea>
+            </div>
+        </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>📰 Informational Text</h2>
+            <p>Connect Myth to Reality</p>
+        </div>
+        <div class="informational-section">
+            
+            <h3>Viking Treasure and the Curse of Gold</h3>
+            <p>The Norse told many stories about cursed treasure, and archaeology reveals why: wealth was genuinely dangerous in Viking culture. A hoard of gold or silver could attract raiders, cause family feuds, or lead to murder. 'Cursed gold' was a way of expressing real risks.</p>
+            <p>Vikings buried treasure for safekeeping, but if the owner died without revealing the location, that wealth was lost forever. Thousands of Viking hoards have been discovered — some recently, some centuries ago — containing silver coins, jewelry, and ingots buried around 900-1100 AD.</p>
+            <p>One of the most famous finds is the Hiddensee treasure from Germany: 16 pieces of gold jewelry weighing over a pound. Another is the Galloway Hoard from Scotland, containing over 100 items including rare artifacts from Ireland, Scandinavia, and Central Asia. These prove that Vikings accumulated enormous wealth through trade and raiding.</p>
+            <p>Treasure could tear families apart. Inheritance disputes were common, and many sagas describe brothers, cousins, and uncles fighting over gold. The 'curse' of treasure wasn't supernatural — it was the very real human tendency toward greed and betrayal when wealth is involved.</p>
+            <p>Archaeological evidence shows that some Viking chieftains were buried with massive amounts of treasure — ships, weapons, jewelry, and even sacrificed slaves. This 'grave wealth' could have fed entire communities but was instead buried with the dead, showing that status and honor sometimes mattered more than practical wealth.</p>
+            
+            
+            
+            
+            <div class="lesson-box" style="background: #f0f7ff; padding: 20px; border-radius: 8px; margin-top: 20px; border-left: 4px solid #2c5aa0;">
+                <h4 style="color: #2c5aa0; margin-bottom: 10px;">💡 The Lesson</h4>
+                <p>Fafnir's hoard and the curse that follows anyone who takes it reflects the real Viking understanding that gold can corrupt, divide, and destroy. The myth is a warning: wealth without wisdom is dangerous.</p>
+            </div>
+            
+            
+        </div>
+        
+        <div class="questions-section" style="margin-top: 30px;">
+            <h3 style="color: #2c5aa0; margin-bottom: 20px;">✍️ Comprehension Questions</h3>
+            
+            <div class="question">
+                <p><strong>1.</strong> The article explains that Vikings buried treasure for safekeeping, but if the owner died without revealing the location, that wealth was lost forever. Why do you think people still buried treasure even though they knew it might never be found?</p>
+                <textarea rows="4" placeholder="Write your answer here..."></textarea>
+            </div>
+            
+            <div class="question">
+                <p><strong>2.</strong> According to the article, the 'curse' of treasure wasn't supernatural — it was the real human tendency toward greed and betrayal when wealth is involved. Think of a story (from history, movies, or books) where money or treasure causes problems between people. How is it similar to Fafnir's cursed hoard?</p>
+                <textarea rows="4" placeholder="Write your answer here..."></textarea>
+            </div>
+        </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>🎨 Language Skills</h2>
+            <p>Week 31 Focus: Connotation: Words That Carry Feelings</p>
+        </div>
+        <div class="language-section">
+            
+            <div class="skill-explanation">
+                <h3>📚 What You're Learning:</h3>
+                <p>Denotation = dictionary definition. Connotation = the feeling a word gives you. Writers choose words carefully for their emotional weight.</p>
+            </div>
+            
+            <div class="skill-examples">
+                <h3>✨ Examples:</h3>
+                <p class="language-example">NEUTRAL: Loki looked at the gods. | NEGATIVE: Loki glared at the gods. | POSITIVE: Loki gazed at the gods.</p>
+                <p class="language-example">NEUTRAL: Fenrir was big. | SCARY: Fenrir was monstrous. | AWE-INSPIRING: Fenrir was magnificent.</p>
+                <p class="language-example">NEUTRAL: Sigyn stayed with Loki. | LOVING: Sigyn remained faithful to Loki. | STUBBORN: Sigyn refused to leave Loki.</p>
+            </div>
+            
+            <div class="skill-practice">
+                <h3>🎯 Your Turn:</h3>
+                
+                <div class="practice-item">
+                    <p><strong>1.</strong> Which word has a more negative connotation: 'stubborn' or 'determined'?</p>
+                    
+                    
+                    
+                    
+                    
+                    
+                    <textarea rows="3" placeholder="Write your answer here..." data-answer="Stubborn (suggests unreasonable refusal to change, while determined suggests strength of purpose)"></textarea>
+                </div>
+                
+                <div class="practice-item">
+                    <p><strong>2.</strong> Replace the neutral word with one that has stronger connotation:</p>
+                    <p class="practice-sentence">"Baldur's death made the gods sad."</p>
+                    
+                    
+                    
+                    
+                    
+                    <textarea rows="3" placeholder="Write your answer here..." data-answer="(Examples: devastated, shattered, grief-stricken, heartbroken)"></textarea>
+                </div>
+                
+                <div class="practice-item">
+                    <p><strong>3.</strong> Choose a character from this week's myths. Write two sentences about them: one with positive connotation words, one with negative.</p>
+                    
+                    
+                    
+                    
+                    
+                    
+                    <textarea rows="3" placeholder="Write your answer here..." data-answer="(Student's creative answer)"></textarea>
+                </div>
+            </div>
+            
+        </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>📝 Writing Practice</h2>
+            <p>Practice your writing skills</p>
+        </div>
+        <div class="writing-section">
+            <div class="writing-prompt">
+                <h3>Writing Prompt:</h3>
+                <p>[Writing Practice prompt for Sigurd and the Dragon Fafnir]</p>
+                <p class="vocab-reminder">🎯 <strong>Challenge:</strong> Use at least two vocabulary word(s) from this week!</p>
+            </div>
+            <textarea class="writing-text" rows="15" placeholder="Write your response here..."></textarea>
+        </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="completion-page">
+            <h1>🎉 Day 152 Complete!</h1>
+            <h2>Sigurd and the Dragon Fafnir</h2>
+            <div class="completion-summary">
+                <h3>What You Accomplished Today:</h3>
+                <ul>
+                    <li>✅ Learned 3 new vocabulary words</li>
+                    <li>✅ Practiced with matching challenge</li>
+                    <li>✅ Read Sigurd and the Dragon Fafnir</li>
+                    <li>✅ Explored informational text</li>
+                    <li>✅ Answered comprehension questions</li>
+                    <li>✅ Practiced language skills</li>
+                    <li>✅ Completed writing practice</li>
+                </ul>
+            </div>
+            <div class="weekly-tracker">
+                <h3>📚 Week 31 Progress:</h3>
+                <p><strong>Vocabulary:</strong> 12 of 12 words learned</p>
+                <p><strong>Assessment Day:</strong> Tomorrow!</p>
+            </div>
+            <button class="btn-finish" onclick="returnToDashboard()">Return to Dashboard</button>
+        </div>
+    </div>`
+                }
+            ]
+        };
+
+        // Initialize the lesson viewer
+        window.addEventListener('DOMContentLoaded', () => {
+            createLessonViewer('lesson-container', lesson152Config);
+        });
+    </script>
+</body>
+</html>

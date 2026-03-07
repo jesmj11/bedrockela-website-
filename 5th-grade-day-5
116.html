@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5th Grade - Day 116: Athena and Arachne</title>
+    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
+
+    <script src="js/lesson-viewer.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
+        
+    <script>
+        const lesson116Config = {
+            lessonId: '5th-grade-lesson-116',
+            gradeLevel: '5th-grade',
+            title: '5th Grade - Day 116: Athena and Arachne',
+            pages: [
+                {
+                    render: () => `
+<div class="lesson-page-card title-page">
+                            
+                            <h1>Lesson 116</h1>
+                            <div class="subtitle">5th Grade ELA</div>
+                            <p style="color: #8B4513; font-size: 20px; margin-top: 20px;">
+                                Greek Mythology
+                            </p>
+                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
+                                Athena and Arachne
+                            </p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Welcome to Lesson 116!</h2>
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>Read from <em>Athena and Arachne</em></li>
+                                <li>Learn 3 new vocabulary words</li>
+                                <li>Answer reading comprehension questions</li>
+                                <li>Read an informational text</li>
+                                <li>Practice grammar and writing skills</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Vocabulary Words</h2>
+                            
+                            <div style="margin: 30px 0;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">boast</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;"><strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>🎮 Vocabulary Game</h2>
+                            <p style="color: #666; margin-bottom: 5px;">Match each word to its definition! (1 words this week so far)</p>
+                            <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 1</p>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                                <div id="wordColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                                    <div class="match-word" data-word="1. boast" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">1. boast</div>
+                                </div>
+                                <div id="defColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                                    <div class="match-def" data-word="1. boast" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Keep reviewing! Quiz on Friday (Day 180).</div>
+                                </div>
+                            </div>
+                            
+                            <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                            
+                            
+                        </div>
+                    `
+                ,
+                    onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>📚 Reading (Part 1 of 4)</h2>
+            <p>Athena and Arachne</p>
+        </div>
+        <div class="reading-text">
+            <p>Athena and Arachne</p>
+            <p>A Tale from Ancient Greek Mythology</p>
+            <p>Arachne could weave.</p>
+            <p>Not just adequately. Not just well. She wove the way a musician plays when the music plays itself — with the particular effortless mastery that is so complete it looks like something other than skill. Her tapestries were famous throughout Lydia. People traveled from distant villages just to watch her work. They said no human had ever produced anything as beautiful.</p>
+            <p>They also said she must have learned from Athena, which they meant as the highest possible compliment.</p>
+            <p>Arachne did not receive it that way.</p>
+            <p>&quot;I learned from no one,&quot; she said, every time. &quot;My skill is my own. I would challenge Athena herself and win.&quot;</p>
+            <p>These words traveled, as boastful words do, until they reached Olympus.</p>
+            <p>An old woman appeared at Arachne&#x27;s door one day — bent and white-haired, with sharp eyes that were doing more work than her posture suggested. She told Arachne gently that there was no shame in acknowledging a gift, that the gods were generous, that wisdom and talent alike had to come from somewhere, and that perhaps reconsideration was in order.</p>
+        </div>
+    </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>📚 Reading (Part 2 of 4)</h2>
+            <p>Athena and Arachne</p>
+        </div>
+        <div class="reading-text">
+            <p>Arachne told the old woman to mind her own business and repeat the challenge directly to Athena if she happened to see her.</p>
+            <p>The white hair and bent back fell away like a costume dropped to the floor.</p>
+            <p>&quot;Very well,&quot; said Athena.</p>
+            <p>Two looms. Side by side. The same morning light. The same thread. One contest.</p>
+            <p>Athena wove the twelve Olympians in their glory — Zeus on his throne, Poseidon commanding the sea, all twelve gods in their full power and dignity. In the corners, small and deliberate, she wove scenes of mortals who had challenged gods and lost, a quiet warning stitched into the beauty.</p>
+            <p>Arachne wove something entirely different.</p>
+            <p>She wove the stories where the gods had behaved badly. Every time a god had used power carelessly, deceived someone weaker, acted without thought for who got hurt. Her tapestry was technically perfect — no one could find a flaw in it, not in the craft — and it made its point with every single thread.</p>
+        </div>
+    </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>📚 Reading (Part 3 of 4)</h2>
+            <p>Athena and Arachne</p>
+        </div>
+        <div class="reading-text">
+            <p>Athena looked at Arachne&#x27;s tapestry for a long time.</p>
+            <p>The craft was flawless. This was the problem. If the tapestry had been bad, there would have been an easy answer. But it was perfect, and it was true, and it was a mirror held up to the gods&#x27; own stories.</p>
+            <p>Athena destroyed the tapestry. She struck Arachne with her shuttle. Whether it was the insult in the work or the perfection of the craft or both — the stories don&#x27;t fully separate them.</p>
+            <p>Arachne, in despair, tried to hang herself.</p>
+            <p>Athena stopped her. She could not let Arachne die — but she could not let her remain entirely as she was. She transformed her into a spider: still weaving, always weaving, producing webs of extraordinary delicacy that have never been equaled.</p>
+            <p>The Greeks were honest about this story. Athena did not come out of it clearly in the right. Arachne&#x27;s craft was real, her independence was real, and she&#x27;d been punished for both of them by someone who had the power to punish and chose to use it. The goddess of wisdom did not always behave wisely. The goddess of fair crafts was not always fair.</p>
+        </div>
+    </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>📚 Reading (Part 4 of 4)</h2>
+            <p>Athena and Arachne</p>
+        </div>
+        <div class="reading-text">
+            <p>The spider weaving in the corner has always been there. Arachne is still working.</p>
+            <p>The Greek word for spider is arachne.</p>
+            <p>Her name survived.</p>
+        </div>
+    </div>
+                    `
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>✍️ Comprehension Questions</h2>
+            <p>Show what you understood</p>
+        </div>
+        <div class="questions-section">
+            
+            <div class="question">
+                <p><strong>1.</strong> Arachne's tapestry was technically perfect. The only problem was what it depicted — the gods' bad behavior, shown truthfully and brilliantly. Was her punishment about her skill, her pride, or what she said? Can showing true things about powerful people be its own kind of dangerous act?</p>
+                <textarea rows="4" placeholder="Write your answer here..."></textarea>
+            </div>
+            
+            <div class="question">
+                <p><strong>2.</strong> Athena destroyed the tapestry and struck Arachne, then transformed her into a spider rather than letting her die. The Greeks didn't let Athena off the hook for this — the story leaves room for judgment. What do you think of how Athena behaved? Can a goddess of wisdom act unwisely?</p>
+                <textarea rows="4" placeholder="Write your answer here..."></textarea>
+            </div>
+            
+            <div class="question">
+                <p><strong>3.</strong> Arachne still weaves. Her name still means spider. What does it mean that her punishment preserved her craft — she is still doing the thing she was best at, forever? Is that a mercy, a cruelty, or something in between?</p>
+                <textarea rows="4" placeholder="Write your answer here..."></textarea>
+            </div>
+        </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>✏️ Grammar</h2>
+            <p>Week 36 Focus: Comparative and Superlative Adjectives</p>
+        </div>
+        <div class="grammar-section">
+            
+            <div class="skill-explanation">
+                <h3>📚 What You're Learning:</h3>
+                <p>Comparative compares two things (-er or more). Superlative compares three or more (-est or most)</p>
+            </div>
+            
+            <div class="skill-examples">
+                <h3>✨ Examples:</h3>
+                <p class="language-example">Zeus was more powerful than Poseidon.</p>
+                <p class="language-example">Hera was the most jealous of all the gods.</p>
+                <p class="language-example">Athena was wiser than Ares.</p>
+            </div>
+            
+            <div class="skill-practice">
+                <h3>🎯 Your Turn:</h3>
+                
+                <div class="practice-item">
+                    <p><strong>1.</strong> Fill in: Heracles was ___ (strong) than any mortal.</p>
+                    
+                    
+                    <textarea rows="3" placeholder="Write your answer here..."></textarea>
+                </div>
+                
+                <div class="practice-item">
+                    <p><strong>2.</strong> Fill in: Mount Olympus was the ___ (high) mountain.</p>
+                    
+                    
+                    <textarea rows="3" placeholder="Write your answer here..."></textarea>
+                </div>
+                
+                <div class="practice-item">
+                    <p><strong>3.</strong> Write sentences comparing three Greek gods</p>
+                    
+                    
+                    <textarea rows="3" placeholder="Write your answer here..."></textarea>
+                </div>
+            </div>
+            
+        </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="page-header">
+            <h2>📝 Journal Reflection</h2>
+            <p>Think about what you read</p>
+        </div>
+        <div class="journal-section">
+            <div class="journal-prompt">
+                <h3>Writing Prompt:</h3>
+                <p>What is the most important lesson from today's myth? How could it apply to your life today?</p>
+                <p class="vocab-reminder">🎯 <strong>Challenge:</strong> Use at least one vocabulary word from this week!</p>
+            </div>
+            <textarea rows="12" placeholder="Write your response here..."></textarea>
+        </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+        <div class="completion-page">
+            <h1>🎉 Day 116 Complete!</h1>
+            <h2>Athena and Arachne</h2>
+            <div class="completion-summary">
+                <h3>What You Accomplished Today:</h3>
+                <ul>
+                    <li>✅ Learned 3 new vocabulary words</li>
+                    <li>✅ Read: Athena and Arachne</li>
+                    <li>✅ Answered comprehension questions</li>
+                    
+                    <li>✅ Practiced grammar</li>
+                    <li>✅ Completed journal reflection</li>
+                </ul>
+            </div>
+            <div class="weekly-tracker">
+                <h3>📚 Week 36 Progress:</h3>
+                <p><strong>Vocabulary:</strong> 9 of 12 words learned</p>
+                <p><strong>Assessment Day:</strong> Day 180 (Friday)</p>
+            </div>
+            <button class="btn-finish" onclick="returnToDashboard()">Return to Dashboard</button>
+        </div>
+    </div>`
+                }
+            ]
+        };
+
+        // Initialize the lesson viewer
+        window.addEventListener('DOMContentLoaded', () => {
+            createLessonViewer('lesson-container', lesson116Config);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 42: Ali Baba and the Forty Thieves</title>
+    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
+
+    <script src="js/lesson-viewer.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
+        
+    <script>
+        const lesson42Config = {
+            lessonId: '5th-grade-lesson-42',
+            gradeLevel: '5th-grade',
+            title: 'Day 42: Ali Baba and the Forty Thieves',
+            pages: [
+                {
+                    render: () => `
+<div class="lesson-page-card title-page">
+                            
+                            <h1>Lesson 42</h1>
+                            <div class="subtitle">5th Grade ELA</div>
+                            <p style="color: #8B4513; font-size: 20px; margin-top: 20px;">
+                                Arabian Nights
+                            </p>
+                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
+                                Ali Baba and the Forty Thieves
+                            </p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Welcome to Lesson 42!</h2>
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>Read from <em>Ali Baba and the Forty Thieves</em></li>
+                                <li>Learn 3 new vocabulary words</li>
+                                <li>Answer reading comprehension questions</li>
+                                <li>Read an informational text</li>
+                                <li>Practice grammar and writing skills</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Vocabulary Words</h2>
+                            
+                            <div style="margin: 30px 0;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">accumulate</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">resourceful</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-2"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">methodical</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-3"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-3', 'vocab-count-3', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-3" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-3-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;"><strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>🎮 Vocabulary Game</h2>
+                            <p style="color: #666; margin-bottom: 5px;">Match each word to its definition! (6 words this week so far)</p>
+                            <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 6</p>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                                <div id="wordColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                                    <div class="match-word" data-word="idle" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">idle</div>
+                                    <div class="match-word" data-word="enchanted" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">enchanted</div>
+                                    <div class="match-word" data-word="desperation" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">desperation</div>
+                                    <div class="match-word" data-word="accumulate" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">accumulate</div>
+                                    <div class="match-word" data-word="resourceful" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">resourceful</div>
+                                    <div class="match-word" data-word="methodical" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">methodical</div>
+                                </div>
+                                <div id="defColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                                    <div class="match-def" data-word="idle" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Avoiding work or effort; happy to do nothing when something should be done.</div>
+                                    <div class="match-def" data-word="enchanted" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Under a magical spell, or made magical by someone with special powers.</div>
+                                    <div class="match-def" data-word="desperation" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">A state of panic or urgency — doing something reckless because you feel you have no other choice.</div>
+                                    <div class="match-def" data-word="accumulate" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">To gather or collect something over a long period of time, little by little.</div>
+                                    <div class="match-def" data-word="resourceful" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Able to find clever solutions to difficult problems, especially when you don't have much to work with.</div>
+                                    <div class="match-def" data-word="methodical" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Doing things carefully and in order, step by step, without rushing or skipping anything.</div>
+                                </div>
+                            </div>
+                            
+                            <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                            
+                            
+                        </div>
+                    `
+                ,
+                    onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 42 • Week 37</div>
+        <div class="unit-label">Ali Baba and the Forty Thieves • Part 1 of 4</div>
+      </div>
+      <div class="story-text">
+        <p>His brother Cassim had done considerably better — married a wealthy woman, lived in a fine house, walked around with the air of someone who wanted you to know things were going well. Ali Baba did not hold this against him. He was, by nature, a cheerful man.</p>
+<p>One morning, hidden in the branches of a large tree watching forty armed horsemen thunder into the clearing below him, Ali Baba discovered that his life was about to get considerably less simple.</p>
+<p>The leader — large, black-bearded, the unmistakable posture of a man accustomed to being obeyed — dismounted and faced a bare cliff wall. He spoke two words.</p>
+<p>"Open, Sesame."</p>
+<p>The rock split open. The forty thieves carried their heavy saddlebags inside. When they came out, the bags were empty. The leader sealed the rock with two more words and they all rode off as if this were a completely normal way to spend a morning.</p>
+<p>"Open, Sesame."</p>
+<p>The rock opened.</p>
+<p>Inside was a cave large enough to hold a thousand people, and it was full of exactly the kind of things that forty thieves <span class="vocab-highlight">accumulate</span> over a long career: gold coins in open chests, silks, silver plate, jewels, carpets thick enough to lose your hand in. Years of work. Decades, maybe.</p>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 42 • Week 37</div>
+        <div class="unit-label">Ali Baba and the Forty Thieves • Part 2 of 4</div>
+      </div>
+      <div class="story-text">
+        <p>The trouble started when his wife wanted to know exactly how much gold there was.</p>
+<p>She went next door to borrow a measuring cup from Cassim's wife. Cassim's wife, being curious, put a smear of fat on the bottom before lending it. When it came back, a gold coin was stuck to the fat.</p>
+<p>Cassim's wife showed her husband. He confronted Ali Baba immediately.</p>
+<p>Cassim went to the forest the next morning, found the cliff, said the magic words, and walked into the cave. He stuffed his bags with as much as he could carry, started for the door, and discovered that in his excitement he had completely forgotten the password.</p>
+<p>He tried everything he could think of — wheat, barley, oats, millet, rice, rye.</p>
+<p>Not sesame.</p>
+<p>He was still trying when the forty thieves returned.</p>
+<p>What happened next was not pleasant, and the thieves left Cassim in four pieces as a warning to anyone else who might find their cave.</p>
+<p>Morgiana was a slave in Cassim's household. She was also, without question, the cleverest person in this story — which is saying something, because there were forty professional thieves on the other side.</p>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 42 • Week 37</div>
+        <div class="unit-label">Ali Baba and the Forty Thieves • Part 3 of 4</div>
+      </div>
+      <div class="story-text">
+        <p>She found a shoemaker in the market, paid him generously, led him to the house blindfolded, and had him repair Cassim's remains so it appeared he had died of natural causes. She organized the funeral so no one asked uncomfortable questions. She solved every problem as it appeared, with the calm efficiency of someone who already knows what they're going to do before they're done hearing the problem.</p>
+<p>The thieves' captain figured out that someone had found the cave. He sent a man into the city to investigate. Morgiana met his man at the gate. She offered him coffee. She watched his eyes. She knew immediately.</p>
+<p>She danced at the feast that night — a beautiful, whirling dance, a knife flashing in her hand as part of the performance — and at its end, she did what was necessary.</p>
+<p>The captain himself came eventually. He came as an oil merchant, with forty jars, one of which held a soldier. He planned to wait until the household was asleep. He had not accounted for Morgiana going to the kitchen late for oil.</p>
+<p>She went jar to jar, and at each jar that held more than oil, she acted. All forty. She was <span class="vocab-highlight">methodical</span>. She was efficient. She felt nothing she needed to examine closely about it, because she was protecting her household and that was that.</p>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 42 • Week 37</div>
+        <div class="unit-label">Ali Baba and the Forty Thieves • Part 4 of 4</div>
+      </div>
+      <div class="story-text">
+        <p>The captain came down at midnight and discovered that he had lost all his men and was now standing alone in a courtyard in a city that did not like thieves.</p>
+<p>He left. He came back later in another disguise, thinking he would try friendship this time. Morgiana recognized him through the disguise. She told Ali Baba. He acted on her information. The problem was permanently resolved.</p>
+<p>The cave is still there, somewhere in the hills.</p>
+<p>Open Sesame.</p>
+<p>But you might want to bring someone like Morgiana along.</p>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 42 • Week 37</div>
+        <div class="unit-label">Reading Comprehension</div>
+      </div>
+      <h2>💭 Understanding the Story</h2>
+      <p class="instructions">Answer these questions about "Ali Baba and the Forty Thieves":</p>
+      <div class="comprehension-questions">
+        
+        <div class="question-group">
+          <div class="question-number">Question 1</div>
+          <p class="question-text">Morgiana is described as the cleverest person in the story — and the story proves it, again and again, every time a new threat appears. Yet she starts the story as a slave with no power at all. How does she manage to protect everyone around her when she has so little official authority? What kind of power does she actually have?</p>
+          <textarea class="answer-input" id="comp1" rows="3"></textarea>
+        </div>
+        
+        <div class="question-group">
+          <div class="question-number">Question 2</div>
+          <p class="question-text">Ali Baba told his brother Cassim everything about the cave — he was simply too honest and not secretive enough. Cassim went immediately, got trapped, and died. What do you think the story is saying about secrets — when should you share them, and when shouldn't you? Was Ali Baba wrong to tell him?</p>
+          <textarea class="answer-input" id="comp2" rows="3"></textarea>
+        </div>
+        
+        <div class="question-group">
+          <div class="question-number">Question 3</div>
+          <p class="question-text">The forty thieves are professional criminals with an organization, a leader, and a plan — and they still lose, completely, to one woman with quick thinking and no weapons. What does that suggest about the difference between power and cleverness? Can you think of another story where someone with less power wins because they were smarter?</p>
+          <textarea class="answer-input" id="comp3" rows="3"></textarea>
+        </div>
+        
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 42 • Week 37</div>
+        <div class="unit-label">Informational Text</div>
+      </div>
+      <h2>📰 The Silk Road: Ancient Trade Routes</h2>
+      <div class="info-text">
+        <p>The Silk Road wasn't a single road — it was a network of trade routes stretching 4,000 miles from China to the Mediterranean Sea. Merchants rarely traveled the entire distance. Instead, goods passed through many hands: Chinese silk traveled to Central Asian traders, who sold it to Persian merchants, who sold it to Arabian caravans, who finally brought it to European markets.</p>
+<p>The journey was dangerous. Traders crossed mountains, deserts, and bandit-controlled territories. Caravans traveled in large groups for protection, sometimes with hundreds of camels carrying silk, spices, precious stones, and tea eastward, and gold, silver, wool, and glass westward.</p>
+<p>The Silk Road wasn't just about goods — ideas traveled too. Mathematical concepts, religious texts, artistic techniques, and scientific knowledge spread along these routes. Paper-making, invented in China, reached the Islamic world and then Europe via Silk Road trade.</p>
+<p>By the 15th century, safer sea routes reduced the Silk Road's importance. But for over 1,500 years, these ancient trade routes connected civilizations and shaped the world we live in today.</p>
+      </div>
+      <h3>Understanding the Text</h3>
+      <div class="comprehension-questions">
+        
+        <div class="question-group">
+          <div class="question-number">Question 1</div>
+          <p class="question-text">Why didn't merchants travel the entire length of the Silk Road?</p>
+          <textarea class="answer-input" id="info1" rows="2"></textarea>
+        </div>
+        
+        <div class="question-group">
+          <div class="question-number">Question 2</div>
+          <p class="question-text">What besides goods traveled along the Silk Road?</p>
+          <textarea class="answer-input" id="info2" rows="2"></textarea>
+        </div>
+        
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 42 • Week 37</div>
+        <div class="unit-label">Language Skills</div>
+      </div>
+      <h2>✏️ Language Practice</h2>
+      <p class="instructions">Practice identifying figurative language from the story:</p>
+      <div class="question-group">
+        <p class="question-text">Find an example of descriptive language in today's story that helped you picture the scene. Write the phrase and explain what it helped you visualize.</p>
+        <textarea class="answer-input" rows="3"></textarea>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 42 • Week 37</div>
+        <div class="unit-label">Journal Response</div>
+      </div>
+      <h2>✍️ Your Response</h2>
+      <div class="journal-prompt">
+        <p><strong>Choose one:</strong></p>
+        <ul>
+          <li>Which character in this story showed the most courage or cleverness? Explain your choice with examples from the text.</li>
+          <li>If you could ask the main character one question, what would it be and why?</li>
+          <li>Write about a time when you had to solve a problem creatively, like a character in this story.</li>
+        </ul>
+      </div>
+      <textarea class="answer-input journal-input" rows="8" placeholder="Write your response here..."></textarea>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card completion-page">
+      <div class="completion-container">
+        <div class="completion-icon">🎉</div>
+        <h1>Day 42 Complete!</h1>
+        <p class="completion-message">Great work on "Ali Baba and the Forty Thieves"!</p>
+        <div class="completion-stats">
+          <div class="stat-item">
+            <div class="stat-number">3</div>
+            <div class="stat-label">New Words</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">1</div>
+            <div class="stat-label">Story Read</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">5</div>
+            <div class="stat-label">Questions</div>
+          </div>
+        </div>
+        <button class="completion-button" onclick="markComplete()">Mark Complete &amp; Save Progress</button>
+        <div class="completion-footer">
+          <button class="nav-button prev-button" onclick="prevPage()">← Review Lesson</button>
+        </div>
+      </div>
+    </div>`
+                }
+            ]
+        };
+
+        // Initialize the lesson viewer
+        window.addEventListener('DOMContentLoaded', () => {
+            createLessonViewer('lesson-container', lesson42Config);
+        });
+    </script>
+</body>
+</html>

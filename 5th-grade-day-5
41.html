@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 41: Aladdin and the Magic Lamp</title>
+    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
+
+    <script src="js/lesson-viewer.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
+        
+    <script>
+        const lesson41Config = {
+            lessonId: '5th-grade-lesson-41',
+            gradeLevel: '5th-grade',
+            title: 'Day 41: Aladdin and the Magic Lamp',
+            pages: [
+                {
+                    render: () => `
+<div class="lesson-page-card title-page">
+                            
+                            <h1>Lesson 41</h1>
+                            <div class="subtitle">5th Grade ELA</div>
+                            <p style="color: #8B4513; font-size: 20px; margin-top: 20px;">
+                                Arabian Nights
+                            </p>
+                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
+                                Aladdin and the Magic Lamp
+                            </p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Welcome to Lesson 41!</h2>
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>Read from <em>Aladdin and the Magic Lamp</em></li>
+                                <li>Learn 3 new vocabulary words</li>
+                                <li>Answer reading comprehension questions</li>
+                                <li>Read an informational text</li>
+                                <li>Practice grammar and writing skills</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Vocabulary Words</h2>
+                            
+                            <div style="margin: 30px 0;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">idle</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">enchanted</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-2"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">desperation</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-3"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-3', 'vocab-count-3', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-3" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-3-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;"><strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>🎮 Vocabulary Game</h2>
+                            <p style="color: #666; margin-bottom: 5px;">Match each word to its definition! (3 words this week so far)</p>
+                            <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 3</p>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                                <div id="wordColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                                    <div class="match-word" data-word="idle" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">idle</div>
+                                    <div class="match-word" data-word="enchanted" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">enchanted</div>
+                                    <div class="match-word" data-word="desperation" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">desperation</div>
+                                </div>
+                                <div id="defColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                                    <div class="match-def" data-word="idle" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Avoiding work or effort; happy to do nothing when something should be done.</div>
+                                    <div class="match-def" data-word="enchanted" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Under a magical spell, or made magical by someone with special powers.</div>
+                                    <div class="match-def" data-word="desperation" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">A state of panic or urgency — doing something reckless because you feel you have no other choice.</div>
+                                </div>
+                            </div>
+                            
+                            <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                            
+                            
+                        </div>
+                    `
+                ,
+                    onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 41 • Week 37</div>
+        <div class="unit-label">Aladdin and the Magic Lamp • Part 1 of 4</div>
+      </div>
+      <div class="story-text">
+        <p>Aladdin was not, by any honest measure, a model child.</p>
+<p>He was supposed to be learning his father's trade. He was not doing that. He was supposed to be helping his mother with her spinning. He was not doing that either. He was, at any given moment, somewhere in the streets of the city playing games with other boys and generally making the most of a life that asked very little of him.</p>
+<p>His mother sighed a great deal.</p>
+<p>Then one afternoon, a stranger appeared in the marketplace.</p>
+<p>He was tall, with a dark beard and fine robes and the particular smile of someone who has already decided they like you very much. He found Aladdin in the street and looked at him with warm, delighted eyes.</p>
+<p>"Are you the son of Mustapha the tailor?" he asked.</p>
+<p>Aladdin said he was.</p>
+<p>"Then I am your uncle!" the man declared, pressing gold coins into Aladdin's hand. "I have been traveling in far countries for many years. Come — let us go to your mother. I have missed you all terribly."</p>
+<p>Aladdin had no memory of any uncle. But the coins were real, and the man was convincing, and Aladdin led him home.</p>
+<p>The man was not an uncle. He was a sorcerer from Africa, and he had traveled thousands of miles because his magic books had told him about a lamp — an extraordinary lamp buried in an <span class="vocab-highlight">enchanted</span> cave — and also told him one important thing: only an innocent young boy could go in and get it. He had found his boy.</p>
+<p>The next morning, the sorcerer took Aladdin out of the city and into the hills. When Aladdin asked where they were going, the sorcerer said, "Just a little further. Something remarkable." This is what adults say when they don't want to answer the question.</p>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 41 • Week 37</div>
+        <div class="unit-label">Aladdin and the Magic Lamp • Part 2 of 4</div>
+      </div>
+      <div class="story-text">
+        <p>They came to a narrow valley. The sorcerer lit a fire, threw in a powder, said words in a language Aladdin didn't recognize, and the ground shook. A flat stone appeared with a brass ring set into it.</p>
+<p>"Lift it," the sorcerer said. "Only you can."</p>
+<p>Aladdin pulled. The stone rose smoothly, revealing steps going down into darkness.</p>
+<p>"Go down," the sorcerer said. "Three halls. Don't touch the jewels on the walls — they'll burn you. Find an old lamp on a shelf. Bring only that."</p>
+<p>He pressed a ring onto Aladdin's finger. "For protection. Now go."</p>
+<p>The cave was extraordinary — walls embedded with rubies and emeralds glowing with their own soft light. Aladdin kept his hands at his sides through all three halls, found the lamp exactly where promised, and started back.</p>
+<p>At the bottom of the stairs, he paused.</p>
+<p>The lamp wasn't heavy. His robe had room. He looked at the walls. Surely these jewels weren't what the sorcerer wanted. Surely a handful of them could change his mother's life.</p>
+<p>He filled his pockets. His belt. Every fold of his robe until he was bristling with gems. Then he climbed toward the light.</p>
+<p>"Give me the lamp!" the sorcerer called down, reaching his hands in before Aladdin was even at the top. He needed the lamp before anything else, before Aladdin could ask questions.</p>
+<p>That <span class="vocab-highlight">desperation</span> was a mistake. Aladdin noticed it.</p>
+<p>"Help me up first," Aladdin said, "and then I'll give you the lamp."</p>
+<p>"Give me the lamp first."</p>
+<p>"Help me up first."</p>
+<p>The sorcerer, furious, said words. The stone slammed shut. Aladdin, in the dark, understood that he had just learned something important about the sorcerer's intentions.</p>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 41 • Week 37</div>
+        <div class="unit-label">Aladdin and the Magic Lamp • Part 3 of 4</div>
+      </div>
+      <div class="story-text">
+        <p>He sat in the dark for a while. Then, rubbing his hands together for warmth, he accidentally rubbed the ring on his finger.</p>
+<p>Smoke poured out. A genie appeared — not enormous, a ring-genie, smaller and more manageable — and asked what Aladdin wished.</p>
+<p>"Get me out of here," Aladdin said.</p>
+<p>He was outside in the sunlight before he finished the sentence.</p>
+<p>He went home and told his mother everything. She was less interested in the adventure than in whether he was injured. He was not. He showed her the lamp. She said it needed polishing. She began to rub it.</p>
+<p>What came out of the lamp was not small.</p>
+<p>The lamp genie filled the room — immense, powerful, deep-voiced, bowing respectfully. He asked what they wished.</p>
+<p>Aladdin's mother fainted.</p>
+<p>Aladdin, who had already met one genie today and felt he was getting the hang of it, asked for food.</p>
+<p>What arrived on golden trays would have fed a palace. They ate well that night, and sold the golden trays the next day, and the day after that when they were hungry again, Aladdin rubbed the lamp.</p>
+<p>He was not <span class="vocab-highlight">idle</span> anymore. Somewhere between the dark cave and the lamp genie, Aladdin had started paying attention to the world. He watched, he listened, he learned the value of things. When he saw the Sultan's daughter through a screen at the market one day and fell completely in love, he didn't just wish for her — he built, slowly and carefully, a version of himself worth knowing.</p>
+<p>He asked the genie for gifts to send to the Sultan. He asked for a palace to be built. He asked for a procession. He worked, in his way, for everything he got — not with his hands, but with the steady intelligence of someone who had learned, in a cave in the dark, to think before acting.</p>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 41 • Week 37</div>
+        <div class="unit-label">Aladdin and the Magic Lamp • Part 4 of 4</div>
+      </div>
+      <div class="story-text">
+        <p>He married the princess. He was a good husband and, eventually, a good man.</p>
+<p>But the sorcerer came back.</p>
+<p>He came back with a cart and a cry: "New lamps for old! New lamps for old!" And the princess, who didn't know the lamp's secret, found the battered old thing in Aladdin's chamber and thought: what a good deal.</p>
+<p>She handed it over.</p>
+<p>In an instant, the palace — and she — was in Africa.</p>
+<p>Aladdin came home to an empty plot of land where his palace used to be. He stood there for a moment. He still had the ring.</p>
+<p>He found her. He defeated the sorcerer. He brought her home.</p>
+<p>The lamp came with them.</p>
+<p>Aladdin was never again the boy in the streets playing games and avoiding his mother's sighing. The cave had changed him, the way dark places sometimes do — they show you what you're made of, and then you have to decide what to do with that information.</p>
+<p>He had decided well.</p>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 41 • Week 37</div>
+        <div class="unit-label">Reading Comprehension</div>
+      </div>
+      <h2>💭 Understanding the Story</h2>
+      <p class="instructions">Answer these questions about "Aladdin and the Magic Lamp":</p>
+      <div class="comprehension-questions">
+        
+        <div class="question-group">
+          <div class="question-number">Question 1</div>
+          <p class="question-text">The sorcerer's one fatal mistake was reaching for the lamp before helping Aladdin out of the cave. Why did that single moment of desperation tell Aladdin everything he needed to know? What would you have done if you were Aladdin in that moment — hand over the lamp, or stall for time?</p>
+          <textarea class="answer-input" id="comp1" rows="3"></textarea>
+        </div>
+        
+        <div class="question-group">
+          <div class="question-number">Question 2</div>
+          <p class="question-text">At the start of the story, Aladdin is described as idle — avoiding work, playing in the streets, making his mother sigh. By the end, he has become someone careful, watchful, and genuinely good. What do you think changed him? Was it the genie, the cave, the sorcerer — or something else?</p>
+          <textarea class="answer-input" id="comp2" rows="3"></textarea>
+        </div>
+        
+        <div class="question-group">
+          <div class="question-number">Question 3</div>
+          <p class="question-text">Aladdin's mother faints when the lamp genie appears, but Aladdin — who has already met a ring genie that day — calmly asks for food. What does that difference tell us about the two of them? How does experience change the way we react to frightening or surprising things?</p>
+          <textarea class="answer-input" id="comp3" rows="3"></textarea>
+        </div>
+        
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 41 • Week 37</div>
+        <div class="unit-label">Informational Text</div>
+      </div>
+      <h2>📰 The Golden Age of Baghdad</h2>
+      <div class="info-text">
+        <p>For over five hundred years — from the 8th to the 13th century — Baghdad was one of the greatest cities in the world. It sat at the crossroads of trade routes connecting Europe, Africa, India, and China. Merchants arrived with silk from the East, spices from India, gold from Africa, and glassware from Syria. The city's markets sold everything imaginable.</p>
+<p>The caliphs who ruled Baghdad built libraries and schools. The House of Wisdom, established in the 9th century, became a center of learning where scholars translated ancient Greek, Persian, and Indian texts into Arabic. Mathematicians, astronomers, physicians, and philosophers from many cultures worked together.</p>
+<p>Baghdad's population reached over a million people — larger than any European city of the time. The city had hospitals, public baths, gardens, and palaces. Poets and storytellers entertained in the markets. The tales of the Arabian Nights emerged from this vibrant culture.</p>
+<p>Mongol invasions in the 13th century ended Baghdad's golden age, but the city's contributions to mathematics, medicine, astronomy, and literature endured. Modern hospitals, algebra, and the preservation of ancient Greek philosophy all trace back, in part, to medieval Baghdad.</p>
+      </div>
+      <h3>Understanding the Text</h3>
+      <div class="comprehension-questions">
+        
+        <div class="question-group">
+          <div class="question-number">Question 1</div>
+          <p class="question-text">What made Baghdad such an important city from the 8th to 13th centuries?</p>
+          <textarea class="answer-input" id="info1" rows="2"></textarea>
+        </div>
+        
+        <div class="question-group">
+          <div class="question-number">Question 2</div>
+          <p class="question-text">What was the House of Wisdom, and what happened there?</p>
+          <textarea class="answer-input" id="info2" rows="2"></textarea>
+        </div>
+        
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 41 • Week 37</div>
+        <div class="unit-label">Language Skills</div>
+      </div>
+      <h2>✏️ Language Practice</h2>
+      <p class="instructions">Practice identifying figurative language from the story:</p>
+      <div class="question-group">
+        <p class="question-text">Find an example of descriptive language in today's story that helped you picture the scene. Write the phrase and explain what it helped you visualize.</p>
+        <textarea class="answer-input" rows="3"></textarea>
+      </div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 41 • Week 37</div>
+        <div class="unit-label">Journal Response</div>
+      </div>
+      <h2>✍️ Your Response</h2>
+      <div class="journal-prompt">
+        <p><strong>Choose one:</strong></p>
+        <ul>
+          <li>Which character in this story showed the most courage or cleverness? Explain your choice with examples from the text.</li>
+          <li>If you could ask the main character one question, what would it be and why?</li>
+          <li>Write about a time when you had to solve a problem creatively, like a character in this story.</li>
+        </ul>
+      </div>
+      <textarea class="answer-input journal-input" rows="8" placeholder="Write your response here..."></textarea>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card completion-page">
+      <div class="completion-container">
+        <div class="completion-icon">🎉</div>
+        <h1>Day 41 Complete!</h1>
+        <p class="completion-message">Great work on "Aladdin and the Magic Lamp"!</p>
+        <div class="completion-stats">
+          <div class="stat-item">
+            <div class="stat-number">3</div>
+            <div class="stat-label">New Words</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">1</div>
+            <div class="stat-label">Story Read</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">5</div>
+            <div class="stat-label">Questions</div>
+          </div>
+        </div>
+        <button class="completion-button" onclick="markComplete()">Mark Complete &amp; Save Progress</button>
+        <div class="completion-footer">
+          <button class="nav-button prev-button" onclick="prevPage()">← Review Lesson</button>
+        </div>
+      </div>
+    </div>`
+                }
+            ]
+        };
+
+        // Initialize the lesson viewer
+        window.addEventListener('DOMContentLoaded', () => {
+            createLessonViewer('lesson-container', lesson41Config);
+        });
+    </script>
+</body>
+</html>

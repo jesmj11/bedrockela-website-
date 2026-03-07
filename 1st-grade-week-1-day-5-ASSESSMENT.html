@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 5: Week 1 Assessment - BedrockELA</title>
+    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        .billy-corner-widget {
+            position: fixed;
+            bottom: 80px;
+            right: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+        }
+        
+        .billy-avatar-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FFD700, #fbbf24);
+            padding: 5px;
+            box-shadow: 0 4px 12px rgba(176, 104, 33, 0.4);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .billy-mini-avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .billy-speak-btn {
+            background: #B06821;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            font-size: 22px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 3px 10px rgba(176, 104, 33, 0.4);
+            color: white;
+        }
+        
+        .billy-speak-btn:hover {
+            transform: scale(1.1);
+            background: #8B5319;
+        }
+        
+        /* Word card styles */
+        .word-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            max-width: 700px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+        
+        .word-card {
+            background: white;
+            border: 3px solid #4a7c3f;
+            border-radius: 15px;
+            padding: 25px 15px;
+            font-size: 32px;
+            font-weight: 800;
+            color: #305853;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        
+        .word-card:hover {
+            transform: scale(1.05);
+            background: #f0f7ed;
+        }
+        
+        .word-card.read {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .word-card.read::after {
+            content: '✓';
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            color: #28a745;
+            font-size: 20px;
+        }
+        
+        /* Sight word quiz */
+        .sight-word-quiz {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+        
+        .sight-word-item {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .sight-word-display {
+            font-size: 64px;
+            font-weight: 800;
+            color: #305853;
+            text-align: center;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .sight-word-display:hover {
+            transform: scale(1.1);
+            color: #B06821;
+        }
+        
+        /* Progress tracking */
+        .progress-badge {
+            background: linear-gradient(135deg, #4a7c3f, #305853);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 700;
+            display: inline-block;
+            margin: 20px 0;
+        }
+        
+        .completion-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 500px;
+            margin: 30px auto;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            border: 3px solid #B06821;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 48px;
+            font-weight: 800;
+            color: #305853;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 16px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="lesson-container">
+        <!-- Navigation Header -->
+        <div class="nav-header">
+            <button class="nav-arrow" id="prevCard">←</button>
+            <div class="page-indicator">
+                <span class="current-page">1</span> of <span class="total-pages">5</span>
+            </div>
+            <button class="nav-arrow" id="nextCard">→</button>
+        </div>
+
+        <!-- CARD 1: Title Page -->
+        <div class="lesson-card active" data-page="1">
+            <div class="title-card">
+                <div class="grade-badge">1st Grade</div>
+                <h1 class="lesson-title">Week 1 Assessment</h1>
+                <div class="lesson-subtitle">Show What You Know!</div>
+                <div style="font-size: 64px; margin: 30px 0;">🌟</div>
+                <div class="story-badge">
+                    <span class="badge-icon">📝</span>
+                    <span>Short A Review</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 2: Welcome & Instructions -->
+        <div class="lesson-card" data-page="2">
+            <h2>Welcome to Assessment Day! 🎉</h2>
+            
+            <div style="background: #fff4e6; padding: 30px; border-radius: 15px; margin: 30px 0; border: 3px solid #B06821;">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <div class="billy-avatar-circle" style="width: 90px; height: 90px; display: inline-block; position: relative;">
+                        <img src="img/billy-avatar.png" alt="Billy" class="billy-mini-avatar" 
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='🐐'">
+                    </div>
+                </div>
+                
+                <div style="font-size: 20px; line-height: 1.8; color: #305853;">
+                    <p><strong>Hi friend!</strong> 👋</p>
+                    <p>Today we're going to show off what you learned this week! This isn't scary - it's FUN!</p>
+                    <p>You'll read some words and practice your sight words. That's it!</p>
+                    <p><strong>No pressure, no rush. Just do your best!</strong> 💪</p>
+                </div>
+            </div>
+            
+            <div class="objectives-box">
+                <h3>📋 What You'll Do Today</h3>
+                <ul>
+                    <li>Read 20 Short A words (tap each one!)</li>
+                    <li>Practice sight words: <strong>a</strong> and <strong>the</strong></li>
+                    <li>Celebrate Week 1! 🎊</li>
+                </ul>
+            </div>
+            
+            <button class="billy-speak-btn" id="welcome-speak" onclick="speakBilly('Hi friend! Today we are going to show off what you learned this week! This is not scary, it is fun! You will read some words and practice your sight words. That is it! No pressure, no rush. Just do your best!')" 
+                    style="margin: 20px auto; display: block; width: 60px; height: 60px; font-size: 28px;">🔊</button>
+        </div>
+
+        <!-- CARD 3: Decoding Probe -->
+        <div class="lesson-card" data-page="3">
+            <h2>📖 Read These Words!</h2>
+            <p style="text-align: center; font-size: 18px; color: #666; margin-bottom: 20px;">
+                Tap each word to hear it. Try to read it first!
+            </p>
+            
+            <div class="progress-badge" id="word-progress">0 of 20 words read</div>
+            
+            <div class="word-grid">
+                <div class="word-card" onclick="readWord(this, 'cat')">cat</div>
+                <div class="word-card" onclick="readWord(this, 'mat')">mat</div>
+                <div class="word-card" onclick="readWord(this, 'bat')">bat</div>
+                <div class="word-card" onclick="readWord(this, 'sat')">sat</div>
+                <div class="word-card" onclick="readWord(this, 'rat')">rat</div>
+                <div class="word-card" onclick="readWord(this, 'man')">man</div>
+                <div class="word-card" onclick="readWord(this, 'pan')">pan</div>
+                <div class="word-card" onclick="readWord(this, 'ran')">ran</div>
+                <div class="word-card" onclick="readWord(this, 'jam')">jam</div>
+                <div class="word-card" onclick="readWord(this, 'ham')">ham</div>
+                <div class="word-card" onclick="readWord(this, 'Sam')">Sam</div>
+                <div class="word-card" onclick="readWord(this, 'cap')">cap</div>
+                <div class="word-card" onclick="readWord(this, 'map')">map</div>
+                <div class="word-card" onclick="readWord(this, 'tap')">tap</div>
+                <div class="word-card" onclick="readWord(this, 'lap')">lap</div>
+                <div class="word-card" onclick="readWord(this, 'bag')">bag</div>
+                <div class="word-card" onclick="readWord(this, 'wag')">wag</div>
+                <div class="word-card" onclick="readWord(this, 'tag')">tag</div>
+                <div class="word-card" onclick="readWord(this, 'dad')">dad</div>
+                <div class="word-card" onclick="readWord(this, 'sad')">sad</div>
+            </div>
+            
+            <script>
+                let wordsRead = new Set();
+                
+                async function readWord(element, word) {
+                    // Mark as read
+                    element.classList.add('read');
+                    wordsRead.add(word);
+                    
+                    // Update progress
+                    document.getElementById('word-progress').textContent = 
+                        `${wordsRead.size} of 20 words read`;
+                    
+                    // Speak the word
+                    try {
+                        const response = await fetch('http://localhost:3002/tts', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ text: word, voice: 'mark' })
+                        });
+                        
+                        if (response.ok) {
+                            const audioBlob = await response.blob();
+                            const audioUrl = URL.createObjectURL(audioBlob);
+                            const audio = new Audio(audioUrl);
+                            audio.onended = () => URL.revokeObjectURL(audioUrl);
+                            audio.play();
+                        } else {
+                            // Fallback to browser TTS
+                            fallbackTTS(word);
+                        }
+                    } catch (error) {
+                        // Fallback to browser TTS
+                        fallbackTTS(word);
+                    }
+                }
+                
+                function fallbackTTS(word) {
+                    if (window.speechSynthesis) {
+                        const utterance = new SpeechSynthesisUtterance(word);
+                        utterance.rate = 0.8;
+                        utterance.pitch = 1.1;
+                        speechSynthesis.speak(utterance);
+                    }
+                }
+            </script>
+        </div>
+
+        <!-- CARD 4: Sight Word Quiz -->
+        <div class="lesson-card" data-page="4">
+            <h2>⭐ Sight Word Practice</h2>
+            <p style="text-align: center; font-size: 18px; color: #666; margin-bottom: 30px;">
+                Tap each word to hear it. Can you read it on your own first?
+            </p>
+            
+            <div class="sight-word-quiz">
+                <div class="sight-word-item">
+                    <p style="text-align: center; color: #666; margin-bottom: 10px;">Word 1</p>
+                    <div class="sight-word-display" onclick="speakSightWord(this, 'a')">a</div>
+                    <p style="text-align: center; color: #666; font-size: 16px; margin-top: 15px;">
+                        Example: I have <strong>a</strong> cat.
+                    </p>
+                </div>
+                
+                <div class="sight-word-item">
+                    <p style="text-align: center; color: #666; margin-bottom: 10px;">Word 2</p>
+                    <div class="sight-word-display" onclick="speakSightWord(this, 'the')">the</div>
+                    <p style="text-align: center; color: #666; font-size: 16px; margin-top: 15px;">
+                        Example: I see <strong>the</strong> cat.
+                    </p>
+                </div>
+            </div>
+            
+            <script>
+                async function speakSightWord(element, word) {
+                    // Visual feedback
+                    element.style.color = '#B06821';
+                    setTimeout(() => {
+                        element.style.color = '#305853';
+                    }, 500);
+                    
+                    // Speak the word
+                    try {
+                        const response = await fetch('http://localhost:3002/tts', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ text: word, voice: 'mark' })
+                        });
+                        
+                        if (response.ok) {
+                            const audioBlob = await response.blob();
+                            const audioUrl = URL.createObjectURL(audioBlob);
+                            const audio = new Audio(audioUrl);
+                            audio.onended = () => URL.revokeObjectURL(audioUrl);
+                            audio.play();
+                        } else {
+                            fallbackTTS(word);
+                        }
+                    } catch (error) {
+                        fallbackTTS(word);
+                    }
+                }
+            </script>
+        </div>
+
+        <!-- CARD 5: Completion -->
+        <div class="lesson-card" data-page="5">
+            <div class="completion-card">
+                <div class="completion-icon">🎉</div>
+                <h2>Week 1 Complete!</h2>
+                <p style="font-size: 20px; line-height: 1.6; margin: 20px 0;">
+                    You did AMAZING this week! Look at everything you learned!
+                </p>
+                
+                <div class="completion-stats">
+                    <div class="stat-card">
+                        <div class="stat-number">20</div>
+                        <div class="stat-label">Words You Can Read</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">2</div>
+                        <div class="stat-label">Sight Words</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">Stories Read</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Days Complete</div>
+                    </div>
+                </div>
+                
+                <div style="background: #f0f7ed; padding: 25px; border-radius: 15px; margin: 30px auto; max-width: 500px; border: 3px solid #4a7c3f;">
+                    <p style="font-size: 18px; color: #305853; margin: 0;">
+                        <strong>🌟 You learned the Short A sound!</strong><br>
+                        Next week: Short E sound!
+                    </p>
+                </div>
+                
+                <button class="cta-button" onclick="window.location.href='student-dashboard.html'" 
+                        style="background: linear-gradient(135deg, #4a7c3f, #305853); color: white; border: none; padding: 20px 40px; border-radius: 50px; font-size: 20px; font-weight: 700; cursor: pointer; margin-top: 20px;">
+                    Return to Dashboard
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Navigation Dots -->
+    <div class="nav-dots">
+        <!-- Will be populated by JS -->
+    </div>
+
+    <script>
+        // Lesson navigation logic
+        let currentCard = 1;
+        const totalCards = document.querySelectorAll('.lesson-card').length;
+        
+        function updateCard() {
+            // Hide all cards
+            document.querySelectorAll('.lesson-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            // Show current card
+            const activeCard = document.querySelector(`.lesson-card[data-page="${currentCard}"]`);
+            if (activeCard) {
+                activeCard.classList.add('active');
+            }
+            
+            // Update page indicator
+            document.querySelector('.current-page').textContent = currentCard;
+            document.querySelector('.total-pages').textContent = totalCards;
+            
+            // Update navigation dots
+            document.querySelectorAll('.dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index + 1 === currentCard);
+            });
+        }
+        
+        // Navigation buttons
+        document.getElementById('prevCard').addEventListener('click', () => {
+            if (currentCard > 1) {
+                currentCard--;
+                updateCard();
+            }
+        });
+        
+        document.getElementById('nextCard').addEventListener('click', () => {
+            if (currentCard < totalCards) {
+                currentCard++;
+                updateCard();
+            }
+        });
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' && currentCard > 1) {
+                currentCard--;
+                updateCard();
+            } else if (e.key === 'ArrowRight' && currentCard < totalCards) {
+                currentCard++;
+                updateCard();
+            }
+        });
+        
+        // Generate navigation dots
+        const navDots = document.querySelector('.nav-dots');
+        for (let i = 1; i <= totalCards; i++) {
+            const dot = document.createElement('span');
+            dot.className = 'dot';
+            if (i === 1) dot.classList.add('active');
+            dot.addEventListener('click', () => {
+                currentCard = i;
+                updateCard();
+            });
+            navDots.appendChild(dot);
+        }
+        
+        // Billy speak function
+        async function speakBilly(text) {
+            const button = document.getElementById('welcome-speak');
+            if (button) button.textContent = '⏸️';
+            
+            try {
+                const response = await fetch('http://localhost:3002/tts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: text, voice: 'mark' })
+                });
+                
+                if (response.ok) {
+                    const audioBlob = await response.blob();
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    const audio = new Audio(audioUrl);
+                    audio.onended = () => {
+                        URL.revokeObjectURL(audioUrl);
+                        if (button) button.textContent = '🔊';
+                    };
+                    audio.play();
+                } else {
+                    fallbackBillyTTS(text, button);
+                }
+            } catch (error) {
+                fallbackBillyTTS(text, button);
+            }
+        }
+        
+        function fallbackBillyTTS(text, button) {
+            if (window.speechSynthesis) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 0.9;
+                utterance.pitch = 1.1;
+                utterance.onend = () => {
+                    if (button) button.textContent = '🔊';
+                };
+                speechSynthesis.speak(utterance);
+            } else {
+                if (button) button.textContent = '🔊';
+            }
+        }
+    </script>
+</body>
+</html>

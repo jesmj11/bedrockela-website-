@@ -114,41 +114,8 @@ class BillyInstructor {
   }
   
   getBillyAvatarSVG() {
-    // Larger version of Billy for instructor mode
-    return `
-      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" width="120" height="120" class="billy-avatar-svg">
-        <!-- Horns -->
-        <path d="M20 18 Q15 8 12 4 Q17 7 21 14Z" fill="#c8a96e"/>
-        <path d="M44 18 Q49 8 52 4 Q47 7 43 14Z" fill="#c8a96e"/>
-        <!-- Head -->
-        <ellipse cx="32" cy="28" rx="16" ry="15" fill="#e8d5b0"/>
-        <!-- Ears -->
-        <ellipse cx="16" cy="28" rx="5" ry="7" fill="#e8d5b0"/>
-        <ellipse cx="16" cy="28" rx="3" ry="5" fill="#f5c8c8"/>
-        <ellipse cx="48" cy="28" rx="5" ry="7" fill="#e8d5b0"/>
-        <ellipse cx="48" cy="28" rx="3" ry="5" fill="#f5c8c8"/>
-        <!-- Eyes -->
-        <ellipse cx="26" cy="25" rx="3.5" ry="3" fill="white"/>
-        <ellipse cx="38" cy="25" rx="3.5" ry="3" fill="white"/>
-        <!-- Pupils (animated) -->
-        <rect x="23.5" y="24" width="5" height="2.5" rx="1.2" fill="#3a2a1a" class="billy-pupil-left"/>
-        <rect x="35.5" y="24" width="5" height="2.5" rx="1.2" fill="#3a2a1a" class="billy-pupil-right"/>
-        <!-- Eye shine -->
-        <circle cx="27.5" cy="24.2" r="0.9" fill="white"/>
-        <circle cx="39.5" cy="24.2" r="0.9" fill="white"/>
-        <!-- Snout -->
-        <ellipse cx="32" cy="35" rx="8" ry="6" fill="#d4b896"/>
-        <!-- Nostrils -->
-        <ellipse cx="29" cy="35" rx="1.5" ry="1.2" fill="#b89070"/>
-        <ellipse cx="35" cy="35" rx="1.5" ry="1.2" fill="#b89070"/>
-        <!-- Mouth (animated based on speaking) -->
-        <path id="billy-mouth" d="M27 39 Q32 43 37 39" stroke="#9a7050" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-        <!-- Beard -->
-        <path d="M28 42 Q32 50 36 42" stroke="#c8a96e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-        <!-- Tuft -->
-        <path d="M30 13 Q32 10 34 13 Q32 11 30 13Z" fill="#c8a96e"/>
-      </svg>
-    `;
+    // Billy's avatar image (satyr character)
+    return `<img src="images/billy-avatar.jpg" alt="Billy" class="billy-avatar-img" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;">`;
   }
   
   /**

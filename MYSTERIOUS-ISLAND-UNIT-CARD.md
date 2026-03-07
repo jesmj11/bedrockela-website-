@@ -184,3 +184,184 @@ node generate-mysterious-island-lessons.js
 ```
 
 **Status:** 📦 COMPLETE - Ready to slide into 8th Grade, Days 46-60 pocket
+
+---
+
+## 📚 COMPLETE VOCABULARY BANK (All 120 Words)
+
+**Full vocabulary list organized by chapter (5 words per chapter × 24 chapters)**
+
+Teachers can select from this complete bank when creating lessons or assessments. The 36 words used in the current unit (listed above) were selected as most essential, but all 120 words appear in the story text.
+
+# BOOK 4: THE MYSTERIOUS ISLAND
+
+## Chapter 1: The Great Escape
+1. **Audacious** - bold; daring
+2. **Confederate** - Southern states in Civil War
+3. **Observation** - act of watching carefully
+4. **Artillery** - large guns
+5. **Pursuit** - chase
+
+## Chapter 2: Into the Hurricane
+1. **Turbulent** - violently disturbed
+2. **Correspondent** - news reporter
+3. **Exhilaration** - feeling of excitement
+4. **Meteorological** - relating to weather
+5. **Atmospheric** - relating to atmosphere
+
+## Chapter 3: Crash Landing
+1. **Rag dolls** - soft toys; limp objects
+2. **Motionless** - not moving
+3. **Disoriented** - confused about direction
+4. **Priorities** - most important things
+5. **Hardship** - severe suffering
+
+## Chapter 4: The Search
+1. **Correspondent** - news reporter
+2. **Puzzling** - confusing
+3. **Vegetation** - plant life
+4. **Industrial** - relating to industry
+5. **Medicinal** - having healing properties
+
+## Chapter 5: The Mysterious Rescue
+1. **Consciousness** - awareness
+2. **Precision** - exactness
+3. **Immobilized** - unable to move
+4. **Inflammation** - swelling and pain
+5. **Sophisticated** - advanced; complex
+
+## Chapter 6: Making Camp
+1. **Makeshift** - temporary
+2. **Barricade** - defensive barrier
+3. **Botanical** - relating to plants
+4. **Optimism** - hopeful outlook
+5. **Determination** - firm intention
+
+## Chapter 7: The Engineering Challenge
+1. **Engineering** - design and building
+2. **Hydraulic** - operated by water pressure
+3. **Combustion** - process of burning
+4. **Smelting** - extracting metal from ore
+5. **Bellows** - device for blowing air
+
+## Chapter 8: Secrets of the Island
+1. **Geological** - relating to earth's structure
+2. **Erosion** - wearing away by natural forces
+3. **Hydraulic** - using water power
+4. **Sophisticated** - highly developed
+5. **Irrigation** - supplying water to crops
+
+## Chapter 9: The Invisible Guardian
+1. **Benefactor** - person who helps others
+2. **Systematic** - organized; methodical
+3. **Intervention** - getting involved to help
+4. **Anticipate** - expect; predict
+5. **Coordination** - working together
+
+## Chapter 10: Building the Future
+1. **Ambitious** - requiring great effort
+2. **Architectural** - relating to building design
+3. **Precision** - exactness
+4. **Fracture** - break; crack
+5. **Excavate** - dig out
+
+## Chapter 11: Pirates on the Horizon
+1. **Configuration** - arrangement; setup
+2. **Artillery** - large mounted guns
+3. **Bombard** - attack with bombs
+4. **Strategic** - relating to long-term planning
+5. **Mobility** - ability to move
+
+## Chapter 12: The Battle Plan
+1. **Coordination** - organizing together
+2. **Systematic** - methodical
+3. **Unprecedented** - never done before
+4. **Conventional** - traditional
+5. **Efficiency** - working well
+
+## Chapter 13: Captain Nemo Revealed
+1. **Legendary** - famous in legend
+2. **Mythical** - imaginary; not real
+3. **Technological** - relating to technology
+4. **Colleague** - fellow worker
+5. **Breakthrough** - important discovery
+
+## Chapter 14: The Greatest Mind
+1. **Theoretical** - based on theory
+2. **Metallurgy** - science of metals
+3. **Sustainable** - able to continue
+4. **Exploitation** - unfair use
+5. **Revolutionary** - completely new
+
+## Chapter 15: The Student Becomes Master
+1. **Recipient** - person who receives
+2. **Humanitarian** - helping people
+3. **Theoretical** - based on ideas
+4. **Infrastructure** - basic systems
+5. **Philosophy** - system of beliefs
+
+## Chapter 16: The Final Gift
+1. **Humanitarian** - helping humanity
+2. **Vision** - idea for future
+3. **Accumulated** - gathered over time
+4. **Innovation** - new invention
+5. **Implementation** - putting into action
+
+## Chapter 17: Warning Signs
+1. **Volcanic** - relating to volcanoes
+2. **Catastrophic** - extremely harmful
+3. **Geological** - relating to earth structure
+4. **Seismic** - relating to earthquakes
+5. **Harbinger** - sign of future events
+
+## Chapter 18: The Great Construction
+1. **Urgency** - need for immediate action
+2. **Innovation** - new method or idea
+3. **Seaworthy** - safe for sea travel
+4. **Self-sufficiency** - able to provide for oneself
+5. **Manufacturing** - making goods
+
+## Chapter 19: Eruption
+1. **Eruption** - violent explosion
+2. **Hellscape** - place like hell
+3. **Molten** - melted by heat
+4. **Poisonous** - containing poison
+5. **Evacuation** - removing from danger
+
+## Chapter 20: Rescue
+1. **Culmination** - highest point
+2. **Humanitarian** - helping people
+3. **Missionaries** - religious teachers
+4. **Implementation** - putting into practice
+5. **Unprecedented** - never done before
+
+## Chapter 21: Nemo's Legacy
+1. **Legacy** - something left behind
+2. **Humanitarian** - helping humanity
+3. **Institute** - organization for special purpose
+4. **Implementation** - putting into action
+5. **Innovation** - new method
+
+## Chapter 22: Individual Contributions
+1. **Contributions** - things given or done to help
+2. **Authority** - expert knowledge
+3. **Humanitarian** - helping people
+4. **Collaborative** - working together
+5. **Accelerate** - speed up
+
+## Chapter 23: The New Island
+1. **Demonstration** - showing how something works
+2. **Sustainable** - able to continue
+3. **Prosperity** - success; wealth
+4. **Implementation** - putting into practice
+5. **Adaptation** - adjustment to conditions
+
+## Chapter 24: The Circle Complete
+1. **Humanitarian** - helping humanity
+2. **Legacy** - something passed down
+3. **Innovation** - new invention
+4. **Sustainable** - able to continue
+5. **Civilization** - advanced human society
+
+---
+

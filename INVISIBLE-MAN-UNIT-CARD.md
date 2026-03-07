@@ -127,3 +127,182 @@ node generate-invisible-man-lessons.js
 ```
 
 **Status:** 📦 COMPLETE - Ready to slide into 8th Grade, Days 31-45 pocket
+
+---
+
+## 📚 COMPLETE VOCABULARY BANK (All 120 Words)
+
+**Full vocabulary list organized by chapter (5 words per chapter × 24 chapters)**
+
+Teachers can select from this complete bank when creating lessons or assessments. The 36 words used in the current unit (listed above) were selected as most essential, but all 120 words appear in the story text.
+
+# BOOK 3: THE INVISIBLE MAN
+
+## Chapter 1: The Experiment
+1. **Molecular** - relating to molecules
+2. **Refraction** - bending of light
+3. **Optical** - relating to sight or light
+4. **Irreversible** - cannot be undone
+5. **Transparent** - able to be seen through
+
+## Chapter 2: The New World
+1. **Constraints** - limitations; restrictions
+2. **Liberation** - freedom from restrictions
+3. **Consequence** - result of an action
+4. **Temptation** - desire to do something wrong
+5. **Intoxicating** - causing excitement
+
+## Chapter 3: A Stranger Arrives
+1. **Mysterious** - difficult to understand
+2. **Bandages** - strips of cloth for covering wounds
+3. **Constitution** - physical condition
+4. **Lodging** - temporary accommodation
+5. **Uneasiness** - feeling of worry
+
+## Chapter 4: Unwrapping the Mystery
+1. **Speculation** - forming theories without evidence
+2. **Disfigured** - having appearance spoiled
+3. **Industrial** - relating to industry
+4. **Romantic** - relating to love stories
+5. **Tragic** - very sad
+
+## Chapter 5: The Revelation
+1. **Confrontation** - hostile meeting
+2. **Hysteria** - extreme emotional state
+3. **Paranoia** - unreasonable fear
+4. **Intimidation** - frightening to control
+5. **Unprecedented** - never happened before
+
+## Chapter 6: Reign of Terror Begins
+1. **Advantage** - favorable position
+2. **Impunity** - freedom from punishment
+3. **Poltergeist** - mischievous spirit
+4. **Supernatural** - beyond natural world
+5. **Demonstration** - showing how something works
+
+## Chapter 7: The Escape
+1. **Exposure** - being revealed
+2. **Deception** - act of deceiving
+3. **Megalomania** - obsession with power
+4. **Espionage** - spying
+5. **Infiltrate** - enter secretly
+
+## Chapter 8: Finding an Accomplice
+1. **Accomplice** - partner in crime
+2. **Coercion** - using force to control
+3. **Vagrant** - homeless person
+4. **Expendable** - not worth preserving
+5. **Compliance** - agreement to demands
+
+## Chapter 9: The Perfect Crime
+1. **Elaborated** - carefully planned
+2. **Intimidation** - frightening to control
+3. **Commotion** - noisy disturbance
+4. **Bystander** - person watching an event
+5. **Perpetual** - continuing forever
+
+## Chapter 10: The Hunt Begins
+1. **Unprecedented** - never happened before
+2. **Conventional** - traditional; normal
+3. **Investigation** - careful examination
+4. **Evidence** - proof of something
+5. **Perpetrator** - person who commits crime
+
+## Chapter 11: Power Absolute
+1. **Absolute** - complete; total
+2. **Intoxication** - state of being drunk
+3. **Restraint** - self-control
+4. **Megalomania** - desire for power
+5. **Morality** - principles of right and wrong
+
+## Chapter 12: The Innocent Victims
+1. **Terrorism** - use of violence to frighten
+2. **Psychological** - relating to the mind
+3. **Unprecedented** - never done before
+4. **Civilian** - non-military person
+5. **Tormentor** - one who causes suffering
+
+## Chapter 13: Marvel's Escape
+1. **Tolerance** - ability to accept
+2. **Terrorism** - violent intimidation
+3. **Desperation** - feeling hopeless
+4. **Conscience** - sense of right and wrong
+5. **Betrayal** - act of disloyalty
+
+## Chapter 14: The Confession
+1. **Confession** - admission of wrongdoing
+2. **Coherent** - logical; making sense
+3. **Revolutionary** - completely new
+4. **Framework** - basic structure
+5. **Genius** - exceptional intelligence
+
+## Chapter 15: Old Friends
+1. **Arrogant** - showing superiority
+2. **Intellectual** - relating to intelligence
+3. **Cruelty** - pleasure in causing pain
+4. **Megalomania** - obsession with power
+5. **Malevolent** - evil; harmful
+
+## Chapter 16: The Master Plan
+1. **Reproducible** - able to be repeated
+2. **Saboteurs** - people who damage things deliberately
+3. **Aristocracy** - ruling class
+4. **Implementation** - putting into effect
+5. **Infiltrate** - enter secretly
+
+## Chapter 17: Betrayal
+1. **Betrayal** - act of treachery
+2. **Incriminating** - suggesting guilt
+3. **Treachery** - betrayal of trust
+4. **Occupied** - kept busy
+5. **Authorities** - people in power
+
+## Chapter 18: The Siege
+1. **Siege** - surrounding to capture
+2. **Malevolent** - evil; wishing harm
+3. **Devastation** - severe destruction
+4. **Megalomania** - obsession with power
+5. **Invulnerable** - unable to be harmed
+
+## Chapter 19: Declaration of War
+1. **Manifesto** - public declaration of beliefs
+2. **Systematic** - organized; methodical
+3. **Terminate** - bring to an end
+4. **Authority** - power to control
+5. **Supremacy** - state of being superior
+
+## Chapter 20: The First Murder
+1. **Innocent** - not guilty
+2. **Misfortune** - bad luck
+3. **Efficiently** - in well-organized way
+4. **Psychological** - relating to mind
+5. **Warfare** - armed conflict
+
+## Chapter 21: The Net Closes
+1. **Innovation** - new method or idea
+2. **Manhunt** - search for criminal
+3. **Unprecedented** - never done before
+4. **Conventional** - traditional
+5. **Systematic** - organized
+
+## Chapter 22: Kemp's Ordeal
+1. **Ordeal** - painful experience
+2. **Vengeance** - punishment for wrong
+3. **Barricade** - barrier for defense
+4. **Psychological** - relating to mind
+5. **Ammunition** - bullets and explosives
+
+## Chapter 23: The Final Hunt
+1. **Elaborate** - detailed; complex
+2. **Desperation** - hopeless feeling
+3. **Cordon** - line of police/soldiers
+4. **Confrontation** - hostile meeting
+5. **Obsession** - overwhelming interest
+
+## Chapter 24: The Price of Power
+1. **Undignified** - lacking dignity
+2. **Malevolence** - evil intent
+3. **Mortality** - state of being mortal
+4. **Transcended** - went beyond
+5. **Unselfish** - caring about others
+

@@ -395,3 +395,182 @@ This will create all 15 lesson HTML files with embedded story content, vocabular
 ---
 
 **Status:** 📦 COMPLETE - Ready to slide into 8th Grade, Days 1-15 pocket
+
+---
+
+## 📚 COMPLETE VOCABULARY BANK (All 120 Words)
+
+**Full vocabulary list organized by chapter (5 words per chapter × 24 chapters)**
+
+Teachers can select from this complete bank when creating lessons or assessments. The 36 words used in the current unit (listed above) were selected as most essential, but all 120 words appear in the story text.
+
+# BOOK 1: THE LOST WORLD
+
+## Chapter 1: Face to Face with Giants
+1. **Prehistoric** - relating to the time before written records; ancient
+2. **Expedition** - a journey undertaken by a group with a specific purpose
+3. **Plateau** - an area of high, flat land; elevated plain
+4. **Paleontology** - the study of fossils and ancient life forms
+5. **Skeptical** - having doubts; questioning the truth of something
+
+## Chapter 2: The Challenge
+1. **Controversy** - public disagreement or debate
+2. **Vindication** - proof that someone was right; justification
+3. **Academic** - relating to education and scholarship
+4. **Ridicule** - harsh criticism; mockery
+5. **Proposition** - a suggested plan or idea
+
+## Chapter 3: The Journalist's Quest
+1. **Sensational** - exciting; designed to provoke interest
+2. **Credible** - believable; trustworthy
+3. **Commission** - official assignment or task
+4. **Circulation** - the number of copies sold; distribution
+5. **Scoop** - exclusive news story
+
+## Chapter 4: The Professor's Map
+1. **Cartography** - the science of making maps
+2. **Topographical** - showing physical features of land
+3. **Navigate** - to find one's way; direct a course
+4. **Indigenous** - native to a particular place
+5. **Coordinates** - numbers that show exact position
+
+## Chapter 5: Into the Amazon
+1. **Tributary** - a river that flows into a larger river
+2. **Canopy** - the top layer of forest trees
+3. **Biodiversity** - variety of plant and animal life
+4. **Humidity** - amount of water vapor in the air
+5. **Machete** - large heavy knife used for cutting vegetation
+
+## Chapter 6: The Climb Begins
+1. **Precipice** - very steep cliff face
+2. **Ascent** - the act of climbing up
+3. **Treacherous** - dangerous; not to be trusted
+4. **Rappel** - to descend a cliff using a rope
+5. **Altitude** - height above sea level
+
+## Chapter 7: Terror from Above
+1. **Pterodactyl** - extinct flying reptile
+2. **Predator** - animal that hunts other animals
+3. **Wingspan** - distance from tip to tip of outstretched wings
+4. **Carnivorous** - meat-eating
+5. **Talons** - sharp claws of a bird of prey
+
+## Chapter 8: The Lost Valley
+1. **Ecosystem** - community of living things and their environment
+2. **Evolution** - gradual change over time
+3. **Extinct** - no longer existing
+4. **Habitat** - natural home of an animal or plant
+5. **Preserve** - to keep safe from harm
+
+## Chapter 9: First Contact
+1. **Anthropology** - study of human culture and society
+2. **Primitive** - basic; not advanced
+3. **Telepathic** - able to communicate through thought
+4. **Civilization** - advanced human society
+5. **Rituals** - ceremonial acts or customs
+
+## Chapter 10: The Ape-Men
+1. **Hominid** - early human ancestor
+2. **Intelligence** - ability to learn and understand
+3. **Aggression** - hostile or violent behavior
+4. **Territory** - area controlled by an animal group
+5. **Hierarchy** - system of ranking or organization
+
+## Chapter 11: Captured
+1. **Captivity** - the state of being held prisoner
+2. **Interrogation** - formal questioning
+3. **Defiance** - bold resistance to authority
+4. **Negotiate** - to discuss terms; bargain
+5. **Alliance** - partnership; union for mutual benefit
+
+## Chapter 12: The Underground River
+1. **Subterranean** - existing underground
+2. **Cavern** - large cave
+3. **Stalactite** - rock formation hanging from cave ceiling
+4. **Current** - flowing movement of water
+5. **Phosphorescent** - giving off light without heat
+
+## Chapter 13: Dinosaur Attack
+1. **Tyrannosaurus** - large carnivorous dinosaur
+2. **Massive** - extremely large
+3. **Velocity** - speed of movement
+4. **Impact** - forceful contact; collision
+5. **Adrenaline** - hormone that increases energy during stress
+
+## Chapter 14: The Ancient City
+1. **Archaeological** - relating to study of ancient cultures
+2. **Ruins** - remains of destroyed buildings
+3. **Architecture** - design and construction of buildings
+4. **Civilization** - advanced human society with culture
+5. **Monument** - structure built to commemorate something
+
+## Chapter 15: Maple White Lives
+1. **Transformation** - complete change in form or nature
+2. **Adaptation** - adjustment to new conditions
+3. **Hermit** - person who lives alone away from others
+4. **Revelation** - surprising disclosure; discovery
+5. **Survival** - continuing to live despite difficulty
+
+## Chapter 16: The Evolved Beings
+1. **Evolution** - gradual development over time
+2. **Consciousness** - awareness of one's surroundings
+3. **Telepathy** - communication through thought alone
+4. **Transcendent** - going beyond normal limits
+5. **Philosophy** - study of fundamental questions about existence
+
+## Chapter 17: The Warning
+1. **Catastrophe** - sudden disaster
+2. **Imminent** - about to happen
+3. **Evacuation** - removal from danger
+4. **Premonition** - feeling that something will happen
+5. **Urgency** - pressing importance
+
+## Chapter 18: Escape Plans
+1. **Strategy** - plan of action
+2. **Coordination** - working together effectively
+3. **Logistics** - planning and organizing complex operations
+4. **Resources** - available supplies or materials
+5. **Contingency** - backup plan for emergencies
+
+## Chapter 19: The Great Fire
+1. **Conflagration** - large destructive fire
+2. **Inferno** - intense fire; hell-like conditions
+3. **Devastation** - severe destruction
+4. **Consume** - to destroy completely
+5. **Evacuation** - organized withdrawal from danger
+
+## Chapter 20: Pursuit
+1. **Predator** - hunter; one who pursues prey
+2. **Quarry** - target being hunted
+3. **Relentless** - never stopping; persistent
+4. **Evasion** - act of avoiding capture
+5. **Sanctuary** - place of safety
+
+## Chapter 21: The Final Battle
+1. **Confrontation** - hostile meeting; conflict
+2. **Adversary** - opponent; enemy
+3. **Courage** - bravery in face of danger
+4. **Desperate** - feeling hopeless; taking extreme action
+5. **Victory** - success in struggle or contest
+
+## Chapter 22: Destruction
+1. **Annihilation** - complete destruction
+2. **Apocalypse** - widespread devastation
+3. **Extinction** - complete disappearance of a species
+4. **Obliterate** - destroy utterly; wipe out
+5. **Irreversible** - cannot be undone
+
+## Chapter 23: The Long Journey Home
+1. **Treacherous** - dangerous; hazardous
+2. **Endurance** - ability to withstand hardship
+3. **Perseverance** - continued effort despite difficulties
+4. **Navigate** - find one's way
+5. **Civilization** - developed human society
+
+## Chapter 24: Return to London
+1. **Vindication** - proof of being right
+2. **Triumph** - great victory or achievement
+3. **Recognition** - acknowledgment; appreciation
+4. **Legacy** - something handed down from the past
+5. **Scientific** - based on systematic observation and experiment
+

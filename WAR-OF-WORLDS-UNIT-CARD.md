@@ -353,3 +353,182 @@ node generate-war-of-worlds-lessons.js
 ```
 
 **Status:** 📦 COMPLETE - Ready to slide into 8th Grade, Days 16-30 pocket
+
+---
+
+## 📚 COMPLETE VOCABULARY BANK (All 120 Words)
+
+**Full vocabulary list organized by chapter (5 words per chapter × 24 chapters)**
+
+Teachers can select from this complete bank when creating lessons or assessments. The 36 words used in the current unit (listed above) were selected as most essential, but all 120 words appear in the story text.
+
+# BOOK 2: THE WAR OF THE WORLDS
+
+## Chapter 1: The Heat-Ray
+1. **Cylinder** - tube-shaped object
+2. **Observatory** - building for studying stars and planets
+3. **Projectile** - object shot through the air
+4. **Vaporize** - turn into gas by heating
+5. **Hostile** - unfriendly; aggressive
+
+## Chapter 2: The Thing from Mars
+1. **Extraterrestrial** - from outside Earth
+2. **Tentacle** - long flexible arm-like appendage
+3. **Intellect** - mental ability; intelligence
+4. **Anatomical** - relating to body structure
+5. **Specimen** - sample for scientific study
+
+## Chapter 3: The First Attack
+1. **Artillery** - large mounted guns
+2. **Incinerate** - burn to ashes
+3. **Massacre** - killing of many people
+4. **Refugees** - people fleeing from danger
+5. **Annihilate** - destroy completely
+
+## Chapter 4: Fighting Machines
+1. **Tripod** - three-legged stand or machine
+2. **Mechanism** - working parts of a machine
+3. **Invincible** - too powerful to defeat
+4. **Technology** - application of scientific knowledge
+5. **Devastation** - severe destruction
+
+## Chapter 5: The Black Smoke
+1. **Chemical** - substance made by chemistry
+2. **Toxic** - poisonous
+3. **Asphyxiate** - kill by preventing breathing
+4. **Dispersal** - spreading over wide area
+5. **Contaminate** - make impure by contact
+
+## Chapter 6: Exodus
+1. **Mass** - involving large numbers of people
+2. **Chaos** - complete disorder
+3. **Panic** - sudden uncontrollable fear
+4. **Stampede** - sudden rush of frightened people
+5. **Multitude** - large number of people
+
+## Chapter 7: Thunder Child
+1. **Ironclad** - armored warship
+2. **Courageous** - brave; showing courage
+3. **Sacrifice** - giving up something important
+4. **Naval** - relating to navy or ships
+5. **Heroic** - showing great bravery
+
+## Chapter 8: The Red Weed
+1. **Vegetation** - plant life
+2. **Proliferate** - increase rapidly
+3. **Ecosystem** - community of living organisms
+4. **Alien** - from another world
+5. **Transform** - change completely
+
+## Chapter 9: Underground
+1. **Subterranean** - below ground
+2. **Sewer** - underground drain for waste water
+3. **Labyrinth** - maze; complex network of passages
+4. **Refuge** - shelter from danger
+5. **Claustrophobic** - fear of enclosed spaces
+
+## Chapter 10: The Curate's Madness
+1. **Hysteria** - extreme emotional reaction
+2. **Delirium** - state of mental confusion
+3. **Providential** - occurring at favorable time
+4. **Divine** - relating to God
+5. **Rationality** - quality of being reasonable
+
+## Chapter 11: The Spy-Probe
+1. **Reconnaissance** - military observation
+2. **Surveillance** - close observation
+3. **Mechanical** - operated by machinery
+4. **Detection** - discovery of something hidden
+5. **Stealth** - moving secretly
+
+## Chapter 12: The Handling Machine
+1. **Manipulation** - skillful handling
+2. **Apparatus** - equipment for particular purpose
+3. **Sophisticated** - highly developed
+4. **Function** - purpose; role
+5. **Precision** - exactness; accuracy
+
+## Chapter 13: The Feeding Process
+1. **Parasitic** - living off another organism
+2. **Sustenance** - nourishment needed for life
+3. **Absorption** - taking in of nutrients
+4. **Metabolism** - chemical processes of living things
+5. **Symbiosis** - mutually beneficial relationship
+
+## Chapter 14: Human Livestock
+1. **Domestication** - taming for human use
+2. **Captivity** - state of being confined
+3. **Breeding** - producing offspring
+4. **Subjugation** - bringing under control
+5. **Harvest** - gathering of crops or resources
+
+## Chapter 15: The Dying Martian
+1. **Pathogen** - disease-causing organism
+2. **Immunity** - resistance to disease
+3. **Infection** - invasion by harmful organisms
+4. **Mortality** - death rate
+5. **Epidemic** - widespread occurrence of disease
+
+## Chapter 16: The Red Dawn
+1. **Atmospheric** - relating to the atmosphere
+2. **Phenomena** - observable events
+3. **Crimson** - deep red color
+4. **Ominous** - threatening; foreboding
+5. **Ethereal** - extremely delicate; otherworldly
+
+## Chapter 17: The Silent Streets
+1. **Desolation** - emptiness; abandonment
+2. **Debris** - scattered remains
+3. **Decay** - process of rotting
+4. **Rubble** - broken fragments of buildings
+5. **Eerie** - strange and frightening
+
+## Chapter 18: The Voice in the Desert
+1. **Isolation** - state of being alone
+2. **Melancholy** - feeling of sadness
+3. **Solitude** - being alone
+4. **Contemplation** - deep thought
+5. **Existential** - relating to human existence
+
+## Chapter 19: Recovery Begins
+1. **Reconstruction** - building again
+2. **Resilience** - ability to recover quickly
+3. **Rehabilitation** - restoration to normal life
+4. **Scavenge** - search for useful materials
+5. **Remnants** - remaining parts
+
+## Chapter 20: The Second Wave
+1. **Intelligence** - gathering information
+2. **Strategic** - carefully planned
+3. **Coordinated** - organized together
+4. **Systematic** - methodical; organized
+5. **Calculated** - carefully planned
+
+## Chapter 21: Project Blackwood
+1. **Biological** - relating to living organisms
+2. **Warfare** - armed conflict
+3. **Weaponize** - adapt for use as weapon
+4. **Retaliation** - revenge attack
+5. **Preemptive** - acting to prevent attack
+
+## Chapter 22: The Mars Mission
+1. **Interplanetary** - between planets
+2. **Rocket** - spacecraft propelled by engines
+3. **Trajectory** - path of moving object
+4. **Navigation** - directing course of travel
+5. **Payload** - cargo carried by spacecraft
+
+## Chapter 23: Planetary Genocide
+1. **Genocide** - deliberate killing of entire group
+2. **Annihilation** - complete destruction
+3. **Extermination** - complete elimination
+4. **Irradiate** - expose to radiation
+5. **Sterilize** - make completely clean; destroy life
+
+## Chapter 24: The Next Signal
+1. **Transmission** - sending of signal
+2. **Interstellar** - between stars
+3. **Cosmos** - the universe
+4. **Infinite** - without end
+5. **Destiny** - predetermined course of events
+

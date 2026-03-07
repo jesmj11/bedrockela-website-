@@ -440,10 +440,8 @@
         }
 
         function nextPage() {
-            // Stop mini-lesson if leaving Page 3
-            if (currentPage === 2 && window.billyMiniLesson) {
-                window.billyMiniLesson.stop();
-            }
+            // Stop ALL audio when navigating
+            stopAllAudio();
             
             if (currentPage < pages.length - 1) {
                 currentPage++;
@@ -453,10 +451,44 @@
         }
 
         function prevPage() {
-            // Stop mini-lesson if leaving Page 3
-            if (currentPage === 2 && window.billyMiniLesson) {
+            // Stop ALL audio when navigating
+            stopAllAudio();
+            
+            if (currentPage > 0) {
+                currentPage--;
+                renderPage();
+                window.scrollTo(0, 0);
+            }
+        }
+        
+        function stopAllAudio() {
+            // Stop mini-lesson if active
+            if (window.billyMiniLesson && window.billyMiniLesson.isPlaying) {
+                console.log('[Navigation] Stopping mini-lesson');
                 window.billyMiniLesson.stop();
             }
+            
+            // Stop any regular Billy audio
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+            
+            // Stop browser TTS
+            if (window.speechSynthesis) {
+                speechSynthesis.cancel();
+            }
+            
+            // Reset button states
+            const btn = document.getElementById('billy-speaker');
+            if (btn) {
+                btn.textContent = '🔊';
+            }
+            if (currentButton) {
+                currentButton.textContent = '🔊';
+                currentButton = null;
+            }
+        }
             
             if (currentPage > 0) {
                 currentPage--;

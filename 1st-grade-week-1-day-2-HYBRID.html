@@ -248,18 +248,70 @@
             <div id="storybook-container"></div>
         </div>`,
 
-        // Page 6: Comprehension
+                // Page 6: Comprehension
         `<div class="lesson-page-card content-page">
             
             <h2>🤔 Comprehension Check</h2>
-            <h3 style="text-align: center; color: #305853; margin: 30px 0;">Who has a van?</h3>
-            <div class="multiple-choice-grid">
-                <button class="choice-btn" onclick="checkAnswer(this, 'Sam', true)">Sam</button>
-                <button class="choice-btn" onclick="checkAnswer(this, 'Pam', false)">Pam</button>
-                <button class="choice-btn" onclick="checkAnswer(this, 'Cat', false)">Cat</button>
-                <button class="choice-btn" onclick="checkAnswer(this, 'Dan', false)">Dan</button>
+            <p style="text-align: center; color: #666; margin-bottom: 30px;">Answer questions about the story</p>
+            
+            <!-- Question 1 -->
+            <div class="comprehension-question">
+                <h3 style="color: #305853; margin-bottom: 15px;">1. Who has a pan?</h3>
+                <div class="multiple-choice-grid">
+                    <button class="choice-btn" onclick="checkAnswer(this, 'q1', 'Pam', true)">Pam</button>
+                    <button class="choice-btn" onclick="checkAnswer(this, 'q1', 'Sam', false)">Sam</button>
+                    <button class="choice-btn" onclick="checkAnswer(this, 'q1', 'Dan', false)">Dan</button>
+                    <button class="choice-btn" onclick="checkAnswer(this, 'q1', 'Man', false)">Man</button>
+                </div>
+                <div id="answer-feedback-q1" class="answer-feedback"></div>
             </div>
-            <div id="answer-feedback" style="text-align: center; font-size: 22px; font-weight: 700; margin-top: 30px; min-height: 40px;"></div>
+            
+            <!-- Question 2 -->
+            <div class="comprehension-question">
+                <h3 style="color: #305853; margin-bottom: 15px;">2. What did Pam make?</h3>
+                <div class="multiple-choice-grid">
+                    <button class="choice-btn" onclick="checkAnswer(this, 'q2', 'Jam', true)">Jam</button>
+                    <button class="choice-btn" onclick="checkAnswer(this, 'q2', 'Ham', false)">Ham</button>
+                    <button class="choice-btn" onclick="checkAnswer(this, 'q2', 'A van', false)">A van</button>
+                    <button class="choice-btn" onclick="checkAnswer(this, 'q2', 'A cap', false)">A cap</button>
+                </div>
+                <div id="answer-feedback-q2" class="answer-feedback"></div>
+            </div>
+            
+            <!-- Question 3 -->
+            <div class="comprehension-question">
+                <h3 style="color: #305853; margin-bottom: 15px;">3. Who came to help Pam?</h3>
+                <div class="multiple-choice-grid">
+                    <button class="choice-btn" onclick="checkAnswer(this, 'q3', 'Sam', true)">Sam</button>
+                    <button class="choice-btn" onclick="checkAnswer(this, 'q3', 'Dan', false)">Dan</button>
+                    <button class="choice-btn" onclick="checkAnswer(this, 'q3', 'A cat', false)">A cat</button>
+                    <button class="choice-btn" onclick="checkAnswer(this, 'q3', 'Dad', false)">Dad</button>
+                </div>
+                <div id="answer-feedback-q3" class="answer-feedback"></div>
+            </div>
+            
+            <style>
+                .comprehension-question {
+                    margin: 30px 0;
+                    padding: 20px;
+                    background: #f5f9ff;
+                    border-radius: 15px;
+                }
+                .multiple-choice-grid {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 15px;
+                    max-width: 500px;
+                    margin: 0 auto;
+                }
+                .answer-feedback {
+                    text-align: center;
+                    font-size: 18px;
+                    font-weight: 700;
+                    margin-top: 15px;
+                    min-height: 30px;
+                }
+            </style>
         </div>`,
 
         // Page 7: Sight Words
@@ -662,29 +714,28 @@
         }
 
         // Comprehension check
-        function checkAnswer(button, answer, isCorrect) {
-            const feedback = document.getElementById('answer-feedback');
+                function checkAnswer(button, questionId, answer, isCorrect) {
+            const feedback = document.getElementById(`answer-feedback-${questionId}`);
+            const questionDiv = button.closest('.comprehension-question');
             
-            // Disable all buttons
-            document.querySelectorAll('.choice-btn').forEach(btn => {
+            // Disable all buttons in this question
+            questionDiv.querySelectorAll('.choice-btn').forEach(btn => {
                 btn.style.pointerEvents = 'none';
             });
             
             if (isCorrect) {
                 button.classList.add('correct');
-                feedback.textContent = "Yes! That's correct! Sam has a van! 🎉";
+                feedback.textContent = "✅ Yes! That's correct!";
                 feedback.style.color = '#52b788';
-                speakBilly("Yes! That's correct! Sam has a van!");
             } else {
                 button.classList.add('incorrect');
-                feedback.textContent = "Not quite. Try again!";
+                feedback.textContent = "❌ Not quite. Try again!";
                 feedback.style.color = '#f4845f';
-                speakBilly("Not quite. Try again!");
                 
                 // Re-enable buttons after 2 seconds
                 setTimeout(() => {
                     button.classList.remove('incorrect');
-                    document.querySelectorAll('.choice-btn').forEach(btn => {
+                    questionDiv.querySelectorAll('.choice-btn').forEach(btn => {
                         btn.style.pointerEvents = 'auto';
                     });
                     feedback.textContent = '';

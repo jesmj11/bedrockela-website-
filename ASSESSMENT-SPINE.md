@@ -2,86 +2,108 @@
 ## 🔒 LOCKED — Do not change without updating this file first
 
 Every 5th lesson is an assessment. 36 total across 180 lessons.
+Each week focuses on ONE grammar/language topic — practiced during the 4 regular days, tested on the assessment.
 
 ---
 
 ## Structure (7 pages)
 
 1. **Title Page** — Lesson X / 5th Grade ELA / Unit / Week X Assessment
-2. **🎮 Vocabulary Matching Game** — All vocab words from the week (9-12 words). Cumulative from the 4 regular lessons before the assessment.
+2. **🎮 Vocabulary Matching Game** — All vocab words from the week (9-12 words)
 3. **✏️ Grammar & Language Question 1** — Skill intro + example + question
 4. **✏️ Grammar & Language Question 2** — Practice question
 5. **✏️ Grammar & Language Question 3** — Application question
-6. **📝 Compare & Contrast Writing** — 150-word minimum essay connecting fiction and informational text from the week
+6. **📝 Compare & Contrast Writing** — 150-word minimum essay connecting fiction and informational text
 7. **Completion Page** — Stats + Mark Complete button
 
 ---
 
-## Grammar Skills Rotation (12 skills, cycle every 12 weeks)
+## CCSS-Aligned Grammar & Language Scope and Sequence
 
-| # | Skill | Description |
-|---|-------|-------------|
-| 1 | Complex Sentences | Independent + dependent clauses with because, although, while, when, if, since |
-| 2 | Context Clues | Use surrounding words to determine meaning of unfamiliar words |
-| 3 | Commas with Dependent Clauses | Comma before main clause when dependent clause leads; no comma when it follows |
-| 4 | Greek and Latin Roots | Identify roots (trans-, morph, bene-, -ject, sub-) to decode unfamiliar words |
-| 5 | Figurative Language: Similes & Metaphors | Similes use like/as; metaphors make direct comparisons |
-| 6 | Dialogue Punctuation | Quotation marks, commas, capitalization, new paragraph per speaker |
-| 7 | Semicolons | Connect two related independent clauses |
-| 8 | Personification & Imagery | Human qualities for non-human things; vivid sensory descriptions |
-| 9 | Point of View | First person, third limited, third omniscient — identify and explain effect |
-| 10 | Prefixes and Suffixes | un-, re-, pre-, dis-, mis-, -tion, -ly, -ful, -less, -ment, -ness, -able |
-| 11 | Tone and Mood | Author's attitude (tone) vs reader's feeling (mood); identify word choices |
-| 12 | Appositives | Noun phrases that rename another noun, set off by commas |
+### 36 weeks mapped to Common Core Language Standards for Grade 5
+
+**CONVENTIONS (L.5.1 — Grammar & Usage)**
+
+| Week | Lesson | Standard | Topic |
+|------|--------|----------|-------|
+| 1 | 5 | L.5.1a | Conjunctions: Coordinating (FANBOYS) |
+| 2 | 10 | L.5.1a | Conjunctions: Subordinating (because, although, when, if, since, while) |
+| 3 | 15 | L.5.1a | Conjunctions: Correlative (either/or, neither/nor, both/and, not only/but also) |
+| 4 | 20 | L.5.1b | Perfect Verb Tenses: Past Perfect (had + past participle) |
+| 5 | 25 | L.5.1b | Perfect Verb Tenses: Present Perfect (has/have + past participle) |
+| 6 | 30 | L.5.1b | Perfect Verb Tenses: Future Perfect (will have + past participle) |
+| 7 | 35 | L.5.1c | Verb Tense Consistency — Shifting tenses appropriately in writing |
+| 8 | 40 | L.5.1d | Interjections (Oh! Well, Wow!) and how they function in sentences |
+| 9 | 45 | L.5.1e | Prepositions and Prepositional Phrases |
+| 10 | 50 | L.5.1e | Complex Sentences — Independent vs. dependent clauses |
+| 11 | 55 | L.5.1 | Subject-Verb Agreement with complex subjects |
+| 12 | 60 | L.5.1 | Sentence Types: Simple, Compound, Complex |
+
+**CONVENTIONS (L.5.2 — Capitalization, Punctuation, Spelling)**
+
+| Week | Lesson | Standard | Topic |
+|------|--------|----------|-------|
+| 13 | 65 | L.5.2a | Punctuation: Commas in a series and after introductory elements |
+| 14 | 70 | L.5.2a | Punctuation: Commas to set off "yes/no," tag questions, direct address |
+| 15 | 75 | L.5.2b | Punctuation: Commas with dependent clauses (before = comma, after = none) |
+| 16 | 80 | L.5.2c | Punctuation: Dialogue — quotation marks, commas, new paragraphs |
+| 17 | 85 | L.5.2c | Punctuation: Titles — italics vs. quotation marks |
+| 18 | 90 | L.5.2d | Spelling: Frequently confused words (their/there/they're, its/it's, affect/effect) |
+| 19 | 95 | L.5.2 | Punctuation: Semicolons connecting related independent clauses |
+| 20 | 100 | L.5.2 | Punctuation: Colons to introduce a list or explanation |
+| 21 | 105 | L.5.2 | Punctuation: Appositives — commas to set off renaming noun phrases |
+| 22 | 110 | L.5.2 | Punctuation: Em dashes and parentheses for emphasis/aside |
+
+**KNOWLEDGE OF LANGUAGE (L.5.3 — Style & Effectiveness)**
+
+| Week | Lesson | Standard | Topic |
+|------|--------|----------|-------|
+| 23 | 115 | L.5.3a | Expanding Sentences — Adding details with phrases and clauses |
+| 24 | 120 | L.5.3a | Reducing Sentences — Combining short sentences for flow |
+| 25 | 125 | L.5.3b | Comparing Formal vs. Informal Language (when to use each) |
+| 26 | 130 | L.5.3 | Varying Sentence Beginnings for better writing |
+| 27 | 135 | L.5.3 | Paragraph Structure — Topic sentence, supporting details, conclusion |
+| 28 | 140 | L.5.3 | Transition Words — Connecting ideas across sentences and paragraphs |
+
+**VOCABULARY ACQUISITION (L.5.4 — Word Meaning Strategies)**
+
+| Week | Lesson | Standard | Topic |
+|------|--------|----------|-------|
+| 29 | 145 | L.5.4a | Context Clues — Using surrounding text to determine word meaning |
+| 30 | 150 | L.5.4b | Greek and Latin Roots (trans-, morph, bene-, -ject, sub-, aud-) |
+| 31 | 155 | L.5.4b | Prefixes (un-, re-, pre-, dis-, mis-, over-, under-) |
+| 32 | 160 | L.5.4b | Suffixes (-tion, -ly, -ful, -less, -ment, -ness, -able, -ible) |
+| 33 | 165 | L.5.4c | Using Reference Materials — Dictionary, glossary, thesaurus |
+
+**FIGURATIVE LANGUAGE & WORD RELATIONSHIPS (L.5.5)**
+
+| Week | Lesson | Standard | Topic |
+|------|--------|----------|-------|
+| 34 | 170 | L.5.5a | Figurative Language: Similes and Metaphors |
+| 35 | 175 | L.5.5b | Figurative Language: Idioms, Adages, and Proverbs |
+| 36 | 180 | L.5.5c | Word Relationships: Synonyms, Antonyms, and Homographs |
 
 ---
 
-## Week-by-Week Schedule
+## How It Works: Practice → Test
 
-| Week | Lesson | Unit | Grammar Skill |
-|------|--------|------|---------------|
-| 1 | 5 | Robin Hood | Complex Sentences |
-| 2 | 10 | Robin Hood | Context Clues |
-| 3 | 15 | Robin Hood | Commas with Dependent Clauses |
-| 4 | 20 | Robin Hood | Greek and Latin Roots |
-| 5 | 25 | King Arthur | Figurative Language: Similes & Metaphors |
-| 6 | 30 | King Arthur | Dialogue Punctuation |
-| 7 | 35 | King Arthur | Semicolons |
-| 8 | 40 | King Arthur | Personification & Imagery |
-| 9 | 45 | Arabian Nights | Point of View |
-| 10 | 50 | Celtic Mythology | Prefixes and Suffixes |
-| 11 | 55 | Egyptian Mythology | Tone and Mood |
-| 12 | 60 | Around the World | Appositives |
-| 13 | 65 | Around the World | Complex Sentences |
-| 14 | 70 | Around the World | Context Clues |
-| 15 | 75 | Around the World | Commas with Dependent Clauses |
-| 16 | 80 | Dracula | Greek and Latin Roots |
-| 17 | 85 | Dracula | Figurative Language: Similes & Metaphors |
-| 18 | 90 | Dracula | Dialogue Punctuation |
-| 19 | 95 | Dracula | Semicolons |
-| 20 | 100 | Greek Mythology | Personification & Imagery |
-| 21 | 105 | Greek Mythology | Point of View |
-| 22 | 110 | Greek Mythology | Prefixes and Suffixes |
-| 23 | 115 | Greek Mythology | Tone and Mood |
-| 24 | 120 | Roman Mythology | Appositives |
-| 25 | 125 | Roman Mythology | Complex Sentences |
-| 26 | 130 | Roman Mythology | Context Clues |
-| 27 | 135 | Roman Mythology | Commas with Dependent Clauses |
-| 28 | 140 | Norse Mythology | Greek and Latin Roots |
-| 29 | 145 | Norse Mythology | Figurative Language: Similes & Metaphors |
-| 30 | 150 | Norse Mythology | Dialogue Punctuation |
-| 31 | 155 | Norse Mythology | Semicolons |
-| 32 | 160 | Frankenstein | Personification & Imagery |
-| 33 | 165 | Frankenstein | Point of View |
-| 34 | 170 | Frankenstein | Prefixes and Suffixes |
-| 35 | 175 | Frankenstein | Tone and Mood |
-| 36 | 180 | Final Review | Appositives |
+**Regular Days (4 per week):**
+- Each regular lesson includes a grammar/language practice section focused on that week's topic
+- Practice uses examples from the week's reading
+- Students practice the skill in context, not in isolation
+
+**Assessment Day (1 per week):**
+- 3 grammar questions that TEST mastery of that week's specific skill
+- Questions progress: identify → practice → apply
+- Question 1: Identify/explain the concept with examples
+- Question 2: Practice the skill (fix errors, combine sentences, etc.)
+- Question 3: Apply the skill in original writing using the week's story
 
 ---
 
 ## Compare & Contrast Writing Requirements
 
-Students must write a **minimum 150 words** connecting:
+Students write **minimum 150 words** connecting:
 - The **fiction** (story/myth/novel chapter) from the week
 - The **informational text** from the week
 
@@ -95,18 +117,17 @@ Essay must include:
 
 ## Textarea Standards
 
-All textareas use the standard styled format:
-- Green border (#305853), 8px border-radius
-- `oninput="updateWordCount()"` with word counter
 - Grammar questions: **minimum 20 words**
 - Writing assignment: **minimum 150 words**
+- All textareas use styled format with `updateWordCount()`
 
 ---
 
 ## Rules
 
-- **NEVER change the skill rotation** without updating this file
-- **NEVER change the 3-part structure** without updating this file
-- Vocab comes from the 4 regular lessons immediately before the assessment
-- Grammar skill cycles every 12 weeks — students see each skill 3 times per year
+- **ONE topic per week** — practice 4 days, test on assessment day
+- **Sequential progression** — conventions first, then style, then vocabulary, then figurative language
+- **CCSS-aligned** — every topic maps to a specific 5th grade Language standard
+- **NEVER skip ahead** — students build on previous weeks
 - Build script: `build-assessments.py`
+- **NEVER change without updating this file first**

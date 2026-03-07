@@ -53,47 +53,54 @@
             background: #8B5319;
         }
         
-        /* Word card styles */
-        .word-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            max-width: 700px;
-            margin: 30px auto;
-            padding: 20px;
+        /* Word card - one per page */
+        .word-display-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+            padding: 40px;
         }
         
-        .word-card {
-            background: white;
-            border: 3px solid #4a7c3f;
-            border-radius: 15px;
-            padding: 25px 15px;
-            font-size: 32px;
+        .word-number {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .word-display {
+            font-size: 120px;
             font-weight: 800;
             color: #305853;
-            text-align: center;
             cursor: pointer;
-            transition: all 0.2s;
-            position: relative;
+            transition: all 0.3s;
+            padding: 40px 60px;
+            background: white;
+            border: 6px solid #4a7c3f;
+            border-radius: 25px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            margin: 20px 0;
         }
         
-        .word-card:hover {
+        .word-display:hover {
             transform: scale(1.05);
             background: #f0f7ed;
+            border-color: #B06821;
         }
         
-        .word-card.read {
+        .word-display.played {
             background: #d4edda;
             border-color: #28a745;
         }
         
-        .word-card.read::after {
-            content: '✓';
-            position: absolute;
-            top: 5px;
-            right: 10px;
-            color: #28a745;
+        .word-instruction {
             font-size: 20px;
+            color: #666;
+            margin-top: 20px;
+            text-align: center;
         }
         
         /* Sight word quiz */
@@ -175,7 +182,7 @@
         <div class="nav-header">
             <button class="nav-arrow" id="prevCard">←</button>
             <div class="page-indicator">
-                <span class="current-page">1</span> of <span class="total-pages">5</span>
+                <span class="current-page">1</span> of <span class="total-pages">24</span>
             </div>
             <button class="nav-arrow" id="nextCard">→</button>
         </div>
@@ -208,8 +215,8 @@
                 
                 <div style="font-size: 20px; line-height: 1.8; color: #305853;">
                     <p><strong>Hi friend!</strong> 👋</p>
-                    <p>Today we're going to show off what you learned this week! This isn't scary - it's FUN!</p>
-                    <p>You'll read some words and practice your sight words. That's it!</p>
+                    <p>Today we're going to read words ONE AT A TIME. That's it!</p>
+                    <p>Try to read each word, then tap it to hear if you got it right.</p>
                     <p><strong>No pressure, no rush. Just do your best!</strong> 💪</p>
                 </div>
             </div>
@@ -217,97 +224,179 @@
             <div class="objectives-box">
                 <h3>📋 What You'll Do Today</h3>
                 <ul>
-                    <li>Read 20 Short A words (tap each one!)</li>
+                    <li>Read 20 Short A words (one at a time!)</li>
                     <li>Practice sight words: <strong>a</strong> and <strong>the</strong></li>
                     <li>Celebrate Week 1! 🎊</li>
                 </ul>
             </div>
             
-            <button class="billy-speak-btn" id="welcome-speak" onclick="speakBilly('Hi friend! Today we are going to show off what you learned this week! This is not scary, it is fun! You will read some words and practice your sight words. That is it! No pressure, no rush. Just do your best!')" 
+            <button class="billy-speak-btn" id="welcome-speak" onclick="speakBilly('Hi friend! Today we are going to read words, one at a time. That is it! Try to read each word, then tap it to hear if you got it right. No pressure, no rush. Just do your best!')" 
                     style="margin: 20px auto; display: block; width: 60px; height: 60px; font-size: 28px;">🔊</button>
         </div>
 
-        <!-- CARD 3: Decoding Probe -->
+        <!-- CARDS 3-22: Individual Word Pages (20 words) -->
         <div class="lesson-card" data-page="3">
-            <h2>📖 Read These Words!</h2>
-            <p style="text-align: center; font-size: 18px; color: #666; margin-bottom: 20px;">
-                Tap each word to hear it. Try to read it first!
-            </p>
-            
-            <div class="progress-badge" id="word-progress">0 of 20 words read</div>
-            
-            <div class="word-grid">
-                <div class="word-card" onclick="readWord(this, 'cat')">cat</div>
-                <div class="word-card" onclick="readWord(this, 'mat')">mat</div>
-                <div class="word-card" onclick="readWord(this, 'bat')">bat</div>
-                <div class="word-card" onclick="readWord(this, 'sat')">sat</div>
-                <div class="word-card" onclick="readWord(this, 'rat')">rat</div>
-                <div class="word-card" onclick="readWord(this, 'man')">man</div>
-                <div class="word-card" onclick="readWord(this, 'pan')">pan</div>
-                <div class="word-card" onclick="readWord(this, 'ran')">ran</div>
-                <div class="word-card" onclick="readWord(this, 'jam')">jam</div>
-                <div class="word-card" onclick="readWord(this, 'ham')">ham</div>
-                <div class="word-card" onclick="readWord(this, 'Sam')">Sam</div>
-                <div class="word-card" onclick="readWord(this, 'cap')">cap</div>
-                <div class="word-card" onclick="readWord(this, 'map')">map</div>
-                <div class="word-card" onclick="readWord(this, 'tap')">tap</div>
-                <div class="word-card" onclick="readWord(this, 'lap')">lap</div>
-                <div class="word-card" onclick="readWord(this, 'bag')">bag</div>
-                <div class="word-card" onclick="readWord(this, 'wag')">wag</div>
-                <div class="word-card" onclick="readWord(this, 'tag')">tag</div>
-                <div class="word-card" onclick="readWord(this, 'dad')">dad</div>
-                <div class="word-card" onclick="readWord(this, 'sad')">sad</div>
+            <div class="word-display-card">
+                <div class="word-number">Word 1 of 20</div>
+                <div class="word-display" onclick="playWord(this, 'cat')">cat</div>
+                <div class="word-instruction">Try to read it first, then tap to hear!</div>
             </div>
-            
-            <script>
-                let wordsRead = new Set();
-                
-                async function readWord(element, word) {
-                    // Mark as read
-                    element.classList.add('read');
-                    wordsRead.add(word);
-                    
-                    // Update progress
-                    document.getElementById('word-progress').textContent = 
-                        `${wordsRead.size} of 20 words read`;
-                    
-                    // Speak the word
-                    try {
-                        const response = await fetch('http://localhost:3002/tts', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ text: word, voice: 'mark' })
-                        });
-                        
-                        if (response.ok) {
-                            const audioBlob = await response.blob();
-                            const audioUrl = URL.createObjectURL(audioBlob);
-                            const audio = new Audio(audioUrl);
-                            audio.onended = () => URL.revokeObjectURL(audioUrl);
-                            audio.play();
-                        } else {
-                            // Fallback to browser TTS
-                            fallbackTTS(word);
-                        }
-                    } catch (error) {
-                        // Fallback to browser TTS
-                        fallbackTTS(word);
-                    }
-                }
-                
-                function fallbackTTS(word) {
-                    if (window.speechSynthesis) {
-                        const utterance = new SpeechSynthesisUtterance(word);
-                        utterance.rate = 0.8;
-                        utterance.pitch = 1.1;
-                        speechSynthesis.speak(utterance);
-                    }
-                }
-            </script>
         </div>
 
-        <!-- CARD 4: Sight Word Quiz -->
         <div class="lesson-card" data-page="4">
+            <div class="word-display-card">
+                <div class="word-number">Word 2 of 20</div>
+                <div class="word-display" onclick="playWord(this, 'mat')">mat</div>
+                <div class="word-instruction">Try to read it first, then tap to hear!</div>
+            </div>
+        </div>
+
+        <div class="lesson-card" data-page="5">
+            <div class="word-display-card">
+                <div class="word-number">Word 3 of 20</div>
+                <div class="word-display" onclick="playWord(this, 'bat')">bat</div>
+                <div class="word-instruction">Try to read it first, then tap to hear!</div>
+            </div>
+        </div>
+
+        <div class="lesson-card" data-page="6">
+            <div class="word-display-card">
+                <div class="word-number">Word 4 of 20</div>
+                <div class="word-display" onclick="playWord(this, 'sat')">sat</div>
+                <div class="word-instruction">Try to read it first, then tap to hear!</div>
+            </div>
+        </div>
+
+        <div class="lesson-card" data-page="7">
+            <div class="word-display-card">
+                <div class="word-number">Word 5 of 20</div>
+                <div class="word-display" onclick="playWord(this, 'rat')">rat</div>
+                <div class="word-instruction">Try to read it first, then tap to hear!</div>
+            </div>
+        </div>
+
+        <div class="lesson-card" data-page="8">
+            <div class="word-display-card">
+                <div class="word-number">Word 6 of 20</div>
+                <div class="word-display" onclick="playWord(this, 'man')">man</div>
+                <div class="word-instruction">Try to read it first, then tap to hear!</div>
+            </div>
+        </div>
+
+        <div class="lesson-card" data-page="9">
+            <div class="word-display-card">
+                <div class="word-number">Word 7 of 20</div>
+                <div class="word-display" onclick="playWord(this, 'pan')">pan</div>
+                <div class="word-instruction">Try to read it first, then tap to hear!</div>
+            </div>
+        </div>
+
+        <div class="lesson-card" data-page="10">
+            <div class="word-display-card">
+                <div class="word-number">Word 8 of 20</div>
+                <div class="word-display" onclick="playWord(this, 'ran')">ran</div>
+                <div class="word-instruction">Try to read it first, then tap to hear!</div>
+            </div>
+        </div>
+
+        <div class="lesson-card" data-page="11">
+            <div class="word-display-card">
+                <div class="word-number">Word 9 of 20</div>
+                <div class="word-display" onclick="playWord(this, 'jam')">jam</div>
+                <div class="word-instruction">Try to read it first, then tap to hear!</div>
+            </div>
+        </div>
+
+        <div class="lesson-card" data-page="12">
+            <div class="word-display-card">
+                <div class="word-number">Word 10 of 20</div>
+                <div class="word-display" onclick="playWord(this, 'ham')">ham</div>
+                <div class="word-instruction">Try to read it first, then tap to hear!</div>
+            </div>
+        </div>
+
+        <div class="lesson-card" data-page="13">
+            <div class="word-display-card">
+                <div class="word-number">Word 11 of 20</div>
+                <div class="word-display" onclick="playWord(this, 'Sam')">Sam</div>
+                <div class="word-instruction">Try to read it first, then tap to hear!</div>
+            </div>
+        </div>
+
+        <div class="lesson-card" data-page="14">
+            <div class="word-display-card">
+                <div class="word-number">Word 12 of 20</div>
+                <div class="word-display" onclick="playWord(this, 'cap')">cap</div>
+                <div class="word-instruction">Try to read it first, then tap to hear!</div>
+            </div>
+        </div>
+
+        <div class="lesson-card" data-page="15">
+            <div class="word-display-card">
+                <div class="word-number">Word 13 of 20</div>
+                <div class="word-display" onclick="playWord(this, 'map')">map</div>
+                <div class="word-instruction">Try to read it first, then tap to hear!</div>
+            </div>
+        </div>
+
+        <div class="lesson-card" data-page="16">
+            <div class="word-display-card">
+                <div class="word-number">Word 14 of 20</div>
+                <div class="word-display" onclick="playWord(this, 'tap')">tap</div>
+                <div class="word-instruction">Try to read it first, then tap to hear!</div>
+            </div>
+        </div>
+
+        <div class="lesson-card" data-page="17">
+            <div class="word-display-card">
+                <div class="word-number">Word 15 of 20</div>
+                <div class="word-display" onclick="playWord(this, 'lap')">lap</div>
+                <div class="word-instruction">Try to read it first, then tap to hear!</div>
+            </div>
+        </div>
+
+        <div class="lesson-card" data-page="18">
+            <div class="word-display-card">
+                <div class="word-number">Word 16 of 20</div>
+                <div class="word-display" onclick="playWord(this, 'bag')">bag</div>
+                <div class="word-instruction">Try to read it first, then tap to hear!</div>
+            </div>
+        </div>
+
+        <div class="lesson-card" data-page="19">
+            <div class="word-display-card">
+                <div class="word-number">Word 17 of 20</div>
+                <div class="word-display" onclick="playWord(this, 'wag')">wag</div>
+                <div class="word-instruction">Try to read it first, then tap to hear!</div>
+            </div>
+        </div>
+
+        <div class="lesson-card" data-page="20">
+            <div class="word-display-card">
+                <div class="word-number">Word 18 of 20</div>
+                <div class="word-display" onclick="playWord(this, 'tag')">tag</div>
+                <div class="word-instruction">Try to read it first, then tap to hear!</div>
+            </div>
+        </div>
+
+        <div class="lesson-card" data-page="21">
+            <div class="word-display-card">
+                <div class="word-number">Word 19 of 20</div>
+                <div class="word-display" onclick="playWord(this, 'dad')">dad</div>
+                <div class="word-instruction">Try to read it first, then tap to hear!</div>
+            </div>
+        </div>
+
+        <div class="lesson-card" data-page="22">
+            <div class="word-display-card">
+                <div class="word-number">Word 20 of 20</div>
+                <div class="word-display" onclick="playWord(this, 'sad')">sad</div>
+                <div class="word-instruction">Last word! Try to read it first, then tap to hear!</div>
+            </div>
+        </div>
+
+        <!-- CARD 23: Sight Word Quiz -->
+        <div class="lesson-card" data-page="23">
             <h2>⭐ Sight Word Practice</h2>
             <p style="text-align: center; font-size: 18px; color: #666; margin-bottom: 30px;">
                 Tap each word to hear it. Can you read it on your own first?
@@ -316,7 +405,7 @@
             <div class="sight-word-quiz">
                 <div class="sight-word-item">
                     <p style="text-align: center; color: #666; margin-bottom: 10px;">Word 1</p>
-                    <div class="sight-word-display" onclick="speakSightWord(this, 'a')">a</div>
+                    <div class="sight-word-display" onclick="playSightWord(this, 'a')">a</div>
                     <p style="text-align: center; color: #666; font-size: 16px; margin-top: 15px;">
                         Example: I have <strong>a</strong> cat.
                     </p>
@@ -324,47 +413,16 @@
                 
                 <div class="sight-word-item">
                     <p style="text-align: center; color: #666; margin-bottom: 10px;">Word 2</p>
-                    <div class="sight-word-display" onclick="speakSightWord(this, 'the')">the</div>
+                    <div class="sight-word-display" onclick="playSightWord(this, 'the')">the</div>
                     <p style="text-align: center; color: #666; font-size: 16px; margin-top: 15px;">
                         Example: I see <strong>the</strong> cat.
                     </p>
                 </div>
             </div>
-            
-            <script>
-                async function speakSightWord(element, word) {
-                    // Visual feedback
-                    element.style.color = '#B06821';
-                    setTimeout(() => {
-                        element.style.color = '#305853';
-                    }, 500);
-                    
-                    // Speak the word
-                    try {
-                        const response = await fetch('http://localhost:3002/tts', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ text: word, voice: 'mark' })
-                        });
-                        
-                        if (response.ok) {
-                            const audioBlob = await response.blob();
-                            const audioUrl = URL.createObjectURL(audioBlob);
-                            const audio = new Audio(audioUrl);
-                            audio.onended = () => URL.revokeObjectURL(audioUrl);
-                            audio.play();
-                        } else {
-                            fallbackTTS(word);
-                        }
-                    } catch (error) {
-                        fallbackTTS(word);
-                    }
-                }
-            </script>
         </div>
 
-        <!-- CARD 5: Completion -->
-        <div class="lesson-card" data-page="5">
+        <!-- CARD 24: Completion -->
+        <div class="lesson-card" data-page="24">
             <div class="completion-card">
                 <div class="completion-icon">🎉</div>
                 <h2>Week 1 Complete!</h2>
@@ -475,6 +533,68 @@
                 updateCard();
             });
             navDots.appendChild(dot);
+        }
+        
+        // Play word with TTS
+        async function playWord(element, word) {
+            element.classList.add('played');
+            
+            try {
+                const response = await fetch('http://localhost:3002/tts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: word, voice: 'mark' })
+                });
+                
+                if (response.ok) {
+                    const audioBlob = await response.blob();
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    const audio = new Audio(audioUrl);
+                    audio.onended = () => URL.revokeObjectURL(audioUrl);
+                    audio.play();
+                } else {
+                    fallbackTTS(word);
+                }
+            } catch (error) {
+                fallbackTTS(word);
+            }
+        }
+        
+        // Play sight word
+        async function playSightWord(element, word) {
+            element.style.color = '#B06821';
+            setTimeout(() => {
+                element.style.color = '#305853';
+            }, 500);
+            
+            try {
+                const response = await fetch('http://localhost:3002/tts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: word, voice: 'mark' })
+                });
+                
+                if (response.ok) {
+                    const audioBlob = await response.blob();
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    const audio = new Audio(audioUrl);
+                    audio.onended = () => URL.revokeObjectURL(audioUrl);
+                    audio.play();
+                } else {
+                    fallbackTTS(word);
+                }
+            } catch (error) {
+                fallbackTTS(word);
+            }
+        }
+        
+        function fallbackTTS(word) {
+            if (window.speechSynthesis) {
+                const utterance = new SpeechSynthesisUtterance(word);
+                utterance.rate = 0.8;
+                utterance.pitch = 1.1;
+                speechSynthesis.speak(utterance);
+            }
         }
         
         // Billy speak function

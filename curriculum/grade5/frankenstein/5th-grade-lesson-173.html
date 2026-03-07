@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 173: A Terrible Promise</title>
+    <link rel="stylesheet" href="../../../css/lesson-viewer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
+    <script src="../../../js/lesson-viewer.js"><\/script>
+    <script src="../../../firebase-config.js"><\/script>
+    <script src="../../../js/lesson-completion.js"><\/script>
+    <script src="../../../js/lesson-autosave.js"><\/script>
+    <script src="../../../js/save-button-injector.js"><\/script>
+    <script src="../../../js/answer-validation.js"><\/script>
+    <script src="../../../js/grade-normalizer.js"><\/script>
+    <script src="../../../js/offline-sync.js"><\/script>
+    <script src="../../../js/text-to-speech.js"><\/script>
+    <script src="../../../js/digital-book.js"><\/script>
+    <script>
+        const lesson173Config = {
+            lessonId: '5th-grade-lesson-173',
+            gradeLevel: '5th-grade',
+            title: 'Day 173: A Terrible Promise',
+            pages: [
+                {
+                    render: () => `
+<div class="lesson-page-card title-page">
+                            <h1>Lesson 173</h1>
+                            <div class="subtitle">5th Grade ELA</div>
+                            <p style="color: #8B4513; font-size: 20px; margin-top: 20px;">Frankenstein</p>
+                            <p style="color: #666; font-size: 16px; margin-top: 10px;">A Terrible Promise</p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Welcome to Lesson 173!</h2>
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>Read <em>A Terrible Promise</em></li>
+                                <li>Learn 3 new vocabulary words</li>
+                                <li>Answer reading comprehension questions</li>
+                                <li>Write a journal response</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Vocabulary Words</h2>
+                            <div style="margin: 30px 0;"><div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;"><span style="font-size: 28px; font-weight: 800; color: #305853;">dread</span></div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">Look up this word in a dictionary, then write the definition in your own words:</p>
+                                    <textarea id="vocab-1" style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;" oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)" onpaste="return false" placeholder="Type the definition here (minimum 10 words, no pasting)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;"><span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span><span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span></div>
+                                </div><div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;"><span style="font-size: 28px; font-weight: 800; color: #305853;">reluctant</span></div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">Look up this word in a dictionary, then write the definition in your own words:</p>
+                                    <textarea id="vocab-2" style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;" oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)" onpaste="return false" placeholder="Type the definition here (minimum 10 words, no pasting)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;"><span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span><span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span></div>
+                                </div><div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;"><span style="font-size: 28px; font-weight: 800; color: #305853;">torment</span></div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">Look up this word in a dictionary, then write the definition in your own words:</p>
+                                    <textarea id="vocab-3" style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;" oninput="updateWordCount('vocab-3', 'vocab-count-3', 10)" onpaste="return false" placeholder="Type the definition here (minimum 10 words, no pasting)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;"><span id="vocab-count-3" style="font-size: 13px; color: #666;">0 / 10 words</span><span id="vocab-count-3-status" style="font-size: 13px; font-weight: 600;"></span></div>
+                                </div></div>
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;"><p style="margin: 0;"><strong>Watch for these words</strong> in today\'s reading!</p></div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+                            <h2>🎮 Vocabulary Game</h2>
+                            <p style="color: #666; margin-bottom: 5px;">Match each word to its definition! (9 words this week so far)</p>
+                            <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 9</p>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                                <div id="wordColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                                    <div class="match-word" data-word="outcast" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">outcast</div><div class="match-word" data-word="anguish" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">anguish</div><div class="match-word" data-word="console" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">console</div><div class="match-word" data-word="resentment" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">resentment</div><div class="match-word" data-word="perceive" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">perceive</div><div class="match-word" data-word="companion" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">companion</div><div class="match-word" data-word="dread" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">dread</div><div class="match-word" data-word="reluctant" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">reluctant</div><div class="match-word" data-word="torment" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">torment</div>
+                                </div>
+                                <div id="defColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                                    <div class="match-def" data-word="resentment" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Bitter anger or ill will felt when treated unfairly.</div><div class="match-def" data-word="dread" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Great fear or anxiety about something that may happen.</div><div class="match-def" data-word="perceive" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">To become aware of something through the senses; to notice or understand.</div><div class="match-def" data-word="outcast" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">A person who has been rejected by their society or group.</div><div class="match-def" data-word="torment" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Severe physical or mental suffering; to cause someone great pain.</div><div class="match-def" data-word="anguish" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Severe mental or physical pain and suffering.</div><div class="match-def" data-word="console" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">To comfort someone who is feeling sad, disappointed, or in distress.</div><div class="match-def" data-word="companion" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">A person who spends time with another; a close friend or partner.</div><div class="match-def" data-word="reluctant" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Unwilling and hesitant; not wanting to do something.</div>
+                                </div>
+                            </div>
+                            <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                        </div>`
+                ,
+                    onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 173 • Week 35</div>
+        <div class="unit-label">A Terrible Promise • Part 1 of 4</div>
+      </div>
+      <div class="story-text"><p>Victor stood on the edge of the glacier for a long time, thinking.</p>
+<p>Every part of him wanted to say no. The creature had killed his brother. It had caused the death of Justine. How could he trust anything it promised?</p>
+<p>But the creature\'s words had burrowed deep into his mind. I was not born cruel. I became cruel from loneliness.</p>
+<p>Victor thought about those first moments after the creature woke — how he had run away in horror. He had built a living being, given it life, and then immediately abandoned it to the dark. The creature had come into the world with no one to explain it, no one to care for it, no guide or parent or friend. It had been driven away from every human it encountered.</p></div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 173 • Week 35</div>
+        <div class="unit-label">A Terrible Promise • Part 2 of 4</div>
+      </div>
+      <div class="story-text"><p>Was the creature entirely responsible for what it had become? Or was Victor?</p>
+<p>These thoughts twisted together in his head until he could no longer think clearly.</p>
+<p>Finally, Victor agreed.</p>
+<p>He would build a companion for the creature. When it was done, both of them would disappear forever. There would be no more harm done.</p>
+<p>The creature\'s face — that strange, scarred face — showed something Victor had not expected to see there.</p>
+<p>Relief.</p></div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 173 • Week 35</div>
+        <div class="unit-label">A Terrible Promise • Part 3 of 4</div>
+      </div>
+      <div class="story-text"><p>&quot;You will not regret this,&quot; the creature said. Then it turned and leaped back across the glacier, disappearing among the columns of blue ice with startling speed.</p>
+<p>Victor walked down from the mountains alone, his mind already working through the terrible task ahead. He would need to return to his work, to those long dark nights in the laboratory. He had sworn he would never go back to that world.</p>
+<p>But he had made a promise now. And somewhere beneath his <span class="vocab-highlight">dread</span>, he felt the old familiar pull — the hunger to create, to discover, to push further than before.</p></div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 173 • Week 35</div>
+        <div class="unit-label">A Terrible Promise • Part 4 of 4</div>
+      </div>
+      <div class="story-text"><p>He hated himself for feeling it.</p></div>
+    </div>`
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Reading Comprehension</h2>
+                            <p style="margin-bottom: 30px;">Question 1 of 3</p>
+                            <div style="margin: 30px 0;">
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #8B4513;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 1:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">Victor reluctantly agrees to create a second creature. Why does he agree even though he\'s terrified? Is he motivated by compassion, guilt, or fear?</p>
+                                    <textarea id="comp-1" style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;" oninput="updateWordCount('comp-1', 'word-count-comp-1', 50)" placeholder="Write your answer here (minimum 50 words)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;"><span id="word-count-comp-1" style="font-size: 14px; color: #666;">0 / 50 words</span><span id="word-count-comp-1-status" style="font-size: 14px; font-weight: 600;"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Reading Comprehension</h2>
+                            <p style="margin-bottom: 30px;">Question 2 of 3</p>
+                            <div style="margin: 30px 0;">
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #8B4513;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 2:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">Victor dreads the work ahead of him. How is this different from his first creation, when he was excited and obsessed? What has changed in Victor?</p>
+                                    <textarea id="comp-2" style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;" oninput="updateWordCount('comp-2', 'word-count-comp-2', 50)" placeholder="Write your answer here (minimum 50 words)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;"><span id="word-count-comp-2" style="font-size: 14px; color: #666;">0 / 50 words</span><span id="word-count-comp-2-status" style="font-size: 14px; font-weight: 600;"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Reading Comprehension</h2>
+                            <p style="margin-bottom: 30px;">Question 3 of 3</p>
+                            <div style="margin: 30px 0;">
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #8B4513;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 3:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">The chapter explores the idea of making a terrible promise to prevent something worse. Is it ever right to do something wrong to avoid a greater evil?</p>
+                                    <textarea id="comp-3" style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;" oninput="updateWordCount('comp-3', 'word-count-comp-3', 50)" placeholder="Write your answer here (minimum 50 words)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;"><span id="word-count-comp-3" style="font-size: 14px; color: #666;">0 / 50 words</span><span id="word-count-comp-3-status" style="font-size: 14px; font-weight: 600;"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 173 • Week 35</div>
+        <div class="unit-label">Journal Response</div>
+      </div>
+      <h2>✍️ Your Response</h2>
+      <div style="margin: 20px 0;">
+        <p><strong>Choose one:</strong></p>
+        <ul style="line-height: 2;">
+          <li>Which character in today\'s reading do you sympathize with most — and why?</li>
+          <li>What moral question does this chapter raise? What would you have done differently?</li>
+          <li>Connect something from this chapter to your own life or to another story you know.</li>
+        </ul>
+      </div>
+      <textarea style="width: 100%; min-height: 150px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;" placeholder="Write your response here (minimum 50 words)..." id="journal" oninput="updateWordCount('journal', 'journal-wc', 50)"><\/textarea>
+      <span id="journal-wc" style="font-size: 14px; color: #666;">0 / 50 words</span>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card completion-page">
+      <div class="completion-container">
+        <div class="completion-icon">🎉</div>
+        <h1>Day 173 Complete!</h1>
+        <p class="completion-message">Great work on \"A Terrible Promise\"!</p>
+        <div class="completion-stats">
+          <div class="stat-item"><div class="stat-number">3</div><div class="stat-label">New Words</div></div>
+          <div class="stat-item"><div class="stat-number">1</div><div class="stat-label">Chapter Read</div></div>
+          <div class="stat-item"><div class="stat-number">3</div><div class="stat-label">Questions</div></div>
+        </div>
+        <button class="completion-button" onclick="markComplete()">Mark Complete &amp; Save Progress</button>
+        <div class="completion-footer"><button class="nav-button prev-button" onclick="prevPage()">← Review Lesson</button></div>
+      </div>
+    </div>`
+                }
+            ]
+        };
+        window.addEventListener('DOMContentLoaded', () => {
+            createLessonViewer('lesson-container', lesson173Config);
+        });
+    <\/script>
+</body>
+</html>

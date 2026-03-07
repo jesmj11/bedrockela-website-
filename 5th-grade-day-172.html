@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 172: The Creature's Request</title>
+    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
+    <script src="js/lesson-viewer.js"><\/script>
+    <script src="firebase-config.js"><\/script>
+    <script src="js/lesson-completion.js"><\/script>
+    <script src="js/lesson-autosave.js"><\/script>
+    <script src="js/save-button-injector.js"><\/script>
+    <script src="js/answer-validation.js"><\/script>
+    <script src="js/grade-normalizer.js"><\/script>
+    <script src="js/offline-sync.js"><\/script>
+    <script src="js/text-to-speech.js"><\/script>
+    <script src="js/digital-book.js"><\/script>
+    <script>
+        const lesson172Config = {
+            lessonId: '5th-grade-lesson-172',
+            gradeLevel: '5th-grade',
+            title: 'Day 172: The Creature\'s Request',
+            pages: [
+                {
+                    render: () => `
+<div class="lesson-page-card title-page">
+                            <h1>Lesson 172</h1>
+                            <div class="subtitle">5th Grade ELA</div>
+                            <p style="color: #8B4513; font-size: 20px; margin-top: 20px;">Frankenstein</p>
+                            <p style="color: #666; font-size: 16px; margin-top: 10px;">The Creature\'s Request</p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Welcome to Lesson 172!</h2>
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>Read <em>The Creature\'s Request</em></li>
+                                <li>Learn 3 new vocabulary words</li>
+                                <li>Answer reading comprehension questions</li>
+                                <li>Write a journal response</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Vocabulary Words</h2>
+                            <div style="margin: 30px 0;"><div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;"><span style="font-size: 28px; font-weight: 800; color: #305853;">resentment</span></div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">Look up this word in a dictionary, then write the definition in your own words:</p>
+                                    <textarea id="vocab-1" style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;" oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)" onpaste="return false" placeholder="Type the definition here (minimum 10 words, no pasting)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;"><span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span><span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span></div>
+                                </div><div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;"><span style="font-size: 28px; font-weight: 800; color: #305853;">perceive</span></div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">Look up this word in a dictionary, then write the definition in your own words:</p>
+                                    <textarea id="vocab-2" style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;" oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)" onpaste="return false" placeholder="Type the definition here (minimum 10 words, no pasting)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;"><span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span><span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span></div>
+                                </div><div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;"><span style="font-size: 28px; font-weight: 800; color: #305853;">companion</span></div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">Look up this word in a dictionary, then write the definition in your own words:</p>
+                                    <textarea id="vocab-3" style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;" oninput="updateWordCount('vocab-3', 'vocab-count-3', 10)" onpaste="return false" placeholder="Type the definition here (minimum 10 words, no pasting)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;"><span id="vocab-count-3" style="font-size: 13px; color: #666;">0 / 10 words</span><span id="vocab-count-3-status" style="font-size: 13px; font-weight: 600;"></span></div>
+                                </div></div>
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;"><p style="margin: 0;"><strong>Watch for these words</strong> in today\'s reading!</p></div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+                            <h2>🎮 Vocabulary Game</h2>
+                            <p style="color: #666; margin-bottom: 5px;">Match each word to its definition! (6 words this week so far)</p>
+                            <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 6</p>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                                <div id="wordColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                                    <div class="match-word" data-word="outcast" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">outcast</div><div class="match-word" data-word="anguish" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">anguish</div><div class="match-word" data-word="console" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">console</div><div class="match-word" data-word="resentment" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">resentment</div><div class="match-word" data-word="perceive" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">perceive</div><div class="match-word" data-word="companion" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">companion</div>
+                                </div>
+                                <div id="defColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                                    <div class="match-def" data-word="console" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">To comfort someone who is feeling sad, disappointed, or in distress.</div><div class="match-def" data-word="companion" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">A person who spends time with another; a close friend or partner.</div><div class="match-def" data-word="anguish" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Severe mental or physical pain and suffering.</div><div class="match-def" data-word="resentment" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Bitter anger or ill will felt when treated unfairly.</div><div class="match-def" data-word="outcast" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">A person who has been rejected by their society or group.</div><div class="match-def" data-word="perceive" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">To become aware of something through the senses; to notice or understand.</div>
+                                </div>
+                            </div>
+                            <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                        </div>`
+                ,
+                    onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 172 • Week 35</div>
+        <div class="unit-label">The Creature\'s Request • Part 1 of 4</div>
+      </div>
+      <div class="story-text"><p>The creature\'s voice was steady, but Victor could see the pain behind his eyes — pain that had hardened, over time, into something colder.</p>
+<p>After the family abandoned the cottage, the creature had wandered further. He came to Geneva. He did not know why, exactly — he only knew that somewhere in the world, there was one person who was responsible for his existence. One person who might owe him something.</p>
+<p>And then he had seen William.</p>
+<p>Victor tensed. The creature looked away.</p></div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 172 • Week 35</div>
+        <div class="unit-label">The Creature\'s Request • Part 2 of 4</div>
+      </div>
+      <div class="story-text"><p>&quot;The boy saw me,&quot; the creature said. &quot;He screamed, and I tried to quiet him — I was not thinking. I was so angry, Frankenstein. I had been cast out of everywhere. I had been met with nothing but fear and hatred. I did not mean to harm him. But I did.&quot;</p>
+<p>Victor\'s jaw was tight. &quot;And Justine?&quot;</p>
+<p>&quot;I found a portrait in the boy\'s pocket. A woman\'s portrait. And I thought — here is someone beautiful and kind-looking, someone who will never look at me without horror — and in my bitterness, I placed it in her pocket while she slept. I knew she would be blamed.&quot;</p></div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 172 • Week 35</div>
+        <div class="unit-label">The Creature\'s Request • Part 3 of 4</div>
+      </div>
+      <div class="story-text"><p>The creature paused. &quot;I am not proud of what I did. But I want you to understand what made me this way. I was not born cruel. I became cruel from loneliness.&quot;</p>
+<p>He turned and looked directly at Victor.</p>
+<p>&quot;I have one request.&quot;</p>
+<p>Victor said nothing.</p>
+<p>&quot;Make me a <span class="vocab-highlight">companion</span>,&quot; the creature said. &quot;Create another being like me — a female, someone who will not fear my face or my size, someone who will understand what I am. I do not ask for much. I ask only not to be entirely alone in the world. Give me a <span class="vocab-highlight">companion</span>, and I will go far away — to the jungles of South America, somewhere no humans live — and you will never see either of us again.&quot;</p></div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 172 • Week 35</div>
+        <div class="unit-label">The Creature\'s Request • Part 4 of 4</div>
+      </div>
+      <div class="story-text"><p>Victor stared at him for a long time.</p>
+<p>&quot;And if I refuse?&quot;</p>
+<p>The creature\'s eyes were steady. &quot;Then I cannot promise what my loneliness will make me do.&quot;</p></div>
+    </div>`
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Reading Comprehension</h2>
+                            <p style="margin-bottom: 30px;">Question 1 of 3</p>
+                            <div style="margin: 30px 0;">
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #8B4513;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 1:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">The Creature asks Victor to create a companion — someone like him who won\'t be afraid. Is this a reasonable request? Does the Creature have a right to companionship?</p>
+                                    <textarea id="comp-1" style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;" oninput="updateWordCount('comp-1', 'word-count-comp-1', 50)" placeholder="Write your answer here (minimum 50 words)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;"><span id="word-count-comp-1" style="font-size: 14px; color: #666;">0 / 50 words</span><span id="word-count-comp-1-status" style="font-size: 14px; font-weight: 600;"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Reading Comprehension</h2>
+                            <p style="margin-bottom: 30px;">Question 2 of 3</p>
+                            <div style="margin: 30px 0;">
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #8B4513;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 2:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">The Creature says his violence came from loneliness and rejection, not from evil. Do you believe him? Can suffering and isolation actually turn someone toward cruelty?</p>
+                                    <textarea id="comp-2" style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;" oninput="updateWordCount('comp-2', 'word-count-comp-2', 50)" placeholder="Write your answer here (minimum 50 words)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;"><span id="word-count-comp-2" style="font-size: 14px; color: #666;">0 / 50 words</span><span id="word-count-comp-2-status" style="font-size: 14px; font-weight: 600;"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Reading Comprehension</h2>
+                            <p style="margin-bottom: 30px;">Question 3 of 3</p>
+                            <div style="margin: 30px 0;">
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #8B4513;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 3:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">The Creature promises to disappear forever if Victor grants his request. Should Victor trust this promise? What would you do in Victor\'s position?</p>
+                                    <textarea id="comp-3" style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;" oninput="updateWordCount('comp-3', 'word-count-comp-3', 50)" placeholder="Write your answer here (minimum 50 words)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;"><span id="word-count-comp-3" style="font-size: 14px; color: #666;">0 / 50 words</span><span id="word-count-comp-3-status" style="font-size: 14px; font-weight: 600;"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 172 • Week 35</div>
+        <div class="unit-label">Journal Response</div>
+      </div>
+      <h2>✍️ Your Response</h2>
+      <div style="margin: 20px 0;">
+        <p><strong>Choose one:</strong></p>
+        <ul style="line-height: 2;">
+          <li>Which character in today\'s reading do you sympathize with most — and why?</li>
+          <li>What moral question does this chapter raise? What would you have done differently?</li>
+          <li>Connect something from this chapter to your own life or to another story you know.</li>
+        </ul>
+      </div>
+      <textarea style="width: 100%; min-height: 150px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;" placeholder="Write your response here (minimum 50 words)..." id="journal" oninput="updateWordCount('journal', 'journal-wc', 50)"><\/textarea>
+      <span id="journal-wc" style="font-size: 14px; color: #666;">0 / 50 words</span>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card completion-page">
+      <div class="completion-container">
+        <div class="completion-icon">🎉</div>
+        <h1>Day 172 Complete!</h1>
+        <p class="completion-message">Great work on \"The Creature\'s Request\"!</p>
+        <div class="completion-stats">
+          <div class="stat-item"><div class="stat-number">3</div><div class="stat-label">New Words</div></div>
+          <div class="stat-item"><div class="stat-number">1</div><div class="stat-label">Chapter Read</div></div>
+          <div class="stat-item"><div class="stat-number">3</div><div class="stat-label">Questions</div></div>
+        </div>
+        <button class="completion-button" onclick="markComplete()">Mark Complete &amp; Save Progress</button>
+        <div class="completion-footer"><button class="nav-button prev-button" onclick="prevPage()">← Review Lesson</button></div>
+      </div>
+    </div>`
+                }
+            ]
+        };
+        window.addEventListener('DOMContentLoaded', () => {
+            createLessonViewer('lesson-container', lesson172Config);
+        });
+    <\/script>
+</body>
+</html>

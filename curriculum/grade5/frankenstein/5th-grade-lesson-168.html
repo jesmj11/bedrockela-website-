@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 168: The Wrong Person Blamed</title>
+    <link rel="stylesheet" href="../../../css/lesson-viewer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
+    <script src="../../../js/lesson-viewer.js"><\/script>
+    <script src="../../../firebase-config.js"><\/script>
+    <script src="../../../js/lesson-completion.js"><\/script>
+    <script src="../../../js/lesson-autosave.js"><\/script>
+    <script src="../../../js/save-button-injector.js"><\/script>
+    <script src="../../../js/answer-validation.js"><\/script>
+    <script src="../../../js/grade-normalizer.js"><\/script>
+    <script src="../../../js/offline-sync.js"><\/script>
+    <script src="../../../js/text-to-speech.js"><\/script>
+    <script src="../../../js/digital-book.js"><\/script>
+    <script>
+        const lesson168Config = {
+            lessonId: '5th-grade-lesson-168',
+            gradeLevel: '5th-grade',
+            title: 'Day 168: The Wrong Person Blamed',
+            pages: [
+                {
+                    render: () => `
+<div class="lesson-page-card title-page">
+                            <h1>Lesson 168</h1>
+                            <div class="subtitle">5th Grade ELA</div>
+                            <p style="color: #8B4513; font-size: 20px; margin-top: 20px;">Frankenstein</p>
+                            <p style="color: #666; font-size: 16px; margin-top: 10px;">The Wrong Person Blamed</p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Welcome to Lesson 168!</h2>
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>Read <em>The Wrong Person Blamed</em></li>
+                                <li>Learn 3 new vocabulary words</li>
+                                <li>Answer reading comprehension questions</li>
+                                <li>Write a journal response</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Vocabulary Words</h2>
+                            <div style="margin: 30px 0;"><div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;"><span style="font-size: 28px; font-weight: 800; color: #305853;">trial</span></div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">Look up this word in a dictionary, then write the definition in your own words:</p>
+                                    <textarea id="vocab-1" style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;" oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)" onpaste="return false" placeholder="Type the definition here (minimum 10 words, no pasting)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;"><span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span><span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span></div>
+                                </div><div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;"><span style="font-size: 28px; font-weight: 800; color: #305853;">innocent</span></div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">Look up this word in a dictionary, then write the definition in your own words:</p>
+                                    <textarea id="vocab-2" style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;" oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)" onpaste="return false" placeholder="Type the definition here (minimum 10 words, no pasting)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;"><span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span><span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span></div>
+                                </div><div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;"><span style="font-size: 28px; font-weight: 800; color: #305853;">confess</span></div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">Look up this word in a dictionary, then write the definition in your own words:</p>
+                                    <textarea id="vocab-3" style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;" oninput="updateWordCount('vocab-3', 'vocab-count-3', 10)" onpaste="return false" placeholder="Type the definition here (minimum 10 words, no pasting)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;"><span id="vocab-count-3" style="font-size: 13px; color: #666;">0 / 10 words</span><span id="vocab-count-3-status" style="font-size: 13px; font-weight: 600;"></span></div>
+                                </div></div>
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;"><p style="margin: 0;"><strong>Watch for these words</strong> in today\'s reading!</p></div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+                            <h2>🎮 Vocabulary Game</h2>
+                            <p style="color: #666; margin-bottom: 5px;">Match each word to its definition! (9 words this week so far)</p>
+                            <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 9</p>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                                <div id="wordColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                                    <div class="match-word" data-word="faithful" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">faithful</div><div class="match-word" data-word="dull" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">dull</div><div class="match-word" data-word="profound" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">profound</div><div class="match-word" data-word="devastated" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">devastated</div><div class="match-word" data-word="suspicion" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">suspicion</div><div class="match-word" data-word="evidence" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">evidence</div><div class="match-word" data-word="trial" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">trial</div><div class="match-word" data-word="innocent" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">innocent</div><div class="match-word" data-word="confess" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">confess</div>
+                                </div>
+                                <div id="defColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                                    <div class="match-def" data-word="devastated" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Completely destroyed emotionally; overwhelmed with shock and grief.</div><div class="match-def" data-word="trial" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">A formal examination in court where evidence is presented to determine guilt or innocence.</div><div class="match-def" data-word="suspicion" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">A feeling that something is wrong or that someone has done something bad, without proof.</div><div class="match-def" data-word="faithful" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Loyal and devoted; remaining true to someone or something.</div><div class="match-def" data-word="confess" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">To admit that you have done something wrong or committed a crime.</div><div class="match-def" data-word="dull" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Lacking interest or excitement; boring and lifeless.</div><div class="match-def" data-word="profound" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Very deep or intense; having great meaning or importance.</div><div class="match-def" data-word="evidence" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Facts or information that help prove whether something is true or not.</div><div class="match-def" data-word="innocent" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Not guilty of a crime or wrongdoing; free from blame.</div>
+                                </div>
+                            </div>
+                            <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                        </div>`
+                ,
+                    onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 168 • Week 34</div>
+        <div class="unit-label">The Wrong Person Blamed • Part 1 of 4</div>
+      </div>
+      <div class="story-text"><p>Justine Moritz was brought to <span class="vocab-highlight">trial</span> for the murder of little William Frankenstein. The whole town seemed convinced of her guilt, and even some members of Victor\'s own family began to have doubts.</p>
+<p>But Elizabeth did not waver for a single moment.</p>
+<p>&quot;I know Justine,&quot; she said firmly. &quot;She loved William as if he were her own little brother. She is <span class="vocab-highlight">innocent</span>.&quot;</p>
+<p>Elizabeth stood up in court and spoke in Justine\'s defense. Victor sat in the courtroom and listened, and inside he was being torn apart.</p></div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 168 • Week 34</div>
+        <div class="unit-label">The Wrong Person Blamed • Part 2 of 4</div>
+      </div>
+      <div class="story-text"><p>He knew. He was almost certain that his creature had killed William. He was almost certain that Justine was <span class="vocab-highlight">innocent</span>. But he had no way to prove it without revealing the terrible secret of what he had done in that workshop — the creature he had created and then fled from, the monster that was now wandering free.</p>
+<p>Who would believe him? And if they did believe him, what would they think of him? They would know that everything that had happened — William\'s death, Justine\'s <span class="vocab-highlight">trial</span> — had begun with Victor Frankenstein and his desperate ambition.</p></div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 168 • Week 34</div>
+        <div class="unit-label">The Wrong Person Blamed • Part 3 of 4</div>
+      </div>
+      <div class="story-text"><p>Justine herself, when questioned, remained calm and gentle. She did not understand how the portrait had gotten into her pocket. She could not explain it. But she refused to <span class="vocab-highlight">confess</span> to something she had not done.</p>
+<p>In the end, the court found her guilty.</p>
+<p>She was put to death.</p>
+<p>Victor returned home carrying a weight he could barely stand beneath. He had created a being that walked free in the world, and that being had now taken two <span class="vocab-highlight">innocent</span> lives — William\'s, and Justine\'s. He had done this. His ambition, his secret, his pride had done this.</p></div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 168 • Week 34</div>
+        <div class="unit-label">The Wrong Person Blamed • Part 4 of 4</div>
+      </div>
+      <div class="story-text"><p>Elizabeth wept for Justine for many days. Victor sat in silence and could not weep at all. He felt that he deserved no comfort.</p></div>
+    </div>`
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Reading Comprehension</h2>
+                            <p style="margin-bottom: 30px;">Question 1 of 3</p>
+                            <div style="margin: 30px 0;">
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #8B4513;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 1:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">Justine, an innocent servant, is blamed and put on trial for William\'s murder. Victor knows she is innocent but doesn\'t speak up. Why not? What would you have done?</p>
+                                    <textarea id="comp-1" style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;" oninput="updateWordCount('comp-1', 'word-count-comp-1', 50)" placeholder="Write your answer here (minimum 50 words)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;"><span id="word-count-comp-1" style="font-size: 14px; color: #666;">0 / 50 words</span><span id="word-count-comp-1-status" style="font-size: 14px; font-weight: 600;"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Reading Comprehension</h2>
+                            <p style="margin-bottom: 30px;">Question 2 of 3</p>
+                            <div style="margin: 30px 0;">
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #8B4513;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 2:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">Justine is convicted based on false evidence. What does this tell us about how justice systems can fail? Why is it so dangerous to convict someone based on circumstantial evidence?</p>
+                                    <textarea id="comp-2" style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;" oninput="updateWordCount('comp-2', 'word-count-comp-2', 50)" placeholder="Write your answer here (minimum 50 words)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;"><span id="word-count-comp-2" style="font-size: 14px; color: #666;">0 / 50 words</span><span id="word-count-comp-2-status" style="font-size: 14px; font-weight: 600;"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Reading Comprehension</h2>
+                            <p style="margin-bottom: 30px;">Question 3 of 3</p>
+                            <div style="margin: 30px 0;">
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #8B4513;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 3:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">Victor watches an innocent person be condemned for something his creation did. How does this deepen his responsibility? At this point, is Victor more victim or more villain?</p>
+                                    <textarea id="comp-3" style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;" oninput="updateWordCount('comp-3', 'word-count-comp-3', 50)" placeholder="Write your answer here (minimum 50 words)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;"><span id="word-count-comp-3" style="font-size: 14px; color: #666;">0 / 50 words</span><span id="word-count-comp-3-status" style="font-size: 14px; font-weight: 600;"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 168 • Week 34</div>
+        <div class="unit-label">Journal Response</div>
+      </div>
+      <h2>✍️ Your Response</h2>
+      <div style="margin: 20px 0;">
+        <p><strong>Choose one:</strong></p>
+        <ul style="line-height: 2;">
+          <li>Which character in today\'s reading do you sympathize with most — and why?</li>
+          <li>What moral question does this chapter raise? What would you have done differently?</li>
+          <li>Connect something from this chapter to your own life or to another story you know.</li>
+        </ul>
+      </div>
+      <textarea style="width: 100%; min-height: 150px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;" placeholder="Write your response here (minimum 50 words)..." id="journal" oninput="updateWordCount('journal', 'journal-wc', 50)"><\/textarea>
+      <span id="journal-wc" style="font-size: 14px; color: #666;">0 / 50 words</span>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card completion-page">
+      <div class="completion-container">
+        <div class="completion-icon">🎉</div>
+        <h1>Day 168 Complete!</h1>
+        <p class="completion-message">Great work on \"The Wrong Person Blamed\"!</p>
+        <div class="completion-stats">
+          <div class="stat-item"><div class="stat-number">3</div><div class="stat-label">New Words</div></div>
+          <div class="stat-item"><div class="stat-number">1</div><div class="stat-label">Chapter Read</div></div>
+          <div class="stat-item"><div class="stat-number">3</div><div class="stat-label">Questions</div></div>
+        </div>
+        <button class="completion-button" onclick="markComplete()">Mark Complete &amp; Save Progress</button>
+        <div class="completion-footer"><button class="nav-button prev-button" onclick="prevPage()">← Review Lesson</button></div>
+      </div>
+    </div>`
+                }
+            ]
+        };
+        window.addEventListener('DOMContentLoaded', () => {
+            createLessonViewer('lesson-container', lesson168Config);
+        });
+    <\/script>
+</body>
+</html>

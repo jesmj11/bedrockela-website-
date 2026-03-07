@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 161: The Boy from Geneva</title>
+    <link rel="stylesheet" href="../../../css/lesson-viewer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
+    <script src="../../../js/lesson-viewer.js"><\/script>
+    <script src="../../../firebase-config.js"><\/script>
+    <script src="../../../js/lesson-completion.js"><\/script>
+    <script src="../../../js/lesson-autosave.js"><\/script>
+    <script src="../../../js/save-button-injector.js"><\/script>
+    <script src="../../../js/answer-validation.js"><\/script>
+    <script src="../../../js/grade-normalizer.js"><\/script>
+    <script src="../../../js/offline-sync.js"><\/script>
+    <script src="../../../js/text-to-speech.js"><\/script>
+    <script src="../../../js/digital-book.js"><\/script>
+    <script>
+        const lesson161Config = {
+            lessonId: '5th-grade-lesson-161',
+            gradeLevel: '5th-grade',
+            title: 'Day 161: The Boy from Geneva',
+            pages: [
+                {
+                    render: () => `
+<div class="lesson-page-card title-page">
+                            <h1>Lesson 161</h1>
+                            <div class="subtitle">5th Grade ELA</div>
+                            <p style="color: #8B4513; font-size: 20px; margin-top: 20px;">Frankenstein</p>
+                            <p style="color: #666; font-size: 16px; margin-top: 10px;">The Boy from Geneva</p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Welcome to Lesson 161!</h2>
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>Read <em>The Boy from Geneva</em></li>
+                                <li>Learn 3 new vocabulary words</li>
+                                <li>Answer reading comprehension questions</li>
+                                <li>Write a journal response</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Vocabulary Words</h2>
+                            <div style="margin: 30px 0;"><div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;"><span style="font-size: 28px; font-weight: 800; color: #305853;">orphan</span></div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">Look up this word in a dictionary, then write the definition in your own words:</p>
+                                    <textarea id="vocab-1" style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;" oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)" onpaste="return false" placeholder="Type the definition here (minimum 10 words, no pasting)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;"><span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span><span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span></div>
+                                </div><div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;"><span style="font-size: 28px; font-weight: 800; color: #305853;">companion</span></div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">Look up this word in a dictionary, then write the definition in your own words:</p>
+                                    <textarea id="vocab-2" style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;" oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)" onpaste="return false" placeholder="Type the definition here (minimum 10 words, no pasting)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;"><span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span><span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span></div>
+                                </div><div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;"><span style="font-size: 28px; font-weight: 800; color: #305853;">tremendous</span></div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">Look up this word in a dictionary, then write the definition in your own words:</p>
+                                    <textarea id="vocab-3" style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;" oninput="updateWordCount('vocab-3', 'vocab-count-3', 10)" onpaste="return false" placeholder="Type the definition here (minimum 10 words, no pasting)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;"><span id="vocab-count-3" style="font-size: 13px; color: #666;">0 / 10 words</span><span id="vocab-count-3-status" style="font-size: 13px; font-weight: 600;"></span></div>
+                                </div></div>
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;"><p style="margin: 0;"><strong>Watch for these words</strong> in today\'s reading!</p></div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+                            <h2>🎮 Vocabulary Game</h2>
+                            <p style="color: #666; margin-bottom: 5px;">Match each word to its definition! (3 words this week so far)</p>
+                            <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 3</p>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                                <div id="wordColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                                    <div class="match-word" data-word="orphan" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">orphan</div><div class="match-word" data-word="companion" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">companion</div><div class="match-word" data-word="tremendous" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">tremendous</div>
+                                </div>
+                                <div id="defColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                                    <div class="match-def" data-word="companion" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">A person who spends time with another; a close friend or partner.</div><div class="match-def" data-word="tremendous" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Extremely large, powerful, or great in amount.</div><div class="match-def" data-word="orphan" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">A child whose parents have died.</div>
+                                </div>
+                            </div>
+                            <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                        </div>`
+                ,
+                    onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 161 • Week 33</div>
+        <div class="unit-label">The Boy from Geneva • Part 1 of 4</div>
+      </div>
+      <div class="story-text"><p>Victor Frankenstein grew up in Geneva, Switzerland, in a happy and loving family. His father, Alphonse, was a wise and generous man. His mother, Caroline, was gentle and kind. Victor was their only child for many years, and they gave him everything he needed — books, a warm home, and most importantly, their time.</p>
+<p>When Victor was about five years old, his parents took in a little girl named Elizabeth. She was an <span class="vocab-highlight">orphan</span> with golden hair and bright green eyes. From the moment she arrived, Victor thought of her as his most precious <span class="vocab-highlight">companion</span>.</p></div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 161 • Week 33</div>
+        <div class="unit-label">The Boy from Geneva • Part 2 of 4</div>
+      </div>
+      <div class="story-text"><p>&quot;She was not just my sister,&quot; Victor told Captain Walton. &quot;She was my light.&quot;</p>
+<p>Victor was a curious boy. While Elizabeth loved poetry and drawing, Victor loved science. He wanted to know how the world worked — what made lightning strike, what kept the planets spinning, what was hidden inside every living thing.</p>
+<p>When he was thirteen, Victor\'s family traveled to a place near the mountains. One evening, a <span class="vocab-highlight">tremendous</span> thunderstorm rolled in from the peaks. Victor stood at the window, unable to look away. A bolt of lightning struck an old oak tree in the yard — and in an instant, the entire tree was blasted to splinters.</p></div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 161 • Week 33</div>
+        <div class="unit-label">The Boy from Geneva • Part 3 of 4</div>
+      </div>
+      <div class="story-text"><p>Victor stared in amazement. What force could do that? What power could tear a tree apart in a single second? He wanted to understand it. He needed to understand it.</p>
+<p>His father tried to explain that lightning was simply electricity — a natural force that scientists were only beginning to study. Victor became hungry to learn everything there was to know about electricity, about nature, about the mysterious forces that held the world together.</p></div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 161 • Week 33</div>
+        <div class="unit-label">The Boy from Geneva • Part 4 of 4</div>
+      </div>
+      <div class="story-text"><p>&quot;That is where my trouble began,&quot; Victor said quietly. &quot;With wanting to know too much.&quot;</p></div>
+    </div>`
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Reading Comprehension</h2>
+                            <p style="margin-bottom: 30px;">Question 1 of 3</p>
+                            <div style="margin: 30px 0;">
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #8B4513;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 1:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">Victor describes his childhood in Geneva as happy and loving. How does knowing this make his later story more tragic? Why do authors show us happiness before showing suffering?</p>
+                                    <textarea id="comp-1" style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;" oninput="updateWordCount('comp-1', 'word-count-comp-1', 50)" placeholder="Write your answer here (minimum 50 words)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;"><span id="word-count-comp-1" style="font-size: 14px; color: #666;">0 / 50 words</span><span id="word-count-comp-1-status" style="font-size: 14px; font-weight: 600;"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Reading Comprehension</h2>
+                            <p style="margin-bottom: 30px;">Question 2 of 3</p>
+                            <div style="margin: 30px 0;">
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #8B4513;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 2:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">Victor becomes fascinated with old books about alchemy and the secrets of life. What is it about forbidden knowledge that attracts people? Have you ever wanted to learn something others said you shouldn\'t?</p>
+                                    <textarea id="comp-2" style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;" oninput="updateWordCount('comp-2', 'word-count-comp-2', 50)" placeholder="Write your answer here (minimum 50 words)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;"><span id="word-count-comp-2" style="font-size: 14px; color: #666;">0 / 50 words</span><span id="word-count-comp-2-status" style="font-size: 14px; font-weight: 600;"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Reading Comprehension</h2>
+                            <p style="margin-bottom: 30px;">Question 3 of 3</p>
+                            <div style="margin: 30px 0;">
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #8B4513;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 3:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">Victor\'s parents are described as kind and generous. How do you think his upbringing shaped the person he became — both the good and the dangerous parts?</p>
+                                    <textarea id="comp-3" style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;" oninput="updateWordCount('comp-3', 'word-count-comp-3', 50)" placeholder="Write your answer here (minimum 50 words)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;"><span id="word-count-comp-3" style="font-size: 14px; color: #666;">0 / 50 words</span><span id="word-count-comp-3-status" style="font-size: 14px; font-weight: 600;"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 161 • Week 33</div>
+        <div class="unit-label">Journal Response</div>
+      </div>
+      <h2>✍️ Your Response</h2>
+      <div style="margin: 20px 0;">
+        <p><strong>Choose one:</strong></p>
+        <ul style="line-height: 2;">
+          <li>Which character in today\'s reading do you sympathize with most — and why?</li>
+          <li>What moral question does this chapter raise? What would you have done differently?</li>
+          <li>Connect something from this chapter to your own life or to another story you know.</li>
+        </ul>
+      </div>
+      <textarea style="width: 100%; min-height: 150px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;" placeholder="Write your response here (minimum 50 words)..." id="journal" oninput="updateWordCount('journal', 'journal-wc', 50)"><\/textarea>
+      <span id="journal-wc" style="font-size: 14px; color: #666;">0 / 50 words</span>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card completion-page">
+      <div class="completion-container">
+        <div class="completion-icon">🎉</div>
+        <h1>Day 161 Complete!</h1>
+        <p class="completion-message">Great work on \"The Boy from Geneva\"!</p>
+        <div class="completion-stats">
+          <div class="stat-item"><div class="stat-number">3</div><div class="stat-label">New Words</div></div>
+          <div class="stat-item"><div class="stat-number">1</div><div class="stat-label">Chapter Read</div></div>
+          <div class="stat-item"><div class="stat-number">3</div><div class="stat-label">Questions</div></div>
+        </div>
+        <button class="completion-button" onclick="markComplete()">Mark Complete &amp; Save Progress</button>
+        <div class="completion-footer"><button class="nav-button prev-button" onclick="prevPage()">← Review Lesson</button></div>
+      </div>
+    </div>`
+                }
+            ]
+        };
+        window.addEventListener('DOMContentLoaded', () => {
+            createLessonViewer('lesson-container', lesson161Config);
+        });
+    <\/script>
+</body>
+</html>

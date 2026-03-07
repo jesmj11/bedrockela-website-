@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 159: A Letter from the Ice</title>
+    <link rel="stylesheet" href="../../../css/lesson-viewer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
+    <script src="../../../js/lesson-viewer.js"><\/script>
+    <script src="../../../firebase-config.js"><\/script>
+    <script src="../../../js/lesson-completion.js"><\/script>
+    <script src="../../../js/lesson-autosave.js"><\/script>
+    <script src="../../../js/save-button-injector.js"><\/script>
+    <script src="../../../js/answer-validation.js"><\/script>
+    <script src="../../../js/grade-normalizer.js"><\/script>
+    <script src="../../../js/offline-sync.js"><\/script>
+    <script src="../../../js/text-to-speech.js"><\/script>
+    <script src="../../../js/digital-book.js"><\/script>
+    <script>
+        const lesson159Config = {
+            lessonId: '5th-grade-lesson-159',
+            gradeLevel: '5th-grade',
+            title: 'Day 159: A Letter from the Ice',
+            pages: [
+                {
+                    render: () => `
+<div class="lesson-page-card title-page">
+                            <h1>Lesson 159</h1>
+                            <div class="subtitle">5th Grade ELA</div>
+                            <p style="color: #8B4513; font-size: 20px; margin-top: 20px;">Frankenstein</p>
+                            <p style="color: #666; font-size: 16px; margin-top: 10px;">A Letter from the Ice</p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Welcome to Lesson 159!</h2>
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>Read <em>A Letter from the Ice</em></li>
+                                <li>Learn 3 new vocabulary words</li>
+                                <li>Answer reading comprehension questions</li>
+                                <li>Write a journal response</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Vocabulary Words</h2>
+                            <div style="margin: 30px 0;"><div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;"><span style="font-size: 28px; font-weight: 800; color: #305853;">explorer</span></div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">Look up this word in a dictionary, then write the definition in your own words:</p>
+                                    <textarea id="vocab-1" style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;" oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)" onpaste="return false" placeholder="Type the definition here (minimum 10 words, no pasting)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;"><span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span><span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span></div>
+                                </div><div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;"><span style="font-size: 28px; font-weight: 800; color: #305853;">horizon</span></div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">Look up this word in a dictionary, then write the definition in your own words:</p>
+                                    <textarea id="vocab-2" style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;" oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)" onpaste="return false" placeholder="Type the definition here (minimum 10 words, no pasting)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;"><span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span><span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span></div>
+                                </div><div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;"><span style="font-size: 28px; font-weight: 800; color: #305853;">glacier</span></div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">Look up this word in a dictionary, then write the definition in your own words:</p>
+                                    <textarea id="vocab-3" style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;" oninput="updateWordCount('vocab-3', 'vocab-count-3', 10)" onpaste="return false" placeholder="Type the definition here (minimum 10 words, no pasting)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;"><span id="vocab-count-3" style="font-size: 13px; color: #666;">0 / 10 words</span><span id="vocab-count-3-status" style="font-size: 13px; font-weight: 600;"></span></div>
+                                </div></div>
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;"><p style="margin: 0;"><strong>Watch for these words</strong> in today\'s reading!</p></div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+                            <h2>🎮 Vocabulary Game</h2>
+                            <p style="color: #666; margin-bottom: 5px;">Match each word to its definition! (3 words this week so far)</p>
+                            <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 3</p>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                                <div id="wordColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                                    <div class="match-word" data-word="explorer" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">explorer</div><div class="match-word" data-word="horizon" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">horizon</div><div class="match-word" data-word="glacier" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">glacier</div>
+                                </div>
+                                <div id="defColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                                    <div class="match-def" data-word="horizon" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">The line where the earth and sky appear to meet in the distance.</div><div class="match-def" data-word="glacier" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">A massive, slow-moving body of ice formed from packed snow over many years.</div><div class="match-def" data-word="explorer" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">A person who travels to unknown places to discover new things.</div>
+                                </div>
+                            </div>
+                            <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                        </div>`
+                ,
+                    onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 159 • Week 32</div>
+        <div class="unit-label">A Letter from the Ice • Part 1 of 4</div>
+      </div>
+      <div class="story-text"><p>My name is Robert Walton, and I am an <span class="vocab-highlight">explorer</span>. I have always dreamed of reaching the very top of the world — the frozen North Pole, where no person had ever stood before. I gathered a crew, bought a ship, and set sail across the icy Arctic seas.</p>
+<p>The farther north we sailed, the colder the air became. Ice crept along the sides of the ship, and our breath made little white clouds in front of our faces. Fog rolled in thick and heavy, hiding the <span class="vocab-highlight">horizon</span>.</p></div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 159 • Week 32</div>
+        <div class="unit-label">A Letter from the Ice • Part 2 of 4</div>
+      </div>
+      <div class="story-text"><p>One morning, my crew spotted something strange through the mist. A large sled was racing across the ice in the distance, pulled by enormous dogs. The figure driving it was huge — bigger than any man we had seen. Then the fog swallowed them whole, and they were gone.</p>
+<p>The next morning, we found another sled — but this one was almost destroyed. Its dogs were dead, and only one runner remained. A man lay across it, barely alive. He was thin as paper, with hollow cheeks and wild eyes that still burned with something fierce. We brought him aboard.</p></div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 159 • Week 32</div>
+        <div class="unit-label">A Letter from the Ice • Part 3 of 4</div>
+      </div>
+      <div class="story-text"><p>For days, he could not speak. We fed him warm broth and wrapped him in blankets. Slowly, color returned to his face.</p>
+<p>When he was well enough to sit up, he asked us where we were going.</p>
+<p>&quot;North,&quot; I told him. &quot;I want to discover what no one has discovered before.&quot;</p>
+<p>The man looked at me with great sadness. &quot;That hunger,&quot; he said quietly, &quot;that burning need to know more and go further than anyone else — I know it well. It nearly destroyed me.&quot;</p></div>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 159 • Week 32</div>
+        <div class="unit-label">A Letter from the Ice • Part 4 of 4</div>
+      </div>
+      <div class="story-text"><p>He closed his eyes for a long moment. Then he said, &quot;Let me tell you my story. Perhaps it will save you.&quot;</p>
+<p>His name was Victor Frankenstein.</p></div>
+    </div>`
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Reading Comprehension</h2>
+                            <p style="margin-bottom: 30px;">Question 1 of 3</p>
+                            <div style="margin: 30px 0;">
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #8B4513;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 1:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">Robert Walton is writing letters from the Arctic when he discovers Victor Frankenstein on the ice. What drives Walton to explore such a dangerous place? How is his ambition similar to Victor\'s?</p>
+                                    <textarea id="comp-1" style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;" oninput="updateWordCount('comp-1', 'word-count-comp-1', 50)" placeholder="Write your answer here (minimum 50 words)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;"><span id="word-count-comp-1" style="font-size: 14px; color: #666;">0 / 50 words</span><span id="word-count-comp-1-status" style="font-size: 14px; font-weight: 600;"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Reading Comprehension</h2>
+                            <p style="margin-bottom: 30px;">Question 2 of 3</p>
+                            <div style="margin: 30px 0;">
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #8B4513;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 2:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">Victor is described as near death when Walton finds him. Why do you think Victor was out on the ice alone? What does this tell us about what has happened to him?</p>
+                                    <textarea id="comp-2" style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;" oninput="updateWordCount('comp-2', 'word-count-comp-2', 50)" placeholder="Write your answer here (minimum 50 words)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;"><span id="word-count-comp-2" style="font-size: 14px; color: #666;">0 / 50 words</span><span id="word-count-comp-2-status" style="font-size: 14px; font-weight: 600;"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Reading Comprehension</h2>
+                            <p style="margin-bottom: 30px;">Question 3 of 3</p>
+                            <div style="margin: 30px 0;">
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #8B4513;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 3:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">Walton says he has always dreamed of reaching the North Pole. What does it mean to pursue a dream even when it puts you in danger? Is that courage or recklessness?</p>
+                                    <textarea id="comp-3" style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;" oninput="updateWordCount('comp-3', 'word-count-comp-3', 50)" placeholder="Write your answer here (minimum 50 words)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;"><span id="word-count-comp-3" style="font-size: 14px; color: #666;">0 / 50 words</span><span id="word-count-comp-3-status" style="font-size: 14px; font-weight: 600;"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
+      <div class="page-header">
+        <div class="lesson-number">Day 159 • Week 32</div>
+        <div class="unit-label">Journal Response</div>
+      </div>
+      <h2>✍️ Your Response</h2>
+      <div style="margin: 20px 0;">
+        <p><strong>Choose one:</strong></p>
+        <ul style="line-height: 2;">
+          <li>Which character in today\'s reading do you sympathize with most — and why?</li>
+          <li>What moral question does this chapter raise? What would you have done differently?</li>
+          <li>Connect something from this chapter to your own life or to another story you know.</li>
+        </ul>
+      </div>
+      <textarea style="width: 100%; min-height: 150px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;" placeholder="Write your response here (minimum 50 words)..." id="journal" oninput="updateWordCount('journal', 'journal-wc', 50)"><\/textarea>
+      <span id="journal-wc" style="font-size: 14px; color: #666;">0 / 50 words</span>
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card completion-page">
+      <div class="completion-container">
+        <div class="completion-icon">🎉</div>
+        <h1>Day 159 Complete!</h1>
+        <p class="completion-message">Great work on \"A Letter from the Ice\"!</p>
+        <div class="completion-stats">
+          <div class="stat-item"><div class="stat-number">3</div><div class="stat-label">New Words</div></div>
+          <div class="stat-item"><div class="stat-number">1</div><div class="stat-label">Chapter Read</div></div>
+          <div class="stat-item"><div class="stat-number">3</div><div class="stat-label">Questions</div></div>
+        </div>
+        <button class="completion-button" onclick="markComplete()">Mark Complete &amp; Save Progress</button>
+        <div class="completion-footer"><button class="nav-button prev-button" onclick="prevPage()">← Review Lesson</button></div>
+      </div>
+    </div>`
+                }
+            ]
+        };
+        window.addEventListener('DOMContentLoaded', () => {
+            createLessonViewer('lesson-container', lesson159Config);
+        });
+    <\/script>
+</body>
+</html>

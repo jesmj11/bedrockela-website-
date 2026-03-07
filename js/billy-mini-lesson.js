@@ -135,7 +135,19 @@ class BillyMiniLesson {
   }
   
   async start() {
-    if (this.isPlaying) return;
+    if (this.isPlaying) {
+      console.log('[Billy Mini-Lesson] Already playing, ignoring duplicate start');
+      return;
+    }
+    
+    // Stop any other audio that might be playing
+    if (window.currentAudio) {
+      window.currentAudio.pause();
+      window.currentAudio = null;
+    }
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
     
     this.isPlaying = true;
     this.isPaused = false;

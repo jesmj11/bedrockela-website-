@@ -287,12 +287,13 @@
         ];
 
         let currentPage = 0;
+        let miniLessonAutoStarted = false;
 
         // Billy's instructions for each page
         const billyInstructions = [
             "", // Page 1 (title) - no Billy
             "Hi! I'm Billy! Today we're learning the short a sound, like in cat. Let's get started! Here's what we'll do today. We'll learn the short a sound. We'll build words with at. We'll read Sam's Van. And we'll practice sight words a and the. Ready? Let's go!",
-            "Watch my mouth. Aaaa. Now listen to blending. Cuh, at, cat. Say it with me. Cuh, at, cat!",
+            "", // Page 3 uses mini-lesson (auto-starts, no simple instruction)
             "Tap a letter to build a word with at. Can you make cat? Try it!",
             "Now let's read our story! I'll read it first, then you can read with me. Ready?",
             "Great reading! Now let's see if you remember the story. Who has a van?",
@@ -364,13 +365,18 @@
                 ` : ''}
             `;
             
-            // Auto-start mini-lesson on Page 3 (phoneme introduction)
-            if (currentPage === 2 && showBilly) {
+            // Auto-start mini-lesson on Page 3 (phoneme introduction) - only once
+            if (currentPage === 2 && showBilly && !miniLessonAutoStarted) {
+                miniLessonAutoStarted = true;
                 setTimeout(() => {
                     if (window.billyMiniLesson) {
+                        console.log('[Page 3] Auto-starting mini-lesson');
                         window.billyMiniLesson.start();
                     }
                 }, 500);
+            } else if (currentPage !== 2) {
+                // Reset flag when leaving Page 3
+                miniLessonAutoStarted = false;
             }
         }
         
@@ -422,6 +428,12 @@
         let currentButton = null;
         
         async function speakBilly(text, button) {
+            // Don't use this function on Page 3 - mini-lesson handles it
+            if (currentPage === 2) {
+                console.log('[speakBilly] Skipping - Page 3 uses mini-lesson');
+                return;
+            }
+            
             // If audio is playing, stop it
             if (currentAudio) {
                 currentAudio.pause();

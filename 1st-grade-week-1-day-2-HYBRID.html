@@ -9,6 +9,8 @@
     <script src="js/billy-mini-lesson.js"></script>
     <script src="js/billy-week1-lessons.js"></script>
     <script src="js/billy-games.js"></script>
+    <script src="js/billy-storybook.js"></script>
+    <script src="stories/pans-jam.js"></script>
     <style>
         /* Billy corner widget - gold circle with speaker */
         .billy-corner-widget {
@@ -241,16 +243,9 @@
             </div>
         </div>`,
 
-        // Page 5: Story
+        // Page 5: Story (Storybook)
         `<div class="lesson-page-card content-page">
-            
-            <h2>📖 Sam's Van</h2>
-            <div style="padding: 30px; background: #f5f9ff; border-radius: 15px; margin: 20px 0;">
-                <p style="font-size: 22px; line-height: 1.8; color: #2c3e50;">
-                    Sam has a van. The van can ram a big tan log. Sam and Pam push the van. At last the van can go.
-                </p>
-            </div>
-            <button onclick="speakBilly('Sam has a van. The van can ram a big tan log. Sam and Pam push the van. At last the van can go.', this)" style="padding: 12px 24px; background: #4a7c3f; color: white; border: none; border-radius: 30px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 10px;">🔊 Hear Billy Read</button>
+            <div id="storybook-container"></div>
         </div>`,
 
         // Page 6: Comprehension
@@ -400,7 +395,18 @@
                 miniLessonAutoStarted = false;
             }
             
-            // Initialize games on their pages
+            
+            // Initialize storybook on Page 5
+            if (currentPage === 4) {
+                // Page 5 - Storybook
+                setTimeout(() => {
+                    if (window.PANS_JAM_STORY) {
+                        window.storybook = new BillyStorybook(window.PANS_JAM_STORY, 'storybook-container');
+                    }
+                }, 100);
+            }
+            
+// Initialize games on their pages
             if (currentPage === 7) {
                 // Page 8 - Memory Game
                 setTimeout(() => {

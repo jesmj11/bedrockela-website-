@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read Aloud - Mark's Voice</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .voice-select {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .voice-btn {
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            background: white;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            color: #667eea;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+        
+        .voice-btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+        }
+        
+        .voice-btn.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 300px;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            resize: vertical;
+            margin-bottom: 20px;
+            transition: border-color 0.2s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            flex: 1;
+            justify-content: center;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        
+        .btn-secondary:hover {
+            background: #f0f0f0;
+        }
+        
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-align: center;
+            display: none;
+        }
+        
+        .status.show {
+            display: block;
+        }
+        
+        .status.playing {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .status.error {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .char-count {
+            text-align: right;
+            color: #999;
+            font-size: 14px;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+        
+        .spinner {
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .examples {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #f0f0f0;
+        }
+        
+        .examples h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .example-btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 8px 16px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Nunito', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.2s;
+        }
+        
+        .example-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔊 Read Aloud</h1>
+        <p class="subtitle">Paste any text and Mark will read it for you!</p>
+        
+        <div class="voice-select">
+            <button class="voice-btn active" data-voice="mark">Mark (Default)</button>
+            <button class="voice-btn" data-voice="john">John (Warm)</button>
+            <button class="voice-btn" data-voice="adam">Adam (Deep)</button>
+            <button class="voice-btn" data-voice="marshal">Marshal (Professor)</button>
+        </div>
+        
+        <textarea id="textInput" placeholder="Paste or type your text here...
+
+Try pasting:
+• An article you want to listen to
+• Study notes or textbook paragraphs
+• Emails or documents
+• Anything you want to hear read aloud!"></textarea>
+        
+        <div class="char-count">
+            <span id="charCount">0</span> characters
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" id="playBtn">
+                <span>▶️ Play</span>
+            </button>
+            <button class="btn btn-secondary" id="stopBtn" style="display: none;">
+                ⏹️ Stop
+            </button>
+            <button class="btn btn-secondary" id="clearBtn">
+                🗑️ Clear
+            </button>
+        </div>
+        
+        <div class="status" id="status"></div>
+        
+        <div class="examples">
+            <h3>Quick Examples:</h3>
+            <button class="example-btn" onclick="loadExample('story')">📖 Short Story</button>
+            <button class="example-btn" onclick="loadExample('science')">🔬 Science Fact</button>
+            <button class="example-btn" onclick="loadExample('history')">🏛️ History</button>
+            <button class="example-btn" onclick="loadExample('math')">➕ Math Problem</button>
+        </div>
+    </div>
+
+    <script>
+        let currentAudio = null;
+        let currentVoice = 'mark';
+        
+        const textInput = document.getElementById('textInput');
+        const charCount = document.getElementById('charCount');
+        const playBtn = document.getElementById('playBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const status = document.getElementById('status');
+        
+        // Voice selection
+        document.querySelectorAll('.voice-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.voice-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentVoice = btn.dataset.voice;
+            });
+        });
+        
+        // Character counter
+        textInput.addEventListener('input', () => {
+            charCount.textContent = textInput.value.length;
+        });
+        
+        // Play button
+        playBtn.addEventListener('click', async () => {
+            const text = textInput.value.trim();
+            
+            if (!text) {
+                showStatus('Please enter some text to read!', 'error');
+                return;
+            }
+            
+            if (text.length > 5000) {
+                showStatus('Text is too long! Please keep it under 5000 characters.', 'error');
+                return;
+            }
+            
+            playBtn.disabled = true;
+            playBtn.innerHTML = '<div class="spinner"></div><span>Generating...</span>';
+            stopBtn.style.display = 'inline-flex';
+            
+            try {
+                const response = await fetch('http://localhost:3002/tts', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        text: text,
+                        voice: currentVoice
+                    })
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'TTS generation failed');
+                }
+                
+                const audioBlob = await response.blob();
+                const audioUrl = URL.createObjectURL(audioBlob);
+                
+                currentAudio = new Audio(audioUrl);
+                
+                currentAudio.onplay = () => {
+                    showStatus('🎧 Playing...', 'playing');
+                };
+                
+                currentAudio.onended = () => {
+                    URL.revokeObjectURL(audioUrl);
+                    currentAudio = null;
+                    playBtn.disabled = false;
+                    playBtn.innerHTML = '<span>▶️ Play</span>';
+                    stopBtn.style.display = 'none';
+                    showStatus('✅ Finished!', 'playing');
+                    setTimeout(() => hideStatus(), 2000);
+                };
+                
+                currentAudio.onerror = () => {
+                    showStatus('❌ Audio playback error', 'error');
+                    resetButtons();
+                };
+                
+                await currentAudio.play();
+                playBtn.innerHTML = '<span>▶️ Playing...</span>';
+                
+            } catch (error) {
+                console.error('TTS error:', error);
+                showStatus(`❌ Error: ${error.message}`, 'error');
+                resetButtons();
+            }
+        });
+        
+        // Stop button
+        stopBtn.addEventListener('click', () => {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+            resetButtons();
+            showStatus('⏹️ Stopped', 'error');
+            setTimeout(() => hideStatus(), 2000);
+        });
+        
+        // Clear button
+        clearBtn.addEventListener('click', () => {
+            textInput.value = '';
+            charCount.textContent = '0';
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+            resetButtons();
+            hideStatus();
+        });
+        
+        function resetButtons() {
+            playBtn.disabled = false;
+            playBtn.innerHTML = '<span>▶️ Play</span>';
+            stopBtn.style.display = 'none';
+        }
+        
+        function showStatus(message, type) {
+            status.textContent = message;
+            status.className = `status show ${type}`;
+        }
+        
+        function hideStatus() {
+            status.classList.remove('show');
+        }
+        
+        // Example texts
+        const examples = {
+            story: `Once upon a time, there was a little red dragon named Billy who loved to help children learn. Billy wasn't scary at all - he was friendly, smart, and always ready with a helpful hint or encouraging word. Every day, Billy would visit classrooms and help students discover the joy of reading.`,
+            
+            science: `Did you know that sound travels through the air in waves? When you speak, your vocal cords vibrate and create sound waves that move through the air. These waves travel at about 767 miles per hour! That's why you can hear your friend talking from across the room - the sound waves carry their voice to your ears.`,
+            
+            history: `The Great Pyramid of Giza was built over 4,500 years ago in ancient Egypt. It took about 20 years to build and was made from over 2 million stone blocks. Each block weighed as much as a car! The pyramid was built as a tomb for Pharaoh Khufu and is one of the Seven Wonders of the Ancient World.`,
+            
+            math: `Let's solve this problem together. If Sarah has 3 apples and her friend gives her 5 more apples, how many apples does Sarah have now? We can add 3 plus 5 to find the answer. 3 plus 5 equals 8. So Sarah has 8 apples in total!`
+        };
+        
+        function loadExample(type) {
+            textInput.value = examples[type];
+            charCount.textContent = examples[type].length;
+            textInput.focus();
+        }
+        
+        // Keyboard shortcut: Ctrl/Cmd + Enter to play
+        textInput.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                playBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>

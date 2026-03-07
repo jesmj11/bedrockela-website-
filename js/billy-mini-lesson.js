@@ -89,23 +89,23 @@ class BillyMiniLesson {
       { 
         time: 85000, 
         text: "I will say some words. If the word has the short a sound like in cat, say it with me. If it does not, listen but don't say it.", 
-        pause: 1500 
+        pause: 2500 
       },
-      { time: 93000, text: "Sit.", pause: 2000 },
-      { time: 99000, text: "Cat.", pause: 2500, listenForResponse: true },
-      { time: 106000, text: "Cot.", pause: 2000 },
-      { time: 112000, text: "Bat.", pause: 2500, listenForResponse: true },
+      { time: 93000, text: "Sit.", pause: 3000 },
+      { time: 99000, text: "Cat.", pause: 4000, listenForResponse: true },
+      { time: 106000, text: "Cot.", pause: 3000 },
+      { time: 112000, text: "Bat.", pause: 4000, listenForResponse: true },
       
       // Onset swap
       { 
         time: 115000, 
         text: "Now I'll give a rime. At. I'll say some first sounds. Put them together in your head and say the word. Ready?", 
-        pause: 1500 
+        pause: 2500 
       },
-      { time: 123000, text: "Puh. At.", pause: 3000, listenForResponse: true },
-      { time: 130000, text: "Ruh. At.", pause: 3000, listenForResponse: true },
-      { time: 137000, text: "Huh. At.", pause: 3000, listenForResponse: true },
-      { time: 144000, text: "Nice! Those all have the short a sound.", pause: 1500 },
+      { time: 123000, text: "Puh. At.", pause: 4500, listenForResponse: true },
+      { time: 130000, text: "Ruh. At.", pause: 4500, listenForResponse: true },
+      { time: 137000, text: "Huh. At.", pause: 4500, listenForResponse: true },
+      { time: 144000, text: "Nice! Those all have the short a sound.", pause: 2000 },
       
       // Short phrase
       { 

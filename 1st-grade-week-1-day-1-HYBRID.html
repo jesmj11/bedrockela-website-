@@ -7,56 +7,64 @@
     <link rel="stylesheet" href="css/lesson-viewer.css">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* Billy in card system - compact instructor mode */
-        .billy-mini-instructor {
-            background: linear-gradient(135deg, #4a7c3f, #6aaa5c);
-            padding: 15px 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
+        /* Billy corner widget - gold circle with speaker */
+        .billy-corner-widget {
+            position: fixed;
+            bottom: 80px;
+            right: 30px;
             display: flex;
             align-items: center;
-            gap: 15px;
-            box-shadow: 0 4px 12px rgba(74, 124, 63, 0.3);
+            gap: 10px;
+            z-index: 1000;
+        }
+        
+        .billy-avatar-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FFD700, #fbbf24);
+            padding: 5px;
+            box-shadow: 0 4px 12px rgba(176, 104, 33, 0.4);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .billy-avatar-circle:hover {
+            transform: scale(1.05);
         }
         
         .billy-mini-avatar {
-            width: 60px;
-            height: 60px;
-            flex-shrink: 0;
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
             object-fit: cover;
         }
         
-        .billy-mini-speech {
-            flex: 1;
-            color: white;
-        }
-        
-        .billy-mini-speech p {
-            margin: 0;
-            font-size: 16px;
-            font-weight: 600;
-            line-height: 1.4;
-        }
-        
         .billy-speak-btn {
-            background: #f6c94e;
+            background: #B06821;
             border: none;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 20px;
+            width: 45px;
+            height: 45px;
+            font-size: 22px;
             cursor: pointer;
-            transition: transform 0.2s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: all 0.2s;
+            box-shadow: 0 3px 10px rgba(176, 104, 33, 0.4);
+            color: white;
         }
         
         .billy-speak-btn:hover {
             transform: scale(1.1);
+            background: #8B5319;
         }
         
         .billy-speak-btn:active {
             transform: scale(0.95);
+        }
+        
+        /* Hide text instructions - Billy speaks them */
+        .billy-instruction-text {
+            display: none;
         }
         
         /* Activity styles within cards */
@@ -182,15 +190,8 @@
             </p>
         </div>`,
 
-        // Page 2: Billy's Welcome
+        // Page 2: Welcome & Objectives
         `<div class="lesson-page-card content-page">
-            <div class="billy-mini-instructor">
-                <img src="images/billy-avatar.jpg" alt="Billy" class="billy-mini-avatar">
-                <div class="billy-mini-speech">
-                    <p>Hi! I'm Billy. Today we learn the short a sound /a/ like in cat. Let's get started!</p>
-                </div>
-                <button class="billy-speak-btn" onclick="speakBilly('Hi! I am Billy. Today we learn the short a sound, like in cat. Let us get started! Here is what you will do today. You will learn the short a sound. You will build words with at. You will read Sam\\'s Van. And you will practice sight words a and the. Ready? Let\\'s go!', this)" title="Hear Billy speak">🔊</button>
-            </div>
             <h2>🎯 Today You Will...</h2>
             <div style="text-align: left; max-width: 500px; margin: 20px auto;">
                 <p style="margin: 15px 0; font-size: 18px;">✓ Learn the short <strong>a</strong> sound: /a/</p>
@@ -202,13 +203,7 @@
 
         // Page 3: Phoneme Introduction
         `<div class="lesson-page-card content-page">
-            <div class="billy-mini-instructor">
-                <img src="images/billy-avatar.jpg" alt="Billy" class="billy-mini-avatar">
-                <div class="billy-mini-speech">
-                    <p>Watch my mouth: /a/. Now listen to blending: c-at-cat. Say it with me: c...at-cat!</p>
-                </div>
-                <button class="billy-speak-btn" onclick="speakBilly('Watch my mouth. /a/. Now listen to blending. c at cat. Say it with me. c at cat!', this)" title="Hear Billy speak">🔊</button>
-            </div>
+            
             <h2>📝 The Short A Sound</h2>
             <div style="text-align: center; margin: 40px 0;">
                 <div style="font-size: 120px; font-weight: 800; color: #305853; margin: 20px 0;">a</div>
@@ -219,13 +214,7 @@
 
         // Page 4: Word Building Activity
         `<div class="lesson-page-card content-page">
-            <div class="billy-mini-instructor">
-                <img src="images/billy-avatar.jpg" alt="Billy" class="billy-mini-avatar">
-                <div class="billy-mini-speech">
-                    <p>Tap a letter to build a word with -at. Can you make 'cat'? Try it!</p>
-                </div>
-                <button class="billy-speak-btn" onclick="speakBilly('Tap a letter to build a word with at. Can you make cat? Try it!', this)" title="Hear Billy speak">🔊</button>
-            </div>
+            
             <div class="activity-word-builder">
                 <h3 style="color: #305853; margin-bottom: 20px;">Build a Word!</h3>
                 <div class="onset-cards">
@@ -243,13 +232,7 @@
 
         // Page 5: Story
         `<div class="lesson-page-card content-page">
-            <div class="billy-mini-instructor">
-                <img src="images/billy-avatar.jpg" alt="Billy" class="billy-mini-avatar">
-                <div class="billy-mini-speech">
-                    <p>Now let's read our story! I'll read it first, then you can read with me. Ready?</p>
-                </div>
-                <button class="billy-speak-btn" onclick="speakBilly('Now let\\'s read our story! I\\'ll read it first, then you can read with me. Ready?', this)" title="Hear Billy speak">🔊</button>
-            </div>
+            
             <h2>📖 Sam's Van</h2>
             <div style="padding: 30px; background: #f5f9ff; border-radius: 15px; margin: 20px 0;">
                 <p style="font-size: 22px; line-height: 1.8; color: #2c3e50;">
@@ -261,13 +244,7 @@
 
         // Page 6: Comprehension
         `<div class="lesson-page-card content-page">
-            <div class="billy-mini-instructor">
-                <img src="images/billy-avatar.jpg" alt="Billy" class="billy-mini-avatar">
-                <div class="billy-mini-speech">
-                    <p>Great reading! Now let's see if you remember the story. Who has a van?</p>
-                </div>
-                <button class="billy-speak-btn" onclick="speakBilly('Great reading! Now let\\'s see if you remember the story. Who has a van?', this)" title="Hear Billy speak">🔊</button>
-            </div>
+            
             <h2>🤔 Comprehension Check</h2>
             <h3 style="text-align: center; color: #305853; margin: 30px 0;">Who has a van?</h3>
             <div class="multiple-choice-grid">
@@ -281,13 +258,7 @@
 
         // Page 7: Sight Words
         `<div class="lesson-page-card content-page">
-            <div class="billy-mini-instructor">
-                <img src="images/billy-avatar.jpg" alt="Billy" class="billy-mini-avatar">
-                <div class="billy-mini-speech">
-                    <p>Time to learn our sight words! These are special words we read by sight. Tap each word to hear it!</p>
-                </div>
-                <button class="billy-speak-btn" onclick="speakBilly('Time to learn our sight words! These are special words we read by sight. Tap each word to hear it!', this)" title="Hear Billy speak">🔊</button>
-            </div>
+            
             <h2>👀 Sight Words</h2>
             <div style="text-align: center; margin: 40px 0;">
                 <div style="display: flex; gap: 30px; justify-content: center; flex-wrap: wrap;">
@@ -300,13 +271,7 @@
 
         // Page 8: Completion
         `<div class="lesson-page-card content-page">
-            <div class="billy-mini-instructor" style="background: linear-gradient(135deg, #52b788, #6aaa5c);">
-                <img src="images/billy-avatar.jpg" alt="Billy" class="billy-mini-avatar">
-                <div class="billy-mini-speech">
-                    <p>Awesome work! You finished Day 1! You're already getting better at reading!</p>
-                </div>
-                <button class="billy-speak-btn" onclick="speakBilly('Awesome work! You finished Day 1! You\\'re already getting better at reading!', this)" title="Hear Billy speak">🔊</button>
-            </div>
+            
             <h2>🎉 Great Job!</h2>
             <div class="completion-badge">Day 1 Complete!</div>
             <p style="font-size: 18px; margin: 30px 0;">You learned:</p>
@@ -322,9 +287,23 @@
 
         let currentPage = 0;
 
+        // Billy's instructions for each page
+        const billyInstructions = [
+            "", // Page 1 (title) - no Billy
+            "Hi! I am Billy. Today we learn the short a sound, like in cat. Let us get started! Here is what you will do today. You will learn the short a sound. You will build words with at. You will read Sam's Van. And you will practice sight words a and the. Ready? Let's go!",
+            "Watch my mouth. /a/. Now listen to blending. c at cat. Say it with me. c at cat!",
+            "Tap a letter to build a word with at. Can you make cat? Try it!",
+            "Now let's read our story! I'll read it first, then you can read with me. Ready?",
+            "Great reading! Now let's see if you remember the story. Who has a van?",
+            "Time to learn our sight words! These are special words we read by sight. Tap each word to hear it!",
+            "Awesome work! You finished Day 1! You're already getting better at reading!"
+        ];
+
         function renderPage() {
             const container = document.getElementById('lesson-container');
             const progress = Math.round(((currentPage + 1) / pages.length) * 100);
+            
+            const showBilly = currentPage > 0; // Billy appears on all pages except title
             
             container.innerHTML = `
                 <!-- Top Navigation -->
@@ -372,7 +351,25 @@
                         ${currentPage === pages.length - 1 ? 'Finish ✓' : 'Next →'}
                     </button>
                 </div>
+
+                <!-- Billy Corner Widget -->
+                ${showBilly ? `
+                <div class="billy-corner-widget">
+                    <div class="billy-avatar-circle" onclick="speakCurrentPage()">
+                        <img src="images/billy-avatar.jpg" alt="Billy" class="billy-mini-avatar">
+                    </div>
+                    <button class="billy-speak-btn" id="billy-speaker" onclick="speakCurrentPage()" title="Hear Billy's instructions">🔊</button>
+                </div>
+                ` : ''}
             `;
+        }
+        
+        function speakCurrentPage() {
+            const instruction = billyInstructions[currentPage];
+            if (instruction) {
+                const btn = document.getElementById('billy-speaker');
+                speakBilly(instruction, btn);
+            }
         }
 
         function nextPage() {

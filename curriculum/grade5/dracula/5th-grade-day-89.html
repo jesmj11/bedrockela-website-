@@ -4,12 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5th Grade - Day 89: The Undead</title>
-    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <link rel="stylesheet" href="../../../css/lesson-viewer.css">
 </head>
-<body>
-    <!-- Page 1: Title & Objectives -->
-    <div class="lesson-page" id="page1">
-        <div class="page-header">
+<body class="lesson-viewer">
+    <div id="lesson-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="../../../firebase-config.js"></script>
+    <script src="../../../js/lesson-viewer.js"></script>
+    <script src="../../../js/lesson-completion.js"></script>
+    <script src="../../../js/lesson-autosave.js"></script>
+    
+    <script>
+        const lessonConfig = {
+            lessonId: '5th-grade-day-89',
+            gradeLevel: '5th-grade',
+            title: 'Day 89 - Dracula',
+            pages: [
+                {
+                    render: () => `<div class="page-header">
             <h1>Day 89 - Week 18</h1>
             <h2>Dracula</h2>
         </div>
@@ -29,20 +44,17 @@
                 <li>Complete writing exercise</li>
             </ul>
         </div>
-        <button class="btn-next" onclick="nextPage()">Begin Lesson →</button>
-    </div>
-
-    <!-- Page 2: Vocabulary -->
-    <div class="lesson-page" id="page2" style="display: none;">
-        <div class="page-header">
+        <button class="btn-next" onclick="nextPage()">Begin Lesson →</button>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📖 Vocabulary</h2>
             <p>Week 18 - Day 1 of 5</p>
         </div>
         <div class="vocab-section">
             <h3>Today's New Words</h3>
             <p class="vocab-intro">Learn these 3 words before reading. They appear in today's story!</p>
-            
-            
+
             <div class="vocab-word">
                 <h4>1. revelation</h4>
                 <div class="vocab-input-section">
@@ -52,7 +64,6 @@
                     <textarea id="vocab1" rows="2" placeholder="Type your definition here..."></textarea>
                 </div>
             </div>
-            
 
             <div class="vocab-word">
                 <h4>2. ritual</h4>
@@ -63,7 +74,6 @@
                     <textarea id="vocab2" rows="2" placeholder="Type your definition here..."></textarea>
                 </div>
             </div>
-            
 
             <div class="vocab-word">
                 <h4>3. serene</h4>
@@ -74,22 +84,15 @@
                     <textarea id="vocab3" rows="2" placeholder="Type your definition here..."></textarea>
                 </div>
             </div>
-            
-            
+
             <div class="vocab-tracker">
                 <p><strong>📚 This Week's Words:</strong> 3 of 12 learned</p>
                 <p class="tracker-note">Keep reviewing! Quiz on Friday (Day 93).</p>
             </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue to Story →</button>
-        </div>
-    </div>
-
-    <!-- Page 3: Reading Part 1 -->
-    <div class="lesson-page" id="page3" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📚 Reading (Part 1 of 3)</h2>
             <p>Chapter 9: The Undead</p>
         </div>
@@ -98,16 +101,10 @@
 <p>They described being led away by a "beautiful lady."</p>
 <p>Van Helsing gathered the small group of people who knew the truth — Doctor Seward, Arthur, Quincey Morris, Jonathan and me — and told us plainly what we were dealing with.</p>
 <p>"Lucy is not at rest," he said. "What you call a vampire — un-dead — it is not a legend. It is a real creature, one that has existed for many centuries. It feeds on the living. It can move at night in the mist and shadow. It commands wolves and rats. And it has made Lucy one of its own."</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
-        </div>
-    </div>
-
-    <!-- Page 4: Reading Part 2 -->
-    <div class="lesson-page" id="page4" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📚 Reading (Part 2 of 3)</h2>
             <p>Chapter 9: The Undead</p>
         </div>
@@ -116,16 +113,10 @@
 <p>"Lucy is gone," Van Helsing said gently, looking at Arthur. "What walks in her body is not your Lucy. But you can free her. You can give her peace. And then we must find the one who made her this way, and stop him before he does this to anyone else."</p>
 <p>Arthur was pale as chalk. "What must we do?"</p>
 <p>Van Helsing explained. It was not easy to hear. It was not easy to do.</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
-        </div>
-    </div>
-
-    <!-- Page 5: Reading Part 3 -->
-    <div class="lesson-page" id="page5" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📚 Reading (Part 3 of 3)</h2>
             <p>Chapter 9: The Undead</p>
         </div>
@@ -134,16 +125,10 @@
 <p>"She looks like herself," he said quietly. "She looks as if she's really sleeping."</p>
 <p>She did. Lucy, whatever had been wearing her face, was gone. And Lucy herself — the real Lucy — was finally at rest.</p>
 <p>Van Helsing put a hand on Arthur's shoulder. "Now," he said, "we have a greater task. The one who did this is in London, and he has plans."</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Answer Questions →</button>
-        </div>
-    </div>
-
-    <!-- Page 6: Comprehension Questions -->
-    <div class="lesson-page" id="page6" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>✍️ Comprehension Questions</h2>
             <p>Show what you understood</p>
         </div>
@@ -153,29 +138,21 @@
                 <p><strong>1.</strong> Children near Lucy's grave start disappearing at night and returning with marks on their necks, describing a 'beautiful lady' who led them away. Why is it particularly horrible that Lucy, who was so good-natured in life, would attack children? What does this tell you about what vampirism does to a person?</p>
                 <textarea id="comp1" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
-            
 
             <div class="question">
                 <p><strong>2.</strong> Van Helsing tells the group plainly: 'Lucy is gone. What walks in her body is not your Lucy.' Why is this distinction important? How does it help Arthur cope with what they need to do?</p>
                 <textarea id="comp2" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
-            
 
             <div class="question">
                 <p><strong>3.</strong> After the group frees Lucy from being undead, Arthur says 'She looks like herself. She looks as if she's really sleeping.' What does this peaceful appearance tell you about the difference between the vampire that used her body and Lucy's true self?</p>
                 <textarea id="comp3" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
             
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue to Informational Text →</button>
-        </div>
-    </div>
-
-    <!-- Page 7: Informational Text -->
-    <div class="lesson-page" id="page7" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📰 Informational Text</h2>
             <p>Connect Story to Reality</p>
         </div>
@@ -191,24 +168,16 @@
                 <p><strong>1.</strong> The article explains that Gothic novels often featured exotic European settings and were set in the past. Why do you think Victorian readers found these distant times and places more frightening than their own familiar, modern world?</p>
                 <textarea id="info1" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
-            
 
             <div class="question">
                 <p><strong>2.</strong> According to the article, what made Dracula different from earlier Gothic novels was that the vampire moved into modern Victorian London. How does bringing supernatural horror into a contemporary, familiar setting change the type of fear the story creates?</p>
                 <textarea id="info2" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
             
-        </div>
-        
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue →</button>
-        </div>
-    </div>
-
-    <!-- Page 8: Grammar/Language -->
-    <div class="lesson-page" id="page8" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>✏️ Grammar</h2>
             <p>Week 18 Focus: Complex Sentences with Subordinating Conjunctions</p>
         </div>
@@ -232,13 +201,11 @@
                     <p><strong>1.</strong> Combine these two sentences using the conjunction in parentheses: 'The coach stopped. Jonathan stepped into the castle.' (when)</p>
                     <textarea id="grammar1" rows="3" placeholder="Write your answer here..."></textarea>
                 </div>
-                
 
                 <div class="practice-item">
                     <p><strong>2.</strong> Combine these two sentences using the conjunction in parentheses: 'The Count was very gracious. Jonathan felt increasingly uneasy.' (although)</p>
                     <textarea id="grammar2" rows="3" placeholder="Write your answer here..."></textarea>
                 </div>
-                
 
                 <div class="practice-item">
                     <p><strong>3.</strong> Write your own complex sentence about the story using 'because':</p>
@@ -246,16 +213,10 @@
                 </div>
                 
             </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue →</button>
-        </div>
-    </div>
-
-    <!-- Page 9: Writing/Journal -->
-    <div class="lesson-page" id="page9" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>✍️ Writing Skills</h2>
             <p>Standard: W.5.1 - Opinion Writing</p>
         </div>
@@ -267,16 +228,10 @@
             <div class="writing-space">
                 <textarea id="writing-response" rows="12" placeholder="Write your response here..."></textarea>
             </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Finish Lesson →</button>
-        </div>
-    </div>
-
-    <!-- Page 10: Completion -->
-    <div class="lesson-page" id="page10" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>🎉 Lesson Complete!</h2>
             <p>Day 89 - Chapter 9: The Undead</p>
         </div>
@@ -292,28 +247,16 @@
                 <li>✅ Completed writing exercise</li>
             </ul>
             <p class="next-lesson-note">📚 Tomorrow: Chapter 10 awaits!</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-        </div>
-    </div>
-
-    <script src="js/lesson-viewer.js?v=1772842146618"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="js/lesson-completion.js?v=1772842146618"></script>
-    <script src="js/lesson-autosave.js?v=1772842146618"></script>
-    <script>
-        const lesson89Config = {
-            lessonId: '5th-grade-day-89',
-            gradeLevel: '5th-grade',
-            title: 'Lesson 89 - 5th Grade',
-            pages: [] // Populated by lesson-viewer.js
+        </div>`
+                }
+            ]
         };
 
+        // Initialize lesson viewer
         if (typeof initLessonViewer === 'function') {
-            initLessonViewer(lesson89Config);
+            initLessonViewer(lessonConfig);
+        } else {
+            console.error('lesson-viewer.js not loaded! Check file paths.');
         }
     </script>
 </body>

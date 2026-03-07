@@ -4,12 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5th Grade - Day 82: Escape</title>
-    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <link rel="stylesheet" href="../../../css/lesson-viewer.css">
 </head>
-<body>
-    <!-- Page 1: Title & Objectives -->
-    <div class="lesson-page" id="page1">
-        <div class="page-header">
+<body class="lesson-viewer">
+    <div id="lesson-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="../../../firebase-config.js"></script>
+    <script src="../../../js/lesson-viewer.js"></script>
+    <script src="../../../js/lesson-completion.js"></script>
+    <script src="../../../js/lesson-autosave.js"></script>
+    
+    <script>
+        const lessonConfig = {
+            lessonId: '5th-grade-day-82',
+            gradeLevel: '5th-grade',
+            title: 'Day 82 - Dracula',
+            pages: [
+                {
+                    render: () => `<div class="page-header">
             <h1>Day 82 - Week 16</h1>
             <h2>Dracula</h2>
         </div>
@@ -29,20 +44,17 @@
                 <li>Complete journal reflection</li>
             </ul>
         </div>
-        <button class="btn-next" onclick="nextPage()">Begin Lesson →</button>
-    </div>
-
-    <!-- Page 2: Vocabulary -->
-    <div class="lesson-page" id="page2" style="display: none;">
-        <div class="page-header">
+        <button class="btn-next" onclick="nextPage()">Begin Lesson →</button>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📖 Vocabulary</h2>
             <p>Week 16 - Day 4 of 5</p>
         </div>
         <div class="vocab-section">
             <h3>Today's New Words</h3>
             <p class="vocab-intro">Learn these 3 words before reading. They appear in today's story!</p>
-            
-            
+
             <div class="vocab-word">
                 <h4>1. consecrate</h4>
                 <div class="vocab-input-section">
@@ -52,7 +64,6 @@
                     <textarea id="vocab1" rows="2" placeholder="Type your definition here..."></textarea>
                 </div>
             </div>
-            
 
             <div class="vocab-word">
                 <h4>2. concealed</h4>
@@ -63,7 +74,6 @@
                     <textarea id="vocab2" rows="2" placeholder="Type your definition here..."></textarea>
                 </div>
             </div>
-            
 
             <div class="vocab-word">
                 <h4>3. treacherous</h4>
@@ -74,22 +84,15 @@
                     <textarea id="vocab3" rows="2" placeholder="Type your definition here..."></textarea>
                 </div>
             </div>
-            
-            
+
             <div class="vocab-tracker">
                 <p><strong>📚 This Week's Words:</strong> 12 of 12 learned</p>
                 <p class="tracker-note">Keep reviewing! Quiz on Friday (Day 83).</p>
             </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue to Story →</button>
-        </div>
-    </div>
-
-    <!-- Page 3: Reading Part 1 -->
-    <div class="lesson-page" id="page3" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📚 Reading (Part 1 of 3)</h2>
             <p>Chapter 4: Escape</p>
         </div>
@@ -98,16 +101,10 @@
 <p>I had noticed that the Count sometimes climbed the outer wall of the castle — headfirst, like a lizard, moving with horrible ease along the sheer stone face. He seemed to have powers far beyond those of any human being.</p>
 <p>But the wall was the only way out that was not locked. I waited until I was sure the Count was away from that side of the castle, took a deep breath, and climbed out the window.</p>
 <p>The stone was old and rough, with plenty of handholds. I am a reasonably capable climber. I made it down and found a door at the base of the wall, hidden by ivy. It opened onto a long passage cut into the rock.</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
-        </div>
-    </div>
-
-    <!-- Page 4: Reading Part 2 -->
-    <div class="lesson-page" id="page4" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📚 Reading (Part 2 of 3)</h2>
             <p>Chapter 4: Escape</p>
         </div>
@@ -116,16 +113,10 @@
 <p>A large cellar. And in the cellar, boxes — dozens of them, filled with fresh dark earth. And in one of the boxes, the Count himself. Lying perfectly still. His eyes were closed, but his skin had a warm color to it, as if he had recently — fed.</p>
 <p>I ran.</p>
 <p>I did not find a way out of the outer walls that night. I ended up back in my room, shaking, and lay awake until dawn.</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
-        </div>
-    </div>
-
-    <!-- Page 5: Reading Part 3 -->
-    <div class="lesson-page" id="page5" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📚 Reading (Part 3 of 3)</h2>
             <p>Chapter 4: Escape</p>
         </div>
@@ -134,16 +125,10 @@
 <p>Finally, one morning before dawn, I found a window on the far side of the castle that had no lock. The drop was steep, but there was a gutter pipe that reached almost to the ground. I tied my journal carefully in oilcloth and tucked it inside my coat.</p>
 <p>Then I climbed, and dropped, and ran.</p>
 <p>I ran until the castle was out of sight. I did not stop running for a very long time.</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Answer Questions →</button>
-        </div>
-    </div>
-
-    <!-- Page 6: Comprehension Questions -->
-    <div class="lesson-page" id="page6" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>✍️ Comprehension Questions</h2>
             <p>Show what you understood</p>
         </div>
@@ -153,29 +138,21 @@
                 <p><strong>1.</strong> Jonathan finds Count Dracula lying in a box filled with earth, with his eyes closed but looking as if he had 'recently fed.' What makes this discovery particularly horrifying? What does it tell Jonathan about what the Count has been doing?</p>
                 <textarea id="comp1" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
-            
 
             <div class="question">
                 <p><strong>2.</strong> The chapter says Jonathan 'tied his journal carefully in oilcloth and tucked it inside his coat' before attempting his dangerous escape. Why would he protect his journal so carefully even when his own life is in danger? What does this show about what he values?</p>
                 <textarea id="comp2" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
-            
 
             <div class="question">
                 <p><strong>3.</strong> Jonathan finally escapes the castle by climbing down a wall and running until the castle is out of sight, not stopping 'for a very long time.' What do you think he felt during this escape? How might this experience change him?</p>
                 <textarea id="comp3" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
             
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue to Informational Text →</button>
-        </div>
-    </div>
-
-    <!-- Page 7: Informational Text -->
-    <div class="lesson-page" id="page7" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📰 Informational Text</h2>
             <p>Connect Story to Reality</p>
         </div>
@@ -191,24 +168,16 @@
                 <p><strong>1.</strong> The article describes how different cultures around the world developed similar vampire legends independently. What does this pattern suggest about human fear and how people explain things they don't understand?</p>
                 <textarea id="info1" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
-            
 
             <div class="question">
                 <p><strong>2.</strong> According to the article, many vampire legends probably came from misunderstanding natural processes like decomposition or diseases like rabies. What does this teach us about the importance of scientific knowledge? How might better education have changed these legends?</p>
                 <textarea id="info2" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
             
-        </div>
-        
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue →</button>
-        </div>
-    </div>
-
-    <!-- Page 8: Grammar/Language -->
-    <div class="lesson-page" id="page8" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>✏️ Language Skills</h2>
             <p>Week 16 Focus: Greek and Latin Roots: 'Trans-' and 'Morph'</p>
         </div>
@@ -232,13 +201,11 @@
                     <p><strong>1.</strong> What does 'transcribe' mean if 'trans-' means 'across' and 'scribe' means 'write'?</p>
                     <textarea id="grammar1" rows="3" placeholder="Write your answer here..."></textarea>
                 </div>
-                
 
                 <div class="practice-item">
                     <p><strong>2.</strong> What does 'transformation' mean? How does it relate to what happens to Dracula's victims?</p>
                     <textarea id="grammar2" rows="3" placeholder="Write your answer here..."></textarea>
                 </div>
-                
 
                 <div class="practice-item">
                     <p><strong>3.</strong> Find another word in this week's story that uses a Latin or Greek root and explain its meaning:</p>
@@ -246,16 +213,10 @@
                 </div>
                 
             </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue →</button>
-        </div>
-    </div>
-
-    <!-- Page 9: Writing/Journal -->
-    <div class="lesson-page" id="page9" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>✍️ Journal Reflection</h2>
             <p>Personal Response</p>
         </div>
@@ -267,16 +228,10 @@
             <div class="writing-space">
                 <textarea id="writing-response" rows="12" placeholder="Write your response here..."></textarea>
             </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Finish Lesson →</button>
-        </div>
-    </div>
-
-    <!-- Page 10: Completion -->
-    <div class="lesson-page" id="page10" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>🎉 Lesson Complete!</h2>
             <p>Day 82 - Chapter 4: Escape</p>
         </div>
@@ -292,28 +247,16 @@
                 <li>✅ Completed journal reflection</li>
             </ul>
             <p class="next-lesson-note">📚 Tomorrow: Chapter 5 awaits!</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-        </div>
-    </div>
-
-    <script src="js/lesson-viewer.js?v=1772842146617"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="js/lesson-completion.js?v=1772842146617"></script>
-    <script src="js/lesson-autosave.js?v=1772842146617"></script>
-    <script>
-        const lesson82Config = {
-            lessonId: '5th-grade-day-82',
-            gradeLevel: '5th-grade',
-            title: 'Lesson 82 - 5th Grade',
-            pages: [] // Populated by lesson-viewer.js
+        </div>`
+                }
+            ]
         };
 
+        // Initialize lesson viewer
         if (typeof initLessonViewer === 'function') {
-            initLessonViewer(lesson82Config);
+            initLessonViewer(lessonConfig);
+        } else {
+            console.error('lesson-viewer.js not loaded! Check file paths.');
         }
     </script>
 </body>

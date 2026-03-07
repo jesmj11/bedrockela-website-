@@ -4,12 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5th Grade - Day 79: The Road to the Castle</title>
-    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <link rel="stylesheet" href="../../../css/lesson-viewer.css">
 </head>
-<body>
-    <!-- Page 1: Title & Objectives -->
-    <div class="lesson-page" id="page1">
-        <div class="page-header">
+<body class="lesson-viewer">
+    <div id="lesson-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="../../../firebase-config.js"></script>
+    <script src="../../../js/lesson-viewer.js"></script>
+    <script src="../../../js/lesson-completion.js"></script>
+    <script src="../../../js/lesson-autosave.js"></script>
+    
+    <script>
+        const lessonConfig = {
+            lessonId: '5th-grade-day-79',
+            gradeLevel: '5th-grade',
+            title: 'Day 79 - Dracula',
+            pages: [
+                {
+                    render: () => `<div class="page-header">
             <h1>Day 79 - Week 16</h1>
             <h2>Dracula</h2>
         </div>
@@ -29,20 +44,17 @@
                 <li>Complete writing exercise</li>
             </ul>
         </div>
-        <button class="btn-next" onclick="nextPage()">Begin Lesson →</button>
-    </div>
-
-    <!-- Page 2: Vocabulary -->
-    <div class="lesson-page" id="page2" style="display: none;">
-        <div class="page-header">
+        <button class="btn-next" onclick="nextPage()">Begin Lesson →</button>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📖 Vocabulary</h2>
             <p>Week 16 - Day 1 of 5</p>
         </div>
         <div class="vocab-section">
             <h3>Today's New Words</h3>
             <p class="vocab-intro">Learn these 3 words before reading. They appear in today's story!</p>
-            
-            
+
             <div class="vocab-word">
                 <h4>1. assignment</h4>
                 <div class="vocab-input-section">
@@ -52,7 +64,6 @@
                     <textarea id="vocab1" rows="2" placeholder="Type your definition here..."></textarea>
                 </div>
             </div>
-            
 
             <div class="vocab-word">
                 <h4>2. uneasiness</h4>
@@ -63,7 +74,6 @@
                     <textarea id="vocab2" rows="2" placeholder="Type your definition here..."></textarea>
                 </div>
             </div>
-            
 
             <div class="vocab-word">
                 <h4>3. forbidding</h4>
@@ -74,22 +84,15 @@
                     <textarea id="vocab3" rows="2" placeholder="Type your definition here..."></textarea>
                 </div>
             </div>
-            
-            
+
             <div class="vocab-tracker">
                 <p><strong>📚 This Week's Words:</strong> 3 of 12 learned</p>
                 <p class="tracker-note">Keep reviewing! Quiz on Friday (Day 83).</p>
             </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue to Story →</button>
-        </div>
-    </div>
-
-    <!-- Page 3: Reading Part 1 -->
-    <div class="lesson-page" id="page3" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📚 Reading (Part 1 of 3)</h2>
             <p>Chapter 1: The Road to the Castle</p>
         </div>
@@ -98,16 +101,10 @@
 <p>My employer, Mr. Hawkins, sent me on an important assignment. A nobleman from a distant country called Transylvania wished to buy a house in England. He had chosen an old estate called Carfax, near London, and he needed a lawyer to handle the paperwork. Mr. Hawkins thought I was just the man for it — young, hardworking, and eager to prove myself. He was right that I was eager.</p>
 <p>I traveled by train across France and into Eastern Europe, watching the landscape change through the train window — from flat farmland to rolling hills to jagged mountains draped in pine forest. The food changed, the language changed, and the people changed too. They were warm and welcoming, but there was an uneasiness that I could not quite explain.</p>
 <p>When I asked about my destination — a castle owned by a Count Dracula — people's faces changed. They fell quiet. An old woman pressed a string of garlic flowers into my hands and made a sign that I did not understand.</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
-        </div>
-    </div>
-
-    <!-- Page 4: Reading Part 2 -->
-    <div class="lesson-page" id="page4" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📚 Reading (Part 2 of 3)</h2>
             <p>Chapter 1: The Road to the Castle</p>
         </div>
@@ -116,16 +113,10 @@
 <p>I thanked her politely and kept going. I was a professional. I had a job to do.</p>
 <p>A coach met me at a mountain pass called the Borgo Pass. The driver wore a dark cloak and a wide hat pulled low over his face. He barely spoke. The horses were enormous and pale, and they seemed to know the road perfectly, even in the dark.</p>
 <p>We rode higher and higher into the mountains. A wolf howled somewhere in the trees. Then more wolves — many of them — calling back and forth like a conversation in a language I couldn't understand.</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
-        </div>
-    </div>
-
-    <!-- Page 5: Reading Part 3 -->
-    <div class="lesson-page" id="page5" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📚 Reading (Part 3 of 3)</h2>
             <p>Chapter 1: The Road to the Castle</p>
         </div>
@@ -134,16 +125,10 @@
 <p>At last, through the trees, I saw the castle — black against the stars, tall and jagged, perched on the edge of a cliff. Not a single light showed in any window.</p>
 <p>My heart beat faster. But I told myself I was being foolish.</p>
 <p>I was a lawyer. I was here for paperwork.</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Answer Questions →</button>
-        </div>
-    </div>
-
-    <!-- Page 6: Comprehension Questions -->
-    <div class="lesson-page" id="page6" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>✍️ Comprehension Questions</h2>
             <p>Show what you understood</p>
         </div>
@@ -153,29 +138,21 @@
                 <p><strong>1.</strong> Jonathan Harker notices several strange warnings on his journey to Castle Dracula — an old woman gives him garlic and tells him not to go, people grow quiet when he mentions his destination. Why do you think he continues anyway despite these warnings? What does this tell you about his character?</p>
                 <textarea id="comp1" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
-            
 
             <div class="question">
                 <p><strong>2.</strong> When Jonathan arrives at the castle, Count Dracula greets him by saying 'Come in freely, of your own will.' This phrasing sounds strange and deliberate. Why might the Count need Jonathan to enter willingly? What might this suggest about the rules vampires follow?</p>
                 <textarea id="comp2" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
-            
 
             <div class="question">
                 <p><strong>3.</strong> The chapter describes the castle as 'black against the stars, tall and jagged, perched on the edge of a cliff. Not a single light showed in any window.' How does this description create a feeling of danger or unease before Jonathan even enters?</p>
                 <textarea id="comp3" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
             
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue to Informational Text →</button>
-        </div>
-    </div>
-
-    <!-- Page 7: Informational Text -->
-    <div class="lesson-page" id="page7" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📰 Informational Text</h2>
             <p>Connect Story to Reality</p>
         </div>
@@ -191,24 +168,16 @@
                 <p><strong>1.</strong> The article explains that Vlad III was called 'the Impaler' because of his brutal methods, but many Romanians still consider him a hero. Why might people view the same historical figure in such different ways?</p>
                 <textarea id="info1" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
-            
 
             <div class="question">
                 <p><strong>2.</strong> According to the article, the name 'Dracula' actually means 'son of the dragon' and came from a knightly order. How is this different from what most people think the name means today? What does this tell you about how stories change over time?</p>
                 <textarea id="info2" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
             
-        </div>
-        
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue →</button>
-        </div>
-    </div>
-
-    <!-- Page 8: Grammar/Language -->
-    <div class="lesson-page" id="page8" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>✏️ Grammar</h2>
             <p>Week 16 Focus: Complex Sentences with Subordinating Conjunctions</p>
         </div>
@@ -232,13 +201,11 @@
                     <p><strong>1.</strong> Combine these two sentences using the conjunction in parentheses: 'The coach stopped. Jonathan stepped into the castle.' (when)</p>
                     <textarea id="grammar1" rows="3" placeholder="Write your answer here..."></textarea>
                 </div>
-                
 
                 <div class="practice-item">
                     <p><strong>2.</strong> Combine these two sentences using the conjunction in parentheses: 'The Count was very gracious. Jonathan felt increasingly uneasy.' (although)</p>
                     <textarea id="grammar2" rows="3" placeholder="Write your answer here..."></textarea>
                 </div>
-                
 
                 <div class="practice-item">
                     <p><strong>3.</strong> Write your own complex sentence about the story using 'because':</p>
@@ -246,16 +213,10 @@
                 </div>
                 
             </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue →</button>
-        </div>
-    </div>
-
-    <!-- Page 9: Writing/Journal -->
-    <div class="lesson-page" id="page9" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>✍️ Writing Skills</h2>
             <p>Standard: W.5.1 - Opinion Writing</p>
         </div>
@@ -267,16 +228,10 @@
             <div class="writing-space">
                 <textarea id="writing-response" rows="12" placeholder="Write your response here..."></textarea>
             </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Finish Lesson →</button>
-        </div>
-    </div>
-
-    <!-- Page 10: Completion -->
-    <div class="lesson-page" id="page10" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>🎉 Lesson Complete!</h2>
             <p>Day 79 - Chapter 1: The Road to the Castle</p>
         </div>
@@ -292,28 +247,16 @@
                 <li>✅ Completed writing exercise</li>
             </ul>
             <p class="next-lesson-note">📚 Tomorrow: Chapter 2 awaits!</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-        </div>
-    </div>
-
-    <script src="js/lesson-viewer.js?v=1772842146616"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="js/lesson-completion.js?v=1772842146616"></script>
-    <script src="js/lesson-autosave.js?v=1772842146616"></script>
-    <script>
-        const lesson79Config = {
-            lessonId: '5th-grade-day-79',
-            gradeLevel: '5th-grade',
-            title: 'Lesson 79 - 5th Grade',
-            pages: [] // Populated by lesson-viewer.js
+        </div>`
+                }
+            ]
         };
 
+        // Initialize lesson viewer
         if (typeof initLessonViewer === 'function') {
-            initLessonViewer(lesson79Config);
+            initLessonViewer(lessonConfig);
+        } else {
+            console.error('lesson-viewer.js not loaded! Check file paths.');
         }
     </script>
 </body>

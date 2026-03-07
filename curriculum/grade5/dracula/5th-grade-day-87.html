@@ -4,12 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5th Grade - Day 87: Good News and Bad</title>
-    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <link rel="stylesheet" href="../../../css/lesson-viewer.css">
 </head>
-<body>
-    <!-- Page 1: Title & Objectives -->
-    <div class="lesson-page" id="page1">
-        <div class="page-header">
+<body class="lesson-viewer">
+    <div id="lesson-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="../../../firebase-config.js"></script>
+    <script src="../../../js/lesson-viewer.js"></script>
+    <script src="../../../js/lesson-completion.js"></script>
+    <script src="../../../js/lesson-autosave.js"></script>
+    
+    <script>
+        const lessonConfig = {
+            lessonId: '5th-grade-day-87',
+            gradeLevel: '5th-grade',
+            title: 'Day 87 - Dracula',
+            pages: [
+                {
+                    render: () => `<div class="page-header">
             <h1>Day 87 - Week 17</h1>
             <h2>Dracula</h2>
         </div>
@@ -29,20 +44,17 @@
                 <li>Complete journal reflection</li>
             </ul>
         </div>
-        <button class="btn-next" onclick="nextPage()">Begin Lesson →</button>
-    </div>
-
-    <!-- Page 2: Vocabulary -->
-    <div class="lesson-page" id="page2" style="display: none;">
-        <div class="page-header">
+        <button class="btn-next" onclick="nextPage()">Begin Lesson →</button>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📖 Vocabulary</h2>
             <p>Week 17 - Day 4 of 5</p>
         </div>
         <div class="vocab-section">
             <h3>Today's New Words</h3>
             <p class="vocab-intro">Learn these 3 words before reading. They appear in today's story!</p>
-            
-            
+
             <div class="vocab-word">
                 <h4>1. invaluable</h4>
                 <div class="vocab-input-section">
@@ -52,7 +64,6 @@
                     <textarea id="vocab1" rows="2" placeholder="Type your definition here..."></textarea>
                 </div>
             </div>
-            
 
             <div class="vocab-word">
                 <h4>2. confidential</h4>
@@ -63,7 +74,6 @@
                     <textarea id="vocab2" rows="2" placeholder="Type your definition here..."></textarea>
                 </div>
             </div>
-            
 
             <div class="vocab-word">
                 <h4>3. deteriorate</h4>
@@ -74,22 +84,15 @@
                     <textarea id="vocab3" rows="2" placeholder="Type your definition here..."></textarea>
                 </div>
             </div>
-            
-            
+
             <div class="vocab-tracker">
                 <p><strong>📚 This Week's Words:</strong> 12 of 12 learned</p>
                 <p class="tracker-note">Keep reviewing! Quiz on Friday (Day 88).</p>
             </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue to Story →</button>
-        </div>
-    </div>
-
-    <!-- Page 3: Reading Part 1 -->
-    <div class="lesson-page" id="page3" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📚 Reading (Part 1 of 3)</h2>
             <p>Chapter 8: Good News and Bad</p>
         </div>
@@ -98,16 +101,10 @@
 <p>Jonathan was found.</p>
 <p>He had collapsed in the street in Budapest, in Hungary, and had been taken to a hospital run by nuns. He had a fever and was confused, and could remember very little of what had happened to him. He had his journal, which he refused to let the nurses take.</p>
 <p>A nun named Sister Agatha wrote to me, because she found my name in his belongings. I took the first train east.</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
-        </div>
-    </div>
-
-    <!-- Page 4: Reading Part 2 -->
-    <div class="lesson-page" id="page4" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📚 Reading (Part 2 of 3)</h2>
             <p>Chapter 8: Good News and Bad</p>
         </div>
@@ -116,16 +113,10 @@
 <p>We were married quietly in the hospital chapel, and it was the happiest moment of my life despite everything surrounding it.</p>
 <p>Jonathan told me he did not want to read his journal. He said he feared that what was in it might have been a sickness — a dream, something that had broken in his mind. He asked me to keep it safe but not tell him what was in it. Not yet.</p>
 <p>I said yes. But I read it myself.</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
-        </div>
-    </div>
-
-    <!-- Page 5: Reading Part 3 -->
-    <div class="lesson-page" id="page5" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📚 Reading (Part 3 of 3)</h2>
             <p>Chapter 8: Good News and Bad</p>
         </div>
@@ -135,16 +126,10 @@
 <p>She had declined rapidly after Jonathan was found, as if whatever was drawing her away had grown bolder and more powerful. Arthur was at her side at the end. Van Helsing was there too, his face grave.</p>
 <p>I received the letter with the news as Jonathan and I traveled back to England, and I wept for most of the train journey.</p>
 <p>But Van Helsing had written too, in a careful hand: Do not bury Lucy yet. Wait for me. There is something more to be done.</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Answer Questions →</button>
-        </div>
-    </div>
-
-    <!-- Page 6: Comprehension Questions -->
-    <div class="lesson-page" id="page6" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>✍️ Comprehension Questions</h2>
             <p>Show what you understood</p>
         </div>
@@ -154,29 +139,21 @@
                 <p><strong>1.</strong> Two things happen in the same week: Jonathan is found alive (wonderful news), and Lucy dies (terrible news). Why might the author have placed these two events together? How does experiencing both joy and grief so close together feel different from experiencing them separately?</p>
                 <textarea id="comp1" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
-            
 
             <div class="question">
                 <p><strong>2.</strong> Jonathan's hair has gone 'partly white' even though he's only in his twenties, and he refuses to read his journal because he fears what was in it 'might have been a sickness.' What does this tell you about how his experience in Castle Dracula affected him psychologically, not just physically?</p>
                 <textarea id="comp2" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
-            
 
             <div class="question">
                 <p><strong>3.</strong> Van Helsing writes to Mina: 'Do not bury Lucy yet. Wait for me. There is something more to be done.' What do you think he plans to do? Why might this be necessary even though Lucy has died?</p>
                 <textarea id="comp3" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
             
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue to Informational Text →</button>
-        </div>
-    </div>
-
-    <!-- Page 7: Informational Text -->
-    <div class="lesson-page" id="page7" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📰 Informational Text</h2>
             <p>Connect Story to Reality</p>
         </div>
@@ -192,24 +169,16 @@
                 <p><strong>1.</strong> The article explains that Professor Van Helsing compliments Mina by saying she has 'a man's brain,' which sounds strange today but reflected Victorian assumptions. What does this tell you about how ideas of gender and intelligence have changed? What assumptions might we hold today that future people will find equally strange?</p>
                 <textarea id="info1" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
-            
 
             <div class="question">
                 <p><strong>2.</strong> According to the article, some scholars believe Lucy's transformation into a vampire reflects Victorian fears about women's changing roles in society. Do you think this interpretation makes sense based on what you've read? Why or why not?</p>
                 <textarea id="info2" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
             
-        </div>
-        
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue →</button>
-        </div>
-    </div>
-
-    <!-- Page 8: Grammar/Language -->
-    <div class="lesson-page" id="page8" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>✏️ Language Skills</h2>
             <p>Week 17 Focus: Greek and Latin Roots: 'Trans-' and 'Morph'</p>
         </div>
@@ -233,13 +202,11 @@
                     <p><strong>1.</strong> What does 'transcribe' mean if 'trans-' means 'across' and 'scribe' means 'write'?</p>
                     <textarea id="grammar1" rows="3" placeholder="Write your answer here..."></textarea>
                 </div>
-                
 
                 <div class="practice-item">
                     <p><strong>2.</strong> What does 'transformation' mean? How does it relate to what happens to Dracula's victims?</p>
                     <textarea id="grammar2" rows="3" placeholder="Write your answer here..."></textarea>
                 </div>
-                
 
                 <div class="practice-item">
                     <p><strong>3.</strong> Find another word in this week's story that uses a Latin or Greek root and explain its meaning:</p>
@@ -247,16 +214,10 @@
                 </div>
                 
             </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue →</button>
-        </div>
-    </div>
-
-    <!-- Page 9: Writing/Journal -->
-    <div class="lesson-page" id="page9" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>✍️ Journal Reflection</h2>
             <p>Personal Response</p>
         </div>
@@ -268,16 +229,10 @@
             <div class="writing-space">
                 <textarea id="writing-response" rows="12" placeholder="Write your response here..."></textarea>
             </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Finish Lesson →</button>
-        </div>
-    </div>
-
-    <!-- Page 10: Completion -->
-    <div class="lesson-page" id="page10" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>🎉 Lesson Complete!</h2>
             <p>Day 87 - Chapter 8: Good News and Bad</p>
         </div>
@@ -293,28 +248,16 @@
                 <li>✅ Completed journal reflection</li>
             </ul>
             <p class="next-lesson-note">📚 Tomorrow: Chapter 9 awaits!</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-        </div>
-    </div>
-
-    <script src="js/lesson-viewer.js?v=1772842146618"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="js/lesson-completion.js?v=1772842146618"></script>
-    <script src="js/lesson-autosave.js?v=1772842146618"></script>
-    <script>
-        const lesson87Config = {
-            lessonId: '5th-grade-day-87',
-            gradeLevel: '5th-grade',
-            title: 'Lesson 87 - 5th Grade',
-            pages: [] // Populated by lesson-viewer.js
+        </div>`
+                }
+            ]
         };
 
+        // Initialize lesson viewer
         if (typeof initLessonViewer === 'function') {
-            initLessonViewer(lesson87Config);
+            initLessonViewer(lessonConfig);
+        } else {
+            console.error('lesson-viewer.js not loaded! Check file paths.');
         }
     </script>
 </body>

@@ -4,12 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5th Grade - Day 94: The Chase Begins</title>
-    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <link rel="stylesheet" href="../../../css/lesson-viewer.css">
 </head>
-<body>
-    <!-- Page 1: Title & Objectives -->
-    <div class="lesson-page" id="page1">
-        <div class="page-header">
+<body class="lesson-viewer">
+    <div id="lesson-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="../../../firebase-config.js"></script>
+    <script src="../../../js/lesson-viewer.js"></script>
+    <script src="../../../js/lesson-completion.js"></script>
+    <script src="../../../js/lesson-autosave.js"></script>
+    
+    <script>
+        const lessonConfig = {
+            lessonId: '5th-grade-day-94',
+            gradeLevel: '5th-grade',
+            title: 'Day 94 - Dracula',
+            pages: [
+                {
+                    render: () => `<div class="page-header">
             <h1>Day 94 - Week 19</h1>
             <h2>Dracula</h2>
         </div>
@@ -29,20 +44,17 @@
                 <li>Complete writing exercise</li>
             </ul>
         </div>
-        <button class="btn-next" onclick="nextPage()">Begin Lesson →</button>
-    </div>
-
-    <!-- Page 2: Vocabulary -->
-    <div class="lesson-page" id="page2" style="display: none;">
-        <div class="page-header">
+        <button class="btn-next" onclick="nextPage()">Begin Lesson →</button>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📖 Vocabulary</h2>
             <p>Week 19 - Day 1 of 5</p>
         </div>
         <div class="vocab-section">
             <h3>Today's New Words</h3>
             <p class="vocab-intro">Learn these 3 words before reading. They appear in today's story!</p>
-            
-            
+
             <div class="vocab-word">
                 <h4>1. intercept</h4>
                 <div class="vocab-input-section">
@@ -52,7 +64,6 @@
                     <textarea id="vocab1" rows="2" placeholder="Type your definition here..."></textarea>
                 </div>
             </div>
-            
 
             <div class="vocab-word">
                 <h4>2. refuge</h4>
@@ -63,7 +74,6 @@
                     <textarea id="vocab2" rows="2" placeholder="Type your definition here..."></textarea>
                 </div>
             </div>
-            
 
             <div class="vocab-word">
                 <h4>3. converge</h4>
@@ -74,22 +84,15 @@
                     <textarea id="vocab3" rows="2" placeholder="Type your definition here..."></textarea>
                 </div>
             </div>
-            
-            
+
             <div class="vocab-tracker">
                 <p><strong>📚 This Week's Words:</strong> 3 of 12 learned</p>
                 <p class="tracker-note">Keep reviewing! Quiz on Friday (Day 98).</p>
             </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue to Story →</button>
-        </div>
-    </div>
-
-    <!-- Page 3: Reading Part 1 -->
-    <div class="lesson-page" id="page3" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📚 Reading (Part 1 of 3)</h2>
             <p>Chapter 13: The Chase Begins</p>
         </div>
@@ -98,16 +101,10 @@
 <p>After we had destroyed or consecrated most of his boxes in London, Dracula had panicked. He had one box remaining — his last refuge. We found it through a shipping record that Jonathan and Doctor Seward tracked down. It was on a ship called the Czarina Catherine, headed east, back to Transylvania.</p>
 <p>Dracula was running home.</p>
 <p>Van Helsing gathered us and laid out the situation plainly. If Dracula reached his castle before we caught him, he would be safe behind his own walls and in his own country, with all of the old powers that came with that. He would be able to recover, rebuild his strength, and eventually return to England or try elsewhere.</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
-        </div>
-    </div>
-
-    <!-- Page 4: Reading Part 2 -->
-    <div class="lesson-page" id="page4" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📚 Reading (Part 2 of 3)</h2>
             <p>Chapter 13: The Chase Begins</p>
         </div>
@@ -116,16 +113,10 @@
 <p>We split into two groups. Jonathan, Doctor Seward, Arthur, and Quincey would follow the ship's route by land, traveling hard across Eastern Europe to try to intercept the box before it reached the castle. Van Helsing and I would travel more directly to Transylvania.</p>
 <p>Preparing to leave, there were small, meaningful moments — Jonathan checking my coat, Arthur shaking everyone's hand with both of his, Quincey Morris who never wasted words saying simply, "We'll see each other on the other side of this."</p>
 <p>I was afraid. I will not pretend otherwise. But fear, I had learned, was not the same as hopelessness.</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
-        </div>
-    </div>
-
-    <!-- Page 5: Reading Part 3 -->
-    <div class="lesson-page" id="page5" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📚 Reading (Part 3 of 3)</h2>
             <p>Chapter 13: The Chase Begins</p>
         </div>
@@ -134,16 +125,10 @@
 <p>"Whatever happens," he said, "you are the bravest person I have ever known."</p>
 <p>I kissed his cheek. "Come back to me."</p>
 <p>"I will," he said. And he meant it.</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Answer Questions →</button>
-        </div>
-    </div>
-
-    <!-- Page 6: Comprehension Questions -->
-    <div class="lesson-page" id="page6" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>✍️ Comprehension Questions</h2>
             <p>Show what you understood</p>
         </div>
@@ -153,29 +138,21 @@
                 <p><strong>1.</strong> After the group destroys most of Dracula's hiding places in London, he takes his last remaining box and flees back to Transylvania. Why does Dracula run instead of staying to fight? What does this tell you about his character and his weaknesses?</p>
                 <textarea id="comp1" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
-            
 
             <div class="question">
                 <p><strong>2.</strong> Van Helsing explains that if Dracula reaches his castle, 'he would be safe behind his own walls and in his own country, with all of the old powers that came with that.' Why does location matter for Dracula's power? What does this tell you about how the supernatural works in this story?</p>
                 <textarea id="comp2" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
-            
 
             <div class="question">
                 <p><strong>3.</strong> The group splits into two teams to pursue Dracula. When they say goodbye, the chapter notes 'small, meaningful moments' — checking coats, handshakes, quiet words. Why might the author emphasize these quiet gestures before a dangerous mission? What do they tell you about the relationships between these characters?</p>
                 <textarea id="comp3" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
             
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue to Informational Text →</button>
-        </div>
-    </div>
-
-    <!-- Page 7: Informational Text -->
-    <div class="lesson-page" id="page7" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📰 Informational Text</h2>
             <p>Connect Story to Reality</p>
         </div>
@@ -191,24 +168,16 @@
                 <p><strong>1.</strong> The article suggests Dracula represents 'evil that wears a polite mask,' using people as tools while pretending to be civilized. Why might this type of evil be more frightening than obvious, violent monsters? Can you think of modern examples of this kind of disguised harm?</p>
                 <textarea id="info1" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
-            
 
             <div class="question">
                 <p><strong>2.</strong> According to the article, Dracula can't create new life, only corrupt what exists — he's fundamentally parasitic. What does this tell you about the novel's view of good versus evil? What does it suggest about the value of creation versus destruction?</p>
                 <textarea id="info2" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
             
-        </div>
-        
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue →</button>
-        </div>
-    </div>
-
-    <!-- Page 8: Grammar/Language -->
-    <div class="lesson-page" id="page8" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>✏️ Grammar</h2>
             <p>Week 19 Focus: Complex Sentences with Subordinating Conjunctions</p>
         </div>
@@ -232,13 +201,11 @@
                     <p><strong>1.</strong> Combine these two sentences using the conjunction in parentheses: 'The coach stopped. Jonathan stepped into the castle.' (when)</p>
                     <textarea id="grammar1" rows="3" placeholder="Write your answer here..."></textarea>
                 </div>
-                
 
                 <div class="practice-item">
                     <p><strong>2.</strong> Combine these two sentences using the conjunction in parentheses: 'The Count was very gracious. Jonathan felt increasingly uneasy.' (although)</p>
                     <textarea id="grammar2" rows="3" placeholder="Write your answer here..."></textarea>
                 </div>
-                
 
                 <div class="practice-item">
                     <p><strong>3.</strong> Write your own complex sentence about the story using 'because':</p>
@@ -246,16 +213,10 @@
                 </div>
                 
             </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue →</button>
-        </div>
-    </div>
-
-    <!-- Page 9: Writing/Journal -->
-    <div class="lesson-page" id="page9" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>✍️ Writing Skills</h2>
             <p>Standard: W.5.1 - Opinion Writing</p>
         </div>
@@ -267,16 +228,10 @@
             <div class="writing-space">
                 <textarea id="writing-response" rows="12" placeholder="Write your response here..."></textarea>
             </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Finish Lesson →</button>
-        </div>
-    </div>
-
-    <!-- Page 10: Completion -->
-    <div class="lesson-page" id="page10" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>🎉 Lesson Complete!</h2>
             <p>Day 94 - Chapter 13: The Chase Begins</p>
         </div>
@@ -292,28 +247,16 @@
                 <li>✅ Completed writing exercise</li>
             </ul>
             <p class="next-lesson-note">📚 Tomorrow: Chapter 14 awaits!</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-        </div>
-    </div>
-
-    <script src="js/lesson-viewer.js?v=1772842146619"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="js/lesson-completion.js?v=1772842146619"></script>
-    <script src="js/lesson-autosave.js?v=1772842146619"></script>
-    <script>
-        const lesson94Config = {
-            lessonId: '5th-grade-day-94',
-            gradeLevel: '5th-grade',
-            title: 'Lesson 94 - 5th Grade',
-            pages: [] // Populated by lesson-viewer.js
+        </div>`
+                }
+            ]
         };
 
+        // Initialize lesson viewer
         if (typeof initLessonViewer === 'function') {
-            initLessonViewer(lesson94Config);
+            initLessonViewer(lessonConfig);
+        } else {
+            console.error('lesson-viewer.js not loaded! Check file paths.');
         }
     </script>
 </body>

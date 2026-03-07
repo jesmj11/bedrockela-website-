@@ -4,12 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5th Grade - Day 86: Professor Van Helsing</title>
-    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <link rel="stylesheet" href="../../../css/lesson-viewer.css">
 </head>
-<body>
-    <!-- Page 1: Title & Objectives -->
-    <div class="lesson-page" id="page1">
-        <div class="page-header">
+<body class="lesson-viewer">
+    <div id="lesson-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="../../../firebase-config.js"></script>
+    <script src="../../../js/lesson-viewer.js"></script>
+    <script src="../../../js/lesson-completion.js"></script>
+    <script src="../../../js/lesson-autosave.js"></script>
+    
+    <script>
+        const lessonConfig = {
+            lessonId: '5th-grade-day-86',
+            gradeLevel: '5th-grade',
+            title: 'Day 86 - Dracula',
+            pages: [
+                {
+                    render: () => `<div class="page-header">
             <h1>Day 86 - Week 17</h1>
             <h2>Dracula</h2>
         </div>
@@ -29,20 +44,17 @@
                 <li>Complete writing exercise</li>
             </ul>
         </div>
-        <button class="btn-next" onclick="nextPage()">Begin Lesson →</button>
-    </div>
-
-    <!-- Page 2: Vocabulary -->
-    <div class="lesson-page" id="page2" style="display: none;">
-        <div class="page-header">
+        <button class="btn-next" onclick="nextPage()">Begin Lesson →</button>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📖 Vocabulary</h2>
             <p>Week 17 - Day 3 of 5</p>
         </div>
         <div class="vocab-section">
             <h3>Today's New Words</h3>
             <p class="vocab-intro">Learn these 3 words before reading. They appear in today's story!</p>
-            
-            
+
             <div class="vocab-word">
                 <h4>1. eccentric</h4>
                 <div class="vocab-input-section">
@@ -52,7 +64,6 @@
                     <textarea id="vocab1" rows="2" placeholder="Type your definition here..."></textarea>
                 </div>
             </div>
-            
 
             <div class="vocab-word">
                 <h4>2. methodical</h4>
@@ -63,7 +74,6 @@
                     <textarea id="vocab2" rows="2" placeholder="Type your definition here..."></textarea>
                 </div>
             </div>
-            
 
             <div class="vocab-word">
                 <h4>3. phenomenon</h4>
@@ -74,22 +84,15 @@
                     <textarea id="vocab3" rows="2" placeholder="Type your definition here..."></textarea>
                 </div>
             </div>
-            
-            
+
             <div class="vocab-tracker">
                 <p><strong>📚 This Week's Words:</strong> 9 of 12 learned</p>
                 <p class="tracker-note">Keep reviewing! Quiz on Friday (Day 88).</p>
             </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue to Story →</button>
-        </div>
-    </div>
-
-    <!-- Page 3: Reading Part 1 -->
-    <div class="lesson-page" id="page3" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📚 Reading (Part 1 of 3)</h2>
             <p>Chapter 7: Professor Van Helsing</p>
         </div>
@@ -98,16 +101,10 @@
 <p>Lucy's mother thought this was eccentric. Lucy thought it was funny, and teased Van Helsing gently about his "smelly decorations."</p>
 <p>But I noticed that on the nights when the garlic was in place and the windows were closed, Lucy slept soundly. Her color improved. She seemed more herself.</p>
 <p>Then one night, Lucy's mother — not understanding the reason for the garlic — opened the windows to let in fresh air and moved the flowers because she thought they smelled too strong.</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
-        </div>
-    </div>
-
-    <!-- Page 4: Reading Part 2 -->
-    <div class="lesson-page" id="page4" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📚 Reading (Part 2 of 3)</h2>
             <p>Chapter 7: Professor Van Helsing</p>
         </div>
@@ -116,16 +113,10 @@
 <p>Van Helsing arrived and did not say "I told you so." He simply began again, re-hanging the garlic, closing the windows, sitting beside Lucy's bed. He looked at her for a long time, then asked that Arthur be sent for.</p>
 <p>Lucy needed a blood transfusion — her blood had grown dangerously thin. Arthur gave blood willingly, and it helped. But Lucy continued to weaken.</p>
 <p>I finally asked Van Helsing directly what was happening to her.</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
-        </div>
-    </div>
-
-    <!-- Page 5: Reading Part 3 -->
-    <div class="lesson-page" id="page5" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📚 Reading (Part 3 of 3)</h2>
             <p>Chapter 7: Professor Van Helsing</p>
         </div>
@@ -134,16 +125,10 @@
 <p>I thought of Jonathan, lost somewhere in Eastern Europe. I thought of the dark shape in the churchyard.</p>
 <p>"Yes," I said. "I believe that."</p>
 <p>Van Helsing nodded. "Good. Because what is attacking your friend is very old, and very real, and we must be clear-eyed about what it is before we can stop it."</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Answer Questions →</button>
-        </div>
-    </div>
-
-    <!-- Page 6: Comprehension Questions -->
-    <div class="lesson-page" id="page6" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>✍️ Comprehension Questions</h2>
             <p>Show what you understood</p>
         </div>
@@ -153,29 +138,21 @@
                 <p><strong>1.</strong> Van Helsing carefully hangs garlic flowers around Lucy's room, and on nights when the garlic is in place and windows are closed, Lucy improves. But Lucy's mother, 'not understanding the reason,' opens windows and removes the flowers because she thinks they smell bad. What does this misunderstanding tell you about how dangerous good intentions can be when someone doesn't know the full truth?</p>
                 <textarea id="comp1" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
-            
 
             <div class="question">
                 <p><strong>2.</strong> Van Helsing asks Mina: 'Do you believe there are things in the world that science does not yet fully explain?' Why is this question important? What is Van Helsing really asking Mina to do?</p>
                 <textarea id="comp2" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
-            
 
             <div class="question">
                 <p><strong>3.</strong> The chapter shows Van Helsing as both eccentric (bringing garlic flowers, performing strange rituals) and genuinely caring about Lucy. How does this combination make him more believable as a character? Why might readers trust someone who is both unusual and clearly good-hearted?</p>
                 <textarea id="comp3" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
             
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue to Informational Text →</button>
-        </div>
-    </div>
-
-    <!-- Page 7: Informational Text -->
-    <div class="lesson-page" id="page7" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📰 Informational Text</h2>
             <p>Connect Story to Reality</p>
         </div>
@@ -191,24 +168,16 @@
                 <p><strong>1.</strong> The article describes Transylvania as a 'borderland' between empires, culturally rich but politically unstable. How might this real history have contributed to the region's mysterious reputation and its folklore about creatures like vampires?</p>
                 <textarea id="info1" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
-            
 
             <div class="question">
                 <p><strong>2.</strong> According to the article, modern Transylvania embraces tourism based on Dracula even though the vampire story was fiction created by someone who never visited. What does this tell you about how fiction can affect real places and real economies?</p>
                 <textarea id="info2" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
             
-        </div>
-        
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue →</button>
-        </div>
-    </div>
-
-    <!-- Page 8: Grammar/Language -->
-    <div class="lesson-page" id="page8" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>✏️ Grammar</h2>
             <p>Week 17 Focus: Using Commas in Complex Sentences</p>
         </div>
@@ -232,13 +201,11 @@
                     <p><strong>1.</strong> Add commas where needed: 'Before Dracula could escape the group destroyed most of his hiding places.'</p>
                     <textarea id="grammar1" rows="3" placeholder="Write your answer here..."></textarea>
                 </div>
-                
 
                 <div class="practice-item">
                     <p><strong>2.</strong> Add commas where needed: 'Although Van Helsing seemed eccentric Mina trusted his knowledge completely.'</p>
                     <textarea id="grammar2" rows="3" placeholder="Write your answer here..."></textarea>
                 </div>
-                
 
                 <div class="practice-item">
                     <p><strong>3.</strong> Write a complex sentence about the story with the dependent clause FIRST (requiring a comma):</p>
@@ -246,16 +213,10 @@
                 </div>
                 
             </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue →</button>
-        </div>
-    </div>
-
-    <!-- Page 9: Writing/Journal -->
-    <div class="lesson-page" id="page9" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>✍️ Writing Skills</h2>
             <p>Standard: W.5.2 - Informative/Explanatory Writing</p>
         </div>
@@ -267,16 +228,10 @@
             <div class="writing-space">
                 <textarea id="writing-response" rows="12" placeholder="Write your response here..."></textarea>
             </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Finish Lesson →</button>
-        </div>
-    </div>
-
-    <!-- Page 10: Completion -->
-    <div class="lesson-page" id="page10" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>🎉 Lesson Complete!</h2>
             <p>Day 86 - Chapter 7: Professor Van Helsing</p>
         </div>
@@ -292,28 +247,16 @@
                 <li>✅ Completed writing exercise</li>
             </ul>
             <p class="next-lesson-note">📚 Tomorrow: Chapter 8 awaits!</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-        </div>
-    </div>
-
-    <script src="js/lesson-viewer.js?v=1772842146618"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="js/lesson-completion.js?v=1772842146618"></script>
-    <script src="js/lesson-autosave.js?v=1772842146618"></script>
-    <script>
-        const lesson86Config = {
-            lessonId: '5th-grade-day-86',
-            gradeLevel: '5th-grade',
-            title: 'Lesson 86 - 5th Grade',
-            pages: [] // Populated by lesson-viewer.js
+        </div>`
+                }
+            ]
         };
 
+        // Initialize lesson viewer
         if (typeof initLessonViewer === 'function') {
-            initLessonViewer(lesson86Config);
+            initLessonViewer(lessonConfig);
+        } else {
+            console.error('lesson-viewer.js not loaded! Check file paths.');
         }
     </script>
 </body>

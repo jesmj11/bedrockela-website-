@@ -4,12 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5th Grade - Day 92: The Count's Mark</title>
-    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <link rel="stylesheet" href="../../../css/lesson-viewer.css">
 </head>
-<body>
-    <!-- Page 1: Title & Objectives -->
-    <div class="lesson-page" id="page1">
-        <div class="page-header">
+<body class="lesson-viewer">
+    <div id="lesson-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="../../../firebase-config.js"></script>
+    <script src="../../../js/lesson-viewer.js"></script>
+    <script src="../../../js/lesson-completion.js"></script>
+    <script src="../../../js/lesson-autosave.js"></script>
+    
+    <script>
+        const lessonConfig = {
+            lessonId: '5th-grade-day-92',
+            gradeLevel: '5th-grade',
+            title: 'Day 92 - Dracula',
+            pages: [
+                {
+                    render: () => `<div class="page-header">
             <h1>Day 92 - Week 18</h1>
             <h2>Dracula</h2>
         </div>
@@ -29,20 +44,17 @@
                 <li>Complete journal reflection</li>
             </ul>
         </div>
-        <button class="btn-next" onclick="nextPage()">Begin Lesson →</button>
-    </div>
-
-    <!-- Page 2: Vocabulary -->
-    <div class="lesson-page" id="page2" style="display: none;">
-        <div class="page-header">
+        <button class="btn-next" onclick="nextPage()">Begin Lesson →</button>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📖 Vocabulary</h2>
             <p>Week 18 - Day 4 of 5</p>
         </div>
         <div class="vocab-section">
             <h3>Today's New Words</h3>
             <p class="vocab-intro">Learn these 3 words before reading. They appear in today's story!</p>
-            
-            
+
             <div class="vocab-word">
                 <h4>1. hypnosis</h4>
                 <div class="vocab-input-section">
@@ -52,7 +64,6 @@
                     <textarea id="vocab1" rows="2" placeholder="Type your definition here..."></textarea>
                 </div>
             </div>
-            
 
             <div class="vocab-word">
                 <h4>2. vulnerable</h4>
@@ -63,7 +74,6 @@
                     <textarea id="vocab2" rows="2" placeholder="Type your definition here..."></textarea>
                 </div>
             </div>
-            
 
             <div class="vocab-word">
                 <h4>3. link</h4>
@@ -74,22 +84,15 @@
                     <textarea id="vocab3" rows="2" placeholder="Type your definition here..."></textarea>
                 </div>
             </div>
-            
-            
+
             <div class="vocab-tracker">
                 <p><strong>📚 This Week's Words:</strong> 12 of 12 learned</p>
                 <p class="tracker-note">Keep reviewing! Quiz on Friday (Day 93).</p>
             </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue to Story →</button>
-        </div>
-    </div>
-
-    <!-- Page 3: Reading Part 1 -->
-    <div class="lesson-page" id="page3" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📚 Reading (Part 1 of 3)</h2>
             <p>Chapter 12: The Count's Mark</p>
         </div>
@@ -97,16 +100,10 @@
             <p>The news was terrible and frightening, but Van Helsing told me everything — clearly, without softening it. I demanded that he do so. I could not help the group if I did not understand the full truth.</p>
 <p>Dracula had found his way into the asylum at night. He had come to me while I slept, and had begun the same process he had used with Lucy. If it continued, I would eventually become one of the undead.</p>
 <p>There was, Van Helsing said, one difference between my situation and Lucy's. We had caught it earlier. We knew what was happening. And there was a connection — a strange mental link that Dracula could use to find me, but that we might be able to use in reverse to find him.</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
-        </div>
-    </div>
-
-    <!-- Page 4: Reading Part 2 -->
-    <div class="lesson-page" id="page4" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📚 Reading (Part 2 of 3)</h2>
             <p>Chapter 12: The Count's Mark</p>
         </div>
@@ -114,16 +111,10 @@
             <p>Van Helsing used hypnosis — a kind of deep, focused sleep — to access this link. Each morning at sunrise, just before I fully woke, he would speak to me softly, asking what I could sense. And in that state between sleeping and waking, I could sometimes describe what Dracula was experiencing — the movement of water beneath him, the creak of a ship, the darkness of a box.</p>
 <p>It became our compass.</p>
 <p>Jonathan was very quiet after he learned what had happened to me. I held his hands and made him look at me.</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
-        </div>
-    </div>
-
-    <!-- Page 5: Reading Part 3 -->
-    <div class="lesson-page" id="page5" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📚 Reading (Part 3 of 3)</h2>
             <p>Chapter 12: The Count's Mark</p>
         </div>
@@ -132,16 +123,10 @@
 <p>He nodded. His jaw was set. He had faced something terrible in that castle, and he had survived it, and now he channeled everything that experience had taught him into protecting the people he loved.</p>
 <p>The group added new protections around my room every night. I was never left alone. They watched over me with such fierce, loving care that even in the middle of all this fear, I felt fortunate.</p>
 <p>"We will end this," Jonathan told me. "I promise you that."</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Answer Questions →</button>
-        </div>
-    </div>
-
-    <!-- Page 6: Comprehension Questions -->
-    <div class="lesson-page" id="page6" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>✍️ Comprehension Questions</h2>
             <p>Show what you understood</p>
         </div>
@@ -151,29 +136,21 @@
                 <p><strong>1.</strong> Van Helsing explains that there is 'a strange mental link' between Dracula and Mina — he can use it to find her, but they might be able to use it in reverse to find him. How does this connection become both a danger and a potential weapon? What does this tell you about how disadvantages can sometimes be turned into advantages?</p>
                 <textarea id="comp1" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
-            
 
             <div class="question">
                 <p><strong>2.</strong> Through hypnosis each morning at sunrise, Mina can describe what Dracula is experiencing. She becomes their 'compass.' Why is this role both valuable and frightening for Mina? How does it require tremendous courage?</p>
                 <textarea id="comp2" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
-            
 
             <div class="question">
                 <p><strong>3.</strong> Jonathan tells Mina 'I promise you that' when vowing to end the vampire threat. What do you think Jonathan is feeling after losing Mina once when he was trapped in Castle Dracula, and now facing the possibility of losing her again? How might this fear make him both more determined and more desperate?</p>
                 <textarea id="comp3" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
             
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue to Informational Text →</button>
-        </div>
-    </div>
-
-    <!-- Page 7: Informational Text -->
-    <div class="lesson-page" id="page7" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📰 Informational Text</h2>
             <p>Connect Story to Reality</p>
         </div>
@@ -189,24 +166,16 @@
                 <p><strong>1.</strong> The article describes how railways connected Europe into a modern network, but how quickly travelers could leave that network and enter isolated, dangerous places. Why was this contrast important to Dracula's story? What did it symbolize?</p>
                 <textarea id="info1" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
-            
 
             <div class="question">
                 <p><strong>2.</strong> According to the article, the heroes use modern technology like trains, telegrams, and steamships to fight Dracula. What does this tell you about Victorian attitudes toward progress and modernization? Did they see technology as purely good, or were they uncertain?</p>
                 <textarea id="info2" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
             
-        </div>
-        
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue →</button>
-        </div>
-    </div>
-
-    <!-- Page 8: Grammar/Language -->
-    <div class="lesson-page" id="page8" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>✏️ Language Skills</h2>
             <p>Week 18 Focus: Greek and Latin Roots: 'Trans-' and 'Morph'</p>
         </div>
@@ -230,13 +199,11 @@
                     <p><strong>1.</strong> What does 'transcribe' mean if 'trans-' means 'across' and 'scribe' means 'write'?</p>
                     <textarea id="grammar1" rows="3" placeholder="Write your answer here..."></textarea>
                 </div>
-                
 
                 <div class="practice-item">
                     <p><strong>2.</strong> What does 'transformation' mean? How does it relate to what happens to Dracula's victims?</p>
                     <textarea id="grammar2" rows="3" placeholder="Write your answer here..."></textarea>
                 </div>
-                
 
                 <div class="practice-item">
                     <p><strong>3.</strong> Find another word in this week's story that uses a Latin or Greek root and explain its meaning:</p>
@@ -244,16 +211,10 @@
                 </div>
                 
             </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue →</button>
-        </div>
-    </div>
-
-    <!-- Page 9: Writing/Journal -->
-    <div class="lesson-page" id="page9" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>✍️ Journal Reflection</h2>
             <p>Personal Response</p>
         </div>
@@ -265,16 +226,10 @@
             <div class="writing-space">
                 <textarea id="writing-response" rows="12" placeholder="Write your response here..."></textarea>
             </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Finish Lesson →</button>
-        </div>
-    </div>
-
-    <!-- Page 10: Completion -->
-    <div class="lesson-page" id="page10" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>🎉 Lesson Complete!</h2>
             <p>Day 92 - Chapter 12: The Count's Mark</p>
         </div>
@@ -290,28 +245,16 @@
                 <li>✅ Completed journal reflection</li>
             </ul>
             <p class="next-lesson-note">📚 Tomorrow: Chapter 13 awaits!</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-        </div>
-    </div>
-
-    <script src="js/lesson-viewer.js?v=1772842146619"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="js/lesson-completion.js?v=1772842146619"></script>
-    <script src="js/lesson-autosave.js?v=1772842146619"></script>
-    <script>
-        const lesson92Config = {
-            lessonId: '5th-grade-day-92',
-            gradeLevel: '5th-grade',
-            title: 'Lesson 92 - 5th Grade',
-            pages: [] // Populated by lesson-viewer.js
+        </div>`
+                }
+            ]
         };
 
+        // Initialize lesson viewer
         if (typeof initLessonViewer === 'function') {
-            initLessonViewer(lesson92Config);
+            initLessonViewer(lessonConfig);
+        } else {
+            console.error('lesson-viewer.js not loaded! Check file paths.');
         }
     </script>
 </body>

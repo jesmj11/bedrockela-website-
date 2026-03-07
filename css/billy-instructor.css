@@ -1,0 +1,302 @@
+/**
+ * Billy Instructor Styles
+ * Billy appears center-stage and guides student through lesson
+ */
+
+.billy-instructor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  min-height: 80vh;
+}
+
+/* Billy Avatar - Large & Prominent */
+.billy-avatar-large {
+  margin-bottom: 30px;
+  animation: billy-float 3s ease-in-out infinite;
+}
+
+@keyframes billy-float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.billy-avatar-svg {
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.1));
+}
+
+/* Billy animations */
+.billy-talking .billy-avatar-svg {
+  animation: billy-bob 0.5s ease-in-out infinite;
+}
+
+@keyframes billy-bob {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-3px) scale(1.02); }
+}
+
+.billy-celebrating .billy-avatar-svg {
+  animation: billy-celebrate 0.6s ease-in-out 3;
+}
+
+@keyframes billy-celebrate {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-10deg) scale(1.1); }
+  75% { transform: rotate(10deg) scale(1.1); }
+}
+
+.billy-thinking .billy-avatar-svg {
+  animation: billy-think 2s ease-in-out infinite;
+}
+
+@keyframes billy-think {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-5deg); }
+  75% { transform: rotate(5deg); }
+}
+
+/* Speech Bubble */
+.billy-speech-bubble {
+  background: white;
+  border: 3px solid #4a7c3f;
+  border-radius: 25px;
+  padding: 25px 30px 20px;
+  max-width: 700px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+  animation: bubble-appear 0.3s ease-out;
+}
+
+@keyframes bubble-appear {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Speech bubble tail pointing to Billy */
+.billy-speech-bubble::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 12px solid transparent;
+  border-bottom-color: #4a7c3f;
+}
+
+.billy-speech-bubble::after {
+  content: '';
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 10px solid transparent;
+  border-bottom-color: white;
+}
+
+.billy-speech-text {
+  font-size: 22px;
+  line-height: 1.6;
+  color: #2c3e50;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: 'Nunito', sans-serif;
+}
+
+/* Speech Controls */
+.billy-speech-controls {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+.billy-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.billy-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.billy-btn:active {
+  transform: translateY(0);
+}
+
+.billy-replay {
+  background: #f6c94e;
+  color: #305853;
+  padding: 10px 16px;
+  font-size: 20px;
+}
+
+.billy-replay:hover {
+  background: #e5b635;
+}
+
+.billy-continue {
+  background: #4a7c3f;
+  color: white;
+}
+
+.billy-continue:hover {
+  background: #3a6b2f;
+}
+
+/* Activity Area */
+.billy-activity-area {
+  width: 100%;
+  max-width: 800px;
+  min-height: 200px;
+  padding: 20px;
+  background: #fafcf7;
+  border-radius: 20px;
+  border: 2px dashed #b8d9b0;
+}
+
+/* Activity Types */
+.flashcard-activity,
+.drag-drop-activity,
+.multiple-choice-activity {
+  text-align: center;
+  padding: 30px;
+}
+
+.flashcard-activity h3,
+.drag-drop-activity h3,
+.multiple-choice-activity h3 {
+  color: #305853;
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-family: 'Nunito', sans-serif;
+}
+
+/* Multiple Choice Buttons */
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 30px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.choice-btn {
+  padding: 18px 30px;
+  background: white;
+  border: 3px solid #4a7c3f;
+  border-radius: 15px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #305853;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Nunito', sans-serif;
+}
+
+.choice-btn:hover {
+  background: #4a7c3f;
+  color: white;
+  transform: scale(1.05);
+}
+
+.choice-btn:active {
+  transform: scale(0.98);
+}
+
+.choice-btn.correct {
+  background: #52b788;
+  border-color: #52b788;
+  color: white;
+  animation: correct-flash 0.5s ease;
+}
+
+.choice-btn.incorrect {
+  background: #f4845f;
+  border-color: #f4845f;
+  color: white;
+  animation: shake 0.3s ease;
+}
+
+@keyframes correct-flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; transform: scale(1.1); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  75% { transform: translateX(10px); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .billy-instructor {
+    padding: 20px 15px;
+  }
+  
+  .billy-avatar-large svg {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .billy-speech-bubble {
+    padding: 20px 20px 15px;
+  }
+  
+  .billy-speech-text {
+    font-size: 18px;
+  }
+  
+  .billy-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+  
+  .choice-btn {
+    padding: 14px 20px;
+    font-size: 18px;
+  }
+}
+
+/* Loading State */
+.billy-loading .billy-avatar-svg {
+  animation: billy-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes billy-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* Success/Error States */
+.billy-success {
+  background: linear-gradient(135deg, #52b788, #6aaa5c);
+  color: white;
+}
+
+.billy-error {
+  background: linear-gradient(135deg, #f4845f, #e76f51);
+  color: white;
+}

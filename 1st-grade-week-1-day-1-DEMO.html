@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 1: Short A (-at family) - BedrockELA</title>
+    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <link rel="stylesheet" href="css/billy-instructor.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="lesson-viewer">
+    
+    <!-- Billy Instructor Container -->
+    <div id="billy-instructor-container"></div>
+    
+    <!-- Scripts -->
+    <script src="js/billy-instructor.js"></script>
+    
+    <script>
+        // Lesson Data for Day 1
+        const lessonData = {
+            title: "Day 1: Short A (-at family)",
+            welcome: "Hello! I'm Billy the Helper Goat. Today we learn the short a sound, like in cat. Ready? Tap 'Continue' when you are!",
+            
+            steps: [
+                // Step 1: Hook - Introduce /a/ sound
+                {
+                    instruction: "Listen and say /a/. Ready? /a/. Great! Now let's practice together.",
+                    activity: null // Just instruction, no activity
+                },
+                
+                // Step 2: Phoneme modeling
+                {
+                    instruction: "Watch my mouth: /a/. Now listen to blending: c-at-cat. Say it with me: c...at-cat.",
+                    activity: null
+                },
+                
+                // Step 3: Practice 4 words
+                {
+                    instruction: "Let's try four words together: mat, bat, sat, rat. Tap each word to hear it, then say it out loud!",
+                    activity: {
+                        type: 'flashcards',
+                        data: {
+                            words: ['mat', 'bat', 'sat', 'rat']
+                        }
+                    }
+                },
+                
+                // Step 4: Drag-drop word building
+                {
+                    instruction: "Great! Now drag an onset to make a real word with -at. Can you make 'bat'?",
+                    activity: {
+                        type: 'drag-drop',
+                        data: {
+                            rime: '-at',
+                            onsets: ['b', 'c', 'm', 's', 'r'],
+                            target: 'bat'
+                        }
+                    }
+                },
+                
+                // Step 5: Story - Sam's Van
+                {
+                    instruction: "Now let's read our story together. I'll read first, then you read with me. The story is called 'Sam's Van'.",
+                    activity: null
+                },
+                
+                // Step 6: Comprehension check
+                {
+                    instruction: "Who has a van in the story?",
+                    activity: {
+                        type: 'multiple-choice',
+                        data: {
+                            question: "Who has a van?",
+                            choices: ['Sam', 'Pam', 'Cat'],
+                            correct: 'Sam'
+                        }
+                    }
+                },
+                
+                // Step 7: Sight words
+                {
+                    instruction: "Look! The sight words for today are 'a' and 'the'. Let's practice them.",
+                    activity: {
+                        type: 'flashcards',
+                        data: {
+                            words: ['a', 'the']
+                        }
+                    }
+                },
+                
+                // Step 8: Exit check
+                {
+                    instruction: "One last thing! Read these five words: cat, mat, bat, sat, rat. Tap each to hear it, then say it when it lights up.",
+                    activity: {
+                        type: 'flashcards',
+                        data: {
+                            words: ['cat', 'mat', 'bat', 'sat', 'rat']
+                        }
+                    }
+                }
+            ]
+        };
+        
+        // Wait for Billy to load, then start lesson
+        document.addEventListener('DOMContentLoaded', () => {
+            // Give Billy a moment to initialize
+            setTimeout(() => {
+                if (window.billyInstructor) {
+                    billyInstructor.loadLesson(lessonData);
+                } else {
+                    console.error('Billy Instructor not loaded');
+                }
+            }, 500);
+        });
+        
+        // Listen for lesson completion
+        document.addEventListener('lesson-complete', (event) => {
+            console.log('Lesson complete!', event.detail);
+            
+            // Show completion modal or redirect to next lesson
+            setTimeout(() => {
+                if (confirm('Great job! Ready for Day 2?')) {
+                    window.location.href = '1st-grade-week-1-day-2-DEMO.html';
+                } else {
+                    window.location.href = 'student-dashboard.html';
+                }
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

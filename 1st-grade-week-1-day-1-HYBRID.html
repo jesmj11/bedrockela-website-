@@ -264,8 +264,8 @@
             <h2>👀 Sight Words</h2>
             <div style="text-align: center; margin: 40px 0;">
                 <div style="display: flex; gap: 30px; justify-content: center; flex-wrap: wrap;">
-                    <button onclick="speakBilly('a', this)" style="padding: 30px 50px; background: #fff4e6; border: 4px solid #B06821; border-radius: 20px; font-size: 72px; font-weight: 800; color: #305853; cursor: pointer;">a</button>
-                    <button onclick="speakBilly('the', this)" style="padding: 30px 50px; background: #fff4e6; border: 4px solid #B06821; border-radius: 20px; font-size: 72px; font-weight: 800; color: #305853; cursor: pointer;">the</button>
+                    <button onclick="speakSightWord('a')" style="padding: 30px 50px; background: #fff4e6; border: 4px solid #B06821; border-radius: 20px; font-size: 72px; font-weight: 800; color: #305853; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">a</button>
+                    <button onclick="speakSightWord('the')" style="padding: 30px 50px; background: #fff4e6; border: 4px solid #B06821; border-radius: 20px; font-size: 72px; font-weight: 800; color: #305853; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">the</button>
                 </div>
                 <p style="font-size: 18px; color: #666; margin-top: 40px;">Tap each word to hear it!</p>
             </div>
@@ -580,6 +580,43 @@
             };
             
             speechSynthesis.speak(utterance);
+        }
+        
+        // Speak sight word - simpler version that doesn't change button text
+        async function speakSightWord(word) {
+            try {
+                const response = await fetch('http://localhost:3002/tts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: word, voice: 'mark' })
+                });
+                
+                if (response.ok) {
+                    const audioBlob = await response.blob();
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    const audio = new Audio(audioUrl);
+                    audio.onended = () => URL.revokeObjectURL(audioUrl);
+                    audio.play();
+                } else {
+                    // Fallback to browser TTS
+                    if (window.speechSynthesis) {
+                        speechSynthesis.cancel();
+                        const utterance = new SpeechSynthesisUtterance(word);
+                        utterance.rate = 0.8; // Slower for sight words
+                        utterance.pitch = 1.1;
+                        speechSynthesis.speak(utterance);
+                    }
+                }
+            } catch (error) {
+                console.error('Sight word TTS error:', error);
+                // Fallback to browser TTS
+                if (window.speechSynthesis) {
+                    const utterance = new SpeechSynthesisUtterance(word);
+                    utterance.rate = 0.8;
+                    utterance.pitch = 1.1;
+                    speechSynthesis.speak(utterance);
+                }
+            }
         }
 
         // Word building activity

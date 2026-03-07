@@ -445,3 +445,82 @@ window.initLessonViewer = function(first, second) {
     return createLessonViewer('lesson-container', first);
   }
 };
+
+// ===== VOCABULARY MATCHING GAME =====
+// Global functions for the vocab matching game (called from onclick handlers in lesson HTML)
+(function() {
+  let selectedW = null;
+  let selectedD = null;
+  let score = 0;
+
+  window.selectWord = function(el) {
+    if (el.classList.contains('matched')) return;
+    document.querySelectorAll('.match-word').forEach(e => e.style.outline = 'none');
+    el.style.outline = '3px solid #B06821';
+    selectedW = el;
+    tryMatch();
+  };
+
+  window.selectDef = function(el) {
+    if (el.classList.contains('matched')) return;
+    document.querySelectorAll('.match-def').forEach(e => e.style.outline = 'none');
+    el.style.outline = '3px solid #B06821';
+    selectedD = el;
+    tryMatch();
+  };
+
+  function tryMatch() {
+    if (!selectedW || !selectedD) return;
+    if (selectedW.dataset.word === selectedD.dataset.word) {
+      selectedW.classList.add('matched');
+      selectedD.classList.add('matched');
+      selectedW.style.opacity = '0.5';
+      selectedD.style.opacity = '0.5';
+      selectedW.style.outline = '3px solid #4CAF50';
+      selectedD.style.outline = '3px solid #4CAF50';
+      score++;
+      var scoreEl = document.getElementById('gameScore');
+      if (scoreEl) scoreEl.textContent = score;
+      var total = document.querySelectorAll('.match-word').length;
+      if (score >= total) {
+        var fb = document.getElementById('gameFeedback');
+        if (fb) {
+          fb.style.display = 'block';
+          fb.style.background = 'rgba(76,175,80,0.1)';
+          fb.innerHTML = '<h3>🎉 Perfect! All words matched!</h3><p>Great job learning your vocabulary!</p>';
+        }
+      }
+    } else {
+      selectedW.style.outline = '3px solid #f44336';
+      selectedD.style.outline = '3px solid #f44336';
+      var w = selectedW, d = selectedD;
+      setTimeout(function() {
+        w.style.outline = 'none';
+        d.style.outline = 'none';
+      }, 600);
+    }
+    selectedW = null;
+    selectedD = null;
+  }
+
+  // Shuffle definitions when a game page loads
+  window.initVocabGame = function() {
+    score = 0;
+    selectedW = null;
+    selectedD = null;
+    var scoreEl = document.getElementById('gameScore');
+    if (scoreEl) scoreEl.textContent = '0';
+    var defCol = document.getElementById('defColumn');
+    if (defCol) {
+      var defs = Array.from(defCol.querySelectorAll('.match-def'));
+      defs.sort(function() { return Math.random() - 0.5; });
+      defs.forEach(function(d) { defCol.appendChild(d); });
+    }
+    // Reset all matched states
+    document.querySelectorAll('.match-word, .match-def').forEach(function(el) {
+      el.classList.remove('matched');
+      el.style.opacity = '1';
+      el.style.outline = 'none';
+    });
+  };
+})();

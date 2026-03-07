@@ -71,6 +71,35 @@ All lessons include:
 - ✅ Cheerful, conversational tone
 - ✅ ElevenLabs TTS (Mark voice) with fallback
 - ✅ Natural pronunciation (phonetic spellings)
+- ✅ **Memory game** (flip cards - match pairs)
+- ✅ **Matching game** (word-to-meaning matching)
+- ✅ **Cumulative sight words** (spirals from previous days)
+
+## Sight Word Progression (Cumulative)
+
+Each day adds new sight words and reviews previous ones:
+
+- **Day 1:** a, the (2 words)
+- **Day 2:** a, the + is (3 words)
+- **Day 3:** a, the, is + I (4 words)
+- **Day 4:** a, the, is, I + my (5 words)
+- **Day 5:** a, the, is, I, my + and, to, are **(8 words total!)**
+
+By assessment day, students have practiced all 8 sight words multiple times through games!
+
+## Games on Every Day
+
+**Page 8 - Memory Game (Flip Cards):**
+- 6 pairs (12 cards total)
+- Mix of sight words + decodable words from the lesson
+- Tracks moves and matches
+- Celebrates completion
+
+**Page 9 - Matching Game (Word-to-Meaning):**
+- 6 word-meaning pairs
+- Click word, then click its meaning
+- Visual feedback (green = correct, red = wrong)
+- Includes emojis for decodable words (🐱 cat, 🍳 pan, etc.)
 
 ## Pacing Philosophy
 
@@ -81,8 +110,8 @@ All lessons include:
 - Assessment items: 3.5s per word
 
 **Total lesson times:**
-- Day 1: ~3 minutes
-- Days 2-5: ~5 minutes each
+- Day 1: ~3 minutes (mini-lesson) + games
+- Days 2-5: ~5 minutes (mini-lesson) + games
 
 ## Next Steps
 

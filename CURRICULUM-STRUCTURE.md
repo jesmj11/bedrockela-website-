@@ -5,6 +5,35 @@ Last Updated: 2026-03-06
 
 ---
 
+## 📚 Library Pocket Architecture
+
+BedrockELA uses a **Library Pocket** design philosophy:
+
+**Pockets = Curriculum Slots**
+- Each 15-day block is a standardized "pocket" with an 11-page lesson structure
+- Pockets are organized by grade level, quarter, and theme
+- Each pocket can hold any compatible story unit card
+
+**Cards = Story Units**
+- Each book/story unit is a "card" that slides into any compatible pocket
+- Cards include: story content, vocabulary, discussion questions, assessments
+- Cards can be swapped between pockets without breaking the curriculum
+- Same card can fit different grade-level pockets with minor adjustments
+
+**Example:**
+- The "Lost World" card (15 days, adventure/sci-fi) can slide into:
+  - 8th Grade → Quarter 1 → Days 1-15 (current placement)
+  - 7th Grade → Quarter 2 → Days 46-60 (exploration unit)
+  - 5th Grade → Adventure pocket (with simplified vocab)
+
+**Benefits:**
+- Mix and match units based on student interest
+- Reuse high-quality content across grade levels
+- Swap units without rebuilding entire curriculum
+- Test new units without disrupting existing structure
+
+---
+
 ## 🎯 Core Philosophy
 
 **Weekly Pattern:** Monday-Thursday = 4 story lessons, Friday = Assessment  

@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
     <script src="js/billy-mini-lesson.js"></script>
     <script src="js/billy-week1-lessons.js"></script>
+    <script src="js/billy-games.js"></script>
     <style>
         /* Billy corner widget - gold circle with speaker */
         .billy-corner-widget {
@@ -280,6 +281,16 @@
             </div>
         </div>`,
 
+        // Page 8: Memory Game
+        `<div class="lesson-page-card content-page">
+            <div id="memory-game-container"></div>
+        </div>`,
+        
+        // Page 9: Matching Game
+        `<div class="lesson-page-card content-page">
+            <div id="matching-game-container"></div>
+        </div>`,
+        
         // Page 8: Completion
         `<div class="lesson-page-card content-page">
             
@@ -294,6 +305,7 @@
             </div>
             <p style="font-size: 16px; color: #666; margin-top: 30px;">Ready for Day 2! 🎉</p>
         </div>`
+        
         ];
 
         let currentPage = 0;
@@ -387,6 +399,19 @@
             } else if (currentPage !== 2) {
                 // Reset flag when leaving Page 3
                 miniLessonAutoStarted = false;
+            }
+            
+            // Initialize games on their pages
+            if (currentPage === 7) {
+                // Page 8 - Memory Game
+                setTimeout(() => {
+                    window.memoryGame = new BillyMemoryGame(4, 'memory-game-container');
+                }, 100);
+            } else if (currentPage === 8) {
+                // Page 9 - Matching Game
+                setTimeout(() => {
+                    window.matchingGame = new BillyMatchingGame(4, 'matching-game-container');
+                }, 100);
             }
         }
         

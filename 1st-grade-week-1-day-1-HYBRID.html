@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/lesson-viewer.css">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
     <script src="js/billy-mini-lesson.js"></script>
+    <script src="js/billy-games.js"></script>
     <style>
         /* Billy corner widget - gold circle with speaker */
         .billy-corner-widget {
@@ -270,7 +271,17 @@
             </div>
         </div>`,
 
-        // Page 8: Completion
+        // Page 8: Memory Game
+        `<div class="lesson-page-card content-page">
+            <div id="memory-game-container"></div>
+        </div>`,
+        
+        // Page 9: Matching Game
+        `<div class="lesson-page-card content-page">
+            <div id="matching-game-container"></div>
+        </div>`,
+        
+        // Page 10: Completion
         `<div class="lesson-page-card content-page">
             
             <h2>🎉 Great Job!</h2>
@@ -377,6 +388,19 @@
             } else if (currentPage !== 2) {
                 // Reset flag when leaving Page 3
                 miniLessonAutoStarted = false;
+            }
+            
+            // Initialize games on their pages
+            if (currentPage === 7) {
+                // Page 8 - Memory Game
+                setTimeout(() => {
+                    window.memoryGame = new BillyMemoryGame(1, 'memory-game-container');
+                }, 100);
+            } else if (currentPage === 8) {
+                // Page 9 - Matching Game
+                setTimeout(() => {
+                    window.matchingGame = new BillyMatchingGame(1, 'matching-game-container');
+                }, 100);
             }
         }
         

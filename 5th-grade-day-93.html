@@ -6,33 +6,40 @@
     <title>5th Grade - Day 93: Week 18 Assessment</title>
     <link rel="stylesheet" href="css/lesson-viewer.css">
 </head>
-<body>
-    <!-- Page 1: Title -->
-    <div class="lesson-page" id="page1">
-        <div class="page-header">
-            <h1>Day 93 - Week 18</h1>
-            <h2>Dracula - Weekly Assessment</h2>
-        </div>
-        <div class="assessment-title">
-            <h1>📝 Week 18 Assessment</h1>
-            <p class="subtitle">Chapters 11-14</p>
-            <p>Today you'll show what you've learned this week!</p>
-        </div>
-        <div class="assessment-sections">
-            <h3>What's on today's assessment:</h3>
-            <ul>
-                <li>📚 Vocabulary Quiz (12 words)</li>
-                <li>✏️ Grammar & Language Review</li>
-                <li>📖 Reading Comprehension Review</li>
-                <li>✍️ Writing Prompt</li>
-            </ul>
-        </div>
-        <button class="btn-next" onclick="nextPage()">Begin Assessment →</button>
-    </div>
+<body class="lesson-viewer">
+    <div id="lesson-container"></div>
 
-    <!-- Page 2-3: Vocabulary Quiz -->
-    <div class="lesson-page" id="page2" style="display: none;">
-        <div class="page-header">
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-viewer.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    
+    <script>
+        const lessonConfig = {
+            lessonId: '5th-grade-day-93',
+            gradeLevel: '5th-grade',
+            title: 'Day 93 - Dracula',
+            pages: [
+                {
+                    render: () => `
+<div class="lesson-page-card title-page">
+                            
+                            <h1>Lesson 93</h1>
+                            <div class="subtitle">5th Grade ELA</div>
+                            <p style="color: #8B4513; font-size: 20px; margin-top: 20px;">
+                                Dracula
+                            </p>
+                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
+                                Weekly Assessment
+                            </p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📖 Vocabulary Quiz</h2>
             <p>Part 1: Words 1-6</p>
         </div>
@@ -44,35 +51,30 @@
                 <p><strong>Write the definition:</strong></p>
                 <textarea id="vocab-quiz-1" rows="2" placeholder="Type the definition..."></textarea>
             </div>
-            
 
             <div class="quiz-item">
                 <h4>2. daunting</h4>
                 <p><strong>Write the definition:</strong></p>
                 <textarea id="vocab-quiz-2" rows="2" placeholder="Type the definition..."></textarea>
             </div>
-            
 
             <div class="quiz-item">
                 <h4>3. presence</h4>
                 <p><strong>Write the definition:</strong></p>
                 <textarea id="vocab-quiz-3" rows="2" placeholder="Type the definition..."></textarea>
             </div>
-            
 
             <div class="quiz-item">
                 <h4>4. hypnosis</h4>
                 <p><strong>Write the definition:</strong></p>
                 <textarea id="vocab-quiz-4" rows="2" placeholder="Type the definition..."></textarea>
             </div>
-            
 
             <div class="quiz-item">
                 <h4>5. vulnerable</h4>
                 <p><strong>Write the definition:</strong></p>
                 <textarea id="vocab-quiz-5" rows="2" placeholder="Type the definition..."></textarea>
             </div>
-            
 
             <div class="quiz-item">
                 <h4>6. link</h4>
@@ -80,15 +82,10 @@
                 <textarea id="vocab-quiz-6" rows="2" placeholder="Type the definition..."></textarea>
             </div>
             
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue →</button>
-        </div>
-    </div>
-
-    <div class="lesson-page" id="page3" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📖 Vocabulary Quiz</h2>
             <p>Part 2: Words 7-12</p>
         </div>
@@ -99,35 +96,30 @@
                 <p><strong>Write the definition:</strong></p>
                 <textarea id="vocab-quiz-7" rows="2" placeholder="Type the definition..."></textarea>
             </div>
-            
 
             <div class="quiz-item">
                 <h4>8. refuge</h4>
                 <p><strong>Write the definition:</strong></p>
                 <textarea id="vocab-quiz-8" rows="2" placeholder="Type the definition..."></textarea>
             </div>
-            
 
             <div class="quiz-item">
                 <h4>9. converge</h4>
                 <p><strong>Write the definition:</strong></p>
                 <textarea id="vocab-quiz-9" rows="2" placeholder="Type the definition..."></textarea>
             </div>
-            
 
             <div class="quiz-item">
                 <h4>10. invigorating</h4>
                 <p><strong>Write the definition:</strong></p>
                 <textarea id="vocab-quiz-10" rows="2" placeholder="Type the definition..."></textarea>
             </div>
-            
 
             <div class="quiz-item">
                 <h4>11. resist</h4>
                 <p><strong>Write the definition:</strong></p>
                 <textarea id="vocab-quiz-11" rows="2" placeholder="Type the definition..."></textarea>
             </div>
-            
 
             <div class="quiz-item">
                 <h4>12. current</h4>
@@ -135,16 +127,10 @@
                 <textarea id="vocab-quiz-12" rows="2" placeholder="Type the definition..."></textarea>
             </div>
             
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue →</button>
-        </div>
-    </div>
-
-    <!-- Page 4: Grammar/Language Review -->
-    <div class="lesson-page" id="page4" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>✏️ Grammar & Language Review</h2>
             <p>This Week's Skills</p>
         </div>
@@ -165,16 +151,10 @@
                 <p><strong>3.</strong> Write a sentence with a dependent clause BEFORE an independent clause (requiring a comma):</p>
                 <textarea id="grammar-3" rows="3" placeholder="Write your sentence here..."></textarea>
             </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue →</button>
-        </div>
-    </div>
-
-    <!-- Page 5: Comprehension Review -->
-    <div class="lesson-page" id="page5" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📖 Reading Comprehension Review</h2>
             <p>Chapters 11-14</p>
         </div>
@@ -195,16 +175,10 @@
                 <p><strong>3.</strong> What do you think was the most important moment in this week's chapters? Why?</p>
                 <textarea id="comp-review-3" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue to Writing →</button>
-        </div>
-    </div>
-
-    <!-- Page 6: Writing Prompt -->
-    <div class="lesson-page" id="page6" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>✍️ Writing Prompt</h2>
             <p>Show your understanding through writing</p>
         </div>
@@ -216,16 +190,10 @@
             <div class="writing-space">
                 <textarea id="writing-response" rows="15" placeholder="Write your response here..."></textarea>
             </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Finish Assessment →</button>
-        </div>
-    </div>
-
-    <!-- Page 7: Completion -->
-    <div class="lesson-page" id="page7" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>🎉 Assessment Complete!</h2>
             <p>Week 18 - Days 89 through 93</p>
         </div>
@@ -240,28 +208,16 @@
                 <li>✅ Completed weekly assessment</li>
             </ul>
             <p class="next-lesson-note">📚 Next week: The story continues with Chapter 15!</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-        </div>
-    </div>
-
-    <script src="js/lesson-viewer.js?v=1772842090362"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="js/lesson-completion.js?v=1772842090362"></script>
-    <script src="js/lesson-autosave.js?v=1772842090362"></script>
-    <script>
-        const lesson93Config = {
-            lessonId: '5th-grade-day-93',
-            gradeLevel: '5th-grade',
-            title: 'Lesson 93 - 5th Grade Assessment',
-            pages: []
+        </div>`
+                }
+            ]
         };
 
+        // Initialize lesson viewer
         if (typeof initLessonViewer === 'function') {
-            initLessonViewer(lesson93Config);
+            initLessonViewer(lessonConfig);
+        } else {
+            console.error('lesson-viewer.js not loaded! Check file paths.');
         }
     </script>
 </body>

@@ -4,54 +4,128 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5th Grade - Day 127: Vulcan the Divine Craftsman</title>
-    <link rel="stylesheet" href="../../../css/lesson-styles.css">
-    <link rel="stylesheet" href="../../../css/lesson-complete-styles.css">
+    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
-<body>
-    <div class="lesson-page" id="page1">
-        <div class="page-header">
-            <h1>Day 127 - Week 38</h1>
-            <h2>Roman Mythology</h2>
-        </div>
-        <div class="lesson-title">
-            <h1>Vulcan the Divine Craftsman</h1>
-            <p class="subtitle">A Tale from Ancient Rome</p>
-        </div>
-        <div class="learning-objectives">
-            <h3>📚 What You'll Learn Today</h3>
-            <ul>
-                <li>Read: Vulcan the Divine Craftsman</li>
-                <li>Learn 3 new vocabulary words</li>
-                <li>Answer comprehension questions</li>
-                
-                <li>Practice language skills</li>
-                <li>Complete writing practice</li>
-            </ul>
-        </div>
-        <button class="btn-next" onclick="nextPage()">Begin Lesson →</button>
-    </div>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
 
-    <div class="lesson-page" id="page2" style="display: none;">
-        <div class="page-header">
-            <h2>📖 Vocabulary</h2>
-            <p>Week 38 - Day 4 of 5</p>
-        </div>
-        <div class="vocab-section">
-            <h3>Today's New Words</h3>
-            <p class="vocab-intro">Learn these 3 words before reading!</p>
-            
-            <div class="vocab-tracker">
-                <p><strong>📚 This Week's Words:</strong> 12 of 12 learned</p>
-                <p class="tracker-note">Quiz on Friday (Day 190)!</p>
-            </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue →</button>
-        </div>
-    </div>
-
-    <div class="lesson-page" id="page3" style="display: none;">
+    <script src="js/lesson-viewer.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
+    <script type="module" src="js/vocab-games.js"></script>
+    
+    <script>
+        const lesson127Config = {
+            lessonId: '5th-grade-lesson-127',
+            gradeLevel: '5th-grade',
+            title: '5th Grade - Day 127: Vulcan the Divine Craftsman',
+            pages: [
+                {
+                    render: () => `
+<div class="lesson-page-card title-page">
+                            
+                            <h1>Lesson 127</h1>
+                            <div class="subtitle">5th Grade ELA</div>
+                            <p style="color: #8B4513; font-size: 20px; margin-top: 20px;">
+                                Roman Mythology
+                            </p>
+                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
+                                Vulcan the Divine Craftsman
+                            </p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Welcome to Lesson 127!</h2>
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>Read from <em>Vulcan the Divine Craftsman</em></li>
+                                <li>Learn 3 new vocabulary words</li>
+                                <li>Answer reading comprehension questions</li>
+                                <li>Read an informational text</li>
+                                <li>Practice grammar and writing skills</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Vocabulary Words</h2>
+                            <div style="margin: 30px 0;">
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">transform</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea id="vocab-1" style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;" oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)" onpaste="return false" placeholder="Type the definition here (minimum 10 words, no pasting)..."></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">forge</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea id="vocab-2" style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;" oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)" onpaste="return false" placeholder="Type the definition here (minimum 10 words, no pasting)..."></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">resilience</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea id="vocab-3" style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;" oninput="updateWordCount('vocab-3', 'vocab-count-3', 10)" onpaste="return false" placeholder="Type the definition here (minimum 10 words, no pasting)..."></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-3" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;"><strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>🎮 Vocabulary Game</h2>
+                            <p style="color:#666;margin-bottom:5px;">Match each word to its definition! (6 words this week so far)</p>
+                            <p style="color:#305853;font-weight:600;margin-bottom:20px;">Score: <span id="gameScore">0</span> / 6</p>
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:900px;margin:0 auto;">
+                                <div id="wordColumn" style="display:flex;flex-direction:column;"><h3 style="text-align:center;color:#305853;margin-bottom:10px;">Words</h3><div class="match-word" data-word="domain" onclick="selectWord(this)" style="padding:12px 16px;margin:6px;background:#305853;color:white;border-radius:8px;cursor:pointer;font-weight:600;text-align:center;transition:all 0.2s;">domain</div><div class="match-word" data-word="sufferance" onclick="selectWord(this)" style="padding:12px 16px;margin:6px;background:#305853;color:white;border-radius:8px;cursor:pointer;font-weight:600;text-align:center;transition:all 0.2s;">sufferance</div><div class="match-word" data-word="trident" onclick="selectWord(this)" style="padding:12px 16px;margin:6px;background:#305853;color:white;border-radius:8px;cursor:pointer;font-weight:600;text-align:center;transition:all 0.2s;">trident</div><div class="match-word" data-word="transform" onclick="selectWord(this)" style="padding:12px 16px;margin:6px;background:#305853;color:white;border-radius:8px;cursor:pointer;font-weight:600;text-align:center;transition:all 0.2s;">transform</div><div class="match-word" data-word="forge" onclick="selectWord(this)" style="padding:12px 16px;margin:6px;background:#305853;color:white;border-radius:8px;cursor:pointer;font-weight:600;text-align:center;transition:all 0.2s;">forge</div><div class="match-word" data-word="resilience" onclick="selectWord(this)" style="padding:12px 16px;margin:6px;background:#305853;color:white;border-radius:8px;cursor:pointer;font-weight:600;text-align:center;transition:all 0.2s;">resilience</div></div>
+                                <div id="defColumn" style="display:flex;flex-direction:column;"><h3 style="text-align:center;color:#8B4513;margin-bottom:10px;">Definitions</h3><div class="match-def" data-word="domain" onclick="selectDef(this)" style="padding:12px 16px;margin:6px;background:white;border:2px solid #8B4513;border-radius:8px;cursor:pointer;font-size:14px;transition:all 0.2s;">A vocabulary word from the story</div><div class="match-def" data-word="sufferance" onclick="selectDef(this)" style="padding:12px 16px;margin:6px;background:white;border:2px solid #8B4513;border-radius:8px;cursor:pointer;font-size:14px;transition:all 0.2s;">A vocabulary word from the story</div><div class="match-def" data-word="trident" onclick="selectDef(this)" style="padding:12px 16px;margin:6px;background:white;border:2px solid #8B4513;border-radius:8px;cursor:pointer;font-size:14px;transition:all 0.2s;">A vocabulary word from the story</div><div class="match-def" data-word="transform" onclick="selectDef(this)" style="padding:12px 16px;margin:6px;background:white;border:2px solid #8B4513;border-radius:8px;cursor:pointer;font-size:14px;transition:all 0.2s;">To change something completely from one form to another — especially to improve it or make it more useful.</div><div class="match-def" data-word="forge" onclick="selectDef(this)" style="padding:12px 16px;margin:6px;background:white;border:2px solid #8B4513;border-radius:8px;cursor:pointer;font-size:14px;transition:all 0.2s;">A workshop where metal is heated and shaped — or the act of making something through heat and force.</div><div class="match-def" data-word="resilience" onclick="selectDef(this)" style="padding:12px 16px;margin:6px;background:white;border:2px solid #8B4513;border-radius:8px;cursor:pointer;font-size:14px;transition:all 0.2s;">The ability to recover from hardship and keep working — to be strengthened rather than broken by difficulty.</div></div>
+                            </div>
+                            <div id="gameFeedback" style="margin-top:20px;padding:15px;border-radius:10px;text-align:center;display:none;"></div>
+                            <script>
+                            (function(){let sW=null,sD=null,sc=0;const t=6;const dc=document.getElementById('defColumn');const ds=Array.from(dc.querySelectorAll('.match-def'));ds.sort(()=>Math.random()-0.5);ds.forEach(d=>dc.appendChild(d));window.selectWord=function(e){if(e.classList.contains('matched'))return;document.querySelectorAll('.match-word').forEach(x=>x.style.outline='none');e.style.outline='3px solid #B06821';sW=e;tm();};window.selectDef=function(e){if(e.classList.contains('matched'))return;document.querySelectorAll('.match-def').forEach(x=>x.style.outline='none');e.style.outline='3px solid #B06821';sD=e;tm();};function tm(){if(!sW||!sD)return;if(sW.dataset.word===sD.dataset.word){sW.classList.add('matched');sD.classList.add('matched');sW.style.opacity='0.5';sD.style.opacity='0.5';sW.style.outline='3px solid #4CAF50';sD.style.outline='3px solid #4CAF50';sc++;document.getElementById('gameScore').textContent=sc;if(sc===t){const f=document.getElementById('gameFeedback');f.style.display='block';f.style.background='rgba(76,175,80,0.1)';f.innerHTML='<h3>🎉 Perfect!</h3>';}}else{sW.style.outline='3px solid #f44336';sD.style.outline='3px solid #f44336';setTimeout(()=>{sW.style.outline='none';sD.style.outline='none';sW=null;sD=null;},600);return;}sW=null;sD=null;}})();
+                            </script>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>🎯 Vocabulary Practice</h2>
         </div>
@@ -62,84 +136,90 @@
             <button class="btn-prev" onclick="prevPage()">← Back</button>
             <button class="btn-next" onclick="nextPage()">Continue to Story →</button>
         </div>
-    </div>
-
-    
-    <div class="lesson-page" id="page4" style="display: none;">
+    </div>`
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>📚 Reading (Part 1 of 4)</h2>
             <p>Vulcan the Divine Craftsman</p>
         </div>
         <div class="reading-text">
-            <p>Roman Mythology
-Vulcan, the Divine Craftsman
-A Tale from Roman Mythology
-Retold for Young Readers</p>
+            <p>Vulcan, the Divine Craftsman</p>
+            <p>A Tale from Roman Mythology</p>
+            <p>Below the volcanic islands off the coast of Sicily, the Romans said, was Vulcan&#x27;s forge — the great workshop of the god of fire, where the smoke rose through vents in the earth and the glow of the furnaces could sometimes be seen from ships passing above.</p>
+            <p>The word volcano comes from his name. He was here before the word, and the word has carried him forward.</p>
+            <p>Vulcan was thrown from Olympus as a child — whether by Juno who was displeased with him, or by Jupiter in a rage over something Vulcan had done in his mother&#x27;s defense, the stories disagree. He fell for a full day and landed on the island of Lemnos, where he lay injured among people who found him and cared for him.</p>
+            <p>He never fully healed. He walked with a limp for the rest of his divine life.</p>
+            <p>He did not return to Olympus angry. He returned with gifts.</p>
+            <p>He had spent his years among the Lemnians learning his craft, and by the time he returned he was the greatest craftsman in all of creation — the only major god whose domain was not a natural force but a made thing. The sea is Neptune&#x27;s, but Neptune didn&#x27;t build it. Fire belongs to Vulcan, but fire specifically in service of making something. He was the god of transformation: taking raw material and turning it into something better, something purposeful, something that would last.</p>
         </div>
         <div class="page-nav">
             <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
+            <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
     </div>
-    
-    <div class="lesson-page" id="page5" style="display: none;">
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>📚 Reading (Part 2 of 4)</h2>
             <p>Vulcan the Divine Craftsman</p>
         </div>
         <div class="reading-text">
-            <p>Vulcan, the Divine Craftsman
-A Tale from Roman Mythology
-Below the volcanic islands off the coast of Sicily, the Romans said, was Vulcan's forge — the great workshop of the god of fire, where the smoke rose through vents in the earth and the glow of the furnaces could sometimes be seen from ships passing above.
-The word volcano comes from his name. He was here before the word, and the word has carried him forward.
-Vulcan was thrown from Olympus as a child — whether by Juno who was displeased with him, or by Jupiter in a rage over something Vulcan had done in his mother's defense, the stories disagree. He fell for a full day and landed on the island of Lemnos, where he lay injured among people who found him and cared for him.
-He never fully healed. He walked with a limp for the rest of his divine life.
-He did not return to Olympus angry. He returned with gifts.
-He had spent his years among the Lemnians learning his craft, and by the time he returned he was the greatest craftsman in all of creation — the only major god whose domain was not a natural force but a made thing. The sea is Neptune's, but Neptune didn't build it. Fire belongs to Vulcan, but fire specifically in service of making something. He was the god of transformation: taking raw material and turning it into something better, something purposeful, something that would last.
-He made Jupiter's thunderbolts. The most powerful weapons in creation, the instruments of the king of the gods, came from a craftsman's forge. The Romans found this satisfying rather than surprising — they understood that power without craft is just force, that the thing that makes force useful is the skill applied to it.
-He built the palaces of Olympus. He made the golden mechanical servants that attended him in his workshop — helpers that could think and move, thousands of years before anyone had a word for what they were. He made the armor of Achilles, at the request of the hero's mother, armor so magnificent it became famous in a story already full of famous things. He made the chains that held Prometheus to the mountain.
-His wife was Venus. The most beautiful goddess married to the lame craftsman — the Romans acknowledged this pairing was surprising and told it honestly. Venus was not always faithful. Vulcan knew. He made a net of such fine golden links it was invisible, and caught Mars and Venus together, and called the other gods to witness.
-The other gods came and looked and some of them laughed and some of them were uncomfortable and the general consensus was that Vulcan had won a technical and moral victory while remaining, somehow, still Vulcan — still the one at the forge while the beautiful ones had the adventures.
-This too was Roman. They respected craft. They built roads that lasted two thousand years and aqueducts that still stand and bridges that are still used. They understood at a deep level that the things that endure are made things — things that required knowledge and patience and skill and the willingness to do the work.
-Vulcan did the work. He always did. He was lame and overlooked and married to someone who didn't stay and he went back to his forge and made something extraordinary with the next piece of metal.
-Vulcanization — the process of treating rubber with heat to make it stronger — bears his name still. Discovered thousands of years after his last worshiper died. Someone looked at the process and recognized it: this is Vulcan's work. Transformation through heat. Raw material into something better.
-He is still in the language. He is still in the forge. He is still making things.</p>
+            <p>He made Jupiter&#x27;s thunderbolts. The most powerful weapons in creation, the instruments of the king of the gods, came from a craftsman&#x27;s forge. The Romans found this satisfying rather than surprising — they understood that power without craft is just force, that the thing that makes force useful is the skill applied to it.</p>
+            <p>He built the palaces of Olympus. He made the golden mechanical servants that attended him in his workshop — helpers that could think and move, thousands of years before anyone had a word for what they were. He made the armor of Achilles, at the request of the hero&#x27;s mother, armor so magnificent it became famous in a story already full of famous things. He made the chains that held Prometheus to the mountain.</p>
+            <p>His wife was Venus. The most beautiful goddess married to the lame craftsman — the Romans acknowledged this pairing was surprising and told it honestly. Venus was not always faithful. Vulcan knew. He made a net of such fine golden links it was invisible, and caught Mars and Venus together, and called the other gods to witness.</p>
         </div>
         <div class="page-nav">
             <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
+            <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
     </div>
-    
-    <div class="lesson-page" id="page6" style="display: none;">
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>📚 Reading (Part 3 of 4)</h2>
             <p>Vulcan the Divine Craftsman</p>
         </div>
         <div class="reading-text">
-            <p>Content continues...</p>
+            <p>The other gods came and looked and some of them laughed and some of them were uncomfortable and the general consensus was that Vulcan had won a technical and moral victory while remaining, somehow, still Vulcan — still the one at the forge while the beautiful ones had the adventures.</p>
+            <p>This too was Roman. They respected craft. They built roads that lasted two thousand years and aqueducts that still stand and bridges that are still used. They understood at a deep level that the things that endure are made things — things that required knowledge and patience and skill and the willingness to do the work.</p>
+            <p>Vulcan did the work. He always did. He was lame and overlooked and married to someone who didn&#x27;t stay and he went back to his forge and made something extraordinary with the next piece of metal.</p>
+            <p>Vulcanization — the process of treating rubber with heat to make it stronger — bears his name still. Discovered thousands of years after his last worshiper died. Someone looked at the process and recognized it: this is Vulcan&#x27;s work. Transformation through heat. Raw material into something better.</p>
         </div>
         <div class="page-nav">
             <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
+            <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
     </div>
-    
-    <div class="lesson-page" id="page7" style="display: none;">
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>📚 Reading (Part 4 of 4)</h2>
             <p>Vulcan the Divine Craftsman</p>
         </div>
         <div class="reading-text">
-            <p>Content continues...</p>
+            <p>He is still in the language. He is still in the forge. He is still making things.</p>
         </div>
         <div class="page-nav">
             <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Answer Questions →</button>
+            <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
     </div>
-
-    <div class="lesson-page" id="page8" style="display: none;">
+                    `
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>✍️ Comprehension Questions</h2>
         </div>
@@ -150,11 +230,10 @@ He is still in the language. He is still in the forge. He is still making things
             <button class="btn-prev" onclick="prevPage()">← Back</button>
             <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
-    </div>
-
-    
-
-    <div class="lesson-page" id="page9" style="display: none;">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>🎨 Language Skills</h2>
             <p>Week 38: Comparing Myths Across Cultures</p>
@@ -201,9 +280,10 @@ He is still in the language. He is still in the forge. He is still making things
             <button class="btn-prev" onclick="prevPage()">← Back</button>
             <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
-    </div>
-
-    <div class="lesson-page" id="page10" style="display: none;">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>📝 Writing Practice</h2>
         </div>
@@ -219,9 +299,10 @@ He is still in the language. He is still in the forge. He is still making things
             <button class="btn-prev" onclick="prevPage()">← Back</button>
             <button class="btn-next" onclick="nextPage()">Finish Lesson →</button>
         </div>
-    </div>
-
-    <div class="lesson-page" id="page11" style="display: none;">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="completion-page">
             <h1>🎉 Day 127 Complete!</h1>
             <h2>Vulcan the Divine Craftsman</h2>
@@ -238,30 +319,15 @@ He is still in the language. He is still in the forge. He is still making things
             </div>
             <button class="btn-finish" onclick="returnToDashboard()">Return to Dashboard</button>
         </div>
-    </div>
+    </div>`
+                }
+            ]
+        };
 
-    <script>
-        let currentPage = 1;
-        const totalPages = 11;
-        window.nextPage = function() {
-            if (currentPage < totalPages) {
-                document.getElementById('page' + currentPage).style.display = 'none';
-                currentPage++;
-                document.getElementById('page' + currentPage).style.display = 'block';
-                window.scrollTo(0, 0);
-            }
-        };
-        window.prevPage = function() {
-            if (currentPage > 1) {
-                document.getElementById('page' + currentPage).style.display = 'none';
-                currentPage--;
-                document.getElementById('page' + currentPage).style.display = 'block';
-                window.scrollTo(0, 0);
-            }
-        };
-        window.returnToDashboard = function() {
-            window.location.href = '../../student-dashboard.html';
-        };
+        // Initialize the lesson viewer
+        window.addEventListener('DOMContentLoaded', () => {
+            createLessonViewer('lesson-container', lesson127Config);
+        });
     </script>
 </body>
 </html>

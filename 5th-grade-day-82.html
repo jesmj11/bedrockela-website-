@@ -6,90 +6,239 @@
     <title>5th Grade - Day 82: Escape</title>
     <link rel="stylesheet" href="css/lesson-viewer.css">
 </head>
-<body>
-    <!-- Page 1: Title & Objectives -->
-    <div class="lesson-page" id="page1">
-        <div class="page-header">
-            <h1>Day 82 - Week 16</h1>
-            <h2>Dracula</h2>
-        </div>
-        <div class="lesson-title">
-            <h1>Chapter 4: Escape</h1>
-            <p class="subtitle">A Tale from Dracula by Bram Stoker</p>
-        </div>
-        <div class="learning-objectives">
-            <h3>📚 What You'll Learn Today</h3>
-            <ul>
-                <li>Read Chapter 4: Escape</li>
-                <li>Learn 3 new vocabulary words</li>
-                <li>Practice vocabulary with interactive activities</li>
-                <li>Answer comprehension questions</li>
-                <li>Explore related informational text</li>
-                <li>Practice language skills</li>
-                <li>Complete journal reflection</li>
-            </ul>
-        </div>
-        <button class="btn-next" onclick="nextPage()">Begin Lesson →</button>
-    </div>
+<body class="lesson-viewer">
+    <div id="lesson-container"></div>
 
-    <!-- Page 2: Vocabulary -->
-    <div class="lesson-page" id="page2" style="display: none;">
-        <div class="page-header">
-            <h2>📖 Vocabulary</h2>
-            <p>Week 16 - Day 4 of 5</p>
-        </div>
-        <div class="vocab-section">
-            <h3>Today's New Words</h3>
-            <p class="vocab-intro">Learn these 3 words before reading. They appear in today's story!</p>
-            
-            
-            <div class="vocab-word">
-                <h4>1. consecrate</h4>
-                <div class="vocab-input-section">
-                    <label><strong>Definition:</strong></label>
-                    <p class="vocab-definition">To make something holy or sacred</p>
-                    <label><strong>Write the definition in your own words:</strong></label>
-                    <textarea id="vocab1" rows="2" placeholder="Type your definition here..."></textarea>
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-viewer.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    
+    <script>
+        const lessonConfig = {
+            lessonId: '5th-grade-day-82',
+            gradeLevel: '5th-grade',
+            title: 'Day 82 - Dracula',
+            pages: [
+                {
+                    render: () => `
+<div class="lesson-page-card title-page">
+                            
+                            <h1>Lesson 82</h1>
+                            <div class="subtitle">5th Grade ELA</div>
+                            <p style="color: #8B4513; font-size: 20px; margin-top: 20px;">
+                                Dracula
+                            </p>
+                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
+                                Chapter 4: Escape
+                            </p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Welcome to Lesson 82!</h2>
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>Read from <em>Chapter 4: Escape</em></li>
+                                <li>Learn 3 new vocabulary words</li>
+                                <li>Answer reading comprehension questions</li>
+                                <li>Read an informational text</li>
+                                <li>Practice grammar and writing skills</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Vocabulary Words</h2>
+                            
+                            <div style="margin: 30px 0;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">consecrate</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">concealed</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-2"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">treacherous</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-3"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-3', 'vocab-count-3', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-3" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-3-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;"><strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>🎮 Vocabulary Game</h2>
+                            <p style="color: #666; margin-bottom: 5px;">Match each word to its definition! (6 words this week so far)</p>
+                            <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 6</p>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                                <div id="wordColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                                    <div class="match-word" data-word="
+                " onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">
                 </div>
-            </div>
-            
-
-            <div class="vocab-word">
-                <h4>2. concealed</h4>
-                <div class="vocab-input-section">
-                    <label><strong>Definition:</strong></label>
-                    <p class="vocab-definition">Hidden from view; kept secret</p>
-                    <label><strong>Write the definition in your own words:</strong></label>
-                    <textarea id="vocab2" rows="2" placeholder="Type your definition here..."></textarea>
+                                    <div class="match-word" data-word="
+                " onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">
                 </div>
-            </div>
-            
-
-            <div class="vocab-word">
-                <h4>3. treacherous</h4>
-                <div class="vocab-input-section">
-                    <label><strong>Definition:</strong></label>
-                    <p class="vocab-definition">Extremely dangerous in an unexpected way</p>
-                    <label><strong>Write the definition in your own words:</strong></label>
-                    <textarea id="vocab3" rows="2" placeholder="Type your definition here..."></textarea>
+                                    <div class="match-word" data-word="
+                " onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">
                 </div>
-            </div>
-            
-            
-            <div class="vocab-tracker">
-                <p><strong>📚 This Week's Words:</strong> 12 of 12 learned</p>
-                <p class="tracker-note">Keep reviewing! Quiz on Friday (Day 83).</p>
-            </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue to Story →</button>
-        </div>
-    </div>
-
-    <!-- Page 3: Reading Part 1 -->
-    <div class="lesson-page" id="page3" style="display: none;">
-        <div class="page-header">
+                                    <div class="match-word" data-word="
+                " onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">
+                </div>
+                                    <div class="match-word" data-word="
+                " onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">
+                </div>
+                                    <div class="match-word" data-word="
+                " onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">
+                </div>
+                                </div>
+                                <div id="defColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                                    <div class="match-def" data-word="
+                " onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">The soft light just after sunset or before sunrise</div>
+                                    <div class="match-def" data-word="
+                " onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Unable to move or act, often from fear or shock</div>
+                                    <div class="match-def" data-word="
+                " onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Facts or signs that help show something is true</div>
+                                    <div class="match-def" data-word="
+                " onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">To make something holy or sacred</div>
+                                    <div class="match-def" data-word="
+                " onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Hidden from view; kept secret</div>
+                                    <div class="match-def" data-word="
+                " onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Extremely dangerous in an unexpected way</div>
+                                </div>
+                            </div>
+                            
+                            <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                            
+                            <script>
+                            (function() {
+                                let selectedW = null;
+                                let selectedD = null;
+                                let score = 0;
+                                const total = 6;
+                                
+                                // Shuffle definitions
+                                const defCol = document.getElementById('defColumn');
+                                const defs = Array.from(defCol.querySelectorAll('.match-def'));
+                                defs.sort(() => Math.random() - 0.5);
+                                defs.forEach(d => defCol.appendChild(d));
+                                
+                                window.selectWord = function(el) {
+                                    if (el.classList.contains('matched')) return;
+                                    document.querySelectorAll('.match-word').forEach(e => e.style.outline = 'none');
+                                    el.style.outline = '3px solid #B06821';
+                                    selectedW = el;
+                                    tryMatch();
+                                };
+                                window.selectDef = function(el) {
+                                    if (el.classList.contains('matched')) return;
+                                    document.querySelectorAll('.match-def').forEach(e => e.style.outline = 'none');
+                                    el.style.outline = '3px solid #B06821';
+                                    selectedD = el;
+                                    tryMatch();
+                                };
+                                function tryMatch() {
+                                    if (!selectedW || !selectedD) return;
+                                    if (selectedW.dataset.word === selectedD.dataset.word) {
+                                        selectedW.classList.add('matched');
+                                        selectedD.classList.add('matched');
+                                        selectedW.style.opacity = '0.5';
+                                        selectedD.style.opacity = '0.5';
+                                        selectedW.style.outline = '3px solid #4CAF50';
+                                        selectedD.style.outline = '3px solid #4CAF50';
+                                        score++;
+                                        document.getElementById('gameScore').textContent = score;
+                                        if (score === total) {
+                                            const fb = document.getElementById('gameFeedback');
+                                            fb.style.display = 'block';
+                                            fb.style.background = 'rgba(76,175,80,0.1)';
+                                            fb.innerHTML = '<h3>🎉 Perfect! All words matched!</h3><p>Great job learning your vocabulary!</p>';
+                                        }
+                                    } else {
+                                        selectedW.style.outline = '3px solid #f44336';
+                                        selectedD.style.outline = '3px solid #f44336';
+                                        setTimeout(() => {
+                                            selectedW.style.outline = 'none';
+                                            selectedD.style.outline = 'none';
+                                            selectedW = null;
+                                            selectedD = null;
+                                        }, 600);
+                                        return;
+                                    }
+                                    selectedW = null;
+                                    selectedD = null;
+                                }
+                            })();
+                            </script>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📚 Reading (Part 1 of 3)</h2>
             <p>Chapter 4: Escape</p>
         </div>
@@ -98,16 +247,10 @@
 <p>I had noticed that the Count sometimes climbed the outer wall of the castle — headfirst, like a lizard, moving with horrible ease along the sheer stone face. He seemed to have powers far beyond those of any human being.</p>
 <p>But the wall was the only way out that was not locked. I waited until I was sure the Count was away from that side of the castle, took a deep breath, and climbed out the window.</p>
 <p>The stone was old and rough, with plenty of handholds. I am a reasonably capable climber. I made it down and found a door at the base of the wall, hidden by ivy. It opened onto a long passage cut into the rock.</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
-        </div>
-    </div>
-
-    <!-- Page 4: Reading Part 2 -->
-    <div class="lesson-page" id="page4" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📚 Reading (Part 2 of 3)</h2>
             <p>Chapter 4: Escape</p>
         </div>
@@ -116,16 +259,10 @@
 <p>A large cellar. And in the cellar, boxes — dozens of them, filled with fresh dark earth. And in one of the boxes, the Count himself. Lying perfectly still. His eyes were closed, but his skin had a warm color to it, as if he had recently — fed.</p>
 <p>I ran.</p>
 <p>I did not find a way out of the outer walls that night. I ended up back in my room, shaking, and lay awake until dawn.</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
-        </div>
-    </div>
-
-    <!-- Page 5: Reading Part 3 -->
-    <div class="lesson-page" id="page5" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📚 Reading (Part 3 of 3)</h2>
             <p>Chapter 4: Escape</p>
         </div>
@@ -134,16 +271,10 @@
 <p>Finally, one morning before dawn, I found a window on the far side of the castle that had no lock. The drop was steep, but there was a gutter pipe that reached almost to the ground. I tied my journal carefully in oilcloth and tucked it inside my coat.</p>
 <p>Then I climbed, and dropped, and ran.</p>
 <p>I ran until the castle was out of sight. I did not stop running for a very long time.</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Answer Questions →</button>
-        </div>
-    </div>
-
-    <!-- Page 6: Comprehension Questions -->
-    <div class="lesson-page" id="page6" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>✍️ Comprehension Questions</h2>
             <p>Show what you understood</p>
         </div>
@@ -153,29 +284,21 @@
                 <p><strong>1.</strong> Jonathan finds Count Dracula lying in a box filled with earth, with his eyes closed but looking as if he had 'recently fed.' What makes this discovery particularly horrifying? What does it tell Jonathan about what the Count has been doing?</p>
                 <textarea id="comp1" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
-            
 
             <div class="question">
                 <p><strong>2.</strong> The chapter says Jonathan 'tied his journal carefully in oilcloth and tucked it inside his coat' before attempting his dangerous escape. Why would he protect his journal so carefully even when his own life is in danger? What does this show about what he values?</p>
                 <textarea id="comp2" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
-            
 
             <div class="question">
                 <p><strong>3.</strong> Jonathan finally escapes the castle by climbing down a wall and running until the castle is out of sight, not stopping 'for a very long time.' What do you think he felt during this escape? How might this experience change him?</p>
                 <textarea id="comp3" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
             
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue to Informational Text →</button>
-        </div>
-    </div>
-
-    <!-- Page 7: Informational Text -->
-    <div class="lesson-page" id="page7" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>📰 Informational Text</h2>
             <p>Connect Story to Reality</p>
         </div>
@@ -191,24 +314,16 @@
                 <p><strong>1.</strong> The article describes how different cultures around the world developed similar vampire legends independently. What does this pattern suggest about human fear and how people explain things they don't understand?</p>
                 <textarea id="info1" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
-            
 
             <div class="question">
                 <p><strong>2.</strong> According to the article, many vampire legends probably came from misunderstanding natural processes like decomposition or diseases like rabies. What does this teach us about the importance of scientific knowledge? How might better education have changed these legends?</p>
                 <textarea id="info2" rows="4" placeholder="Write your answer here..."></textarea>
             </div>
             
-        </div>
-        
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue →</button>
-        </div>
-    </div>
-
-    <!-- Page 8: Grammar/Language -->
-    <div class="lesson-page" id="page8" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>✏️ Language Skills</h2>
             <p>Week 16 Focus: Greek and Latin Roots: 'Trans-' and 'Morph'</p>
         </div>
@@ -232,13 +347,11 @@
                     <p><strong>1.</strong> What does 'transcribe' mean if 'trans-' means 'across' and 'scribe' means 'write'?</p>
                     <textarea id="grammar1" rows="3" placeholder="Write your answer here..."></textarea>
                 </div>
-                
 
                 <div class="practice-item">
                     <p><strong>2.</strong> What does 'transformation' mean? How does it relate to what happens to Dracula's victims?</p>
                     <textarea id="grammar2" rows="3" placeholder="Write your answer here..."></textarea>
                 </div>
-                
 
                 <div class="practice-item">
                     <p><strong>3.</strong> Find another word in this week's story that uses a Latin or Greek root and explain its meaning:</p>
@@ -246,16 +359,10 @@
                 </div>
                 
             </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue →</button>
-        </div>
-    </div>
-
-    <!-- Page 9: Writing/Journal -->
-    <div class="lesson-page" id="page9" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>✍️ Journal Reflection</h2>
             <p>Personal Response</p>
         </div>
@@ -267,16 +374,10 @@
             <div class="writing-space">
                 <textarea id="writing-response" rows="12" placeholder="Write your response here..."></textarea>
             </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Finish Lesson →</button>
-        </div>
-    </div>
-
-    <!-- Page 10: Completion -->
-    <div class="lesson-page" id="page10" style="display: none;">
-        <div class="page-header">
+        </div>`
+                },
+                {
+                    render: () => `<div class="page-header">
             <h2>🎉 Lesson Complete!</h2>
             <p>Day 82 - Chapter 4: Escape</p>
         </div>
@@ -292,28 +393,16 @@
                 <li>✅ Completed journal reflection</li>
             </ul>
             <p class="next-lesson-note">📚 Tomorrow: Chapter 5 awaits!</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-        </div>
-    </div>
-
-    <script src="js/lesson-viewer.js?v=1772842090360"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="js/lesson-completion.js?v=1772842090360"></script>
-    <script src="js/lesson-autosave.js?v=1772842090360"></script>
-    <script>
-        const lesson82Config = {
-            lessonId: '5th-grade-day-82',
-            gradeLevel: '5th-grade',
-            title: 'Lesson 82 - 5th Grade',
-            pages: [] // Populated by lesson-viewer.js
+        </div>`
+                }
+            ]
         };
 
+        // Initialize lesson viewer
         if (typeof initLessonViewer === 'function') {
-            initLessonViewer(lesson82Config);
+            initLessonViewer(lessonConfig);
+        } else {
+            console.error('lesson-viewer.js not loaded! Check file paths.');
         }
     </script>
 </body>

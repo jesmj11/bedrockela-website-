@@ -4,165 +4,265 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5th Grade - Day 111: Heracles and the Twelve Labors</title>
-    <link rel="stylesheet" href="../../../css/lesson-styles.css">
-    <link rel="stylesheet" href="../../../css/lesson-complete-styles.css">
+    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
-<body>
-    <!-- Page 1: Title & Objectives -->
-    <div class="lesson-page" id="page1">
-        <div class="page-header">
-            <h1>Day 111 - Week 35</h1>
-            <h2>Greek Mythology</h2>
-        </div>
-        <div class="lesson-title">
-            <h1>Heracles and the Twelve Labors</h1>
-            <p class="subtitle">A Tale from Ancient Greece</p>
-        </div>
-        <div class="learning-objectives">
-            <h3>📚 What You'll Learn Today</h3>
-            <ul>
-                <li>Read: Heracles and the Twelve Labors</li>
-                <li>Learn 3 new vocabulary words</li>
-                <li>Answer comprehension questions</li>
-                
-                <li>Practice grammar</li>
-                <li>Complete journal reflection</li>
-            </ul>
-        </div>
-        <button class="btn-next" onclick="nextPage()">Begin Lesson →</button>
-    </div>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
 
-    <!-- Page 2: Vocabulary -->
-    <div class="lesson-page" id="page2" style="display: none;">
-        <div class="page-header">
-            <h2>📖 Vocabulary</h2>
-            <p>Week 35 - Day 3 of 5</p>
-        </div>
-        <div class="vocab-section">
-            <h3>Today's New Words</h3>
-            <p class="vocab-intro">Learn these 3 words before reading. They appear in today's story!</p>
-            
-            <div class="vocab-word">
-                <h4>1. penance</h4>
-                <div class="vocab-input-section">
-                    <label><strong>Write the definition:</strong></label>
-                    <textarea rows="2" placeholder="Type your definition here..." data-answer="Suffering or labor undertaken to make amends for a wrong — doing hard things as payment for harm caused."></textarea>
-                </div>
-                <p class="context"><strong>As used in the story:</strong> <em>"The twelve labors were Heracles's penance — the Oracle's prescription for what he had to do before he could be free."</em></p>
-            </div>
-            <div class="vocab-tracker">
-                <p><strong>📚 This Week's Words:</strong> 9 of 12 learned</p>
-                <p class="tracker-note">Keep reviewing! Quiz on Friday (Day 175).</p>
-            </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue to Story →</button>
-        </div>
-    </div>
-
-    <!-- Page 3: Vocab Practice (placeholder for future game) -->
-    <div class="lesson-page" id="page3" style="display: none;">
-        <div class="page-header">
-            <h2>🎯 Vocabulary Practice</h2>
-            <p>Review your words</p>
-        </div>
-        <div class="vocab-review">
-            
-            <div class="review-card">
-                <h4>penance</h4>
-                <p>Suffering or labor undertaken to make amends for a wrong — doing hard things as payment for harm caused.</p>
-            </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue to Story →</button>
-        </div>
-    </div>
-
-    <!-- Pages 4-7: Reading (4 parts) -->
+    <script src="js/lesson-viewer.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
+    <script type="module" src="js/vocab-games.js"></script>
     
-    <div class="lesson-page" id="page4" style="display: none;">
+    <script>
+        const lesson111Config = {
+            lessonId: '5th-grade-lesson-111',
+            gradeLevel: '5th-grade',
+            title: '5th Grade - Day 111: Heracles and the Twelve Labors',
+            pages: [
+                {
+                    render: () => `
+<div class="lesson-page-card title-page">
+                            
+                            <h1>Lesson 111</h1>
+                            <div class="subtitle">5th Grade ELA</div>
+                            <p style="color: #8B4513; font-size: 20px; margin-top: 20px;">
+                                Greek Mythology
+                            </p>
+                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
+                                Heracles and the Twelve Labors
+                            </p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Welcome to Lesson 111!</h2>
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>Read from <em>Heracles and the Twelve Labors</em></li>
+                                <li>Learn 3 new vocabulary words</li>
+                                <li>Answer reading comprehension questions</li>
+                                <li>Read an informational text</li>
+                                <li>Practice grammar and writing skills</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Vocabulary Words</h2>
+                            
+                            <div style="margin: 30px 0;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">penance</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;"><strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>🎮 Vocabulary Game</h2>
+                            <p style="color: #666; margin-bottom: 5px;">Match each word to its definition! (1 words this week so far)</p>
+                            <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 1</p>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                                <div id="wordColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                                    <div class="match-word" data-word="1. penance" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">1. penance</div>
+                                </div>
+                                <div id="defColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                                    <div class="match-def" data-word="1. penance" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Keep reviewing! Quiz on Friday (Day 175).</div>
+                                </div>
+                            </div>
+                            
+                            <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                            
+                            <script>
+                            (function() {
+                                let selectedW = null;
+                                let selectedD = null;
+                                let score = 0;
+                                const total = 1;
+                                
+                                // Shuffle definitions
+                                const defCol = document.getElementById('defColumn');
+                                const defs = Array.from(defCol.querySelectorAll('.match-def'));
+                                defs.sort(() => Math.random() - 0.5);
+                                defs.forEach(d => defCol.appendChild(d));
+                                
+                                window.selectWord = function(el) {
+                                    if (el.classList.contains('matched')) return;
+                                    document.querySelectorAll('.match-word').forEach(e => e.style.outline = 'none');
+                                    el.style.outline = '3px solid #B06821';
+                                    selectedW = el;
+                                    tryMatch();
+                                };
+                                window.selectDef = function(el) {
+                                    if (el.classList.contains('matched')) return;
+                                    document.querySelectorAll('.match-def').forEach(e => e.style.outline = 'none');
+                                    el.style.outline = '3px solid #B06821';
+                                    selectedD = el;
+                                    tryMatch();
+                                };
+                                function tryMatch() {
+                                    if (!selectedW || !selectedD) return;
+                                    if (selectedW.dataset.word === selectedD.dataset.word) {
+                                        selectedW.classList.add('matched');
+                                        selectedD.classList.add('matched');
+                                        selectedW.style.opacity = '0.5';
+                                        selectedD.style.opacity = '0.5';
+                                        selectedW.style.outline = '3px solid #4CAF50';
+                                        selectedD.style.outline = '3px solid #4CAF50';
+                                        score++;
+                                        document.getElementById('gameScore').textContent = score;
+                                        if (score === total) {
+                                            const fb = document.getElementById('gameFeedback');
+                                            fb.style.display = 'block';
+                                            fb.style.background = 'rgba(76,175,80,0.1)';
+                                            fb.innerHTML = '<h3>🎉 Perfect! All words matched!</h3><p>Great job learning your vocabulary!</p>';
+                                        }
+                                    } else {
+                                        selectedW.style.outline = '3px solid #f44336';
+                                        selectedD.style.outline = '3px solid #f44336';
+                                        setTimeout(() => {
+                                            selectedW.style.outline = 'none';
+                                            selectedD.style.outline = 'none';
+                                            selectedW = null;
+                                            selectedD = null;
+                                        }, 600);
+                                        return;
+                                    }
+                                    selectedW = null;
+                                    selectedD = null;
+                                }
+                            })();
+                            </script>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>📚 Reading (Part 1 of 4)</h2>
             <p>Heracles and the Twelve Labors</p>
         </div>
         <div class="reading-text">
-            <p>Greek Mythology
-Heracles and the Twelve Labors
-A Tale from Ancient Greek Mythology
-Retold for Young Readers</p>
+            <p>Heracles and the Twelve Labors</p>
+            <p>A Tale from Ancient Greek Mythology</p>
+            <p>Heracles was the strongest man who ever lived. His father was Zeus, and the divine strength ran through him like current through wire — always present, always dangerous, capable of anything.</p>
+            <p>Hera hated him for the simple fact of his existence and made his life difficult from birth. When he was eight months old, she sent two enormous serpents into his crib. They found him already awake. He strangled them both and was found in the morning playing with the bodies, which tells you everything you need to know about Heracles as an infant.</p>
+            <p>He grew up and married and was genuinely happy — which was when Hera sent the madness. A cloud of confusion so total that he did not know himself or anyone around him. In that terrible fog, he caused harm to his own household. When the madness lifted and he understood what he had done, it broke something in him.</p>
+            <p>He went to the Oracle at Delphi and asked what he must do. The Oracle sent him to his cousin King Eurystheus: twelve years of service, twelve labors, whatever was commanded.</p>
         </div>
         <div class="page-nav">
             <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
+            <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
     </div>
-    
-    <div class="lesson-page" id="page5" style="display: none;">
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>📚 Reading (Part 2 of 4)</h2>
             <p>Heracles and the Twelve Labors</p>
         </div>
         <div class="reading-text">
-            <p>Heracles and the Twelve Labors
-A Tale from Ancient Greek Mythology
-Heracles was the strongest man who ever lived. His father was Zeus, and the divine strength ran through him like current through wire — always present, always dangerous, capable of anything.
-Hera hated him for the simple fact of his existence and made his life difficult from birth. When he was eight months old, she sent two enormous serpents into his crib. They found him already awake. He strangled them both and was found in the morning playing with the bodies, which tells you everything you need to know about Heracles as an infant.
-He grew up and married and was genuinely happy — which was when Hera sent the madness. A cloud of confusion so total that he did not know himself or anyone around him. In that terrible fog, he caused harm to his own household. When the madness lifted and he understood what he had done, it broke something in him.
-He went to the Oracle at Delphi and asked what he must do. The Oracle sent him to his cousin King Eurystheus: twelve years of service, twelve labors, whatever was commanded.
-Eurystheus was a coward who was afraid of Heracles and designed the labors to be impossible. He was wrong about what impossible meant.
-The first labor: the Nemean Lion, a creature whose skin no weapon could pierce. Heracles figured this out quickly, dropped his weapons, and wrestled it to death with his bare hands. He used its own claws to skin it and wore the hide as armor forever after.
-The second: the Lernaean Hydra, which grew two heads for every one cut off. Heracles brought his nephew Iolaus, who cauterized each stump with a torch as Heracles cut. It took both of them. Heracles was not too proud to admit that.
-The third: the Ceryneian Hind, a golden-horned deer sacred to Artemis. He could not harm it. He chased it for a full year until it tired enough to catch, then carried it back alive and released it unharmed after showing it to Eurystheus, who had not specified that catching it would be sufficient but discovered it was going to have to be.
-The fourth: the Erymanthian Boar. Captured.
-The fifth: the Augean Stables — three thousand cattle, thirty years of accumulation, clean it in a day. Heracles looked at the stables and then at the two rivers nearby and diverted both of them to flow through. Done before sunset.
-The sixth: the Stymphalian Birds, man-eating birds with bronze feathers and beaks. He borrowed bronze castanets from Athena, crashed them together to startle the birds into the air, and shot them with arrows as they rose.
-The seventh through twelfth: a fire-breathing bull, the man-eating mares of Diomedes, the belt of Hippolyta queen of the Amazons, the cattle of Geryon at the edge of the world, the golden apples of the Hesperides guarded by an unsleeping dragon, and finally the three-headed dog Cerberus himself — dragged up from the underworld alive, shown to Eurystheus, and returned.
-Eurystheus received news of each completed labor in a large bronze jar, which he hid inside when Heracles came to report, because Eurystheus had been terrified of Heracles from the beginning and twelve successful impossibilities had not improved the situation.
-The twelve labors were complete. Heracles served his <span class="vocab-highlight">penance</span>. The debt, as the Oracle had defined it, was paid.
-He went on to other adventures — there were always more adventures — and eventually, much later, was killed by a poisoned shirt sent by someone who thought it was a love charm. He died in agony on a funeral pyre he built himself.
-Zeus took him to Olympus. He became a god. He was reconciled, finally, with Hera, who gave him her daughter Hebe as wife.
-The Greeks told the twelve labors to show what a human being could do when pushed past every limit — not because they were easy or because Heracles was a god (he was half, which mattered), but because he kept going. The labors were designed to be impossible. He refused to agree.
-The Augean Stables took a day.
-The rivers are still there.</p>
+            <p>Eurystheus was a coward who was afraid of Heracles and designed the labors to be impossible. He was wrong about what impossible meant.</p>
+            <p>The first labor: the Nemean Lion, a creature whose skin no weapon could pierce. Heracles figured this out quickly, dropped his weapons, and wrestled it to death with his bare hands. He used its own claws to skin it and wore the hide as armor forever after.</p>
+            <p>The second: the Lernaean Hydra, which grew two heads for every one cut off. Heracles brought his nephew Iolaus, who cauterized each stump with a torch as Heracles cut. It took both of them. Heracles was not too proud to admit that.</p>
+            <p>The third: the Ceryneian Hind, a golden-horned deer sacred to Artemis. He could not harm it. He chased it for a full year until it tired enough to catch, then carried it back alive and released it unharmed after showing it to Eurystheus, who had not specified that catching it would be sufficient but discovered it was going to have to be.</p>
+            <p>The fourth: the Erymanthian Boar. Captured.</p>
         </div>
         <div class="page-nav">
             <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
+            <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
     </div>
-    
-    <div class="lesson-page" id="page6" style="display: none;">
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>📚 Reading (Part 3 of 4)</h2>
             <p>Heracles and the Twelve Labors</p>
         </div>
         <div class="reading-text">
-            <p>Content continues...</p>
+            <p>The fifth: the Augean Stables — three thousand cattle, thirty years of accumulation, clean it in a day. Heracles looked at the stables and then at the two rivers nearby and diverted both of them to flow through. Done before sunset.</p>
+            <p>The sixth: the Stymphalian Birds, man-eating birds with bronze feathers and beaks. He borrowed bronze castanets from Athena, crashed them together to startle the birds into the air, and shot them with arrows as they rose.</p>
+            <p>The seventh through twelfth: a fire-breathing bull, the man-eating mares of Diomedes, the belt of Hippolyta queen of the Amazons, the cattle of Geryon at the edge of the world, the golden apples of the Hesperides guarded by an unsleeping dragon, and finally the three-headed dog Cerberus himself — dragged up from the underworld alive, shown to Eurystheus, and returned.</p>
+            <p>Eurystheus received news of each completed labor in a large bronze jar, which he hid inside when Heracles came to report, because Eurystheus had been terrified of Heracles from the beginning and twelve successful impossibilities had not improved the situation.</p>
         </div>
         <div class="page-nav">
             <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
+            <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
     </div>
-    
-    <div class="lesson-page" id="page7" style="display: none;">
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>📚 Reading (Part 4 of 4)</h2>
             <p>Heracles and the Twelve Labors</p>
         </div>
         <div class="reading-text">
-            <p>Content continues...</p>
+            <p>The twelve labors were complete. Heracles served his penance. The debt, as the Oracle had defined it, was paid.</p>
+            <p>He went on to other adventures — there were always more adventures — and eventually, much later, was killed by a poisoned shirt sent by someone who thought it was a love charm. He died in agony on a funeral pyre he built himself.</p>
+            <p>Zeus took him to Olympus. He became a god. He was reconciled, finally, with Hera, who gave him her daughter Hebe as wife.</p>
+            <p>The Greeks told the twelve labors to show what a human being could do when pushed past every limit — not because they were easy or because Heracles was a god (he was half, which mattered), but because he kept going. The labors were designed to be impossible. He refused to agree.</p>
+            <p>The Augean Stables took a day.</p>
+            <p>The rivers are still there.</p>
         </div>
         <div class="page-nav">
             <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Answer Questions →</button>
+            <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
     </div>
-
-    <!-- Page 8: Comprehension Questions -->
-    <div class="lesson-page" id="page8" style="display: none;">
+                    `
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>✍️ Comprehension Questions</h2>
             <p>Show what you understood</p>
@@ -188,12 +288,10 @@ The rivers are still there.</p>
             <button class="btn-prev" onclick="prevPage()">← Back</button>
             <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
-    </div>
-
-    
-
-    <!-- Page 10/9: Grammar/Language -->
-    <div class="lesson-page" id="page9" style="display: none;">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>✏️ Grammar</h2>
             <p>Week 35 Focus: Consistent Verb Tense</p>
@@ -242,10 +340,10 @@ The rivers are still there.</p>
             <button class="btn-prev" onclick="prevPage()">← Back</button>
             <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
-    </div>
-
-    <!-- Page 11/10: Writing -->
-    <div class="lesson-page" id="page10" style="display: none;">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>📝 Journal Reflection</h2>
             <p>Think about what you read</p>
@@ -262,10 +360,10 @@ The rivers are still there.</p>
             <button class="btn-prev" onclick="prevPage()">← Back</button>
             <button class="btn-next" onclick="nextPage()">Finish Lesson →</button>
         </div>
-    </div>
-
-    <!-- Page 12/11: Completion -->
-    <div class="lesson-page" id="page11" style="display: none;">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="completion-page">
             <h1>🎉 Day 111 Complete!</h1>
             <h2>Heracles and the Twelve Labors</h2>
@@ -287,33 +385,15 @@ The rivers are still there.</p>
             </div>
             <button class="btn-finish" onclick="returnToDashboard()">Return to Dashboard</button>
         </div>
-    </div>
-
-    <script>
-        let currentPage = 1;
-        const totalPages = 11;
-
-        window.nextPage = function() {
-            if (currentPage < totalPages) {
-                document.getElementById('page' + currentPage).style.display = 'none';
-                currentPage++;
-                document.getElementById('page' + currentPage).style.display = 'block';
-                window.scrollTo(0, 0);
-            }
+    </div>`
+                }
+            ]
         };
 
-        window.prevPage = function() {
-            if (currentPage > 1) {
-                document.getElementById('page' + currentPage).style.display = 'none';
-                currentPage--;
-                document.getElementById('page' + currentPage).style.display = 'block';
-                window.scrollTo(0, 0);
-            }
-        };
-
-        window.returnToDashboard = function() {
-            window.location.href = '../../student-dashboard.html';
-        };
+        // Initialize the lesson viewer
+        window.addEventListener('DOMContentLoaded', () => {
+            createLessonViewer('lesson-container', lesson111Config);
+        });
     </script>
 </body>
 </html>

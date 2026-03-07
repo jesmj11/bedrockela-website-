@@ -4,181 +4,297 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5th Grade - Day 126: Neptune and the Sea</title>
-    <link rel="stylesheet" href="../../../css/lesson-styles.css">
-    <link rel="stylesheet" href="../../../css/lesson-complete-styles.css">
+    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
-<body>
-    <div class="lesson-page" id="page1">
-        <div class="page-header">
-            <h1>Day 126 - Week 38</h1>
-            <h2>Roman Mythology</h2>
-        </div>
-        <div class="lesson-title">
-            <h1>Neptune and the Sea</h1>
-            <p class="subtitle">A Tale from Ancient Rome</p>
-        </div>
-        <div class="learning-objectives">
-            <h3>📚 What You'll Learn Today</h3>
-            <ul>
-                <li>Read: Neptune and the Sea</li>
-                <li>Learn 3 new vocabulary words</li>
-                <li>Answer comprehension questions</li>
-                
-                <li>Practice grammar</li>
-                <li>Complete journal reflection</li>
-            </ul>
-        </div>
-        <button class="btn-next" onclick="nextPage()">Begin Lesson →</button>
-    </div>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
 
-    <div class="lesson-page" id="page2" style="display: none;">
+    <script src="js/lesson-viewer.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
+    <script type="module" src="js/vocab-games.js"></script>
+    
+    <script>
+        const lesson126Config = {
+            lessonId: '5th-grade-lesson-126',
+            gradeLevel: '5th-grade',
+            title: '5th Grade - Day 126: Neptune and the Sea',
+            pages: [
+                {
+                    render: () => `
+<div class="lesson-page-card title-page">
+                            
+                            <h1>Lesson 126</h1>
+                            <div class="subtitle">5th Grade ELA</div>
+                            <p style="color: #8B4513; font-size: 20px; margin-top: 20px;">
+                                Roman Mythology
+                            </p>
+                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
+                                Neptune and the Sea
+                            </p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Welcome to Lesson 126!</h2>
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>Read from <em>Neptune and the Sea</em></li>
+                                <li>Learn 3 new vocabulary words</li>
+                                <li>Answer reading comprehension questions</li>
+                                <li>Read an informational text</li>
+                                <li>Practice grammar and writing skills</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Vocabulary Words</h2>
+                            
+                            <div style="margin: 30px 0;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">domain</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">sufferance</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-2"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">trident</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-3"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-3', 'vocab-count-3', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-3" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-3-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;"><strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>🎮 Vocabulary Game</h2>
+                            <p style="color: #666; margin-bottom: 5px;">Match each word to its definition! (1 words this week so far)</p>
+                            <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 1</p>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                                <div id="wordColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                                    <div class="match-word" data-word="1. domain" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">1. domain</div>
+                                </div>
+                                <div id="defColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                                    <div class="match-def" data-word="1. domain" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Quiz on Friday (Day 190)!</div>
+                                </div>
+                            </div>
+                            
+                            <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                            
+                            <script>
+                            (function() {
+                                let selectedW = null;
+                                let selectedD = null;
+                                let score = 0;
+                                const total = 1;
+                                
+                                // Shuffle definitions
+                                const defCol = document.getElementById('defColumn');
+                                const defs = Array.from(defCol.querySelectorAll('.match-def'));
+                                defs.sort(() => Math.random() - 0.5);
+                                defs.forEach(d => defCol.appendChild(d));
+                                
+                                window.selectWord = function(el) {
+                                    if (el.classList.contains('matched')) return;
+                                    document.querySelectorAll('.match-word').forEach(e => e.style.outline = 'none');
+                                    el.style.outline = '3px solid #B06821';
+                                    selectedW = el;
+                                    tryMatch();
+                                };
+                                window.selectDef = function(el) {
+                                    if (el.classList.contains('matched')) return;
+                                    document.querySelectorAll('.match-def').forEach(e => e.style.outline = 'none');
+                                    el.style.outline = '3px solid #B06821';
+                                    selectedD = el;
+                                    tryMatch();
+                                };
+                                function tryMatch() {
+                                    if (!selectedW || !selectedD) return;
+                                    if (selectedW.dataset.word === selectedD.dataset.word) {
+                                        selectedW.classList.add('matched');
+                                        selectedD.classList.add('matched');
+                                        selectedW.style.opacity = '0.5';
+                                        selectedD.style.opacity = '0.5';
+                                        selectedW.style.outline = '3px solid #4CAF50';
+                                        selectedD.style.outline = '3px solid #4CAF50';
+                                        score++;
+                                        document.getElementById('gameScore').textContent = score;
+                                        if (score === total) {
+                                            const fb = document.getElementById('gameFeedback');
+                                            fb.style.display = 'block';
+                                            fb.style.background = 'rgba(76,175,80,0.1)';
+                                            fb.innerHTML = '<h3>🎉 Perfect! All words matched!</h3><p>Great job learning your vocabulary!</p>';
+                                        }
+                                    } else {
+                                        selectedW.style.outline = '3px solid #f44336';
+                                        selectedD.style.outline = '3px solid #f44336';
+                                        setTimeout(() => {
+                                            selectedW.style.outline = 'none';
+                                            selectedD.style.outline = 'none';
+                                            selectedW = null;
+                                            selectedD = null;
+                                        }, 600);
+                                        return;
+                                    }
+                                    selectedW = null;
+                                    selectedD = null;
+                                }
+                            })();
+                            </script>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
         <div class="page-header">
-            <h2>📖 Vocabulary</h2>
-            <p>Week 38 - Day 3 of 5</p>
+            <h2>📚 Reading (Part 1 of 4)</h2>
+            <p>Neptune and the Sea</p>
         </div>
-        <div class="vocab-section">
-            <h3>Today's New Words</h3>
-            <p class="vocab-intro">Learn these 3 words before reading!</p>
-            
-            <div class="vocab-word">
-                <h4>1. domain</h4>
-                <div class="vocab-input-section">
-                    <label><strong>Write the definition:</strong></label>
-                    <textarea rows="2" placeholder="Type your definition here..."></textarea>
-                </div>
-                <p class="context"><strong>As used in the story:</strong> <em>"Neptune's domain was everything wet — sea, rivers, lakes, springs, and the earthquakes caused by water moving beneath the land."</em></p>
-            </div>
-            
-            <div class="vocab-word">
-                <h4>2. sufferance</h4>
-                <div class="vocab-input-section">
-                    <label><strong>Write the definition:</strong></label>
-                    <textarea rows="2" placeholder="Type your definition here..."></textarea>
-                </div>
-                <p class="context"><strong>As used in the story:</strong> <em>"Every Roman ship crossed the sea on Neptune's sufferance — his permission, which he could revoke without warning."</em></p>
-            </div>
-            
-            <div class="vocab-word">
-                <h4>3. trident</h4>
-                <div class="vocab-input-section">
-                    <label><strong>Write the definition:</strong></label>
-                    <textarea rows="2" placeholder="Type your definition here..."></textarea>
-                </div>
-                <p class="context"><strong>As used in the story:</strong> <em>"When Neptune drove his trident into the Acropolis rock, a spring appeared; it was the wrong gift, but it was real power."</em></p>
-            </div>
-            <div class="vocab-tracker">
-                <p><strong>📚 This Week's Words:</strong> 9 of 12 learned</p>
-                <p class="tracker-note">Quiz on Friday (Day 190)!</p>
-            </div>
+        <div class="reading-text">
+            <p>Neptune and the Sea</p>
+            <p>A Tale from Roman Mythology</p>
+            <p>Neptune was not the god you prayed to when everything was going well.</p>
+            <p>He was the god you prayed to when the sky turned dark and the waves came up and your ship was very small and the sea was very large and there was nothing between you and the bottom of the ocean except the wood under your feet and whatever goodwill the god of the sea chose to show.</p>
+            <p>In this way, Neptune was one of the most honestly worshipped gods in the Roman world. You did not pray to him out of gratitude or civic duty. You prayed to him because you needed him, specifically and urgently, right now, and you knew it.</p>
+            <p>He was Jupiter&#x27;s brother — one of the three sons of Saturn who had divided the world between them. Jupiter took the sky. Pluto took the underworld. Neptune took everything wet: the sea, the rivers, the lakes, the underground springs, and the earthquakes that shook the land when the water beneath it moved. His trident could split the earth open or raise storms or still the seas with equal authority. He drove a chariot across the ocean drawn by hippocampi — creatures with a horse&#x27;s head and a fish&#x27;s tail — and where he passed dolphins leaped around his wheels.</p>
         </div>
         <div class="page-nav">
             <button class="btn-prev" onclick="prevPage()">← Back</button>
             <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
     </div>
-
-    <div class="lesson-page" id="page3" style="display: none;">
-        <div class="page-header">
-            <h2>🎯 Vocabulary Practice</h2>
-        </div>
-        <div class="vocab-review">
-            
-            <div class="review-card">
-                <h4>domain</h4>
-                <p>The area of power or responsibility that belongs to a particular god or ruler.</p>
-            </div>
-            
-            <div class="review-card">
-                <h4>sufferance</h4>
-                <p>Permission or tolerance given by someone with power — being allowed to do something by someone who could stop you.</p>
-            </div>
-            
-            <div class="review-card">
-                <h4>trident</h4>
-                <p>A three-pronged spear — Neptune's symbol of power, capable of splitting the earth or stilling the seas.</p>
-            </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue to Story →</button>
-        </div>
-    </div>
-
-    
-    <div class="lesson-page" id="page4" style="display: none;">
-        <div class="page-header">
-            <h2>📚 Reading (Part 1 of 4)</h2>
-            <p>Neptune and the Sea</p>
-        </div>
-        <div class="reading-text">
-            <p>Roman Mythology
-Neptune and the Sea
-A Tale from Roman Mythology
-Retold for Young Readers</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
-        </div>
-    </div>
-    
-    <div class="lesson-page" id="page5" style="display: none;">
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>📚 Reading (Part 2 of 4)</h2>
             <p>Neptune and the Sea</p>
         </div>
         <div class="reading-text">
-            <p>Neptune and the Sea
-A Tale from Roman Mythology
-Neptune was not the god you prayed to when everything was going well.
-He was the god you prayed to when the sky turned dark and the waves came up and your ship was very small and the sea was very large and there was nothing between you and the bottom of the ocean except the wood under your feet and whatever goodwill the god of the sea chose to show.
-In this way, Neptune was one of the most honestly worshipped gods in the Roman world. You did not pray to him out of gratitude or civic duty. You prayed to him because you needed him, specifically and urgently, right now, and you knew it.
-He was Jupiter's brother — one of the three sons of Saturn who had divided the world between them. Jupiter took the sky. Pluto took the underworld. Neptune took everything wet: the sea, the rivers, the lakes, the underground springs, and the earthquakes that shook the land when the water beneath it moved. His <span class="vocab-highlight">trident</span> could split the earth open or raise storms or still the seas with equal authority. He drove a chariot across the ocean drawn by hippocampi — creatures with a horse's head and a fish's tail — and where he passed dolphins leaped around his wheels.
-He was passionate and proud and had a remarkable gift for being second.
-He competed with Minerva for the patronage of Athens. He drove his <span class="vocab-highlight">trident</span> into a rock on the Acropolis and a saltwater spring poured out. Minerva planted an olive tree. The gods voted: the olive tree, which gave oil and food and wood and shade and lasted for centuries, won over the saltwater spring. Neptune sent floods to the region to express his feelings. The city was named for Minerva's Greek counterpart anyway.
-He competed for Corinth. He lost. He competed for Aegina. He lost. He competed for several other cities and lost those too.
-What he did not lose was the sea itself, which was more than enough. Rome was a Mediterranean power, and everything Rome ever traded, conquered, or supplied that crossed water crossed Neptune's territory. The grain ships from Egypt that fed Rome's millions. The war galleys that enforced Roman power from Britain to Persia. The merchant vessels loaded with wine and oil and amber and silk. All of them sailing on Neptune's <span class="vocab-highlight">sufferance</span>.
-He held his festival, Neptunalia, in late July — the hottest and driest time of year in Rome, when rivers ran low and springs dried up. The Romans built shelters from tree branches, feasted outdoors, and prayed for water. They gathered to celebrate the god of water in the season when they missed him most, which is the kind of honestly desperate worship that produces genuine feeling.
-He also created the horse, which the Romans found slightly mysterious — what did the god of the sea have to do with horses? They decided that in the very beginning, when Neptune first struck the earth with his <span class="vocab-highlight">trident</span>, what came out was not water but a horse. His power was force released from depth: whether that was a wave or a galloping horse was, at the fundamental level, the same thing.
-When your ship is small and the sea is large, you pray to Neptune.
-When the prayer works, you are grateful. When it doesn't, the sea is Neptune's too, and he answers to no one.
-That was always the honest deal. The Romans understood it and prayed anyway.</p>
+            <p>He was passionate and proud and had a remarkable gift for being second.</p>
+            <p>He competed with Minerva for the patronage of Athens. He drove his trident into a rock on the Acropolis and a saltwater spring poured out. Minerva planted an olive tree. The gods voted: the olive tree, which gave oil and food and wood and shade and lasted for centuries, won over the saltwater spring. Neptune sent floods to the region to express his feelings. The city was named for Minerva&#x27;s Greek counterpart anyway.</p>
+            <p>He competed for Corinth. He lost. He competed for Aegina. He lost. He competed for several other cities and lost those too.</p>
+            <p>What he did not lose was the sea itself, which was more than enough. Rome was a Mediterranean power, and everything Rome ever traded, conquered, or supplied that crossed water crossed Neptune&#x27;s territory. The grain ships from Egypt that fed Rome&#x27;s millions. The war galleys that enforced Roman power from Britain to Persia. The merchant vessels loaded with wine and oil and amber and silk. All of them sailing on Neptune&#x27;s sufferance.</p>
         </div>
         <div class="page-nav">
             <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
+            <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
     </div>
-    
-    <div class="lesson-page" id="page6" style="display: none;">
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>📚 Reading (Part 3 of 4)</h2>
             <p>Neptune and the Sea</p>
         </div>
         <div class="reading-text">
-            <p>Content continues...</p>
+            <p>He held his festival, Neptunalia, in late July — the hottest and driest time of year in Rome, when rivers ran low and springs dried up. The Romans built shelters from tree branches, feasted outdoors, and prayed for water. They gathered to celebrate the god of water in the season when they missed him most, which is the kind of honestly desperate worship that produces genuine feeling.</p>
+            <p>He also created the horse, which the Romans found slightly mysterious — what did the god of the sea have to do with horses? They decided that in the very beginning, when Neptune first struck the earth with his trident, what came out was not water but a horse. His power was force released from depth: whether that was a wave or a galloping horse was, at the fundamental level, the same thing.</p>
+            <p>When your ship is small and the sea is large, you pray to Neptune.</p>
         </div>
         <div class="page-nav">
             <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
+            <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
     </div>
-    
-    <div class="lesson-page" id="page7" style="display: none;">
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>📚 Reading (Part 4 of 4)</h2>
             <p>Neptune and the Sea</p>
         </div>
         <div class="reading-text">
-            <p>Content continues...</p>
+            <p>When the prayer works, you are grateful. When it doesn&#x27;t, the sea is Neptune&#x27;s too, and he answers to no one.</p>
+            <p>That was always the honest deal. The Romans understood it and prayed anyway.</p>
         </div>
         <div class="page-nav">
             <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Answer Questions →</button>
+            <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
     </div>
-
-    <div class="lesson-page" id="page8" style="display: none;">
+                    `
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>✍️ Comprehension Questions</h2>
         </div>
@@ -203,11 +319,10 @@ That was always the honest deal. The Romans understood it and prayed anyway.</p>
             <button class="btn-prev" onclick="prevPage()">← Back</button>
             <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
-    </div>
-
-    
-
-    <div class="lesson-page" id="page9" style="display: none;">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>✏️ Grammar</h2>
             <p>Week 38: Appositives</p>
@@ -254,9 +369,10 @@ That was always the honest deal. The Romans understood it and prayed anyway.</p>
             <button class="btn-prev" onclick="prevPage()">← Back</button>
             <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
-    </div>
-
-    <div class="lesson-page" id="page10" style="display: none;">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>📝 Journal Reflection</h2>
         </div>
@@ -272,9 +388,10 @@ That was always the honest deal. The Romans understood it and prayed anyway.</p>
             <button class="btn-prev" onclick="prevPage()">← Back</button>
             <button class="btn-next" onclick="nextPage()">Finish Lesson →</button>
         </div>
-    </div>
-
-    <div class="lesson-page" id="page11" style="display: none;">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="completion-page">
             <h1>🎉 Day 126 Complete!</h1>
             <h2>Neptune and the Sea</h2>
@@ -291,30 +408,15 @@ That was always the honest deal. The Romans understood it and prayed anyway.</p>
             </div>
             <button class="btn-finish" onclick="returnToDashboard()">Return to Dashboard</button>
         </div>
-    </div>
+    </div>`
+                }
+            ]
+        };
 
-    <script>
-        let currentPage = 1;
-        const totalPages = 11;
-        window.nextPage = function() {
-            if (currentPage < totalPages) {
-                document.getElementById('page' + currentPage).style.display = 'none';
-                currentPage++;
-                document.getElementById('page' + currentPage).style.display = 'block';
-                window.scrollTo(0, 0);
-            }
-        };
-        window.prevPage = function() {
-            if (currentPage > 1) {
-                document.getElementById('page' + currentPage).style.display = 'none';
-                currentPage--;
-                document.getElementById('page' + currentPage).style.display = 'block';
-                window.scrollTo(0, 0);
-            }
-        };
-        window.returnToDashboard = function() {
-            window.location.href = '../../student-dashboard.html';
-        };
+        // Initialize the lesson viewer
+        window.addEventListener('DOMContentLoaded', () => {
+            createLessonViewer('lesson-container', lesson126Config);
+        });
     </script>
 </body>
 </html>

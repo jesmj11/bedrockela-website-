@@ -4,180 +4,296 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5th Grade - Day 124: Minerva and the Arts of Civilization</title>
-    <link rel="stylesheet" href="../../../css/lesson-styles.css">
-    <link rel="stylesheet" href="../../../css/lesson-complete-styles.css">
+    <link rel="stylesheet" href="css/lesson-viewer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
-<body>
-    <div class="lesson-page" id="page1">
-        <div class="page-header">
-            <h1>Day 124 - Week 38</h1>
-            <h2>Roman Mythology</h2>
-        </div>
-        <div class="lesson-title">
-            <h1>Minerva and the Arts of Civilization</h1>
-            <p class="subtitle">A Tale from Ancient Rome</p>
-        </div>
-        <div class="learning-objectives">
-            <h3>📚 What You'll Learn Today</h3>
-            <ul>
-                <li>Read: Minerva and the Arts of Civilization</li>
-                <li>Learn 3 new vocabulary words</li>
-                <li>Answer comprehension questions</li>
-                
-                <li>Practice grammar</li>
-                <li>Complete journal reflection</li>
-            </ul>
-        </div>
-        <button class="btn-next" onclick="nextPage()">Begin Lesson →</button>
-    </div>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
 
-    <div class="lesson-page" id="page2" style="display: none;">
+    <script src="js/lesson-viewer.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js"></script>
+    <script src="js/lesson-autosave.js"></script>
+    <script src="js/save-button-injector.js"></script>
+    <script src="js/answer-validation.js"></script>
+    <script src="js/grade-normalizer.js"></script>
+    <script src="js/offline-sync.js"></script>
+    <script src="js/text-to-speech.js"></script>
+    <script src="js/digital-book.js"></script>
+    <script type="module" src="js/vocab-games.js"></script>
+    
+    <script>
+        const lesson124Config = {
+            lessonId: '5th-grade-lesson-124',
+            gradeLevel: '5th-grade',
+            title: '5th Grade - Day 124: Minerva and the Arts of Civilization',
+            pages: [
+                {
+                    render: () => `
+<div class="lesson-page-card title-page">
+                            
+                            <h1>Lesson 124</h1>
+                            <div class="subtitle">5th Grade ELA</div>
+                            <p style="color: #8B4513; font-size: 20px; margin-top: 20px;">
+                                Roman Mythology
+                            </p>
+                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
+                                Minerva and the Arts of Civilization
+                            </p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Welcome to Lesson 124!</h2>
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>Read from <em>Minerva and the Arts of Civilization</em></li>
+                                <li>Learn 3 new vocabulary words</li>
+                                <li>Answer reading comprehension questions</li>
+                                <li>Read an informational text</li>
+                                <li>Practice grammar and writing skills</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>Vocabulary Words</h2>
+                            
+                            <div style="margin: 30px 0;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">competence</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">patron</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-2"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">discipline</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-3"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-3', 'vocab-count-3', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-3" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-3-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                <p style="margin: 0;"><strong>Watch for these words</strong> in today's reading!</p>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>🎮 Vocabulary Game</h2>
+                            <p style="color: #666; margin-bottom: 5px;">Match each word to its definition! (1 words this week so far)</p>
+                            <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 1</p>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                                <div id="wordColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                                    <div class="match-word" data-word="1. competence" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">1. competence</div>
+                                </div>
+                                <div id="defColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                                    <div class="match-def" data-word="1. competence" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Quiz on Friday (Day 190)!</div>
+                                </div>
+                            </div>
+                            
+                            <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                            
+                            <script>
+                            (function() {
+                                let selectedW = null;
+                                let selectedD = null;
+                                let score = 0;
+                                const total = 1;
+                                
+                                // Shuffle definitions
+                                const defCol = document.getElementById('defColumn');
+                                const defs = Array.from(defCol.querySelectorAll('.match-def'));
+                                defs.sort(() => Math.random() - 0.5);
+                                defs.forEach(d => defCol.appendChild(d));
+                                
+                                window.selectWord = function(el) {
+                                    if (el.classList.contains('matched')) return;
+                                    document.querySelectorAll('.match-word').forEach(e => e.style.outline = 'none');
+                                    el.style.outline = '3px solid #B06821';
+                                    selectedW = el;
+                                    tryMatch();
+                                };
+                                window.selectDef = function(el) {
+                                    if (el.classList.contains('matched')) return;
+                                    document.querySelectorAll('.match-def').forEach(e => e.style.outline = 'none');
+                                    el.style.outline = '3px solid #B06821';
+                                    selectedD = el;
+                                    tryMatch();
+                                };
+                                function tryMatch() {
+                                    if (!selectedW || !selectedD) return;
+                                    if (selectedW.dataset.word === selectedD.dataset.word) {
+                                        selectedW.classList.add('matched');
+                                        selectedD.classList.add('matched');
+                                        selectedW.style.opacity = '0.5';
+                                        selectedD.style.opacity = '0.5';
+                                        selectedW.style.outline = '3px solid #4CAF50';
+                                        selectedD.style.outline = '3px solid #4CAF50';
+                                        score++;
+                                        document.getElementById('gameScore').textContent = score;
+                                        if (score === total) {
+                                            const fb = document.getElementById('gameFeedback');
+                                            fb.style.display = 'block';
+                                            fb.style.background = 'rgba(76,175,80,0.1)';
+                                            fb.innerHTML = '<h3>🎉 Perfect! All words matched!</h3><p>Great job learning your vocabulary!</p>';
+                                        }
+                                    } else {
+                                        selectedW.style.outline = '3px solid #f44336';
+                                        selectedD.style.outline = '3px solid #f44336';
+                                        setTimeout(() => {
+                                            selectedW.style.outline = 'none';
+                                            selectedD.style.outline = 'none';
+                                            selectedW = null;
+                                            selectedD = null;
+                                        }, 600);
+                                        return;
+                                    }
+                                    selectedW = null;
+                                    selectedD = null;
+                                }
+                            })();
+                            </script>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
         <div class="page-header">
-            <h2>📖 Vocabulary</h2>
-            <p>Week 38 - Day 1 of 5</p>
+            <h2>📚 Reading (Part 1 of 4)</h2>
+            <p>Minerva and the Arts of Civilization</p>
         </div>
-        <div class="vocab-section">
-            <h3>Today's New Words</h3>
-            <p class="vocab-intro">Learn these 3 words before reading!</p>
-            
-            <div class="vocab-word">
-                <h4>1. competence</h4>
-                <div class="vocab-input-section">
-                    <label><strong>Write the definition:</strong></label>
-                    <textarea rows="2" placeholder="Type your definition here..."></textarea>
-                </div>
-                <p class="context"><strong>As used in the story:</strong> <em>"Minerva was the divine patron of competence: every craftsman, healer, teacher, and soldier who worked with skill worked under her protection."</em></p>
-            </div>
-            
-            <div class="vocab-word">
-                <h4>2. patron</h4>
-                <div class="vocab-input-section">
-                    <label><strong>Write the definition:</strong></label>
-                    <textarea rows="2" placeholder="Type your definition here..."></textarea>
-                </div>
-                <p class="context"><strong>As used in the story:</strong> <em>"As patron of schools, Minerva's festival was when students sat their examinations and teachers made offerings at her shrines."</em></p>
-            </div>
-            
-            <div class="vocab-word">
-                <h4>3. discipline</h4>
-                <div class="vocab-input-section">
-                    <label><strong>Write the definition:</strong></label>
-                    <textarea rows="2" placeholder="Type your definition here..."></textarea>
-                </div>
-                <p class="context"><strong>As used in the story:</strong> <em>"The gladiators in Minerva's festival were there because physical discipline belonged to her domain as much as intellectual discipline did."</em></p>
-            </div>
-            <div class="vocab-tracker">
-                <p><strong>📚 This Week's Words:</strong> 3 of 12 learned</p>
-                <p class="tracker-note">Quiz on Friday (Day 190)!</p>
-            </div>
+        <div class="reading-text">
+            <p>Minerva and the Arts of Civilization</p>
+            <p>A Tale from Roman Mythology</p>
+            <p>If you wanted to understand what the Romans valued most, you could do worse than looking at Minerva — what she governed, what she protected, and who prayed to her.</p>
+            <p>She was the goddess of wisdom, yes — the Roman version of Athena, from whom she descended. But Minerva&#x27;s wisdom was specifically practical. She was the patron of craft: of weaving and pottery and metalwork, of the skilled hands that made things civilization required. She was the patron of teachers and their students. She was the patron of doctors who applied knowledge in service of healing. She was the patron of poets who applied skill in service of beauty. She was the patron of war, but of the planned and purposeful kind — the war that served a goal rather than the war that simply destroyed.</p>
+            <p>She was, in short, the divine patron of competence.</p>
         </div>
         <div class="page-nav">
             <button class="btn-prev" onclick="prevPage()">← Back</button>
             <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
     </div>
-
-    <div class="lesson-page" id="page3" style="display: none;">
-        <div class="page-header">
-            <h2>🎯 Vocabulary Practice</h2>
-        </div>
-        <div class="vocab-review">
-            
-            <div class="review-card">
-                <h4>competence</h4>
-                <p>The ability to do something well — having the knowledge and skill to perform a task effectively.</p>
-            </div>
-            
-            <div class="review-card">
-                <h4>patron</h4>
-                <p>A god or powerful person who especially protects and supports a particular group, craft, or cause.</p>
-            </div>
-            
-            <div class="review-card">
-                <h4>discipline</h4>
-                <p>Controlled, trained skill — the ability that comes from sustained practice and careful learning.</p>
-            </div>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue to Story →</button>
-        </div>
-    </div>
-
-    
-    <div class="lesson-page" id="page4" style="display: none;">
-        <div class="page-header">
-            <h2>📚 Reading (Part 1 of 4)</h2>
-            <p>Minerva and the Arts of Civilization</p>
-        </div>
-        <div class="reading-text">
-            <p>Roman Mythology
-Minerva and the Arts of Civilization
-A Tale from Roman Mythology
-Retold for Young Readers</p>
-        </div>
-        <div class="page-nav">
-            <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
-        </div>
-    </div>
-    
-    <div class="lesson-page" id="page5" style="display: none;">
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>📚 Reading (Part 2 of 4)</h2>
             <p>Minerva and the Arts of Civilization</p>
         </div>
         <div class="reading-text">
-            <p>Minerva and the Arts of Civilization
-A Tale from Roman Mythology
-If you wanted to understand what the Romans valued most, you could do worse than looking at Minerva — what she governed, what she protected, and who prayed to her.
-She was the goddess of wisdom, yes — the Roman version of Athena, from whom she descended. But Minerva's wisdom was specifically practical. She was the <span class="vocab-highlight">patron</span> of craft: of weaving and pottery and metalwork, of the skilled hands that made things civilization required. She was the <span class="vocab-highlight">patron</span> of teachers and their students. She was the <span class="vocab-highlight">patron</span> of doctors who applied knowledge in service of healing. She was the <span class="vocab-highlight">patron</span> of poets who applied skill in service of beauty. She was the <span class="vocab-highlight">patron</span> of war, but of the planned and purposeful kind — the war that served a goal rather than the war that simply destroyed.
-She was, in short, the divine <span class="vocab-highlight">patron</span> of <span class="vocab-highlight">competence</span>.
-This matters. The Romans could have made the <span class="vocab-highlight">patron</span> of wisdom an ethereal figure concerned with pure thought and heavenly contemplation. Instead they made her the goddess of people who were very good at their jobs. The weaver at her loom, the surgeon at the operating table, the architect drawing plans, the general planning a campaign — all of them under the same divine protection, all of them doing the same essential thing: applying knowledge with skill, carefully, in service of something real.
-Her festival Quinquatria ran five days in March. The first day was solemn and sacred. The next four were given over to gladiatorial games — not because Minerva was violent, but because the Romans understood that physical skill and <span class="vocab-highlight">discipline</span> belonged to her domain alongside intellectual skill. The gladiators who performed during her festival were at the peak of their craft. Their precision and training were as much her province as a weaver's precision or a doctor's training.
-Schools held examinations during her festival. Artisans made offerings at her shrines. Soldiers had their weapons blessed. Doctors reviewed their instruments. The festival was a celebration of everything human beings could do well when they applied mind and hand together.
-She was born, like Athena, from Jupiter's head — fully formed, fully armored, arriving as a complete adult with no childhood. The Romans found this origin meaningful: wisdom arrives complete, in a moment of clarity, like a thought that suddenly makes everything else make sense.
-Her symbol was the owl, which sees in darkness and can turn its head to see what others miss. The Romans stamped owls on coins and carved them into architecture. That image — the owl as symbol of intelligence — is so old that we still feel it. You still put an owl on a diploma or a library or a school crest, two thousand years after the Romans stopped minting coins with Minerva's face.
-She had no husband, no romantic life, no children. This was deliberate, and the Romans noted it: Minerva was complete in herself, defined entirely by what she knew and what she could do. In a world where women were primarily understood through their relationships to men, Minerva stood apart as a divine being whose identity needed no one else.
-She was what you prayed to when you were about to do something difficult that required both knowledge and nerve. When you weren't sure if you were good enough. When the work mattered and you needed to be better than you'd been before.
-The owl sees in the dark. Minerva watches.
-Do the work.</p>
+            <p>This matters. The Romans could have made the patron of wisdom an ethereal figure concerned with pure thought and heavenly contemplation. Instead they made her the goddess of people who were very good at their jobs. The weaver at her loom, the surgeon at the operating table, the architect drawing plans, the general planning a campaign — all of them under the same divine protection, all of them doing the same essential thing: applying knowledge with skill, carefully, in service of something real.</p>
+            <p>Her festival Quinquatria ran five days in March. The first day was solemn and sacred. The next four were given over to gladiatorial games — not because Minerva was violent, but because the Romans understood that physical skill and discipline belonged to her domain alongside intellectual skill. The gladiators who performed during her festival were at the peak of their craft. Their precision and training were as much her province as a weaver&#x27;s precision or a doctor&#x27;s training.</p>
         </div>
         <div class="page-nav">
             <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
+            <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
     </div>
-    
-    <div class="lesson-page" id="page6" style="display: none;">
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>📚 Reading (Part 3 of 4)</h2>
             <p>Minerva and the Arts of Civilization</p>
         </div>
         <div class="reading-text">
-            <p>Content continues...</p>
+            <p>Schools held examinations during her festival. Artisans made offerings at her shrines. Soldiers had their weapons blessed. Doctors reviewed their instruments. The festival was a celebration of everything human beings could do well when they applied mind and hand together.</p>
+            <p>She was born, like Athena, from Jupiter&#x27;s head — fully formed, fully armored, arriving as a complete adult with no childhood. The Romans found this origin meaningful: wisdom arrives complete, in a moment of clarity, like a thought that suddenly makes everything else make sense.</p>
+            <p>Her symbol was the owl, which sees in darkness and can turn its head to see what others miss. The Romans stamped owls on coins and carved them into architecture. That image — the owl as symbol of intelligence — is so old that we still feel it. You still put an owl on a diploma or a library or a school crest, two thousand years after the Romans stopped minting coins with Minerva&#x27;s face.</p>
         </div>
         <div class="page-nav">
             <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
+            <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
     </div>
-    
-    <div class="lesson-page" id="page7" style="display: none;">
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>📚 Reading (Part 4 of 4)</h2>
             <p>Minerva and the Arts of Civilization</p>
         </div>
         <div class="reading-text">
-            <p>Content continues...</p>
+            <p>She had no husband, no romantic life, no children. This was deliberate, and the Romans noted it: Minerva was complete in herself, defined entirely by what she knew and what she could do. In a world where women were primarily understood through their relationships to men, Minerva stood apart as a divine being whose identity needed no one else.</p>
+            <p>She was what you prayed to when you were about to do something difficult that required both knowledge and nerve. When you weren&#x27;t sure if you were good enough. When the work mattered and you needed to be better than you&#x27;d been before.</p>
+            <p>The owl sees in the dark. Minerva watches.</p>
+            <p>Do the work.</p>
         </div>
         <div class="page-nav">
             <button class="btn-prev" onclick="prevPage()">← Back</button>
-            <button class="btn-next" onclick="nextPage()">Answer Questions →</button>
+            <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
     </div>
-
-    <div class="lesson-page" id="page8" style="display: none;">
+                    `
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>✍️ Comprehension Questions</h2>
         </div>
@@ -202,11 +318,10 @@ Do the work.</p>
             <button class="btn-prev" onclick="prevPage()">← Back</button>
             <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
-    </div>
-
-    
-
-    <div class="lesson-page" id="page9" style="display: none;">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>✏️ Grammar</h2>
             <p>Week 38: Appositives</p>
@@ -253,9 +368,10 @@ Do the work.</p>
             <button class="btn-prev" onclick="prevPage()">← Back</button>
             <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
-    </div>
-
-    <div class="lesson-page" id="page10" style="display: none;">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>📝 Journal Reflection</h2>
         </div>
@@ -271,9 +387,10 @@ Do the work.</p>
             <button class="btn-prev" onclick="prevPage()">← Back</button>
             <button class="btn-next" onclick="nextPage()">Finish Lesson →</button>
         </div>
-    </div>
-
-    <div class="lesson-page" id="page11" style="display: none;">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="completion-page">
             <h1>🎉 Day 124 Complete!</h1>
             <h2>Minerva and the Arts of Civilization</h2>
@@ -290,30 +407,15 @@ Do the work.</p>
             </div>
             <button class="btn-finish" onclick="returnToDashboard()">Return to Dashboard</button>
         </div>
-    </div>
+    </div>`
+                }
+            ]
+        };
 
-    <script>
-        let currentPage = 1;
-        const totalPages = 11;
-        window.nextPage = function() {
-            if (currentPage < totalPages) {
-                document.getElementById('page' + currentPage).style.display = 'none';
-                currentPage++;
-                document.getElementById('page' + currentPage).style.display = 'block';
-                window.scrollTo(0, 0);
-            }
-        };
-        window.prevPage = function() {
-            if (currentPage > 1) {
-                document.getElementById('page' + currentPage).style.display = 'none';
-                currentPage--;
-                document.getElementById('page' + currentPage).style.display = 'block';
-                window.scrollTo(0, 0);
-            }
-        };
-        window.returnToDashboard = function() {
-            window.location.href = '../../student-dashboard.html';
-        };
+        // Initialize the lesson viewer
+        window.addEventListener('DOMContentLoaded', () => {
+            createLessonViewer('lesson-container', lesson124Config);
+        });
     </script>
 </body>
 </html>

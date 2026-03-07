@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>5th Grade - Lesson 160: Weekly Assessment</title>
+    <title>Lesson 160: Week 32 Assessment</title>
     <link rel="stylesheet" href="../../../css/lesson-viewer.css">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
@@ -38,18 +38,120 @@
                 {
                     render: () => `
 <div class="lesson-page-card content-page">
-                            <h2>📝 Vocabulary Quiz</h2>
-                            <p style="margin-bottom: 20px;">Write the definition for each word from this week\'s reading (3 words):</p>
-                            <div style="margin: 20px 0;"><div style="margin-bottom: 25px; padding: 15px; background: #f9f9f9; border-radius: 10px;">
-                                <p style="font-weight: 600; margin-bottom: 8px;">1. explorer</p>
-                                <textarea id="quiz-1" style="width: 100%; min-height: 60px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;" placeholder="Write the definition..."><\/textarea>
-                            </div><div style="margin-bottom: 25px; padding: 15px; background: #f9f9f9; border-radius: 10px;">
-                                <p style="font-weight: 600; margin-bottom: 8px;">2. horizon</p>
-                                <textarea id="quiz-2" style="width: 100%; min-height: 60px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;" placeholder="Write the definition..."><\/textarea>
-                            </div><div style="margin-bottom: 25px; padding: 15px; background: #f9f9f9; border-radius: 10px;">
-                                <p style="font-weight: 600; margin-bottom: 8px;">3. glacier</p>
-                                <textarea id="quiz-3" style="width: 100%; min-height: 60px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;" placeholder="Write the definition..."><\/textarea>
-                            </div></div>
+                            <h2>🎮 Vocabulary Review</h2>
+                            <p style="color: #666; margin-bottom: 5px;">Match all 9 vocabulary words from this week!</p>
+                            <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 9</p>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                                <div id="wordColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                                    <div class="match-word" data-word="valor" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">valor</div>
+                                    <div class="match-word" data-word="domain" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">domain</div>
+                                    <div class="match-word" data-word="eternal" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">eternal</div>
+                                    <div class="match-word" data-word="apocalypse" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">apocalypse</div>
+                                    <div class="match-word" data-word="foretold" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">foretold</div>
+                                    <div class="match-word" data-word="renewal" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">renewal</div>
+                                    <div class="match-word" data-word="explorer" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">explorer</div>
+                                    <div class="match-word" data-word="horizon" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">horizon</div>
+                                    <div class="match-word" data-word="glacier" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">glacier</div>
+                                </div>
+                                <div id="defColumn" style="display: flex; flex-direction: column;">
+                                    <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                                    <div class="match-def" data-word="valor" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Look up the definition of valor</div>
+                                    <div class="match-def" data-word="horizon" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">The line where the earth and sky appear to meet in the distance.</div>
+                                    <div class="match-def" data-word="explorer" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">A person who travels to unknown places to discover new things.</div>
+                                    <div class="match-def" data-word="eternal" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Look up the definition of eternal</div>
+                                    <div class="match-def" data-word="foretold" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Predicted in advance — announced before it happened, often by a prophet or seer.</div>
+                                    <div class="match-def" data-word="glacier" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">A massive, slow-moving body of ice formed from packed snow over many years.</div>
+                                    <div class="match-def" data-word="apocalypse" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">A great catastrophic ending — the destruction of the world as it exists.</div>
+                                    <div class="match-def" data-word="renewal" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Starting fresh after something has ended — the world being reborn after destruction.</div>
+                                    <div class="match-def" data-word="domain" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Look up the definition of domain</div>
+                                </div>
+                            </div>
+                            
+                            <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                        </div>`
+                ,
+                    onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>✏️ Grammar &amp; Language: Personification &amp; Imagery</h2>
+                            <div style="margin: 20px 0; padding: 20px; background: rgba(48,88,83,0.08); border-radius: 12px;">
+                                <p style="margin-bottom: 10px;"><strong>Personification</strong> gives human qualities to non-human things. <strong>Imagery</strong> uses vivid descriptions that appeal to the five senses (sight, sound, touch, taste, smell).</p>
+                                <p style="font-style: italic; color: #555;">Example: Personification: The wind <em>whispered</em> through the trees.<br>Imagery: The cold stone floor sent shivers up through his bare feet.</p>
+                            </div>
+                            <div style="margin: 20px 0;">
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #305853;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 1:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">Identify the personification or imagery in each sentence and explain which sense it appeals to:</p>
+                                    <p style="margin: 15px 0; padding: 15px; background: #f0f0f0; border-radius: 8px; font-style: italic; white-space: pre-line;">1. The old house groaned under the weight of the storm.
+2. The bread was warm and golden, filling the room with the smell of honey and wheat.
+3. Shadows danced across the castle walls.</p>
+                                    <textarea id="grammar-1" style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;" oninput="updateWordCount('grammar-1', 'wc-grammar-1', 20)" placeholder="Write your answer here (minimum 20 words)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;"><span id="wc-grammar-1" style="font-size: 14px; color: #666;">0 / 20 words</span><span id="wc-grammar-1-status" style="font-size: 14px; font-weight: 600;"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>✏️ Grammar &amp; Language: Personification &amp; Imagery</h2>
+                            <div style="margin: 20px 0;">
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #305853;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 2:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">Find an example of imagery from this week\'s reading that helped you picture a scene. Write it and explain what you visualized.</p>
+                                    
+                                    <textarea id="grammar-2" style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;" oninput="updateWordCount('grammar-2', 'wc-grammar-2', 20)" placeholder="Write your answer here (minimum 20 words)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;"><span id="wc-grammar-2" style="font-size: 14px; color: #666;">0 / 20 words</span><span id="wc-grammar-2-status" style="font-size: 14px; font-weight: 600;"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>✏️ Grammar &amp; Language: Personification &amp; Imagery</h2>
+                            <div style="margin: 20px 0;">
+                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #305853;">
+                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 3:</p>
+                                    <p style="margin-bottom: 12px; color: #444;">Write a paragraph (3-4 sentences) describing a setting from this week\'s story using at least one example of personification and one of imagery.</p>
+                                    
+                                    <textarea id="grammar-3" style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;" oninput="updateWordCount('grammar-3', 'wc-grammar-3', 20)" placeholder="Write your answer here (minimum 20 words)..."><\/textarea>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;"><span id="wc-grammar-3" style="font-size: 14px; color: #666;">0 / 20 words</span><span id="wc-grammar-3-status" style="font-size: 14px; font-weight: 600;"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+<div class="lesson-page-card content-page">
+                            <h2>📝 Writing Assignment: Compare &amp; Contrast</h2>
+                            <div style="margin: 20px 0; padding: 20px; background: rgba(139,69,19,0.08); border-radius: 12px;">
+                                <p style="margin-bottom: 15px;">This week you read Frankenstein chapters and learned about Mary Shelley, the Romantic era, science and ethics.</p>
+                                <p><strong>Your task:</strong> Write a compare and contrast essay connecting the <em>fiction</em> you read this week with the <em>informational text</em>. How do the stories and the real-world information connect? What did the informational text help you understand about the story — or what did the story help you understand about the real world?</p>
+                            </div>
+                            
+                            <div style="margin: 20px 0; padding: 15px; background: #f9f9f9; border-radius: 10px;">
+                                <p style="font-weight: 600; margin-bottom: 10px;">Your essay should include:</p>
+                                <ul style="line-height: 2; color: #444;">
+                                    <li>An introduction that names both the story and the informational text</li>
+                                    <li>At least 2 similarities between the fiction and non-fiction</li>
+                                    <li>At least 1 difference between the fiction and non-fiction</li>
+                                    <li>A conclusion with your own thoughts</li>
+                                </ul>
+                            </div>
+                            
+                            <textarea id="writing" style="width: 100%; min-height: 200px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;" oninput="updateWordCount('writing', 'wc-writing', 150)" placeholder="Write your compare and contrast essay here (minimum 150 words)..."><\/textarea>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+                                <span id="wc-writing" style="font-size: 14px; color: #666;">0 / 150 words</span>
+                                <span id="wc-writing-status" style="font-size: 14px; font-weight: 600;"></span>
+                            </div>
                         </div>
                     `
                 },
@@ -59,7 +161,11 @@
         <div class="completion-icon">⭐</div>
         <h1>Assessment Complete!</h1>
         <p class="completion-message">Great job on the Week 32 assessment!</p>
-        <div class="completion-stats"><div class="stat-item"><div class="stat-number">3</div><div class="stat-label">Words Reviewed</div></div></div>
+        <div class="completion-stats">
+          <div class="stat-item"><div class="stat-number">3</div><div class="stat-label">Vocab Reviewed</div></div>
+          <div class="stat-item"><div class="stat-number">9</div><div class="stat-label">Grammar Questions</div></div>
+          <div class="stat-item"><div class="stat-number">1</div><div class="stat-label">Essay Written</div></div>
+        </div>
         <button class="completion-button" onclick="markComplete()">Mark Complete &amp; Save Progress</button>
         <div class="completion-footer"><button class="nav-button prev-button" onclick="prevPage()">← Review</button></div>
       </div>

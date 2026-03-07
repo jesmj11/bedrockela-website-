@@ -4,11 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5th Grade - Day 53: Taliesin, the Greatest Bard</title>
-    <link rel="stylesheet" href="../../../css/lesson-styles.css">
+    <link rel="stylesheet" href="../../../css/lesson-viewer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
-<body>
-    <!-- Page 1: Title & Objectives -->
-    <div class="lesson-page" id="page1">
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
+
+    <script src="../../../js/lesson-viewer.js"></script>
+    <script src="../../../firebase-config.js"></script>
+    <script src="../../../js/lesson-completion.js"></script>
+    <script src="../../../js/lesson-autosave.js"></script>
+    <script src="../../../js/save-button-injector.js"></script>
+    <script src="../../../js/answer-validation.js"></script>
+    <script src="../../../js/grade-normalizer.js"></script>
+    <script src="../../../js/offline-sync.js"></script>
+    <script src="../../../js/text-to-speech.js"></script>
+    <script src="../../../js/digital-book.js"></script>
+    <script type="module" src="../../../js/vocab-games.js"></script>
+    
+    <script>
+        const lesson53Config = {
+            lessonId: '5th-grade-lesson-53',
+            gradeLevel: '5th-grade',
+            title: '5th Grade - Day 53: Taliesin, the Greatest Bard',
+            pages: [
+                {
+                    render: () => `<div class="lesson-page-card title-page">
         <div class="page-header">
             <h1>Day 53 - Week 11</h1>
             <h2>Celtic Mythology</h2>
@@ -28,10 +49,10 @@
             </ul>
         </div>
         <button class="btn-next" onclick="nextPage()">Begin Lesson →</button>
-    </div>
-
-    <!-- Page 2: Vocabulary -->
-    <div class="lesson-page" id="page2" style="display: none;">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>📖 Vocabulary</h2>
             <p>Week 11 - Day 3 of 5</p>
@@ -78,11 +99,10 @@
             <button class="btn-prev" onclick="prevPage()">← Back</button>
             <button class="btn-next" onclick="nextPage()">Continue to Story →</button>
         </div>
-    </div>
-
-    <!-- Pages 3-6: Reading (4 parts) -->
-    
-    <div class="lesson-page" id="page3" style="display: none;">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>📚 Reading (Part 1 of 4)</h2>
             <p>Taliesin, the Greatest Bard</p>
@@ -102,9 +122,10 @@
             <button class="btn-prev" onclick="prevPage()">← Back</button>
             <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
         </div>
-    </div>
-    
-    <div class="lesson-page" id="page4" style="display: none;">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>📚 Reading (Part 2 of 4)</h2>
             <p>Taliesin, the Greatest Bard</p>
@@ -124,9 +145,10 @@
             <button class="btn-prev" onclick="prevPage()">← Back</button>
             <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
         </div>
-    </div>
-    
-    <div class="lesson-page" id="page5" style="display: none;">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>📚 Reading (Part 3 of 4)</h2>
             <p>Taliesin, the Greatest Bard</p>
@@ -146,9 +168,10 @@
             <button class="btn-prev" onclick="prevPage()">← Back</button>
             <button class="btn-next" onclick="nextPage()">Continue Reading →</button>
         </div>
-    </div>
-    
-    <div class="lesson-page" id="page6" style="display: none;">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>📚 Reading (Part 4 of 4)</h2>
             <p>Taliesin, the Greatest Bard</p>
@@ -165,11 +188,10 @@
             <button class="btn-prev" onclick="prevPage()">← Back</button>
             <button class="btn-next" onclick="nextPage()">Answer Questions →</button>
         </div>
-    </div>
-    
-
-    <!-- Page 7: Comprehension -->
-    <div class="lesson-page" id="page7" style="display: none;">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>✍️ Comprehension Questions</h2>
             <p>Show what you understood</p>
@@ -196,10 +218,10 @@
             <button class="btn-prev" onclick="prevPage()">← Back</button>
             <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
-    </div>
-
-    <!-- Page 8: Grammar/Language -->
-    <div class="lesson-page" id="page8" style="display: none;">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>📝 Grammar Practice</h2>
         </div>
@@ -215,10 +237,10 @@
             <button class="btn-prev" onclick="prevPage()">← Back</button>
             <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
-    </div>
-
-    <!-- Page 9: Informational Text -->
-    <div class="lesson-page" id="page9" style="display: none;">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>📰 Informational Text</h2>
         </div>
@@ -243,10 +265,10 @@
             <button class="btn-prev" onclick="prevPage()">← Back</button>
             <button class="btn-next" onclick="nextPage()">Continue →</button>
         </div>
-    </div>
-
-    <!-- Page 10: Writing/Journal -->
-    <div class="lesson-page" id="page10" style="display: none;">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>✍️ Writing Practice</h2>
         </div>
@@ -258,10 +280,10 @@
             <button class="btn-prev" onclick="prevPage()">← Back</button>
             <button class="btn-next" onclick="nextPage()">Finish Lesson →</button>
         </div>
-    </div>
-
-    <!-- Page 11: Completion -->
-    <div class="lesson-page" id="page11" style="display: none;">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
         <div class="page-header">
             <h2>🎉 Lesson Complete!</h2>
         </div>
@@ -270,9 +292,15 @@
             <p>You've learned about Taliesin, the Greatest Bard and practiced important reading and writing skills.</p>
             <button class="btn-save">Save Progress</button>
         </div>
-    </div>
+    </div>`
+                }
+            ]
+        };
 
-    <script src="../../../js/lesson-navigation.js"></script>
-    <script src="../../../js/lesson-autosave.js"></script>
+        // Initialize the lesson viewer
+        window.addEventListener('DOMContentLoaded', () => {
+            createLessonViewer('lesson-container', lesson53Config);
+        });
+    </script>
 </body>
 </html>

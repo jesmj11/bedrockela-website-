@@ -1,17 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Day 45: Week 37 Assessment</title>
-  <link rel="stylesheet" href="../../../css/lesson-styles.css">
-  <link rel="stylesheet" href="../../../css/lesson-complete-styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 45: Week 37 Assessment</title>
+    <link rel="stylesheet" href="../../../css/lesson-viewer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
-<body>
-  <div class="lesson-container" id="lessonContainer">
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
+
+    <script src="../../../js/lesson-viewer.js"></script>
+    <script src="../../../firebase-config.js"></script>
+    <script src="../../../js/lesson-completion.js"></script>
+    <script src="../../../js/lesson-autosave.js"></script>
+    <script src="../../../js/save-button-injector.js"></script>
+    <script src="../../../js/answer-validation.js"></script>
+    <script src="../../../js/grade-normalizer.js"></script>
+    <script src="../../../js/offline-sync.js"></script>
+    <script src="../../../js/text-to-speech.js"></script>
+    <script src="../../../js/digital-book.js"></script>
+    <script type="module" src="../../../js/vocab-games.js"></script>
     
-    <!-- Page 1: Title & Instructions -->
-    <div class="page page-active">
+    <script>
+        const lesson45Config = {
+            lessonId: '5th-grade-lesson-45',
+            gradeLevel: '5th-grade',
+            title: 'Day 45: Week 37 Assessment',
+            pages: [
+                {
+                    render: () => `<div class="lesson-page-card title-page">
       <div class="page-header">
         <div class="lesson-number">Day 45 • Week 37</div>
         <div class="unit-label">Weekly Assessment</div>
@@ -30,10 +48,10 @@
       <div class="page-footer">
         <button class="nav-button next-button" onclick="nextPage()">Begin Assessment →</button>
       </div>
-    </div>
-
-    <!-- Page 2: Vocabulary Quiz -->
-    <div class="page">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
       <div class="page-header">
         <div class="lesson-number">Day 45 • Week 37</div>
         <div class="unit-label">Vocabulary Quiz</div>
@@ -119,10 +137,10 @@
         <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
         <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
       </div>
-    </div>
-
-    <!-- Page 3: Language Skills Game -->
-    <div class="page">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
       <div class="page-header">
         <div class="lesson-number">Day 45 • Week 37</div>
         <div class="unit-label">Language Skills</div>
@@ -256,10 +274,10 @@
         <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
         <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
       </div>
-    </div>
-
-    <!-- Page 4: Story Comprehension (review from this week) -->
-    <div class="page">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
       <div class="page-header">
         <div class="lesson-number">Day 45 • Week 37</div>
         <div class="unit-label">Comprehension Review</div>
@@ -287,10 +305,10 @@
         <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
         <button class="nav-button next-button" onclick="nextPage()">Continue →</button>
       </div>
-    </div>
-
-    <!-- Page 5: Writing -->
-    <div class="page">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card content-page">
       <div class="page-header">
         <div class="lesson-number">Day 45 • Week 37</div>
         <div class="unit-label">Writing</div>
@@ -305,10 +323,10 @@
         <button class="nav-button prev-button" onclick="prevPage()">← Back</button>
         <button class="nav-button next-button" onclick="nextPage()">Finish Assessment →</button>
       </div>
-    </div>
-
-    <!-- Page 6: Completion -->
-    <div class="page completion-page">
+    </div>`
+                },
+                {
+                    render: () => `<div class="lesson-page-card completion-page">
       <div class="completion-container">
         <div class="completion-icon">🎉</div>
         <h1>Assessment Complete!</h1>
@@ -332,35 +350,15 @@
           <button class="nav-button prev-button" onclick="prevPage()">← Review Assessment</button>
         </div>
       </div>
-    </div>
+    </div>`
+                }
+            ]
+        };
 
-  </div>
-
-  <script>
-    let currentPage = 0;
-    const pages = document.querySelectorAll('.page');
-    
-    window.nextPage = function() {
-      if (currentPage < pages.length - 1) {
-        pages[currentPage].classList.remove('page-active');
-        currentPage++;
-        pages[currentPage].classList.add('page-active');
-        window.scrollTo(0, 0);
-      }
-    };
-    
-    window.prevPage = function() {
-      if (currentPage > 0) {
-        pages[currentPage].classList.remove('page-active');
-        currentPage--;
-        pages[currentPage].classList.add('page-active');
-        window.scrollTo(0, 0);
-      }
-    };
-    
-    window.markComplete = function() {
-      alert('Assessment submitted! (Save functionality will be added with Firebase integration)');
-    };
-  </script>
+        // Initialize the lesson viewer
+        window.addEventListener('DOMContentLoaded', () => {
+            createLessonViewer('lesson-container', lesson45Config);
+        });
+    </script>
 </body>
 </html>

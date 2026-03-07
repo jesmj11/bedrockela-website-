@@ -1,568 +1,364 @@
 /**
- * BedrockELA Vocabulary Practice Games
- * Progressive difficulty games for daily vocabulary practice
+ * Interactive Vocabulary Games for BedrockELA
+ * Four game types: matching, fill-in-blank, sentence-writing, context-clues
  */
 
-// Game 1: MATCHING GAME (Day 1 - Simple matching)
-export function createMatchingGame(words, containerId) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    
-    container.innerHTML = `
-        <div class="vocab-game matching-game">
-            <h3>🎯 Vocabulary Practice: Matching</h3>
-            <p class="game-instructions">Match each word to its definition!</p>
-            <div class="matching-grid" id="matchingGrid"></div>
-            <div class="game-feedback" id="matchingFeedback"></div>
-            <button class="btn-check-answers" id="checkMatching">Check Answers</button>
-        </div>
-    `;
-    
-    const grid = document.getElementById('matchingGrid');
-    let selectedWord = null;
-    let selectedDef = null;
-    let matches = {};
-    
-    // Shuffle definitions
-    const shuffledDefs = [...words].sort(() => Math.random() - 0.5);
-    
-    // Create word column
-    const wordColumn = document.createElement('div');
-    wordColumn.className = 'matching-column';
-    words.forEach((item, idx) => {
-        const wordBtn = document.createElement('button');
-        wordBtn.className = 'matching-item word-item';
-        wordBtn.textContent = item.word;
-        wordBtn.dataset.wordIdx = idx;
-        wordBtn.addEventListener('click', () => selectWord(wordBtn, idx));
-        wordColumn.appendChild(wordBtn);
-    });
-    
-    // Create definition column
-    const defColumn = document.createElement('div');
-    defColumn.className = 'matching-column';
-    shuffledDefs.forEach((item, idx) => {
-        const defBtn = document.createElement('button');
-        defBtn.className = 'matching-item def-item';
-        defBtn.textContent = item.definition;
-        defBtn.dataset.defIdx = idx;
-        defBtn.dataset.correctWord = item.word;
-        defBtn.addEventListener('click', () => selectDef(defBtn, idx));
-        defColumn.appendChild(defBtn);
-    });
-    
-    grid.appendChild(wordColumn);
-    grid.appendChild(defColumn);
-    
-    function selectWord(btn, idx) {
-        document.querySelectorAll('.word-item').forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-        selectedWord = { btn, idx, word: words[idx].word };
-        tryMatch();
+class VocabGames {
+    constructor() {
+        this.currentGame = null;
     }
-    
-    function selectDef(btn, idx) {
-        document.querySelectorAll('.def-item').forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-        selectedDef = { btn, idx };
-        tryMatch();
+
+    /**
+     * Game 1: Matching Game
+     * Match vocabulary words to their definitions
+     */
+    createMatchingGame(words, containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        // Shuffle definitions
+        const shuffledDefs = [...words].sort(() => Math.random() - 0.5);
+        
+        let html = `
+            <div class="vocab-game matching-game">
+                <p class="game-instructions">Match each word to its definition by clicking a word, then clicking its definition.</p>
+                <div class="matching-container">
+                    <div class="words-column">
+                        ${words.map((w, i) => `
+                            <button class="word-btn" data-word="${i}" data-matched="false">
+                                ${w.word}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div class="definitions-column">
+                        ${shuffledDefs.map((w, i) => {
+                            const originalIndex = words.findIndex(word => word.word === w.word);
+                            return `
+                                <button class="def-btn" data-def="${originalIndex}" data-matched="false">
+                                    ${w.definition}
+                                </button>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+                <div class="game-feedback"></div>
+                <button class="reset-game-btn" style="display:none;">Try Again</button>
+            </div>
+        `;
+
+        container.innerHTML = html;
+        this.initMatchingGameEvents(containerId);
     }
-    
-    function tryMatch() {
-        if (selectedWord && selectedDef) {
-            matches[selectedWord.idx] = selectedDef.idx;
-            selectedWord.btn.classList.add('matched');
-            selectedDef.btn.classList.add('matched');
-            selectedWord.btn.classList.remove('selected');
-            selectedDef.btn.classList.remove('selected');
+
+    initMatchingGameEvents(containerId) {
+        const container = document.getElementById(containerId);
+        let selectedWord = null;
+        let selectedDef = null;
+        let matches = 0;
+
+        const wordBtns = container.querySelectorAll('.word-btn');
+        const defBtns = container.querySelectorAll('.def-btn');
+        const feedback = container.querySelector('.game-feedback');
+        const resetBtn = container.querySelector('.reset-game-btn');
+
+        const checkMatch = () => {
+            if (selectedWord === null || selectedDef === null) return;
+
+            const wordBtn = container.querySelector(`.word-btn[data-word="${selectedWord}"]`);
+            const defBtn = container.querySelector(`.def-btn[data-def="${selectedDef}"]`);
+
+            if (selectedWord === selectedDef) {
+                // Correct match!
+                wordBtn.classList.add('matched');
+                defBtn.classList.add('matched');
+                wordBtn.setAttribute('data-matched', 'true');
+                defBtn.setAttribute('data-matched', 'true');
+                matches++;
+
+                if (matches === wordBtns.length) {
+                    feedback.innerHTML = '<p class="success">🎉 Perfect! You matched all the words!</p>';
+                    resetBtn.style.display = 'block';
+                } else {
+                    feedback.innerHTML = '<p class="success">✅ Correct!</p>';
+                    setTimeout(() => feedback.innerHTML = '', 1500);
+                }
+            } else {
+                // Incorrect
+                wordBtn.classList.add('incorrect');
+                defBtn.classList.add('incorrect');
+                feedback.innerHTML = '<p class="error">❌ Not quite. Try again!</p>';
+                setTimeout(() => {
+                    wordBtn.classList.remove('incorrect', 'selected');
+                    defBtn.classList.remove('incorrect', 'selected');
+                    feedback.innerHTML = '';
+                }, 1500);
+            }
+
             selectedWord = null;
             selectedDef = null;
-        }
-    }
-    
-    document.getElementById('checkMatching').addEventListener('click', () => {
-        let correct = 0;
-        words.forEach((item, idx) => {
-            const matchedDefIdx = matches[idx];
-            if (matchedDefIdx !== undefined) {
-                const defBtn = defColumn.children[matchedDefIdx];
-                if (defBtn.dataset.correctWord === item.word) {
-                    correct++;
-                    wordColumn.children[idx].classList.add('correct');
-                    defBtn.classList.add('correct');
-                } else {
-                    wordColumn.children[idx].classList.add('incorrect');
-                    defBtn.classList.add('incorrect');
-                }
-            }
-        });
-        
-        const feedback = document.getElementById('matchingFeedback');
-        feedback.innerHTML = `<strong>Score: ${correct}/${words.length}</strong>`;
-        if (correct === words.length) {
-            feedback.innerHTML += ' 🎉 Perfect!';
-        }
-    });
-}
+        };
 
-// Game 2: FILL IN THE BLANK (Day 2 - Contextual usage)
-export function createFillInTheBlank(words, containerId) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    
-    container.innerHTML = `
-        <div class="vocab-game fill-blank-game">
-            <h3>✏️ Vocabulary Practice: Fill in the Blank</h3>
-            <p class="game-instructions">Complete each sentence with the correct vocabulary word!</p>
-            <div class="word-bank" id="wordBank"></div>
-            <div class="sentences-list" id="sentencesList"></div>
-            <button class="btn-check-answers" id="checkFillBlanks">Check Answers</button>
-            <div class="game-feedback" id="fillBlankFeedback"></div>
-        </div>
-    `;
-    
-    // Word bank
-    const wordBank = document.getElementById('wordBank');
-    wordBank.innerHTML = '<strong>Word Bank:</strong> ' + words.map(w => w.word).join(', ');
-    
-    // Generate sentences
-    const sentencesList = document.getElementById('sentencesList');
-    words.forEach((item, idx) => {
-        const sentenceDiv = document.createElement('div');
-        sentenceDiv.className = 'fill-blank-item';
-        sentenceDiv.innerHTML = `
-            <p>${idx + 1}. ${item.sentence || `The ${item.word} was important.`}</p>
-            <input type="text" class="fill-blank-input" data-answer="${item.word.toLowerCase()}" placeholder="Type your answer...">
-        `;
-        sentencesList.appendChild(sentenceDiv);
-    });
-    
-    document.getElementById('checkFillBlanks').addEventListener('click', () => {
-        const inputs = document.querySelectorAll('.fill-blank-input');
-        let correct = 0;
-        
-        inputs.forEach(input => {
-            const answer = input.value.trim().toLowerCase();
-            const correctAnswer = input.dataset.answer;
-            
-            if (answer === correctAnswer) {
-                input.classList.add('correct');
-                input.classList.remove('incorrect');
-                correct++;
-            } else {
-                input.classList.add('incorrect');
-                input.classList.remove('correct');
-            }
-        });
-        
-        const feedback = document.getElementById('fillBlankFeedback');
-        feedback.innerHTML = `<strong>Score: ${correct}/${words.length}</strong>`;
-        if (correct === words.length) {
-            feedback.innerHTML += ' 🎉 Excellent!';
-        }
-    });
-}
-
-// Game 3: WORD SCRAMBLE (Day 3 - Recognition practice)
-export function createWordScramble(words, containerId) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    
-    function scramble(word) {
-        const arr = word.split('');
-        for (let i = arr.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [arr[i], arr[j]] = [arr[j], arr[i]];
-        }
-        return arr.join('');
-    }
-    
-    container.innerHTML = `
-        <div class="vocab-game scramble-game">
-            <h3>🔤 Vocabulary Practice: Word Scramble</h3>
-            <p class="game-instructions">Unscramble the vocabulary words!</p>
-            <div class="scramble-list" id="scrambleList"></div>
-            <button class="btn-check-answers" id="checkScramble">Check Answers</button>
-            <div class="game-feedback" id="scrambleFeedback"></div>
-        </div>
-    `;
-    
-    const scrambleList = document.getElementById('scrambleList');
-    words.forEach((item, idx) => {
-        const scrambled = scramble(item.word);
-        const itemDiv = document.createElement('div');
-        itemDiv.className = 'scramble-item';
-        itemDiv.innerHTML = `
-            <div class="scramble-word">${idx + 1}. <strong>${scrambled}</strong></div>
-            <input type="text" class="scramble-input" data-answer="${item.word.toLowerCase()}" placeholder="Unscramble...">
-            <div class="scramble-hint">💡 ${item.definition}</div>
-        `;
-        scrambleList.appendChild(itemDiv);
-    });
-    
-    document.getElementById('checkScramble').addEventListener('click', () => {
-        const inputs = document.querySelectorAll('.scramble-input');
-        let correct = 0;
-        
-        inputs.forEach(input => {
-            const answer = input.value.trim().toLowerCase();
-            const correctAnswer = input.dataset.answer;
-            
-            if (answer === correctAnswer) {
-                input.classList.add('correct');
-                input.classList.remove('incorrect');
-                correct++;
-            } else {
-                input.classList.add('incorrect');
-                input.classList.remove('correct');
-            }
-        });
-        
-        const feedback = document.getElementById('scrambleFeedback');
-        feedback.innerHTML = `<strong>Score: ${correct}/${words.length}</strong>`;
-        if (correct === words.length) {
-            feedback.innerHTML += ' 🎉 You did it!';
-        }
-    });
-}
-
-// Game 4: MATCHING CHALLENGE (Day 4 - Full review with timer)
-export function createMatchingChallenge(words, containerId) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    
-    let startTime = null;
-    let matches = 0;
-    let attempts = 0;
-    
-    container.innerHTML = `
-        <div class="vocab-game matching-challenge">
-            <h3>🏆 Vocabulary Challenge: Speed Matching</h3>
-            <p class="game-instructions">Match ALL ${words.length} words as fast as you can!</p>
-            <div class="challenge-stats">
-                <span id="matchesCount">Matches: 0/${words.length}</span>
-                <span id="timerDisplay">Time: 0s</span>
-            </div>
-            <div class="challenge-grid" id="challengeGrid"></div>
-            <div class="game-feedback" id="challengeFeedback"></div>
-        </div>
-    `;
-    
-    const grid = document.getElementById('challengeGrid');
-    const allCards = [];
-    
-    // Create cards (word + definition pairs)
-    words.forEach(item => {
-        allCards.push({ text: item.word, type: 'word', pair: item.word });
-        allCards.push({ text: item.definition, type: 'def', pair: item.word });
-    });
-    
-    // Shuffle
-    allCards.sort(() => Math.random() - 0.5);
-    
-    let firstCard = null;
-    let secondCard = null;
-    let canClick = true;
-    
-    allCards.forEach((card, idx) => {
-        const cardEl = document.createElement('button');
-        cardEl.className = 'challenge-card';
-        cardEl.textContent = card.text;
-        cardEl.dataset.pair = card.pair;
-        cardEl.dataset.idx = idx;
-        
-        cardEl.addEventListener('click', () => {
-            if (!canClick || cardEl.classList.contains('matched')) return;
-            
-            if (!startTime) {
-                startTime = Date.now();
-                startTimer();
-            }
-            
-            cardEl.classList.add('selected');
-            
-            if (!firstCard) {
-                firstCard = cardEl;
-            } else if (!secondCard && cardEl !== firstCard) {
-                secondCard = cardEl;
-                canClick = false;
-                attempts++;
+        wordBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (btn.getAttribute('data-matched') === 'true') return;
                 
-                setTimeout(() => {
-                    if (firstCard.dataset.pair === secondCard.dataset.pair) {
-                        firstCard.classList.add('matched');
-                        secondCard.classList.add('matched');
-                        firstCard.classList.remove('selected');
-                        secondCard.classList.remove('selected');
-                        matches++;
-                        document.getElementById('matchesCount').textContent = `Matches: ${matches}/${words.length}`;
-                        
-                        if (matches === words.length) {
-                            endGame();
-                        }
-                    } else {
-                        firstCard.classList.remove('selected');
-                        secondCard.classList.remove('selected');
-                    }
-                    
-                    firstCard = null;
-                    secondCard = null;
-                    canClick = true;
-                }, 600);
-            }
+                container.querySelectorAll('.word-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                selectedWord = parseInt(btn.getAttribute('data-word'));
+                checkMatch();
+            });
         });
-        
-        grid.appendChild(cardEl);
-    });
-    
-    let timerInterval;
-    function startTimer() {
-        timerInterval = setInterval(() => {
-            const elapsed = Math.floor((Date.now() - startTime) / 1000);
-            document.getElementById('timerDisplay').textContent = `Time: ${elapsed}s`;
-        }, 100);
+
+        defBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (btn.getAttribute('data-matched') === 'true') return;
+                
+                container.querySelectorAll('.def-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                selectedDef = parseInt(btn.getAttribute('data-def'));
+                checkMatch();
+            });
+        });
+
+        resetBtn.addEventListener('click', () => {
+            matches = 0;
+            selectedWord = null;
+            selectedDef = null;
+            wordBtns.forEach(btn => {
+                btn.classList.remove('matched', 'selected', 'incorrect');
+                btn.setAttribute('data-matched', 'false');
+            });
+            defBtns.forEach(btn => {
+                btn.classList.remove('matched', 'selected', 'incorrect');
+                btn.setAttribute('data-matched', 'false');
+            });
+            feedback.innerHTML = '';
+            resetBtn.style.display = 'none';
+        });
     }
-    
-    function endGame() {
-        clearInterval(timerInterval);
-        const elapsed = Math.floor((Date.now() - startTime) / 1000);
-        const feedback = document.getElementById('challengeFeedback');
-        feedback.innerHTML = `
-            <strong>🎉 Complete!</strong><br>
-            Time: ${elapsed} seconds | Attempts: ${attempts}<br>
-            ${elapsed < 60 ? 'Amazing speed! 🚀' : 'Great job! 👏'}
+
+    /**
+     * Game 2: Fill in the Blank
+     * Choose the correct word to complete each sentence
+     */
+    createFillBlankGame(words, sentences, containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        let html = `
+            <div class="vocab-game fill-blank-game">
+                <p class="game-instructions">Choose the correct vocabulary word to complete each sentence.</p>
+                ${sentences.map((sent, i) => `
+                    <div class="fill-blank-question" data-question="${i}">
+                        <p class="sentence">${sent.text.replace('___', '<span class="blank">___</span>')}</p>
+                        <div class="word-choices">
+                            ${words.map((w, wi) => `
+                                <button class="choice-btn" data-word="${w.word}" data-correct="${w.word === sent.answer}">
+                                    ${w.word}
+                                </button>
+                            `).join('')}
+                        </div>
+                        <div class="question-feedback"></div>
+                    </div>
+                `).join('')}
+                <div class="game-score"></div>
+            </div>
         `;
+
+        container.innerHTML = html;
+        this.initFillBlankEvents(containerId, sentences.length);
+    }
+
+    initFillBlankEvents(containerId, numQuestions) {
+        const container = document.getElementById(containerId);
+        const choiceBtns = container.querySelectorAll('.choice-btn');
+        let score = 0;
+        let answered = 0;
+
+        choiceBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const question = this.closest('.fill-blank-question');
+                const questionNum = question.getAttribute('data-question');
+                const feedback = question.querySelector('.question-feedback');
+                const choices = question.querySelectorAll('.choice-btn');
+
+                // Disable all choices for this question
+                choices.forEach(c => c.disabled = true);
+
+                const isCorrect = this.getAttribute('data-correct') === 'true';
+                
+                if (isCorrect) {
+                    this.classList.add('correct');
+                    feedback.innerHTML = '<p class="success">✅ Correct!</p>';
+                    score++;
+                } else {
+                    this.classList.add('incorrect');
+                    const correctBtn = question.querySelector('.choice-btn[data-correct="true"]');
+                    correctBtn.classList.add('correct');
+                    feedback.innerHTML = `<p class="error">❌ The correct answer is "${correctBtn.getAttribute('data-word')}"</p>`;
+                }
+
+                answered++;
+                if (answered === numQuestions) {
+                    const scoreDiv = container.querySelector('.game-score');
+                    const percentage = Math.round((score / numQuestions) * 100);
+                    scoreDiv.innerHTML = `<p class="final-score">Score: ${score}/${numQuestions} (${percentage}%)</p>`;
+                }
+            });
+        });
+    }
+
+    /**
+     * Game 3: Sentence Writing
+     * Write original sentences using the vocabulary words
+     */
+    createSentenceWritingGame(words, containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        let html = `
+            <div class="vocab-game sentence-writing-game">
+                <p class="game-instructions">Write an original sentence using each vocabulary word correctly.</p>
+                ${words.map((w, i) => `
+                    <div class="sentence-prompt">
+                        <div class="word-display">
+                            <strong>${w.word}</strong>
+                            <span class="definition-hint">(${w.definition})</span>
+                        </div>
+                        <textarea 
+                            id="sentence-${i}" 
+                            rows="2" 
+                            placeholder="Write your sentence using '${w.word}'..."
+                            data-word="${w.word}"></textarea>
+                        <button class="check-sentence-btn" data-index="${i}">Check Sentence</button>
+                        <div class="sentence-feedback"></div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+
+        container.innerHTML = html;
+        this.initSentenceWritingEvents(containerId);
+    }
+
+    initSentenceWritingEvents(containerId) {
+        const container = document.getElementById(containerId);
+        const checkBtns = container.querySelectorAll('.check-sentence-btn');
+
+        checkBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const index = this.getAttribute('data-index');
+                const textarea = container.querySelector(`#sentence-${index}`);
+                const word = textarea.getAttribute('data-word');
+                const sentence = textarea.value.trim();
+                const feedback = this.nextElementSibling;
+
+                if (!sentence) {
+                    feedback.innerHTML = '<p class="error">Please write a sentence first.</p>';
+                    return;
+                }
+
+                // Check if word is used
+                const wordRegex = new RegExp(`\\b${word}\\b`, 'i');
+                if (!wordRegex.test(sentence)) {
+                    feedback.innerHTML = `<p class="error">Make sure to use the word "${word}" in your sentence.</p>`;
+                    return;
+                }
+
+                // Basic checks
+                const hasCapital = /^[A-Z]/.test(sentence);
+                const hasEnding = /[.!?]$/.test(sentence);
+                const hasLength = sentence.split(/\s+/).length >= 5;
+
+                if (!hasCapital || !hasEnding || !hasLength) {
+                    let tips = [];
+                    if (!hasCapital) tips.push('Start with a capital letter');
+                    if (!hasEnding) tips.push('End with punctuation (. ! ?)');
+                    if (!hasLength) tips.push('Write at least 5 words');
+                    feedback.innerHTML = `<p class="warning">⚠️ ${tips.join(', ')}</p>`;
+                    return;
+                }
+
+                feedback.innerHTML = '<p class="success">✅ Great sentence! Make sure it shows you understand the word\'s meaning.</p>';
+                this.disabled = true;
+                this.textContent = 'Completed ✓';
+            });
+        });
+    }
+
+    /**
+     * Game 4: Context Clues
+     * Read passages and identify which word fits based on context
+     */
+    createContextCluesGame(words, passages, containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        let html = `
+            <div class="vocab-game context-clues-game">
+                <p class="game-instructions">Read each passage and choose the vocabulary word that best fits the context.</p>
+                ${passages.map((passage, i) => `
+                    <div class="context-question" data-question="${i}">
+                        <p class="context-passage">${passage.text}</p>
+                        <p class="context-prompt"><strong>Which word best fits this context?</strong></p>
+                        <div class="word-choices">
+                            ${words.map(w => `
+                                <button class="choice-btn" data-word="${w.word}" data-correct="${w.word === passage.answer}">
+                                    ${w.word}
+                                </button>
+                            `).join('')}
+                        </div>
+                        <div class="question-feedback"></div>
+                    </div>
+                `).join('')}
+                <div class="game-score"></div>
+            </div>
+        `;
+
+        container.innerHTML = html;
+        this.initContextCluesEvents(containerId, passages.length);
+    }
+
+    initContextCluesEvents(containerId, numQuestions) {
+        const container = document.getElementById(containerId);
+        const choiceBtns = container.querySelectorAll('.choice-btn');
+        let score = 0;
+        let answered = 0;
+
+        choiceBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const question = this.closest('.context-question');
+                const feedback = question.querySelector('.question-feedback');
+                const choices = question.querySelectorAll('.choice-btn');
+
+                // Disable all choices
+                choices.forEach(c => c.disabled = true);
+
+                const isCorrect = this.getAttribute('data-correct') === 'true';
+                
+                if (isCorrect) {
+                    this.classList.add('correct');
+                    feedback.innerHTML = '<p class="success">✅ Correct! You understood the context.</p>';
+                    score++;
+                } else {
+                    this.classList.add('incorrect');
+                    const correctBtn = question.querySelector('.choice-btn[data-correct="true"]');
+                    correctBtn.classList.add('correct');
+                    feedback.innerHTML = `<p class="error">❌ The word that fits best is "${correctBtn.getAttribute('data-word')}"</p>`;
+                }
+
+                answered++;
+                if (answered === numQuestions) {
+                    const scoreDiv = container.querySelector('.game-score');
+                    const percentage = Math.round((score / numQuestions) * 100);
+                    scoreDiv.innerHTML = `<p class="final-score">Score: ${score}/${numQuestions} (${percentage}%)</p>`;
+                }
+            });
+        });
     }
 }
 
-// CSS for all games (call this once to inject styles)
-export function injectVocabGameStyles() {
-    if (document.getElementById('vocab-game-styles')) return; // Already injected
-    
-    const style = document.createElement('style');
-    style.id = 'vocab-game-styles';
-    style.textContent = `
-        .vocab-game {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            margin: 30px 0;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        
-        .vocab-game h3 {
-            color: #305853;
-            margin-bottom: 10px;
-        }
-        
-        .game-instructions {
-            color: #666;
-            margin-bottom: 20px;
-        }
-        
-        .btn-check-answers {
-            background: linear-gradient(135deg, #305853 0%, #1B2A30 100%);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-        
-        .btn-check-answers:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        
-        .game-feedback {
-            margin-top: 20px;
-            padding: 15px;
-            background: #f0f8ff;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            text-align: center;
-        }
-        
-        /* Matching Game */
-        .matching-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin: 20px 0;
-        }
-        
-        .matching-column {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .matching-item {
-            padding: 15px;
-            background: #f8f9fa;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: left;
-        }
-        
-        .matching-item:hover {
-            background: #e9ecef;
-        }
-        
-        .matching-item.selected {
-            border-color: #305853;
-            background: #d4f1e8;
-        }
-        
-        .matching-item.matched {
-            opacity: 0.5;
-            cursor: default;
-        }
-        
-        .matching-item.correct {
-            background: #d4edda;
-            border-color: #28a745;
-        }
-        
-        .matching-item.incorrect {
-            background: #f8d7da;
-            border-color: #dc3545;
-        }
-        
-        /* Fill in the Blank */
-        .word-bank {
-            background: #fff9e6;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            color: #856404;
-        }
-        
-        .fill-blank-item {
-            margin-bottom: 20px;
-        }
-        
-        .fill-blank-input {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #e0e0e0;
-            border-radius: 6px;
-            font-size: 1rem;
-            margin-top: 8px;
-        }
-        
-        .fill-blank-input.correct {
-            border-color: #28a745;
-            background: #d4edda;
-        }
-        
-        .fill-blank-input.incorrect {
-            border-color: #dc3545;
-            background: #f8d7da;
-        }
-        
-        /* Word Scramble */
-        .scramble-list {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        
-        .scramble-item {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-        }
-        
-        .scramble-word {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-        }
-        
-        .scramble-input {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #e0e0e0;
-            border-radius: 6px;
-            font-size: 1rem;
-            margin: 10px 0;
-        }
-        
-        .scramble-hint {
-            color: #666;
-            font-size: 0.9rem;
-            font-style: italic;
-        }
-        
-        .scramble-input.correct {
-            border-color: #28a745;
-            background: #d4edda;
-        }
-        
-        .scramble-input.incorrect {
-            border-color: #dc3545;
-            background: #f8d7da;
-        }
-        
-        /* Matching Challenge */
-        .challenge-stats {
-            display: flex;
-            justify-content: space-around;
-            margin: 20px 0;
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-        
-        .challenge-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 10px;
-            margin: 20px 0;
-        }
-        
-        .challenge-card {
-            padding: 20px;
-            background: #f8f9fa;
-            border: 3px solid #e0e0e0;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            min-height: 100px;
-            font-size: 0.95rem;
-        }
-        
-        .challenge-card:hover {
-            background: #e9ecef;
-            transform: scale(1.05);
-        }
-        
-        .challenge-card.selected {
-            border-color: #305853;
-            background: #d4f1e8;
-            transform: scale(1.05);
-        }
-        
-        .challenge-card.matched {
-            background: #d4edda;
-            border-color: #28a745;
-            cursor: default;
-            opacity: 0.7;
-        }
-        
-        @media (max-width: 768px) {
-            .matching-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .challenge-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-    `;
-    
-    document.head.appendChild(style);
+// Initialize games when DOM is ready
+if (typeof window !== 'undefined') {
+    window.VocabGames = VocabGames;
 }

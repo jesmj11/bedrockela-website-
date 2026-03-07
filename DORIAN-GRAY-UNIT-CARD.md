@@ -34,70 +34,70 @@
 **Day 166 (Monday) - Chapters 1-2**
 - Ch 1: The Corrupted Portrait (Discovery of Dorian's body and hideous portrait)
 - Ch 2: The Artist's Obsession (Basil paints Dorian, flashback begins)
-- **Vocab:** Corrupted, Portrait, Supernatural, Obsession, Masterpiece, Canvas, Beauty, Youth, Innocence, Obsessed
+- **Vocab:** Corrupted, Portrait, Revelation, Unnatural, Damnation, Obsession, Perfection, Masterpiece, Captures, Representation
 
 **Day 167 (Tuesday) - Chapters 3-4**
 - Ch 3: The Philosopher of Pleasure (Lord Henry's corrupting influence begins)
-- Ch 4: The Poisonous Wish (Dorian wishes portrait would age instead of him)
-- **Vocab:** Philosophy, Pleasure, Hedonism, Influence, Corruption, Wish, Bargain, Vanity, Eternal, Consequence
+- Ch 4: The Fatal Wish (Dorian wishes portrait would age instead of him)
+- **Vocab:** Philosopher, Hedonistic, Temptation, Corruption, Sophisticated, Fatal, Glimpse, Desperate, Supernatural, Bargain
 
 **Day 168 (Wednesday) - Chapters 5-6**
-- Ch 5: Sibyl Vane (Dorian falls in love with young actress)
-- Ch 6: Love and Cruelty (Dorian cruelly rejects Sibyl, she dies)
-- **Vocab:** Actress, Romance, Idealized, Performance, Rejection, Cruelty, Heartless, Suicide, Tragedy, Remorse
+- Ch 5: The First Love (Dorian falls in love with actress Sibyl Vane)
+- Ch 6: The Portrait's First Change (Dorian cruelly rejects Sibyl, portrait changes)
+- **Vocab:** Infatuation, Actress, Overwhelming, Rejection, Mercy, Cruelty, Realization, Embrace, Lifestyle, Consequences
 
 **Day 169 (Thursday) - Chapters 7-8**
-- Ch 7: The Portrait Changes (First visible signs of corruption in painting)
-- Ch 8: Hiding the Evidence (Dorian hides portrait in locked room)
-- **Vocab:** Transform, Corruption, Evidence, Secret, Locked, Chamber, Hidden, Transformation, Sin, Visible
+- Ch 7: Sibyl's Tragedy (Sibyl commits suicide)
+- Ch 8: The Yellow Book (Lord Henry gives Dorian corrupting book)
+- **Vocab:** Tragedy, Suicide, Abandonment, Justification, Callous, Celebrating, Decadence, Systematic, Intellectual, Poison
 
 **Day 170 (Friday) - Chapters 9-10**
-- Ch 9: Lord Henry's Influence Grows (Yellow book that corrupts Dorian)
-- Ch 10: Years of Scandal (Dorian's reputation deteriorates)
-- **Vocab:** Influence, Hedonistic, Scandal, Reputation, Society, Gossip, Rumors, Debauchery, Vice, Corruption
+- Ch 9: Years of Hidden Decay (Dorian's double life develops)
+- Ch 10: The Actress Destroyed (Montage of Dorian's corrupting influence)
+- **Vocab:** Decay, Montage, Accumulated, Reputation, Facade, Promising, Destruction, Self-worth, Breakdown, Collector
 
 ---
 
 ### Week 35 (Days 171-175)
 
 **Day 171 (Monday) - Chapters 11-12**
-- Ch 11: The Unchanged Face (Dorian remains young while portrait decays)
-- Ch 12: Basil's Concerns (Artist confronts Dorian about rumors)
-- **Vocab:** Unchanging, Ageless, Suspicion, Confrontation, Accusations, Defense, Denial, Appearance, Reality, Truth
+- Ch 11: Society's Darling (Dorian remains fashionable despite rumors)
+- Ch 12: The Sailor's Revenge (James Vane seeks revenge for Sibyl)
+- **Vocab:** Darling, Fashionable, Influence, Virtue, Obsession, Sailor, Revenge, Pursuit, Aristocratic, Privilege
 
 **Day 172 (Tuesday) - Chapters 13-14**
-- Ch 13: Basil Sees the Portrait (Artist views his corrupted masterpiece)
-- Ch 14: Murder in the Studio (Dorian kills Basil)
-- **Vocab:** Horror, Revelation, Monster, Murder, Knife, Rage, Death, Body, Crime, Guilt
+- Ch 13: The Friend's Concern (Basil confronts Dorian about rumors)
+- Ch 14: The Opium Den (Dorian seeks oblivion in drugs)
+- **Vocab:** Concern, Deterioration, Scientific, Manipulation, Coercion, Opium, Criminal, Underworld, Oblivion, Degraded
 
 **Day 173 (Wednesday) - Chapters 15-16**
-- Ch 15: Disposing of Evidence (Alan Campbell helps destroy body)
-- Ch 16: Blackmail and Coercion (How Dorian forces Alan's help)
-- **Vocab:** Disposal, Chemicals, Blackmail, Coercion, Force, Complicity, Destruction, Evidence, Accomplice, Secret
+- Ch 15: The Portrait's Horror (Dorian shows Basil the corrupted portrait)
+- Ch 16: Basil's Confrontation (Final confrontation before murder)
+- **Vocab:** Horror, Accelerating, Revulsion, Spiritual, Damned, Confrontation, Desperate, Revelation, Transformation, Enabled
 
 **Day 174 (Thursday) - Chapters 17-18**
-- Ch 17: James Vane's Revenge (Sibyl's brother seeks to kill Dorian)
-- Ch 18: Close Call (Dorian narrowly escapes death)
-- **Vocab:** Revenge, Vengeance, Brother, Hunt, Pursuit, Escape, Fear, Recognition, Confrontation, Danger
+- Ch 17: The Murder (Dorian kills Basil)
+- Ch 18: The Hunter Hunted (James Vane tracks Dorian)
+- **Vocab:** Murder, Ultimate, Evidence, Restraint, Expression, Hunter, Avenger, Eternally, Confrontation, Alibi
 
 **Day 175 (Friday) - Chapters 19-20**
-- Ch 19: The Weight of Conscience (Dorian considers reform)
-- Ch 20: Vane's Death (James accidentally killed)
-- **Vocab:** Conscience, Reform, Change, Redemption, Accident, Death, Relief, Temporary, Hope, Failure
+- Ch 19: Fear and Paranoia (Dorian fears exposure and revenge)
+- Ch 20: The Final Hunt (James Vane's death)
+- **Vocab:** Paranoia, Terror, Exposure, Recognition, Curse, Avenge, Accidental, Justice, Relief, Divine
 
 ---
 
 ### Week 36 (Days 176-180) - FINAL WEEK
 
 **Day 176 (Monday) - Chapters 21-22**
-- Ch 21: Failed Redemption (Dorian realizes he cannot change)
-- Ch 22: The Portrait's Final Form (Painting shows complete corruption)
-- **Vocab:** Redemption, Impossible, Corruption, Complete, Soul, Hideous, Monster, Realization, Despair, Doom
+- Ch 21: Attempted Redemption (Dorian tries to reform but portrait shows truth)
+- Ch 22: The Portrait's Truth (Portrait reveals complete corruption)
+- **Vocab:** Redemption, Reform, Virtuously, Improvement, Intentions, Truth, Complete, Hideous, Acceptance, Salvation
 
 **Day 177 (Tuesday) - Chapters 23-24**
-- Ch 23: Destroying the Evidence (Dorian attacks portrait with knife)
-- Ch 24: The Final Transformation (Dorian dies, portrait restores)
-- **Vocab:** Destruction, Knife, Attack, Death, Transformation, Restoration, Justice, Punishment, Moral, Lesson
+- Ch 23: The Final Choice (Dorian chooses to destroy portrait)
+- Ch 24: The Price of Pleasure (Dorian dies, portrait restores, moral lesson revealed)
+- **Vocab:** Climactic, Continued, Damnation, Possible, Beauty, Destruction, Immediate, Discovery, Virtue, Pleasure
 
 **Day 178 (Wednesday) - Review & Analysis**
 - Theme discussion: Beauty, morality, and corruption
@@ -121,49 +121,47 @@
 
 ## Vocabulary List (36 words total, 3 per day)
 
-**NOTE:** Vocabulary file needs to be created from text. Suggested words based on themes:
-
 ### Days 166-170 (Week 34)
-1. Corrupted, Portrait, Supernatural
-2. Obsession, Masterpiece, Canvas
-3. Beauty, Youth, Innocence
-4. Philosophy, Pleasure, Hedonism
-5. Influence, Corruption, Wish
-6. Bargain, Vanity, Eternal
-7. Consequence, Actress, Romance
-8. Idealized, Performance, Rejection
-9. Cruelty, Heartless, Suicide
-10. Tragedy, Remorse, Transform
+1. Corrupted, Portrait, Revelation
+2. Unnatural, Damnation, Obsession
+3. Perfection, Masterpiece, Captures
+4. Representation, Philosopher, Hedonistic
+5. Temptation, Corruption, Sophisticated
+6. Fatal, Glimpse, Desperate
+7. Supernatural, Bargain, Infatuation
+8. Actress, Overwhelming, Rejection
+9. Mercy, Cruelty, Realization
+10. Embrace, Lifestyle, Consequences
 
 ### Days 171-175 (Week 35)
-11. Evidence, Secret, Locked
-12. Chamber, Hidden, Sin
-13. Visible, Hedonistic, Scandal
-14. Reputation, Society, Gossip
-15. Rumors, Debauchery, Vice
-16. Unchanging, Ageless, Suspicion
-17. Confrontation, Accusations, Defense
-18. Denial, Appearance, Horror
+11. Tragedy, Suicide, Abandonment
+12. Justification, Callous, Celebrating
+13. Decadence, Systematic, Intellectual
+14. Poison, Decay, Montage
+15. Accumulated, Reputation, Facade
+16. Promising, Destruction, Self-worth
+17. Breakdown, Collector, Darling
+18. Fashionable, Influence, Virtue
 
 ### Days 176-180 (Week 36)
-19. Revelation, Monster, Murder
-20. Knife, Rage, Death
-21. Body, Crime, Guilt
-22. Disposal, Chemicals, Blackmail
-23. Coercion, Force, Complicity
-24. Destruction, Accomplice, Revenge
-25. Vengeance, Hunt, Pursuit
-26. Escape, Fear, Conscience
-27. Reform, Change, Redemption
-28. Accident, Relief, Temporary
-29. Hope, Failure, Impossible
-30. Soul, Hideous, Despair
-31. Doom, Destruction (review), Attack
-32. Transformation, Restoration, Justice
-33. Punishment, Moral, Lesson
-34. Art, Reality, Aestheticism
-35. Victorian, Philosophy (review), Legacy
-36. Warning, Truth, Consequences
+19. Sailor, Revenge, Pursuit
+20. Aristocratic, Privilege, Concern
+21. Deterioration, Scientific, Manipulation
+22. Coercion, Opium, Criminal
+23. Underworld, Oblivion, Degraded
+24. Horror, Accelerating, Revulsion
+25. Spiritual, Damned, Confrontation
+26. Murder, Ultimate, Evidence
+27. Restraint, Expression, Hunter
+28. Avenger, Eternally, Alibi
+29. Paranoia, Terror, Exposure
+30. Recognition, Curse, Avenge
+31. Accidental, Justice, Relief
+32. Divine, Redemption, Reform
+33. Virtuously, Improvement, Intentions
+34. Truth, Complete, Hideous
+35. Acceptance, Salvation, Climactic
+36. Beauty, Pleasure, Discovery
 
 ---
 
@@ -396,7 +394,7 @@
 - `/Users/mushu/Desktop/BedrockELA/8th ela/dorian/Dorian_Gray_Chapters_1-6.md`
 - `/Users/mushu/Desktop/BedrockELA/8th ela/dorian/Dorian_Gray_Chapters_7-12.md`
 - `/Users/mushu/Desktop/BedrockELA/8th ela/dorian/Dorian_Gray_Final_Chapters_13-24.md`
-- **NEEDS:** `Dorian_Gray_Complete_Vocabulary.md` (120 words, 5 per chapter)
+- `/Users/mushu/Desktop/BedrockELA/8th ela/dorian/Dorian_Gray_Complete_Vocabulary.md`
 
 **Generator Script:** Will create `generate-dorian-gray-lessons.js`
 

@@ -9,7 +9,7 @@
     <script src="js/billy-mini-lesson.js"></script>
     <script src="js/billy-games.js"></script>
     <script src="js/billy-storybook.js"></script>
-    <script src="js/billy-simple-storybook.js"></script>
+    <script src="stories/sams-van.js"></script>
     <style>
         /* Billy corner widget - gold circle with speaker */
         .billy-corner-widget {
@@ -184,56 +184,6 @@
     </div>
 
     <script>
-        // Sam's Van - Simple decodable storybook (student reads all pages)
-        const samsVanStory = {
-            title: "Sam's Van",
-            pages: [
-                { text: "Sam has a van. 🚐" },
-                { text: "The van is big and tan." },
-                { text: "Sam and Pam sat in the van. 👨👩" },
-                { text: "The van ran and ran. 💨" },
-                { text: "Oh no! The van hit a log! 🪵" },
-                { text: "The log was big and tan." },
-                { text: "Sam and Pam push the van. 💪" },
-                { text: "Push, push, push!" },
-                { text: "At last, the van can go! ✨" },
-                { text: "Sam and Pam clap and pat the van. 👏" },
-                { text: "The van ran fast! Yay! 🚐💨" },
-                { text: "The End ⭐" }
-            ]
-        };
-        
-        // Sam and the Wolf - Turn-taking interactive storybook
-        const samAndTheWolfStory = {
-            title: "Sam and the Wolf",
-            pages: [
-                // Page 1 - Narrative (Billy reads)
-                { text: "This is a story about a brave ram named Sam who protects his flock from a hungry wolf." },
-                // Page 2 - Decodable (Student reads)
-                { prompt: "Now you read:", text: "Sam is a ram. Sam has a hat." },
-                // Page 3 - Narrative
-                { text: "One sunny day, Sam was taking a nap on his soft mat when he heard a sound in the distance." },
-                // Page 4 - Decodable
-                { prompt: "Your turn:", text: "Sam sat on a mat. Sam had a nap." },
-                // Page 5 - Narrative
-                { text: "It was a wolf! The wolf wanted to grab a lamb from Sam's flock." },
-                // Page 6 - Decodable
-                { prompt: "Read this:", text: "A wolf ran. The wolf had a gap in his teeth." },
-                // Page 7 - Narrative
-                { text: "Sam quickly grabbed a pan and started banging it loudly to scare the wolf away." },
-                // Page 8 - Decodable
-                { prompt: "Now you:", text: "Sam ran to a pan. Sam had the pan." },
-                // Page 9 - Narrative
-                { text: "The wolf was frightened by the loud noise! He turned and ran back through the gate." },
-                // Page 10 - Decodable
-                { prompt: "Your turn:", text: "The wolf ran to the gate. The wolf had a rag." },
-                // Page 11 - Narrative
-                { text: "With a final bang of the pan, the wolf disappeared into the forest. Sam's flock was safe!" },
-                // Page 12 - Decodable (final)
-                { prompt: "Read this:", text: "Sam sat. The ram was glad. Sam had jam!" }
-            ]
-        };
-        
         const pages = [
         // Page 1: Title
         `<div class="lesson-page-card title-page">
@@ -284,9 +234,9 @@
             </div>
         </div>`,
 
-        // Page 5: Story - Sam's Van (page-turning book)
+        // Page 5: Story (Storybook)
         `<div class="lesson-page-card content-page">
-            <div id="sams-van-book-container"></div>
+            <div id="storybook-container"></div>
         </div>`,
 
         // Page 6: Comprehension Question 1
@@ -508,10 +458,13 @@
                 miniLessonAutoStarted = false;
             }
             
-            // Initialize Sam's Van simple storybook on Page 5
+            // Initialize storybook on Page 5
             if (currentPage === 4) {
+                // Page 5 - Storybook
                 setTimeout(() => {
-                    window.samsVanBook = new SimpleStoryBook(samsVanStory, 'sams-van-book-container');
+                    if (window.SAMS_VAN_STORY) {
+                        window.storybook = new BillyStorybook(window.SAMS_VAN_STORY, 'storybook-container');
+                    }
                 }, 100);
             }
             

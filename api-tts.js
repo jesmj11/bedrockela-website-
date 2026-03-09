@@ -10,9 +10,9 @@ const fetch = require('node-fetch');
 const app = express();
 const PORT = process.env.PORT || 3002;
 
-// Enable CORS for bedrockela.com
+// Enable CORS for bedrockela.com and Firebase hosting
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:8000', 'http://localhost:8001', 'https://bedrockela.com', 'http://bedrockela.com']
+  origin: ['http://localhost:3000', 'http://localhost:8000', 'http://localhost:8001', 'https://bedrockela.com', 'http://bedrockela.com', 'https://bedrockela-96dbd.web.app', 'https://bedrockela-96dbd.firebaseapp.com']
 }));
 
 app.use(express.json());

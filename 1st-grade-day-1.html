@@ -459,11 +459,12 @@
                 miniLessonAutoStarted = false;
             }
             
-            // Initialize Sam's Van simple storybook on Page 5
+            // Initialize storybook on Page 5
             if (currentPage === 4) {
+                // Page 5 - Storybook
                 setTimeout(() => {
                     if (window.SAMS_VAN_STORY) {
-                        window.samsVanBook = new SimpleStoryBook(window.SAMS_VAN_STORY, 'storybook-container');
+                        window.storybook = new SimpleStoryBook(window.SAMS_VAN_STORY, 'storybook-container');
                     }
                 }, 100);
             }
@@ -602,11 +603,8 @@
                 
                 if (!response.ok) {
                     console.error('TTS error:', response.statusText);
-                    // NO FALLBACK - ElevenLabs only
-                    if (currentButton) {
-                        currentButton.textContent = '🔊';
-                        currentButton = null;
-                    }
+                    // Fallback to browser TTS
+                    fallbackBrowserTTS(text, button);
                     return;
                 }
                 
@@ -630,11 +628,8 @@
                 
             } catch (error) {
                 console.error('TTS error:', error);
-                // NO FALLBACK - ElevenLabs only
-                if (currentButton) {
-                    currentButton.textContent = '🔊';
-                    currentButton = null;
-                }
+                // Fallback to browser TTS
+                fallbackBrowserTTS(text, button);
             }
         }
         

@@ -256,11 +256,15 @@ console.log(`\n🚀 Generating Count of Monte Cristo lessons (Days ${START_DAY}-
 let successCount = 0;
 let failCount = 0;
 
+// Define which days are regular lessons (skipping assessment days 4, 9, 14)
+const regularDayOffsets = [0, 1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13];
+
 // Regular lessons (2 chapters per day)
-for (let day = START_DAY; day < START_DAY + 12; day++) {
-    const dayInUnit = day - START_DAY;
-    const week = Math.floor(dayInUnit / 5) + 19;
-    const chapterStart = (dayInUnit * 2) + 1;
+for (let i = 0; i < regularDayOffsets.length; i++) {
+    const dayOffset = regularDayOffsets[i];
+    const day = START_DAY + dayOffset;
+    const week = Math.floor(dayOffset / 5) + 19;
+    const chapterStart = (i * 2) + 1;
     const chapterEnd = chapterStart + 1;
     
     const ch1 = allChapters.find(c => c.number === chapterStart);
@@ -312,7 +316,7 @@ for (let day = START_DAY; day < START_DAY + 12; day++) {
             {
                 type: 'vocab-game',
                 content: {
-                    gameType: ['matching', 'fill-in-blank', 'sentence-writing', 'context-clues'][dayInUnit % 4],
+                    gameType: ['matching', 'fill-in-blank', 'sentence-writing', 'context-clues'][dayOffset % 4],
                     words: vocab // All 10 for practice
                 }
             },
@@ -348,9 +352,9 @@ for (let day = START_DAY; day < START_DAY + 12; day++) {
                 }
             },
             {
-                type: (dayInUnit % 4 === 0 || dayInUnit % 4 === 2) ? 'grammar' : 'language',
+                type: (dayOffset % 4 === 0 || dayOffset % 4 === 2) ? 'grammar' : 'language',
                 content: {
-                    topic: (dayInUnit % 4 === 0 || dayInUnit % 4 === 2) ? 'Grammar Practice' : 'Language Skills',
+                    topic: (dayOffset % 4 === 0 || dayOffset % 4 === 2) ? 'Grammar Practice' : 'Language Skills',
                     explanation: 'Placeholder content',
                     examples: [],
                     exercises: []
@@ -368,9 +372,9 @@ for (let day = START_DAY; day < START_DAY + 12; day++) {
                 }
             },
             {
-                type: (dayInUnit % 4 === 0 || dayInUnit % 4 === 2) ? 'writing-skills' : 'journal',
+                type: (dayOffset % 4 === 0 || dayOffset % 4 === 2) ? 'writing-skills' : 'journal',
                 content: {
-                    prompt: (dayInUnit % 4 === 0 || dayInUnit % 4 === 2) 
+                    prompt: (dayOffset % 4 === 0 || dayOffset % 4 === 2) 
                         ? 'Write about the difference between justice and revenge.'
                         : 'Reflect on Edmond Dantès\' transformation in today\'s chapters.',
                     guidelines: []

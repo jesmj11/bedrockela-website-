@@ -506,7 +506,7 @@
             }
         }
 
-        function nextPage() {
+        async function nextPage() {
             // Stop ALL audio when navigating
             stopAllAudio();
             
@@ -515,7 +515,8 @@
                 renderPage();
                 window.scrollTo(0, 0);
             } else {
-                // Last page - go back to dashboard
+                // Last page - mark complete and go to dashboard
+                await window.markLessonComplete(1); // Lesson 1
                 window.location.href = 'student-dashboard.html';
             }
         }
@@ -763,6 +764,49 @@
         }
 
         renderPage();
+    </script>
+    
+    <!-- Firebase for lesson completion tracking -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, updateDoc, arrayUnion, increment } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBe9j9udmBMxjSgQ9rjlao8bYOGnPcg69Y",
+            authDomain: "bedrockela-96dbd.firebaseapp.com",
+            projectId: "bedrockela-96dbd",
+            storageBucket: "bedrockela-96dbd.firebasestorage.app",
+            messagingSenderId: "195204486496",
+            appId: "1:195204486496:web:c28bcef144debea29f3a05"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Mark this lesson complete when finished
+        window.markLessonComplete = async function(lessonNumber) {
+            try {
+                const student = JSON.parse(localStorage.getItem('bedrockela_student') || 'null');
+                if (!student || !student.id) {
+                    console.log('No student logged in, skipping completion tracking');
+                    return;
+                }
+
+                const studentRef = doc(db, 'students', student.id);
+                
+                await updateDoc(studentRef, {
+                    completedLessons: arrayUnion(lessonNumber),
+                    currentLesson: lessonNumber + 1,
+                    lastActivity: new Date().toISOString()
+                });
+
+                console.log(`✅ Lesson ${lessonNumber} marked complete! Next lesson: ${lessonNumber + 1}`);
+                
+            } catch (error) {
+                console.error('Error marking lesson complete:', error);
+                // Don't block navigation if Firebase fails
+            }
+        };
     </script>
 </body>
 </html>

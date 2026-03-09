@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 125 - Assessment</title>
+    <link rel="stylesheet" href="css/student-dashboard.css">
+</head>
+<body>
+    <div class="lesson-container">
+        <div class="lesson-content" id="lesson-content"></div>
+        
+        <div class="navigation-arrows">
+            <button class="nav-arrow nav-prev" id="prevBtn" style="display:none;">← Previous</button>
+            <button class="nav-arrow nav-next" id="nextBtn">Next →</button>
+        </div>
+        
+        <div class="progress-indicator">
+            <span id="pageIndicator">Page 1 of 6</span>
+        </div>
+    </div>
+
+    <script>
+        const lessonData = [
+    {
+        "html": "\n            <div class=\"page-card title-page\">\n                <h1>📚 8th Grade English Language Arts</h1>\n                <h2>Day 125 - Week 25</h2>\n                <h3>Frankenstein - Assessment</h3>\n                <p class=\"instruction\">Click \"Next\" to begin your assessment.</p>\n            </div>\n        "
+    },
+    {
+        "html": "\n            <div class=\"page-card\">\n                <h2>📝 Vocabulary Quiz</h2>\n                <p class=\"placeholder\">Vocabulary quiz will be added here.</p>\n            </div>\n        "
+    },
+    {
+        "html": "\n            <div class=\"page-card\">\n                <h2>✏️ Grammar & Language Review</h2>\n                <p class=\"placeholder\">Grammar and language review exercises will be added here.</p>\n            </div>\n        "
+    },
+    {
+        "html": "\n            <div class=\"page-card\">\n                <h2>📖 Comprehension Review</h2>\n                <p class=\"placeholder\">Comprehension questions covering this week's chapters will be added here.</p>\n            </div>\n        "
+    },
+    {
+        "html": "\n            <div class=\"page-card\">\n                <h2>✍️ Writing Prompt</h2>\n                <p class=\"placeholder\">Essay prompt will be added here.</p>\n            </div>\n        "
+    },
+    {
+        "html": "\n            <div class=\"page-card completion-page\">\n                <h1>🎉 Great Work!</h1>\n                <p>You've completed Day 125!</p>\n                <p class=\"instruction\">Click \"Complete Lesson\" to return to your dashboard.</p>\n            </div>\n        "
+    }
+];
+        
+        let currentPage = 0;
+        
+        function renderPage(pageIndex) {
+            const page = lessonData[pageIndex];
+            const content = document.getElementById('lesson-content');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const pageIndicator = document.getElementById('pageIndicator');
+            
+            content.innerHTML = page.html;
+            
+            prevBtn.style.display = pageIndex > 0 ? 'block' : 'none';
+            nextBtn.textContent = pageIndex === lessonData.length - 1 ? 'Complete Lesson →' : 'Next →';
+            
+            pageIndicator.textContent = `Page ${pageIndex + 1} of ${lessonData.length}`;
+            
+            currentPage = pageIndex;
+            window.scrollTo(0, 0);
+        }
+        
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            if (currentPage > 0) {
+                renderPage(currentPage - 1);
+            }
+        });
+        
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            if (currentPage < lessonData.length - 1) {
+                renderPage(currentPage + 1);
+            } else {
+                window.location.href = 'student-dashboard.html';
+            }
+        });
+        
+        renderPage(0);
+    </script>
+</body>
+</html>

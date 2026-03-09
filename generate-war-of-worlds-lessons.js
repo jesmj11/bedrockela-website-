@@ -10,9 +10,9 @@ const path = require('path');
 
 // Source chapter files on Desktop
 const CHAPTER_FILES = [
-    '/Users/mushu/Desktop/BedrockELA/8th ela/War_of_Worlds_Chapters_1-6.md',
-    '/Users/mushu/Desktop/BedrockELA/8th ela/War_of_Worlds_Chapters_7-12.md',
-    '/Users/mushu/Desktop/BedrockELA/8th ela/War_of_Worlds_Final_Chapters_13-24.md'
+    '/Users/mushu/Desktop/BedrockELA/8th ela/WarofWorlds/War_of_Worlds_Chapters_1-6.md',
+    '/Users/mushu/Desktop/BedrockELA/8th ela/WarofWorlds/War_of_Worlds_Chapters_7-12.md',
+    '/Users/mushu/Desktop/BedrockELA/8th ela/WarofWorlds/War_of_Worlds_Final_Chapters_13-24.md'
 ];
 
 // Output directory

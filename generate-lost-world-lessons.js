@@ -10,10 +10,10 @@ const path = require('path');
 
 // Source chapter files on Desktop
 const CHAPTER_FILES = [
-    '/Users/mushu/Desktop/BedrockELA/8th ela/Lost_World_Full_Chapters_1-6.md',
-    '/Users/mushu/Desktop/BedrockELA/8th ela/Lost_World_Chapters_7-12.md',
-    '/Users/mushu/Desktop/BedrockELA/8th ela/Lost_World_Chapters_13-18.md',
-    '/Users/mushu/Desktop/BedrockELA/8th ela/Lost_World_Final_Chapters_19-24.md'
+    '/Users/mushu/Desktop/BedrockELA/8th ela/LostWorld/Lost_World_Full_Chapters_1-6.md',
+    '/Users/mushu/Desktop/BedrockELA/8th ela/LostWorld/Lost_World_Chapters_7-12.md',
+    '/Users/mushu/Desktop/BedrockELA/8th ela/LostWorld/Lost_World_Chapters_13-18.md',
+    '/Users/mushu/Desktop/BedrockELA/8th ela/LostWorld/Lost_World_Final_Chapters_19-24.md'
 ];
 
 // Output directory

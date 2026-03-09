@@ -10,9 +10,9 @@ const path = require('path');
 
 // Source chapter files on Desktop
 const CHAPTER_FILES = [
-    '/Users/mushu/Desktop/BedrockELA/8th ela/Invisible_Man_Chapters_1-6.md',
-    '/Users/mushu/Desktop/BedrockELA/8th ela/Invisible_Man_Chapters_7-12.md',
-    '/Users/mushu/Desktop/BedrockELA/8th ela/Invisible_Man_Chapters_13-24_Complete.md'
+    '/Users/mushu/Desktop/BedrockELA/8th ela/Invisibleman/Invisible_Man_Chapters_1-6.md',
+    '/Users/mushu/Desktop/BedrockELA/8th ela/Invisibleman/Invisible_Man_Chapters_7-12.md',
+    '/Users/mushu/Desktop/BedrockELA/8th ela/Invisibleman/Invisible_Man_Chapters_13-24_Complete.md'
 ];
 
 // Output directory

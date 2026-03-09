@@ -10,57 +10,49 @@ class BillyMiniLesson {
     this.isPaused = false;
     this.currentAudio = null;
     this.micActive = false;
+    this.pauseTimeout = null;
     
-    // Lesson script with timestamps and pauses
+    // Lesson script - plays sequentially with pauses between steps
     this.script = [
       // Opening
       { 
-        time: 0, 
-        text: "Hi — I'm Billy. Today we'll learn the short a sound, /a/, like in cat. Let's listen and say it together.", 
+        text: "Hi — I'm Billy. Today we'll learn the short a sound, like in cat. Let's listen and say it together.", 
         pause: 2000 
       },
       
       // Model the sound
       { 
-        time: 7000, 
         text: "Listen and say. Aaaa.", 
         pause: 3000,
         listenForResponse: true
       },
       { 
-        time: 16000, 
         text: "Again. Aaaa. Make a short sound, not ay, just a.", 
         pause: 3000,
         listenForResponse: true
       },
       { 
-        time: 25000, 
         text: "Say a, like in cat.", 
         pause: 2500,
-        isHint: true,
         listenForResponse: true
       },
       
       // Onset-rime blending
       { 
-        time: 25000, 
         text: "Now listen to how we make a whole word. I'll say the first part, then the last part, then the whole word. Ready?", 
         pause: 1500 
       },
       { 
-        time: 34000, 
         text: "Cuh. At. Cat.", 
         pause: 3500,
         listenForResponse: true
       },
       { 
-        time: 42000, 
         text: "Muh. At. Mat.", 
         pause: 3500,
         listenForResponse: true
       },
       { 
-        time: 50000, 
         text: "Buh. At. Bat.", 
         pause: 3500,
         listenForResponse: true
@@ -68,18 +60,15 @@ class BillyMiniLesson {
       
       // Segmentation
       { 
-        time: 55000, 
         text: "Let's say the sounds in a word slowly. I'll say a word, then I'll say each sound. Repeat after me.", 
         pause: 1500 
       },
       { 
-        time: 63000, 
         text: "Word: cat. Sounds: cuh, a, tuh. Now say the word. Cat.", 
         pause: 4000,
         listenForResponse: true
       },
       { 
-        time: 73000, 
         text: "Word: bat. Sounds: buh, a, tuh. Now say the word. Bat.", 
         pause: 4000,
         listenForResponse: true
@@ -87,60 +76,56 @@ class BillyMiniLesson {
       
       // Discrimination
       { 
-        time: 85000, 
         text: "I will say some words. If the word has the short a sound like in cat, say it with me. If it does not, listen but don't say it.", 
         pause: 2500 
       },
-      { time: 93000, text: "Sit.", pause: 3000 },
-      { time: 99000, text: "Cat.", pause: 4000, listenForResponse: true },
-      { time: 106000, text: "Cot.", pause: 3000 },
-      { time: 112000, text: "Bat.", pause: 4000, listenForResponse: true },
+      { text: "Sit.", pause: 2500 },
+      { text: "Cat.", pause: 3000, listenForResponse: true },
+      { text: "Cot.", pause: 2500 },
+      { text: "Bat.", pause: 3000, listenForResponse: true },
       
       // Onset swap
       { 
-        time: 115000, 
         text: "Now I'll give a rime. At. I'll say some first sounds. Put them together in your head and say the word. Ready?", 
-        pause: 2500 
+        pause: 2000 
       },
-      { time: 123000, text: "Puh. At.", pause: 4500, listenForResponse: true },
-      { time: 130000, text: "Ruh. At.", pause: 4500, listenForResponse: true },
-      { time: 137000, text: "Huh. At.", pause: 4500, listenForResponse: true },
-      { time: 144000, text: "Nice! Those all have the short a sound.", pause: 2000 },
+      { text: "Puh. At.", pause: 3500, listenForResponse: true },
+      { text: "Ruh. At.", pause: 3500, listenForResponse: true },
+      { text: "Huh. At.", pause: 3500, listenForResponse: true },
+      { text: "Nice! Those all have the short a sound.", pause: 1500 },
       
       // Short phrase
       { 
-        time: 145000, 
         text: "Sam has a blue van. One day it got stuck on a big tan log. Listen to this sentence.", 
         pause: 1500 
       },
       { 
-        time: 153000, 
         text: "Sam and Pam push the van.", 
-        pause: 2500 
+        pause: 2000 
       },
       { 
-        time: 160000, 
         text: "Now you say that same sentence.", 
-        pause: 4000,
+        pause: 3500,
         listenForResponse: true
       },
       
       // Wrap up
       { 
-        time: 170000, 
-        text: "Great job! To practice more, listen again or tap Play to hear a short game with lots of at words. See you next time!", 
+        text: "Great job! You can click the speaker button to hear this lesson again. See you next time!", 
         pause: 1000 
       }
     ];
   }
   
   async start() {
-    if (this.isPlaying) {
+    if (this.isPlaying && !this.isPaused) {
       console.log('[Billy Mini-Lesson] Already playing, ignoring duplicate start');
       return;
     }
     
     // Stop any other audio that might be playing
+    this.stop();
+    
     if (window.currentAudio) {
       window.currentAudio.pause();
       window.currentAudio = null;
@@ -153,7 +138,7 @@ class BillyMiniLesson {
     this.isPaused = false;
     this.currentStep = 0;
     
-    console.log('[Billy Mini-Lesson] Starting...');
+    console.log('[Billy Mini-Lesson] Starting from beginning...');
     this.updateButtonState('⏸️');
     
     await this.playStep(0);
@@ -170,7 +155,7 @@ class BillyMiniLesson {
     const step = this.script[stepIndex];
     this.currentStep = stepIndex;
     
-    console.log(`[Billy] Step ${stepIndex}: "${step.text.substring(0, 30)}..."`);
+    console.log(`[Billy] Step ${stepIndex + 1}/${this.script.length}: "${step.text.substring(0, 40)}..."`);
     
     // Speak the text and WAIT for it to complete
     await this.speak(step.text);
@@ -179,13 +164,13 @@ class BillyMiniLesson {
     
     // Wait for pause duration (student response time)
     if (step.pause) {
-      console.log(`[Billy] Pausing ${step.pause}ms for student response`);
+      console.log(`[Billy] Waiting ${step.pause}ms for student response`);
       await this.wait(step.pause);
     }
     
     if (!this.isPlaying || this.isPaused) return;
     
-    // Optional: Listen for student response
+    // Optional: Listen for student response (future feature)
     if (step.listenForResponse && this.micActive) {
       await this.listenForResponse(1000);
     }
@@ -197,6 +182,12 @@ class BillyMiniLesson {
   }
   
   async speak(text) {
+    // Stop any previous audio first
+    if (this.currentAudio) {
+      this.currentAudio.pause();
+      this.currentAudio = null;
+    }
+    
     return new Promise(async (resolve) => {
       try {
         console.log('[Billy] Fetching TTS audio...');
@@ -207,7 +198,7 @@ class BillyMiniLesson {
         });
         
         if (!response.ok) {
-          console.error('[Billy] TTS failed, using fallback');
+          console.error('[Billy] TTS server error, using browser fallback');
           await this.fallbackSpeak(text);
           resolve();
           return;
@@ -216,11 +207,10 @@ class BillyMiniLesson {
         const audioBlob = await response.blob();
         const audioUrl = URL.createObjectURL(audioBlob);
         
-        console.log('[Billy] Playing audio...');
         this.currentAudio = new Audio(audioUrl);
         
         this.currentAudio.onended = () => {
-          console.log('[Billy] Audio finished');
+          console.log('[Billy] ✓ Audio complete');
           URL.revokeObjectURL(audioUrl);
           this.currentAudio = null;
           resolve();
@@ -233,10 +223,17 @@ class BillyMiniLesson {
           resolve();
         };
         
-        await this.currentAudio.play();
+        try {
+          await this.currentAudio.play();
+        } catch (playError) {
+          console.error('[Billy] Play failed:', playError);
+          URL.revokeObjectURL(audioUrl);
+          this.currentAudio = null;
+          resolve();
+        }
         
       } catch (error) {
-        console.error('[Billy] TTS error:', error);
+        console.error('[Billy] TTS fetch error:', error);
         await this.fallbackSpeak(text);
         resolve();
       }
@@ -263,7 +260,12 @@ class BillyMiniLesson {
   }
   
   wait(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise(resolve => {
+      this.pauseTimeout = setTimeout(() => {
+        this.pauseTimeout = null;
+        resolve();
+      }, ms);
+    });
   }
   
   async listenForResponse(duration) {
@@ -275,29 +277,50 @@ class BillyMiniLesson {
   
   pause() {
     this.isPaused = true;
+    
+    // Stop current audio
     if (this.currentAudio) {
       this.currentAudio.pause();
     }
     if (window.speechSynthesis) {
       speechSynthesis.pause();
     }
+    
+    // Clear any waiting timeouts
+    if (this.pauseTimeout) {
+      clearTimeout(this.pauseTimeout);
+      this.pauseTimeout = null;
+    }
+    
     this.updateButtonState('▶️');
     console.log('[Billy] Paused');
   }
   
   resume() {
+    if (!this.isPlaying) {
+      // If not playing at all, restart from beginning
+      this.start();
+      return;
+    }
+    
     this.isPaused = false;
-    if (this.currentAudio) {
-      this.currentAudio.play();
-    }
-    if (window.speechSynthesis) {
+    
+    // Resume current audio if it was playing
+    if (this.currentAudio && this.currentAudio.paused) {
+      this.currentAudio.play().catch(e => {
+        console.log('[Billy] Could not resume audio, moving to next step');
+        // Audio couldn't resume, just continue to next step
+        this.playStep(this.currentStep + 1);
+      });
+    } else if (window.speechSynthesis && speechSynthesis.paused) {
       speechSynthesis.resume();
+    } else {
+      // No audio playing, move to next step
+      this.playStep(this.currentStep + 1);
     }
+    
     this.updateButtonState('⏸️');
     console.log('[Billy] Resumed');
-    
-    // Continue from current step
-    this.playStep(this.currentStep);
   }
   
   stop() {

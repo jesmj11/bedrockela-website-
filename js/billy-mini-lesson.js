@@ -198,8 +198,7 @@ class BillyMiniLesson {
         });
         
         if (!response.ok) {
-          console.error('[Billy] TTS server error, using browser fallback');
-          await this.fallbackSpeak(text);
+          console.error('[Billy] TTS server error - NO FALLBACK (ElevenLabs only)');
           resolve();
           return;
         }
@@ -233,8 +232,7 @@ class BillyMiniLesson {
         }
         
       } catch (error) {
-        console.error('[Billy] TTS fetch error:', error);
-        await this.fallbackSpeak(text);
+        console.error('[Billy] TTS fetch error - NO FALLBACK (ElevenLabs only):', error);
         resolve();
       }
     });

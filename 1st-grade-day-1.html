@@ -602,8 +602,11 @@
                 
                 if (!response.ok) {
                     console.error('TTS error:', response.statusText);
-                    // Fallback to browser TTS
-                    fallbackBrowserTTS(text, button);
+                    // NO FALLBACK - ElevenLabs only
+                    if (currentButton) {
+                        currentButton.textContent = '🔊';
+                        currentButton = null;
+                    }
                     return;
                 }
                 
@@ -627,8 +630,11 @@
                 
             } catch (error) {
                 console.error('TTS error:', error);
-                // Fallback to browser TTS
-                fallbackBrowserTTS(text, button);
+                // NO FALLBACK - ElevenLabs only
+                if (currentButton) {
+                    currentButton.textContent = '🔊';
+                    currentButton = null;
+                }
             }
         }
         

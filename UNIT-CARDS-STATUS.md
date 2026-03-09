@@ -44,8 +44,10 @@
 9. ✅ Monte Cristo ⭐ (2 chapters/day pacing)
 10. ✅ Time Machine ⭐ (2 chapters/day pacing, READY TO DEPLOY)
 
+### Books with chapters but MISSING vocab:
+11. ⚠️ Mysterious Island - ✅ ALL 24 chapters complete! ⚠️ Needs vocab file (120 words)
+
 ### Books MISSING content:
-11. ❌ Mysterious Island - Only has Chapters 1-6 (needs 7-24 + vocab)
 12. ❌ Twenty Thousand Leagues - No content at all
 13. ❌ Around the World in 80 Days - No content at all
 
@@ -84,21 +86,24 @@ Looking at the curriculum map vs. actual spacing:
 - Q2: Mysterious Island (46-60), Time Machine (61-75), [TBD] (76-90)
 
 ### Option 3: Focus on what's ready NOW
-**Can deploy immediately (10 complete units = 150 days):**
-1. Lost World (15)
-2. War of Worlds (15)
-3. Invisible Man (15)
-4. Jekyll & Hyde (15)
-5. Frankenstein (20)
-6. Dorian Gray (15)
-7. Sherlock Holmes (15)
-8. Beowulf (15)
-9. Monte Cristo (15)
-10. Time Machine (15)
+**Can deploy with chapters (10.5 complete units):**
+1. Lost World (15) - ✅ Complete
+2. War of Worlds (15) - ✅ Complete
+3. Invisible Man (15) - ✅ Complete
+4. Mysterious Island (15) - ✅ Chapters, ⚠️ needs vocab
+5. Jekyll & Hyde (15) - ✅ Complete
+6. Frankenstein (20) - ✅ Complete
+7. Dorian Gray (15) - ✅ Complete
+8. Sherlock Holmes (15) - ✅ Complete
+9. Beowulf (15) - ✅ Complete
+10. Monte Cristo (15) - ✅ Complete
+11. Time Machine (15) - ✅ Complete
 
-**Missing:** 30 days to complete 180-day curriculum
-- Mysterious Island needs Chapters 7-24 + vocab
-- Need one more 15-day unit (write Twenty Thousand Leagues OR Around the World OR different book)
+**Total with chapters:** 165 days (11 units)  
+**Total fully complete:** 150 days (10 units - waiting on Mysterious Island vocab)
+
+**Missing:** 15 days to complete 180-day curriculum
+- Need one more 15-day unit (Twenty Thousand Leagues OR Around the World OR different book)
 
 ---
 

@@ -1,7 +1,10 @@
 # BedrockELA Curriculum Structure
 ## THE SPINE - DO NOT CHANGE WITHOUT UPDATING THIS FILE
 
-Last Updated: 2026-03-06
+Last Updated: 2026-03-09
+
+**🎯 Multi-Grade System:** This spine works for 3rd, 4th, AND 5th grade!  
+See `3RD-4TH-5TH-SPINE-DIFFERENCES.md` for grade-specific adaptations.
 
 ---
 
@@ -267,19 +270,36 @@ BedrockELA uses a **Library Pocket** design philosophy:
 
 ## 📏 GRADE-LEVEL STANDARDS
 
+**⚡ Quick Reference:**
+- **3rd Grade:** 2 vocab/day (8/week), 2 comprehension Q's, 2 info text Q's
+- **4th Grade:** 2 vocab/day (8/week), 3 comprehension Q's, 2 info text Q's  
+- **5th Grade:** 3 vocab/day (12/week), 3 comprehension Q's, 3 info text Q's
+
+**📖 Full Details:** See `3RD-4TH-5TH-SPINE-DIFFERENCES.md` for complete breakdown
+
 ### 5th Grade
 - **Vocabulary:** 3 words/day = 12 words/week
 - **Reading:** 3-part story structure (no scrolling pages)
 - **Comprehension:** 3 thoughtful questions per story
+- **Informational:** 3 questions per article
 - **Grammar/Language:** Weekly rotation through CCSS L.5 standards
 - **Writing:** Weekly rotation through CCSS W.5.1, W.5.2, W.5.3
 
 ### 4th Grade
 - **Vocabulary:** 2 words/day = 8 words/week
 - **Reading:** 3-part story structure
-- **Comprehension:** 2 questions per story
+- **Comprehension:** 3 questions per story
+- **Informational:** 2 questions per article
 - **Grammar/Language:** Weekly rotation through CCSS L.4 standards
 - **Writing:** Weekly rotation through CCSS W.4.1, W.4.2, W.4.3
+
+### 3rd Grade
+- **Vocabulary:** 2 words/day = 8 words/week
+- **Reading:** 3-part story structure
+- **Comprehension:** 2 questions per story
+- **Informational:** 2 questions per article
+- **Grammar/Language:** Weekly rotation through CCSS L.3 standards
+- **Writing:** Weekly rotation through CCSS W.3.1, W.3.2, W.3.3
 
 ---
 

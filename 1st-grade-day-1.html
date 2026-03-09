@@ -10,6 +10,7 @@
     <script src="js/billy-games.js"></script>
     <script src="js/billy-storybook.js"></script>
     <script src="js/billy-simple-storybook.js"></script>
+    <script src="stories/sams-van.js"></script>
     <style>
         /* Billy corner widget - gold circle with speaker */
         .billy-corner-widget {
@@ -184,44 +185,6 @@
     </div>
 
     <script>
-        // Story data for Sam's Van (simple decodable - student reads all)
-        const samsVanStory = {
-            title: "Sam's Van",
-            pages: [
-                { text: "Sam has a van. 🚐" },
-                { text: "The van is big and tan." },
-                { text: "Sam and Pam sat in the van. 👨👩" },
-                { text: "The van ran and ran. 💨" },
-                { text: "Oh no! The van hit a log! 🪵" },
-                { text: "The log was big and tan." },
-                { text: "Sam and Pam push the van. 💪" },
-                { text: "Push, push, push!" },
-                { text: "At last, the van can go! ✨" },
-                { text: "Sam and Pam clap and pat the van. 👏" },
-                { text: "The van ran fast! Yay! 🚐💨" },
-                { text: "The End ⭐" }
-            ]
-        };
-        
-        // Story data for Sam and the Wolf (turn-taking - Billy/student alternate)
-        const samAndTheWolfStory = {
-            title: "Sam and the Wolf",
-            pages: [
-                { text: "This is a story about a brave ram named Sam who protects his flock from a hungry wolf." },
-                { prompt: "Now you read:", text: "Sam is a ram. Sam has a hat." },
-                { text: "One sunny day, Sam was taking a nap on his soft mat when he heard a sound in the distance." },
-                { prompt: "Your turn:", text: "Sam sat on a mat. Sam had a nap." },
-                { text: "It was a wolf! The wolf wanted to grab a lamb from Sam's flock." },
-                { prompt: "Read this:", text: "A wolf ran. The wolf had a gap in his teeth." },
-                { text: "Sam quickly grabbed a pan and started banging it loudly to scare the wolf away." },
-                { prompt: "Now you:", text: "Sam ran to a pan. Sam had the pan." },
-                { text: "The wolf was frightened by the loud noise! He turned and ran back through the gate." },
-                { prompt: "Your turn:", text: "The wolf ran to the gate. The wolf had a rag." },
-                { text: "With a final bang of the pan, the wolf disappeared into the forest. Sam's flock was safe!" },
-                { prompt: "Read this:", text: "Sam sat. The ram was glad. Sam had jam!" }
-            ]
-        };
-        
         const pages = [
         // Page 1: Title
         `<div class="lesson-page-card title-page">
@@ -496,16 +459,19 @@
                 miniLessonAutoStarted = false;
             }
             
-            // Initialize Sam's Van simple storybook on Page 5
+            // Initialize storybook on Page 5
             if (currentPage === 4) {
+                // Page 5 - Storybook
                 setTimeout(() => {
-                    window.samsVanBook = new SimpleStoryBook(samsVanStory, 'storybook-container');
+                    if (window.SAMS_VAN_STORY) {
+                        window.storybook = new BillyStorybook(window.SAMS_VAN_STORY, 'storybook-container');
+                    }
                 }, 100);
             }
             
             // Initialize story book and games on their pages
             if (currentPage === 9) {
-                // Page 10 - Sam and the Wolf (turn-taking storybook)
+                // Page 10 - Story Book (Sam and the Wolf)
                 setTimeout(() => {
                     window.samWolfStory = new BillyStoryBook(samAndTheWolfStory, 'sam-wolf-storybook-container');
                     window.samWolfStory.start();

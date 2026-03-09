@@ -354,6 +354,9 @@ function createLessonViewer(containerId, lessonConfig) {
         ${page.render(lessonProgress, markSectionComplete)}
       </div>
 
+      <!-- Billy Avatar Widget -->
+      ${window.renderBillyWidget && page.instruction ? window.renderBillyWidget(page.instruction) : ''}
+
       <!-- Bottom Navigation -->
       <div class="lesson-nav-bottom">
         <button 

@@ -135,7 +135,6 @@ function generateRegularLesson(day) {
     <div id="lesson-container"></div>
 
     <script src="js/lesson-viewer.js?v=1772665488"></script>
-    <script src="js/digital-book.js?v=1772665488"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="firebase-config.js"></script>
@@ -171,7 +170,6 @@ function generateRegularLesson(day) {
                             <h2>Welcome to Day ${day}!</h2>
                             <p>Today you will:</p>
                             <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Read <strong>${chapter.title}</strong> in our digital book</li>
                                 <li>Learn 2 new vocabulary words</li>
                                 <li>Answer 2 comprehension questions</li>
                                 <li>Practice ${isOddDay ? 'grammar' : 'language'} skills</li>
@@ -215,35 +213,7 @@ function generateRegularLesson(day) {
                     \`
                 },
                 
-                // Page 4: Digital Book Reader
-                {
-                    render: () => {
-                        setTimeout(() => {
-                            if (!window.day${day}BookInitialized) {
-                                const bookConfig = {
-                                    coverTitle: "Chapter ${chapterNum}",
-                                    coverSubtitle: "${chapter.title}",
-                                    coverAuthor: "L. Frank Baum (adapted for 4th grade)",
-                                    coverColor: "#1B2A4A",
-                                    vocabWords: ${JSON.stringify(vocabWords)},
-                                    pages: ${JSON.stringify(bookPages.map(text => ({ text })))}
-                                };
-                                window.digitalBookInstance = new DigitalBook('digital-book-day-${day}', bookConfig);
-                                window.day${day}BookInitialized = true;
-                            }
-                        }, 100);
-                        
-                        return \`
-                            <div class="lesson-page-card content-page">
-                                <h2>📖 Chapter ${chapterNum}: ${chapter.title}</h2>
-                                <p style="margin: 10px 0 20px; color: #666;">Click the arrows to turn pages. Vocabulary words are highlighted in yellow!</p>
-                                <div id="digital-book-day-${day}"></div>
-                            </div>
-                        \`;
-                    }
-                },
-                
-                // Page 5: Comprehension - Multiple Choice
+                // Page 4: Comprehension - Multiple Choice
                 {
                     render: () => \`
                         <div class="lesson-page-card content-page">
@@ -263,7 +233,7 @@ function generateRegularLesson(day) {
                     \`
                 },
                 
-                // Page 6: Comprehension - Short Answer
+                // Page 5: Comprehension - Short Answer
                 {
                     render: () => \`
                         <div class="lesson-page-card content-page">
@@ -277,7 +247,7 @@ function generateRegularLesson(day) {
                     \`
                 },
                 
-                // Page 7: Grammar/Language (placeholder)
+                // Page 6: Grammar/Language (placeholder)
                 {
                     render: () => \`
                         <div class="lesson-page-card content-page">
@@ -290,7 +260,7 @@ function generateRegularLesson(day) {
                     \`
                 },
                 
-                // Page 8: Writing
+                // Page 7: Writing
                 {
                     render: () => \`
                         <div class="lesson-page-card content-page">
@@ -301,7 +271,7 @@ function generateRegularLesson(day) {
                     \`
                 },
                 
-                // Page 9: Completion
+                // Page 8: Completion
                 {
                     render: () => \`
                         <div class="lesson-page-card title-page">

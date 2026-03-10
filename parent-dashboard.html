@@ -464,6 +464,7 @@
                         <button class="action-btn secondary">Messages</button>
                         <button onclick="showLogin('emmett', 'Emmett')" class="action-btn credentials">🔑 Login</button>
                         <button onclick="managePIN('emmett', 'Emmett')" class="action-btn credentials">🔒 Set PIN</button>
+                        <button onclick="setLesson('IgUpkm8FTrWfcEGWrcg0', 'Emmett', '1st-grade')" class="action-btn">📍 Set Lesson</button>
                         <button onclick="editStudent('emmett', 'Emmett', 6, '1st Grade')" class="action-btn edit">✏️ Edit</button>
                         <button onclick="deleteStudent('emmett', 'Emmett')" class="action-btn delete">🗑️ Delete</button>
                     </div>
@@ -504,6 +505,7 @@
                         <button class="action-btn secondary">Messages</button>
                         <button onclick="showLogin('lucas', 'Lucas')" class="action-btn credentials">🔑 Login</button>
                         <button onclick="managePIN('lucas', 'Lucas')" class="action-btn credentials">🔒 Set PIN</button>
+                        <button onclick="setLesson('PEU9P8qiszetIoNZ02I9', 'Lucas', '6th-grade')" class="action-btn">📍 Set Lesson</button>
                         <button onclick="editStudent('lucas', 'Lucas', 11, '6th Grade')" class="action-btn edit">✏️ Edit</button>
                         <button onclick="deleteStudent('lucas', 'Lucas')" class="action-btn delete">🗑️ Delete</button>
                     </div>
@@ -544,6 +546,7 @@
                         <button class="action-btn secondary">Remind</button>
                         <button onclick="showLogin('asher', 'Asher')" class="action-btn credentials">🔑 Login</button>
                         <button onclick="managePIN('asher', 'Asher')" class="action-btn credentials">🔒 Set PIN</button>
+                        <button onclick="setLesson('10U6aBaRHA7m0kXe1LCA', 'Asher', '4th-grade')" class="action-btn">📍 Set Lesson</button>
                         <button onclick="editStudent('asher', 'Asher', 9, '4th Grade')" class="action-btn edit">✏️ Edit</button>
                         <button onclick="deleteStudent('asher', 'Asher')" class="action-btn delete">🗑️ Delete</button>
                     </div>
@@ -955,6 +958,38 @@
                 });
                 
                 console.log('Student deleted (demo mode):', studentId, studentName);
+            }
+        }
+        
+        // Set lesson manually
+        async function setLesson(studentId, studentName, gradeLevel) {
+            const currentLesson = prompt(`📍 Set lesson for ${studentName}\n\nEnter the lesson number (1-180):`);
+            
+            if (currentLesson === null) return; // Cancelled
+            
+            const lessonNum = parseInt(currentLesson);
+            if (isNaN(lessonNum) || lessonNum < 1 || lessonNum > 180) {
+                alert('⚠️ Please enter a valid lesson number between 1 and 180');
+                return;
+            }
+            
+            try {
+                const db = firebase.firestore();
+                
+                // Update student's currentLesson field
+                await db.collection('students').doc(studentId).update({
+                    currentLesson: lessonNum,
+                    lastUpdated: new Date().toISOString()
+                });
+                
+                alert(`✅ ${studentName} is now on lesson ${lessonNum}!\n\nThey can continue from this point on their next login.`);
+                
+                // Refresh the page to show updated data
+                window.location.reload();
+                
+            } catch (error) {
+                console.error('Error setting lesson:', error);
+                alert(`❌ Error setting lesson: ${error.message}`);
             }
         }
         

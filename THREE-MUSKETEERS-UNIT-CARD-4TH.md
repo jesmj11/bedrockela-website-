@@ -3,6 +3,7 @@
 **Author:** Alexandre Dumas  
 **Grade Level:** 4th Grade (Ages 9-10)  
 **Unit Length:** 30 lessons (24 regular + 6 assessments)  
+**Days:** 61-90 (Weeks 13-18) - REPLACES Call of the Wild  
 **Theme:** Friendship, Loyalty, Courage, Adventure  
 **Reading Level:** Classic adventure, age-appropriate adaptation
 
@@ -10,11 +11,11 @@
 
 ## 📚 Library Pocket Specifications
 
-**Pocket Structure:** 4th Grade Adventure Unit  
-**Days:** TBD (to be assigned)  
-**Weeks:** 6 weeks  
+**Pocket Structure:** 4th Grade Unit 3 - Into the Wild Adventure  
+**Days:** 61-90  
+**Weeks:** 13-18  
 **Vocabulary:** 2 words per day = 8 words per week  
-**Assessment Pattern:** Every 5th day (Days 5, 10, 15, 20, 25, 30)
+**Assessment Pattern:** Every 5th day (Days 65, 70, 75, 80, 85, 90)
 
 ---
 
@@ -46,88 +47,88 @@ Young D'Artagnan leaves his home in Gascony to join the King's Musketeers in Par
 
 ## 📊 Unit Structure
 
-### Week 1: Meeting the Musketeers (Days 1-5)
-**Chapters:** D'Artagnan leaves home, arrives in Paris, meets Athos/Porthos/Aramis, the three duels, becoming friends
+### Week 13: Meeting the Musketeers (Days 61-65)
+**Chapters 1-4:** The Boy from Gascony, Trouble in Meung, Three Duels Before Noon, All for One
 
 **Vocabulary Focus (8 words):**
-- **Day 1:** musketeer, ambition
-- **Day 2:** duel, honor
-- **Day 3:** comrade, allegiance
-- **Day 4:** courier, intrigue
-- **Day 5:** ASSESSMENT
+- **Day 61:** musketeer, ambition
+- **Day 62:** duel, honor
+- **Day 63:** comrade, allegiance
+- **Day 64:** courier, intrigue
+- **Day 65:** ASSESSMENT
 
 **Themes:** First impressions, earning respect, making friends, courage
 
-### Week 2: The Adventure Begins (Days 6-10)
-**Chapters:** Joining the guards, the Queen's secret, Cardinal's plot, mission to England
+### Week 14: The Adventure Begins (Days 66-70)
+**Chapters 5-8:** The Three Musketeers, The Captain's Blessing, The Queen's Secret, The Cardinal's Plot
 
 **Vocabulary Focus (8 words):**
-- **Day 6:** cardinal, conspiracy
-- **Day 7:** diamond, messenger
-- **Day 8:** perilous, voyage
-- **Day 9:** disguise, adversary
-- **Day 10:** ASSESSMENT
+- **Day 66:** cardinal, conspiracy
+- **Day 67:** diamond, messenger
+- **Day 68:** perilous, voyage
+- **Day 69:** disguise, adversary
+- **Day 70:** ASSESSMENT
 
 **Themes:** Loyalty to friends, keeping secrets, facing danger
 
-### Week 3: Journey to England (Days 11-15)
-**Chapters:** Crossing to England, meeting the Duke, retrieving the diamonds, chase scenes
+### Week 15: The Mission (Days 71-75)
+**Chapters 9-12:** The Mission, D'Artagnan Alone, The Race to Paris, The Ball
 
 **Vocabulary Focus (8 words):**
-- **Day 11:** duke, palace
-- **Day 12:** precious, treasure
-- **Day 13:** pursuit, escape
-- **Day 14:** triumph, relief
-- **Day 15:** ASSESSMENT
+- **Day 71:** mission, urgent
+- **Day 72:** precious, treasure
+- **Day 73:** pursuit, escape
+- **Day 74:** triumph, relief
+- **Day 75:** ASSESSMENT
 
 **Themes:** Teamwork, determination, overcoming obstacles
 
-### Week 4: Return to Paris (Days 16-20)
-**Chapters:** Racing back to France, arriving just in time, the ball, Queen's gratitude
+### Week 16: Secrets Revealed (Days 76-80)
+**Chapters 13-16:** The Woman in the Shadows, Athos's Secret, The Siege of La Rochelle, The Breakfast in the Bastion
 
 **Vocabulary Focus (8 words):**
-- **Day 16:** frantic, deadline
-- **Day 17:** banquet, magnificent
-- **Day 18:** gracious, gratitude
-- **Day 19:** celebration, victory
-- **Day 20:** ASSESSMENT
+- **Day 76:** mysterious, shadows
+- **Day 77:** siege, fortress
+- **Day 78:** brave, valiant
+- **Day 79:** danger, peril
+- **Day 80:** ASSESSMENT
 
-**Themes:** Race against time, success through teamwork, honor restored
+**Themes:** Past haunts the present, courage in battle, friendship tested
 
-### Week 5: New Challenges (Days 21-25)
-**Chapters:** Milady's schemes, uncovering the plot, Athos's past, confronting villains
-
-**Vocabulary Focus (8 words):**
-- **Day 21:** villain, treachery
-- **Day 22:** mysterious, identity
-- **Day 23:** revelation, shocking
-- **Day 24:** justice, confrontation
-- **Day 25:** ASSESSMENT
-
-**Themes:** Facing the past, truth vs. lies, standing up to evil
-
-### Week 6: Final Adventures (Days 26-30)
-**Chapters:** Final showdown, defeating the villains, peace restored, D'Artagnan's promotion
+### Week 17: Milady's Plot (Days 81-85)
+**Chapters 17-20:** Milady's Mission, The Prisoner, The Warning, Too Late
 
 **Vocabulary Focus (8 words):**
-- **Day 26:** resolution, outcome
-- **Day 27:** courage, bravery
-- **Day 28:** promotion, achievement
-- **Day 29:** legacy, motto
-- **Day 30:** ASSESSMENT
+- **Day 81:** villain, treachery
+- **Day 82:** captive, prisoner
+- **Day 83:** warning, urgent
+- **Day 84:** tragedy, sorrow
+- **Day 85:** ASSESSMENT
 
-**Themes:** Good vs. evil, friendship conquers all, growing up, "All for one, one for all"
+**Themes:** Evil schemes, warnings ignored, facing tragedy
+
+### Week 18: Justice and Victory (Days 86-90)
+**Chapters 21-24:** The Trial of Milady, The Cardinal's Offer, One for All, All for One
+
+**Vocabulary Focus (8 words):**
+- **Day 86:** trial, justice
+- **Day 87:** offer, decision
+- **Day 88:** loyalty, brotherhood
+- **Day 89:** motto, legacy
+- **Day 90:** ASSESSMENT
+
+**Themes:** Good vs. evil, friendship conquers all, "All for one, one for all!"
 
 ---
 
 ## 📝 Total Vocabulary: 48 Words
 
-**Week 1:** musketeer, ambition, duel, honor, comrade, allegiance, courier, intrigue  
-**Week 2:** cardinal, conspiracy, diamond, messenger, perilous, voyage, disguise, adversary  
-**Week 3:** duke, palace, precious, treasure, pursuit, escape, triumph, relief  
-**Week 4:** frantic, deadline, banquet, magnificent, gracious, gratitude, celebration, victory  
-**Week 5:** villain, treachery, mysterious, identity, revelation, shocking, justice, confrontation  
-**Week 6:** resolution, outcome, courage, bravery, promotion, achievement, legacy, motto
+**Week 13:** musketeer, ambition, duel, honor, comrade, allegiance, courier, intrigue  
+**Week 14:** cardinal, conspiracy, diamond, messenger, perilous, voyage, disguise, adversary  
+**Week 15:** mission, urgent, precious, treasure, pursuit, escape, triumph, relief  
+**Week 16:** mysterious, shadows, siege, fortress, brave, valiant, danger, peril  
+**Week 17:** villain, treachery, captive, prisoner, warning, urgent, tragedy, sorrow  
+**Week 18:** trial, justice, offer, decision, loyalty, brotherhood, motto, legacy
 
 ---
 
@@ -184,9 +185,31 @@ Young D'Artagnan leaves his home in Gascony to join the King's Musketeers in Par
 
 ---
 
+## ✍️ Writing Focus: COMPARE/CONTRAST & FIRST MULTI-PARAGRAPH ESSAY
+
+**This is Unit 3 - building on journals from Units 1 & 2!**
+
+**Days 61-70:** Continue journals + introduce comparison
+- Compare D'Artagnan to heroes from previous books (Dorothy, Jim Hawkins)
+- Compare the three musketeers to each other (character analysis)
+- Practice comparison vocabulary (similar, different, both, however)
+
+**Days 71-80:** Deeper analysis
+- Compare friendship in Three Musketeers to other books
+- Analyze character growth (D'Artagnan at beginning vs. end)
+- Theme tracking: What makes a true friend?
+
+**Days 81-90:** FIRST MULTI-PARAGRAPH ESSAY
+- Essay topic: "What is the most important quality of friendship?"
+- Use evidence from Three Musketeers + previous books
+- Structure: Introduction, 2 body paragraphs, conclusion
+- This prepares students for more complex writing in Units 4-6
+
+---
+
 ## ✍️ Writing Prompts (24 regular lessons)
 
-**Opinion Writing (Days 1, 3, 6, 8, 11, 13, 16, 18, 21, 23, 26, 28):**
+**Opinion Writing (Days 61, 63, 66, 68, 71, 73, 76, 78, 81, 83, 86, 88):**
 1. Is D'Artagnan brave or reckless? Give two reasons.
 2. Would you want to be a musketeer? Why or why not?
 3. Who is the bravest of the four friends? Explain.
@@ -200,7 +223,7 @@ Young D'Artagnan leaves his home in Gascony to join the King's Musketeers in Par
 11. Which adventure was the most exciting? Defend your choice.
 12. What does "All for one, one for all" really mean?
 
-**Journal Responses (Days 2, 4, 7, 9, 12, 14, 17, 19, 22, 24, 27, 29):**
+**Journal Responses (Days 62, 64, 67, 69, 72, 74, 77, 79, 82, 84, 87, 89):**
 1. Describe a time you made a new friend. How is it similar to D'Artagnan's story?
 2. What would you do if you met the King? Write about it.
 3. If you could join the musketeers on one adventure, which would you choose?
@@ -218,7 +241,7 @@ Young D'Artagnan leaves his home in Gascony to join the King's Musketeers in Par
 
 ## 🎮 Grammar & Language Skills (Rotating)
 
-### Grammar Focus (Days 1, 3, 6, 8, 11, 13, 16, 18, 21, 23, 26, 28)
+### Grammar Focus (Days 61, 63, 66, 68, 71, 73, 76, 78, 81, 83, 86, 88)
 - **Week 1:** Compound sentences with coordinating conjunctions (and, but, or, so)
 - **Week 2:** Complex sentences with subordinating conjunctions (because, when, if)
 - **Week 3:** Action verbs vs. helping verbs
@@ -226,7 +249,7 @@ Young D'Artagnan leaves his home in Gascony to join the King's Musketeers in Par
 - **Week 5:** Quotation marks and dialogue
 - **Week 6:** Combining sentences for variety
 
-### Language Skills (Days 2, 4, 7, 9, 12, 14, 17, 19, 22, 24, 27, 29)
+### Language Skills (Days 62, 64, 67, 69, 72, 74, 77, 79, 82, 84, 87, 89)
 - **Week 1:** Context clues to figure out word meanings
 - **Week 2:** Using French words in English (musketeer, guard, cardinal)
 - **Week 3:** Similes in descriptions ("brave as a lion")
@@ -269,7 +292,7 @@ Young D'Artagnan leaves his home in Gascony to join the King's Musketeers in Par
 ## 🛠️ Technical Requirements
 
 ### File Naming:
-- `4th-grade-day-XXX.html` (where XXX = assigned lesson numbers)
+- `4th-grade-day-061.html` through `4th-grade-day-090.html`
 
 ### Generator Script:
 - `generate-three-musketeers-4th-grade.js`

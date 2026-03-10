@@ -333,6 +333,7 @@ function createLessonViewer(containerId, lessonConfig) {
     const progress = calculateProgress();
 
     container.innerHTML = `
+    <div class="lesson-container">
       <!-- Top Navigation -->
       <div class="lesson-nav-top">
         <button class="nav-btn-home" onclick="window.location.href='student-dashboard.html'">
@@ -380,6 +381,7 @@ function createLessonViewer(containerId, lessonConfig) {
           ${currentPage === lessonConfig.pages.length - 1 ? 'Finish Lesson ✓' : 'Next →'}
         </button>
       </div>
+    </div>
     `;
 
     // Execute any page-specific initialization

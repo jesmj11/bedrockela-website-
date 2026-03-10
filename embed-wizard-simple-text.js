@@ -79,7 +79,9 @@ function splitInto3Parts(text) {
 }
 
 function generateRegularLesson(day) {
-  const chapterIndex = Math.floor((day - 1) / 1.25);
+  // Simple 1:1 mapping - Day 1 = Chapter 1, Day 2 = Chapter 2, etc.
+  // Skip assessment days (5, 10, 15, 20, 25, 30)
+  const chapterIndex = day - 1;
   const chapter = chapters[Math.min(chapterIndex, chapters.length - 1)];
   const chapterNum = chapter.chapter;
   const week = Math.ceil(day / 5);

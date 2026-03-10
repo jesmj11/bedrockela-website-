@@ -1,26 +1,218 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><title>Lesson 4 - Wizard of Oz</title>
-<link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488"></head>
-<body class="lesson-viewer"><div id="lesson-container"></div>
-<script src="js/lesson-viewer.js?v=1772665488"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-<script src="firebase-config.js"></script>
-<script src="js/lesson-completion.js?v=1772665488"></script>
-<script src="js/lesson-autosave.js?v=1772665488"></script>
-<script>
-const lesson4Config={lessonId:'4th-grade-day-4',gradeLevel:'4th-grade',title:'Lesson 4',pages:[
-{render:()=>'<div class="lesson-page-card title-page"><h1>Lesson 4</h1><p>Week 1</p><p>Chapter 3: How Dorothy Saved the Scarecrow</p></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Today You Will:</h2><ul><li>Read How Dorothy Saved the Scarecrow</li><li>Learn 2 vocab words</li><li>Answer questions</li><li>Practice language</li><li>Journal</li></ul></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Vocabulary</h2><div style="margin:20px 0"><h3>tiresome</h3><textarea id="vtiresome" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div><div style="margin:20px 0"><h3>companion</h3><textarea id="vcompanion" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Vocab Practice</h2><p>tiresome, companion</p></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>How Dorothy Saved the Scarecrow (Part 1)</h2><div><p>Dorothy walked along the yellow brick road, enjoying the beauty around her. The road was smooth and well-kept, and the countryside was green and lovely. The fences along the sides were painted a cheerful blue, and the houses were also blue, for this was still Munchkin country, and blue was the Munchkins&#39; favorite color.</p><p>After walking for a while, Dorothy sat down on a fence to rest and eat some bread from her basket. There was a great cornfield beyond the fence, and not far away, she saw a Scarecrow, raised high on a pole to keep the crows away.</p><p>Dorothy stared at the Scarecrow curiously. His head was a small sack stuffed with straw, with eyes, a nose, and a mouth painted on in blue to look like a Munchkin. He wore a faded blue suit, old boots, and a pointed blue hat. He was stuffed with straw that stuck out at every seam.</p><p>As Dorothy looked at him, she thought she saw one of the painted eyes wink at her.</p><p>She blinked. Had she imagined it?</p><p>Then the Scarecrow nodded his head in a friendly way.</p><p>Dorothy climbed down from the fence and walked right up to him. &quot;Did you just nod at me?&quot; she asked.</p><p>&quot;Certainly,&quot; answered the Scarecrow. &quot;How do you do?&quot;</p><p>&quot;I&#39;m — I&#39;m fine,&quot; Dorothy said, quite astonished. She had never talked to a scarecrow before. &quot;How are you?&quot;</p><p>&quot;Not very well,&quot; said the Scarecrow with a sigh. &quot;It is very tiresome being stuck up here all day and all night with nothing to do. Would you be so kind as to help me down?&quot;</p><p>Dorothy reached up and lifted him off the pole. He was very light, being stuffed with straw, and he stumbled when his feet touched the ground but quickly steadied himself.</p><p>&quot;Thank you very much,&quot; said the Scarecrow. &quot;I feel like a new man.&quot;</p><p>He stretched his arms and legs and looked around with his painted eyes. &quot;Who are you?&quot; he asked. &quot;And where are you going?&quot;</p></div></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>How Dorothy Saved the Scarecrow (Part 2)</h2><div><p>&quot;Where is the Emerald City?&quot; the Scarecrow asked. &quot;And who is Oz?&quot;</p><p>&quot;Don&#39;t you know?&quot; Dorothy asked, surprised.</p><p>The Scarecrow shook his head sadly. &quot;No, indeed. I don&#39;t know anything at all. You see, I am stuffed with straw, so I have no brains.&quot;</p><p>&quot;Oh,&quot; said Dorothy. &quot;I&#39;m sorry.&quot;</p><p>&quot;It&#39;s not so bad during the day,&quot; the Scarecrow said. &quot;But at night, when it is dark and I am alone, I have nothing to think about, and that is very hard. If I only had brains, I would know things, and then I would not feel so empty and useless.&quot;</p><p>Dorothy thought about this for a moment. &quot;If you come with me to the Emerald City,&quot; she said, &quot;I will ask Oz to give you some brains.&quot;</p><p>The Scarecrow&#39;s painted face seemed to brighten. &quot;Do you think the Wizard could really do that?&quot;</p><p>&quot;I don&#39;t know,&quot; Dorothy said honestly. &quot;But he is a great Wizard, and the Witch of the North told me he might be able to help me. Perhaps he can help you, too.&quot;</p><p>&quot;Then I will go with you,&quot; the Scarecrow declared. He took a step, then stumbled and nearly fell. Dorothy caught his arm. &quot;I am sorry,&quot; he said. &quot;I am not very steady on my feet. My legs do not always do what I want them to.&quot;</p><p>&quot;That&#39;s all right,&quot; Dorothy said. &quot;You&#39;ll get better with practice.&quot;</p><p>They started down the yellow brick road together, the Scarecrow wobbling at first but growing steadier with every step. Toto sniffed at the Scarecrow&#39;s straw-stuffed legs and barked once, then decided this strange creature was friendly enough and trotted along beside them.</p><p>&quot;Tell me about yourself,&quot; Dorothy said.</p><p>&quot;There is not much to tell,&quot; said the Scarecrow. &quot;I was made only yesterday. A farmer painted my face, stuffed me with straw, and put me on that pole. He said I was to keep the crows away, but the crows were not afraid of me at all. One old crow even landed on my shoulder and said, &#39;Any fool can see that man is only stuffed with straw.&#39; That made me very sad. If I only had brains, even the crows would respect me.&quot;</p></div></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>How Dorothy Saved the Scarecrow (Part 3)</h2><div><p>&quot;It seems to me,&quot; Dorothy said carefully, &quot;that a man who can talk as cleverly as you do ought to have brains.&quot;</p><p>&quot;Do you really think so?&quot; the Scarecrow asked eagerly.</p><p>&quot;I do,&quot; said Dorothy.</p><p>The Scarecrow seemed to walk a little taller after that.</p><p>As they walked, they came to places where the road was rough and broken, and the Scarecrow sometimes tripped over the uneven bricks. But each time he fell, he picked himself right back up without complaining and kept going. He could not feel pain, he explained, because he was only stuffed with straw. But he did not like falling, because it made him feel foolish.</p><p>&quot;Tell me about Kansas,&quot; the Scarecrow said after a while.</p><p>&quot;It is gray and flat and dry,&quot; Dorothy said. &quot;There are no beautiful flowers or green trees like there are here. But it is home, and Aunt Em is there, and that is all that matters.&quot;</p><p>&quot;I cannot understand why you would want to go back to such a gray place,&quot; the Scarecrow said.</p><p>&quot;That is because you have no brains,&quot; Dorothy said gently. &quot;No matter how dull and gray home is, people who have hearts always want to return to it. There is no place like home.&quot;</p><p>The Scarecrow sighed. &quot;Of course, I cannot understand it. If your heads were all stuffed with straw, like mine, you would probably all live in beautiful places, and then Kansas would have no people at all. It is fortunate for Kansas that you have brains.&quot;</p><p>Dorothy smiled and said nothing. She was beginning to like the Scarecrow very much.</p></div></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Comprehension</h2><p>1. What does the Scarecrow want more than anything?</p><textarea id="q1" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea><p>2. The Scarecrow says he has no brains, but he talks cleverly and asks thoughtful questions. Find one thing the Scarecrow says or does that makes you think he might already be smarter than he realizes.</p><textarea id="q2" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Language</h2><p>Language skills</p><textarea id="skill" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Learn More</h2><p>Informational text</p></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Journal</h2><textarea id="writing" style="width:100%;min-height:200px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div>'}
-]};
-if(typeof initLessonViewer==='function')initLessonViewer(lesson4Config);
-</script></body></html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 4 - 4th Grade BedrockELA</title>
+    <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
+
+    <script src="js/lesson-viewer.js?v=1772665488"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js?v=1772665488"></script>
+    <script src="js/lesson-autosave.js?v=1772665488"></script>
+    
+    <script>
+        const lesson4Config = {
+            lessonId: '4th-grade-day-4',
+            gradeLevel: '4th-grade',
+            title: 'Lesson 4 - 4th Grade',
+            pages: [
+                // Page 1: Title
+                {
+                    render: () => `
+                        <div class="lesson-page-card title-page">
+                            <h1>Lesson 4</h1>
+                            <div class="subtitle">4th Grade ELA • Week 1</div>
+                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
+                                The Wonderful Wizard of Oz
+                            </p>
+                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
+                                Chapter 3: How Dorothy Saved the Scarecrow
+                            </p>
+                        </div>
+                    `
+                },
+                
+                // Page 2: Objectives
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Welcome to Lesson 4!</h2>
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>Read from <strong>How Dorothy Saved the Scarecrow</strong></li>
+                                <li>Learn 2 new vocabulary words</li>
+                                <li>Answer 2 comprehension questions</li>
+                                <li>Practice ${false ? 'grammar' : 'language'} skills</li>
+                                <li>Write a ${false ? 'response' : 'journal entry'}</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        </div>
+                    `
+                },
+                
+                // Page 3: Vocabulary (2 words from Jes's guide)
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Vocabulary Words</h2>
+                            
+                            <div style="margin: 30px 0;">
+                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
+                                    <div style="margin-bottom: 10px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">tiresome</span>
+                                    </div>
+                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Boring and annoying because it lasts too long or happens too often.</p>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;">Write a sentence using this word:</p>
+                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                </div>
+                                
+                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
+                                    <div style="margin-bottom: 10px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">companion</span>
+                                    </div>
+                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">A person or animal you spend time with; a friend who goes with you on a journey.</p>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;">Write a sentence using this word:</p>
+                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 4: Vocabulary Practice
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Vocabulary Practice</h2>
+                            <p style="margin: 20px 0;">Review the vocabulary words you just learned.</p>
+                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                                <p><strong>tiresome:</strong> Boring and annoying because it lasts too long or happens too often.</p>
+                                <p style="margin-top: 15px;"><strong>companion:</strong> A person or animal you spend time with; a friend who goes with you on a journey.</p>
+                            </div>
+                            <p style="margin-top: 20px;">Watch for these words in today's reading!</p>
+                        </div>
+                    `
+                },
+                
+                // Pages 5-7: Story (3 parts from ADAPTED book)
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>How Dorothy Saved the Scarecrow (Part 1)</h2>
+                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
+                                ${"Dorothy walked along the yellow brick road, enjoying the beauty around her. The road was smooth and well-kept, and the countryside was green and lovely. The fences along the sides were painted a cheerful blue, and the houses were also blue, for this was still Munchkin country, and blue was the Munchkins' favorite color.\n\nAfter walking for a while, Dorothy sat down on a fence to rest and eat some bread from her basket. There was a great cornfield beyond the fence, and not far away, she saw a Scarecrow, raised high on a pole to keep the crows away.\n\nDorothy stared at the Scarecrow curiously. His head was a small sack stuffed with straw, with eyes, a nose, and a mouth painted on in blue to look like a Munchkin. He wore a faded blue suit, old boots, and a pointed blue hat. He was stuffed with straw that stuck out at every seam.\n\nAs Dorothy looked at him, she thought she saw one of the painted eyes wink at her.\n\nShe blinked. Had she imagined it?\n\nThen the Scarecrow nodded his head in a friendly way.\n\nDorothy climbed down from the fence and walked right up to him. \"Did you just nod at me?\" she asked.\n\n\"Certainly,\" answered the Scarecrow. \"How do you do?\"\n\n\"I'm — I'm fine,\" Dorothy said, quite astonished. She had never talked to a scarecrow before. \"How are you?\"\n\n\"Not very well,\" said the Scarecrow with a sigh. \"It is very tiresome being stuck up here all day and all night with nothing to do. Would you be so kind as to help me down?\"\n\nDorothy reached up and lifted him off the pole. He was very light, being stuffed with straw, and he stumbled when his feet touched the ground but quickly steadied himself.\n\n\"Thank you very much,\" said the Scarecrow. \"I feel like a new man.\"\n\nHe stretched his arms and legs and looked around with his painted eyes. \"Who are you?\" he asked. \"And where are you going?\"".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>How Dorothy Saved the Scarecrow (Part 2)</h2>
+                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
+                                ${"\"My name is Dorothy, and I am going to the Emerald City to ask the great Wizard of Oz to send me home to Kansas.\"\n\n\"Where is the Emerald City?\" the Scarecrow asked. \"And who is Oz?\"\n\n\"Don't you know?\" Dorothy asked, surprised.\n\nThe Scarecrow shook his head sadly. \"No, indeed. I don't know anything at all. You see, I am stuffed with straw, so I have no brains.\"\n\n\"Oh,\" said Dorothy. \"I'm sorry.\"\n\n\"It's not so bad during the day,\" the Scarecrow said. \"But at night, when it is dark and I am alone, I have nothing to think about, and that is very hard. If I only had brains, I would know things, and then I would not feel so empty and useless.\"\n\nDorothy thought about this for a moment. \"If you come with me to the Emerald City,\" she said, \"I will ask Oz to give you some brains.\"\n\nThe Scarecrow's painted face seemed to brighten. \"Do you think the Wizard could really do that?\"\n\n\"I don't know,\" Dorothy said honestly. \"But he is a great Wizard, and the Witch of the North told me he might be able to help me. Perhaps he can help you, too.\"\n\n\"Then I will go with you,\" the Scarecrow declared. He took a step, then stumbled and nearly fell. Dorothy caught his arm. \"I am sorry,\" he said. \"I am not very steady on my feet. My legs do not always do what I want them to.\"\n\n\"That's all right,\" Dorothy said. \"You'll get better with practice.\"\n\nThey started down the yellow brick road together, the Scarecrow wobbling at first but growing steadier with every step. Toto sniffed at the Scarecrow's straw-stuffed legs and barked once, then decided this strange creature was friendly enough and trotted along beside them.\n\n\"Tell me about yourself,\" Dorothy said.".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>How Dorothy Saved the Scarecrow (Part 3)</h2>
+                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
+                                ${"\"There is not much to tell,\" said the Scarecrow. \"I was made only yesterday. A farmer painted my face, stuffed me with straw, and put me on that pole. He said I was to keep the crows away, but the crows were not afraid of me at all. One old crow even landed on my shoulder and said, 'Any fool can see that man is only stuffed with straw.' That made me very sad. If I only had brains, even the crows would respect me.\"\n\n\"It seems to me,\" Dorothy said carefully, \"that a man who can talk as cleverly as you do ought to have brains.\"\n\n\"Do you really think so?\" the Scarecrow asked eagerly.\n\n\"I do,\" said Dorothy.\n\nThe Scarecrow seemed to walk a little taller after that.\n\nAs they walked, they came to places where the road was rough and broken, and the Scarecrow sometimes tripped over the uneven bricks. But each time he fell, he picked himself right back up without complaining and kept going. He could not feel pain, he explained, because he was only stuffed with straw. But he did not like falling, because it made him feel foolish.\n\n\"Tell me about Kansas,\" the Scarecrow said after a while.\n\n\"It is gray and flat and dry,\" Dorothy said. \"There are no beautiful flowers or green trees like there are here. But it is home, and Aunt Em is there, and that is all that matters.\"\n\n\"I cannot understand why you would want to go back to such a gray place,\" the Scarecrow said.\n\n\"That is because you have no brains,\" Dorothy said gently. \"No matter how dull and gray home is, people who have hearts always want to return to it. There is no place like home.\"\n\nThe Scarecrow sighed. \"Of course, I cannot understand it. If your heads were all stuffed with straw, like mine, you would probably all live in beautiful places, and then Kansas would have no people at all. It is fortunate for Kansas that you have brains.\"\n\nDorothy smiled and said nothing. She was beginning to like the Scarecrow very much.".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 8: Comprehension (from Jes's guide: 1 MC + 1 short answer)
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Reading Comprehension</h2>
+                            <div style="margin: 20px 0;">
+                                <div style="margin-bottom: 30px;">
+                                    <p style="font-weight: 600; margin-bottom: 15px;">1. What does the Scarecrow want more than anything?</p>
+                                    <div>
+                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="mc-q1" value="A" style="margin-right: 10px;">
+                                            <strong>A)</strong> A heart
+                                        </label>
+                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="mc-q1" value="B" style="margin-right: 10px;">
+                                            <strong>B)</strong> Courage
+                                        </label>
+                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="mc-q1" value="C" style="margin-right: 10px;">
+                                            <strong>C)</strong> A brain
+                                        </label>
+                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="mc-q1" value="D" style="margin-right: 10px;">
+                                            <strong>D)</strong> A way home
+                                        </label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p style="font-weight: 600; margin-bottom: 10px;">2. The Scarecrow says he has no brains, but he talks cleverly and asks thoughtful questions. Find one thing the Scarecrow says or does that makes you think he might already be smarter than he realizes.</p>
+                                    <p style="margin-top: 10px; color: #666; font-size: 13px;"><em>Hint: Look at the conversations he has with Dorothy. Does he say anything wise or observant?</em></p>
+                                    <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 9: Grammar OR Language
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>${false ? 'Grammar Practice' : 'Language Skills'}</h2>
+                            <p style="margin: 20px 0;">${false ? 'Grammar skills practice' : 'Language skills practice'}</p>
+                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                                <p><em>Grammar and language content will be added based on weekly skills rotation.</em></p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 10: Informational Text
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Learn More</h2>
+                            <p style="margin: 20px 0;">Informational text related to today's reading.</p>
+                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                                <p><em>Informational text content will be added.</em></p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 11: Writing
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>${false ? 'Writing Response' : 'Journal Entry'}</h2>
+                            <p style="margin: 20px 0 10px;">${false ? "Write your opinion about today's reading." : 'Write about your thoughts and feelings about the story.'}</p>
+                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px; min-height: 200px;"></textarea>
+                            <p style="margin-top: 15px; color: #666; font-size: 14px;">Write at least 5-7 sentences.</p>
+                        </div>
+                    `
+                }
+            ]
+        };
+
+        if (typeof initLessonViewer === 'function') {
+            initLessonViewer(lesson4Config);
+        }
+    </script>
+</body>
+</html>

@@ -1,26 +1,218 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><title>Lesson 24 - Wizard of Oz</title>
-<link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488"></head>
-<body class="lesson-viewer"><div id="lesson-container"></div>
-<script src="js/lesson-viewer.js?v=1772665488"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-<script src="firebase-config.js"></script>
-<script src="js/lesson-completion.js?v=1772665488"></script>
-<script src="js/lesson-autosave.js?v=1772665488"></script>
-<script>
-const lesson24Config={lessonId:'4th-grade-day-24',gradeLevel:'4th-grade',title:'Lesson 24',pages:[
-{render:()=>'<div class="lesson-page-card title-page"><h1>Lesson 24</h1><p>Week 5</p><p>Chapter 19: The Journey South</p></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Today You Will:</h2><ul><li>Read The Journey South</li><li>Learn 2 vocab words</li><li>Answer questions</li><li>Practice language</li><li>Journal</li></ul></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Vocabulary</h2><div style="margin:20px 0"><h3>untamed</h3><textarea id="vuntamed" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div><div style="margin:20px 0"><h3>recoiled</h3><textarea id="vrecoiled" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Vocab Practice</h2><p>untamed, recoiled</p></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>The Journey South (Part 1)</h2><div><p>The next morning, the four friends set out from the Emerald City heading south. The Guardian of the Gates unlocked their green spectacles, wished them well, and watched them walk away down the road.</p><p>&quot;I hope you find what you are looking for,&quot; he called after them.</p><p>&quot;So do I,&quot; Dorothy said quietly.</p><p>The countryside was lovely at first — green fields, gentle hills, and sparkling streams. But as they went further south, the road disappeared entirely. There were no more yellow bricks, no more fences, no more signs. Just wild, untamed land stretching in every direction.</p><p>&quot;We must keep going south,&quot; the Scarecrow said, studying the position of the sun. &quot;Glinda&#39;s country is on the southern border of Oz. If we walk straight, we should reach it.&quot;</p><p>They walked through tall grass and across shallow streams. The Lion led the way, his great nose sniffing the air for danger. The Tin Woodman kept his axe ready. The Scarecrow watched the sun and kept them heading in the right direction.</p><p>Then they reached the forest.</p><p>It was not like the dark forest near the Munchkin country. This forest was alive — aggressively alive. The trees were thick and gnarled, with branches that hung low across the path like arms.</p></div></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>The Journey South (Part 2)</h2><div><p>&quot;These trees look unfriendly,&quot; the Tin Woodman said.</p><p>He was right. When the Scarecrow tried to walk between two of them, the nearest tree swung a great branch like a fist and knocked him flying. He tumbled through the air and landed in a heap ten feet away.</p><p>&quot;Ow,&quot; the Scarecrow said. Then: &quot;Well, not ow exactly, since I cannot feel pain. But that was very rude.&quot;</p><p>The trees thrashed their branches, blocking the path completely. Every time someone tried to pass, the trees struck at them. The Lion growled and swiped at a branch, but another tree hit him from behind and sent him stumbling.</p><p>&quot;Let me try,&quot; the Tin Woodman said.</p><p>He marched toward the nearest fighting tree, axe raised. A branch whipped toward his head. He ducked and chopped it clean off. Another branch swung at his legs. He chopped that one, too. A third branch came from the side — chop. A fourth from above — chop.</p><p>The trees recoiled, pulling their remaining branches tight against their trunks. They had learned very quickly that hitting a man made of tin with an axe was not a winning strategy.</p><p>&quot;Run!&quot; the Tin Woodman shouted, holding the trees back.</p></div></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>The Journey South (Part 3)</h2><div><p>The others dashed through the gap. The Tin Woodman followed, chopping one more branch for good measure. Behind them, the fighting trees shook with fury, but they could not follow.</p><p>&quot;That was magnificent,&quot; the Lion said.</p><p>&quot;Thank you,&quot; the Tin Woodman said. &quot;I may not have real muscles, but tin is very hard, and this axe is very sharp.&quot;</p><p>&quot;Brains, heart, and courage,&quot; the Scarecrow said, brushing dirt from his clothes. &quot;We have everything we need between us.&quot;</p><p>&quot;We always did,&quot; Dorothy said.</p><p>They pressed on through the forest, and the trees did not bother them again.</p></div></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Comprehension</h2><p>1. How does the group get past the fighting trees?</p><textarea id="q1" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea><p>2. The Scarecrow says: &#39;Brains, heart, and courage — we have everything we need between us.&#39; How has the group changed since the beginning of the story? Do they still need the Wizard, or have they become their own solution?</p><textarea id="q2" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Language</h2><p>Language skills</p><textarea id="skill" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Learn More</h2><p>Informational text</p></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Journal</h2><textarea id="writing" style="width:100%;min-height:200px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div>'}
-]};
-if(typeof initLessonViewer==='function')initLessonViewer(lesson24Config);
-</script></body></html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 24 - 4th Grade BedrockELA</title>
+    <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
+
+    <script src="js/lesson-viewer.js?v=1772665488"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js?v=1772665488"></script>
+    <script src="js/lesson-autosave.js?v=1772665488"></script>
+    
+    <script>
+        const lesson24Config = {
+            lessonId: '4th-grade-day-24',
+            gradeLevel: '4th-grade',
+            title: 'Lesson 24 - 4th Grade',
+            pages: [
+                // Page 1: Title
+                {
+                    render: () => `
+                        <div class="lesson-page-card title-page">
+                            <h1>Lesson 24</h1>
+                            <div class="subtitle">4th Grade ELA • Week 5</div>
+                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
+                                The Wonderful Wizard of Oz
+                            </p>
+                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
+                                Chapter 19: The Journey South
+                            </p>
+                        </div>
+                    `
+                },
+                
+                // Page 2: Objectives
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Welcome to Lesson 24!</h2>
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>Read from <strong>The Journey South</strong></li>
+                                <li>Learn 2 new vocabulary words</li>
+                                <li>Answer 2 comprehension questions</li>
+                                <li>Practice ${false ? 'grammar' : 'language'} skills</li>
+                                <li>Write a ${false ? 'response' : 'journal entry'}</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        </div>
+                    `
+                },
+                
+                // Page 3: Vocabulary (2 words from Jes's guide)
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Vocabulary Words</h2>
+                            
+                            <div style="margin: 30px 0;">
+                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
+                                    <div style="margin-bottom: 10px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">untamed</span>
+                                    </div>
+                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Wild and not controlled by people. Land or creatures that have not been civilized.</p>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;">Write a sentence using this word:</p>
+                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                </div>
+                                
+                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
+                                    <div style="margin-bottom: 10px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">recoiled</span>
+                                    </div>
+                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Pulled back quickly in fear, pain, or surprise.</p>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;">Write a sentence using this word:</p>
+                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 4: Vocabulary Practice
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Vocabulary Practice</h2>
+                            <p style="margin: 20px 0;">Review the vocabulary words you just learned.</p>
+                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                                <p><strong>untamed:</strong> Wild and not controlled by people. Land or creatures that have not been civilized.</p>
+                                <p style="margin-top: 15px;"><strong>recoiled:</strong> Pulled back quickly in fear, pain, or surprise.</p>
+                            </div>
+                            <p style="margin-top: 20px;">Watch for these words in today's reading!</p>
+                        </div>
+                    `
+                },
+                
+                // Pages 5-7: Story (3 parts from ADAPTED book)
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>The Journey South (Part 1)</h2>
+                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
+                                ${"The next morning, the four friends set out from the Emerald City heading south. The Guardian of the Gates unlocked their green spectacles, wished them well, and watched them walk away down the road.\n\n\"I hope you find what you are looking for,\" he called after them.\n\n\"So do I,\" Dorothy said quietly.\n\nThe countryside was lovely at first — green fields, gentle hills, and sparkling streams. But as they went further south, the road disappeared entirely. There were no more yellow bricks, no more fences, no more signs. Just wild, untamed land stretching in every direction.\n\n\"We must keep going south,\" the Scarecrow said, studying the position of the sun. \"Glinda's country is on the southern border of Oz. If we walk straight, we should reach it.\"\n\nThey walked through tall grass and across shallow streams. The Lion led the way, his great nose sniffing the air for danger. The Tin Woodman kept his axe ready. The Scarecrow watched the sun and kept them heading in the right direction.\n\nThen they reached the forest.\n\nIt was not like the dark forest near the Munchkin country. This forest was alive — aggressively alive. The trees were thick and gnarled, with branches that hung low across the path like arms.".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>The Journey South (Part 2)</h2>
+                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
+                                ${"\"These trees look unfriendly,\" the Tin Woodman said.\n\nHe was right. When the Scarecrow tried to walk between two of them, the nearest tree swung a great branch like a fist and knocked him flying. He tumbled through the air and landed in a heap ten feet away.\n\n\"Ow,\" the Scarecrow said. Then: \"Well, not ow exactly, since I cannot feel pain. But that was very rude.\"\n\nThe trees thrashed their branches, blocking the path completely. Every time someone tried to pass, the trees struck at them. The Lion growled and swiped at a branch, but another tree hit him from behind and sent him stumbling.\n\n\"Let me try,\" the Tin Woodman said.\n\nHe marched toward the nearest fighting tree, axe raised. A branch whipped toward his head. He ducked and chopped it clean off. Another branch swung at his legs. He chopped that one, too. A third branch came from the side — chop. A fourth from above — chop.\n\nThe trees recoiled, pulling their remaining branches tight against their trunks. They had learned very quickly that hitting a man made of tin with an axe was not a winning strategy.\n\n\"Run!\" the Tin Woodman shouted, holding the trees back.".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>The Journey South (Part 3)</h2>
+                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
+                                ${"The others dashed through the gap. The Tin Woodman followed, chopping one more branch for good measure. Behind them, the fighting trees shook with fury, but they could not follow.\n\n\"That was magnificent,\" the Lion said.\n\n\"Thank you,\" the Tin Woodman said. \"I may not have real muscles, but tin is very hard, and this axe is very sharp.\"\n\n\"Brains, heart, and courage,\" the Scarecrow said, brushing dirt from his clothes. \"We have everything we need between us.\"\n\n\"We always did,\" Dorothy said.\n\nThey pressed on through the forest, and the trees did not bother them again.".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 8: Comprehension (from Jes's guide: 1 MC + 1 short answer)
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Reading Comprehension</h2>
+                            <div style="margin: 20px 0;">
+                                <div style="margin-bottom: 30px;">
+                                    <p style="font-weight: 600; margin-bottom: 15px;">1. How does the group get past the fighting trees?</p>
+                                    <div>
+                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="mc-q1" value="A" style="margin-right: 10px;">
+                                            <strong>A)</strong> The Lion scares them with a roar
+                                        </label>
+                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="mc-q1" value="B" style="margin-right: 10px;">
+                                            <strong>B)</strong> Dorothy uses magic from the silver shoes
+                                        </label>
+                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="mc-q1" value="C" style="margin-right: 10px;">
+                                            <strong>C)</strong> The Tin Woodman chops their branches with his axe until they pull back
+                                        </label>
+                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="mc-q1" value="D" style="margin-right: 10px;">
+                                            <strong>D)</strong> The Scarecrow tricks them
+                                        </label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p style="font-weight: 600; margin-bottom: 10px;">2. The Scarecrow says: 'Brains, heart, and courage — we have everything we need between us.' How has the group changed since the beginning of the story? Do they still need the Wizard, or have they become their own solution?</p>
+                                    <p style="margin-top: 10px; color: #666; font-size: 13px;"><em>Hint: At the start, they were searching for someone to FIX them. Now they solve their own problems. What changed?</em></p>
+                                    <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 9: Grammar OR Language
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>${false ? 'Grammar Practice' : 'Language Skills'}</h2>
+                            <p style="margin: 20px 0;">${false ? 'Grammar skills practice' : 'Language skills practice'}</p>
+                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                                <p><em>Grammar and language content will be added based on weekly skills rotation.</em></p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 10: Informational Text
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Learn More</h2>
+                            <p style="margin: 20px 0;">Informational text related to today's reading.</p>
+                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                                <p><em>Informational text content will be added.</em></p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 11: Writing
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>${false ? 'Writing Response' : 'Journal Entry'}</h2>
+                            <p style="margin: 20px 0 10px;">${false ? "Write your opinion about today's reading." : 'Write about your thoughts and feelings about the story.'}</p>
+                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px; min-height: 200px;"></textarea>
+                            <p style="margin-top: 15px; color: #666; font-size: 14px;">Write at least 5-7 sentences.</p>
+                        </div>
+                    `
+                }
+            ]
+        };
+
+        if (typeof initLessonViewer === 'function') {
+            initLessonViewer(lesson24Config);
+        }
+    </script>
+</body>
+</html>

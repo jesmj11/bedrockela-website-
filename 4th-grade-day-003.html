@@ -1,26 +1,218 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><title>Lesson 3 - Wizard of Oz</title>
-<link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488"></head>
-<body class="lesson-viewer"><div id="lesson-container"></div>
-<script src="js/lesson-viewer.js?v=1772665488"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-<script src="firebase-config.js"></script>
-<script src="js/lesson-completion.js?v=1772665488"></script>
-<script src="js/lesson-autosave.js?v=1772665488"></script>
-<script>
-const lesson3Config={lessonId:'4th-grade-day-3',gradeLevel:'4th-grade',title:'Lesson 3',pages:[
-{render:()=>'<div class="lesson-page-card title-page"><h1>Lesson 3</h1><p>Week 1</p><p>Chapter 2: The Council with the Munchkins</p></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Today You Will:</h2><ul><li>Read The Council with the Munchkins</li><li>Learn 2 vocab words</li><li>Answer questions</li><li>Practice grammar</li><li>Write</li></ul></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Vocabulary</h2><div style="margin:20px 0"><h3>extraordinary</h3><textarea id="vextraordinary" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div><div style="margin:20px 0"><h3>sorceress</h3><textarea id="vsorceress" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Vocab Practice</h2><p>extraordinary, sorceress</p></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>The Council with the Munchkins (Part 1)</h2><div><p>Dorothy was awakened by a sudden jolt. The house had stopped moving. Bright sunshine streamed through the window, flooding the little room with light so cheerful that Dorothy sat up and blinked in surprise.</p><p>She ran to the door, opened it, and gave a little cry of wonder.</p><p>The cyclone had set the house down gently in a land of extraordinary beauty. Green grass stretched in every direction, dotted with wildflowers of every color — deep reds, brilliant oranges, and purples so rich they looked like they had been painted by hand. Fruit trees heavy with blossoms lined a sparkling brook, and in the distance, she could see rolling hills touched with gold. Birds with bright feathers sang in the branches.</p><p>After gray, flat, dead Kansas, it was like stepping into a painting.</p><p>&quot;Where am I?&quot; Dorothy whispered.</p><p>Toto pressed against her leg and whimpered. He did not know, either.</p><p>As Dorothy stood staring, she noticed a group of small people walking toward her. They were about as tall as Dorothy herself, though they were clearly grown-ups. They wore round hats that rose to a point about a foot above their heads, with tiny bells on the brims that tinkled sweetly as they walked.</p><p>Three of them were men, dressed all in blue. With them was a very old woman, also dressed in white. Her face was covered in wrinkles, but her eyes were kind. She walked stiffly, as if her knees hurt, and the three men followed her with obvious respect.</p><p>The little old woman stopped before Dorothy, bowed low, and said in a sweet voice: &quot;You are welcome, most noble sorceress, to the land of the Munchkins. We are so grateful to you for having killed the Wicked Witch of the East, and for setting our people free from her cruelty.&quot;</p><p>Dorothy stared at her. &quot;I haven&#39;t killed anyone,&quot; she said.</p><p>&quot;Your house did, anyway,&quot; replied the old woman with a gentle laugh. &quot;And that is the same thing. Look!&quot; She pointed to the corner of the house.</p><p>Dorothy looked and gave a little scream. Two feet were sticking out from under the corner of the house, wearing silver shoes with pointed toes.</p><p>&quot;Oh dear!&quot; Dorothy gasped, putting her hands over her mouth. &quot;The house must have fallen on her. What are we going to do?&quot;</p><p>&quot;There is nothing to be done,&quot; the old woman said calmly. &quot;She was the Wicked Witch of the East, as I said. She held all the Munchkins in slavery for many years, making them work for her night and day. Now they are free, and they are grateful to you.&quot;</p></div></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>The Council with the Munchkins (Part 2)</h2><div><p>&quot;Who are the Munchkins?&quot; Dorothy asked.</p><p>&quot;They are the people who live in this land of the East, where the Wicked Witch ruled. I am the Witch of the North, and I am their friend.&quot;</p><p>Dorothy&#39;s eyes went wide. &quot;Are you a real witch?&quot; she asked, feeling a bit nervous.</p><p>&quot;Yes, indeed,&quot; the woman replied. &quot;But I am a good witch, and the people love me. The Wicked Witch of the East was the bad one. There were four witches in the land of Oz — two good and two wicked. Now that you have killed one wicked witch, there is only one left: the Wicked Witch of the West. But she lives far from here, and I do not think she will bother you.&quot;</p><p>Dorothy thought about this for a moment. &quot;Aunt Em told me that all witches were wicked,&quot; she said.</p><p>&quot;Oh no,&quot; the Witch of the North replied. &quot;That is a great mistake. I know there are no witches at all in Kansas, but here in Oz we have always had them. The Wicked Witch of the East and the Wicked Witch of the West were terribly evil, that is true. But the Witch of the South and I are good witches, and the people know it.&quot;</p><p>Dorothy felt relieved, but she also felt tears coming. &quot;I just want to go home,&quot; she said. &quot;Can you help me find my way back to Kansas?&quot;</p><p>The Munchkins and the Witch of the North looked at each other and shook their heads.</p><p>&quot;Where is Kansas?&quot; the Witch asked.</p><p>&quot;It&#39;s where I live. It&#39;s far away from here. Aunt Em will be so worried. Oh, Toto, we are so far from home!&quot;</p><p>She began to cry, and the Munchkins, who truly were grateful, cried with her. The men pulled out their handkerchiefs and blew their noses loudly. The Witch of the North thought for a moment, then took off her cap and balanced it on the tip of her nose.</p><p>&quot;One, two, three,&quot; she counted.</p><p>The cap changed into a slate with white chalk writing on it. The Witch read the words aloud: &quot;Let Dorothy go to the City of Emeralds.&quot;</p><p>&quot;Where is the City of Emeralds?&quot; Dorothy asked.</p></div></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>The Council with the Munchkins (Part 3)</h2><div><p>&quot;Is he a good wizard?&quot; Dorothy asked.</p><p>&quot;He is a good wizard. Whether he is a man or not, I cannot tell, for I have never seen him. But he is more powerful than all the rest of us together. He lives in the Emerald City, and perhaps he can help you find your way home.&quot;</p><p>&quot;How do I get there?&quot; Dorothy asked.</p><p>&quot;You must walk. It is a long journey, through a country that is sometimes pleasant and sometimes dark and dangerous. But I will use what magic I know to protect you.&quot;</p><p>She kissed Dorothy gently on the forehead. Where her lips touched, they left a round, shining mark.</p><p>&quot;No one will dare to hurt someone who has been kissed by the Witch of the North,&quot; she said. &quot;Now, take the silver shoes from the Wicked Witch. They must have some special power, though I do not know what it is.&quot;</p><p>Dorothy looked at the silver shoes. They were just her size. She put them on.</p><p>&quot;The road to the City of Emeralds is paved with yellow brick,&quot; the Witch of the North told her. &quot;You cannot miss it. When you reach the Wizard, do not be afraid. Tell him your story and ask for his help. Goodbye, my dear.&quot;</p><p>The three Munchkins bowed low and wished her a pleasant journey, and the Witch of the North gave her a friendly nod and spun around on her left heel three times, and then vanished completely. Toto barked in surprise.</p><p>Dorothy was alone.</p><p>She looked around at the beautiful land — the flowers, the fruit trees, the blue sky — and thought about gray Kansas and Aunt Em.</p><p>&quot;Come along, Toto,&quot; she said. &quot;We are going to the Emerald City to ask the great Oz to send us home.&quot;</p><p>She looked down and found the road of bright yellow brick. With Toto trotting beside her, Dorothy began to walk.</p></div></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Comprehension</h2><p>1. What happened to the Wicked Witch of the East?</p><textarea id="q1" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea><p>2. Dorothy wants to go home to gray, dull Kansas instead of staying in this beautiful, colorful land. Why? What does this tell you about what &#39;home&#39; means to her?</p><textarea id="q2" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Grammar</h2><p>Grammar practice</p><textarea id="skill" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Learn More</h2><p>Informational text</p></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Writing</h2><textarea id="writing" style="width:100%;min-height:200px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div>'}
-]};
-if(typeof initLessonViewer==='function')initLessonViewer(lesson3Config);
-</script></body></html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 3 - 4th Grade BedrockELA</title>
+    <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
+
+    <script src="js/lesson-viewer.js?v=1772665488"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js?v=1772665488"></script>
+    <script src="js/lesson-autosave.js?v=1772665488"></script>
+    
+    <script>
+        const lesson3Config = {
+            lessonId: '4th-grade-day-3',
+            gradeLevel: '4th-grade',
+            title: 'Lesson 3 - 4th Grade',
+            pages: [
+                // Page 1: Title
+                {
+                    render: () => `
+                        <div class="lesson-page-card title-page">
+                            <h1>Lesson 3</h1>
+                            <div class="subtitle">4th Grade ELA • Week 1</div>
+                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
+                                The Wonderful Wizard of Oz
+                            </p>
+                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
+                                Chapter 2: The Council with the Munchkins
+                            </p>
+                        </div>
+                    `
+                },
+                
+                // Page 2: Objectives
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Welcome to Lesson 3!</h2>
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>Read from <strong>The Council with the Munchkins</strong></li>
+                                <li>Learn 2 new vocabulary words</li>
+                                <li>Answer 2 comprehension questions</li>
+                                <li>Practice ${true ? 'grammar' : 'language'} skills</li>
+                                <li>Write a ${true ? 'response' : 'journal entry'}</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        </div>
+                    `
+                },
+                
+                // Page 3: Vocabulary (2 words from Jes's guide)
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Vocabulary Words</h2>
+                            
+                            <div style="margin: 30px 0;">
+                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
+                                    <div style="margin-bottom: 10px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">extraordinary</span>
+                                    </div>
+                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Very unusual or remarkable. Far beyond what is normal or expected.</p>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;">Write a sentence using this word:</p>
+                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                </div>
+                                
+                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
+                                    <div style="margin-bottom: 10px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">sorceress</span>
+                                    </div>
+                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">A woman who practices magic or witchcraft.</p>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;">Write a sentence using this word:</p>
+                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 4: Vocabulary Practice
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Vocabulary Practice</h2>
+                            <p style="margin: 20px 0;">Review the vocabulary words you just learned.</p>
+                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                                <p><strong>extraordinary:</strong> Very unusual or remarkable. Far beyond what is normal or expected.</p>
+                                <p style="margin-top: 15px;"><strong>sorceress:</strong> A woman who practices magic or witchcraft.</p>
+                            </div>
+                            <p style="margin-top: 20px;">Watch for these words in today's reading!</p>
+                        </div>
+                    `
+                },
+                
+                // Pages 5-7: Story (3 parts from ADAPTED book)
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>The Council with the Munchkins (Part 1)</h2>
+                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
+                                ${"Dorothy was awakened by a sudden jolt. The house had stopped moving. Bright sunshine streamed through the window, flooding the little room with light so cheerful that Dorothy sat up and blinked in surprise.\n\nShe ran to the door, opened it, and gave a little cry of wonder.\n\nThe cyclone had set the house down gently in a land of extraordinary beauty. Green grass stretched in every direction, dotted with wildflowers of every color — deep reds, brilliant oranges, and purples so rich they looked like they had been painted by hand. Fruit trees heavy with blossoms lined a sparkling brook, and in the distance, she could see rolling hills touched with gold. Birds with bright feathers sang in the branches.\n\nAfter gray, flat, dead Kansas, it was like stepping into a painting.\n\n\"Where am I?\" Dorothy whispered.\n\nToto pressed against her leg and whimpered. He did not know, either.\n\nAs Dorothy stood staring, she noticed a group of small people walking toward her. They were about as tall as Dorothy herself, though they were clearly grown-ups. They wore round hats that rose to a point about a foot above their heads, with tiny bells on the brims that tinkled sweetly as they walked.\n\nThree of them were men, dressed all in blue. With them was a very old woman, also dressed in white. Her face was covered in wrinkles, but her eyes were kind. She walked stiffly, as if her knees hurt, and the three men followed her with obvious respect.\n\nThe little old woman stopped before Dorothy, bowed low, and said in a sweet voice: \"You are welcome, most noble sorceress, to the land of the Munchkins. We are so grateful to you for having killed the Wicked Witch of the East, and for setting our people free from her cruelty.\"\n\nDorothy stared at her. \"I haven't killed anyone,\" she said.\n\n\"Your house did, anyway,\" replied the old woman with a gentle laugh. \"And that is the same thing. Look!\" She pointed to the corner of the house.\n\nDorothy looked and gave a little scream. Two feet were sticking out from under the corner of the house, wearing silver shoes with pointed toes.\n\n\"Oh dear!\" Dorothy gasped, putting her hands over her mouth. \"The house must have fallen on her. What are we going to do?\"\n\n\"There is nothing to be done,\" the old woman said calmly. \"She was the Wicked Witch of the East, as I said. She held all the Munchkins in slavery for many years, making them work for her night and day. Now they are free, and they are grateful to you.\"".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>The Council with the Munchkins (Part 2)</h2>
+                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
+                                ${"\"Who are the Munchkins?\" Dorothy asked.\n\n\"They are the people who live in this land of the East, where the Wicked Witch ruled. I am the Witch of the North, and I am their friend.\"\n\nDorothy's eyes went wide. \"Are you a real witch?\" she asked, feeling a bit nervous.\n\n\"Yes, indeed,\" the woman replied. \"But I am a good witch, and the people love me. The Wicked Witch of the East was the bad one. There were four witches in the land of Oz — two good and two wicked. Now that you have killed one wicked witch, there is only one left: the Wicked Witch of the West. But she lives far from here, and I do not think she will bother you.\"\n\nDorothy thought about this for a moment. \"Aunt Em told me that all witches were wicked,\" she said.\n\n\"Oh no,\" the Witch of the North replied. \"That is a great mistake. I know there are no witches at all in Kansas, but here in Oz we have always had them. The Wicked Witch of the East and the Wicked Witch of the West were terribly evil, that is true. But the Witch of the South and I are good witches, and the people know it.\"\n\nDorothy felt relieved, but she also felt tears coming. \"I just want to go home,\" she said. \"Can you help me find my way back to Kansas?\"\n\nThe Munchkins and the Witch of the North looked at each other and shook their heads.\n\n\"Where is Kansas?\" the Witch asked.\n\n\"It's where I live. It's far away from here. Aunt Em will be so worried. Oh, Toto, we are so far from home!\"\n\nShe began to cry, and the Munchkins, who truly were grateful, cried with her. The men pulled out their handkerchiefs and blew their noses loudly. The Witch of the North thought for a moment, then took off her cap and balanced it on the tip of her nose.\n\n\"One, two, three,\" she counted.\n\nThe cap changed into a slate with white chalk writing on it. The Witch read the words aloud: \"Let Dorothy go to the City of Emeralds.\"\n\n\"Where is the City of Emeralds?\" Dorothy asked.".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>The Council with the Munchkins (Part 3)</h2>
+                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
+                                ${"\"It is in the exact center of the land of Oz. It is ruled by the great Wizard of Oz himself.\"\n\n\"Is he a good wizard?\" Dorothy asked.\n\n\"He is a good wizard. Whether he is a man or not, I cannot tell, for I have never seen him. But he is more powerful than all the rest of us together. He lives in the Emerald City, and perhaps he can help you find your way home.\"\n\n\"How do I get there?\" Dorothy asked.\n\n\"You must walk. It is a long journey, through a country that is sometimes pleasant and sometimes dark and dangerous. But I will use what magic I know to protect you.\"\n\nShe kissed Dorothy gently on the forehead. Where her lips touched, they left a round, shining mark.\n\n\"No one will dare to hurt someone who has been kissed by the Witch of the North,\" she said. \"Now, take the silver shoes from the Wicked Witch. They must have some special power, though I do not know what it is.\"\n\nDorothy looked at the silver shoes. They were just her size. She put them on.\n\n\"The road to the City of Emeralds is paved with yellow brick,\" the Witch of the North told her. \"You cannot miss it. When you reach the Wizard, do not be afraid. Tell him your story and ask for his help. Goodbye, my dear.\"\n\nThe three Munchkins bowed low and wished her a pleasant journey, and the Witch of the North gave her a friendly nod and spun around on her left heel three times, and then vanished completely. Toto barked in surprise.\n\nDorothy was alone.\n\nShe looked around at the beautiful land — the flowers, the fruit trees, the blue sky — and thought about gray Kansas and Aunt Em.\n\n\"Come along, Toto,\" she said. \"We are going to the Emerald City to ask the great Oz to send us home.\"\n\nShe looked down and found the road of bright yellow brick. With Toto trotting beside her, Dorothy began to walk.".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 8: Comprehension (from Jes's guide: 1 MC + 1 short answer)
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Reading Comprehension</h2>
+                            <div style="margin: 20px 0;">
+                                <div style="margin-bottom: 30px;">
+                                    <p style="font-weight: 600; margin-bottom: 15px;">1. What happened to the Wicked Witch of the East?</p>
+                                    <div>
+                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="mc-q1" value="A" style="margin-right: 10px;">
+                                            <strong>A)</strong> She flew away on a broomstick
+                                        </label>
+                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="mc-q1" value="B" style="margin-right: 10px;">
+                                            <strong>B)</strong> Dorothy's house landed on her and destroyed her
+                                        </label>
+                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="mc-q1" value="C" style="margin-right: 10px;">
+                                            <strong>C)</strong> The Witch of the North defeated her in a battle
+                                        </label>
+                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="mc-q1" value="D" style="margin-right: 10px;">
+                                            <strong>D)</strong> She melted in the rain
+                                        </label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p style="font-weight: 600; margin-bottom: 10px;">2. Dorothy wants to go home to gray, dull Kansas instead of staying in this beautiful, colorful land. Why? What does this tell you about what 'home' means to her?</p>
+                                    <p style="margin-top: 10px; color: #666; font-size: 13px;"><em>Hint: Home is not about what a place looks like. Think about what makes somewhere feel like home.</em></p>
+                                    <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 9: Grammar OR Language
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>${true ? 'Grammar Practice' : 'Language Skills'}</h2>
+                            <p style="margin: 20px 0;">${true ? 'Grammar skills practice' : 'Language skills practice'}</p>
+                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                                <p><em>Grammar and language content will be added based on weekly skills rotation.</em></p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 10: Informational Text
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Learn More</h2>
+                            <p style="margin: 20px 0;">Informational text related to today's reading.</p>
+                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                                <p><em>Informational text content will be added.</em></p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 11: Writing
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>${true ? 'Writing Response' : 'Journal Entry'}</h2>
+                            <p style="margin: 20px 0 10px;">${true ? "Write your opinion about today's reading." : 'Write about your thoughts and feelings about the story.'}</p>
+                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px; min-height: 200px;"></textarea>
+                            <p style="margin-top: 15px; color: #666; font-size: 14px;">Write at least 5-7 sentences.</p>
+                        </div>
+                    `
+                }
+            ]
+        };
+
+        if (typeof initLessonViewer === 'function') {
+            initLessonViewer(lesson3Config);
+        }
+    </script>
+</body>
+</html>

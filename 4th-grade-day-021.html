@@ -1,26 +1,218 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><title>Lesson 21 - Wizard of Oz</title>
-<link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488"></head>
-<body class="lesson-viewer"><div id="lesson-container"></div>
-<script src="js/lesson-viewer.js?v=1772665488"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-<script src="firebase-config.js"></script>
-<script src="js/lesson-completion.js?v=1772665488"></script>
-<script src="js/lesson-autosave.js?v=1772665488"></script>
-<script>
-const lesson21Config={lessonId:'4th-grade-day-21',gradeLevel:'4th-grade',title:'Lesson 21',pages:[
-{render:()=>'<div class="lesson-page-card title-page"><h1>Lesson 21</h1><p>Week 5</p><p>Chapter 17: The Magic of Oz</p></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Today You Will:</h2><ul><li>Read The Magic of Oz</li><li>Learn 2 vocab words</li><li>Answer questions</li><li>Practice grammar</li><li>Write</li></ul></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Vocabulary</h2><div style="margin:20px 0"><h3>symbol</h3><textarea id="vsymbol" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div><div style="margin:20px 0"><h3>confidence</h3><textarea id="vconfidence" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Vocab Practice</h2><p>symbol, confidence</p></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>The Magic of Oz (Part 1)</h2><div><p>The next morning, the little man who called himself Oz sent for the Scarecrow.</p><p>&quot;I cannot give you real brains,&quot; the man said. &quot;But I can give you something that might work just as well.&quot;</p><p>He opened the Scarecrow&#39;s head and removed the straw. Then he mixed together bran, pins, and needles, and stuffed the mixture inside. He sewed the head shut and stepped back.</p><p>&quot;There,&quot; the man said. &quot;Bran-new brains. The pins and needles mean you will be very sharp.&quot;</p><p>The Scarecrow reached up and touched his head. His painted eyes seemed to sparkle. &quot;I feel wise already,&quot; he said. &quot;I can feel thoughts — real thoughts — forming inside my head.&quot;</p><p>&quot;They were always there,&quot; the man said quietly. &quot;You just needed something to believe in.&quot;</p><p>The Scarecrow did not hear this. He was too busy thinking.</p><p>Next came the Tin Woodman. The man cut a small hole in the Tin Woodman&#39;s chest and placed inside it a pretty heart made of red silk, stuffed with sawdust.</p><p>&quot;Is it a real heart?&quot; the Tin Woodman asked, pressing his hand against his chest.</p><p>&quot;It is a very kind heart,&quot; the man said. &quot;And that is what matters.&quot;</p></div></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>The Magic of Oz (Part 2)</h2><div><p>A tear rolled down the Tin Woodman&#39;s cheek. &quot;I can feel it beating,&quot; he said. &quot;I am so happy.&quot;</p><p>&quot;You were always kind,&quot; the man said. &quot;The heart is just a reminder.&quot;</p><p>But the Tin Woodman was too moved to listen. He stood with his hand on his chest, feeling the silk heart shift inside him, and he smiled wider than Dorothy had ever seen him smile.</p><p>Last came the Cowardly Lion. The man poured a green liquid into a golden dish.</p><p>&quot;Drink this,&quot; the man said.</p><p>&quot;What is it?&quot; the Lion asked nervously.</p><p>&quot;Courage,&quot; the man said. &quot;Pure, liquid courage. It has been in my cupboard for years. Drink it, and you will be full of courage.&quot;</p><p>The Lion lapped it up. He stood taller immediately. His mane seemed to bristle with new energy. His eyes grew bright and fierce.</p><p>&quot;I feel brave!&quot; the Lion roared. &quot;I feel like I could fight a hundred enemies!&quot;</p><p>&quot;You always could,&quot; the man said. &quot;You simply did not believe it.&quot;</p></div></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>The Magic of Oz (Part 3)</h2><div><p>Dorothy watched all of this with mixed feelings. She was happy for her friends — truly happy. The Scarecrow was walking around making observations about everything, delighted with his &quot;new&quot; brains. The Tin Woodman was so full of feeling that he cried every few minutes and had to be oiled. The Lion strutted through the palace like a king.</p><p>But Dorothy knew the truth. The brains were bran and pins. The heart was silk and sawdust. The courage was colored water. The man from Omaha had given them symbols, not magic.</p><p>And yet — her friends were different. Not because the gifts had changed them, but because they finally believed in themselves. The Scarecrow had always been clever. The Tin Woodman had always been kind. The Lion had always been brave. They just needed someone to tell them so.</p><p>Was that magic? Dorothy was not sure. But it worked.</p><p>&quot;Now,&quot; Dorothy said, turning to the man. &quot;What about me? How will you send me home?&quot;</p><p>The man rubbed his chin. &quot;I have been thinking about that,&quot; he said. &quot;I came here in a balloon, and I believe I can leave in a balloon. If I build one large enough, we can fly over the desert that surrounds Oz and land in Kansas — or somewhere near it.&quot;</p><p>&quot;You would come with me?&quot; Dorothy asked, surprised.</p><p>&quot;I would very much like to go home,&quot; the man said. His voice was soft and sad. &quot;I have been pretending to be a wizard for so long that I have nearly forgotten who I really am. I am just a man from Omaha, and I miss it.&quot;</p><p>Dorothy understood that feeling perfectly.</p><p>&quot;Then build your balloon,&quot; she said. &quot;And let us go home.&quot;</p></div></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Comprehension</h2><p>1. What does the Wizard give the Scarecrow as &#39;brains&#39;?</p><textarea id="q1" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea><p>2. The brains are bran, the heart is silk, and the courage is colored water. None of them are real. Yet the characters feel genuinely changed. How can a symbol work even when it is not magic? What really changed — the gifts, or the characters&#39; belief in themselves?</p><textarea id="q2" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Grammar</h2><p>Grammar practice</p><textarea id="skill" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Learn More</h2><p>Informational text</p></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Writing</h2><textarea id="writing" style="width:100%;min-height:200px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div>'}
-]};
-if(typeof initLessonViewer==='function')initLessonViewer(lesson21Config);
-</script></body></html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 21 - 4th Grade BedrockELA</title>
+    <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
+
+    <script src="js/lesson-viewer.js?v=1772665488"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js?v=1772665488"></script>
+    <script src="js/lesson-autosave.js?v=1772665488"></script>
+    
+    <script>
+        const lesson21Config = {
+            lessonId: '4th-grade-day-21',
+            gradeLevel: '4th-grade',
+            title: 'Lesson 21 - 4th Grade',
+            pages: [
+                // Page 1: Title
+                {
+                    render: () => `
+                        <div class="lesson-page-card title-page">
+                            <h1>Lesson 21</h1>
+                            <div class="subtitle">4th Grade ELA • Week 5</div>
+                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
+                                The Wonderful Wizard of Oz
+                            </p>
+                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
+                                Chapter 17: The Magic of Oz
+                            </p>
+                        </div>
+                    `
+                },
+                
+                // Page 2: Objectives
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Welcome to Lesson 21!</h2>
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>Read from <strong>The Magic of Oz</strong></li>
+                                <li>Learn 2 new vocabulary words</li>
+                                <li>Answer 2 comprehension questions</li>
+                                <li>Practice ${true ? 'grammar' : 'language'} skills</li>
+                                <li>Write a ${true ? 'response' : 'journal entry'}</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        </div>
+                    `
+                },
+                
+                // Page 3: Vocabulary (2 words from Jes's guide)
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Vocabulary Words</h2>
+                            
+                            <div style="margin: 30px 0;">
+                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
+                                    <div style="margin-bottom: 10px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">symbol</span>
+                                    </div>
+                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">An object that represents or stands for something else. Something physical that carries a deeper meaning.</p>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;">Write a sentence using this word:</p>
+                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                </div>
+                                
+                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
+                                    <div style="margin-bottom: 10px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">confidence</span>
+                                    </div>
+                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">The feeling of believing in yourself and your abilities. Trust in your own power.</p>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;">Write a sentence using this word:</p>
+                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 4: Vocabulary Practice
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Vocabulary Practice</h2>
+                            <p style="margin: 20px 0;">Review the vocabulary words you just learned.</p>
+                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                                <p><strong>symbol:</strong> An object that represents or stands for something else. Something physical that carries a deeper meaning.</p>
+                                <p style="margin-top: 15px;"><strong>confidence:</strong> The feeling of believing in yourself and your abilities. Trust in your own power.</p>
+                            </div>
+                            <p style="margin-top: 20px;">Watch for these words in today's reading!</p>
+                        </div>
+                    `
+                },
+                
+                // Pages 5-7: Story (3 parts from ADAPTED book)
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>The Magic of Oz (Part 1)</h2>
+                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
+                                ${"The next morning, the little man who called himself Oz sent for the Scarecrow.\n\n\"I cannot give you real brains,\" the man said. \"But I can give you something that might work just as well.\"\n\nHe opened the Scarecrow's head and removed the straw. Then he mixed together bran, pins, and needles, and stuffed the mixture inside. He sewed the head shut and stepped back.\n\n\"There,\" the man said. \"Bran-new brains. The pins and needles mean you will be very sharp.\"\n\nThe Scarecrow reached up and touched his head. His painted eyes seemed to sparkle. \"I feel wise already,\" he said. \"I can feel thoughts — real thoughts — forming inside my head.\"\n\n\"They were always there,\" the man said quietly. \"You just needed something to believe in.\"\n\nThe Scarecrow did not hear this. He was too busy thinking.\n\nNext came the Tin Woodman. The man cut a small hole in the Tin Woodman's chest and placed inside it a pretty heart made of red silk, stuffed with sawdust.\n\n\"Is it a real heart?\" the Tin Woodman asked, pressing his hand against his chest.\n\n\"It is a very kind heart,\" the man said. \"And that is what matters.\"".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>The Magic of Oz (Part 2)</h2>
+                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
+                                ${"A tear rolled down the Tin Woodman's cheek. \"I can feel it beating,\" he said. \"I am so happy.\"\n\n\"You were always kind,\" the man said. \"The heart is just a reminder.\"\n\nBut the Tin Woodman was too moved to listen. He stood with his hand on his chest, feeling the silk heart shift inside him, and he smiled wider than Dorothy had ever seen him smile.\n\nLast came the Cowardly Lion. The man poured a green liquid into a golden dish.\n\n\"Drink this,\" the man said.\n\n\"What is it?\" the Lion asked nervously.\n\n\"Courage,\" the man said. \"Pure, liquid courage. It has been in my cupboard for years. Drink it, and you will be full of courage.\"\n\nThe Lion lapped it up. He stood taller immediately. His mane seemed to bristle with new energy. His eyes grew bright and fierce.\n\n\"I feel brave!\" the Lion roared. \"I feel like I could fight a hundred enemies!\"\n\n\"You always could,\" the man said. \"You simply did not believe it.\"".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>The Magic of Oz (Part 3)</h2>
+                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
+                                ${"Dorothy watched all of this with mixed feelings. She was happy for her friends — truly happy. The Scarecrow was walking around making observations about everything, delighted with his \"new\" brains. The Tin Woodman was so full of feeling that he cried every few minutes and had to be oiled. The Lion strutted through the palace like a king.\n\nBut Dorothy knew the truth. The brains were bran and pins. The heart was silk and sawdust. The courage was colored water. The man from Omaha had given them symbols, not magic.\n\nAnd yet — her friends were different. Not because the gifts had changed them, but because they finally believed in themselves. The Scarecrow had always been clever. The Tin Woodman had always been kind. The Lion had always been brave. They just needed someone to tell them so.\n\nWas that magic? Dorothy was not sure. But it worked.\n\n\"Now,\" Dorothy said, turning to the man. \"What about me? How will you send me home?\"\n\nThe man rubbed his chin. \"I have been thinking about that,\" he said. \"I came here in a balloon, and I believe I can leave in a balloon. If I build one large enough, we can fly over the desert that surrounds Oz and land in Kansas — or somewhere near it.\"\n\n\"You would come with me?\" Dorothy asked, surprised.\n\n\"I would very much like to go home,\" the man said. His voice was soft and sad. \"I have been pretending to be a wizard for so long that I have nearly forgotten who I really am. I am just a man from Omaha, and I miss it.\"\n\nDorothy understood that feeling perfectly.\n\n\"Then build your balloon,\" she said. \"And let us go home.\"".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 8: Comprehension (from Jes's guide: 1 MC + 1 short answer)
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Reading Comprehension</h2>
+                            <div style="margin: 20px 0;">
+                                <div style="margin-bottom: 30px;">
+                                    <p style="font-weight: 600; margin-bottom: 15px;">1. What does the Wizard give the Scarecrow as 'brains'?</p>
+                                    <div>
+                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="mc-q1" value="A" style="margin-right: 10px;">
+                                            <strong>A)</strong> A magic potion
+                                        </label>
+                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="mc-q1" value="B" style="margin-right: 10px;">
+                                            <strong>B)</strong> A real human brain
+                                        </label>
+                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="mc-q1" value="C" style="margin-right: 10px;">
+                                            <strong>C)</strong> Bran mixed with pins and needles
+                                        </label>
+                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="mc-q1" value="D" style="margin-right: 10px;">
+                                            <strong>D)</strong> A book of knowledge
+                                        </label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p style="font-weight: 600; margin-bottom: 10px;">2. The brains are bran, the heart is silk, and the courage is colored water. None of them are real. Yet the characters feel genuinely changed. How can a symbol work even when it is not magic? What really changed — the gifts, or the characters' belief in themselves?</p>
+                                    <p style="margin-top: 10px; color: #666; font-size: 13px;"><em>Hint: The Wizard gave them permission to believe what was already true. Sometimes that is all a person needs.</em></p>
+                                    <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 9: Grammar OR Language
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>${true ? 'Grammar Practice' : 'Language Skills'}</h2>
+                            <p style="margin: 20px 0;">${true ? 'Grammar skills practice' : 'Language skills practice'}</p>
+                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                                <p><em>Grammar and language content will be added based on weekly skills rotation.</em></p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 10: Informational Text
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Learn More</h2>
+                            <p style="margin: 20px 0;">Informational text related to today's reading.</p>
+                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                                <p><em>Informational text content will be added.</em></p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 11: Writing
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>${true ? 'Writing Response' : 'Journal Entry'}</h2>
+                            <p style="margin: 20px 0 10px;">${true ? "Write your opinion about today's reading." : 'Write about your thoughts and feelings about the story.'}</p>
+                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px; min-height: 200px;"></textarea>
+                            <p style="margin-top: 15px; color: #666; font-size: 14px;">Write at least 5-7 sentences.</p>
+                        </div>
+                    `
+                }
+            ]
+        };
+
+        if (typeof initLessonViewer === 'function') {
+            initLessonViewer(lesson21Config);
+        }
+    </script>
+</body>
+</html>

@@ -1,26 +1,218 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><title>Lesson 11 - Wizard of Oz</title>
-<link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488"></head>
-<body class="lesson-viewer"><div id="lesson-container"></div>
-<script src="js/lesson-viewer.js?v=1772665488"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-<script src="firebase-config.js"></script>
-<script src="js/lesson-completion.js?v=1772665488"></script>
-<script src="js/lesson-autosave.js?v=1772665488"></script>
-<script>
-const lesson11Config={lessonId:'4th-grade-day-11',gradeLevel:'4th-grade',title:'Lesson 11',pages:[
-{render:()=>'<div class="lesson-page-card title-page"><h1>Lesson 11</h1><p>Week 3</p><p>Chapter 9: The Queen of the Field Mice</p></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Today You Will:</h2><ul><li>Read The Queen of the Field Mice</li><li>Learn 2 vocab words</li><li>Answer questions</li><li>Practice grammar</li><li>Write</li></ul></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Vocabulary</h2><div style="margin:20px 0"><h3>debt</h3><textarea id="vdebt" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div><div style="margin:20px 0"><h3>scheme</h3><textarea id="vscheme" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Vocab Practice</h2><p>debt, scheme</p></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>The Queen of the Field Mice (Part 1)</h2><div><p>Dorothy and Toto lay sleeping on the grass beyond the poppy field. The Scarecrow and the Tin Woodman stood over them, relieved that they had carried their friends to safety, but sick with worry about the Lion. He lay deep in the field of poisonous flowers, too heavy for them to move, sinking into a sleep from which he might never wake.</p><p>&quot;We must do something,&quot; the Tin Woodman said. &quot;He is our friend.&quot;</p><p>&quot;I know,&quot; the Scarecrow said. &quot;Let me think.&quot;</p><p>He thought very hard. The Scarecrow always said he had no brains, but in moments like this, his head seemed to work better than anyone&#39;s.</p><p>Just then, a wildcat burst from the tall grass, chasing a tiny field mouse. Without thinking, the Tin Woodman raised his axe and brought it down. The wildcat fell, and the mouse was saved.</p><p>The little mouse looked up at the Tin Woodman with bright, grateful eyes. &quot;You have saved my life,&quot; she said in a small, squeaking voice. &quot;I am the Queen of the Field Mice. My subjects and I are forever in your debt.&quot;</p><p>&quot;It was nothing,&quot; the Tin Woodman said, bowing low. He truly meant it — he simply could not bear to see any creature hurt.</p><p>Hundreds of mice appeared from the grass, surrounding their queen. They were tiny — no bigger than Dorothy&#39;s thumb — but there were so many of them that the ground seemed to ripple with brown fur.</p><p>The Scarecrow&#39;s eyes brightened. &quot;Your Majesty,&quot; he said, &quot;I have an idea. Our friend the Lion is trapped in the poppy field, asleep. He is far too heavy for us to carry. But if the Tin Woodman were to build a cart, could your mice pull it?&quot;</p><p>The Queen tilted her tiny head. &quot;The Lion is very large,&quot; she said. &quot;But we are very many. Yes — I believe we could do it.&quot;</p><p>The Tin Woodman set to work immediately. He was a woodcutter by trade, and even though his body was tin, his skill with an axe was extraordinary. He felled small trees, trimmed branches, and built a rough but sturdy cart in less than an hour.</p></div></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>The Queen of the Field Mice (Part 2)</h2><div><p>Meanwhile, the Scarecrow organized the mice. He tied strings of braided grass to the cart and attached them to the mice in long rows — thousands of mice, each one pulling with all its tiny strength.</p><p>Getting the Lion onto the cart was the hardest part. He was enormous — as heavy as a boulder and completely limp. The Scarecrow pushed from behind while the Tin Woodman lifted from the side, and inch by inch, groaning and straining, they rolled the great beast onto the wooden platform.</p><p>&quot;Now,&quot; said the Queen, &quot;pull!&quot;</p><p>The mice surged forward. The cart creaked, rocked, and then began to move — slowly at first, then faster, rolling through the poppy field toward clean air. The Scarecrow walked alongside, pushing when the wheels stuck. The Tin Woodman walked on the other side, steadying the Lion when he threatened to slide off.</p><p>The poppies swayed around them, their deadly perfume thick in the air. The Scarecrow and Tin Woodman felt nothing — straw and tin do not breathe — but they moved as fast as they could for the sake of the mice, who were flesh and blood and very small.</p><p>At last, the cart rolled out of the poppy field and onto clean grass. The mice collapsed in exhaustion, their tiny sides heaving. The Lion lay on the cart, still deeply asleep, but breathing.</p><p>&quot;He will wake when the fresh air clears the poison from his lungs,&quot; the Queen said. &quot;Give him time.&quot;</p><p>&quot;Thank you,&quot; the Scarecrow said. &quot;You saved our friend&#39;s life.&quot;</p><p>&quot;And your friend saved mine,&quot; the Queen replied, nodding at the Tin Woodman. &quot;We are even. But if you ever need us again, come to this field and call. We will come.&quot;</p><p>The mice disappeared into the grass like a brown river flowing back into the earth. The Scarecrow and the Tin Woodman sat down to wait.</p><p>Dorothy woke first. She blinked in the sunlight, saw the Lion on the cart beside her, and sat up in alarm. &quot;What happened?&quot;</p></div></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>The Queen of the Field Mice (Part 3)</h2><div><p>The Scarecrow told her everything — the wildcat, the Queen, the cart, the rescue.</p><p>&quot;You did all that while I was asleep?&quot; Dorothy asked.</p><p>&quot;You needed saving,&quot; the Tin Woodman said simply. &quot;So we saved you.&quot;</p><p>Dorothy felt tears prick her eyes. &quot;You carried me out of the poppy field,&quot; she said. &quot;And then you saved the Lion. You did all of this without being asked.&quot;</p><p>&quot;That is what friends do,&quot; the Scarecrow said.</p><p>The Lion stirred. He opened one great eye, then the other. He yawned enormously, stretched, and looked around in confusion.</p><p>&quot;How did I get here?&quot; he asked.</p><p>&quot;A thousand mice pulled you on a cart,&quot; Dorothy said.</p><p>The Lion blinked. &quot;I must still be dreaming.&quot;</p><p>&quot;You are not,&quot; the Tin Woodman said, smiling. &quot;Welcome back.&quot;</p></div></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Comprehension</h2><p>1. How is the Lion rescued from the poppy field?</p><textarea id="q1" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea><p>2. The Tin Woodman saved the mouse queen without thinking — he simply could not stand to see a creature harmed. What does this automatic kindness tell us about whether he truly has no heart?</p><textarea id="q2" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Grammar</h2><p>Grammar practice</p><textarea id="skill" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Learn More</h2><p>Informational text</p></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Writing</h2><textarea id="writing" style="width:100%;min-height:200px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div>'}
-]};
-if(typeof initLessonViewer==='function')initLessonViewer(lesson11Config);
-</script></body></html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 11 - 4th Grade BedrockELA</title>
+    <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
+
+    <script src="js/lesson-viewer.js?v=1772665488"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js?v=1772665488"></script>
+    <script src="js/lesson-autosave.js?v=1772665488"></script>
+    
+    <script>
+        const lesson11Config = {
+            lessonId: '4th-grade-day-11',
+            gradeLevel: '4th-grade',
+            title: 'Lesson 11 - 4th Grade',
+            pages: [
+                // Page 1: Title
+                {
+                    render: () => `
+                        <div class="lesson-page-card title-page">
+                            <h1>Lesson 11</h1>
+                            <div class="subtitle">4th Grade ELA • Week 3</div>
+                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
+                                The Wonderful Wizard of Oz
+                            </p>
+                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
+                                Chapter 9: The Queen of the Field Mice
+                            </p>
+                        </div>
+                    `
+                },
+                
+                // Page 2: Objectives
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Welcome to Lesson 11!</h2>
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>Read from <strong>The Queen of the Field Mice</strong></li>
+                                <li>Learn 2 new vocabulary words</li>
+                                <li>Answer 2 comprehension questions</li>
+                                <li>Practice ${true ? 'grammar' : 'language'} skills</li>
+                                <li>Write a ${true ? 'response' : 'journal entry'}</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        </div>
+                    `
+                },
+                
+                // Page 3: Vocabulary (2 words from Jes's guide)
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Vocabulary Words</h2>
+                            
+                            <div style="margin: 30px 0;">
+                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
+                                    <div style="margin-bottom: 10px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">debt</span>
+                                    </div>
+                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Something you owe someone because they helped you. An obligation to repay a kindness.</p>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;">Write a sentence using this word:</p>
+                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                </div>
+                                
+                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
+                                    <div style="margin-bottom: 10px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">scheme</span>
+                                    </div>
+                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">A clever plan for getting something done, especially one that involves many steps.</p>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;">Write a sentence using this word:</p>
+                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 4: Vocabulary Practice
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Vocabulary Practice</h2>
+                            <p style="margin: 20px 0;">Review the vocabulary words you just learned.</p>
+                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                                <p><strong>debt:</strong> Something you owe someone because they helped you. An obligation to repay a kindness.</p>
+                                <p style="margin-top: 15px;"><strong>scheme:</strong> A clever plan for getting something done, especially one that involves many steps.</p>
+                            </div>
+                            <p style="margin-top: 20px;">Watch for these words in today's reading!</p>
+                        </div>
+                    `
+                },
+                
+                // Pages 5-7: Story (3 parts from ADAPTED book)
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>The Queen of the Field Mice (Part 1)</h2>
+                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
+                                ${"Dorothy and Toto lay sleeping on the grass beyond the poppy field. The Scarecrow and the Tin Woodman stood over them, relieved that they had carried their friends to safety, but sick with worry about the Lion. He lay deep in the field of poisonous flowers, too heavy for them to move, sinking into a sleep from which he might never wake.\n\n\"We must do something,\" the Tin Woodman said. \"He is our friend.\"\n\n\"I know,\" the Scarecrow said. \"Let me think.\"\n\nHe thought very hard. The Scarecrow always said he had no brains, but in moments like this, his head seemed to work better than anyone's.\n\nJust then, a wildcat burst from the tall grass, chasing a tiny field mouse. Without thinking, the Tin Woodman raised his axe and brought it down. The wildcat fell, and the mouse was saved.\n\nThe little mouse looked up at the Tin Woodman with bright, grateful eyes. \"You have saved my life,\" she said in a small, squeaking voice. \"I am the Queen of the Field Mice. My subjects and I are forever in your debt.\"\n\n\"It was nothing,\" the Tin Woodman said, bowing low. He truly meant it — he simply could not bear to see any creature hurt.\n\nHundreds of mice appeared from the grass, surrounding their queen. They were tiny — no bigger than Dorothy's thumb — but there were so many of them that the ground seemed to ripple with brown fur.\n\nThe Scarecrow's eyes brightened. \"Your Majesty,\" he said, \"I have an idea. Our friend the Lion is trapped in the poppy field, asleep. He is far too heavy for us to carry. But if the Tin Woodman were to build a cart, could your mice pull it?\"\n\nThe Queen tilted her tiny head. \"The Lion is very large,\" she said. \"But we are very many. Yes — I believe we could do it.\"\n\nThe Tin Woodman set to work immediately. He was a woodcutter by trade, and even though his body was tin, his skill with an axe was extraordinary. He felled small trees, trimmed branches, and built a rough but sturdy cart in less than an hour.".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>The Queen of the Field Mice (Part 2)</h2>
+                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
+                                ${"Meanwhile, the Scarecrow organized the mice. He tied strings of braided grass to the cart and attached them to the mice in long rows — thousands of mice, each one pulling with all its tiny strength.\n\nGetting the Lion onto the cart was the hardest part. He was enormous — as heavy as a boulder and completely limp. The Scarecrow pushed from behind while the Tin Woodman lifted from the side, and inch by inch, groaning and straining, they rolled the great beast onto the wooden platform.\n\n\"Now,\" said the Queen, \"pull!\"\n\nThe mice surged forward. The cart creaked, rocked, and then began to move — slowly at first, then faster, rolling through the poppy field toward clean air. The Scarecrow walked alongside, pushing when the wheels stuck. The Tin Woodman walked on the other side, steadying the Lion when he threatened to slide off.\n\nThe poppies swayed around them, their deadly perfume thick in the air. The Scarecrow and Tin Woodman felt nothing — straw and tin do not breathe — but they moved as fast as they could for the sake of the mice, who were flesh and blood and very small.\n\nAt last, the cart rolled out of the poppy field and onto clean grass. The mice collapsed in exhaustion, their tiny sides heaving. The Lion lay on the cart, still deeply asleep, but breathing.\n\n\"He will wake when the fresh air clears the poison from his lungs,\" the Queen said. \"Give him time.\"\n\n\"Thank you,\" the Scarecrow said. \"You saved our friend's life.\"\n\n\"And your friend saved mine,\" the Queen replied, nodding at the Tin Woodman. \"We are even. But if you ever need us again, come to this field and call. We will come.\"\n\nThe mice disappeared into the grass like a brown river flowing back into the earth. The Scarecrow and the Tin Woodman sat down to wait.\n\nDorothy woke first. She blinked in the sunlight, saw the Lion on the cart beside her, and sat up in alarm. \"What happened?\"".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>The Queen of the Field Mice (Part 3)</h2>
+                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
+                                ${"The Scarecrow told her everything — the wildcat, the Queen, the cart, the rescue.\n\n\"You did all that while I was asleep?\" Dorothy asked.\n\n\"You needed saving,\" the Tin Woodman said simply. \"So we saved you.\"\n\nDorothy felt tears prick her eyes. \"You carried me out of the poppy field,\" she said. \"And then you saved the Lion. You did all of this without being asked.\"\n\n\"That is what friends do,\" the Scarecrow said.\n\nThe Lion stirred. He opened one great eye, then the other. He yawned enormously, stretched, and looked around in confusion.\n\n\"How did I get here?\" he asked.\n\n\"A thousand mice pulled you on a cart,\" Dorothy said.\n\nThe Lion blinked. \"I must still be dreaming.\"\n\n\"You are not,\" the Tin Woodman said, smiling. \"Welcome back.\"".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 8: Comprehension (from Jes's guide: 1 MC + 1 short answer)
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Reading Comprehension</h2>
+                            <div style="margin: 20px 0;">
+                                <div style="margin-bottom: 30px;">
+                                    <p style="font-weight: 600; margin-bottom: 15px;">1. How is the Lion rescued from the poppy field?</p>
+                                    <div>
+                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="mc-q1" value="A" style="margin-right: 10px;">
+                                            <strong>A)</strong> He wakes up on his own
+                                        </label>
+                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="mc-q1" value="B" style="margin-right: 10px;">
+                                            <strong>B)</strong> The Wizard comes to save him
+                                        </label>
+                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="mc-q1" value="C" style="margin-right: 10px;">
+                                            <strong>C)</strong> Thousands of field mice pull him out on a cart the Tin Woodman built
+                                        </label>
+                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="mc-q1" value="D" style="margin-right: 10px;">
+                                            <strong>D)</strong> Dorothy splashes water on him
+                                        </label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p style="font-weight: 600; margin-bottom: 10px;">2. The Tin Woodman saved the mouse queen without thinking — he simply could not stand to see a creature harmed. What does this automatic kindness tell us about whether he truly has no heart?</p>
+                                    <p style="margin-top: 10px; color: #666; font-size: 13px;"><em>Hint: When someone does something kind without being asked and without thinking about it, what does that reveal about their character?</em></p>
+                                    <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 9: Grammar OR Language
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>${true ? 'Grammar Practice' : 'Language Skills'}</h2>
+                            <p style="margin: 20px 0;">${true ? 'Grammar skills practice' : 'Language skills practice'}</p>
+                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                                <p><em>Grammar and language content will be added based on weekly skills rotation.</em></p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 10: Informational Text
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Learn More</h2>
+                            <p style="margin: 20px 0;">Informational text related to today's reading.</p>
+                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                                <p><em>Informational text content will be added.</em></p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 11: Writing
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>${true ? 'Writing Response' : 'Journal Entry'}</h2>
+                            <p style="margin: 20px 0 10px;">${true ? "Write your opinion about today's reading." : 'Write about your thoughts and feelings about the story.'}</p>
+                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px; min-height: 200px;"></textarea>
+                            <p style="margin-top: 15px; color: #666; font-size: 14px;">Write at least 5-7 sentences.</p>
+                        </div>
+                    `
+                }
+            ]
+        };
+
+        if (typeof initLessonViewer === 'function') {
+            initLessonViewer(lesson11Config);
+        }
+    </script>
+</body>
+</html>

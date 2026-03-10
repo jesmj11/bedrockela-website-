@@ -1,26 +1,218 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><title>Lesson 8 - Wizard of Oz</title>
-<link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488"></head>
-<body class="lesson-viewer"><div id="lesson-container"></div>
-<script src="js/lesson-viewer.js?v=1772665488"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-<script src="firebase-config.js"></script>
-<script src="js/lesson-completion.js?v=1772665488"></script>
-<script src="js/lesson-autosave.js?v=1772665488"></script>
-<script>
-const lesson8Config={lessonId:'4th-grade-day-8',gradeLevel:'4th-grade',title:'Lesson 8',pages:[
-{render:()=>'<div class="lesson-page-card title-page"><h1>Lesson 8</h1><p>Week 2</p><p>Chapter 6: The Cowardly Lion</p></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Today You Will:</h2><ul><li>Read The Cowardly Lion</li><li>Learn 2 vocab words</li><li>Answer questions</li><li>Practice language</li><li>Journal</li></ul></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Vocabulary</h2><div style="margin:20px 0"><h3>courage</h3><textarea id="vcourage" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div><div style="margin:20px 0"><h3>contradiction</h3><textarea id="vcontradiction" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Vocab Practice</h2><p>courage, contradiction</p></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>The Cowardly Lion (Part 1)</h2><div><p>The forest grew darker and wilder. Strange sounds echoed through the trees — growls, rustling, and the snap of twigs. Dorothy walked closer to her friends.</p><p>&quot;How far is it to the Emerald City?&quot; she asked.</p><p>&quot;I don&#39;t know,&quot; said the Tin Woodman. &quot;I have never been there. But my father once told me it was a long, difficult journey.&quot;</p><p>&quot;I heard that the road passes through dangerous country,&quot; the Scarecrow added. &quot;But since I have no brains, I am not afraid.&quot;</p><p>&quot;And since I have no heart,&quot; the Tin Woodman said, &quot;I cannot be afraid either.&quot;</p><p>Dorothy said nothing. She was the only one in the group who had both brains AND a heart, and she was quite frightened. Toto was frightened too. He pressed against Dorothy&#39;s legs and growled at the shadows.</p><p>Suddenly, a great beast burst out of the trees with a terrible roar. It was an enormous lion, with a thick golden mane and huge paws. He knocked the Scarecrow spinning with one swipe and struck at the Tin Woodman with his claws, which scraped against the tin but did no real damage.</p><p>Then the Lion opened his great mouth and lunged at Toto.</p><p>Dorothy did not think. She did not plan. She did not hesitate. She ran forward and slapped the Lion as hard as she could, right on his nose.</p><p>&quot;Don&#39;t you dare bite Toto!&quot; she cried. &quot;You ought to be ashamed of yourself — a big beast like you, trying to bite a poor little dog!&quot;</p></div></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>The Cowardly Lion (Part 2)</h2><div><p>The Lion looked shocked. He sat down and rubbed his nose with his paw.</p><p>&quot;I didn&#39;t bite him,&quot; the Lion said in a hurt voice.</p><p>&quot;No, but you tried to,&quot; Dorothy said. &quot;You are nothing but a big coward.&quot;</p><p>&quot;I know it,&quot; the Lion said, hanging his great head in shame. &quot;I have always known it. I am a disgrace.&quot;</p><p>Dorothy stared at him. This was not what she had expected.</p><p>&quot;But you&#39;re a lion,&quot; she said. &quot;Lions are supposed to be the king of beasts.&quot;</p><p>&quot;I know,&quot; the Lion said miserably. &quot;Everyone expects me to be brave and fierce. But I am terrified of almost everything. I roar to scare other creatures away, because if they got close, they would see that I am really a coward.&quot;</p><p>&quot;That&#39;s terrible,&quot; said the Scarecrow, picking straw out of his clothes.</p><p>&quot;It is,&quot; the Lion agreed. &quot;My roar is all I have. My heart pounds, my legs shake, and I want to run away. A real king of beasts would not be afraid. But I cannot help it.&quot;</p><p>The Lion&#39;s eyes grew wide. &quot;Do you think he could?&quot; he asked. &quot;If I only had courage, I would be everything a lion is supposed to be.&quot;</p></div></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>The Cowardly Lion (Part 3)</h2><div><p>&quot;Come with us,&quot; Dorothy said. &quot;You can ask him yourself.&quot;</p><p>&quot;I will,&quot; said the Lion. &quot;Because right now, my life is unbearable. Every day I wake up afraid, and every night I go to sleep ashamed. If the Wizard can fix that, it would be worth any journey.&quot;</p><p>So the Lion joined the group. He was enormous — Dorothy barely reached his shoulder — and when he walked, the ground trembled slightly under his great paws. The Scarecrow walked on one side of Dorothy, the Tin Woodman on the other, and the Lion padded along behind them. Toto did not like the Lion at first and stayed as far away as possible, but after a while, the little dog decided that any creature who cried about being a coward was probably not very dangerous after all.</p><p>&quot;I am curious about something,&quot; Dorothy said as they walked. &quot;You say you are a coward, but you jumped out of the trees and attacked all of us. That seems rather brave to me.&quot;</p><p>&quot;Oh, that,&quot; the Lion said, embarrassed. &quot;I was more scared than any of you. My heart was pounding. I just roared and charged because I did not know what else to do.&quot;</p><p>&quot;But isn&#39;t that exactly what courage is?&quot; the Scarecrow asked. &quot;Doing something even when you are afraid?&quot;</p><p>The Lion thought about this for a long moment. &quot;No,&quot; he said finally. &quot;I think real courage means not being afraid at all.&quot;</p><p>&quot;I&#39;m not sure about that,&quot; Dorothy said. But she did not argue.</p><p>They walked on through the forest. Dorothy noticed something: the Scarecrow, who said he had no brains, was the one who figured out the safest path through the trees. The Tin Woodman, who said he had no heart, carefully moved a beetle off the road so it would not be stepped on. And the Lion, who said he had no courage, walked at the back of the group, keeping watch for danger.</p><p>Dorothy kept these observations to herself. But she was beginning to wonder if her friends already had exactly what they were looking for, and simply did not know it.</p></div></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Comprehension</h2><p>1. What pattern has the author created with the main characters?</p><textarea id="q1" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea><p>2. Dorothy slaps a lion on the nose to protect Toto. The Scarecrow figures out the safest path. The Tin Woodman moves a beetle off the road so it won&#39;t be stepped on. What do these actions tell us about whether the characters already have what they wish for?</p><textarea id="q2" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Language</h2><p>Language skills</p><textarea id="skill" style="width:100%;min-height:100px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Learn More</h2><p>Informational text</p></div>'},
-{render:()=>'<div class="lesson-page-card content-page"><h2>Journal</h2><textarea id="writing" style="width:100%;min-height:200px;padding:12px;border:2px solid #305853;border-radius:8px;font-family:inherit;font-size:16px;line-height:1.6;resize:vertical;"></textarea></div>'}
-]};
-if(typeof initLessonViewer==='function')initLessonViewer(lesson8Config);
-</script></body></html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 8 - 4th Grade BedrockELA</title>
+    <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="lesson-viewer">
+    <div id="lesson-container" class="lesson-container"></div>
+
+    <script src="js/lesson-viewer.js?v=1772665488"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js?v=1772665488"></script>
+    <script src="js/lesson-autosave.js?v=1772665488"></script>
+    
+    <script>
+        const lesson8Config = {
+            lessonId: '4th-grade-day-8',
+            gradeLevel: '4th-grade',
+            title: 'Lesson 8 - 4th Grade',
+            pages: [
+                // Page 1: Title
+                {
+                    render: () => `
+                        <div class="lesson-page-card title-page">
+                            <h1>Lesson 8</h1>
+                            <div class="subtitle">4th Grade ELA • Week 2</div>
+                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
+                                The Wonderful Wizard of Oz
+                            </p>
+                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
+                                Chapter 6: The Cowardly Lion
+                            </p>
+                        </div>
+                    `
+                },
+                
+                // Page 2: Objectives
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Welcome to Lesson 8!</h2>
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>Read from <strong>The Cowardly Lion</strong></li>
+                                <li>Learn 2 new vocabulary words</li>
+                                <li>Answer 2 comprehension questions</li>
+                                <li>Practice ${false ? 'grammar' : 'language'} skills</li>
+                                <li>Write a ${false ? 'response' : 'journal entry'}</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        </div>
+                    `
+                },
+                
+                // Page 3: Vocabulary (2 words from Jes's guide)
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Vocabulary Words</h2>
+                            
+                            <div style="margin: 30px 0;">
+                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
+                                    <div style="margin-bottom: 10px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">courage</span>
+                                    </div>
+                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">The ability to do something even when you are afraid. Being brave when it is hard.</p>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;">Write a sentence using this word:</p>
+                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                </div>
+                                
+                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
+                                    <div style="margin-bottom: 10px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">contradiction</span>
+                                    </div>
+                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">When two things are opposite or do not match — when someone says one thing but does another.</p>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;">Write a sentence using this word:</p>
+                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 4: Vocabulary Practice
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Vocabulary Practice</h2>
+                            <p style="margin: 20px 0;">Review the vocabulary words you just learned.</p>
+                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                                <p><strong>courage:</strong> The ability to do something even when you are afraid. Being brave when it is hard.</p>
+                                <p style="margin-top: 15px;"><strong>contradiction:</strong> When two things are opposite or do not match — when someone says one thing but does another.</p>
+                            </div>
+                            <p style="margin-top: 20px;">Watch for these words in today's reading!</p>
+                        </div>
+                    `
+                },
+                
+                // Pages 5-7: Story (3 parts from ADAPTED book)
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>The Cowardly Lion (Part 1)</h2>
+                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
+                                ${"The forest grew darker and wilder. Strange sounds echoed through the trees — growls, rustling, and the snap of twigs. Dorothy walked closer to her friends.\n\n\"How far is it to the Emerald City?\" she asked.\n\n\"I don't know,\" said the Tin Woodman. \"I have never been there. But my father once told me it was a long, difficult journey.\"\n\n\"I heard that the road passes through dangerous country,\" the Scarecrow added. \"But since I have no brains, I am not afraid.\"\n\n\"And since I have no heart,\" the Tin Woodman said, \"I cannot be afraid either.\"\n\nDorothy said nothing. She was the only one in the group who had both brains AND a heart, and she was quite frightened. Toto was frightened too. He pressed against Dorothy's legs and growled at the shadows.\n\nSuddenly, a great beast burst out of the trees with a terrible roar. It was an enormous lion, with a thick golden mane and huge paws. He knocked the Scarecrow spinning with one swipe and struck at the Tin Woodman with his claws, which scraped against the tin but did no real damage.\n\nThen the Lion opened his great mouth and lunged at Toto.\n\nDorothy did not think. She did not plan. She did not hesitate. She ran forward and slapped the Lion as hard as she could, right on his nose.\n\n\"Don't you dare bite Toto!\" she cried. \"You ought to be ashamed of yourself — a big beast like you, trying to bite a poor little dog!\"\n\nThe Lion looked shocked. He sat down and rubbed his nose with his paw.".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>The Cowardly Lion (Part 2)</h2>
+                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
+                                ${"\"I didn't bite him,\" the Lion said in a hurt voice.\n\n\"No, but you tried to,\" Dorothy said. \"You are nothing but a big coward.\"\n\n\"I know it,\" the Lion said, hanging his great head in shame. \"I have always known it. I am a disgrace.\"\n\nDorothy stared at him. This was not what she had expected.\n\n\"But you're a lion,\" she said. \"Lions are supposed to be the king of beasts.\"\n\n\"I know,\" the Lion said miserably. \"Everyone expects me to be brave and fierce. But I am terrified of almost everything. I roar to scare other creatures away, because if they got close, they would see that I am really a coward.\"\n\n\"That's terrible,\" said the Scarecrow, picking straw out of his clothes.\n\n\"It is,\" the Lion agreed. \"My roar is all I have. My heart pounds, my legs shake, and I want to run away. A real king of beasts would not be afraid. But I cannot help it.\"\n\n\"Maybe you just need courage,\" Dorothy said thoughtfully. \"We are on our way to the Emerald City to see the great Wizard of Oz. The Scarecrow is going to ask for brains, and the Tin Woodman wants a heart. Perhaps the Wizard could give you courage.\"\n\nThe Lion's eyes grew wide. \"Do you think he could?\" he asked. \"If I only had courage, I would be everything a lion is supposed to be.\"\n\n\"Come with us,\" Dorothy said. \"You can ask him yourself.\"".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>The Cowardly Lion (Part 3)</h2>
+                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
+                                ${"\"I will,\" said the Lion. \"Because right now, my life is unbearable. Every day I wake up afraid, and every night I go to sleep ashamed. If the Wizard can fix that, it would be worth any journey.\"\n\nSo the Lion joined the group. He was enormous — Dorothy barely reached his shoulder — and when he walked, the ground trembled slightly under his great paws. The Scarecrow walked on one side of Dorothy, the Tin Woodman on the other, and the Lion padded along behind them. Toto did not like the Lion at first and stayed as far away as possible, but after a while, the little dog decided that any creature who cried about being a coward was probably not very dangerous after all.\n\n\"I am curious about something,\" Dorothy said as they walked. \"You say you are a coward, but you jumped out of the trees and attacked all of us. That seems rather brave to me.\"\n\n\"Oh, that,\" the Lion said, embarrassed. \"I was more scared than any of you. My heart was pounding. I just roared and charged because I did not know what else to do.\"\n\n\"But isn't that exactly what courage is?\" the Scarecrow asked. \"Doing something even when you are afraid?\"\n\nThe Lion thought about this for a long moment. \"No,\" he said finally. \"I think real courage means not being afraid at all.\"\n\n\"I'm not sure about that,\" Dorothy said. But she did not argue.\n\nThey walked on through the forest. Dorothy noticed something: the Scarecrow, who said he had no brains, was the one who figured out the safest path through the trees. The Tin Woodman, who said he had no heart, carefully moved a beetle off the road so it would not be stepped on. And the Lion, who said he had no courage, walked at the back of the group, keeping watch for danger.\n\nDorothy kept these observations to herself. But she was beginning to wonder if her friends already had exactly what they were looking for, and simply did not know it.".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 8: Comprehension (from Jes's guide: 1 MC + 1 short answer)
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Reading Comprehension</h2>
+                            <div style="margin: 20px 0;">
+                                <div style="margin-bottom: 30px;">
+                                    <p style="font-weight: 600; margin-bottom: 15px;">1. What pattern has the author created with the main characters?</p>
+                                    <div>
+                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="mc-q1" value="A" style="margin-right: 10px;">
+                                            <strong>A)</strong> They are all from Kansas
+                                        </label>
+                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="mc-q1" value="B" style="margin-right: 10px;">
+                                            <strong>B)</strong> They each want something they believe they do not have
+                                        </label>
+                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="mc-q1" value="C" style="margin-right: 10px;">
+                                            <strong>C)</strong> They are all afraid of the Wizard
+                                        </label>
+                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="mc-q1" value="D" style="margin-right: 10px;">
+                                            <strong>D)</strong> They all want to stay in Oz forever
+                                        </label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p style="font-weight: 600; margin-bottom: 10px;">2. Dorothy slaps a lion on the nose to protect Toto. The Scarecrow figures out the safest path. The Tin Woodman moves a beetle off the road so it won't be stepped on. What do these actions tell us about whether the characters already have what they wish for?</p>
+                                    <p style="margin-top: 10px; color: #666; font-size: 13px;"><em>Hint: Look at ACTIONS, not words. What each character DOES tells a different story than what they SAY about themselves.</em></p>
+                                    <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 9: Grammar OR Language
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>${false ? 'Grammar Practice' : 'Language Skills'}</h2>
+                            <p style="margin: 20px 0;">${false ? 'Grammar skills practice' : 'Language skills practice'}</p>
+                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                                <p><em>Grammar and language content will be added based on weekly skills rotation.</em></p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 10: Informational Text
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Learn More</h2>
+                            <p style="margin: 20px 0;">Informational text related to today's reading.</p>
+                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                                <p><em>Informational text content will be added.</em></p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 11: Writing
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>${false ? 'Writing Response' : 'Journal Entry'}</h2>
+                            <p style="margin: 20px 0 10px;">${false ? "Write your opinion about today's reading." : 'Write about your thoughts and feelings about the story.'}</p>
+                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px; min-height: 200px;"></textarea>
+                            <p style="margin-top: 15px; color: #666; font-size: 14px;">Write at least 5-7 sentences.</p>
+                        </div>
+                    `
+                }
+            ]
+        };
+
+        if (typeof initLessonViewer === 'function') {
+            initLessonViewer(lesson8Config);
+        }
+    </script>
+</body>
+</html>

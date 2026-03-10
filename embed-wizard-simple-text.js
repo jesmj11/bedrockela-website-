@@ -62,22 +62,6 @@ console.log(`❓ Loaded comprehension for ${Object.keys(compByChapter).length} c
 
 const assessmentDays = [5, 10, 15, 20, 25, 30];
 
-// Split text into 3 parts
-function splitInto3Parts(text) {
-  const paragraphs = text.split('\n\n').filter(p => p.trim());
-  const totalParas = paragraphs.length;
-  const parasPerPart = Math.ceil(totalParas / 3);
-  const parts = [];
-  for (let i = 0; i < 3; i++) {
-    const start = i * parasPerPart;
-    const end = Math.min(start + parasPerPart, totalParas);
-    if (start < totalParas) {
-      parts.push(paragraphs.slice(start, end).join('\n\n'));
-    }
-  }
-  return parts;
-}
-
 function generateRegularLesson(day) {
   // Simple 1:1 mapping - Day 1 = Chapter 1, Day 2 = Chapter 2, etc.
   // Skip assessment days (5, 10, 15, 20, 25, 30)
@@ -96,7 +80,6 @@ function generateRegularLesson(day) {
     short: { question: 'Short answer question?', hint: null }
   };
   
-  const storyParts = splitInto3Parts(chapter.content);
   const isOddDay = day % 2 === 1;
   
   return `<!DOCTYPE html>
@@ -191,39 +174,19 @@ function generateRegularLesson(day) {
                     \`
                 },
                 
-                // Pages 4-6: Story (3 parts)
+                // Page 4: Story (full chapter)
                 {
                     render: () => \`
                         <div class="lesson-page-card content-page">
-                            <h2>📖 ${chapter.title} (Part 1)</h2>
+                            <h2>📖 ${chapter.title}</h2>
                             <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                ${storyParts[0].split('\n\n').map(p => '<p style="margin-bottom: 15px;">' + p + '</p>').join('')}
-                            </div>
-                        </div>
-                    \`
-                },
-                {
-                    render: () => \`
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 ${chapter.title} (Part 2)</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                ${storyParts[1] ? storyParts[1].split('\n\n').map(p => '<p style="margin-bottom: 15px;">' + p + '</p>').join('') : '<p>Continue reading...</p>'}
-                            </div>
-                        </div>
-                    \`
-                },
-                {
-                    render: () => \`
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 ${chapter.title} (Part 3)</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                ${storyParts[2] ? storyParts[2].split('\n\n').map(p => '<p style="margin-bottom: 15px;">' + p + '</p>').join('') : '<p>End of chapter.</p>'}
+                                ${chapter.content.split('\n\n').map(p => '<p style="margin-bottom: 15px;">' + p + '</p>').join('')}
                             </div>
                         </div>
                     \`
                 },
                 
-                // Page 7: Comprehension - Multiple Choice
+                // Page 5: Comprehension - Multiple Choice
                 {
                     render: () => \`
                         <div class="lesson-page-card content-page">
@@ -243,7 +206,7 @@ function generateRegularLesson(day) {
                     \`
                 },
                 
-                // Page 8: Comprehension - Short Answer
+                // Page 6: Comprehension - Short Answer
                 {
                     render: () => \`
                         <div class="lesson-page-card content-page">
@@ -257,7 +220,7 @@ function generateRegularLesson(day) {
                     \`
                 },
                 
-                // Page 9: Grammar/Language
+                // Page 7: Grammar/Language
                 {
                     render: () => \`
                         <div class="lesson-page-card content-page">
@@ -270,7 +233,7 @@ function generateRegularLesson(day) {
                     \`
                 },
                 
-                // Page 10: Writing
+                // Page 8: Writing
                 {
                     render: () => \`
                         <div class="lesson-page-card content-page">
@@ -281,7 +244,7 @@ function generateRegularLesson(day) {
                     \`
                 },
                 
-                // Page 11: Completion
+                // Page 9: Completion
                 {
                     render: () => \`
                         <div class="lesson-page-card title-page">
@@ -367,6 +330,6 @@ for (let day = 1; day <= 30; day++) {
 console.log(`\n🎉 All 30 Wizard of Oz lessons generated!`);
 console.log(`\n📝 Summary:`);
 console.log(`  • Simple text on white cards (no digital book widget)`);
-console.log(`  • Story split into 3 parts for easy reading`);
-console.log(`  • 11 pages per lesson (Title, Objectives, Vocab, 3 Story Pages, 2 Comprehension, Grammar, Writing, Complete)`);
+console.log(`  • Full chapter on single page`);
+console.log(`  • 9 pages per lesson (Title, Objectives, Vocab, Story, 2 Comprehension, Grammar, Writing, Complete)`);
 console.log(`\n🚀 Push to GitHub!`);

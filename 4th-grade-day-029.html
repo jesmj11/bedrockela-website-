@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson 29 - 4th Grade BedrockELA</title>
+    <title>Day 29 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="lesson-viewer">
-    <div id="lesson-container" class="lesson-container"></div>
+    <div id="lesson-container"></div>
 
     <script src="js/lesson-viewer.js?v=1772665488"></script>
+    <script src="js/digital-book.js?v=1772665488"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="firebase-config.js"></script>
@@ -21,13 +22,13 @@
         const lesson29Config = {
             lessonId: '4th-grade-day-29',
             gradeLevel: '4th-grade',
-            title: 'Lesson 29 - 4th Grade',
+            title: 'Day 29 - Wizard of Oz',
             pages: [
                 // Page 1: Title
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">
-                            <h1>Lesson 29</h1>
+                            <h1>Day 29</h1>
                             <div class="subtitle">4th Grade ELA • Week 6</div>
                             <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
                                 The Wonderful Wizard of Oz
@@ -43,167 +44,141 @@
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>Welcome to Lesson 29!</h2>
+                            <h2>Welcome to Day 29!</h2>
                             <p>Today you will:</p>
                             <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Read from <strong>There's No Place Like Home</strong></li>
+                                <li>Read <strong>There's No Place Like Home</strong> in our digital book</li>
                                 <li>Learn 2 new vocabulary words</li>
                                 <li>Answer 2 comprehension questions</li>
-                                <li>Practice ${true ? 'grammar' : 'language'} skills</li>
-                                <li>Write a ${true ? 'response' : 'journal entry'}</li>
+                                <li>Practice grammar skills</li>
+                                <li>Complete a writing task</li>
                             </ul>
                             <p><strong>Time needed:</strong> About 45-60 minutes</p>
                         </div>
                     `
                 },
                 
-                // Page 3: Vocabulary (2 words from Jes's guide)
+                // Page 3: Vocabulary
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>Vocabulary Words</h2>
+                            <h2>📖 Vocabulary Words</h2>
                             
                             <div style="margin: 30px 0;">
                                 <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
                                     <div style="margin-bottom: 10px;">
                                         <span style="font-size: 28px; font-weight: 800; color: #305853;">reveal</span>
+                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(noun/verb)</span>
                                     </div>
                                     <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">To show or make known something that was hidden. A moment when the truth becomes clear.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;">Write a sentence using this word:</p>
-                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> Glinda's reveal about the silver shoes was the biggest surprise of all — Dorothy had the power to go home the entire time.</p>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> Why did Glinda wait to reveal the truth about the shoes? Was it kind or cruel to let Dorothy travel so far first?</p>
+                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
                                 </div>
                                 
                                 <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
                                     <div style="margin-bottom: 10px;">
                                         <span style="font-size: 28px; font-weight: 800; color: #305853;">bittersweet</span>
+                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(adjective)</span>
                                     </div>
                                     <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Something that is both happy and sad at the same time. Joy mixed with sorrow.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;">Write a sentence using this word:</p>
-                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> Leaving Oz was bittersweet — Dorothy was overjoyed to go home, but heartbroken to leave her friends.</p>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> Can you think of a bittersweet moment in your own life? Why are the most meaningful moments often bittersweet?</p>
+                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
                                 </div>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 4: Vocabulary Practice
+                // Page 4: Digital Book Reader
                 {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Vocabulary Practice</h2>
-                            <p style="margin: 20px 0;">Review the vocabulary words you just learned.</p>
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><strong>reveal:</strong> To show or make known something that was hidden. A moment when the truth becomes clear.</p>
-                                <p style="margin-top: 15px;"><strong>bittersweet:</strong> Something that is both happy and sad at the same time. Joy mixed with sorrow.</p>
+                    render: () => {
+                        setTimeout(() => {
+                            if (!window.day29BookInitialized) {
+                                const bookConfig = {
+                                    coverTitle: "Chapter 23",
+                                    coverSubtitle: "There's No Place Like Home",
+                                    coverAuthor: "L. Frank Baum (adapted for 4th grade)",
+                                    coverColor: "#1B2A4A",
+                                    vocabWords: ["reveal","bittersweet"],
+                                    pages: [{"text":"\"The silver shoes,\" Glinda said, \"have a very powerful magic. They can carry you anywhere in the world in three steps.\"\n\nDorothy looked down at the shoes on her feet. She had been wearing them since the very beginning — since the moment she took them from the Wicked Witch of the East on her first day in Oz. Through forests and poppy fields, through the Emerald City and the Witch's castle, through every danger and every mile of yellow brick road — the answer had been on her feet the entire time.\n\n\"You mean,\" Dorothy said slowly, \"I could have gone home from the very start?\"\n\n\"Yes,\" Glinda said.\n\nThe room seemed to tilt. Dorothy felt dizzy with the weight of it. She could have gone home on the first day. She could have avoided the dark forest, the deadly poppies, the Wicked Witch, the humbug Wizard. She could have clicked her heels and been in Kansas before she ever set foot on the yellow brick road.\n\nBut then she never would have met the Scarecrow. Or the Tin Woodman. Or the Lion.\n\nShe never would have learned that the Scarecrow was the cleverest person she knew. She never would have watched the Tin Woodman weep over a crushed beetle. She never would have seen the Cowardly Lion stand between his friends and danger, shaking with fear but refusing to back down.\n\nShe never would have learned that a wizard could be a fraud and still teach a lesson, or that a bucket of water could defeat what an army could not, or that the smallest mouse and the fiercest lion could both be heroes.\n\nShe never would have learned what home really meant.\n\n\"I would not trade this journey for anything,\" Dorothy said.\n\nGlinda smiled. \"I know. That is why I did not tell you sooner. Some things cannot be taught. They must be lived.\"\n\n\"How do I use the shoes?\" Dorothy asked.\n\n\"Click the heels together three times,\" Glinda said. \"And with each click, say where you wish to go.\"\n\nDorothy held Toto close against her chest. She could feel his small heart beating fast. She looked at Glinda — the most powerful and the most honest person she had met in all of Oz — and said, \"Thank you.\"\n\n\"Thank yourself,\" Glinda said. \"You did this, Dorothy. All of it.\""},{"text":"Dorothy closed her eyes. She thought of Aunt Em's face. She thought of Uncle Henry's quiet hands. She thought of the flat, gray prairie and the small wooden house and the smell of bread baking in the oven.\n\nShe clicked her heels together.\n\n\"Take me home.\"\n\nClick.\n\n\"Take me home.\"\n\nClick.\n\n\"Take me home.\"\n\nClick.\n\nThe world dissolved. The ruby castle, the red flowers, the warm light — all of it swirled and blurred and spun away. Wind roared past her ears. She felt herself flying, tumbling, spinning through an impossible distance. Toto pressed against her chest, and Dorothy held on.\n\nThen — silence.\n\nShe was sitting in the grass. Real grass. Brown, dry, Kansas grass, warm from the sun.\n\nShe opened her eyes.\n\nIn front of her was a farmhouse — a new one, because the old house had flown to Oz. Uncle Henry had built it while she was gone. It was small and plain, just like the old one. No emeralds. No rubies. No green marble or yellow brick.\n\nIt was the most beautiful thing Dorothy had ever seen.\n\nAnd running across the yard toward her, arms outstretched, was Aunt Em."}]
+                                };
+                                window.digitalBookInstance = new DigitalBook('digital-book-day-29', bookConfig);
+                                window.day29BookInitialized = true;
+                            }
+                        }, 100);
+                        
+                        return `
+                            <div class="lesson-page-card content-page">
+                                <h2>📖 Chapter 23: There's No Place Like Home</h2>
+                                <p style="margin: 10px 0 20px; color: #666;">Click the arrows to turn pages. Vocabulary words are highlighted in yellow!</p>
+                                <div id="digital-book-day-29"></div>
                             </div>
-                            <p style="margin-top: 20px;">Watch for these words in today's reading!</p>
-                        </div>
-                    `
+                        `;
+                    }
                 },
                 
-                // Pages 5-7: Story (3 parts from ADAPTED book)
+                // Page 5: Comprehension - Multiple Choice
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>There's No Place Like Home (Part 1)</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                ${"\"The silver shoes,\" Glinda said, \"have a very powerful magic. They can carry you anywhere in the world in three steps.\"\n\nDorothy looked down at the shoes on her feet. She had been wearing them since the very beginning — since the moment she took them from the Wicked Witch of the East on her first day in Oz. Through forests and poppy fields, through the Emerald City and the Witch's castle, through every danger and every mile of yellow brick road — the answer had been on her feet the entire time.\n\n\"You mean,\" Dorothy said slowly, \"I could have gone home from the very start?\"\n\n\"Yes,\" Glinda said.\n\nThe room seemed to tilt. Dorothy felt dizzy with the weight of it. She could have gone home on the first day. She could have avoided the dark forest, the deadly poppies, the Wicked Witch, the humbug Wizard. She could have clicked her heels and been in Kansas before she ever set foot on the yellow brick road.\n\nBut then she never would have met the Scarecrow. Or the Tin Woodman. Or the Lion.\n\nShe never would have learned that the Scarecrow was the cleverest person she knew. She never would have watched the Tin Woodman weep over a crushed beetle. She never would have seen the Cowardly Lion stand between his friends and danger, shaking with fear but refusing to back down.\n\nShe never would have learned that a wizard could be a fraud and still teach a lesson, or that a bucket of water could defeat what an army could not, or that the smallest mouse and the fiercest lion could both be heroes.\n\nShe never would have learned what home really meant.\n\n\"I would not trade this journey for anything,\" Dorothy said.".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
-                            </div>
-                        </div>
-                    `
-                },
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>There's No Place Like Home (Part 2)</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                ${"Glinda smiled. \"I know. That is why I did not tell you sooner. Some things cannot be taught. They must be lived.\"\n\n\"How do I use the shoes?\" Dorothy asked.\n\n\"Click the heels together three times,\" Glinda said. \"And with each click, say where you wish to go.\"\n\nDorothy held Toto close against her chest. She could feel his small heart beating fast. She looked at Glinda — the most powerful and the most honest person she had met in all of Oz — and said, \"Thank you.\"\n\n\"Thank yourself,\" Glinda said. \"You did this, Dorothy. All of it.\"\n\nDorothy closed her eyes. She thought of Aunt Em's face. She thought of Uncle Henry's quiet hands. She thought of the flat, gray prairie and the small wooden house and the smell of bread baking in the oven.\n\nShe clicked her heels together.\n\n\"Take me home.\"\n\nClick.\n\n\"Take me home.\"".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
-                            </div>
-                        </div>
-                    `
-                },
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>There's No Place Like Home (Part 3)</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                ${"Click.\n\n\"Take me home.\"\n\nClick.\n\nThe world dissolved. The ruby castle, the red flowers, the warm light — all of it swirled and blurred and spun away. Wind roared past her ears. She felt herself flying, tumbling, spinning through an impossible distance. Toto pressed against her chest, and Dorothy held on.\n\nThen — silence.\n\nShe was sitting in the grass. Real grass. Brown, dry, Kansas grass, warm from the sun.\n\nShe opened her eyes.\n\nIn front of her was a farmhouse — a new one, because the old house had flown to Oz. Uncle Henry had built it while she was gone. It was small and plain, just like the old one. No emeralds. No rubies. No green marble or yellow brick.\n\nIt was the most beautiful thing Dorothy had ever seen.\n\nAnd running across the yard toward her, arms outstretched, was Aunt Em.".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 8: Comprehension (from Jes's guide: 1 MC + 1 short answer)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading Comprehension</h2>
+                            <h2>💭 Reading Comprehension</h2>
                             <div style="margin: 20px 0;">
-                                <div style="margin-bottom: 30px;">
-                                    <p style="font-weight: 600; margin-bottom: 15px;">1. What is the secret of the silver shoes?</p>
-                                    <div>
-                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
-                                            <input type="radio" name="mc-q1" value="A" style="margin-right: 10px;">
-                                            <strong>A)</strong> They grant three wishes
-                                        </label>
-                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
-                                            <input type="radio" name="mc-q1" value="B" style="margin-right: 10px;">
-                                            <strong>B)</strong> They can carry the wearer anywhere in the world in three steps
-                                        </label>
-                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
-                                            <input type="radio" name="mc-q1" value="C" style="margin-right: 10px;">
-                                            <strong>C)</strong> They make the wearer invisible
-                                        </label>
-                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
-                                            <input type="radio" name="mc-q1" value="D" style="margin-right: 10px;">
-                                            <strong>D)</strong> They give the wearer magical powers
-                                        </label>
-                                    </div>
-                                </div>
+                                <p style="font-weight: 600; margin-bottom: 15px;">1. What is the secret of the silver shoes?</p>
                                 <div>
-                                    <p style="font-weight: 600; margin-bottom: 10px;">2. Dorothy could have gone home from the very first day. If you were Dorothy, would you be upset that no one told you sooner? Or would you agree with Glinda that the journey was necessary? Explain your thinking.</p>
-                                    <p style="margin-top: 10px; color: #666; font-size: 13px;"><em>Hint: Think about everything Dorothy gained from the journey — friends, experiences, wisdom. Could she have learned those things any other way?</em></p>
-                                    <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                    <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> They grant three wishes</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> They can carry the wearer anywhere in the world in three steps</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> They make the wearer invisible</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> They give the wearer magical powers</label>
                                 </div>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 9: Grammar OR Language
+                // Page 6: Comprehension - Short Answer
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>${true ? 'Grammar Practice' : 'Language Skills'}</h2>
-                            <p style="margin: 20px 0;">${true ? 'Grammar skills practice' : 'Language skills practice'}</p>
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Grammar and language content will be added based on weekly skills rotation.</em></p>
+                            <h2>💭 Short Answer</h2>
+                            <div style="margin: 20px 0;">
+                                <p style="font-weight: 600; margin-bottom: 15px;">2. Dorothy could have gone home from the very first day. If you were Dorothy, would you be upset that no one told you sooner? Or would you agree with Glinda that the journey was necessary? Explain your thinking.</p>
+                                <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Hint:</strong> Think about everything Dorothy gained from the journey — friends, experiences, wisdom. Could she have learned those things any other way?</p>
+                                <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 120px;" placeholder="Write your answer here..."></textarea>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 10: Informational Text
+                // Page 7: Grammar/Language (placeholder)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>Learn More</h2>
-                            <p style="margin: 20px 0;">Informational text related to today's reading.</p>
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Informational text content will be added.</em></p>
+                            <h2>✏️ Grammar Practice</h2>
+                            <p>Practice sentence structure and grammar.</p>
+                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                                <p><em>Practice exercises will be added here.</em></p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 11: Writing
+                // Page 8: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>${true ? 'Writing Response' : 'Journal Entry'}</h2>
-                            <p style="margin: 20px 0 10px;">${true ? "Write your opinion about today's reading." : 'Write about your thoughts and feelings about the story.'}</p>
-                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px; min-height: 200px;"></textarea>
-                            <p style="margin-top: 15px; color: #666; font-size: 14px;">Write at least 5-7 sentences.</p>
+                            <h2>✍️ Writing Time</h2>
+                            <p style="margin-bottom: 15px;">Write a paragraph about what you read today. Use at least one vocabulary word.</p>
+                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 150px;" placeholder="Start writing..."></textarea>
+                        </div>
+                    `
+                },
+                
+                // Page 9: Completion
+                {
+                    render: () => `
+                        <div class="lesson-page-card title-page">
+                            <h2 style="color: #305853; font-size: 36px; margin-bottom: 20px;">Great Job! 🎉</h2>
+                            <p style="font-size: 18px; color: #666;">You've completed Day 29!</p>
+                            <p style="font-size: 16px; color: #666; margin-top: 15px;">Click "Finish Lesson" to save your progress.</p>
                         </div>
                     `
                 }

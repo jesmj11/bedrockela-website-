@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson 13 - 4th Grade BedrockELA</title>
+    <title>Day 13 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="lesson-viewer">
-    <div id="lesson-container" class="lesson-container"></div>
+    <div id="lesson-container"></div>
 
     <script src="js/lesson-viewer.js?v=1772665488"></script>
+    <script src="js/digital-book.js?v=1772665488"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="firebase-config.js"></script>
@@ -21,13 +22,13 @@
         const lesson13Config = {
             lessonId: '4th-grade-day-13',
             gradeLevel: '4th-grade',
-            title: 'Lesson 13 - 4th Grade',
+            title: 'Day 13 - Wizard of Oz',
             pages: [
                 // Page 1: Title
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">
-                            <h1>Lesson 13</h1>
+                            <h1>Day 13</h1>
                             <div class="subtitle">4th Grade ELA • Week 3</div>
                             <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
                                 The Wonderful Wizard of Oz
@@ -43,167 +44,141 @@
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>Welcome to Lesson 13!</h2>
+                            <h2>Welcome to Day 13!</h2>
                             <p>Today you will:</p>
                             <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Read from <strong>The Guardian of the Gates</strong></li>
+                                <li>Read <strong>The Guardian of the Gates</strong> in our digital book</li>
                                 <li>Learn 2 new vocabulary words</li>
                                 <li>Answer 2 comprehension questions</li>
-                                <li>Practice ${true ? 'grammar' : 'language'} skills</li>
-                                <li>Write a ${true ? 'response' : 'journal entry'}</li>
+                                <li>Practice grammar skills</li>
+                                <li>Complete a writing task</li>
                             </ul>
                             <p><strong>Time needed:</strong> About 45-60 minutes</p>
                         </div>
                     `
                 },
                 
-                // Page 3: Vocabulary (2 words from Jes's guide)
+                // Page 3: Vocabulary
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>Vocabulary Words</h2>
+                            <h2>📖 Vocabulary Words</h2>
                             
                             <div style="margin: 30px 0;">
                                 <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
                                     <div style="margin-bottom: 10px;">
                                         <span style="font-size: 28px; font-weight: 800; color: #305853;">dazzling</span>
+                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(adjective)</span>
                                     </div>
                                     <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">So bright and impressive that it is almost overwhelming. Something that amazes your eyes.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;">Write a sentence using this word:</p>
-                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> The Emerald City was dazzling — everything glittered with green light so bright it almost hurt to look at.</p>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> Why might the author make the Emerald City SO dazzling? Remember gray Kansas. What is the contrast telling you?</p>
+                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
                                 </div>
                                 
                                 <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
                                     <div style="margin-bottom: 10px;">
                                         <span style="font-size: 28px; font-weight: 800; color: #305853;">spectacles</span>
+                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(noun)</span>
                                     </div>
                                     <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Glasses worn over the eyes. In the Emerald City, green spectacles make everything appear green.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;">Write a sentence using this word:</p>
-                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> The Guardian locked green spectacles onto every visitor's head so the brightness of the city would not blind them.</p>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> If everyone wears green glasses, how do they know what color things REALLY are? What might the author be saying about appearances?</p>
+                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
                                 </div>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 4: Vocabulary Practice
+                // Page 4: Digital Book Reader
                 {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Vocabulary Practice</h2>
-                            <p style="margin: 20px 0;">Review the vocabulary words you just learned.</p>
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><strong>dazzling:</strong> So bright and impressive that it is almost overwhelming. Something that amazes your eyes.</p>
-                                <p style="margin-top: 15px;"><strong>spectacles:</strong> Glasses worn over the eyes. In the Emerald City, green spectacles make everything appear green.</p>
+                    render: () => {
+                        setTimeout(() => {
+                            if (!window.day13BookInitialized) {
+                                const bookConfig = {
+                                    coverTitle: "Chapter 10",
+                                    coverSubtitle: "The Guardian of the Gates",
+                                    coverAuthor: "L. Frank Baum (adapted for 4th grade)",
+                                    coverColor: "#1B2A4A",
+                                    vocabWords: ["dazzling","spectacles"],
+                                    pages: [{"text":"They rested in the grass until everyone felt strong again. Then they stood and looked ahead. The yellow brick road climbed a gentle hill, and beyond the hill, something sparkled in the distance — bright and green and impossibly dazzling, like a jewel set into the earth.\n\n\"The Emerald City,\" the Scarecrow whispered.\n\nThey hurried forward. With every step, the sparkle grew brighter and more magnificent. Soon they could see the great wall that surrounded the city, studded with emeralds that caught the sunlight and threw it back in brilliant green flashes. The wall was very tall, and behind it, towers and spires rose into the sky, gleaming like they were made of solid light.\n\n\"I have never seen anything so beautiful,\" the Tin Woodman said.\n\n\"Neither have I,\" said the Lion, and for once, he did not seem afraid of anything.\n\nAt the gate stood a small man dressed entirely in green — green clothes, green shoes, even green whiskers that curled at the tips. He had sharp, intelligent eyes and a serious expression.\n\n\"What do you wish in the Emerald City?\" he asked.\n\n\"We have come to see the great Oz,\" Dorothy said.\n\nThe man's eyes widened. \"Oz? No one has asked to see Oz in many years. He is very powerful and very terrible. If you come on a foolish errand, he may destroy you.\"\n\n\"It is not a foolish errand,\" Dorothy said. She stood up straight and looked the man in the eye. \"I need to get home.\"\n\nThe Guardian studied her — her dusty dress, her silver shoes, the shining mark on her forehead where the Witch of the North had kissed her. He studied the Scarecrow, the Tin Woodman, and the great Lion. He studied Toto, who wagged his tail.\n\n\"Very well,\" the Guardian said at last. \"But you must wear these spectacles inside the city. Everyone who enters the Emerald City must wear them, by order of Oz.\"\n\nHe opened a large box filled with green-tinted spectacles of every size. He found pairs for each of them — even Toto, whose tiny spectacles made him look very dignified — and locked them onto their heads with a small golden key.\n\n\"Why must we wear them?\" Dorothy asked."},{"text":"\"If you did not,\" the Guardian said, \"the brightness and glory of the Emerald City would blind you. The city is so dazzling that no one can look upon it with unprotected eyes.\"\n\nHe turned the key in the great lock, and the gate swung open.\n\nDorothy gasped.\n\nEverything was green. The streets were green marble. The houses were built of green stone with green glass windows. The sky itself seemed to glow with emerald light through the tinted spectacles. People walked by in green velvet and green silk, eating green candy, selling green lemonade from green carts. A green dog trotted past, followed by a green cat. Even the sun seemed to shine green.\n\n\"It's incredible,\" Dorothy breathed.\n\nThe Tin Woodman's tin body reflected green light in every direction. The Lion's golden mane looked almost emerald. The Scarecrow's painted face glowed.\n\nThey walked through the streets in wonder. Everything was clean and bright and beautiful. The people smiled at them. Children waved. It felt like walking through the inside of a jewel.\n\nBut the Scarecrow, who noticed things even though he said he had no brains, walked quietly and looked around with his painted eyes, and something bothered him.\n\nThe spectacles were green. Everything looked green through them. But was the city ACTUALLY green? If everyone always wore green glasses, how would they know what color anything really was?\n\nHe kept this thought to himself. But it settled into the back of his straw-stuffed head, and it would not go away.\n\nA soldier with a long green beard led them to the Palace of Oz, which was the grandest building of all — green marble walls, emerald-studded doors, and hallways so bright they seemed to hum with light.\n\n\"The great Oz will see you,\" the soldier said. \"But only one at a time. And I warn you — do not make him angry.\"\n\nThe four friends looked at each other.\n\n\"I will go first,\" Dorothy said.\n\nShe took a breath, straightened her dress, and walked through the great doors alone."}]
+                                };
+                                window.digitalBookInstance = new DigitalBook('digital-book-day-13', bookConfig);
+                                window.day13BookInitialized = true;
+                            }
+                        }, 100);
+                        
+                        return `
+                            <div class="lesson-page-card content-page">
+                                <h2>📖 Chapter 10: The Guardian of the Gates</h2>
+                                <p style="margin: 10px 0 20px; color: #666;">Click the arrows to turn pages. Vocabulary words are highlighted in yellow!</p>
+                                <div id="digital-book-day-13"></div>
                             </div>
-                            <p style="margin-top: 20px;">Watch for these words in today's reading!</p>
-                        </div>
-                    `
+                        `;
+                    }
                 },
                 
-                // Pages 5-7: Story (3 parts from ADAPTED book)
+                // Page 5: Comprehension - Multiple Choice
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>The Guardian of the Gates (Part 1)</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                ${"They rested in the grass until everyone felt strong again. Then they stood and looked ahead. The yellow brick road climbed a gentle hill, and beyond the hill, something sparkled in the distance — bright and green and impossibly dazzling, like a jewel set into the earth.\n\n\"The Emerald City,\" the Scarecrow whispered.\n\nThey hurried forward. With every step, the sparkle grew brighter and more magnificent. Soon they could see the great wall that surrounded the city, studded with emeralds that caught the sunlight and threw it back in brilliant green flashes. The wall was very tall, and behind it, towers and spires rose into the sky, gleaming like they were made of solid light.\n\n\"I have never seen anything so beautiful,\" the Tin Woodman said.\n\n\"Neither have I,\" said the Lion, and for once, he did not seem afraid of anything.\n\nAt the gate stood a small man dressed entirely in green — green clothes, green shoes, even green whiskers that curled at the tips. He had sharp, intelligent eyes and a serious expression.\n\n\"What do you wish in the Emerald City?\" he asked.\n\n\"We have come to see the great Oz,\" Dorothy said.\n\nThe man's eyes widened. \"Oz? No one has asked to see Oz in many years. He is very powerful and very terrible. If you come on a foolish errand, he may destroy you.\"\n\n\"It is not a foolish errand,\" Dorothy said. She stood up straight and looked the man in the eye. \"I need to get home.\"".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
-                            </div>
-                        </div>
-                    `
-                },
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>The Guardian of the Gates (Part 2)</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                ${"The Guardian studied her — her dusty dress, her silver shoes, the shining mark on her forehead where the Witch of the North had kissed her. He studied the Scarecrow, the Tin Woodman, and the great Lion. He studied Toto, who wagged his tail.\n\n\"Very well,\" the Guardian said at last. \"But you must wear these spectacles inside the city. Everyone who enters the Emerald City must wear them, by order of Oz.\"\n\nHe opened a large box filled with green-tinted spectacles of every size. He found pairs for each of them — even Toto, whose tiny spectacles made him look very dignified — and locked them onto their heads with a small golden key.\n\n\"Why must we wear them?\" Dorothy asked.\n\n\"If you did not,\" the Guardian said, \"the brightness and glory of the Emerald City would blind you. The city is so dazzling that no one can look upon it with unprotected eyes.\"\n\nHe turned the key in the great lock, and the gate swung open.\n\nDorothy gasped.\n\nEverything was green. The streets were green marble. The houses were built of green stone with green glass windows. The sky itself seemed to glow with emerald light through the tinted spectacles. People walked by in green velvet and green silk, eating green candy, selling green lemonade from green carts. A green dog trotted past, followed by a green cat. Even the sun seemed to shine green.\n\n\"It's incredible,\" Dorothy breathed.\n\nThe Tin Woodman's tin body reflected green light in every direction. The Lion's golden mane looked almost emerald. The Scarecrow's painted face glowed.".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
-                            </div>
-                        </div>
-                    `
-                },
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>The Guardian of the Gates (Part 3)</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                ${"They walked through the streets in wonder. Everything was clean and bright and beautiful. The people smiled at them. Children waved. It felt like walking through the inside of a jewel.\n\nBut the Scarecrow, who noticed things even though he said he had no brains, walked quietly and looked around with his painted eyes, and something bothered him.\n\nThe spectacles were green. Everything looked green through them. But was the city ACTUALLY green? If everyone always wore green glasses, how would they know what color anything really was?\n\nHe kept this thought to himself. But it settled into the back of his straw-stuffed head, and it would not go away.\n\nA soldier with a long green beard led them to the Palace of Oz, which was the grandest building of all — green marble walls, emerald-studded doors, and hallways so bright they seemed to hum with light.\n\n\"The great Oz will see you,\" the soldier said. \"But only one at a time. And I warn you — do not make him angry.\"\n\nThe four friends looked at each other.\n\n\"I will go first,\" Dorothy said.\n\nShe took a breath, straightened her dress, and walked through the great doors alone.".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 8: Comprehension (from Jes's guide: 1 MC + 1 short answer)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading Comprehension</h2>
+                            <h2>💭 Reading Comprehension</h2>
                             <div style="margin: 20px 0;">
-                                <div style="margin-bottom: 30px;">
-                                    <p style="font-weight: 600; margin-bottom: 15px;">1. What must everyone wear inside the Emerald City?</p>
-                                    <div>
-                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
-                                            <input type="radio" name="mc-q1" value="A" style="margin-right: 10px;">
-                                            <strong>A)</strong> Green hats and green cloaks
-                                        </label>
-                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
-                                            <input type="radio" name="mc-q1" value="B" style="margin-right: 10px;">
-                                            <strong>B)</strong> Green spectacles locked onto their heads with a key
-                                        </label>
-                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
-                                            <input type="radio" name="mc-q1" value="C" style="margin-right: 10px;">
-                                            <strong>C)</strong> Green shoes made of emeralds
-                                        </label>
-                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
-                                            <input type="radio" name="mc-q1" value="D" style="margin-right: 10px;">
-                                            <strong>D)</strong> Nothing special — everyone dresses normally
-                                        </label>
-                                    </div>
-                                </div>
+                                <p style="font-weight: 600; margin-bottom: 15px;">1. What must everyone wear inside the Emerald City?</p>
                                 <div>
-                                    <p style="font-weight: 600; margin-bottom: 10px;">2. The Scarecrow wonders: if everyone wears green glasses, how do they know the city is actually green? What do you think — is the city really green, or does it just LOOK green? What might the author be saying about appearances?</p>
-                                    <p style="margin-top: 10px; color: #666; font-size: 13px;"><em>Hint: Remember: the Wizard controls what people see. Green glasses make everything look green whether it is or not. This connects to the theme of appearance vs. reality.</em></p>
-                                    <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                    <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> Green hats and green cloaks</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> Green spectacles locked onto their heads with a key</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> Green shoes made of emeralds</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> Nothing special — everyone dresses normally</label>
                                 </div>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 9: Grammar OR Language
+                // Page 6: Comprehension - Short Answer
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>${true ? 'Grammar Practice' : 'Language Skills'}</h2>
-                            <p style="margin: 20px 0;">${true ? 'Grammar skills practice' : 'Language skills practice'}</p>
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Grammar and language content will be added based on weekly skills rotation.</em></p>
+                            <h2>💭 Short Answer</h2>
+                            <div style="margin: 20px 0;">
+                                <p style="font-weight: 600; margin-bottom: 15px;">2. The Scarecrow wonders: if everyone wears green glasses, how do they know the city is actually green? What do you think — is the city really green, or does it just LOOK green? What might the author be saying about appearances?</p>
+                                <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Hint:</strong> Remember: the Wizard controls what people see. Green glasses make everything look green whether it is or not. This connects to the theme of appearance vs. reality.</p>
+                                <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 120px;" placeholder="Write your answer here..."></textarea>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 10: Informational Text
+                // Page 7: Grammar/Language (placeholder)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>Learn More</h2>
-                            <p style="margin: 20px 0;">Informational text related to today's reading.</p>
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Informational text content will be added.</em></p>
+                            <h2>✏️ Grammar Practice</h2>
+                            <p>Practice sentence structure and grammar.</p>
+                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                                <p><em>Practice exercises will be added here.</em></p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 11: Writing
+                // Page 8: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>${true ? 'Writing Response' : 'Journal Entry'}</h2>
-                            <p style="margin: 20px 0 10px;">${true ? "Write your opinion about today's reading." : 'Write about your thoughts and feelings about the story.'}</p>
-                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px; min-height: 200px;"></textarea>
-                            <p style="margin-top: 15px; color: #666; font-size: 14px;">Write at least 5-7 sentences.</p>
+                            <h2>✍️ Writing Time</h2>
+                            <p style="margin-bottom: 15px;">Write a paragraph about what you read today. Use at least one vocabulary word.</p>
+                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 150px;" placeholder="Start writing..."></textarea>
+                        </div>
+                    `
+                },
+                
+                // Page 9: Completion
+                {
+                    render: () => `
+                        <div class="lesson-page-card title-page">
+                            <h2 style="color: #305853; font-size: 36px; margin-bottom: 20px;">Great Job! 🎉</h2>
+                            <p style="font-size: 18px; color: #666;">You've completed Day 13!</p>
+                            <p style="font-size: 16px; color: #666; margin-top: 15px;">Click "Finish Lesson" to save your progress.</p>
                         </div>
                     `
                 }

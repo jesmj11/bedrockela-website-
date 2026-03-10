@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson 18 - 4th Grade BedrockELA</title>
+    <title>Day 18 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="lesson-viewer">
-    <div id="lesson-container" class="lesson-container"></div>
+    <div id="lesson-container"></div>
 
     <script src="js/lesson-viewer.js?v=1772665488"></script>
+    <script src="js/digital-book.js?v=1772665488"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="firebase-config.js"></script>
@@ -21,13 +22,13 @@
         const lesson18Config = {
             lessonId: '4th-grade-day-18',
             gradeLevel: '4th-grade',
-            title: 'Lesson 18 - 4th Grade',
+            title: 'Day 18 - Wizard of Oz',
             pages: [
                 // Page 1: Title
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">
-                            <h1>Lesson 18</h1>
+                            <h1>Day 18</h1>
                             <div class="subtitle">4th Grade ELA • Week 4</div>
                             <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
                                 The Wonderful Wizard of Oz
@@ -43,167 +44,141 @@
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>Welcome to Lesson 18!</h2>
+                            <h2>Welcome to Day 18!</h2>
                             <p>Today you will:</p>
                             <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Read from <strong>The Melting of the Witch</strong></li>
+                                <li>Read <strong>The Melting of the Witch</strong> in our digital book</li>
                                 <li>Learn 2 new vocabulary words</li>
                                 <li>Answer 2 comprehension questions</li>
-                                <li>Practice ${false ? 'grammar' : 'language'} skills</li>
-                                <li>Write a ${false ? 'response' : 'journal entry'}</li>
+                                <li>Practice language skills</li>
+                                <li>Complete a writing task</li>
                             </ul>
                             <p><strong>Time needed:</strong> About 45-60 minutes</p>
                         </div>
                     `
                 },
                 
-                // Page 3: Vocabulary (2 words from Jes's guide)
+                // Page 3: Vocabulary
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>Vocabulary Words</h2>
+                            <h2>📖 Vocabulary Words</h2>
                             
                             <div style="margin: 30px 0;">
                                 <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
                                     <div style="margin-bottom: 10px;">
                                         <span style="font-size: 28px; font-weight: 800; color: #305853;">dissolved</span>
+                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(verb)</span>
                                     </div>
                                     <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Melted away or broke apart into nothing. Disappeared completely.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;">Write a sentence using this word:</p>
-                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> The Wicked Witch dissolved into a brown puddle on the kitchen floor, destroyed by nothing more than a bucket of water.</p>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> The most powerful villain in the story is destroyed by something ordinary. What might the author be saying about the nature of evil?</p>
+                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
                                 </div>
                                 
                                 <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
                                     <div style="margin-bottom: 10px;">
                                         <span style="font-size: 28px; font-weight: 800; color: #305853;">liberated</span>
+                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(verb/adjective)</span>
                                     </div>
                                     <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Set free from imprisonment or control. Released from someone's power.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;">Write a sentence using this word:</p>
-                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> The Winkies were liberated from the Witch's rule and celebrated with tears of joy.</p>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> How do the Winkies change once they are liberated? What does freedom look like after years of fear?</p>
+                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
                                 </div>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 4: Vocabulary Practice
+                // Page 4: Digital Book Reader
                 {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Vocabulary Practice</h2>
-                            <p style="margin: 20px 0;">Review the vocabulary words you just learned.</p>
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><strong>dissolved:</strong> Melted away or broke apart into nothing. Disappeared completely.</p>
-                                <p style="margin-top: 15px;"><strong>liberated:</strong> Set free from imprisonment or control. Released from someone's power.</p>
+                    render: () => {
+                        setTimeout(() => {
+                            if (!window.day18BookInitialized) {
+                                const bookConfig = {
+                                    coverTitle: "Chapter 14",
+                                    coverSubtitle: "The Melting of the Witch",
+                                    coverAuthor: "L. Frank Baum (adapted for 4th grade)",
+                                    coverColor: "#1B2A4A",
+                                    vocabWords: ["dissolved","liberated"],
+                                    pages: [{"text":"The next morning, Dorothy filled her bucket at the well and carried it into the kitchen. The Witch was waiting for her, wearing the stolen silver shoe on one foot and nothing on the other. She was in a foul mood.\n\n\"Scrub faster!\" the Witch snapped. \"And when you are finished with the kitchen, scrub the hallway. And when you are finished with the hallway, scrub the stairs. I want every stone in this castle clean enough to eat from.\"\n\nDorothy scrubbed. The water sloshed in the bucket, and the Witch kept her distance, watching from the doorway with her one terrible eye.\n\nIt happened quickly.\n\nThe Witch lunged forward, trying to snatch the second silver shoe from Dorothy's foot. Dorothy jumped back. The bucket tipped. Water splashed across the floor — and across the Witch.\n\nThe Witch screamed.\n\nIt was not a scream of anger. It was a scream of pure terror.\n\n\"What have you done?\" the Witch shrieked. She was shrinking. Her black robes were collapsing around her. Her body was dissolving, melting away like brown sugar in the rain. \"Don't you know that water will be the end of me?\"\n\n\"I didn't know!\" Dorothy cried, her heart hammering. \"I'm sorry!\"\n\n\"I have been wicked in my day,\" the Witch wailed, her voice fading as she grew smaller and smaller. \"But I never thought a little girl would be the end of me. Oh — I'm melting! Melting! What a world... what a world...\"\n\nHer voice trailed off into nothing. Where the Wicked Witch of the West had stood, there was now only a brown puddle on the kitchen floor and a pointed black hat floating in it.\n\nDorothy stood very still. The kitchen was silent. Toto crept out from under the table and sniffed at the puddle. Even he seemed surprised.\n\n\"It was an accident,\" Dorothy whispered. She had not meant to do it. She had been carrying water, and the Witch had lunged, and the bucket had tipped. That was all.\n\nShe picked up the silver shoe from the brown puddle, wiped it clean, and put it back on her foot. Both silver shoes were hers again.\n\nThen Dorothy took a deep breath and walked out of the kitchen."},{"text":"She found the Winkies in the courtyard. They were the people of the western land — small, quiet, frightened people who had served the Witch for years out of terror. They had watched Dorothy go into the kitchen carrying a bucket of water and heard the Witch's scream.\n\n\"The Witch is dead,\" Dorothy told them.\n\nFor a moment, no one moved. Then one Winkie began to cry. Then another. Then they were all crying and laughing at the same time, hugging each other and jumping up and down. Years of fear and cruelty dissolved in an instant, like the Witch herself.\n\nDorothy ran to the Lion's cage and broke the lock. The great beast bounded out, stretching his cramped legs and shaking his mane.\n\n\"Is it true?\" the Lion asked. \"She is really gone?\"\n\n\"She is really gone,\" Dorothy said.\n\n\"Then we must find the Scarecrow and the Tin Woodman,\" the Lion said. \"We must put our friends back together.\"\n\nThe Winkies were eager to help. They sent their best tinsmiths to find the Tin Woodman on the rocks where the Winged Monkeys had dropped him. He was badly dented — his arms bent at wrong angles, his legs twisted, one side of his body nearly flat. But the tinsmiths were the finest in Oz, and they worked for three days, hammering and shaping and polishing, until the Tin Woodman looked almost as good as new.\n\nWhen he opened his eyes and saw Dorothy, a tear rolled down his cheek. \"I thought I would never see you again,\" he said.\n\n\"Don't cry,\" Dorothy said, reaching for the oil can. \"You'll rust.\"\n\n\"Some tears are worth the rust,\" the Tin Woodman said.\n\nThe Winkies found the Scarecrow's clothes in the top of a tall tree, empty and flat. They stuffed him with fresh, clean straw — the finest straw in the western land — and sewed him up carefully. When his painted eyes blinked open, the Scarecrow looked around and said, \"Well. That was thoroughly unpleasant. But I must say, new straw feels wonderful. The old straw was getting quite lumpy.\"\n\nDorothy threw her arms around him. Then around the Tin Woodman. Then around the Lion. Toto barked and ran in circles around all of them.\n\nThey were together again. And the Wicked Witch was gone.\n\n\"Now,\" Dorothy said, \"let us go back to the Emerald City and tell Oz.\""}]
+                                };
+                                window.digitalBookInstance = new DigitalBook('digital-book-day-18', bookConfig);
+                                window.day18BookInitialized = true;
+                            }
+                        }, 100);
+                        
+                        return `
+                            <div class="lesson-page-card content-page">
+                                <h2>📖 Chapter 14: The Melting of the Witch</h2>
+                                <p style="margin: 10px 0 20px; color: #666;">Click the arrows to turn pages. Vocabulary words are highlighted in yellow!</p>
+                                <div id="digital-book-day-18"></div>
                             </div>
-                            <p style="margin-top: 20px;">Watch for these words in today's reading!</p>
-                        </div>
-                    `
+                        `;
+                    }
                 },
                 
-                // Pages 5-7: Story (3 parts from ADAPTED book)
+                // Page 5: Comprehension - Multiple Choice
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>The Melting of the Witch (Part 1)</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                ${"The next morning, Dorothy filled her bucket at the well and carried it into the kitchen. The Witch was waiting for her, wearing the stolen silver shoe on one foot and nothing on the other. She was in a foul mood.\n\n\"Scrub faster!\" the Witch snapped. \"And when you are finished with the kitchen, scrub the hallway. And when you are finished with the hallway, scrub the stairs. I want every stone in this castle clean enough to eat from.\"\n\nDorothy scrubbed. The water sloshed in the bucket, and the Witch kept her distance, watching from the doorway with her one terrible eye.\n\nIt happened quickly.\n\nThe Witch lunged forward, trying to snatch the second silver shoe from Dorothy's foot. Dorothy jumped back. The bucket tipped. Water splashed across the floor — and across the Witch.\n\nThe Witch screamed.\n\nIt was not a scream of anger. It was a scream of pure terror.\n\n\"What have you done?\" the Witch shrieked. She was shrinking. Her black robes were collapsing around her. Her body was dissolving, melting away like brown sugar in the rain. \"Don't you know that water will be the end of me?\"\n\n\"I didn't know!\" Dorothy cried, her heart hammering. \"I'm sorry!\"\n\n\"I have been wicked in my day,\" the Witch wailed, her voice fading as she grew smaller and smaller. \"But I never thought a little girl would be the end of me. Oh — I'm melting! Melting! What a world... what a world...\"".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
-                            </div>
-                        </div>
-                    `
-                },
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>The Melting of the Witch (Part 2)</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                ${"Her voice trailed off into nothing. Where the Wicked Witch of the West had stood, there was now only a brown puddle on the kitchen floor and a pointed black hat floating in it.\n\nDorothy stood very still. The kitchen was silent. Toto crept out from under the table and sniffed at the puddle. Even he seemed surprised.\n\n\"It was an accident,\" Dorothy whispered. She had not meant to do it. She had been carrying water, and the Witch had lunged, and the bucket had tipped. That was all.\n\nShe picked up the silver shoe from the brown puddle, wiped it clean, and put it back on her foot. Both silver shoes were hers again.\n\nThen Dorothy took a deep breath and walked out of the kitchen.\n\nShe found the Winkies in the courtyard. They were the people of the western land — small, quiet, frightened people who had served the Witch for years out of terror. They had watched Dorothy go into the kitchen carrying a bucket of water and heard the Witch's scream.\n\n\"The Witch is dead,\" Dorothy told them.\n\nFor a moment, no one moved. Then one Winkie began to cry. Then another. Then they were all crying and laughing at the same time, hugging each other and jumping up and down. Years of fear and cruelty dissolved in an instant, like the Witch herself.\n\nDorothy ran to the Lion's cage and broke the lock. The great beast bounded out, stretching his cramped legs and shaking his mane.\n\n\"Is it true?\" the Lion asked. \"She is really gone?\"".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
-                            </div>
-                        </div>
-                    `
-                },
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>The Melting of the Witch (Part 3)</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                ${"\"She is really gone,\" Dorothy said.\n\n\"Then we must find the Scarecrow and the Tin Woodman,\" the Lion said. \"We must put our friends back together.\"\n\nThe Winkies were eager to help. They sent their best tinsmiths to find the Tin Woodman on the rocks where the Winged Monkeys had dropped him. He was badly dented — his arms bent at wrong angles, his legs twisted, one side of his body nearly flat. But the tinsmiths were the finest in Oz, and they worked for three days, hammering and shaping and polishing, until the Tin Woodman looked almost as good as new.\n\nWhen he opened his eyes and saw Dorothy, a tear rolled down his cheek. \"I thought I would never see you again,\" he said.\n\n\"Don't cry,\" Dorothy said, reaching for the oil can. \"You'll rust.\"\n\n\"Some tears are worth the rust,\" the Tin Woodman said.\n\nThe Winkies found the Scarecrow's clothes in the top of a tall tree, empty and flat. They stuffed him with fresh, clean straw — the finest straw in the western land — and sewed him up carefully. When his painted eyes blinked open, the Scarecrow looked around and said, \"Well. That was thoroughly unpleasant. But I must say, new straw feels wonderful. The old straw was getting quite lumpy.\"\n\nDorothy threw her arms around him. Then around the Tin Woodman. Then around the Lion. Toto barked and ran in circles around all of them.\n\nThey were together again. And the Wicked Witch was gone.\n\n\"Now,\" Dorothy said, \"let us go back to the Emerald City and tell Oz.\"".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 8: Comprehension (from Jes's guide: 1 MC + 1 short answer)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading Comprehension</h2>
+                            <h2>💭 Reading Comprehension</h2>
                             <div style="margin: 20px 0;">
-                                <div style="margin-bottom: 30px;">
-                                    <p style="font-weight: 600; margin-bottom: 15px;">1. How is the Wicked Witch destroyed?</p>
-                                    <div>
-                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
-                                            <input type="radio" name="mc-q1" value="A" style="margin-right: 10px;">
-                                            <strong>A)</strong> Dorothy fights her with a sword
-                                        </label>
-                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
-                                            <input type="radio" name="mc-q1" value="B" style="margin-right: 10px;">
-                                            <strong>B)</strong> The Lion attacks her
-                                        </label>
-                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
-                                            <input type="radio" name="mc-q1" value="C" style="margin-right: 10px;">
-                                            <strong>C)</strong> Water accidentally splashes on her and she melts
-                                        </label>
-                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
-                                            <input type="radio" name="mc-q1" value="D" style="margin-right: 10px;">
-                                            <strong>D)</strong> The Wizard sends a spell to destroy her
-                                        </label>
-                                    </div>
-                                </div>
+                                <p style="font-weight: 600; margin-bottom: 15px;">1. How is the Wicked Witch destroyed?</p>
                                 <div>
-                                    <p style="font-weight: 600; margin-bottom: 10px;">2. The most powerful villain in the story is destroyed by an accident — a bucket of water. Dorothy did not plan it or mean to do it. What might the author be saying about the nature of wicked power? Is it as strong as it seems?</p>
-                                    <p style="margin-top: 10px; color: #666; font-size: 13px;"><em>Hint: The Witch ruled through FEAR. But her actual weakness was something ordinary. What does that tell you about bullies and fear?</em></p>
-                                    <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                    <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> Dorothy fights her with a sword</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> The Lion attacks her</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> Water accidentally splashes on her and she melts</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> The Wizard sends a spell to destroy her</label>
                                 </div>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 9: Grammar OR Language
+                // Page 6: Comprehension - Short Answer
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>${false ? 'Grammar Practice' : 'Language Skills'}</h2>
-                            <p style="margin: 20px 0;">${false ? 'Grammar skills practice' : 'Language skills practice'}</p>
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Grammar and language content will be added based on weekly skills rotation.</em></p>
+                            <h2>💭 Short Answer</h2>
+                            <div style="margin: 20px 0;">
+                                <p style="font-weight: 600; margin-bottom: 15px;">2. The most powerful villain in the story is destroyed by an accident — a bucket of water. Dorothy did not plan it or mean to do it. What might the author be saying about the nature of wicked power? Is it as strong as it seems?</p>
+                                <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Hint:</strong> The Witch ruled through FEAR. But her actual weakness was something ordinary. What does that tell you about bullies and fear?</p>
+                                <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 120px;" placeholder="Write your answer here..."></textarea>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 10: Informational Text
+                // Page 7: Grammar/Language (placeholder)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>Learn More</h2>
-                            <p style="margin: 20px 0;">Informational text related to today's reading.</p>
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Informational text content will be added.</em></p>
+                            <h2>✏️ Language Skills</h2>
+                            <p>Practice vocabulary and language concepts.</p>
+                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                                <p><em>Practice exercises will be added here.</em></p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 11: Writing
+                // Page 8: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>${false ? 'Writing Response' : 'Journal Entry'}</h2>
-                            <p style="margin: 20px 0 10px;">${false ? "Write your opinion about today's reading." : 'Write about your thoughts and feelings about the story.'}</p>
-                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px; min-height: 200px;"></textarea>
-                            <p style="margin-top: 15px; color: #666; font-size: 14px;">Write at least 5-7 sentences.</p>
+                            <h2>✍️ Writing Time</h2>
+                            <p style="margin-bottom: 15px;">Write a journal entry about what happened in today's chapter. How would you feel if you were Dorothy?</p>
+                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 150px;" placeholder="Start writing..."></textarea>
+                        </div>
+                    `
+                },
+                
+                // Page 9: Completion
+                {
+                    render: () => `
+                        <div class="lesson-page-card title-page">
+                            <h2 style="color: #305853; font-size: 36px; margin-bottom: 20px;">Great Job! 🎉</h2>
+                            <p style="font-size: 18px; color: #666;">You've completed Day 18!</p>
+                            <p style="font-size: 16px; color: #666; margin-top: 15px;">Click "Finish Lesson" to save your progress.</p>
                         </div>
                     `
                 }

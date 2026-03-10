@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson 2 - 4th Grade BedrockELA</title>
+    <title>Day 2 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="lesson-viewer">
-    <div id="lesson-container" class="lesson-container"></div>
+    <div id="lesson-container"></div>
 
     <script src="js/lesson-viewer.js?v=1772665488"></script>
+    <script src="js/digital-book.js?v=1772665488"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="firebase-config.js"></script>
@@ -21,13 +22,13 @@
         const lesson2Config = {
             lessonId: '4th-grade-day-2',
             gradeLevel: '4th-grade',
-            title: 'Lesson 2 - 4th Grade',
+            title: 'Day 2 - Wizard of Oz',
             pages: [
                 // Page 1: Title
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">
-                            <h1>Lesson 2</h1>
+                            <h1>Day 2</h1>
                             <div class="subtitle">4th Grade ELA • Week 1</div>
                             <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
                                 The Wonderful Wizard of Oz
@@ -43,167 +44,141 @@
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>Welcome to Lesson 2!</h2>
+                            <h2>Welcome to Day 2!</h2>
                             <p>Today you will:</p>
                             <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Read from <strong>The Cyclone</strong></li>
+                                <li>Read <strong>The Cyclone</strong> in our digital book</li>
                                 <li>Learn 2 new vocabulary words</li>
                                 <li>Answer 2 comprehension questions</li>
-                                <li>Practice ${false ? 'grammar' : 'language'} skills</li>
-                                <li>Write a ${false ? 'response' : 'journal entry'}</li>
+                                <li>Practice language skills</li>
+                                <li>Complete a writing task</li>
                             </ul>
                             <p><strong>Time needed:</strong> About 45-60 minutes</p>
                         </div>
                     `
                 },
                 
-                // Page 3: Vocabulary (2 words from Jes's guide)
+                // Page 3: Vocabulary
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>Vocabulary Words</h2>
+                            <h2>📖 Vocabulary Words</h2>
                             
                             <div style="margin: 30px 0;">
                                 <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
                                     <div style="margin-bottom: 10px;">
                                         <span style="font-size: 28px; font-weight: 800; color: #305853;">prairie</span>
+                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(noun)</span>
                                     </div>
                                     <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">A large, flat area of grassland with few or no trees.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;">Write a sentence using this word:</p>
-                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> Dorothy lived in the middle of the great Kansas prairies, where the land was flat and gray as far as the eye could see.</p>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> How does living on a flat, empty prairie affect how a person feels? Why might Dorothy feel lonely there?</p>
+                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
                                 </div>
                                 
                                 <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
                                     <div style="margin-bottom: 10px;">
                                         <span style="font-size: 28px; font-weight: 800; color: #305853;">cyclone</span>
+                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(noun)</span>
                                     </div>
                                     <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">A powerful, spinning windstorm that can cause great destruction.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;">Write a sentence using this word:</p>
-                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> The cyclone lifted the house right up into the air and carried it away, spinning slowly like a leaf in the wind.</p>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> Why did Baum choose to start Dorothy's story with a cyclone? What does it do to the story right away?</p>
+                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
                                 </div>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 4: Vocabulary Practice
+                // Page 4: Digital Book Reader
                 {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Vocabulary Practice</h2>
-                            <p style="margin: 20px 0;">Review the vocabulary words you just learned.</p>
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><strong>prairie:</strong> A large, flat area of grassland with few or no trees.</p>
-                                <p style="margin-top: 15px;"><strong>cyclone:</strong> A powerful, spinning windstorm that can cause great destruction.</p>
+                    render: () => {
+                        setTimeout(() => {
+                            if (!window.day2BookInitialized) {
+                                const bookConfig = {
+                                    coverTitle: "Chapter 1",
+                                    coverSubtitle: "The Cyclone",
+                                    coverAuthor: "L. Frank Baum (adapted for 4th grade)",
+                                    coverColor: "#1B2A4A",
+                                    vocabWords: ["prairie","cyclone"],
+                                    pages: [{"text":"Dorothy lived in the middle of the great Kansas prairies with Uncle Henry, who was a farmer, and Aunt Em, who was the farmer's wife. Their house was small — just one room — with a rusty stove, a cupboard, a table, and three or four chairs. There were no curtains, no pictures on the walls, and nothing pretty at all.\n\nUncle Henry never laughed. He worked from morning till night and rarely spoke. Aunt Em had once been young and cheerful, but years of sun and wind on the dry prairie had taken the color from her eyes and cheeks. She never smiled anymore, either.\n\nIt was Toto who made Dorothy laugh. Toto was a small, scrappy black dog with long silky hair and bright little eyes that twinkled on either side of his funny nose. Dorothy loved Toto dearly. He was the one thing in Kansas that was not gray.\n\nEverything around them was gray. The sun had baked the plowed land into a gray mass. Even the paint on the house had faded until it was as dull and gray as everything else. When Aunt Em first came to Kansas, the sun and wind had changed her, too. They had taken the sparkle from her eyes and left them a sober gray; they had taken the red from her cheeks and lips, and they were gray also.\n\nDorothy often looked out at the flat, gray world and felt something like loneliness, though she did not know the word for it. Toto was not gray. He saved her from growing as gray as everything else around her.\n\nOne afternoon, Uncle Henry sat on the doorstep and looked up at the sky, which was even grayer than usual. Dorothy stood in the doorway holding Toto and watching too. From the far north, they heard a low wail of the wind. They could see the long grass bowing in waves before the coming storm.\n\n\"There's a cyclone coming, Em,\" Uncle Henry called to his wife. \"I'll go look after the stock.\" Then he ran toward the sheds where the cows and horses were kept.\n\nAunt Em dropped what she was doing and hurried to the door. One look at the sky told her the danger was real. \"Quick, Dorothy!\" she screamed. \"Run for the cellar!\""},{"text":"Toto jumped out of Dorothy's arms and hid under the bed. Dorothy started to chase after him. Aunt Em threw open the trapdoor in the floor and climbed down into the small, dark hole beneath the house. Dorothy caught Toto at last and started to follow her aunt.\n\nBut she was too late.\n\nBefore she was halfway across the room, a terrible shriek came from the wind. The house shook so hard that Dorothy lost her footing and fell to the floor. Then a strange thing happened.\n\nThe house tilted, then tilted more, and then — with a great groaning sound — it was lifted right up into the air by the cyclone, as easily as you might pick up a feather. Up and up and up it went, spinning slowly, carried by the mighty wind.\n\nThe house was caught in the very center of the cyclone. The wind on every side pressed against it equally, and it was carried along like a balloon, rising higher and higher. It was very dark, and the wind howled terribly around her, but Dorothy found, after the first few moments, that she was not being tossed about. The house swayed gently, like a baby being rocked in a cradle.\n\nToto did not like it. He ran around the room, barking, but Dorothy sat quite still on the floor and waited to see what would happen.\n\nOnce, Toto got too near the open trapdoor and fell in with a little yelp. Dorothy thought she had lost him. But his ear stuck up through the hole, and she grabbed it and pulled him back into the room. Then she closed the trapdoor so no more accidents could happen.\n\nHours passed. Slowly, Dorothy got over her fright. She felt quite lonely with the wind screaming so loudly around her, but there was nothing to do except sit and wait. Eventually, she crawled across the swaying floor to her bed, and Toto followed her. Dorothy lay down and, despite the swaying and the howling wind, fell fast asleep."}]
+                                };
+                                window.digitalBookInstance = new DigitalBook('digital-book-day-2', bookConfig);
+                                window.day2BookInitialized = true;
+                            }
+                        }, 100);
+                        
+                        return `
+                            <div class="lesson-page-card content-page">
+                                <h2>📖 Chapter 1: The Cyclone</h2>
+                                <p style="margin: 10px 0 20px; color: #666;">Click the arrows to turn pages. Vocabulary words are highlighted in yellow!</p>
+                                <div id="digital-book-day-2"></div>
                             </div>
-                            <p style="margin-top: 20px;">Watch for these words in today's reading!</p>
-                        </div>
-                    `
+                        `;
+                    }
                 },
                 
-                // Pages 5-7: Story (3 parts from ADAPTED book)
+                // Page 5: Comprehension - Multiple Choice
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>The Cyclone (Part 1)</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                ${"Dorothy lived in the middle of the great Kansas prairies with Uncle Henry, who was a farmer, and Aunt Em, who was the farmer's wife. Their house was small — just one room — with a rusty stove, a cupboard, a table, and three or four chairs. There were no curtains, no pictures on the walls, and nothing pretty at all.\n\nUncle Henry never laughed. He worked from morning till night and rarely spoke. Aunt Em had once been young and cheerful, but years of sun and wind on the dry prairie had taken the color from her eyes and cheeks. She never smiled anymore, either.\n\nIt was Toto who made Dorothy laugh. Toto was a small, scrappy black dog with long silky hair and bright little eyes that twinkled on either side of his funny nose. Dorothy loved Toto dearly. He was the one thing in Kansas that was not gray.\n\nEverything around them was gray. The sun had baked the plowed land into a gray mass. Even the paint on the house had faded until it was as dull and gray as everything else. When Aunt Em first came to Kansas, the sun and wind had changed her, too. They had taken the sparkle from her eyes and left them a sober gray; they had taken the red from her cheeks and lips, and they were gray also.\n\nDorothy often looked out at the flat, gray world and felt something like loneliness, though she did not know the word for it. Toto was not gray. He saved her from growing as gray as everything else around her.\n\nOne afternoon, Uncle Henry sat on the doorstep and looked up at the sky, which was even grayer than usual. Dorothy stood in the doorway holding Toto and watching too. From the far north, they heard a low wail of the wind. They could see the long grass bowing in waves before the coming storm.".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
-                            </div>
-                        </div>
-                    `
-                },
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>The Cyclone (Part 2)</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                ${"\"There's a cyclone coming, Em,\" Uncle Henry called to his wife. \"I'll go look after the stock.\" Then he ran toward the sheds where the cows and horses were kept.\n\nAunt Em dropped what she was doing and hurried to the door. One look at the sky told her the danger was real. \"Quick, Dorothy!\" she screamed. \"Run for the cellar!\"\n\nToto jumped out of Dorothy's arms and hid under the bed. Dorothy started to chase after him. Aunt Em threw open the trapdoor in the floor and climbed down into the small, dark hole beneath the house. Dorothy caught Toto at last and started to follow her aunt.\n\nBut she was too late.\n\nBefore she was halfway across the room, a terrible shriek came from the wind. The house shook so hard that Dorothy lost her footing and fell to the floor. Then a strange thing happened.\n\nThe house tilted, then tilted more, and then — with a great groaning sound — it was lifted right up into the air by the cyclone, as easily as you might pick up a feather. Up and up and up it went, spinning slowly, carried by the mighty wind.".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
-                            </div>
-                        </div>
-                    `
-                },
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>The Cyclone (Part 3)</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                ${"The house was caught in the very center of the cyclone. The wind on every side pressed against it equally, and it was carried along like a balloon, rising higher and higher. It was very dark, and the wind howled terribly around her, but Dorothy found, after the first few moments, that she was not being tossed about. The house swayed gently, like a baby being rocked in a cradle.\n\nToto did not like it. He ran around the room, barking, but Dorothy sat quite still on the floor and waited to see what would happen.\n\nOnce, Toto got too near the open trapdoor and fell in with a little yelp. Dorothy thought she had lost him. But his ear stuck up through the hole, and she grabbed it and pulled him back into the room. Then she closed the trapdoor so no more accidents could happen.\n\nHours passed. Slowly, Dorothy got over her fright. She felt quite lonely with the wind screaming so loudly around her, but there was nothing to do except sit and wait. Eventually, she crawled across the swaying floor to her bed, and Toto followed her. Dorothy lay down and, despite the swaying and the howling wind, fell fast asleep.".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 8: Comprehension (from Jes's guide: 1 MC + 1 short answer)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading Comprehension</h2>
+                            <h2>💭 Reading Comprehension</h2>
                             <div style="margin: 20px 0;">
-                                <div style="margin-bottom: 30px;">
-                                    <p style="font-weight: 600; margin-bottom: 15px;">1. What is Dorothy's life like in Kansas before the cyclone?</p>
-                                    <div>
-                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
-                                            <input type="radio" name="mc-q1" value="A" style="margin-right: 10px;">
-                                            <strong>A)</strong> Exciting and full of adventure
-                                        </label>
-                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
-                                            <input type="radio" name="mc-q1" value="B" style="margin-right: 10px;">
-                                            <strong>B)</strong> Gray, flat, and quiet — Uncle Henry and Aunt Em rarely smile or laugh
-                                        </label>
-                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
-                                            <input type="radio" name="mc-q1" value="C" style="margin-right: 10px;">
-                                            <strong>C)</strong> She lives in a big city with many friends
-                                        </label>
-                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
-                                            <input type="radio" name="mc-q1" value="D" style="margin-right: 10px;">
-                                            <strong>D)</strong> She goes to school and plays sports
-                                        </label>
-                                    </div>
-                                </div>
+                                <p style="font-weight: 600; margin-bottom: 15px;">1. What is Dorothy's life like in Kansas before the cyclone?</p>
                                 <div>
-                                    <p style="font-weight: 600; margin-bottom: 10px;">2. The author describes Kansas as gray over and over. Why do you think he does this? What might he be setting up for later in the story?</p>
-                                    <p style="margin-top: 10px; color: #666; font-size: 13px;"><em>Hint: Think about contrast. If Kansas is gray, what might the NEXT place look like?</em></p>
-                                    <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                    <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> Exciting and full of adventure</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> Gray, flat, and quiet — Uncle Henry and Aunt Em rarely smile or laugh</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> She lives in a big city with many friends</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> She goes to school and plays sports</label>
                                 </div>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 9: Grammar OR Language
+                // Page 6: Comprehension - Short Answer
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>${false ? 'Grammar Practice' : 'Language Skills'}</h2>
-                            <p style="margin: 20px 0;">${false ? 'Grammar skills practice' : 'Language skills practice'}</p>
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Grammar and language content will be added based on weekly skills rotation.</em></p>
+                            <h2>💭 Short Answer</h2>
+                            <div style="margin: 20px 0;">
+                                <p style="font-weight: 600; margin-bottom: 15px;">2. The author describes Kansas as gray over and over. Why do you think he does this? What might he be setting up for later in the story?</p>
+                                <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Hint:</strong> Think about contrast. If Kansas is gray, what might the NEXT place look like?</p>
+                                <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 120px;" placeholder="Write your answer here..."></textarea>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 10: Informational Text
+                // Page 7: Grammar/Language (placeholder)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>Learn More</h2>
-                            <p style="margin: 20px 0;">Informational text related to today's reading.</p>
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Informational text content will be added.</em></p>
+                            <h2>✏️ Language Skills</h2>
+                            <p>Practice vocabulary and language concepts.</p>
+                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                                <p><em>Practice exercises will be added here.</em></p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 11: Writing
+                // Page 8: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>${false ? 'Writing Response' : 'Journal Entry'}</h2>
-                            <p style="margin: 20px 0 10px;">${false ? "Write your opinion about today's reading." : 'Write about your thoughts and feelings about the story.'}</p>
-                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px; min-height: 200px;"></textarea>
-                            <p style="margin-top: 15px; color: #666; font-size: 14px;">Write at least 5-7 sentences.</p>
+                            <h2>✍️ Writing Time</h2>
+                            <p style="margin-bottom: 15px;">Write a journal entry about what happened in today's chapter. How would you feel if you were Dorothy?</p>
+                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 150px;" placeholder="Start writing..."></textarea>
+                        </div>
+                    `
+                },
+                
+                // Page 9: Completion
+                {
+                    render: () => `
+                        <div class="lesson-page-card title-page">
+                            <h2 style="color: #305853; font-size: 36px; margin-bottom: 20px;">Great Job! 🎉</h2>
+                            <p style="font-size: 18px; color: #666;">You've completed Day 2!</p>
+                            <p style="font-size: 16px; color: #666; margin-top: 15px;">Click "Finish Lesson" to save your progress.</p>
                         </div>
                     `
                 }

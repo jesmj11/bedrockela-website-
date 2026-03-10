@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson 9 - 4th Grade BedrockELA</title>
+    <title>Day 9 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="lesson-viewer">
-    <div id="lesson-container" class="lesson-container"></div>
+    <div id="lesson-container"></div>
 
     <script src="js/lesson-viewer.js?v=1772665488"></script>
+    <script src="js/digital-book.js?v=1772665488"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="firebase-config.js"></script>
@@ -21,13 +22,13 @@
         const lesson9Config = {
             lessonId: '4th-grade-day-9',
             gradeLevel: '4th-grade',
-            title: 'Lesson 9 - 4th Grade',
+            title: 'Day 9 - Wizard of Oz',
             pages: [
                 // Page 1: Title
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">
-                            <h1>Lesson 9</h1>
+                            <h1>Day 9</h1>
                             <div class="subtitle">4th Grade ELA • Week 2</div>
                             <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
                                 The Wonderful Wizard of Oz
@@ -43,167 +44,141 @@
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>Welcome to Lesson 9!</h2>
+                            <h2>Welcome to Day 9!</h2>
                             <p>Today you will:</p>
                             <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Read from <strong>The Journey to the Great Oz</strong></li>
+                                <li>Read <strong>The Journey to the Great Oz</strong> in our digital book</li>
                                 <li>Learn 2 new vocabulary words</li>
                                 <li>Answer 2 comprehension questions</li>
-                                <li>Practice ${true ? 'grammar' : 'language'} skills</li>
-                                <li>Write a ${true ? 'response' : 'journal entry'}</li>
+                                <li>Practice grammar skills</li>
+                                <li>Complete a writing task</li>
                             </ul>
                             <p><strong>Time needed:</strong> About 45-60 minutes</p>
                         </div>
                     `
                 },
                 
-                // Page 3: Vocabulary (2 words from Jes's guide)
+                // Page 3: Vocabulary
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>Vocabulary Words</h2>
+                            <h2>📖 Vocabulary Words</h2>
                             
                             <div style="margin: 30px 0;">
                                 <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
                                     <div style="margin-bottom: 10px;">
                                         <span style="font-size: 28px; font-weight: 800; color: #305853;">comrade</span>
+                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(noun)</span>
                                     </div>
                                     <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">A close companion who shares a journey or challenge with you. Like a teammate on an adventure.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;">Write a sentence using this word:</p>
-                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> The four travelers became true comrades as they faced dangers together on the road.</p>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> What is the difference between a friend and a comrade? How do shared challenges make people closer?</p>
+                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
                                 </div>
                                 
                                 <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
                                     <div style="margin-bottom: 10px;">
                                         <span style="font-size: 28px; font-weight: 800; color: #305853;">obstacle</span>
+                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(noun)</span>
                                     </div>
                                     <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Something that blocks your path or makes progress difficult. A challenge you must overcome.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;">Write a sentence using this word:</p>
-                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> The great ditch was the first serious obstacle on the road to the Emerald City.</p>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> Every adventure story has obstacles. Why are obstacles important to a story? What would happen if the road were easy?</p>
+                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
                                 </div>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 4: Vocabulary Practice
+                // Page 4: Digital Book Reader
                 {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Vocabulary Practice</h2>
-                            <p style="margin: 20px 0;">Review the vocabulary words you just learned.</p>
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><strong>comrade:</strong> A close companion who shares a journey or challenge with you. Like a teammate on an adventure.</p>
-                                <p style="margin-top: 15px;"><strong>obstacle:</strong> Something that blocks your path or makes progress difficult. A challenge you must overcome.</p>
+                    render: () => {
+                        setTimeout(() => {
+                            if (!window.day9BookInitialized) {
+                                const bookConfig = {
+                                    coverTitle: "Chapter 7",
+                                    coverSubtitle: "The Journey to the Great Oz",
+                                    coverAuthor: "L. Frank Baum (adapted for 4th grade)",
+                                    coverColor: "#1B2A4A",
+                                    vocabWords: ["comrade","obstacle"],
+                                    pages: [{"text":"The next morning, they set off again on the yellow brick road. The forest was still thick around them, but the road was clear, and the four companions walked together in good spirits.\n\nThey had not gone far when they came to a great ditch that stretched across the road. It was very wide and very deep, with jagged rocks at the bottom. There was no way around it.\n\n\"What shall we do?\" Dorothy asked.\n\nThe Scarecrow thought for a moment. \"We cannot fly, and we cannot climb down and back up — it's too deep. But the Lion is very large and strong. Perhaps he could jump across.\"\n\n\"I can try,\" the Lion said nervously. \"But what about the rest of you?\"\n\n\"You could carry us, one at a time,\" the Scarecrow said.\n\nThe Lion looked at the ditch. It was a terrifying distance. His legs trembled. But he crouched low, gathered all his strength, and leaped — sailing through the air and landing safely on the other side.\n\n\"It wasn't so bad,\" he called back, though his voice shook.\n\nHe jumped back and carried the Scarecrow across first, since he was the lightest. Then Dorothy, holding Toto tightly. Finally, the Tin Woodman, who was the heaviest and made the Lion grunt with the effort. But the great beast managed it.\n\n\"There,\" said the Scarecrow. \"Problem solved.\"\n\n\"That was your idea,\" Dorothy told him. \"That was very clever.\"\n\n\"Was it?\" the Scarecrow said, surprised. \"I suppose it just seemed like common sense.\"\n\nThey continued walking. The forest thinned, and patches of sunlight began to break through the leaves. Then they heard a low, rumbling growl from the trees ahead.\n\nTwo great beasts leaped onto the road — fierce, catlike creatures with long teeth and angry eyes. They snarled at the group and crouched, ready to spring.\n\nThe Cowardly Lion stepped forward.\n\n\"Stay behind me,\" he said, and his voice came out deeper and stronger than usual. He threw back his great head and let out a roar so loud and so terrible that the leaves shook on the trees and the two beasts stopped cold. They stared at the Lion, then turned and ran back into the forest.\n\n\"They're gone,\" the Lion said, turning around. His legs were shaking. \"My heart is still pounding.\"\n\n\"You just saved us all,\" the Tin Woodman said.\n\n\"I was terrified,\" the Lion admitted."},{"text":"\"You were terrified and you did it anyway,\" Dorothy said. \"That matters more than you think.\"\n\nThey walked on. The forest grew lighter, and soon they emerged into open country filled with wildflowers. A sparkling river ran alongside the road, and they stopped to drink and rest.\n\n\"I like this much better than the forest,\" the Lion said, lying down in the tall grass. \"The open air makes me feel braver.\"\n\n\"You were plenty brave in the forest,\" Dorothy said.\n\nThe Lion shook his great mane. \"I was pretending.\"\n\n\"Everyone pretends sometimes,\" said the Tin Woodman quietly. \"I pretend I do not feel sad, even though I do.\"\n\n\"And I pretend I do not notice things,\" said the Scarecrow, \"even though I notice quite a lot.\"\n\nDorothy looked at her three friends — the one who said he had no brains, the one who said he had no heart, and the one who said he had no courage — and she thought they were the cleverest, kindest, bravest companions anyone could wish for.\n\n\"We make a good team,\" she said.\n\n\"We do,\" the Scarecrow agreed. \"Though I cannot imagine why. A girl, a man of straw, a man of tin, and a cowardly lion — we are not exactly an army.\"\n\n\"No,\" Dorothy said, smiling. \"But we are friends. And that is better.\"\n\nThey rested by the river as the afternoon sun warmed them, and Toto chased butterflies through the tall grass, and for a little while, everything was peaceful.\n\nBut the yellow brick road stretched on ahead of them, and the Emerald City was still far away. There would be more dangers before they reached it."}]
+                                };
+                                window.digitalBookInstance = new DigitalBook('digital-book-day-9', bookConfig);
+                                window.day9BookInitialized = true;
+                            }
+                        }, 100);
+                        
+                        return `
+                            <div class="lesson-page-card content-page">
+                                <h2>📖 Chapter 7: The Journey to the Great Oz</h2>
+                                <p style="margin: 10px 0 20px; color: #666;">Click the arrows to turn pages. Vocabulary words are highlighted in yellow!</p>
+                                <div id="digital-book-day-9"></div>
                             </div>
-                            <p style="margin-top: 20px;">Watch for these words in today's reading!</p>
-                        </div>
-                    `
+                        `;
+                    }
                 },
                 
-                // Pages 5-7: Story (3 parts from ADAPTED book)
+                // Page 5: Comprehension - Multiple Choice
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>The Journey to the Great Oz (Part 1)</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                ${"The next morning, they set off again on the yellow brick road. The forest was still thick around them, but the road was clear, and the four companions walked together in good spirits.\n\nThey had not gone far when they came to a great ditch that stretched across the road. It was very wide and very deep, with jagged rocks at the bottom. There was no way around it.\n\n\"What shall we do?\" Dorothy asked.\n\nThe Scarecrow thought for a moment. \"We cannot fly, and we cannot climb down and back up — it's too deep. But the Lion is very large and strong. Perhaps he could jump across.\"\n\n\"I can try,\" the Lion said nervously. \"But what about the rest of you?\"\n\n\"You could carry us, one at a time,\" the Scarecrow said.\n\nThe Lion looked at the ditch. It was a terrifying distance. His legs trembled. But he crouched low, gathered all his strength, and leaped — sailing through the air and landing safely on the other side.\n\n\"It wasn't so bad,\" he called back, though his voice shook.\n\nHe jumped back and carried the Scarecrow across first, since he was the lightest. Then Dorothy, holding Toto tightly. Finally, the Tin Woodman, who was the heaviest and made the Lion grunt with the effort. But the great beast managed it.\n\n\"There,\" said the Scarecrow. \"Problem solved.\"\n\n\"That was your idea,\" Dorothy told him. \"That was very clever.\"".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
-                            </div>
-                        </div>
-                    `
-                },
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>The Journey to the Great Oz (Part 2)</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                ${"\"Was it?\" the Scarecrow said, surprised. \"I suppose it just seemed like common sense.\"\n\nThey continued walking. The forest thinned, and patches of sunlight began to break through the leaves. Then they heard a low, rumbling growl from the trees ahead.\n\nTwo great beasts leaped onto the road — fierce, catlike creatures with long teeth and angry eyes. They snarled at the group and crouched, ready to spring.\n\nThe Cowardly Lion stepped forward.\n\n\"Stay behind me,\" he said, and his voice came out deeper and stronger than usual. He threw back his great head and let out a roar so loud and so terrible that the leaves shook on the trees and the two beasts stopped cold. They stared at the Lion, then turned and ran back into the forest.\n\n\"They're gone,\" the Lion said, turning around. His legs were shaking. \"My heart is still pounding.\"\n\n\"You just saved us all,\" the Tin Woodman said.\n\n\"I was terrified,\" the Lion admitted.\n\n\"You were terrified and you did it anyway,\" Dorothy said. \"That matters more than you think.\"\n\nThey walked on. The forest grew lighter, and soon they emerged into open country filled with wildflowers. A sparkling river ran alongside the road, and they stopped to drink and rest.\n\n\"I like this much better than the forest,\" the Lion said, lying down in the tall grass. \"The open air makes me feel braver.\"".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
-                            </div>
-                        </div>
-                    `
-                },
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>The Journey to the Great Oz (Part 3)</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                ${"\"You were plenty brave in the forest,\" Dorothy said.\n\nThe Lion shook his great mane. \"I was pretending.\"\n\n\"Everyone pretends sometimes,\" said the Tin Woodman quietly. \"I pretend I do not feel sad, even though I do.\"\n\n\"And I pretend I do not notice things,\" said the Scarecrow, \"even though I notice quite a lot.\"\n\nDorothy looked at her three friends — the one who said he had no brains, the one who said he had no heart, and the one who said he had no courage — and she thought they were the cleverest, kindest, bravest companions anyone could wish for.\n\n\"We make a good team,\" she said.\n\n\"We do,\" the Scarecrow agreed. \"Though I cannot imagine why. A girl, a man of straw, a man of tin, and a cowardly lion — we are not exactly an army.\"\n\n\"No,\" Dorothy said, smiling. \"But we are friends. And that is better.\"\n\nThey rested by the river as the afternoon sun warmed them, and Toto chased butterflies through the tall grass, and for a little while, everything was peaceful.\n\nBut the yellow brick road stretched on ahead of them, and the Emerald City was still far away. There would be more dangers before they reached it.".split('\\n\\n').map(p => `<p style="margin-bottom: 15px;">${p}</p>`).join('')}
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 8: Comprehension (from Jes's guide: 1 MC + 1 short answer)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading Comprehension</h2>
+                            <h2>💭 Reading Comprehension</h2>
                             <div style="margin: 20px 0;">
-                                <div style="margin-bottom: 30px;">
-                                    <p style="font-weight: 600; margin-bottom: 15px;">1. Who comes up with the plan to cross the great ditch?</p>
-                                    <div>
-                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
-                                            <input type="radio" name="mc-q1" value="A" style="margin-right: 10px;">
-                                            <strong>A)</strong> Dorothy
-                                        </label>
-                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
-                                            <input type="radio" name="mc-q1" value="B" style="margin-right: 10px;">
-                                            <strong>B)</strong> The Cowardly Lion
-                                        </label>
-                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
-                                            <input type="radio" name="mc-q1" value="C" style="margin-right: 10px;">
-                                            <strong>C)</strong> The Scarecrow
-                                        </label>
-                                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
-                                            <input type="radio" name="mc-q1" value="D" style="margin-right: 10px;">
-                                            <strong>D)</strong> The Tin Woodman
-                                        </label>
-                                    </div>
-                                </div>
+                                <p style="font-weight: 600; margin-bottom: 15px;">1. Who comes up with the plan to cross the great ditch?</p>
                                 <div>
-                                    <p style="font-weight: 600; margin-bottom: 10px;">2. The Scarecrow solves problems, the Lion carries everyone across danger, and the Tin Woodman protects the group. Each one uses the exact quality they say they are missing. What do you think the author is trying to show us?</p>
-                                    <p style="margin-top: 10px; color: #666; font-size: 13px;"><em>Hint: Sometimes people already have what they are looking for. They just don't see it yet.</em></p>
-                                    <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;"></textarea>
+                                    <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> Dorothy</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> The Cowardly Lion</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> The Scarecrow</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> The Tin Woodman</label>
                                 </div>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 9: Grammar OR Language
+                // Page 6: Comprehension - Short Answer
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>${true ? 'Grammar Practice' : 'Language Skills'}</h2>
-                            <p style="margin: 20px 0;">${true ? 'Grammar skills practice' : 'Language skills practice'}</p>
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Grammar and language content will be added based on weekly skills rotation.</em></p>
+                            <h2>💭 Short Answer</h2>
+                            <div style="margin: 20px 0;">
+                                <p style="font-weight: 600; margin-bottom: 15px;">2. The Scarecrow solves problems, the Lion carries everyone across danger, and the Tin Woodman protects the group. Each one uses the exact quality they say they are missing. What do you think the author is trying to show us?</p>
+                                <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Hint:</strong> Sometimes people already have what they are looking for. They just don't see it yet.</p>
+                                <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 120px;" placeholder="Write your answer here..."></textarea>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 10: Informational Text
+                // Page 7: Grammar/Language (placeholder)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>Learn More</h2>
-                            <p style="margin: 20px 0;">Informational text related to today's reading.</p>
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Informational text content will be added.</em></p>
+                            <h2>✏️ Grammar Practice</h2>
+                            <p>Practice sentence structure and grammar.</p>
+                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                                <p><em>Practice exercises will be added here.</em></p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 11: Writing
+                // Page 8: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>${true ? 'Writing Response' : 'Journal Entry'}</h2>
-                            <p style="margin: 20px 0 10px;">${true ? "Write your opinion about today's reading." : 'Write about your thoughts and feelings about the story.'}</p>
-                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px; min-height: 200px;"></textarea>
-                            <p style="margin-top: 15px; color: #666; font-size: 14px;">Write at least 5-7 sentences.</p>
+                            <h2>✍️ Writing Time</h2>
+                            <p style="margin-bottom: 15px;">Write a paragraph about what you read today. Use at least one vocabulary word.</p>
+                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 150px;" placeholder="Start writing..."></textarea>
+                        </div>
+                    `
+                },
+                
+                // Page 9: Completion
+                {
+                    render: () => `
+                        <div class="lesson-page-card title-page">
+                            <h2 style="color: #305853; font-size: 36px; margin-bottom: 20px;">Great Job! 🎉</h2>
+                            <p style="font-size: 18px; color: #666;">You've completed Day 9!</p>
+                            <p style="font-size: 16px; color: #666; margin-top: 15px;">Click "Finish Lesson" to save your progress.</p>
                         </div>
                     `
                 }

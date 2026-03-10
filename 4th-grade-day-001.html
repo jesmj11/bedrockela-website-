@@ -1,224 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson 1 - 4th Grade BedrockELA</title>
-    <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
-</head>
-<body class="lesson-viewer">
-    <div id="lesson-container" class="lesson-container"></div>
-
-    <script src="js/billy-tts.js"></script>
-    <script src="js/lesson-viewer.js?v=1772665488"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="js/lesson-completion.js?v=1772665488"></script>
-    <script src="js/lesson-autosave.js?v=1772665488"></script>
-    <script src="js/save-button-injector.js?v=1772665488"></script>
-    <script src="js/answer-validation.js?v=1772665488"></script>
-    <script src="js/grade-normalizer.js?v=1772665488"></script>
-    <script src="js/offline-sync.js?v=1772665488"></script>
-    <script src="js/text-to-speech.js?v=1772665488"></script>
-    <script src="js/digital-book.js?v=1772665488"></script>
-    
-    <script>
-        const lesson1Config = {
-            lessonId: '4th-grade-day-1',
-            gradeLevel: '4th-grade',
-            title: 'Lesson 1 - 4th Grade',
-            pages: [
-                // Page 1: Title
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h1>Lesson 1</h1>
-                            <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
-                                The Wonderful Wizard of Oz
-                            </p>
-                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 1: The Cyclone</p>
-                        </div>
-                    `
-                },
-                
-                // Page 2: Objectives
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Welcome to Lesson 1!</h2>
-                            <p>Today you will:</p>
-                            <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Read Chapter 1: <strong>The Cyclone</strong></li>
-                                <li>Learn 1 new vocabulary word</li>
-                                <li>Answer 1 comprehension question</li>
-                                <li>Practice critical thinking</li>
-                            </ul>
-                            <p><strong>Time needed:</strong> About 30-45 minutes</p>
-                        </div>
-                    `
-                },
-                
-                // Page 3: Vocabulary (1 word)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Vocabulary Word</h2>
-                            
-                            <div style="margin: 40px 0;">
-                                <div style="padding: 30px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                    <div style="margin-bottom: 15px;">
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">prairie</span>
-                                        <span style="font-size: 16px; color: #666; margin-left: 12px;">(noun)</span>
-                                    </div>
-                                    <p style="font-size: 18px; font-weight: 600; margin-bottom: 20px; line-height: 1.6;">A large, flat area of grassland with few or no trees.</p>
-                                    <p style="font-size: 15px; color: #666; margin-bottom: 12px;">
-                                        Write a sentence using this word:
-                                    </p>
-                                    <textarea 
-                                      id="vocab-1"
-                                      style="width: 100%; min-height: 100px; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;"
-                                      placeholder="Type your sentence here..."
-                                    ></textarea>
-                                </div>
-                            </div>
-                            
-                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
-                                <p style="margin: 0;"><strong>Watch for this word</strong> in today's reading!</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Reading Pages (4 pages)
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 1: The Cyclone</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 1 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>Their house was small — just one room — with a rusty stove, a cupboard, a table, and three or four chairs. There were no curtains, no pictures on the walls, and nothing pretty at all.Uncle Henry never laughed. He worked from morning till night and rarely spoke. Aunt Em had once been young and cheerful, but years of sun and wind on the dry prairie had taken the color from her eyes and cheeks. She never smiled anymore, either.It was Toto who made Dorothy laugh. Toto was a small, scrappy black dog with long silky hair and bright little eyes that twinkled on either side of his funny nose. Dorothy loved Toto dearly. He was the one thing in Kansas that was not gray.Everything around them was gray. The sun had baked the plowed land into a gray mass. Even the paint on the house had faded until it was as dull and gray as everything else. When Aunt Em first came to Kansas, the sun and wind had changed her,</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 1: The Cyclone</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 2 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>too. They had taken the sparkle from her eyes and left them a sober gray; they had taken the red from her cheeks and lips, and they were gray also.Dorothy often looked out at the flat, gray world and felt something like loneliness, though she did not know the word for it. Toto was not gray. He saved her from growing as gray as everything else around her.One afternoon, Uncle Henry sat on the doorstep and looked up at the sky, which was even grayer than usual. Dorothy stood in the doorway holding Toto and watching too. From the far north, they heard a low wail of the wind. They could see the long grass bowing in waves before the coming storm.\"There's a cyclone coming, Em,\" Uncle Henry called to his wife. \"I'll go look after the stock.\" Then he ran toward the sheds where the cows and horses were kept.Aunt Em dropped what she was doing and hurried to the door. One look at the sky told her the danger was</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 1: The Cyclone</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 3 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>real. \"Quick, Dorothy!\" she screamed. \"Run for the cellar!\"Toto jumped out of Dorothy's arms and hid under the bed. Dorothy started to chase after him. Aunt Em threw open the trapdoor in the floor and climbed down into the small, dark hole beneath the house. Dorothy caught Toto at last and started to follow her aunt.But she was too late.Before she was halfway across the room, a terrible shriek came from the wind. The house shook so hard that Dorothy lost her footing and fell to the floor. Then a strange thing happened.The house tilted, then tilted more, and then — with a great groaning sound — it was lifted right up into the air by the cyclone, as easily as you might pick up a feather. Up and up and up it went, spinning slowly, carried by the mighty wind.The house was caught in the very center of the cyclone. The wind on every side pressed against it equally, and it was carried along like a balloon, rising higher and higher.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 1: The Cyclone</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 4 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>It was very dark, and the wind howled terribly around her, but Dorothy found, after the first few moments, that she was not being tossed about. The house swayed gently, like a baby being rocked in a cradle.Toto did not like it. He ran around the room, barking, but Dorothy sat quite still on the floor and waited to see what would happen.Once, Toto got too near the open trapdoor and fell in with a little yelp. Dorothy thought she had lost him. But his ear stuck up through the hole, and she grabbed it and pulled him back into the room. Then she closed the trapdoor so no more accidents could happen.Hours passed. Slowly, Dorothy got over her fright. She felt quite lonely with the wind screaming so loudly around her, but there was nothing to do except sit and wait. Eventually, she crawled across the swaying floor to her bed, and Toto followed her. Dorothy lay down and, despite the swaying and the howling wind, fell fast asleep.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Comprehension: Multiple Choice Only
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading Comprehension</h2>
-                            
-                            <div style="margin: 40px 0;">
-                                <div style="padding: 30px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1B2A4A;">
-                                    <p style="font-weight: 600; font-size: 18px; margin-bottom: 20px; line-height: 1.6;">What is Dorothy\'s life like in Kansas before the cyclone?</p>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="0" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">Exciting and full of adventure</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="1" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">Gray, flat, and quiet — Uncle Henry and Aunt Em rarely smile or laugh</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="2" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">She lives in a big city with many friends</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="3" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">She goes to school and plays sports</span>
-                                        </label>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Completion
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>🎉 Excellent Work!</h2>
-                            <p style="font-size: 18px; margin: 20px 0;">You completed Lesson 1: <strong>The Cyclone</strong></p>
-                            
-                            <div style="padding: 20px; background: rgba(48,88,83,0.1); border-radius: 12px; margin: 20px 0;">
-                                <p style="margin: 0; font-size: 16px;"><strong>Next:</strong> Lesson 2</p>
-                            </div>
-                            
-                            <div style="padding: 15px; background: #fff; border: 2px solid #B06821; border-radius: 10px; margin-top: 20px;">
-                                <p style="margin: 0; color: #B06821; font-weight: 600;">📚 Keep reading!</p>
-                            </div>
-                        </div>
-                    `
-                }
-            ]
-        };
-
-        // Initialize
-        if (window.LessonViewer) {
-            new window.LessonViewer(lesson1Config);
-        }
-    </script>
-</body>
-</html>
+<html><head>
+<meta charset="UTF-8">
+<title>Lesson 1 - 4th Grade</title>
+<link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
+</head><body class="lesson-viewer">
+<div id="lesson-container"></div>
+<script src="js/lesson-viewer.js?v=1772665488"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="js/lesson-completion.js?v=1772665488"></script>
+<script src="js/lesson-autosave.js?v=1772665488"></script>
+<script>
+const lesson1Config = {
+  lessonId: '4th-grade-day-1',
+  gradeLevel: '4th-grade',
+  title: 'Lesson 1',
+  pages: [
+    { render: () => '<div class="lesson-page-card title-page"><h1>Lesson 1</h1><div class="subtitle">Week 1</div><p>The Wonderful Wizard of Oz</p><p>Chapter 1: The Cyclone</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Today You Will:</h2><ul><li>Read The Cyclone</li><li>Learn 2 vocabulary words</li><li>Answer 3 questions</li></ul></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Vocabulary</h2><p><strong>cyclone</strong> and <strong>prairie</strong></p><textarea id="vocab1"></textarea><textarea id="vocab2"></textarea></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Vocab Practice</h2><p>Practice using the words</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>The Cyclone (Part 1)</h2><div><p>Dorothy lived in the middle of the great Kansas prairies with Uncle Henry, who was a farmer, and Aunt Em, who was the farmer's wife. Their house was small — just one room — with a rusty stove, a cupboard, a table, and three or four chairs. There were no curtains, no pictures on the walls, and nothing pretty at all.</p><p>Uncle Henry never laughed. He worked from morning till night and rarely spoke. Aunt Em had once been young and cheerful, but years of sun and wind on the dry prairie had taken the color from her eyes and cheeks. She never smiled anymore, either.</p><p>It was Toto who made Dorothy laugh. Toto was a small, scrappy black dog with long silky hair and bright little eyes that twinkled on either side of his funny nose. Dorothy loved Toto dearly. He was the one thing in Kansas that was not gray.</p><p>Everything around them was gray. The sun had baked the plowed land into a gray mass. Even the paint on the house had faded until it was as dull and gray as everything else. When Aunt Em first came to Kansas, the sun and wind had changed her, too. They had taken the sparkle from her eyes and left them a sober gray; they had taken the red from her cheeks and lips, and they were gray also.</p><p>Dorothy often looked out at the flat, gray world and felt something like loneliness, though she did not know the word for it. Toto was not gray. He saved her from growing as gray as everything else around her.</p><p>One afternoon, Uncle Henry sat on the doorstep and looked up at the sky, which was even grayer than usual. Dorothy stood in the doorway holding Toto and watching too. From the far north, they heard a low wail of the wind. They could see the long grass bowing in waves before the coming storm.</p></div></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>The Cyclone (Part 2)</h2><div><p>"There's a cyclone coming, Em," Uncle Henry called to his wife. "I'll go look after the stock." Then he ran toward the sheds where the cows and horses were kept.</p><p>Aunt Em dropped what she was doing and hurried to the door. One look at the sky told her the danger was real. "Quick, Dorothy!" she screamed. "Run for the cellar!"</p><p>Toto jumped out of Dorothy's arms and hid under the bed. Dorothy started to chase after him. Aunt Em threw open the trapdoor in the floor and climbed down into the small, dark hole beneath the house. Dorothy caught Toto at last and started to follow her aunt.</p><p>But she was too late.</p><p>Before she was halfway across the room, a terrible shriek came from the wind. The house shook so hard that Dorothy lost her footing and fell to the floor. Then a strange thing happened.</p><p>The house tilted, then tilted more, and then — with a great groaning sound — it was lifted right up into the air by the cyclone, as easily as you might pick up a feather. Up and up and up it went, spinning slowly, carried by the mighty wind.</p></div></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>The Cyclone (Part 3)</h2><div><p>The house was caught in the very center of the cyclone. The wind on every side pressed against it equally, and it was carried along like a balloon, rising higher and higher. It was very dark, and the wind howled terribly around her, but Dorothy found, after the first few moments, that she was not being tossed about. The house swayed gently, like a baby being rocked in a cradle.</p><p>Toto did not like it. He ran around the room, barking, but Dorothy sat quite still on the floor and waited to see what would happen.</p><p>Once, Toto got too near the open trapdoor and fell in with a little yelp. Dorothy thought she had lost him. But his ear stuck up through the hole, and she grabbed it and pulled him back into the room. Then she closed the trapdoor so no more accidents could happen.</p><p>Hours passed. Slowly, Dorothy got over her fright. She felt quite lonely with the wind screaming so loudly around her, but there was nothing to do except sit and wait. Eventually, she crawled across the swaying floor to her bed, and Toto followed her. Dorothy lay down and, despite the swaying and the howling wind, fell fast asleep.</p></div></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Comprehension</h2><textarea id="q1"></textarea><textarea id="q2"></textarea><textarea id="q3"></textarea></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Grammar</h2><p>Skills practice</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Learn More</h2><p>Informational text</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Writing</h2><textarea id="writing"></textarea></div>' }
+  ]
+};
+if (typeof initLessonViewer === 'function') initLessonViewer(lesson1Config);
+</script></body></html>

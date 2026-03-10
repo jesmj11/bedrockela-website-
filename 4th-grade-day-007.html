@@ -1,224 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson 7 - 4th Grade BedrockELA</title>
-    <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
-</head>
-<body class="lesson-viewer">
-    <div id="lesson-container" class="lesson-container"></div>
-
-    <script src="js/billy-tts.js"></script>
-    <script src="js/lesson-viewer.js?v=1772665488"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="js/lesson-completion.js?v=1772665488"></script>
-    <script src="js/lesson-autosave.js?v=1772665488"></script>
-    <script src="js/save-button-injector.js?v=1772665488"></script>
-    <script src="js/answer-validation.js?v=1772665488"></script>
-    <script src="js/grade-normalizer.js?v=1772665488"></script>
-    <script src="js/offline-sync.js?v=1772665488"></script>
-    <script src="js/text-to-speech.js?v=1772665488"></script>
-    <script src="js/digital-book.js?v=1772665488"></script>
-    
-    <script>
-        const lesson7Config = {
-            lessonId: '4th-grade-day-7',
-            gradeLevel: '4th-grade',
-            title: 'Lesson 7 - 4th Grade',
-            pages: [
-                // Page 1: Title
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h1>Lesson 7</h1>
-                            <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
-                                The Wonderful Wizard of Oz
-                            </p>
-                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 7: The Journey to the Great Oz</p>
-                        </div>
-                    `
-                },
-                
-                // Page 2: Objectives
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Welcome to Lesson 7!</h2>
-                            <p>Today you will:</p>
-                            <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Read Chapter 7: <strong>The Journey to the Great Oz</strong></li>
-                                <li>Learn 1 new vocabulary word</li>
-                                <li>Answer 1 comprehension question</li>
-                                <li>Practice critical thinking</li>
-                            </ul>
-                            <p><strong>Time needed:</strong> About 30-45 minutes</p>
-                        </div>
-                    `
-                },
-                
-                // Page 3: Vocabulary (1 word)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Vocabulary Word</h2>
-                            
-                            <div style="margin: 40px 0;">
-                                <div style="padding: 30px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                    <div style="margin-bottom: 15px;">
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">comrade</span>
-                                        <span style="font-size: 16px; color: #666; margin-left: 12px;">(noun)</span>
-                                    </div>
-                                    <p style="font-size: 18px; font-weight: 600; margin-bottom: 20px; line-height: 1.6;">A close companion who shares a journey or challenge with you. Like a teammate on an adventure.</p>
-                                    <p style="font-size: 15px; color: #666; margin-bottom: 12px;">
-                                        Write a sentence using this word:
-                                    </p>
-                                    <textarea 
-                                      id="vocab-1"
-                                      style="width: 100%; min-height: 100px; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;"
-                                      placeholder="Type your sentence here..."
-                                    ></textarea>
-                                </div>
-                            </div>
-                            
-                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
-                                <p style="margin: 0;"><strong>Watch for this word</strong> in today's reading!</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Reading Pages (4 pages)
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 7: The Journey to the Great Oz</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 1 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>The forest was still thick around them, but the road was clear, and the four companions walked together in good spirits.They had not gone far when they came to a great ditch that stretched across the road. It was very wide and very deep, with jagged rocks at the bottom. There was no way around it.\"What shall we do?\" Dorothy asked.The Scarecrow thought for a moment. \"We cannot fly, and we cannot climb down and back up — it's too deep. But the Lion is very large and strong. Perhaps he could jump across.\"\"I can try,\" the Lion said nervously. \"But what about the rest of you?\"\"You could carry us, one at a time,\" the Scarecrow said.The Lion looked at the ditch. It was a terrifying distance. His legs trembled. But he crouched low, gathered all his strength, and leaped — sailing through the air and landing safely on the other side.\"It wasn't so bad,\" he called back, though</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 7: The Journey to the Great Oz</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 2 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>his voice shook.He jumped back and carried the Scarecrow across first, since he was the lightest. Then Dorothy, holding Toto tightly. Finally, the Tin Woodman, who was the heaviest and made the Lion grunt with the effort. But the great beast managed it.\"There,\" said the Scarecrow. \"Problem solved.\"\"That was your idea,\" Dorothy told him. \"That was very clever.\"\"Was it?\" the Scarecrow said, surprised. \"I suppose it just seemed like common sense.\"They continued walking. The forest thinned, and patches of sunlight began to break through the leaves. Then they heard a low, rumbling growl from the trees ahead.Two great beasts leaped onto the road — fierce, catlike creatures with long teeth and angry eyes. They snarled at the group and crouched, ready to spring.The Cowardly Lion stepped forward.\"Stay behind me,\" he said, and his voice came out deeper and stronger than usual. He threw back his great head and let out a roar so loud and so terrible that the</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 7: The Journey to the Great Oz</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 3 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>leaves shook on the trees and the two beasts stopped cold. They stared at the Lion, then turned and ran back into the forest.\"They're gone,\" the Lion said, turning around. His legs were shaking. \"My heart is still pounding.\"\"You just saved us all,\" the Tin Woodman said.\"I was terrified,\" the Lion admitted.\"You were terrified and you did it anyway,\" Dorothy said. \"That matters more than you think.\"They walked on. The forest grew lighter, and soon they emerged into open country filled with wildflowers. A sparkling river ran alongside the road, and they stopped to drink and rest.\"I like this much better than the forest,\" the Lion said, lying down in the tall grass. \"The open air makes me feel braver.\"\"You were plenty brave in the forest,\" Dorothy said.The Lion shook his great mane. \"I was pretending.\"\"Everyone pretends sometimes,\" said the Tin Woodman quietly. \"I pretend I do not feel sad, even though I do.\"\"And I pretend I do not</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 7: The Journey to the Great Oz</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 4 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>notice things,\" said the Scarecrow, \"even though I notice quite a lot.\"Dorothy looked at her three friends — the one who said he had no brains, the one who said he had no heart, and the one who said he had no courage — and she thought they were the cleverest, kindest, bravest companions anyone could wish for.\"We make a good team,\" she said.\"We do,\" the Scarecrow agreed. \"Though I cannot imagine why. A girl, a man of straw, a man of tin, and a cowardly lion — we are not exactly an army.\"\"No,\" Dorothy said, smiling. \"But we are friends. And that is better.\"They rested by the river as the afternoon sun warmed them, and Toto chased butterflies through the tall grass, and for a little while, everything was peaceful.But the yellow brick road stretched on ahead of them, and the Emerald City was still far away. There would be more dangers before they reached it.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Comprehension: Multiple Choice Only
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading Comprehension</h2>
-                            
-                            <div style="margin: 40px 0;">
-                                <div style="padding: 30px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1B2A4A;">
-                                    <p style="font-weight: 600; font-size: 18px; margin-bottom: 20px; line-height: 1.6;">Who comes up with the plan to cross the great ditch?</p>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="0" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">Dorothy</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="1" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">The Cowardly Lion</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="2" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">The Scarecrow</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="3" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">The Tin Woodman</span>
-                                        </label>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Completion
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>🎉 Excellent Work!</h2>
-                            <p style="font-size: 18px; margin: 20px 0;">You completed Lesson 7: <strong>The Journey to the Great Oz</strong></p>
-                            
-                            <div style="padding: 20px; background: rgba(48,88,83,0.1); border-radius: 12px; margin: 20px 0;">
-                                <p style="margin: 0; font-size: 16px;"><strong>Next:</strong> Lesson 8</p>
-                            </div>
-                            
-                            <div style="padding: 15px; background: #fff; border: 2px solid #B06821; border-radius: 10px; margin-top: 20px;">
-                                <p style="margin: 0; color: #B06821; font-weight: 600;">📚 Keep reading!</p>
-                            </div>
-                        </div>
-                    `
-                }
-            ]
-        };
-
-        // Initialize
-        if (window.LessonViewer) {
-            new window.LessonViewer(lesson7Config);
-        }
-    </script>
-</body>
-</html>
+<html><head>
+<meta charset="UTF-8">
+<title>Lesson 7 - 4th Grade</title>
+<link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
+</head><body class="lesson-viewer">
+<div id="lesson-container"></div>
+<script src="js/lesson-viewer.js?v=1772665488"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="js/lesson-completion.js?v=1772665488"></script>
+<script src="js/lesson-autosave.js?v=1772665488"></script>
+<script>
+const lesson7Config = {
+  lessonId: '4th-grade-day-7',
+  gradeLevel: '4th-grade',
+  title: 'Lesson 7',
+  pages: [
+    { render: () => '<div class="lesson-page-card title-page"><h1>Lesson 7</h1><div class="subtitle">Week 2</div><p>The Wonderful Wizard of Oz</p><p>Chapter 5: The Rescue of the Tin Woodman</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Today You Will:</h2><ul><li>Read The Rescue of the Tin Woodman</li><li>Learn 2 vocabulary words</li><li>Answer 3 questions</li></ul></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Vocabulary</h2><p><strong>courage</strong> and <strong>timid</strong></p><textarea id="vocab1"></textarea><textarea id="vocab2"></textarea></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Vocab Practice</h2><p>Practice using the words</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>The Rescue of the Tin Woodman (Part 1)</h2><div><p>Dorothy found the oil can in a tiny cottage near the frozen man. She hurried back and carefully oiled his jaw first, drop by drop, until it loosened.</p><p>"Oh, thank you," the Tin Woodman gasped. His voice was rough and creaky, like a gate that had not been opened in years. "Thank you. I have been standing here for more than a year. If you had not come along, I might have stood here forever."</p><p>"A whole year!" Dorothy said. "That's terrible!" She oiled his neck, then his arms, his elbows, his shoulders. The Scarecrow held him steady while Dorothy worked on his legs and knees. Joint by joint, the Tin Woodman came back to life.</p><p>He lowered his axe at last, rolled his shoulders, bent his knees, and took one careful step. Then another. His joints squeaked, but they moved.</p><p>"I feel like a new man," the Tin Woodman said. "And I owe it all to you."</p><p>"How did you get so rusted?" the Scarecrow asked.</p><p>"I was chopping that tree when it began to rain. The water rusted my joints, and I could not reach my oil can. So I stood here. And stood. And stood. The sun rose and set, the seasons changed, and I stood. I had nothing to do but think."</p><p>"What did you think about?" Dorothy asked.</p></div></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>The Rescue of the Tin Woodman (Part 2)</h2><div><p>The Tin Woodman was quiet for a moment. "I thought about the girl I used to love," he said softly. "Before I was made of tin."</p><p>"You were not always tin?" the Scarecrow asked, surprised.</p><p>"No. I was once a man of flesh and blood — a woodcutter. I fell in love with a beautiful Munchkin girl. She was kind and funny and she laughed at my jokes, and I wanted to marry her more than anything. But the Wicked Witch of the East did not want us to be happy. She enchanted my axe so that it slipped and cut me, piece by piece. First my legs, then my arms, then my head, then my body — and each time, a tinsmith replaced the part with tin."</p><p>"How awful," Dorothy whispered.</p><p>"The worst part," the Tin Woodman continued, "was that when the tinsmith made me a complete body of tin, he forgot to give me a heart. Without a heart, I could not love the girl anymore. I could not feel anything at all — no happiness, no sadness, no love." He paused. "At least, that is what I am told. And yet, standing here for a year, thinking of her... I felt something. I do not know what to call it. But it hurt."</p><p>A single tear rolled down his tin face.</p><p>"Careful," the Scarecrow said. "You'll rust again."</p><p>Dorothy quickly oiled the tear away. "If you could have anything in the world," she said, "what would it be?"</p></div></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>The Rescue of the Tin Woodman (Part 3)</h2><div><p>"A heart," the Tin Woodman said without hesitation. "I would give up everything — my axe, my strength, my tin body — for a real heart. Because without one, nothing else matters."</p><p>"Do you really think so?" the Tin Woodman asked. Hope flickered in his tin eyes — which, Dorothy thought, was a remarkable thing to see in someone who claimed he could not feel.</p><p>"I think it is worth asking," Dorothy said.</p><p>"Then I will come with you," the Tin Woodman declared. "But I must ask you to carry my oil can. If it rains, or if I cry, I will need oiling at once."</p><p>"I will carry it," Dorothy promised.</p><p>So the three of them set off down the yellow brick road, deeper into the dark forest. The Scarecrow stumbled over roots. The Tin Woodman's joints squeaked with every step. And Dorothy walked between them, a girl from Kansas with silver shoes and an oil can, making her way toward a city she had never seen to meet a wizard she was not sure she believed in.</p><p>But she had friends, and they had her, and that made all the difference.</p></div></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Comprehension</h2><textarea id="q1"></textarea><textarea id="q2"></textarea><textarea id="q3"></textarea></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Grammar</h2><p>Skills practice</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Learn More</h2><p>Informational text</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Writing</h2><textarea id="writing"></textarea></div>' }
+  ]
+};
+if (typeof initLessonViewer === 'function') initLessonViewer(lesson7Config);
+</script></body></html>

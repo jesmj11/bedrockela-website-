@@ -1,224 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson 24 - 4th Grade BedrockELA</title>
-    <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
-</head>
-<body class="lesson-viewer">
-    <div id="lesson-container" class="lesson-container"></div>
-
-    <script src="js/billy-tts.js"></script>
-    <script src="js/lesson-viewer.js?v=1772665488"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="js/lesson-completion.js?v=1772665488"></script>
-    <script src="js/lesson-autosave.js?v=1772665488"></script>
-    <script src="js/save-button-injector.js?v=1772665488"></script>
-    <script src="js/answer-validation.js?v=1772665488"></script>
-    <script src="js/grade-normalizer.js?v=1772665488"></script>
-    <script src="js/offline-sync.js?v=1772665488"></script>
-    <script src="js/text-to-speech.js?v=1772665488"></script>
-    <script src="js/digital-book.js?v=1772665488"></script>
-    
-    <script>
-        const lesson24Config = {
-            lessonId: '4th-grade-day-24',
-            gradeLevel: '4th-grade',
-            title: 'Lesson 24 - 4th Grade',
-            pages: [
-                // Page 1: Title
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h1>Lesson 24</h1>
-                            <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
-                                The Wonderful Wizard of Oz
-                            </p>
-                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 24: Home Again</p>
-                        </div>
-                    `
-                },
-                
-                // Page 2: Objectives
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Welcome to Lesson 24!</h2>
-                            <p>Today you will:</p>
-                            <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Read Chapter 24: <strong>Home Again</strong></li>
-                                <li>Learn 1 new vocabulary word</li>
-                                <li>Answer 1 comprehension question</li>
-                                <li>Practice critical thinking</li>
-                            </ul>
-                            <p><strong>Time needed:</strong> About 30-45 minutes</p>
-                        </div>
-                    `
-                },
-                
-                // Page 3: Vocabulary (1 word)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Vocabulary Word</h2>
-                            
-                            <div style="margin: 40px 0;">
-                                <div style="padding: 30px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                    <div style="margin-bottom: 15px;">
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">embrace</span>
-                                        <span style="font-size: 16px; color: #666; margin-left: 12px;">(noun/verb)</span>
-                                    </div>
-                                    <p style="font-size: 18px; font-weight: 600; margin-bottom: 20px; line-height: 1.6;">To hold someone closely in your arms. A hug that shows deep love or relief.</p>
-                                    <p style="font-size: 15px; color: #666; margin-bottom: 12px;">
-                                        Write a sentence using this word:
-                                    </p>
-                                    <textarea 
-                                      id="vocab-1"
-                                      style="width: 100%; min-height: 100px; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;"
-                                      placeholder="Type your sentence here..."
-                                    ></textarea>
-                                </div>
-                            </div>
-                            
-                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
-                                <p style="margin: 0;"><strong>Watch for this word</strong> in today's reading!</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Reading Pages (4 pages)
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 24: Home Again</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 1 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>\" Aunt Em cried, sweeping Dorothy into her arms and holding her so tightly that Toto yelped between them. \"Where in the world did you come from?\"\"From the land of Oz,\" Dorothy said into Aunt Em's shoulder. \"Oh, Aunt Em, I am so glad to be home!\"Aunt Em pulled back and looked at Dorothy's face as though she could not quite believe she was real. Her gray eyes were shining — with tears, with relief, with a fierce, burning love that Dorothy had always known was there, even when Aunt Em had been too worn down by the prairie to show it.Uncle Henry came out of the barn. He stopped in the doorway and stared. Then he walked across the yard, slowly, as though Dorothy might disappear if he moved too quickly. He knelt down in the dirt and put his weathered hands on her shoulders.\"Dorothy,\" he said. Just her name. But he said</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 24: Home Again</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 2 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>it in a way that held everything.Then he did something Dorothy had never seen him do before.He smiled.Dorothy looked around. The Kansas prairie stretched flat and brown to the horizon. The wind blew dust across the yard. The sun baked the earth the same dull gray it had always been. There were no emerald cities, no yellow brick roads, no fields of scarlet poppies or countries made of china.But Aunt Em was there, warm and real. Uncle Henry was there, steady and solid. And Toto was barking and jumping in circles, thrilled to be on solid ground again.Dorothy looked down at her feet. The silver shoes were gone — lost somewhere in the sky between Oz and Kansas, tumbled away during the flight. She felt for them for a moment, a pang of loss. Those shoes had carried her so far.But she did not need them anymore. They had done their job.\"Come inside,\" Aunt</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 24: Home Again</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 3 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>Em said, wiping her eyes. \"I have just taken bread out of the oven. You must be starving.\"The kitchen of the new house smelled like warm bread and butter. It was small and plain — one room, a stove, a table, chairs. No green marble. No ruby thrones. But as Dorothy sat down at the table and Aunt Em set a thick slice of bread in front of her and Uncle Henry poured a glass of milk, Dorothy felt something settle inside her chest like a key turning in a lock.This was it. This was the thing she had traveled hundreds of miles to find, the thing the Wizard could not give her, the thing even Glinda could not create. It was not a place, exactly, though Kansas was part of it. It was not a feeling, exactly, though love was part of it. It was something bigger and simpler than either of those</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 24: Home Again</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 4 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>things.It was home.Not a perfect home. Not a dazzling home. Not a home made of emeralds or rubies or magic. Just a small house on a flat prairie with two people who loved her and a little black dog who made her laugh.That was enough. That had always been enough.Dorothy ate her bread. Toto lay at her feet. Aunt Em sat across the table, watching Dorothy with eyes that would not look away, as if she were memorizing her.\"Aunt Em,\" Dorothy said.\"Yes, dear?\"\"There is no place like home.\"Aunt Em reached across the table and took Dorothy's hand. She did not ask what the words meant. She did not need to.Outside, the Kansas wind blew across the prairie, and the sun began to set, painting the gray sky with gold. It was not emerald and it was not ruby. But it was warm, and it was real, and it was hers.Dorothy was home.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Comprehension: Multiple Choice Only
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading Comprehension</h2>
-                            
-                            <div style="margin: 40px 0;">
-                                <div style="padding: 30px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1B2A4A;">
-                                    <p style="font-weight: 600; font-size: 18px; margin-bottom: 20px; line-height: 1.6;">What happens to the silver shoes during Dorothy\'s flight home?</p>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="0" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">She gives them to Aunt Em</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="1" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">They are lost somewhere in the sky between Oz and Kansas</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="2" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">They turn into regular shoes</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="3" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">She leaves them with Glinda</span>
-                                        </label>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Completion
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>🎉 Excellent Work!</h2>
-                            <p style="font-size: 18px; margin: 20px 0;">You completed Lesson 24: <strong>Home Again</strong></p>
-                            
-                            <div style="padding: 20px; background: rgba(48,88,83,0.1); border-radius: 12px; margin: 20px 0;">
-                                <p style="margin: 0; font-size: 16px;"><strong>Next:</strong> You finished the entire story!</p>
-                            </div>
-                            
-                            <div style="padding: 15px; background: #fff; border: 2px solid #B06821; border-radius: 10px; margin-top: 20px;">
-                                <p style="margin: 0; color: #B06821; font-weight: 600;">📚 Keep reading!</p>
-                            </div>
-                        </div>
-                    `
-                }
-            ]
-        };
-
-        // Initialize
-        if (window.LessonViewer) {
-            new window.LessonViewer(lesson24Config);
-        }
-    </script>
-</body>
-</html>
+<html><head>
+<meta charset="UTF-8">
+<title>Lesson 24 - 4th Grade</title>
+<link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
+</head><body class="lesson-viewer">
+<div id="lesson-container"></div>
+<script src="js/lesson-viewer.js?v=1772665488"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="js/lesson-completion.js?v=1772665488"></script>
+<script src="js/lesson-autosave.js?v=1772665488"></script>
+<script>
+const lesson24Config = {
+  lessonId: '4th-grade-day-24',
+  gradeLevel: '4th-grade',
+  title: 'Lesson 24',
+  pages: [
+    { render: () => '<div class="lesson-page-card title-page"><h1>Lesson 24</h1><div class="subtitle">Week 5</div><p>The Wonderful Wizard of Oz</p><p>Chapter 19: The Journey South</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Today You Will:</h2><ul><li>Read The Journey South</li><li>Learn 2 vocabulary words</li><li>Answer 3 questions</li></ul></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Vocabulary</h2><p><strong>journey</strong> and <strong>south</strong></p><textarea id="vocab1"></textarea><textarea id="vocab2"></textarea></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Vocab Practice</h2><p>Practice using the words</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>The Journey South (Part 1)</h2><div><p>The next morning, the four friends set out from the Emerald City heading south. The Guardian of the Gates unlocked their green spectacles, wished them well, and watched them walk away down the road.</p><p>"I hope you find what you are looking for," he called after them.</p><p>"So do I," Dorothy said quietly.</p><p>The countryside was lovely at first — green fields, gentle hills, and sparkling streams. But as they went further south, the road disappeared entirely. There were no more yellow bricks, no more fences, no more signs. Just wild, untamed land stretching in every direction.</p><p>"We must keep going south," the Scarecrow said, studying the position of the sun. "Glinda's country is on the southern border of Oz. If we walk straight, we should reach it."</p><p>They walked through tall grass and across shallow streams. The Lion led the way, his great nose sniffing the air for danger. The Tin Woodman kept his axe ready. The Scarecrow watched the sun and kept them heading in the right direction.</p><p>Then they reached the forest.</p><p>It was not like the dark forest near the Munchkin country. This forest was alive — aggressively alive. The trees were thick and gnarled, with branches that hung low across the path like arms.</p></div></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>The Journey South (Part 2)</h2><div><p>"These trees look unfriendly," the Tin Woodman said.</p><p>He was right. When the Scarecrow tried to walk between two of them, the nearest tree swung a great branch like a fist and knocked him flying. He tumbled through the air and landed in a heap ten feet away.</p><p>"Ow," the Scarecrow said. Then: "Well, not ow exactly, since I cannot feel pain. But that was very rude."</p><p>The trees thrashed their branches, blocking the path completely. Every time someone tried to pass, the trees struck at them. The Lion growled and swiped at a branch, but another tree hit him from behind and sent him stumbling.</p><p>"Let me try," the Tin Woodman said.</p><p>He marched toward the nearest fighting tree, axe raised. A branch whipped toward his head. He ducked and chopped it clean off. Another branch swung at his legs. He chopped that one, too. A third branch came from the side — chop. A fourth from above — chop.</p><p>The trees recoiled, pulling their remaining branches tight against their trunks. They had learned very quickly that hitting a man made of tin with an axe was not a winning strategy.</p><p>"Run!" the Tin Woodman shouted, holding the trees back.</p></div></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>The Journey South (Part 3)</h2><div><p>The others dashed through the gap. The Tin Woodman followed, chopping one more branch for good measure. Behind them, the fighting trees shook with fury, but they could not follow.</p><p>"That was magnificent," the Lion said.</p><p>"Thank you," the Tin Woodman said. "I may not have real muscles, but tin is very hard, and this axe is very sharp."</p><p>"Brains, heart, and courage," the Scarecrow said, brushing dirt from his clothes. "We have everything we need between us."</p><p>"We always did," Dorothy said.</p><p>They pressed on through the forest, and the trees did not bother them again.</p></div></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Comprehension</h2><textarea id="q1"></textarea><textarea id="q2"></textarea><textarea id="q3"></textarea></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Language</h2><p>Skills practice</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Learn More</h2><p>Informational text</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Writing</h2><textarea id="writing"></textarea></div>' }
+  ]
+};
+if (typeof initLessonViewer === 'function') initLessonViewer(lesson24Config);
+</script></body></html>

@@ -1,224 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson 19 - 4th Grade BedrockELA</title>
-    <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
-</head>
-<body class="lesson-viewer">
-    <div id="lesson-container" class="lesson-container"></div>
-
-    <script src="js/billy-tts.js"></script>
-    <script src="js/lesson-viewer.js?v=1772665488"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="js/lesson-completion.js?v=1772665488"></script>
-    <script src="js/lesson-autosave.js?v=1772665488"></script>
-    <script src="js/save-button-injector.js?v=1772665488"></script>
-    <script src="js/answer-validation.js?v=1772665488"></script>
-    <script src="js/grade-normalizer.js?v=1772665488"></script>
-    <script src="js/offline-sync.js?v=1772665488"></script>
-    <script src="js/text-to-speech.js?v=1772665488"></script>
-    <script src="js/digital-book.js?v=1772665488"></script>
-    
-    <script>
-        const lesson19Config = {
-            lessonId: '4th-grade-day-19',
-            gradeLevel: '4th-grade',
-            title: 'Lesson 19 - 4th Grade',
-            pages: [
-                // Page 1: Title
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h1>Lesson 19</h1>
-                            <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
-                                The Wonderful Wizard of Oz
-                            </p>
-                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 19: The Journey South</p>
-                        </div>
-                    `
-                },
-                
-                // Page 2: Objectives
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Welcome to Lesson 19!</h2>
-                            <p>Today you will:</p>
-                            <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Read Chapter 19: <strong>The Journey South</strong></li>
-                                <li>Learn 1 new vocabulary word</li>
-                                <li>Answer 1 comprehension question</li>
-                                <li>Practice critical thinking</li>
-                            </ul>
-                            <p><strong>Time needed:</strong> About 30-45 minutes</p>
-                        </div>
-                    `
-                },
-                
-                // Page 3: Vocabulary (1 word)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Vocabulary Word</h2>
-                            
-                            <div style="margin: 40px 0;">
-                                <div style="padding: 30px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                    <div style="margin-bottom: 15px;">
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">untamed</span>
-                                        <span style="font-size: 16px; color: #666; margin-left: 12px;">(adjective)</span>
-                                    </div>
-                                    <p style="font-size: 18px; font-weight: 600; margin-bottom: 20px; line-height: 1.6;">Wild and not controlled by people. Land or creatures that have not been civilized.</p>
-                                    <p style="font-size: 15px; color: #666; margin-bottom: 12px;">
-                                        Write a sentence using this word:
-                                    </p>
-                                    <textarea 
-                                      id="vocab-1"
-                                      style="width: 100%; min-height: 100px; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;"
-                                      placeholder="Type your sentence here..."
-                                    ></textarea>
-                                </div>
-                            </div>
-                            
-                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
-                                <p style="margin: 0;"><strong>Watch for this word</strong> in today's reading!</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Reading Pages (4 pages)
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 19: The Journey South</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 1 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>The Guardian of the Gates unlocked their green spectacles, wished them well, and watched them walk away down the road.\"I hope you find what you are looking for,\" he called after them.\"So do I,\" Dorothy said quietly.The countryside was lovely at first — green fields, gentle hills, and sparkling streams. But as they went further south, the road disappeared entirely. There were no more yellow bricks, no more fences, no more signs. Just wild, untamed land stretching in every direction.\"We must keep going south,\" the Scarecrow said, studying the position of the sun. \"Glinda's country is on the southern border of Oz. If we walk straight, we should reach it.\"They walked through tall grass and across shallow streams.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 19: The Journey South</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 2 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>The Lion led the way, his great nose sniffing the air for danger. The Tin Woodman kept his axe ready. The Scarecrow watched the sun and kept them heading in the right direction.Then they reached the forest.It was not like the dark forest near the Munchkin country. This forest was alive — aggressively alive. The trees were thick and gnarled, with branches that hung low across the path like arms.\"These trees look unfriendly,\" the Tin Woodman said.He was right. When the Scarecrow tried to walk between two of them, the nearest tree swung a great branch like a fist and knocked him flying. He tumbled through the air and landed in a heap ten feet away.\"Ow,\" the Scarecrow</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 19: The Journey South</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 3 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>said. Then: \"Well, not ow exactly, since I cannot feel pain. But that was very rude.\"The trees thrashed their branches, blocking the path completely. Every time someone tried to pass, the trees struck at them. The Lion growled and swiped at a branch, but another tree hit him from behind and sent him stumbling.\"Let me try,\" the Tin Woodman said.He marched toward the nearest fighting tree, axe raised. A branch whipped toward his head. He ducked and chopped it clean off. Another branch swung at his legs. He chopped that one, too. A third branch came from the side — chop. A fourth from above — chop.The trees recoiled, pulling their remaining branches tight against their trunks. They</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 19: The Journey South</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 4 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>had learned very quickly that hitting a man made of tin with an axe was not a winning strategy.\"Run!\" the Tin Woodman shouted, holding the trees back.The others dashed through the gap. The Tin Woodman followed, chopping one more branch for good measure. Behind them, the fighting trees shook with fury, but they could not follow.\"That was magnificent,\" the Lion said.\"Thank you,\" the Tin Woodman said. \"I may not have real muscles, but tin is very hard, and this axe is very sharp.\"\"Brains, heart, and courage,\" the Scarecrow said, brushing dirt from his clothes. \"We have everything we need between us.\"\"We always did,\" Dorothy said.They pressed on through the forest, and the trees did not bother them again.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Comprehension: Multiple Choice Only
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading Comprehension</h2>
-                            
-                            <div style="margin: 40px 0;">
-                                <div style="padding: 30px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1B2A4A;">
-                                    <p style="font-weight: 600; font-size: 18px; margin-bottom: 20px; line-height: 1.6;">How does the group get past the fighting trees?</p>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="0" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">The Lion scares them with a roar</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="1" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">Dorothy uses magic from the silver shoes</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="2" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">The Tin Woodman chops their branches with his axe until they pull back</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="3" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">The Scarecrow tricks them</span>
-                                        </label>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Completion
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>🎉 Excellent Work!</h2>
-                            <p style="font-size: 18px; margin: 20px 0;">You completed Lesson 19: <strong>The Journey South</strong></p>
-                            
-                            <div style="padding: 20px; background: rgba(48,88,83,0.1); border-radius: 12px; margin: 20px 0;">
-                                <p style="margin: 0; font-size: 16px;"><strong>Next:</strong> Lesson 20</p>
-                            </div>
-                            
-                            <div style="padding: 15px; background: #fff; border: 2px solid #B06821; border-radius: 10px; margin-top: 20px;">
-                                <p style="margin: 0; color: #B06821; font-weight: 600;">📚 Keep reading!</p>
-                            </div>
-                        </div>
-                    `
-                }
-            ]
-        };
-
-        // Initialize
-        if (window.LessonViewer) {
-            new window.LessonViewer(lesson19Config);
-        }
-    </script>
-</body>
-</html>
+<html><head>
+<meta charset="UTF-8">
+<title>Lesson 19 - 4th Grade</title>
+<link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
+</head><body class="lesson-viewer">
+<div id="lesson-container"></div>
+<script src="js/lesson-viewer.js?v=1772665488"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="js/lesson-completion.js?v=1772665488"></script>
+<script src="js/lesson-autosave.js?v=1772665488"></script>
+<script>
+const lesson19Config = {
+  lessonId: '4th-grade-day-19',
+  gradeLevel: '4th-grade',
+  title: 'Lesson 19',
+  pages: [
+    { render: () => '<div class="lesson-page-card title-page"><h1>Lesson 19</h1><div class="subtitle">Week 4</div><p>The Wonderful Wizard of Oz</p><p>Chapter 15: The Winged Monkeys</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Today You Will:</h2><ul><li>Read The Winged Monkeys</li><li>Learn 2 vocabulary words</li><li>Answer 3 questions</li></ul></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Vocabulary</h2><p><strong>humbug</strong> and <strong>terrible</strong></p><textarea id="vocab1"></textarea><textarea id="vocab2"></textarea></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Vocab Practice</h2><p>Practice using the words</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>The Winged Monkeys (Part 1)</h2><div><p>On the journey back to the Emerald City, Dorothy reached into her basket and pulled out the golden cap she had found in the Witch's castle.</p><p>"What a curious thing," she said, turning it over in her hands. It was soft and beautiful, with a circle of diamonds and rubies around the brim.</p><p>"That is the Golden Cap," the Lion said. "I have heard stories about it. Whoever wears it can command the Winged Monkeys three times."</p><p>"The Winged Monkeys?" Dorothy shuddered. She remembered all too well how they had battered the Tin Woodman, scattered the Scarecrow, and caged the Lion. "I don't want anything to do with them."</p><p>"But they are not evil," the Lion said. "They are bound by the cap's magic. They must obey whoever wears it. The Witch commanded them because she had the cap. Now you have it."</p><p>Dorothy looked at the cap doubtfully. "I suppose we could use them to fly us back to the Emerald City. The road is so long, and we are all tired."</p><p>"That is a very clever idea," the Scarecrow said.</p><p>Dorothy put on the Golden Cap and spoke the magic words that were written inside the brim. The sky darkened, the wind picked up, and with a great rushing of wings, the Winged Monkeys appeared — dozens of them, circling overhead.</p><p>Their leader landed before Dorothy and bowed. "What do you command?" he asked.</p><p>"Please carry us to the Emerald City," Dorothy said.</p><p>"It shall be done," said the monkey king.</p><p>The monkeys lifted the travelers gently into the air. Dorothy rode on the back of the king himself, with Toto in her lap. The Scarecrow and the Tin Woodman were each carried by four monkeys, and eight strong monkeys bore the heavy Lion between them.</p></div></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>The Winged Monkeys (Part 2)</h2><div><p>As they flew, Dorothy looked down at the beautiful land of Oz spread below her — the green fields, the sparkling rivers, the dark forests, and far behind them, the gray ruins of the Witch's castle. Ahead, the Emerald City gleamed like a jewel.</p><p>"May I ask you something?" Dorothy said to the monkey king.</p><p>"Of course."</p><p>"Why did you serve the Wicked Witch? Were you afraid of her?"</p><p>The monkey king sighed. "It is a long story," he said. "We Winged Monkeys were once free — the happiest creatures in all of Oz. We played and flew and caused mischief wherever we went. But long ago, my grandfather played a prank on a powerful sorceress, and she was furious. She enchanted the Golden Cap and bound our people to obey whoever wore it, three times for each owner."</p><p>"That seems like a harsh punishment for a prank," Dorothy said.</p><p>"Wait," Dorothy said. "You said she drove the Wizard away? The great and powerful Oz?"</p><p>"Yes," the monkey king said. "The Wizard was afraid of us. He fled back to his Emerald City and never returned to the west."</p><p>Dorothy thought about this. The great and powerful Oz — afraid of monkeys? That did not sound like someone who was truly all-powerful.</p><p>She tucked this information away and said nothing to the others. But it added to the doubt that had been growing in her mind since the throne room, where the Wizard had appeared in four different forms.</p><p>The monkeys set them down gently before the gates of the Emerald City. The leader bowed once more.</p><p>"You have two commands remaining," he told Dorothy. "Call us when you need us."</p></div></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>The Winged Monkeys (Part 3)</h2><div><p>Then the Winged Monkeys soared back into the sky and vanished.</p><p>Dorothy tucked the Golden Cap into her basket and straightened her dress. "Well," she said, "let us go tell the Wizard that we have done what he asked."</p><p>The Guardian of the Gates gave them their green spectacles, and they walked once more through the gleaming streets to the Palace of Oz. The green-bearded soldier led them to the great throne room.</p><p>"We have killed the Wicked Witch of the West," Dorothy announced to the empty room. "We have come to claim your promises."</p><p>There was no answer. The throne sat empty.</p><p>"Come back tomorrow," a voice boomed from nowhere. "The Wizard is busy."</p><p>"Busy?" the Scarecrow said. "We killed a witch for him, and he is busy?"</p><p>"Come back tomorrow," the voice repeated.</p><p>They had no choice. They returned to their rooms in the palace, disappointed but not defeated.</p><p>"He will see us tomorrow," Dorothy said. "And when he does, he will keep his word."</p><p>But as she lay in bed that night, stroking Toto's ears, Dorothy thought about what the monkey king had told her. A wizard who was afraid of monkeys. A wizard who looked different to everyone. A wizard who hid behind a locked door and a booming voice.</p><p>Something was not right. And tomorrow, Dorothy intended to find out what it was.</p></div></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Comprehension</h2><textarea id="q1"></textarea><textarea id="q2"></textarea><textarea id="q3"></textarea></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Grammar</h2><p>Skills practice</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Learn More</h2><p>Informational text</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Writing</h2><textarea id="writing"></textarea></div>' }
+  ]
+};
+if (typeof initLessonViewer === 'function') initLessonViewer(lesson19Config);
+</script></body></html>

@@ -1,224 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson 23 - 4th Grade BedrockELA</title>
-    <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
-</head>
-<body class="lesson-viewer">
-    <div id="lesson-container" class="lesson-container"></div>
-
-    <script src="js/billy-tts.js"></script>
-    <script src="js/lesson-viewer.js?v=1772665488"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="js/lesson-completion.js?v=1772665488"></script>
-    <script src="js/lesson-autosave.js?v=1772665488"></script>
-    <script src="js/save-button-injector.js?v=1772665488"></script>
-    <script src="js/answer-validation.js?v=1772665488"></script>
-    <script src="js/grade-normalizer.js?v=1772665488"></script>
-    <script src="js/offline-sync.js?v=1772665488"></script>
-    <script src="js/text-to-speech.js?v=1772665488"></script>
-    <script src="js/digital-book.js?v=1772665488"></script>
-    
-    <script>
-        const lesson23Config = {
-            lessonId: '4th-grade-day-23',
-            gradeLevel: '4th-grade',
-            title: 'Lesson 23 - 4th Grade',
-            pages: [
-                // Page 1: Title
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h1>Lesson 23</h1>
-                            <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
-                                The Wonderful Wizard of Oz
-                            </p>
-                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 23: There's No Place Like Home</p>
-                        </div>
-                    `
-                },
-                
-                // Page 2: Objectives
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Welcome to Lesson 23!</h2>
-                            <p>Today you will:</p>
-                            <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Read Chapter 23: <strong>There's No Place Like Home</strong></li>
-                                <li>Learn 1 new vocabulary word</li>
-                                <li>Answer 1 comprehension question</li>
-                                <li>Practice critical thinking</li>
-                            </ul>
-                            <p><strong>Time needed:</strong> About 30-45 minutes</p>
-                        </div>
-                    `
-                },
-                
-                // Page 3: Vocabulary (1 word)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Vocabulary Word</h2>
-                            
-                            <div style="margin: 40px 0;">
-                                <div style="padding: 30px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                    <div style="margin-bottom: 15px;">
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">reveal</span>
-                                        <span style="font-size: 16px; color: #666; margin-left: 12px;">(noun/verb)</span>
-                                    </div>
-                                    <p style="font-size: 18px; font-weight: 600; margin-bottom: 20px; line-height: 1.6;">To show or make known something that was hidden. A moment when the truth becomes clear.</p>
-                                    <p style="font-size: 15px; color: #666; margin-bottom: 12px;">
-                                        Write a sentence using this word:
-                                    </p>
-                                    <textarea 
-                                      id="vocab-1"
-                                      style="width: 100%; min-height: 100px; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;"
-                                      placeholder="Type your sentence here..."
-                                    ></textarea>
-                                </div>
-                            </div>
-                            
-                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
-                                <p style="margin: 0;"><strong>Watch for this word</strong> in today's reading!</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Reading Pages (4 pages)
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 23: There's No Place Like Home</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 1 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>They can carry you anywhere in the world in three steps.\"Dorothy looked down at the shoes on her feet. She had been wearing them since the very beginning — since the moment she took them from the Wicked Witch of the East on her first day in Oz. Through forests and poppy fields, through the Emerald City and the Witch's castle, through every danger and every mile of yellow brick road — the answer had been on her feet the entire time.\"You mean,\" Dorothy said slowly, \"I could have gone home from the very start?\"\"Yes,\" Glinda said.The room seemed to tilt. Dorothy felt dizzy with the weight of it. She could have gone home on the first day. She could have avoided the dark forest, the deadly poppies, the Wicked Witch, the humbug Wizard. She could have clicked</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 23: There's No Place Like Home</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 2 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>her heels and been in Kansas before she ever set foot on the yellow brick road.But then she never would have met the Scarecrow. Or the Tin Woodman. Or the Lion.She never would have learned that the Scarecrow was the cleverest person she knew. She never would have watched the Tin Woodman weep over a crushed beetle. She never would have seen the Cowardly Lion stand between his friends and danger, shaking with fear but refusing to back down.She never would have learned that a wizard could be a fraud and still teach a lesson, or that a bucket of water could defeat what an army could not, or that the smallest mouse and the fiercest lion could both be heroes.She never would have learned what home really meant.\"I would not trade this journey for anything,\" Dorothy said.Glinda</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 23: There's No Place Like Home</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 3 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>smiled. \"I know. That is why I did not tell you sooner. Some things cannot be taught. They must be lived.\"\"How do I use the shoes?\" Dorothy asked.\"Click the heels together three times,\" Glinda said. \"And with each click, say where you wish to go.\"Dorothy held Toto close against her chest. She could feel his small heart beating fast. She looked at Glinda — the most powerful and the most honest person she had met in all of Oz — and said, \"Thank you.\"\"Thank yourself,\" Glinda said. \"You did this, Dorothy. All of it.\"Dorothy closed her eyes. She thought of Aunt Em's face. She thought of Uncle Henry's quiet hands. She thought of the flat, gray prairie and the small wooden house and the smell of bread baking in the oven.She clicked her heels together.\"Take me home.\"Click.\"Take me</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 23: There's No Place Like Home</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 4 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>home.\"Click.\"Take me home.\"Click.The world dissolved. The ruby castle, the red flowers, the warm light — all of it swirled and blurred and spun away. Wind roared past her ears. She felt herself flying, tumbling, spinning through an impossible distance. Toto pressed against her chest, and Dorothy held on.Then — silence.She was sitting in the grass. Real grass. Brown, dry, Kansas grass, warm from the sun.She opened her eyes.In front of her was a farmhouse — a new one, because the old house had flown to Oz. Uncle Henry had built it while she was gone. It was small and plain, just like the old one. No emeralds. No rubies. No green marble or yellow brick.It was the most beautiful thing Dorothy had ever seen.And running across the yard toward her, arms outstretched, was Aunt Em.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Comprehension: Multiple Choice Only
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading Comprehension</h2>
-                            
-                            <div style="margin: 40px 0;">
-                                <div style="padding: 30px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1B2A4A;">
-                                    <p style="font-weight: 600; font-size: 18px; margin-bottom: 20px; line-height: 1.6;">What is the secret of the silver shoes?</p>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="0" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">They grant three wishes</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="1" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">They can carry the wearer anywhere in the world in three steps</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="2" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">They make the wearer invisible</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="3" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">They give the wearer magical powers</span>
-                                        </label>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Completion
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>🎉 Excellent Work!</h2>
-                            <p style="font-size: 18px; margin: 20px 0;">You completed Lesson 23: <strong>There's No Place Like Home</strong></p>
-                            
-                            <div style="padding: 20px; background: rgba(48,88,83,0.1); border-radius: 12px; margin: 20px 0;">
-                                <p style="margin: 0; font-size: 16px;"><strong>Next:</strong> Lesson 24</p>
-                            </div>
-                            
-                            <div style="padding: 15px; background: #fff; border: 2px solid #B06821; border-radius: 10px; margin-top: 20px;">
-                                <p style="margin: 0; color: #B06821; font-weight: 600;">📚 Keep reading!</p>
-                            </div>
-                        </div>
-                    `
-                }
-            ]
-        };
-
-        // Initialize
-        if (window.LessonViewer) {
-            new window.LessonViewer(lesson23Config);
-        }
-    </script>
-</body>
-</html>
+<html><head>
+<meta charset="UTF-8">
+<title>Lesson 23 - 4th Grade</title>
+<link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
+</head><body class="lesson-viewer">
+<div id="lesson-container"></div>
+<script src="js/lesson-viewer.js?v=1772665488"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="js/lesson-completion.js?v=1772665488"></script>
+<script src="js/lesson-autosave.js?v=1772665488"></script>
+<script>
+const lesson23Config = {
+  lessonId: '4th-grade-day-23',
+  gradeLevel: '4th-grade',
+  title: 'Lesson 23',
+  pages: [
+    { render: () => '<div class="lesson-page-card title-page"><h1>Lesson 23</h1><div class="subtitle">Week 5</div><p>The Wonderful Wizard of Oz</p><p>Chapter 18: The Balloon</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Today You Will:</h2><ul><li>Read The Balloon</li><li>Learn 2 vocabulary words</li><li>Answer 3 questions</li></ul></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Vocabulary</h2><p><strong>china</strong> and <strong>fragile</strong></p><textarea id="vocab1"></textarea><textarea id="vocab2"></textarea></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Vocab Practice</h2><p>Practice using the words</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>The Balloon (Part 1)</h2><div><p>The man from Omaha set to work building a hot-air balloon. He had done it many times in the circus, and his hands remembered the craft even after all these years.</p><p>He cut strips of green silk — there was plenty of green silk in the Emerald City — and sewed them together into a great bag, wider at the top and narrow at the bottom. He coated the inside with thin glue to keep the hot air from leaking out. Then he attached the bag to a large wicker basket, big enough for two people and one small dog.</p><p>"I am going away on a journey," he announced from the palace balcony. "While I am gone, the Scarecrow will rule over you. He has brains now, and he will govern you wisely."</p><p>The people cheered. They loved the Scarecrow, who had helped kill the Wicked Witch.</p><p>The Scarecrow was nervous. "I don't know anything about ruling a city," he whispered to Dorothy.</p><p>"You'll figure it out," Dorothy said. "You always do."</p><p>On the morning of the launch, the balloon was inflated in the great square before the palace. A fire underneath heated the air inside, and the green silk bag swelled and rose, tugging at the ropes that held it down. The whole city turned out to watch.</p><p>Dorothy hugged her friends one by one.</p><p>"Goodbye, Scarecrow," she said. "You were always the smartest person I knew — even before the brains."</p><p>"Goodbye, Dorothy," the Scarecrow said. "I will miss you terribly. But I will try to think of cheerful things, since I now have brains to think with."</p><p>"Goodbye, Tin Woodman," Dorothy said. "You have the biggest heart of anyone, and you always did."</p><p>The Tin Woodman was crying so hard he could not speak. Dorothy oiled his jaw so it would not rust, and he managed to whisper, "You are the best friend I ever had."</p></div></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>The Balloon (Part 2)</h2><div><p>"Goodbye, Lion," Dorothy said. "You are the bravest creature in all of Oz."</p><p>"Only because you believed in me," the Lion said. His great golden eyes were wet. "I was nothing before you came along."</p><p>"That is not true," Dorothy said firmly. "You were always brave. You just didn't know it."</p><p>The balloon strained against its ropes. The man from Omaha climbed into the basket and called to Dorothy. "Hurry! The balloon is ready! We must go now, before it lifts off without us!"</p><p>Dorothy turned to get Toto — but the little dog had spotted a cat in the crowd and had run off barking. Dorothy chased after him.</p><p>"Come back, Toto! Come back!"</p><p>There was a snap. One of the ropes broke. Then another. The basket lurched upward.</p><p>"Dorothy!" the man cried. "Hurry!"</p><p>But Dorothy was still chasing Toto through the crowd. She caught him, scooped him up, and turned back — just in time to see the last rope break.</p><p>The balloon rose into the air.</p><p>"Come back!" Dorothy shouted. "Wait for me!"</p><p>"I can't!" the man called down. His voice was already faint. The balloon was rising fast, caught by the wind. "I don't know how to bring it down! Goodbye, Dorothy! Goodbye!"</p></div></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>The Balloon (Part 3)</h2><div><p>The balloon sailed up and up, growing smaller against the blue sky, until it was nothing but a green speck, and then nothing at all.</p><p>Dorothy stood in the square, holding Toto, and watched it disappear.</p><p>The man from Omaha was gone. And Dorothy was still in Oz.</p><p>She did not cry. Not right away. She stood very still, feeling the weight of it — the closed door, the vanished hope, the enormous distance between her and Kansas.</p><p>Then the Scarecrow put his stuffed hand on her shoulder. The Tin Woodman stood on her other side. The Lion pressed his great warm body against her back.</p><p>"We will find another way," the Scarecrow said.</p><p>"We will not give up," the Tin Woodman said.</p><p>"We are with you," the Lion said.</p><p>Dorothy looked at her three friends — the ones who were supposed to need her help, who had turned out to be the ones helping her — and she allowed herself one small, tired smile.</p><p>"All right," she said. "Another way."</p></div></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Comprehension</h2><textarea id="q1"></textarea><textarea id="q2"></textarea><textarea id="q3"></textarea></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Grammar</h2><p>Skills practice</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Learn More</h2><p>Informational text</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Writing</h2><textarea id="writing"></textarea></div>' }
+  ]
+};
+if (typeof initLessonViewer === 'function') initLessonViewer(lesson23Config);
+</script></body></html>

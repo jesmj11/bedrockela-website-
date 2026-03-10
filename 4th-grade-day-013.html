@@ -1,224 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson 13 - 4th Grade BedrockELA</title>
-    <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
-</head>
-<body class="lesson-viewer">
-    <div id="lesson-container" class="lesson-container"></div>
-
-    <script src="js/billy-tts.js"></script>
-    <script src="js/lesson-viewer.js?v=1772665488"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="js/lesson-completion.js?v=1772665488"></script>
-    <script src="js/lesson-autosave.js?v=1772665488"></script>
-    <script src="js/save-button-injector.js?v=1772665488"></script>
-    <script src="js/answer-validation.js?v=1772665488"></script>
-    <script src="js/grade-normalizer.js?v=1772665488"></script>
-    <script src="js/offline-sync.js?v=1772665488"></script>
-    <script src="js/text-to-speech.js?v=1772665488"></script>
-    <script src="js/digital-book.js?v=1772665488"></script>
-    
-    <script>
-        const lesson13Config = {
-            lessonId: '4th-grade-day-13',
-            gradeLevel: '4th-grade',
-            title: 'Lesson 13 - 4th Grade',
-            pages: [
-                // Page 1: Title
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h1>Lesson 13</h1>
-                            <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
-                                The Wonderful Wizard of Oz
-                            </p>
-                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 13: Dorothy the Prisoner</p>
-                        </div>
-                    `
-                },
-                
-                // Page 2: Objectives
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Welcome to Lesson 13!</h2>
-                            <p>Today you will:</p>
-                            <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Read Chapter 13: <strong>Dorothy the Prisoner</strong></li>
-                                <li>Learn 1 new vocabulary word</li>
-                                <li>Answer 1 comprehension question</li>
-                                <li>Practice critical thinking</li>
-                            </ul>
-                            <p><strong>Time needed:</strong> About 30-45 minutes</p>
-                        </div>
-                    `
-                },
-                
-                // Page 3: Vocabulary (1 word)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Vocabulary Word</h2>
-                            
-                            <div style="margin: 40px 0;">
-                                <div style="padding: 30px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                    <div style="margin-bottom: 15px;">
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">captive</span>
-                                        <span style="font-size: 16px; color: #666; margin-left: 12px;">(noun/adjective)</span>
-                                    </div>
-                                    <p style="font-size: 18px; font-weight: 600; margin-bottom: 20px; line-height: 1.6;">A person who is held prisoner and cannot leave. Trapped against your will.</p>
-                                    <p style="font-size: 15px; color: #666; margin-bottom: 12px;">
-                                        Write a sentence using this word:
-                                    </p>
-                                    <textarea 
-                                      id="vocab-1"
-                                      style="width: 100%; min-height: 100px; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;"
-                                      placeholder="Type your sentence here..."
-                                    ></textarea>
-                                </div>
-                            </div>
-                            
-                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
-                                <p style="margin: 0;"><strong>Watch for this word</strong> in today's reading!</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Reading Pages (4 pages)
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 13: Dorothy the Prisoner</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 1 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>She set her to work in the kitchen — scrubbing floors, washing pots, carrying water, sweeping ashes from the great fireplace. The work was hard and the Witch was cruel, but Dorothy did not break.Every day, Dorothy checked on the Cowardly Lion, who was locked in an iron cage in the courtyard. The Witch was trying to starve him into pulling her carriage like a horse, but the Lion refused.\"I will not serve her,\" the Lion said through the bars. His voice was hoarse, but his eyes were fierce. \"She can keep me in this cage forever, but I will not bow to a bully.\"\"That is very brave of you,\" Dorothy said, pushing food through the bars. She had saved scraps from the kitchen — bread, vegetables, a few pieces of meat she had hidden in her apron.\"Or very stubborn,\" the Lion</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 13: Dorothy the Prisoner</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 2 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>said. \"I am not sure there is a difference.\"Dorothy smiled despite everything. Even here, even caged, the Lion was still himself.The days were long and lonely. Dorothy missed the Scarecrow's clever conversation and the Tin Woodman's gentle kindness. She missed the open road and the sunshine and the yellow brick road stretching ahead of her full of possibility. In the Witch's castle, there was no possibility. There was only the same gray routine, day after day: scrub, sweep, carry, serve.But Dorothy watched. And Dorothy planned.She noticed that the Witch was afraid of certain things. The Witch never went near water — she washed herself with sand and kept every door and window shut when it rained. She flinched when Dorothy carried buckets from the well, and she screamed if even a single drop splashed in her direction.Dorothy also noticed the silver shoes.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 13: Dorothy the Prisoner</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 3 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>The Witch stared at them constantly — with hunger, with fear, with a desperate longing that made her one eye burn. She wanted those shoes more than anything.One day, the Witch tried to steal them. She placed an invisible iron bar across the kitchen floor, and when Dorothy walked past carrying a bucket, she tripped and fell. One of the silver shoes flew off her foot, and the Witch snatched it up.\"Give that back!\" Dorothy cried. \"That is mine!\"\"It is mine now,\" the Witch said, clutching the shoe with both hands. \"And soon I will have the other one, too.\"Dorothy was furious — more furious than she had ever been in her life. The silver shoes were hers. The Witch of the North had given them to her. They were the last thing she had from the beginning of her journey, the</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 13: Dorothy the Prisoner</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 4 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>last connection to the good people who had helped her.\"You are a wicked, wicked creature,\" Dorothy said. \"And I am not afraid of you.\"The Witch laughed. But there was something nervous in her laugh, because she could see the mark shining on Dorothy's forehead — the kiss of the Witch of the North — and she knew that as long as that mark remained, she could not truly harm the girl.Dorothy lay awake that night, stroking Toto's ears and thinking. She still had one silver shoe. The Witch had the other. The Witch was afraid of water. And tomorrow, Dorothy would have to carry water from the well again, as she did every day.An idea was forming — not a plan, exactly, but a feeling. A sense that something was about to change.She held Toto close and waited for morning.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Comprehension: Multiple Choice Only
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading Comprehension</h2>
-                            
-                            <div style="margin: 40px 0;">
-                                <div style="padding: 30px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1B2A4A;">
-                                    <p style="font-weight: 600; font-size: 18px; margin-bottom: 20px; line-height: 1.6;">Why is the Wicked Witch afraid of Dorothy?</p>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="0" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">Dorothy is physically stronger than her</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="1" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">Dorothy has an army</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="2" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">Dorothy wears the silver shoes and bears the mark of the Witch of the North\'s kiss</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="3" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">Dorothy knows magic spells</span>
-                                        </label>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Completion
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>🎉 Excellent Work!</h2>
-                            <p style="font-size: 18px; margin: 20px 0;">You completed Lesson 13: <strong>Dorothy the Prisoner</strong></p>
-                            
-                            <div style="padding: 20px; background: rgba(48,88,83,0.1); border-radius: 12px; margin: 20px 0;">
-                                <p style="margin: 0; font-size: 16px;"><strong>Next:</strong> Lesson 14</p>
-                            </div>
-                            
-                            <div style="padding: 15px; background: #fff; border: 2px solid #B06821; border-radius: 10px; margin-top: 20px;">
-                                <p style="margin: 0; color: #B06821; font-weight: 600;">📚 Keep reading!</p>
-                            </div>
-                        </div>
-                    `
-                }
-            ]
-        };
-
-        // Initialize
-        if (window.LessonViewer) {
-            new window.LessonViewer(lesson13Config);
-        }
-    </script>
-</body>
-</html>
+<html><head>
+<meta charset="UTF-8">
+<title>Lesson 13 - 4th Grade</title>
+<link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
+</head><body class="lesson-viewer">
+<div id="lesson-container"></div>
+<script src="js/lesson-viewer.js?v=1772665488"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="js/lesson-completion.js?v=1772665488"></script>
+<script src="js/lesson-autosave.js?v=1772665488"></script>
+<script>
+const lesson13Config = {
+  lessonId: '4th-grade-day-13',
+  gradeLevel: '4th-grade',
+  title: 'Lesson 13',
+  pages: [
+    { render: () => '<div class="lesson-page-card title-page"><h1>Lesson 13</h1><div class="subtitle">Week 3</div><p>The Wonderful Wizard of Oz</p><p>Chapter 10: The Guardian of the Gates</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Today You Will:</h2><ul><li>Read The Guardian of the Gates</li><li>Learn 2 vocabulary words</li><li>Answer 3 questions</li></ul></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Vocabulary</h2><p><strong>wicked</strong> and <strong>search</strong></p><textarea id="vocab1"></textarea><textarea id="vocab2"></textarea></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Vocab Practice</h2><p>Practice using the words</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>The Guardian of the Gates (Part 1)</h2><div><p>They rested in the grass until everyone felt strong again. Then they stood and looked ahead. The yellow brick road climbed a gentle hill, and beyond the hill, something sparkled in the distance — bright and green and impossibly dazzling, like a jewel set into the earth.</p><p>"The Emerald City," the Scarecrow whispered.</p><p>They hurried forward. With every step, the sparkle grew brighter and more magnificent. Soon they could see the great wall that surrounded the city, studded with emeralds that caught the sunlight and threw it back in brilliant green flashes. The wall was very tall, and behind it, towers and spires rose into the sky, gleaming like they were made of solid light.</p><p>"I have never seen anything so beautiful," the Tin Woodman said.</p><p>"Neither have I," said the Lion, and for once, he did not seem afraid of anything.</p><p>At the gate stood a small man dressed entirely in green — green clothes, green shoes, even green whiskers that curled at the tips. He had sharp, intelligent eyes and a serious expression.</p><p>"What do you wish in the Emerald City?" he asked.</p><p>"We have come to see the great Oz," Dorothy said.</p><p>The man's eyes widened. "Oz? No one has asked to see Oz in many years. He is very powerful and very terrible. If you come on a foolish errand, he may destroy you."</p><p>"It is not a foolish errand," Dorothy said. She stood up straight and looked the man in the eye. "I need to get home."</p></div></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>The Guardian of the Gates (Part 2)</h2><div><p>The Guardian studied her — her dusty dress, her silver shoes, the shining mark on her forehead where the Witch of the North had kissed her. He studied the Scarecrow, the Tin Woodman, and the great Lion. He studied Toto, who wagged his tail.</p><p>"Very well," the Guardian said at last. "But you must wear these spectacles inside the city. Everyone who enters the Emerald City must wear them, by order of Oz."</p><p>He opened a large box filled with green-tinted spectacles of every size. He found pairs for each of them — even Toto, whose tiny spectacles made him look very dignified — and locked them onto their heads with a small golden key.</p><p>"Why must we wear them?" Dorothy asked.</p><p>"If you did not," the Guardian said, "the brightness and glory of the Emerald City would blind you. The city is so dazzling that no one can look upon it with unprotected eyes."</p><p>He turned the key in the great lock, and the gate swung open.</p><p>Dorothy gasped.</p><p>Everything was green. The streets were green marble. The houses were built of green stone with green glass windows. The sky itself seemed to glow with emerald light through the tinted spectacles. People walked by in green velvet and green silk, eating green candy, selling green lemonade from green carts. A green dog trotted past, followed by a green cat. Even the sun seemed to shine green.</p><p>"It's incredible," Dorothy breathed.</p><p>The Tin Woodman's tin body reflected green light in every direction. The Lion's golden mane looked almost emerald. The Scarecrow's painted face glowed.</p></div></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>The Guardian of the Gates (Part 3)</h2><div><p>They walked through the streets in wonder. Everything was clean and bright and beautiful. The people smiled at them. Children waved. It felt like walking through the inside of a jewel.</p><p>But the Scarecrow, who noticed things even though he said he had no brains, walked quietly and looked around with his painted eyes, and something bothered him.</p><p>The spectacles were green. Everything looked green through them. But was the city ACTUALLY green? If everyone always wore green glasses, how would they know what color anything really was?</p><p>He kept this thought to himself. But it settled into the back of his straw-stuffed head, and it would not go away.</p><p>A soldier with a long green beard led them to the Palace of Oz, which was the grandest building of all — green marble walls, emerald-studded doors, and hallways so bright they seemed to hum with light.</p><p>"The great Oz will see you," the soldier said. "But only one at a time. And I warn you — do not make him angry."</p><p>The four friends looked at each other.</p><p>"I will go first," Dorothy said.</p><p>She took a breath, straightened her dress, and walked through the great doors alone.</p></div></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Comprehension</h2><textarea id="q1"></textarea><textarea id="q2"></textarea><textarea id="q3"></textarea></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Grammar</h2><p>Skills practice</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Learn More</h2><p>Informational text</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Writing</h2><textarea id="writing"></textarea></div>' }
+  ]
+};
+if (typeof initLessonViewer === 'function') initLessonViewer(lesson13Config);
+</script></body></html>

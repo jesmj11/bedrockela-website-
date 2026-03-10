@@ -1,224 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson 10 - 4th Grade BedrockELA</title>
-    <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
-</head>
-<body class="lesson-viewer">
-    <div id="lesson-container" class="lesson-container"></div>
-
-    <script src="js/billy-tts.js"></script>
-    <script src="js/lesson-viewer.js?v=1772665488"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="js/lesson-completion.js?v=1772665488"></script>
-    <script src="js/lesson-autosave.js?v=1772665488"></script>
-    <script src="js/save-button-injector.js?v=1772665488"></script>
-    <script src="js/answer-validation.js?v=1772665488"></script>
-    <script src="js/grade-normalizer.js?v=1772665488"></script>
-    <script src="js/offline-sync.js?v=1772665488"></script>
-    <script src="js/text-to-speech.js?v=1772665488"></script>
-    <script src="js/digital-book.js?v=1772665488"></script>
-    
-    <script>
-        const lesson10Config = {
-            lessonId: '4th-grade-day-10',
-            gradeLevel: '4th-grade',
-            title: 'Lesson 10 - 4th Grade',
-            pages: [
-                // Page 1: Title
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h1>Lesson 10</h1>
-                            <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
-                                The Wonderful Wizard of Oz
-                            </p>
-                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 10: The Guardian of the Gates</p>
-                        </div>
-                    `
-                },
-                
-                // Page 2: Objectives
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Welcome to Lesson 10!</h2>
-                            <p>Today you will:</p>
-                            <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Read Chapter 10: <strong>The Guardian of the Gates</strong></li>
-                                <li>Learn 1 new vocabulary word</li>
-                                <li>Answer 1 comprehension question</li>
-                                <li>Practice critical thinking</li>
-                            </ul>
-                            <p><strong>Time needed:</strong> About 30-45 minutes</p>
-                        </div>
-                    `
-                },
-                
-                // Page 3: Vocabulary (1 word)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Vocabulary Word</h2>
-                            
-                            <div style="margin: 40px 0;">
-                                <div style="padding: 30px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                    <div style="margin-bottom: 15px;">
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">dazzling</span>
-                                        <span style="font-size: 16px; color: #666; margin-left: 12px;">(adjective)</span>
-                                    </div>
-                                    <p style="font-size: 18px; font-weight: 600; margin-bottom: 20px; line-height: 1.6;">So bright and impressive that it is almost overwhelming. Something that amazes your eyes.</p>
-                                    <p style="font-size: 15px; color: #666; margin-bottom: 12px;">
-                                        Write a sentence using this word:
-                                    </p>
-                                    <textarea 
-                                      id="vocab-1"
-                                      style="width: 100%; min-height: 100px; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;"
-                                      placeholder="Type your sentence here..."
-                                    ></textarea>
-                                </div>
-                            </div>
-                            
-                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
-                                <p style="margin: 0;"><strong>Watch for this word</strong> in today's reading!</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Reading Pages (4 pages)
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 10: The Guardian of the Gates</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 1 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>Then they stood and looked ahead. The yellow brick road climbed a gentle hill, and beyond the hill, something sparkled in the distance — bright and green and impossibly dazzling, like a jewel set into the earth.\"The Emerald City,\" the Scarecrow whispered.They hurried forward. With every step, the sparkle grew brighter and more magnificent. Soon they could see the great wall that surrounded the city, studded with emeralds that caught the sunlight and threw it back in brilliant green flashes. The wall was very tall, and behind it, towers and spires rose into the sky, gleaming like they were made of solid light.\"I have never seen anything so beautiful,\" the Tin Woodman said.\"Neither have I,\" said the Lion, and for once, he did not seem afraid of anything.At the gate stood a small man dressed entirely in green — green clothes, green shoes, even green whiskers that curled at the tips. He had sharp, intelligent eyes and a serious expression.\"What do you wish in the Emerald City?\" he asked.\"We have</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 10: The Guardian of the Gates</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 2 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>come to see the great Oz,\" Dorothy said.The man's eyes widened. \"Oz? No one has asked to see Oz in many years. He is very powerful and very terrible. If you come on a foolish errand, he may destroy you.\"\"It is not a foolish errand,\" Dorothy said. She stood up straight and looked the man in the eye. \"I need to get home.\"The Guardian studied her — her dusty dress, her silver shoes, the shining mark on her forehead where the Witch of the North had kissed her. He studied the Scarecrow, the Tin Woodman, and the great Lion. He studied Toto, who wagged his tail.\"Very well,\" the Guardian said at last. \"But you must wear these spectacles inside the city. Everyone who enters the Emerald City must wear them, by order of Oz.\"He opened a large box filled with green-tinted spectacles of every size. He found pairs for each of them — even Toto, whose tiny spectacles made him look very dignified — and locked them onto their heads</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 10: The Guardian of the Gates</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 3 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>with a small golden key.\"Why must we wear them?\" Dorothy asked.\"If you did not,\" the Guardian said, \"the brightness and glory of the Emerald City would blind you. The city is so dazzling that no one can look upon it with unprotected eyes.\"He turned the key in the great lock, and the gate swung open.Dorothy gasped.Everything was green. The streets were green marble. The houses were built of green stone with green glass windows. The sky itself seemed to glow with emerald light through the tinted spectacles. People walked by in green velvet and green silk, eating green candy, selling green lemonade from green carts. A green dog trotted past, followed by a green cat. Even the sun seemed to shine green.\"It's incredible,\" Dorothy breathed.The Tin Woodman's tin body reflected green light in every direction. The Lion's golden mane looked almost emerald. The Scarecrow's painted face glowed.They walked through the streets in wonder. Everything was clean and bright and beautiful. The people smiled at them. Children waved. It felt like</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 10: The Guardian of the Gates</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 4 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>walking through the inside of a jewel.But the Scarecrow, who noticed things even though he said he had no brains, walked quietly and looked around with his painted eyes, and something bothered him.The spectacles were green. Everything looked green through them. But was the city ACTUALLY green? If everyone always wore green glasses, how would they know what color anything really was?He kept this thought to himself. But it settled into the back of his straw-stuffed head, and it would not go away.A soldier with a long green beard led them to the Palace of Oz, which was the grandest building of all — green marble walls, emerald-studded doors, and hallways so bright they seemed to hum with light.\"The great Oz will see you,\" the soldier said. \"But only one at a time. And I warn you — do not make him angry.\"The four friends looked at each other.\"I will go first,\" Dorothy said.She took a breath, straightened her dress, and walked through the great doors alone.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Comprehension: Multiple Choice Only
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading Comprehension</h2>
-                            
-                            <div style="margin: 40px 0;">
-                                <div style="padding: 30px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1B2A4A;">
-                                    <p style="font-weight: 600; font-size: 18px; margin-bottom: 20px; line-height: 1.6;">What must everyone wear inside the Emerald City?</p>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="0" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">Green hats and green cloaks</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="1" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">Green spectacles locked onto their heads with a key</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="2" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">Green shoes made of emeralds</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="3" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">Nothing special — everyone dresses normally</span>
-                                        </label>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Completion
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>🎉 Excellent Work!</h2>
-                            <p style="font-size: 18px; margin: 20px 0;">You completed Lesson 10: <strong>The Guardian of the Gates</strong></p>
-                            
-                            <div style="padding: 20px; background: rgba(48,88,83,0.1); border-radius: 12px; margin: 20px 0;">
-                                <p style="margin: 0; font-size: 16px;"><strong>Next:</strong> Lesson 11</p>
-                            </div>
-                            
-                            <div style="padding: 15px; background: #fff; border: 2px solid #B06821; border-radius: 10px; margin-top: 20px;">
-                                <p style="margin: 0; color: #B06821; font-weight: 600;">📚 Keep reading!</p>
-                            </div>
-                        </div>
-                    `
-                }
-            ]
-        };
-
-        // Initialize
-        if (window.LessonViewer) {
-            new window.LessonViewer(lesson10Config);
-        }
-    </script>
-</body>
-</html>
+<html><head>
+<meta charset="UTF-8">
+<title>Assessment 10 - 4th Grade</title>
+<link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
+</head><body class="lesson-viewer">
+<div id="lesson-container"></div>
+<script src="js/lesson-viewer.js?v=1772665488"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="js/lesson-completion.js?v=1772665488"></script>
+<script src="js/lesson-autosave.js?v=1772665488"></script>
+<script>
+const lesson10Config = {
+  lessonId: '4th-grade-day-10',
+  gradeLevel: '4th-grade',
+  title: 'Assessment 10',
+  pages: [
+    { render: () => '<div class="lesson-page-card title-page"><h1>Week 2 Assessment</h1><div class="subtitle">Day 10</div></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Vocabulary Quiz</h2></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Comprehension</h2></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Grammar Review</h2></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Language Review</h2></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Writing Prompt</h2></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Great Work!</h2><p>Week 2 complete!</p></div>' }
+  ]
+};
+if (typeof initLessonViewer === 'function') initLessonViewer(lesson10Config);
+</script></body></html>

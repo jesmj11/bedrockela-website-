@@ -1,224 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson 20 - 4th Grade BedrockELA</title>
-    <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
-</head>
-<body class="lesson-viewer">
-    <div id="lesson-container" class="lesson-container"></div>
-
-    <script src="js/billy-tts.js"></script>
-    <script src="js/lesson-viewer.js?v=1772665488"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="js/lesson-completion.js?v=1772665488"></script>
-    <script src="js/lesson-autosave.js?v=1772665488"></script>
-    <script src="js/save-button-injector.js?v=1772665488"></script>
-    <script src="js/answer-validation.js?v=1772665488"></script>
-    <script src="js/grade-normalizer.js?v=1772665488"></script>
-    <script src="js/offline-sync.js?v=1772665488"></script>
-    <script src="js/text-to-speech.js?v=1772665488"></script>
-    <script src="js/digital-book.js?v=1772665488"></script>
-    
-    <script>
-        const lesson20Config = {
-            lessonId: '4th-grade-day-20',
-            gradeLevel: '4th-grade',
-            title: 'Lesson 20 - 4th Grade',
-            pages: [
-                // Page 1: Title
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h1>Lesson 20</h1>
-                            <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
-                                The Wonderful Wizard of Oz
-                            </p>
-                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 20: The Dainty China Country</p>
-                        </div>
-                    `
-                },
-                
-                // Page 2: Objectives
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Welcome to Lesson 20!</h2>
-                            <p>Today you will:</p>
-                            <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Read Chapter 20: <strong>The Dainty China Country</strong></li>
-                                <li>Learn 1 new vocabulary word</li>
-                                <li>Answer 1 comprehension question</li>
-                                <li>Practice critical thinking</li>
-                            </ul>
-                            <p><strong>Time needed:</strong> About 30-45 minutes</p>
-                        </div>
-                    `
-                },
-                
-                // Page 3: Vocabulary (1 word)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Vocabulary Word</h2>
-                            
-                            <div style="margin: 40px 0;">
-                                <div style="padding: 30px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                    <div style="margin-bottom: 15px;">
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">fragile</span>
-                                        <span style="font-size: 16px; color: #666; margin-left: 12px;">(adjective)</span>
-                                    </div>
-                                    <p style="font-size: 18px; font-weight: 600; margin-bottom: 20px; line-height: 1.6;">Easily broken or damaged. Delicate and requiring gentle handling.</p>
-                                    <p style="font-size: 15px; color: #666; margin-bottom: 12px;">
-                                        Write a sentence using this word:
-                                    </p>
-                                    <textarea 
-                                      id="vocab-1"
-                                      style="width: 100%; min-height: 100px; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;"
-                                      placeholder="Type your sentence here..."
-                                    ></textarea>
-                                </div>
-                            </div>
-                            
-                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
-                                <p style="margin: 0;"><strong>Watch for this word</strong> in today's reading!</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Reading Pages (4 pages)
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 20: The Dainty China Country</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 1 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>The ground changed suddenly from dirt and grass to something smooth, hard, and white — like the bottom of a teacup. Dorothy knelt down and touched it. It was china.\"How strange,\" the Scarecrow said.They walked forward carefully. Tiny houses appeared along the road, no taller than Dorothy's waist. They were made of painted china — delicate, beautiful, with tiny chimneys and tiny doors and tiny windows with tiny curtains. The roofs were glazed in bright colors: red, blue, yellow, and green.And the people were china, too.They were small — no higher than Dorothy's knee — with painted faces, painted clothes, and bodies so thin and fragile that Dorothy could see the light shining through them. China milkmaids carried china pails. China shepherds tended china sheep. A china princess in a china gown walked through a china garden, and when she saw the travelers, she froze in alarm.\"Please,\" the princess said in a voice like a tiny bell, \"please be very careful. If you</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 20: The Dainty China Country</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 2 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>step on us, we will break. And once we are broken, we are mended with glue, but we are never quite the same.\"\"We will be very careful,\" Dorothy promised. She picked up Toto and held him tightly so he would not chase the china animals.They walked through the china country one step at a time, placing each foot with enormous care. The Tin Woodman was the most cautious of all. He lifted each foot high and set it down gently, terrified of crushing some tiny creature.\"I could not bear to break something so beautiful,\" he said. His hand was pressed against his chest, over his silk heart.The Lion had the hardest time. He was enormous — his great paws could have crushed a china house in a single step. He held his breath and tiptoed, which looked absurd for a creature his size, but no one laughed. The stakes were too high.\"Tell me about your country,\" the Scarecrow said to the china princess</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 20: The Dainty China Country</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 3 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>as they walked.\"We live quiet lives here,\" the princess said. \"We do not travel. We do not fight. We spend our days in our gardens and our houses, being careful. That is the most important thing in the china country: being careful. Because we are fragile, and the world is not.\"\"That sounds lonely,\" Dorothy said.\"Perhaps,\" the princess said. \"But it is also peaceful. No one here is in a hurry. No one here is angry. We have learned that the most important things in life — kindness, beauty, gentleness — are also the most breakable. So we protect them.\"Dorothy thought about this long after they left the china country. She thought about Aunt Em, who had once been young and cheerful but had been worn down by the harsh Kansas wind. She thought about the Tin Woodman, whose heart had been taken away piece by piece. She thought about how easy it is to break things — and how hard it is to</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 20: The Dainty China Country</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 4 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>put them back together.The Lion's tail, swishing as he walked, accidentally knocked over a tiny china church. The Tin Woodman stopped, knelt down, and carefully set it upright again. The china minister inside shook his tiny fist, but no one was hurt.\"Sorry,\" the Lion murmured, tucking his tail between his legs.When they finally reached the far edge of the china country, they stepped off the smooth white ground and back onto dirt with enormous relief. The Scarecrow looked back at the delicate world behind them.\"I think that was the most important place we have visited,\" he said.\"Why?\" the Lion asked.\"Because it reminded me that strength is not the only thing that matters. Gentleness matters, too. And sometimes the most powerful thing you can do is simply be careful with the world around you.\"Dorothy squeezed the Scarecrow's stuffed hand. \"For someone who says he has no brains,\" she said, \"you are very wise.\"\"I know,\" the Scarecrow said, surprised at himself. \"I really am.\"</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Comprehension: Multiple Choice Only
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading Comprehension</h2>
-                            
-                            <div style="margin: 40px 0;">
-                                <div style="padding: 30px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1B2A4A;">
-                                    <p style="font-weight: 600; font-size: 18px; margin-bottom: 20px; line-height: 1.6;">Why must the travelers be extremely careful in the china country?</p>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="0" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">The ground is slippery</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="1" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">The people and buildings are made of fragile china that shatters if touched</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="2" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">There are hidden traps everywhere</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="3" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">The china people are hostile</span>
-                                        </label>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Completion
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>🎉 Excellent Work!</h2>
-                            <p style="font-size: 18px; margin: 20px 0;">You completed Lesson 20: <strong>The Dainty China Country</strong></p>
-                            
-                            <div style="padding: 20px; background: rgba(48,88,83,0.1); border-radius: 12px; margin: 20px 0;">
-                                <p style="margin: 0; font-size: 16px;"><strong>Next:</strong> Lesson 21</p>
-                            </div>
-                            
-                            <div style="padding: 15px; background: #fff; border: 2px solid #B06821; border-radius: 10px; margin-top: 20px;">
-                                <p style="margin: 0; color: #B06821; font-weight: 600;">📚 Keep reading!</p>
-                            </div>
-                        </div>
-                    `
-                }
-            ]
-        };
-
-        // Initialize
-        if (window.LessonViewer) {
-            new window.LessonViewer(lesson20Config);
-        }
-    </script>
-</body>
-</html>
+<html><head>
+<meta charset="UTF-8">
+<title>Assessment 20 - 4th Grade</title>
+<link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
+</head><body class="lesson-viewer">
+<div id="lesson-container"></div>
+<script src="js/lesson-viewer.js?v=1772665488"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="js/lesson-completion.js?v=1772665488"></script>
+<script src="js/lesson-autosave.js?v=1772665488"></script>
+<script>
+const lesson20Config = {
+  lessonId: '4th-grade-day-20',
+  gradeLevel: '4th-grade',
+  title: 'Assessment 20',
+  pages: [
+    { render: () => '<div class="lesson-page-card title-page"><h1>Week 4 Assessment</h1><div class="subtitle">Day 20</div></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Vocabulary Quiz</h2></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Comprehension</h2></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Grammar Review</h2></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Language Review</h2></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Writing Prompt</h2></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Great Work!</h2><p>Week 4 complete!</p></div>' }
+  ]
+};
+if (typeof initLessonViewer === 'function') initLessonViewer(lesson20Config);
+</script></body></html>

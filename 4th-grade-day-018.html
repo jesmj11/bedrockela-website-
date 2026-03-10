@@ -1,224 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson 18 - 4th Grade BedrockELA</title>
-    <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
-</head>
-<body class="lesson-viewer">
-    <div id="lesson-container" class="lesson-container"></div>
-
-    <script src="js/billy-tts.js"></script>
-    <script src="js/lesson-viewer.js?v=1772665488"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="js/lesson-completion.js?v=1772665488"></script>
-    <script src="js/lesson-autosave.js?v=1772665488"></script>
-    <script src="js/save-button-injector.js?v=1772665488"></script>
-    <script src="js/answer-validation.js?v=1772665488"></script>
-    <script src="js/grade-normalizer.js?v=1772665488"></script>
-    <script src="js/offline-sync.js?v=1772665488"></script>
-    <script src="js/text-to-speech.js?v=1772665488"></script>
-    <script src="js/digital-book.js?v=1772665488"></script>
-    
-    <script>
-        const lesson18Config = {
-            lessonId: '4th-grade-day-18',
-            gradeLevel: '4th-grade',
-            title: 'Lesson 18 - 4th Grade',
-            pages: [
-                // Page 1: Title
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h1>Lesson 18</h1>
-                            <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
-                                The Wonderful Wizard of Oz
-                            </p>
-                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 18: The Balloon</p>
-                        </div>
-                    `
-                },
-                
-                // Page 2: Objectives
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Welcome to Lesson 18!</h2>
-                            <p>Today you will:</p>
-                            <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Read Chapter 18: <strong>The Balloon</strong></li>
-                                <li>Learn 1 new vocabulary word</li>
-                                <li>Answer 1 comprehension question</li>
-                                <li>Practice critical thinking</li>
-                            </ul>
-                            <p><strong>Time needed:</strong> About 30-45 minutes</p>
-                        </div>
-                    `
-                },
-                
-                // Page 3: Vocabulary (1 word)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Vocabulary Word</h2>
-                            
-                            <div style="margin: 40px 0;">
-                                <div style="padding: 30px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                    <div style="margin-bottom: 15px;">
-                                        <span style="font-size: 32px; font-weight: 800; color: #305853;">inflate</span>
-                                        <span style="font-size: 16px; color: #666; margin-left: 12px;">(verb)</span>
-                                    </div>
-                                    <p style="font-size: 18px; font-weight: 600; margin-bottom: 20px; line-height: 1.6;">To fill something with air or gas so it expands and rises.</p>
-                                    <p style="font-size: 15px; color: #666; margin-bottom: 12px;">
-                                        Write a sentence using this word:
-                                    </p>
-                                    <textarea 
-                                      id="vocab-1"
-                                      style="width: 100%; min-height: 100px; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;"
-                                      placeholder="Type your sentence here..."
-                                    ></textarea>
-                                </div>
-                            </div>
-                            
-                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
-                                <p style="margin: 0;"><strong>Watch for this word</strong> in today's reading!</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Reading Pages (4 pages)
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 18: The Balloon</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 1 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>He had done it many times in the circus, and his hands remembered the craft even after all these years.He cut strips of green silk — there was plenty of green silk in the Emerald City — and sewed them together into a great bag, wider at the top and narrow at the bottom. He coated the inside with thin glue to keep the hot air from leaking out. Then he attached the bag to a large wicker basket, big enough for two people and one small dog.While he worked, word spread through the city that the great Wizard of Oz was leaving. The people were upset, but the man calmed them.\"I am going away on a journey,\" he announced from the palace balcony. \"While I am gone, the Scarecrow will rule over you. He has brains now, and he will govern you wisely.\"The people cheered. They loved the Scarecrow, who had helped kill the Wicked Witch.The Scarecrow was nervous. \"I don't know anything about ruling a city,\" he whispered</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 18: The Balloon</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 2 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>to Dorothy.\"You'll figure it out,\" Dorothy said. \"You always do.\"On the morning of the launch, the balloon was inflated in the great square before the palace. A fire underneath heated the air inside, and the green silk bag swelled and rose, tugging at the ropes that held it down. The whole city turned out to watch.Dorothy hugged her friends one by one.\"Goodbye, Scarecrow,\" she said. \"You were always the smartest person I knew — even before the brains.\"\"Goodbye, Dorothy,\" the Scarecrow said. \"I will miss you terribly. But I will try to think of cheerful things, since I now have brains to think with.\"\"Goodbye, Tin Woodman,\" Dorothy said. \"You have the biggest heart of anyone, and you always did.\"The Tin Woodman was crying so hard he could not speak. Dorothy oiled his jaw so it would not rust, and he managed to whisper, \"You are the best friend I ever had.\"\"Goodbye, Lion,\" Dorothy said. \"You are the bravest creature in all of Oz.\"\"Only because you believed in me,\" the Lion</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 18: The Balloon</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 3 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>said. His great golden eyes were wet. \"I was nothing before you came along.\"\"That is not true,\" Dorothy said firmly. \"You were always brave. You just didn't know it.\"The balloon strained against its ropes. The man from Omaha climbed into the basket and called to Dorothy. \"Hurry! The balloon is ready! We must go now, before it lifts off without us!\"Dorothy turned to get Toto — but the little dog had spotted a cat in the crowd and had run off barking. Dorothy chased after him.\"Come back, Toto! Come back!\"There was a snap. One of the ropes broke. Then another. The basket lurched upward.\"Dorothy!\" the man cried. \"Hurry!\"But Dorothy was still chasing Toto through the crowd. She caught him, scooped him up, and turned back — just in time to see the last rope break.The balloon rose into the air.\"Come back!\" Dorothy shouted. \"Wait for me!\"\"I can't!\" the man called down. His voice was already faint. The balloon was rising fast, caught by the wind. \"I don't know how to</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: #305853;">Chapter 18: The Balloon</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 4 of 4</p>
-                            
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;" class="reading-passage">
-                                <p>bring it down! Goodbye, Dorothy! Goodbye!\"The balloon sailed up and up, growing smaller against the blue sky, until it was nothing but a green speck, and then nothing at all.Dorothy stood in the square, holding Toto, and watched it disappear.The man from Omaha was gone. And Dorothy was still in Oz.She did not cry. Not right away. She stood very still, feeling the weight of it — the closed door, the vanished hope, the enormous distance between her and Kansas.Then the Scarecrow put his stuffed hand on her shoulder. The Tin Woodman stood on her other side. The Lion pressed his great warm body against her back.\"We will find another way,\" the Scarecrow said.\"We will not give up,\" the Tin Woodman said.\"We are with you,\" the Lion said.Dorothy looked at her three friends — the ones who were supposed to need her help, who had turned out to be the ones helping her — and she allowed herself one small, tired smile.\"All right,\" she said. \"Another way.\"</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Comprehension: Multiple Choice Only
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading Comprehension</h2>
-                            
-                            <div style="margin: 40px 0;">
-                                <div style="padding: 30px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1B2A4A;">
-                                    <p style="font-weight: 600; font-size: 18px; margin-bottom: 20px; line-height: 1.6;">Why does the balloon leave without Dorothy?</p>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="0" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">The Wizard leaves her behind on purpose</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="1" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">Toto chases a cat, Dorothy runs after him, and the ropes break before she can get back</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="2" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">The balloon is too small for two people</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div style="margin: 15px 0;">
-                                        <label style="display: flex; align-items: start; cursor: pointer; padding: 12px; border-radius: 8px; transition: background 0.2s; border: 2px solid transparent;" onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#305853'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
-                                            <input type="radio" name="mc-q1" value="3" style="margin-right: 12px; margin-top: 4px;">
-                                            <span style="font-size: 16px;">Dorothy decides she does not want to leave</span>
-                                        </label>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Completion
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>🎉 Excellent Work!</h2>
-                            <p style="font-size: 18px; margin: 20px 0;">You completed Lesson 18: <strong>The Balloon</strong></p>
-                            
-                            <div style="padding: 20px; background: rgba(48,88,83,0.1); border-radius: 12px; margin: 20px 0;">
-                                <p style="margin: 0; font-size: 16px;"><strong>Next:</strong> Lesson 19</p>
-                            </div>
-                            
-                            <div style="padding: 15px; background: #fff; border: 2px solid #B06821; border-radius: 10px; margin-top: 20px;">
-                                <p style="margin: 0; color: #B06821; font-weight: 600;">📚 Keep reading!</p>
-                            </div>
-                        </div>
-                    `
-                }
-            ]
-        };
-
-        // Initialize
-        if (window.LessonViewer) {
-            new window.LessonViewer(lesson18Config);
-        }
-    </script>
-</body>
-</html>
+<html><head>
+<meta charset="UTF-8">
+<title>Lesson 18 - 4th Grade</title>
+<link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
+</head><body class="lesson-viewer">
+<div id="lesson-container"></div>
+<script src="js/lesson-viewer.js?v=1772665488"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="js/lesson-completion.js?v=1772665488"></script>
+<script src="js/lesson-autosave.js?v=1772665488"></script>
+<script>
+const lesson18Config = {
+  lessonId: '4th-grade-day-18',
+  gradeLevel: '4th-grade',
+  title: 'Lesson 18',
+  pages: [
+    { render: () => '<div class="lesson-page-card title-page"><h1>Lesson 18</h1><div class="subtitle">Week 4</div><p>The Wonderful Wizard of Oz</p><p>Chapter 14: The Melting of the Witch</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Today You Will:</h2><ul><li>Read The Melting of the Witch</li><li>Learn 2 vocabulary words</li><li>Answer 3 questions</li></ul></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Vocabulary</h2><p><strong>winged</strong> and <strong>monkey</strong></p><textarea id="vocab1"></textarea><textarea id="vocab2"></textarea></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Vocab Practice</h2><p>Practice using the words</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>The Melting of the Witch (Part 1)</h2><div><p>The next morning, Dorothy filled her bucket at the well and carried it into the kitchen. The Witch was waiting for her, wearing the stolen silver shoe on one foot and nothing on the other. She was in a foul mood.</p><p>"Scrub faster!" the Witch snapped. "And when you are finished with the kitchen, scrub the hallway. And when you are finished with the hallway, scrub the stairs. I want every stone in this castle clean enough to eat from."</p><p>Dorothy scrubbed. The water sloshed in the bucket, and the Witch kept her distance, watching from the doorway with her one terrible eye.</p><p>It happened quickly.</p><p>The Witch lunged forward, trying to snatch the second silver shoe from Dorothy's foot. Dorothy jumped back. The bucket tipped. Water splashed across the floor — and across the Witch.</p><p>The Witch screamed.</p><p>It was not a scream of anger. It was a scream of pure terror.</p><p>"What have you done?" the Witch shrieked. She was shrinking. Her black robes were collapsing around her. Her body was dissolving, melting away like brown sugar in the rain. "Don't you know that water will be the end of me?"</p><p>"I didn't know!" Dorothy cried, her heart hammering. "I'm sorry!"</p><p>"I have been wicked in my day," the Witch wailed, her voice fading as she grew smaller and smaller. "But I never thought a little girl would be the end of me. Oh — I'm melting! Melting! What a world... what a world..."</p></div></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>The Melting of the Witch (Part 2)</h2><div><p>Her voice trailed off into nothing. Where the Wicked Witch of the West had stood, there was now only a brown puddle on the kitchen floor and a pointed black hat floating in it.</p><p>Dorothy stood very still. The kitchen was silent. Toto crept out from under the table and sniffed at the puddle. Even he seemed surprised.</p><p>"It was an accident," Dorothy whispered. She had not meant to do it. She had been carrying water, and the Witch had lunged, and the bucket had tipped. That was all.</p><p>She picked up the silver shoe from the brown puddle, wiped it clean, and put it back on her foot. Both silver shoes were hers again.</p><p>Then Dorothy took a deep breath and walked out of the kitchen.</p><p>She found the Winkies in the courtyard. They were the people of the western land — small, quiet, frightened people who had served the Witch for years out of terror. They had watched Dorothy go into the kitchen carrying a bucket of water and heard the Witch's scream.</p><p>"The Witch is dead," Dorothy told them.</p><p>For a moment, no one moved. Then one Winkie began to cry. Then another. Then they were all crying and laughing at the same time, hugging each other and jumping up and down. Years of fear and cruelty dissolved in an instant, like the Witch herself.</p><p>Dorothy ran to the Lion's cage and broke the lock. The great beast bounded out, stretching his cramped legs and shaking his mane.</p><p>"Is it true?" the Lion asked. "She is really gone?"</p></div></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>The Melting of the Witch (Part 3)</h2><div><p>"She is really gone," Dorothy said.</p><p>"Then we must find the Scarecrow and the Tin Woodman," the Lion said. "We must put our friends back together."</p><p>The Winkies were eager to help. They sent their best tinsmiths to find the Tin Woodman on the rocks where the Winged Monkeys had dropped him. He was badly dented — his arms bent at wrong angles, his legs twisted, one side of his body nearly flat. But the tinsmiths were the finest in Oz, and they worked for three days, hammering and shaping and polishing, until the Tin Woodman looked almost as good as new.</p><p>When he opened his eyes and saw Dorothy, a tear rolled down his cheek. "I thought I would never see you again," he said.</p><p>"Don't cry," Dorothy said, reaching for the oil can. "You'll rust."</p><p>"Some tears are worth the rust," the Tin Woodman said.</p><p>The Winkies found the Scarecrow's clothes in the top of a tall tree, empty and flat. They stuffed him with fresh, clean straw — the finest straw in the western land — and sewed him up carefully. When his painted eyes blinked open, the Scarecrow looked around and said, "Well. That was thoroughly unpleasant. But I must say, new straw feels wonderful. The old straw was getting quite lumpy."</p><p>Dorothy threw her arms around him. Then around the Tin Woodman. Then around the Lion. Toto barked and ran in circles around all of them.</p><p>They were together again. And the Wicked Witch was gone.</p><p>"Now," Dorothy said, "let us go back to the Emerald City and tell Oz."</p></div></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Comprehension</h2><textarea id="q1"></textarea><textarea id="q2"></textarea><textarea id="q3"></textarea></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Language</h2><p>Skills practice</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Learn More</h2><p>Informational text</p></div>' },
+    { render: () => '<div class="lesson-page-card content-page"><h2>Writing</h2><textarea id="writing"></textarea></div>' }
+  ]
+};
+if (typeof initLessonViewer === 'function') initLessonViewer(lesson18Config);
+</script></body></html>

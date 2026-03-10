@@ -38,7 +38,7 @@ Dorothy Gale is swept away from Kansas by a cyclone and lands in the magical Lan
 ## 📊 Unit Structure
 
 ### Week 1: The Cyclone & Arrival (Days 1-5)
-**Chapters:** The Cyclone, Council with Munchkins, Dorothy Saves Scarecrow
+**Chapters 1-4:** The Cyclone, The Council with the Munchkins, How Dorothy Saved the Scarecrow, The Road Through the Forest
 
 **Vocabulary (8 words):**
 - Day 1: **cyclone, prairie**
@@ -50,75 +50,75 @@ Dorothy Gale is swept away from Kansas by a cyclone and lands in the magical Lan
 **Themes:** Beginning adventures, making friends, setting goals
 
 ### Week 2: Building the Team (Days 6-10)
-**Chapters:** Road Through Forest, Tin Woodman, Cowardly Lion, Journey to Oz
+**Chapters 5-8:** The Rescue of the Tin Woodman, The Cowardly Lion, The Journey to the Great Oz, The Deadly Poppy Field
 
 **Vocabulary (8 words):**
 - Day 6: **rust, woodman**
 - Day 7: **courage, timid**
 - Day 8: **poppy, deadly**
-- Day 9: **splendor, guardian**
+- Day 9: **guardian, gate**
 - Day 10: ASSESSMENT
 
-**Themes:** Each friend has different needs, working together
+**Themes:** Each friend has different needs, working together, dangers on the journey
 
 ### Week 3: The Emerald City (Days 11-15)
-**Chapters:** Wonderful Emerald City, Search for Wicked Witch
+**Chapters 9-12:** The Queen of the Field Mice, The Guardian of the Gates, The Great and Terrible Oz, The Search for the Wicked Witch
 
 **Vocabulary (8 words):**
 - Day 11: **spectacles, magnificent**
 - Day 12: **throne, commanded**
-- Day 13: **wicked, enslaved**
-- Day 14: **winged, monkey**
+- Day 13: **wicked, search**
+- Day 14: **prisoner, enslaved**
 - Day 15: ASSESSMENT
 
-**Themes:** Things aren't always as they seem, facing challenges
+**Themes:** Arrival in Oz, meeting the Wizard, accepting the quest
 
 ### Week 4: Defeating the Witch (Days 16-20)
-**Chapters:** Rescue, Winged Monkeys, Discovery of Oz the Terrible
+**Chapters 13-16:** Dorothy the Prisoner, The Melting of the Witch, The Winged Monkeys, The Discovery of Oz the Terrible
 
 **Vocabulary (8 words):**
 - Day 16: **captive, rescue**
 - Day 17: **dissolve, melt**
-- Day 18: **humbug, deceive**
-- Day 19: **diploma, medal**
+- Day 18: **winged, monkey**
+- Day 19: **humbug, terrible**
 - Day 20: ASSESSMENT
 
 **Themes:** Conquering fears, truth revealed, already having what you need
 
 ### Week 5: Journey Home Begins (Days 21-25)
-**Chapters:** Magic Art of Great Humbug, Away to South, Attacked by Trees
+**Chapters 17-20:** The Magic of Oz, The Balloon, The Journey South, The Dainty China Country
 
 **Vocabulary (8 words):**
 - Day 21: **balloon, ascending**
-- Day 22: **porcelain, china**
-- Day 23: **hostile, hammer-head**
-- Day 24: **quadling, gracious**
+- Day 22: **porcelain, dainty**
+- Day 23: **china, fragile**
+- Day 24: **journey, south**
 - Day 25: ASSESSMENT
 
-**Themes:** New adventures, perseverance, kindness of strangers
+**Themes:** New adventures, perseverance, strange new lands
 
 ### Week 6: Home at Last (Days 26-30)
-**Chapters:** Glinda Grants Dorothy's Wish, Home Again
+**Chapters 21-24:** The Country of the Quadlings, Glinda Grants Dorothy's Wish, There's No Place Like Home, Home Again
 
 **Vocabulary (8 words):**
-- Day 26: **silver, slippers**
-- Day 27: **desert, barrier**
-- Day 28: **kansas, prairie**
+- Day 26: **quadling, country**
+- Day 27: **glinda, grant**
+- Day 28: **slippers, magic**
 - Day 29: **gratitude, farewell**
 - Day 30: ASSESSMENT
 
-**Themes:** There's no place like home, saying goodbye, growth
+**Themes:** Finding Glinda, learning the truth, there's no place like home
 
 ---
 
 ## 📝 Total Vocabulary: 48 Words
 
 **Week 1:** cyclone, prairie, munchkin, sorceress, scarecrow, companion, emerald, journey  
-**Week 2:** rust, woodman, courage, timid, poppy, deadly, splendor, guardian  
-**Week 3:** spectacles, magnificent, throne, commanded, wicked, enslaved, winged, monkey  
-**Week 4:** captive, rescue, dissolve, melt, humbug, deceive, diploma, medal  
-**Week 5:** balloon, ascending, porcelain, china, hostile, hammer-head, quadling, gracious  
-**Week 6:** silver, slippers, desert, barrier, kansas, prairie, gratitude, farewell
+**Week 2:** rust, woodman, courage, timid, poppy, deadly, guardian, gate  
+**Week 3:** spectacles, magnificent, throne, commanded, wicked, search, prisoner, enslaved  
+**Week 4:** captive, rescue, dissolve, melt, winged, monkey, humbug, terrible  
+**Week 5:** balloon, ascending, porcelain, dainty, china, fragile, journey, south  
+**Week 6:** quadling, country, glinda, grant, slippers, magic, gratitude, farewell
 
 ---
 
@@ -274,10 +274,12 @@ Dorothy Gale is swept away from Kansas by a cyclone and lands in the magical Lan
 
 ## ✅ Status
 
-**Book content:** ✅ Available  
-**Lessons built:** ⏳ Some exist, may need regeneration with correct spine  
-**Vocabulary:** ⏳ Need to verify 2 words/day structure  
-**Assessment structure:** ⏳ Need to verify  
+**Book content:** ✅ READY! (24 chapters, adapted for 4th-5th grade)  
+**Book file:** `books/wizard-of-oz-4th-adapted.txt`  
+**Chapter data:** `book-data/wizard-of-oz-4th-chapters.json`  
+**Lessons built:** ⏳ Need to regenerate with correct 4th grade spine  
+**Vocabulary:** ⏳ Need to extract 48 words (2/day)  
+**Generator:** ⏳ Need to build script  
 
 ---
 

@@ -376,7 +376,7 @@ function buildRegularLesson(dayNum) {
                             <h3>${i + 1}. ${v.word}</h3>
                             <p class="definition"><strong>Definition:</strong> ${v.definition}</p>
                             <label>Write the definition in your own words:</label>
-                            <textarea id="vocab-${dayNum}-${i + 1}" rows="5" placeholder="Your definition..."></textarea>
+                            <textarea id="vocab-${dayNum}-${i + 1}" rows="10" placeholder="Your definition..."></textarea>
                         </div>
                     `).join('')}
                 `
@@ -436,17 +436,17 @@ function buildRegularLesson(dayNum) {
                     
                     <div class="question-card">
                         <p><strong>1.</strong> What were the most important events in these chapters?</p>
-                        <textarea id="comp-${dayNum}-1" rows="8" placeholder="Your answer..."></textarea>
+                        <textarea id="comp-${dayNum}-1" rows="15" placeholder="Your answer..."></textarea>
                     </div>
                     
                     <div class="question-card">
                         <p><strong>2.</strong> How do these chapters develop the story's themes of exploration and discovery?</p>
-                        <textarea id="comp-${dayNum}-2" rows="8" placeholder="Your answer..."></textarea>
+                        <textarea id="comp-${dayNum}-2" rows="15" placeholder="Your answer..."></textarea>
                     </div>
                     
                     <div class="question-card">
                         <p><strong>3.</strong> What challenges or conflicts do the characters face?</p>
-                        <textarea id="comp-${dayNum}-3" rows="8" placeholder="Your answer..."></textarea>
+                        <textarea id="comp-${dayNum}-3" rows="15" placeholder="Your answer..."></textarea>
                     </div>
                 `
             },
@@ -469,7 +469,7 @@ function buildRegularLesson(dayNum) {
                     ${skillContent.exercises.map((ex, i) => `
                         <div class="exercise-card">
                             <p><strong>${i + 1}.</strong> ${ex}</p>
-                            <textarea id="${skillContent.type}-${dayNum}-${i + 1}" rows="6" placeholder="Your answer..."></textarea>
+                            <textarea id="${skillContent.type}-${dayNum}-${i + 1}" rows="12" placeholder="Your answer..."></textarea>
                         </div>
                     `).join('')}
                 ` : '<p>Grammar/Language content will be added</p>'
@@ -501,14 +501,14 @@ function buildRegularLesson(dayNum) {
                     <p>Apply what you've learned about ${skillContent.topic}:</p>
                     <div class="writing-prompt">
                         <p><strong>Prompt:</strong> Write a paragraph about today's chapters using the grammar skills you practiced. Include at least 2 examples of the concept.</p>
-                        <textarea id="writing-${dayNum}" rows="15" placeholder="Your paragraph..."></textarea>
+                        <textarea id="writing-${dayNum}" rows="25" placeholder="Your paragraph..."></textarea>
                     </div>
                 ` : `
                     <h2>📝 Journal Response</h2>
                     <p>Reflect on today's reading:</p>
                     <div class="journal-prompt">
                         <p><strong>Prompt:</strong> Put yourself in Griffin's position. How would you feel about this expedition? What would excite or worry you?</p>
-                        <textarea id="journal-${dayNum}" rows="15" placeholder="Your journal entry..."></textarea>
+                        <textarea id="journal-${dayNum}" rows="25" placeholder="Your journal entry..."></textarea>
                     </div>
                 `
             }
@@ -553,7 +553,7 @@ function buildAssessment(dayNum) {
                     ${vocabList.map((v, i) => `
                         <div class="quiz-question">
                             <p><strong>${i + 1}. ${v.word}</strong></p>
-                            <textarea id="quiz-${dayNum}-vocab-${i + 1}" rows="4" placeholder="Definition..."></textarea>
+                            <textarea id="quiz-${dayNum}-vocab-${i + 1}" rows="8" placeholder="Definition..."></textarea>
                         </div>
                     `).join('')}
                 `
@@ -565,11 +565,11 @@ function buildAssessment(dayNum) {
                     <p>Answer these questions about this week's skills:</p>
                     <div class="quiz-question">
                         <p><strong>1.</strong> Review question will be added</p>
-                        <textarea id="quiz-${dayNum}-skill-1" rows="8"></textarea>
+                        <textarea id="quiz-${dayNum}-skill-1" rows="15"></textarea>
                     </div>
                     <div class="quiz-question">
                         <p><strong>2.</strong> Review question will be added</p>
-                        <textarea id="quiz-${dayNum}-skill-2" rows="8"></textarea>
+                        <textarea id="quiz-${dayNum}-skill-2" rows="15"></textarea>
                     </div>
                 `
             },
@@ -580,11 +580,11 @@ function buildAssessment(dayNum) {
                     <p>Synthesize this week's reading:</p>
                     <div class="quiz-question">
                         <p><strong>1.</strong> What were the major events this week?</p>
-                        <textarea id="quiz-${dayNum}-comp-1" rows="10"></textarea>
+                        <textarea id="quiz-${dayNum}-comp-1" rows="15"></textarea>
                     </div>
                     <div class="quiz-question">
                         <p><strong>2.</strong> How did the characters change or grow?</p>
-                        <textarea id="quiz-${dayNum}-comp-2" rows="10"></textarea>
+                        <textarea id="quiz-${dayNum}-comp-2" rows="15"></textarea>
                     </div>
                 `
             },
@@ -593,7 +593,7 @@ function buildAssessment(dayNum) {
                 content: `
                     <h2>✍️ Writing Response</h2>
                     <p><strong>Prompt:</strong> ${dayNum === 5 ? 'Should scientists pursue discoveries even when others doubt them? Use examples from the story.' : dayNum === 10 ? 'How should humans interact with isolated ecosystems? Consider both the Invisible Man plateau and real-world examples.' : 'What is the most important lesson from Griffin\'s expedition to the Invisible Man? Support your answer with evidence.'}</p>
-                    <textarea id="quiz-${dayNum}-writing" rows="20" placeholder="Write your response (1-2 paragraphs)..."></textarea>
+                    <textarea id="quiz-${dayNum}-writing" rows="30" placeholder="Write your response (1-2 paragraphs)..."></textarea>
                 `
             },
             {

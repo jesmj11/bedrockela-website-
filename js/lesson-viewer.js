@@ -545,3 +545,8 @@ window.initLessonViewer = function(first, second) {
     });
   };
 })();
+
+// Wrapper function for backward compatibility with 4th grade lessons
+function initLessonViewer(config) {
+  createLessonViewer('lesson-container', config);
+}

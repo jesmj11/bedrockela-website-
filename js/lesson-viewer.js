@@ -325,6 +325,22 @@ function createLessonViewer(containerId, lessonConfig) {
   }
   loadSavedAnswers();
 
+  // Render page content - supports both old (type/content) and new (render function) formats
+  function renderPageContent(page) {
+    // New format: page has a render() function
+    if (typeof page.render === 'function') {
+      return page.render(lessonProgress, markSectionComplete);
+    }
+    
+    // Old format: page has type and content properties
+    if (page.type && page.content) {
+      return `<div class="lesson-page-card ${page.type === 'title' ? 'title-page' : 'content-page'}">${page.content}</div>`;
+    }
+    
+    // Fallback
+    return '<div class="lesson-page-card content-page"><p>Content unavailable</p></div>';
+  }
+
   function render() {
     // Capture fields BEFORE destroying the DOM
     captureCurrentFields();
@@ -352,7 +368,7 @@ function createLessonViewer(containerId, lessonConfig) {
 
       <!-- Page Content -->
       <div class="lesson-page-content">
-        ${page.render(lessonProgress, markSectionComplete)}
+        ${renderPageContent(page)}
       </div>
 
       <!-- Billy Avatar Widget -->

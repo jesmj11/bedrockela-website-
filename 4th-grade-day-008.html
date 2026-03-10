@@ -156,20 +156,56 @@ They stared at each other helplessly. The Lion was their friend. They could not 
                     `
                 },
                 
-                // Page 7: Grammar/Language
+                // Page 7: Informational Text
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✏️ Language Skills</h2>
-                            <p>Practice vocabulary and language concepts.</p>
-                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Practice exercises will be added here.</em></p>
+                            <h2>🌍 Informational Text: Lions in Literature and Symbolism</h2>
+                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
+                                <p style="margin-bottom: 15px;">Lions have been symbols of courage for thousands of years. They're called the "king of beasts," appearing on flags, crests, and shields across cultures. Ancient civilizations carved stone lions to guard temples. Medieval knights displayed lions on their armor to show bravery.</p><p style="margin-bottom: 15px;">But L. Frank Baum flipped this symbolism upside down. His Lion is enormous, powerful, and terrifying — but inside, he's a coward. He roars to scare others before they discover his secret: he's afraid of almost everything.</p><p style="margin-bottom: 15px;">Real lions are fascinating animals. Male lions can weigh over 400 pounds and have a roar that can be heard five miles away. They live in groups called prides, and while females do most of the hunting, males protect the territory.</p><p style="margin-bottom: 15px;">Interestingly, male lions sleep up to 20 hours a day! They're not constantly fierce and aggressive. They're actually quite lazy and avoid fights when possible. Maybe the Cowardly Lion isn't so different from real lions after all.</p><p style="margin-bottom: 15px;">In American culture of the 1890s, courage was highly valued. The frontier required bravery — facing harsh weather, dangerous animals, uncertain futures. Men were expected to be fearless protectors. A coward was considered shameful.</p><p style="margin-bottom: 15px;">Yet Baum's Lion is sympathetic, not shameful. He admits his fear honestly. He doesn't pretend to be brave when he's not. And here's what's remarkable: despite being terrified, the Lion still acts. He fights the Kalidahs. He carries his friends across the river. He faces his fears to help Dorothy.</p><p style="margin-bottom: 15px;">This is the secret of true courage: it's not the absence of fear. It's acting despite being afraid. A person who feels no fear can't be brave — bravery requires fear and choosing to act anyway.</p><p style="margin-bottom: 15px;">The Cowardly Lion discovers he's been courageous all along. He just didn't recognize it because he was looking for fearlessness instead of brave actions.</p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 8: Writing
+                // Page 8: Grammar
+                {
+                    render: () => {
+                        const grammar = grammarLessons[day];
+                        if (!grammar) {
+                            return '<div class="lesson-page-card content-page"><h2>✏️ Grammar</h2><p>Grammar practice will be provided.</p></div>';
+                        }
+                        
+                        const explanation = grammar.explanation.split('
+
+').map(p => '<p style="margin-bottom: 10px;">' + p + '</p>').join('');
+                        const examples = grammar.examples.map(ex => '<li>' + ex + '</li>').join('');
+                        const practice = grammar.practice.map((p, i) => 
+                            '<div style="margin-bottom: 20px;">' +
+                                '<p style="font-weight: 600; margin-bottom: 8px;">' + (i + 1) + '. ' + p.prompt + '</p>' +
+                                '<textarea id="grammar-' + (i + 1) + '" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea>' +
+                            '</div>'
+                        ).join('');
+                        
+                        return '<div class="lesson-page-card content-page">' +
+                            '<h2>✏️ Grammar: ' + grammar.topic + '</h2>' +
+                            '<div style="margin: 20px 0;">' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>' +
+                                '<div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">' +
+                                    explanation +
+                                '</div>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>' +
+                                '<ul style="margin-bottom: 20px; line-height: 1.8;">' +
+                                    examples +
+                                '</ul>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>' +
+                                practice +
+                            '</div>' +
+                        '</div>';
+                    }
+                },
+                
+                // Page 9: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -180,7 +216,7 @@ They stared at each other helplessly. The Lion was their friend. They could not 
                     `
                 },
                 
-                // Page 9: Completion
+                // Page 10: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

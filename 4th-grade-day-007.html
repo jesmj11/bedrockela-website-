@@ -162,20 +162,56 @@ But the yellow brick road stretched on ahead of them, and the Emerald City was s
                     `
                 },
                 
-                // Page 7: Grammar/Language
+                // Page 7: Informational Text
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar Practice</h2>
-                            <p>Practice sentence structure and grammar.</p>
-                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Practice exercises will be added here.</em></p>
+                            <h2>🌍 Informational Text: The Tin Man: From Folklore to Oz</h2>
+                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
+                                <p style="margin-bottom: 15px;">The Tin Woodman is one of L. Frank Baum's most original creations, but the idea of artificial people has fascinated humans for centuries. Ancient Greek myths told of bronze automatons created by gods. Fairy tales featured wooden puppets that came to life, like Pinocchio.</p><p style="margin-bottom: 15px;">But Baum's Tin Woodman is unique. He wasn't built from scratch — he became tin piece by piece after a cursed axe kept cutting him. A tinsmith replaced each lost body part with metal until he was entirely made of tin. When the tinsmith forgot to give him a heart, the Woodman lost his ability to love.</p><p style="margin-bottom: 15px;">This backstory is darker than most children's stories. The Wicked Witch of the East cursed the axe because she didn't want the Woodman to marry a Munchkin girl. His transformation from human to tin is both tragic and symbolic.</p><p style="margin-bottom: 15px;">The Tin Woodman's greatest fear is rusting. When Dorothy finds him, he's been frozen for over a year, crying tears that rusted his joints. She saves him with an oil can — a simple act of kindness that frees him from his prison.</p><p style="margin-bottom: 15px;">Throughout the story, the Tin Woodman insists he has no heart and cannot feel. Yet he's the most compassionate character. He carefully moves aside insects so he won't step on them. He cries when he accidentally crushes a beetle. He risks his own safety to protect Dorothy.</p><p style="margin-bottom: 15px;">His constant need for oil represents our need for love and care. Just as the Tin Woodman rusts without oil, humans become hardened without kindness and connection.</p><p style="margin-bottom: 15px;">The Tin Woodman's journey teaches us that having a heart isn't about biology — it's about how you treat others. Actions speak louder than anatomy. If you act with kindness and compassion, you have a heart, whether it's flesh or tin or something else entirely.</p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 8: Writing
+                // Page 8: Grammar
+                {
+                    render: () => {
+                        const grammar = grammarLessons[day];
+                        if (!grammar) {
+                            return '<div class="lesson-page-card content-page"><h2>✏️ Grammar</h2><p>Grammar practice will be provided.</p></div>';
+                        }
+                        
+                        const explanation = grammar.explanation.split('
+
+').map(p => '<p style="margin-bottom: 10px;">' + p + '</p>').join('');
+                        const examples = grammar.examples.map(ex => '<li>' + ex + '</li>').join('');
+                        const practice = grammar.practice.map((p, i) => 
+                            '<div style="margin-bottom: 20px;">' +
+                                '<p style="font-weight: 600; margin-bottom: 8px;">' + (i + 1) + '. ' + p.prompt + '</p>' +
+                                '<textarea id="grammar-' + (i + 1) + '" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea>' +
+                            '</div>'
+                        ).join('');
+                        
+                        return '<div class="lesson-page-card content-page">' +
+                            '<h2>✏️ Grammar: ' + grammar.topic + '</h2>' +
+                            '<div style="margin: 20px 0;">' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>' +
+                                '<div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">' +
+                                    explanation +
+                                '</div>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>' +
+                                '<ul style="margin-bottom: 20px; line-height: 1.8;">' +
+                                    examples +
+                                '</ul>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>' +
+                                practice +
+                            '</div>' +
+                        '</div>';
+                    }
+                },
+                
+                // Page 9: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -186,7 +222,7 @@ But the yellow brick road stretched on ahead of them, and the Emerald City was s
                     `
                 },
                 
-                // Page 9: Completion
+                // Page 10: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

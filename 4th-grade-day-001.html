@@ -146,20 +146,56 @@ Hours passed. Slowly, Dorothy got over her fright. She felt quite lonely with th
                     `
                 },
                 
-                // Page 7: Grammar/Language
+                // Page 7: Informational Text
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar Practice</h2>
-                            <p>Practice sentence structure and grammar.</p>
-                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Practice exercises will be added here.</em></p>
+                            <h2>🌍 Informational Text: L. Frank Baum: The Man Behind Oz</h2>
+                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
+                                <p style="margin-bottom: 15px;">L. Frank Baum was born in 1856 in New York. As a young man, he tried many jobs — actor, newspaper reporter, store owner — but none made him truly happy. What he loved most was telling stories to children.</p><p style="margin-bottom: 15px;">In 1899, Baum published his first successful children's book. But it was "The Wonderful Wizard of Oz," published in 1900, that made him famous. The story came to him while entertaining neighborhood children. He told them about a girl from Kansas who traveled to a magical land, and the children begged him to write it down.</p><p style="margin-bottom: 15px;">Baum wanted to create a new kind of fairy tale — one that was purely American, without scary monsters or dark warnings. His stories were filled with wonder, friendship, and hope. He believed children deserved stories that made them smile, not nightmares that frightened them.</p><p style="margin-bottom: 15px;">"The Wonderful Wizard of Oz" became an instant bestseller. Children loved Dorothy's adventures, and adults appreciated the book's deeper messages about courage, friendship, and finding your way home. Baum wrote 13 more Oz books before he died in 1919.</p><p style="margin-bottom: 15px;">Today, over 120 years later, Dorothy and her friends are still beloved around the world. L. Frank Baum's dream of creating timeless American fairy tales came true.</p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 8: Writing
+                // Page 8: Grammar
+                {
+                    render: () => {
+                        const grammar = grammarLessons[day];
+                        if (!grammar) {
+                            return '<div class="lesson-page-card content-page"><h2>✏️ Grammar</h2><p>Grammar practice will be provided.</p></div>';
+                        }
+                        
+                        const explanation = grammar.explanation.split('
+
+').map(p => '<p style="margin-bottom: 10px;">' + p + '</p>').join('');
+                        const examples = grammar.examples.map(ex => '<li>' + ex + '</li>').join('');
+                        const practice = grammar.practice.map((p, i) => 
+                            '<div style="margin-bottom: 20px;">' +
+                                '<p style="font-weight: 600; margin-bottom: 8px;">' + (i + 1) + '. ' + p.prompt + '</p>' +
+                                '<textarea id="grammar-' + (i + 1) + '" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea>' +
+                            '</div>'
+                        ).join('');
+                        
+                        return '<div class="lesson-page-card content-page">' +
+                            '<h2>✏️ Grammar: ' + grammar.topic + '</h2>' +
+                            '<div style="margin: 20px 0;">' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>' +
+                                '<div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">' +
+                                    explanation +
+                                '</div>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>' +
+                                '<ul style="margin-bottom: 20px; line-height: 1.8;">' +
+                                    examples +
+                                '</ul>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>' +
+                                practice +
+                            '</div>' +
+                        '</div>';
+                    }
+                },
+                
+                // Page 9: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -170,7 +206,7 @@ Hours passed. Slowly, Dorothy got over her fright. She felt quite lonely with th
                     `
                 },
                 
-                // Page 9: Completion
+                // Page 10: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

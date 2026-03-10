@@ -164,20 +164,68 @@ Then she wiped her eyes, took a breath, and turned back to Glinda.
                     `
                 },
                 
-                // Page 7: Grammar/Language
+                // Page 7: Informational Text
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✏️ Language Skills</h2>
-                            <p>Practice vocabulary and language concepts.</p>
-                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Practice exercises will be added here.</em></p>
+                            <h2>🌍 Informational Text: The Hero's Journey: Dorothy's Transformation</h2>
+                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
+                                <p style="margin-bottom: 15px;">The Wizard of Oz follows a pattern that appears in stories across all cultures and time periods: the Hero's Journey. Identified by scholar Joseph Campbell, this pattern includes stages that Dorothy experiences almost exactly.</p><p style="margin-bottom: 15px;">**Stage 1: The Ordinary World**
+Dorothy lives in gray Kansas, dissatisfied but accepting her life. She's ordinary, unhappy, but unaware of her potential.</p><p style="margin-bottom: 15px;">**Stage 2: Call to Adventure**
+The tornado literally calls Dorothy to adventure, lifting her house and dropping her in Oz. She didn't choose this; it chose her.</p><p style="margin-bottom: 15px;">**Stage 3: Refusal of the Call**
+Dorothy immediately wants to go home. She doesn't want adventure — she wants Kansas. This is normal; most heroes initially refuse the call.</p><p style="margin-bottom: 15px;">**Stage 4: Meeting the Mentor**
+The Good Witch of the North becomes Dorothy's mentor. She gives advice, protects Dorothy (with a kiss), and points her toward the Wizard.</p><p style="margin-bottom: 15px;">**Stage 5: Crossing the Threshold**
+Dorothy steps onto the Yellow Brick Road. She's committed now. There's no turning back.</p><p style="margin-bottom: 15px;">**Stage 6: Tests, Allies, and Enemies**
+Dorothy meets allies (Scarecrow, Tin Woodman, Lion) and enemies (Wicked Witch). Each test builds her strength and confidence.</p><p style="margin-bottom: 15px;">**Stage 7: Approach to the Inmost Cave**
+Dorothy reaches the Emerald City. She's approaching the source of power she thinks can solve her problem.</p><p style="margin-bottom: 15px;">**Stage 8: The Ordeal**
+The Wizard sends Dorothy to kill the Wicked Witch — an impossible task. But she succeeds, not through power but through accident (water) and determination.</p><p style="margin-bottom: 15px;">**Stage 9: Reward**
+Dorothy returns victorious. She's earned her reward: going home.</p><p style="margin-bottom: 15px;">**Stage 10: The Road Back**
+Complications arise (the balloon leaves without her), but Dorothy continues searching for a way home.</p><p style="margin-bottom: 15px;">**Stage 11: Resurrection**
+Dorothy learns the truth: she could have gone home anytime using the silver slippers. She had the power all along.</p><p style="margin-bottom: 15px;">**Stage 12: Return with the Elixir**
+Dorothy returns to Kansas transformed. She looks the same, but she's different inside. She's braver, wiser, and more confident. The adventure changed her.</p><p style="margin-bottom: 15px;">**Why Does This Pattern Matter?**</p><p style="margin-bottom: 15px;">The Hero's Journey resonates because it mirrors real life. We all face challenges that push us out of our comfort zones. We all meet helpful people and difficult obstacles. We all discover strengths we didn't know we had.</p><p style="margin-bottom: 15px;">Dorothy starts as a helpless girl carried away by forces beyond her control. She ends as a leader who defeated a powerful witch, survived numerous dangers, and helped three friends discover their own strengths.</p><p style="margin-bottom: 15px;">The key insight: she didn't gain new powers. She discovered powers she always had. Courage, leadership, kindness, and determination were within her all along. The journey simply revealed them.</p><p style="margin-bottom: 15px;">This is why the story remains powerful over 120 years after publication. It's not about magic slippers or wizard — it's about discovering your own strength through adversity.</p><p style="margin-bottom: 15px;">Every one of us is on a hero's journey. School, friendships, family challenges, personal growth — these are our adventures. Like Dorothy, we start feeling powerless. But through our journey, we discover capabilities we never knew we possessed.</p><p style="margin-bottom: 15px;">The question isn't whether you have the strength to face your challenges. The question is whether you'll take the first step on your yellow brick road and discover the hero you already are.</p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 8: Writing
+                // Page 8: Grammar
+                {
+                    render: () => {
+                        const grammar = grammarLessons[day];
+                        if (!grammar) {
+                            return '<div class="lesson-page-card content-page"><h2>✏️ Grammar</h2><p>Grammar practice will be provided.</p></div>';
+                        }
+                        
+                        const explanation = grammar.explanation.split('
+
+').map(p => '<p style="margin-bottom: 10px;">' + p + '</p>').join('');
+                        const examples = grammar.examples.map(ex => '<li>' + ex + '</li>').join('');
+                        const practice = grammar.practice.map((p, i) => 
+                            '<div style="margin-bottom: 20px;">' +
+                                '<p style="font-weight: 600; margin-bottom: 8px;">' + (i + 1) + '. ' + p.prompt + '</p>' +
+                                '<textarea id="grammar-' + (i + 1) + '" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea>' +
+                            '</div>'
+                        ).join('');
+                        
+                        return '<div class="lesson-page-card content-page">' +
+                            '<h2>✏️ Grammar: ' + grammar.topic + '</h2>' +
+                            '<div style="margin: 20px 0;">' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>' +
+                                '<div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">' +
+                                    explanation +
+                                '</div>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>' +
+                                '<ul style="margin-bottom: 20px; line-height: 1.8;">' +
+                                    examples +
+                                '</ul>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>' +
+                                practice +
+                            '</div>' +
+                        '</div>';
+                    }
+                },
+                
+                // Page 9: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -188,7 +236,7 @@ Then she wiped her eyes, took a breath, and turned back to Glinda.
                     `
                 },
                 
-                // Page 9: Completion
+                // Page 10: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

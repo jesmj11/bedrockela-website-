@@ -170,20 +170,61 @@ It was not much. But it was honest, and after so many lies, honesty felt like so
                     `
                 },
                 
-                // Page 7: Grammar/Language
+                // Page 7: Informational Text
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✏️ Language Skills</h2>
-                            <p>Practice vocabulary and language concepts.</p>
-                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Practice exercises will be added here.</em></p>
+                            <h2>🌍 Informational Text: American Fairy Tales: Creating New Mythology</h2>
+                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
+                                <p style="margin-bottom: 15px;">When L. Frank Baum wrote "The Wonderful Wizard of Oz," he had a specific goal: to create an American fairy tale. European fairy tales dominated children's literature — stories from Germany's Grimm Brothers, France's Charles Perrault, and Denmark's Hans Christian Andersen. Baum wanted something uniquely American.</p><p style="margin-bottom: 15px;">Traditional European fairy tales often featured castles, kings, and ancient forests. They took place in vague historical settings with "once upon a time" beginnings. Many included dark elements: evil stepmothers, children abandoned in woods, graphic violence, and cruel punishments.</p><p style="margin-bottom: 15px;">Baum wanted something different. His fairy tale would begin in America — specifically Kansas, the heart of the country. It would feature ordinary people (farmers, not royalty) facing modern problems. And it would be optimistic, not dark. No child would be harmed, no villain would win, and friendship would triumph.</p><p style="margin-bottom: 15px;">The Wizard of Oz reflects American values of the 1890s:
+- **Self-reliance**: Dorothy saves herself through courage and cleverness
+- **Democracy**: The Wizard is exposed as a fraud; no one has special authority
+- **Friendship**: People from different backgrounds work together toward common goals
+- **Innovation**: Technology (balloons, machines) plays a role alongside magic
+- **Optimism**: No matter how hard the journey, there's hope for a good outcome</p><p style="margin-bottom: 15px;">Baum also drew on American geography and experiences. The tornado is a distinctly American danger. The prairie setting reflects the frontier spirit. The yellow brick road suggests the gold rush and American dreams of wealth and opportunity.</p><p style="margin-bottom: 15px;">Other American writers followed Baum's lead, creating homegrown fantasy worlds. Edgar Rice Burroughs created Tarzan and John Carter. J.M. Barrie gave us Peter Pan. These stories built new mythologies that reflected modern values and concerns.</p><p style="margin-bottom: 15px;">Today, American fantasy is everywhere — from Harry Potter to Star Wars, from The Hunger Games to Percy Jackson. These stories owe a debt to L. Frank Baum, who proved that new myths could be just as powerful as ancient ones.</p><p style="margin-bottom: 15px;">The success of The Wizard of Oz showed that fairy tales don't need castles and kingdoms. They just need good characters, meaningful conflicts, and themes that matter to readers. American or European, old or new, the best stories speak to universal human experiences: finding courage, seeking wisdom, learning to love, and longing for home.</p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 8: Writing
+                // Page 8: Grammar
+                {
+                    render: () => {
+                        const grammar = grammarLessons[day];
+                        if (!grammar) {
+                            return '<div class="lesson-page-card content-page"><h2>✏️ Grammar</h2><p>Grammar practice will be provided.</p></div>';
+                        }
+                        
+                        const explanation = grammar.explanation.split('
+
+').map(p => '<p style="margin-bottom: 10px;">' + p + '</p>').join('');
+                        const examples = grammar.examples.map(ex => '<li>' + ex + '</li>').join('');
+                        const practice = grammar.practice.map((p, i) => 
+                            '<div style="margin-bottom: 20px;">' +
+                                '<p style="font-weight: 600; margin-bottom: 8px;">' + (i + 1) + '. ' + p.prompt + '</p>' +
+                                '<textarea id="grammar-' + (i + 1) + '" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea>' +
+                            '</div>'
+                        ).join('');
+                        
+                        return '<div class="lesson-page-card content-page">' +
+                            '<h2>✏️ Grammar: ' + grammar.topic + '</h2>' +
+                            '<div style="margin: 20px 0;">' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>' +
+                                '<div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">' +
+                                    explanation +
+                                '</div>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>' +
+                                '<ul style="margin-bottom: 20px; line-height: 1.8;">' +
+                                    examples +
+                                '</ul>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>' +
+                                practice +
+                            '</div>' +
+                        '</div>';
+                    }
+                },
+                
+                // Page 9: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -194,7 +235,7 @@ It was not much. But it was honest, and after so many lies, honesty felt like so
                     `
                 },
                 
-                // Page 9: Completion
+                // Page 10: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

@@ -33,6 +33,10 @@ while ((vocabMatch = vocabChapterRegex.exec(vocabText)) !== null) {
 // Load comprehension
 const compText = fs.readFileSync('./book-data/wizard-of-oz-comprehension.txt', 'utf8');
 const compByChapter = {};
+
+// Load informational texts and grammar
+const infoTexts = JSON.parse(fs.readFileSync('./book-data/wizard-info-texts.json', 'utf8'));
+const grammarLessons = JSON.parse(fs.readFileSync('./book-data/wizard-grammar.json', 'utf8'));
 const compChapterRegex = /Chapter (\d+):[^\n]+\n\n1\. (.+?)\n\n([A-D]\).+?\n\n[A-D]\).+?\n\n[A-D]\).+?\n\n[A-D]\).+?)\n\n2\. (.+?)(?:\n\nHint: (.+?))?\n\n(?:\[Your answer\]|\n\nChapter)/gs;
 let compMatch;
 while ((compMatch = compChapterRegex.exec(compText)) !== null) {
@@ -220,20 +224,54 @@ function generateRegularLesson(day) {
                     \`
                 },
                 
-                // Page 7: Grammar/Language
+                // Page 7: Informational Text
                 {
                     render: () => \`
                         <div class="lesson-page-card content-page">
-                            <h2>✏️ ${isOddDay ? 'Grammar Practice' : 'Language Skills'}</h2>
-                            <p>Practice ${isOddDay ? 'sentence structure and grammar' : 'vocabulary and language concepts'}.</p>
-                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Practice exercises will be added here.</em></p>
+                            <h2>🌍 Informational Text: ${infoTexts[day]?.title || 'Learning More'}</h2>
+                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
+                                ${infoTexts[day]?.content.split('\n\n').map(p => '<p style="margin-bottom: 15px;">' + p + '</p>').join('') || '<p>Additional reading will be provided.</p>'}
                             </div>
                         </div>
                     \`
                 },
                 
-                // Page 8: Writing
+                // Page 8: Grammar
+                {
+                    render: () => {
+                        const grammar = grammarLessons[day];
+                        if (!grammar) {
+                            return '<div class="lesson-page-card content-page"><h2>✏️ Grammar</h2><p>Grammar practice will be provided.</p></div>';
+                        }
+                        
+                        const explanation = grammar.explanation.split('\n\n').map(p => '<p style="margin-bottom: 10px;">' + p + '</p>').join('');
+                        const examples = grammar.examples.map(ex => '<li>' + ex + '</li>').join('');
+                        const practice = grammar.practice.map((p, i) => 
+                            '<div style="margin-bottom: 20px;">' +
+                                '<p style="font-weight: 600; margin-bottom: 8px;">' + (i + 1) + '. ' + p.prompt + '</p>' +
+                                '<textarea id="grammar-' + (i + 1) + '" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea>' +
+                            '</div>'
+                        ).join('');
+                        
+                        return '<div class="lesson-page-card content-page">' +
+                            '<h2>✏️ Grammar: ' + grammar.topic + '</h2>' +
+                            '<div style="margin: 20px 0;">' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>' +
+                                '<div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">' +
+                                    explanation +
+                                '</div>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>' +
+                                '<ul style="margin-bottom: 20px; line-height: 1.8;">' +
+                                    examples +
+                                '</ul>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>' +
+                                practice +
+                            '</div>' +
+                        '</div>';
+                    }
+                },
+                
+                // Page 9: Writing
                 {
                     render: () => \`
                         <div class="lesson-page-card content-page">
@@ -244,7 +282,7 @@ function generateRegularLesson(day) {
                     \`
                 },
                 
-                // Page 9: Completion
+                // Page 10: Completion
                 {
                     render: () => \`
                         <div class="lesson-page-card title-page">
@@ -331,5 +369,14 @@ console.log(`\n🎉 All 30 Wizard of Oz lessons generated!`);
 console.log(`\n📝 Summary:`);
 console.log(`  • Simple text on white cards (no digital book widget)`);
 console.log(`  • Full chapter on single page`);
-console.log(`  • 9 pages per lesson (Title, Objectives, Vocab, Story, 2 Comprehension, Grammar, Writing, Complete)`);
+console.log(`  • 10 pages per lesson:`);
+console.log(`    1. Title`);
+console.log(`    2. Objectives`);
+console.log(`    3. Vocabulary (2 words)`);
+console.log(`    4. Story (full chapter)`);
+console.log(`    5-6. Comprehension (MC + Short Answer)`);
+console.log(`    7. Informational Text`);
+console.log(`    8. Grammar Lesson`);
+console.log(`    9. Writing`);
+console.log(`    10. Completion`);
 console.log(`\n🚀 Push to GitHub!`);

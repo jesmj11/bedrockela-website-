@@ -165,20 +165,73 @@ Dorothy looked at her three friends — the ones who were supposed to need her h
                     `
                 },
                 
-                // Page 7: Grammar/Language
+                // Page 7: Informational Text
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✏️ Language Skills</h2>
-                            <p>Practice vocabulary and language concepts.</p>
-                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Practice exercises will be added here.</em></p>
+                            <h2>🌍 Informational Text: Friendship Across Differences</h2>
+                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
+                                <p style="margin-bottom: 15px;">One of the most beautiful aspects of The Wizard of Oz is how four completely different individuals become loyal friends. Dorothy (human), the Scarecrow (straw), the Tin Woodman (metal), and the Lion (animal) have almost nothing in common — except their journey and their care for each other.</p><p style="margin-bottom: 15px;">Each character believes they're missing something essential:
+- The Scarecrow thinks he's stupid because he has straw instead of a brain
+- The Tin Woodman thinks he can't feel because he has no heart
+- The Lion thinks he's a coward because he feels fear
+- Dorothy thinks she's powerless because she's far from home</p><p style="margin-bottom: 15px;">Yet when we watch them interact, we see the truth:
+- The Scarecrow devises clever plans and solves problems
+- The Tin Woodman shows deep compassion and kindness
+- The Lion acts bravely despite his fears
+- Dorothy leads, decides, and shows remarkable courage</p><p style="margin-bottom: 15px;">Their friendship works because they complement each other. When one character is weak in an area, another is strong. The Scarecrow's intelligence helps the group avoid danger. The Tin Woodman's compassion keeps them moral. The Lion's strength protects them. Dorothy's determination keeps them moving forward.</p><p style="margin-bottom: 15px;">This is what good friendship looks like: not sameness, but complementary strengths. Not pretending to be perfect, but accepting each other's perceived flaws. Not competing, but cooperating toward a common goal.</p><p style="margin-bottom: 15px;">Modern research on friendship confirms what Baum understood intuitively:
+- Friends who are too similar can become competitive
+- Diverse friendships expose us to different perspectives
+- Accepting differences builds stronger bonds than demanding similarity
+- Working together toward shared goals creates deep connections</p><p style="margin-bottom: 15px;">The group's differences also prevent groupthink. Because they see the world differently, they catch things others might miss. The Scarecrow notices logical problems. The Tin Woodman notices ethical concerns. The Lion notices physical dangers. Dorothy notices emotional needs.</p><p style="margin-bottom: 15px;">Their friendship teaches us:
+1. Look beyond surface differences to find common ground
+2. Value what others bring to the group, even if it's different from what you offer
+3. Don't define people by their limitations; see their strengths
+4. True friends help you see abilities you didn't know you had
+5. Working together makes everyone stronger than they'd be alone</p><p style="margin-bottom: 15px;">In a world that often divides people by race, religion, nationality, or background, The Wizard of Oz offers a powerful counter-message: Friendship transcends all boundaries. A girl, a scarecrow, a tin man, and a lion prove that the only requirements for friendship are kindness, loyalty, and a shared journey toward something better.</p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 8: Writing
+                // Page 8: Grammar
+                {
+                    render: () => {
+                        const grammar = grammarLessons[day];
+                        if (!grammar) {
+                            return '<div class="lesson-page-card content-page"><h2>✏️ Grammar</h2><p>Grammar practice will be provided.</p></div>';
+                        }
+                        
+                        const explanation = grammar.explanation.split('
+
+').map(p => '<p style="margin-bottom: 10px;">' + p + '</p>').join('');
+                        const examples = grammar.examples.map(ex => '<li>' + ex + '</li>').join('');
+                        const practice = grammar.practice.map((p, i) => 
+                            '<div style="margin-bottom: 20px;">' +
+                                '<p style="font-weight: 600; margin-bottom: 8px;">' + (i + 1) + '. ' + p.prompt + '</p>' +
+                                '<textarea id="grammar-' + (i + 1) + '" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea>' +
+                            '</div>'
+                        ).join('');
+                        
+                        return '<div class="lesson-page-card content-page">' +
+                            '<h2>✏️ Grammar: ' + grammar.topic + '</h2>' +
+                            '<div style="margin: 20px 0;">' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>' +
+                                '<div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">' +
+                                    explanation +
+                                '</div>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>' +
+                                '<ul style="margin-bottom: 20px; line-height: 1.8;">' +
+                                    examples +
+                                '</ul>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>' +
+                                practice +
+                            '</div>' +
+                        '</div>';
+                    }
+                },
+                
+                // Page 9: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -189,7 +242,7 @@ Dorothy looked at her three friends — the ones who were supposed to need her h
                     `
                 },
                 
-                // Page 9: Completion
+                // Page 10: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

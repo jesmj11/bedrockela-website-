@@ -163,20 +163,69 @@ Dorothy's heart swelled. "Yes," she said. "They deserve to be free."
                     `
                 },
                 
-                // Page 7: Grammar/Language
+                // Page 7: Informational Text
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar Practice</h2>
-                            <p>Practice sentence structure and grammar.</p>
-                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Practice exercises will be added here.</em></p>
+                            <h2>🌍 Informational Text: Magic and Science: Where Do They Meet?</h2>
+                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
+                                <p style="margin-bottom: 15px;">The Wizard of Oz exists in a fascinating middle ground between magic and science. Oz appears to be a magical world — witches cast spells, monkeys fly, and animals talk. Yet the "Wizard" himself admits he has no magic at all. He's a scientist of sorts, using tricks and technology to create illusions.</p><p style="margin-bottom: 15px;">This blend reflects the era when the book was written. The late 1800s and early 1900s were a time of incredible scientific advancement:
+- Electric lights were replacing candles and oil lamps
+- Telephones let people talk across long distances
+- X-rays revealed the inside of the human body
+- Automobiles were beginning to replace horses
+- Motion pictures showed images that seemed to move</p><p style="margin-bottom: 15px;">To people unfamiliar with these technologies, they seemed like magic. Imagine seeing electric light for the first time if you'd only known candles! Or hearing someone's voice through a telephone! These innovations must have felt supernatural.</p><p style="margin-bottom: 15px;">The Wizard represents this blending of science and magic. His "magic" tricks are actually:
+- Projection systems (making his giant head appear)
+- Speakers and acoustics (amplifying his voice)
+- Costumes and props (appearing as different forms)
+- Chemistry (creating smoke and fire effects)
+- Mechanical engineering (operating his machines)</p><p style="margin-bottom: 15px;">He's essentially a special effects artist creating convincing illusions. In our modern world of CGI and smartphones, his tricks seem simple. But in Oz — a pre-technological society — they're indistinguishable from magic.</p><p style="margin-bottom: 15px;">Arthur C. Clarke, a famous science fiction author, once said: "Any sufficiently advanced technology is indistinguishable from magic." The Wizard of Oz proves this point. His late-19th-century technology seems magical in Oz's medieval-style society.</p><p style="margin-bottom: 15px;">But Baum also includes genuine magic. The Good Witches truly have powers. The silver slippers are genuinely magical. The Wicked Witch can command wolves, crows, and bees. This magic exists alongside the Wizard's fake magic.</p><p style="margin-bottom: 15px;">The story suggests an important distinction:
+- **Real magic** comes from within (courage, wisdom, love, loyalty)
+- **Fake magic** comes from tricks and illusions (smoke, mirrors, costumes)
+- **Science** can seem like magic when it's not understood</p><p style="margin-bottom: 15px;">Dorothy's journey is about discovering that real magic — the kind that changes lives — isn't about spells or wizards. It's about qualities like courage, friendship, and determination. These are real powers that anyone can develop.</p><p style="margin-bottom: 15px;">The Scarecrow doesn't need a magic brain — he already has intelligence. The Tin Woodman doesn't need a magic heart — he already has compassion. The Lion doesn't need magic courage — he already has bravery. And Dorothy doesn't need magic to go home — she always had the power within her.</p><p style="margin-bottom: 15px;">This is perhaps Baum's greatest message: The most important magic is the potential within ourselves. Not supernatural powers, but natural abilities like kindness, intelligence, bravery, and love. These powers are available to everyone — no wizard required.</p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 8: Writing
+                // Page 8: Grammar
+                {
+                    render: () => {
+                        const grammar = grammarLessons[day];
+                        if (!grammar) {
+                            return '<div class="lesson-page-card content-page"><h2>✏️ Grammar</h2><p>Grammar practice will be provided.</p></div>';
+                        }
+                        
+                        const explanation = grammar.explanation.split('
+
+').map(p => '<p style="margin-bottom: 10px;">' + p + '</p>').join('');
+                        const examples = grammar.examples.map(ex => '<li>' + ex + '</li>').join('');
+                        const practice = grammar.practice.map((p, i) => 
+                            '<div style="margin-bottom: 20px;">' +
+                                '<p style="font-weight: 600; margin-bottom: 8px;">' + (i + 1) + '. ' + p.prompt + '</p>' +
+                                '<textarea id="grammar-' + (i + 1) + '" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea>' +
+                            '</div>'
+                        ).join('');
+                        
+                        return '<div class="lesson-page-card content-page">' +
+                            '<h2>✏️ Grammar: ' + grammar.topic + '</h2>' +
+                            '<div style="margin: 20px 0;">' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>' +
+                                '<div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">' +
+                                    explanation +
+                                '</div>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>' +
+                                '<ul style="margin-bottom: 20px; line-height: 1.8;">' +
+                                    examples +
+                                '</ul>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>' +
+                                practice +
+                            '</div>' +
+                        '</div>';
+                    }
+                },
+                
+                // Page 9: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -187,7 +236,7 @@ Dorothy's heart swelled. "Yes," she said. "They deserve to be free."
                     `
                 },
                 
-                // Page 9: Completion
+                // Page 10: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

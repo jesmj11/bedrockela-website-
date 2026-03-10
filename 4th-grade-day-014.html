@@ -160,20 +160,60 @@ They were together again. And the Wicked Witch was gone.
                     `
                 },
                 
-                // Page 7: Grammar/Language
+                // Page 7: Informational Text
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✏️ Language Skills</h2>
-                            <p>Practice vocabulary and language concepts.</p>
-                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Practice exercises will be added here.</em></p>
+                            <h2>🌍 Informational Text: From Page to Stage: The Wizard of Oz Adaptations</h2>
+                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
+                                <p style="margin-bottom: 15px;">"The Wonderful Wizard of Oz" became a phenomenon almost immediately after publication in 1900. Within two years, it was adapted into a Broadway musical. By 1939, it became one of the most famous movies ever made. Today, it exists in countless versions across all media.</p><p style="margin-bottom: 15px;">The 1902 Broadway musical was very different from the book. It added characters, changed the story, and included adult humor. It was a spectacular production with elaborate sets and costumes. The show ran for years and toured across America, making the story even more popular.</p><p style="margin-bottom: 15px;">Then came the 1939 MGM film — the version most people know today. This movie made several major changes:
+- The slippers are ruby instead of silver (because color film showed red better than silver)
+- Dorothy's journey might be a dream (the book makes it clear Oz is real)
+- The farmhands become the Scarecrow, Tin Man, and Lion (connecting Kansas to Oz)
+- The Wicked Witch of the West becomes the main villain</p><p style="margin-bottom: 15px;">The film also gave us "Over the Rainbow," one of the most beloved songs in cinema history. Judy Garland's performance as Dorothy made her a star and defined the character for generations.</p><p style="margin-bottom: 15px;">Why has this story been adapted so many times? Because it works on multiple levels. Young children enjoy the adventure and colorful characters. Older children relate to Dorothy's journey of self-discovery. Adults appreciate the deeper themes about courage, wisdom, compassion, and finding your place in the world.</p><p style="margin-bottom: 15px;">The story also adapts well to different interpretations. Some versions focus on the fantasy and spectacle. Others emphasize the political allegory (some scholars think the story symbolizes American economic policies of the 1890s). Still others highlight the friendship and personal growth themes.</p><p style="margin-bottom: 15px;">Modern adaptations continue to reimagine Oz. "Wicked" tells the story from the Witch's perspective. "The Wiz" retells it with an African American cast and urban setting. There are Oz prequels, sequels, and spin-offs exploring every corner of Baum's magical world.</p><p style="margin-bottom: 15px;">Each generation discovers Oz anew and finds something meaningful in Dorothy's journey. The story's core themes — friendship, courage, home, and self-discovery — remain universal and timeless.</p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 8: Writing
+                // Page 8: Grammar
+                {
+                    render: () => {
+                        const grammar = grammarLessons[day];
+                        if (!grammar) {
+                            return '<div class="lesson-page-card content-page"><h2>✏️ Grammar</h2><p>Grammar practice will be provided.</p></div>';
+                        }
+                        
+                        const explanation = grammar.explanation.split('
+
+').map(p => '<p style="margin-bottom: 10px;">' + p + '</p>').join('');
+                        const examples = grammar.examples.map(ex => '<li>' + ex + '</li>').join('');
+                        const practice = grammar.practice.map((p, i) => 
+                            '<div style="margin-bottom: 20px;">' +
+                                '<p style="font-weight: 600; margin-bottom: 8px;">' + (i + 1) + '. ' + p.prompt + '</p>' +
+                                '<textarea id="grammar-' + (i + 1) + '" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea>' +
+                            '</div>'
+                        ).join('');
+                        
+                        return '<div class="lesson-page-card content-page">' +
+                            '<h2>✏️ Grammar: ' + grammar.topic + '</h2>' +
+                            '<div style="margin: 20px 0;">' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>' +
+                                '<div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">' +
+                                    explanation +
+                                '</div>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>' +
+                                '<ul style="margin-bottom: 20px; line-height: 1.8;">' +
+                                    examples +
+                                '</ul>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>' +
+                                practice +
+                            '</div>' +
+                        '</div>';
+                    }
+                },
+                
+                // Page 9: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -184,7 +224,7 @@ They were together again. And the Wicked Witch was gone.
                     `
                 },
                 
-                // Page 9: Completion
+                // Page 10: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

@@ -160,20 +160,70 @@ Dorothy understood that feeling perfectly.
                     `
                 },
                 
-                // Page 7: Grammar/Language
+                // Page 7: Informational Text
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar Practice</h2>
-                            <p>Practice sentence structure and grammar.</p>
-                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Practice exercises will be added here.</em></p>
+                            <h2>🌍 Informational Text: The Science of Color: Why Green?</h2>
+                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
+                                <p style="margin-bottom: 15px;">The Emerald City's signature color isn't just a random choice — green has specific psychological and cultural meanings that enhance the story's themes.</p><p style="margin-bottom: 15px;">In color psychology, green represents:
+- **Growth and renewal**: Plants turn green when they're healthy and growing
+- **Hope and prosperity**: In many cultures, green symbolizes good fortune
+- **Envy**: We say people are "green with envy" when they want what others have
+- **Money**: American dollars are green, linking green to wealth and economic power
+- **Nature and life**: Green is the color of forests, meadows, and living things</p><p style="margin-bottom: 15px;">L. Frank Baum used color symbolism throughout Oz. Each region has a signature color:
+- **Blue** (Munchkin Country): Loyalty, peace, sadness
+- **Yellow** (Winkie Country): Sunshine, happiness, warning
+- **Red** (Quadling Country): Passion, energy, danger
+- **Purple/Green** (Gillikin Country): Royalty, mystery, magic
+- **Green** (Emerald City): Wealth, power, illusion</p><p style="margin-bottom: 15px;">The Emerald City's green represents the illusion of prosperity. Everyone wears green-tinted glasses that make everything appear emerald. This creates a false sense of wealth and grandeur. The city looks rich and powerful, but it's partially an illusion maintained by controlling how people see.</p><p style="margin-bottom: 15px;">This is a clever commentary on perception versus reality. Our eyes can be deceived by color. Retailers know this — they use colors to influence shopping behavior. Red makes people feel urgency (that's why sale signs are red). Blue builds trust (that's why banks use it). Green suggests health and freshness (grocery stores use it for organic products).</p><p style="margin-bottom: 15px;">The Wizard of Oz teaches us to question what we see. Just because something appears a certain way doesn't mean it IS that way. The green spectacles are a metaphor for how easily our perceptions can be manipulated.</p><p style="margin-bottom: 15px;">Modern science confirms that color affects mood and behavior. Studies show that:
+- Green reduces stress and promotes calmness
+- It improves concentration and productivity
+- Green environments help people feel more relaxed
+- It can even reduce pain perception in medical settings</p><p style="margin-bottom: 15px;">So when Dorothy enters the Emerald City, the green isn't just pretty — it's psychologically soothing. It makes the city feel safe and prosperous, even if that feeling is partly manufactured.</p><p style="margin-bottom: 15px;">The lesson? Be aware of how your environment influences your perceptions. Question whether you're seeing things as they really are, or as someone wants you to see them. And remember: the glasses can be removed.</p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 8: Writing
+                // Page 8: Grammar
+                {
+                    render: () => {
+                        const grammar = grammarLessons[day];
+                        if (!grammar) {
+                            return '<div class="lesson-page-card content-page"><h2>✏️ Grammar</h2><p>Grammar practice will be provided.</p></div>';
+                        }
+                        
+                        const explanation = grammar.explanation.split('
+
+').map(p => '<p style="margin-bottom: 10px;">' + p + '</p>').join('');
+                        const examples = grammar.examples.map(ex => '<li>' + ex + '</li>').join('');
+                        const practice = grammar.practice.map((p, i) => 
+                            '<div style="margin-bottom: 20px;">' +
+                                '<p style="font-weight: 600; margin-bottom: 8px;">' + (i + 1) + '. ' + p.prompt + '</p>' +
+                                '<textarea id="grammar-' + (i + 1) + '" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea>' +
+                            '</div>'
+                        ).join('');
+                        
+                        return '<div class="lesson-page-card content-page">' +
+                            '<h2>✏️ Grammar: ' + grammar.topic + '</h2>' +
+                            '<div style="margin: 20px 0;">' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>' +
+                                '<div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">' +
+                                    explanation +
+                                '</div>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>' +
+                                '<ul style="margin-bottom: 20px; line-height: 1.8;">' +
+                                    examples +
+                                '</ul>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>' +
+                                practice +
+                            '</div>' +
+                        '</div>';
+                    }
+                },
+                
+                // Page 9: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -184,7 +234,7 @@ Dorothy understood that feeling perfectly.
                     `
                 },
                 
-                // Page 9: Completion
+                // Page 10: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

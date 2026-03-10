@@ -174,20 +174,56 @@ Dorothy looked at her friends — the Scarecrow standing tall, the Tin Woodman g
                     `
                 },
                 
-                // Page 7: Grammar/Language
+                // Page 7: Informational Text
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar Practice</h2>
-                            <p>Practice sentence structure and grammar.</p>
-                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Practice exercises will be added here.</em></p>
+                            <h2>🌍 Informational Text: Tricksters and Humbugs in Folklore</h2>
+                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
+                                <p style="margin-bottom: 15px;">The Wizard of Oz is a humbug — a fraud, a fake, a charlatan. He admits he's just an ordinary man from Omaha who stumbled into Oz by accident and decided to pretend he was powerful. This makes him part of a long tradition of trickster characters in world folklore.</p><p style="margin-bottom: 15px;">Tricksters appear in stories across all cultures. In Native American tales, Coyote and Raven trick others but often teach important lessons. In African folklore, Anansi the Spider uses cleverness to overcome stronger opponents. In European fairy tales, characters like Puss in Boots use deception for good purposes.</p><p style="margin-bottom: 15px;">What makes someone a trickster versus a villain? Intent and outcome. Villains trick people for selfish, harmful reasons. Tricksters might deceive, but their tricks often help others or teach valuable lessons.</p><p style="margin-bottom: 15px;">The Wizard fits this pattern perfectly. Yes, he deceived everyone in Oz. He made them believe he had magical powers when he had none. But why? He was afraid. If people knew he was powerless, they might hurt him. So he created an illusion to protect himself.</p><p style="margin-bottom: 15px;">More importantly, when Dorothy and her friends ask for help, the Wizard doesn't just send them away. He tries to help. He gives the Scarecrow "brains" (a mixture of bran and pins), the Tin Woodman a silk heart stuffed with sawdust, and the Lion a drink he calls "courage."</p><p style="margin-bottom: 15px;">These gifts are fake in one sense — they're not magical. But they're real in another sense — they give the characters confidence. The Scarecrow believes he's smart now, so he acts smarter. The Tin Woodman believes he has a heart, so he acts kinder. The Lion believes he's brave, so he acts courageously.</p><p style="margin-bottom: 15px;">This is the Wizard's real magic: understanding that belief shapes reality. If you believe you're capable, you become capable. The Wizard's "humbug" gifts work because they change how the characters see themselves.</p><p style="margin-bottom: 15px;">The lesson? Sometimes the confidence to use our existing abilities is more valuable than gaining new ones. We often have what we need; we just need to believe in ourselves enough to use it.</p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 8: Writing
+                // Page 8: Grammar
+                {
+                    render: () => {
+                        const grammar = grammarLessons[day];
+                        if (!grammar) {
+                            return '<div class="lesson-page-card content-page"><h2>✏️ Grammar</h2><p>Grammar practice will be provided.</p></div>';
+                        }
+                        
+                        const explanation = grammar.explanation.split('
+
+').map(p => '<p style="margin-bottom: 10px;">' + p + '</p>').join('');
+                        const examples = grammar.examples.map(ex => '<li>' + ex + '</li>').join('');
+                        const practice = grammar.practice.map((p, i) => 
+                            '<div style="margin-bottom: 20px;">' +
+                                '<p style="font-weight: 600; margin-bottom: 8px;">' + (i + 1) + '. ' + p.prompt + '</p>' +
+                                '<textarea id="grammar-' + (i + 1) + '" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea>' +
+                            '</div>'
+                        ).join('');
+                        
+                        return '<div class="lesson-page-card content-page">' +
+                            '<h2>✏️ Grammar: ' + grammar.topic + '</h2>' +
+                            '<div style="margin: 20px 0;">' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>' +
+                                '<div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">' +
+                                    explanation +
+                                '</div>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>' +
+                                '<ul style="margin-bottom: 20px; line-height: 1.8;">' +
+                                    examples +
+                                '</ul>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>' +
+                                practice +
+                            '</div>' +
+                        '</div>';
+                    }
+                },
+                
+                // Page 9: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -198,7 +234,7 @@ Dorothy looked at her friends — the Scarecrow standing tall, the Tin Woodman g
                     `
                 },
                 
-                // Page 9: Completion
+                // Page 10: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

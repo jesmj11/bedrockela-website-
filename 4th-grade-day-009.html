@@ -162,20 +162,56 @@ The Lion blinked. "I must still be dreaming."
                     `
                 },
                 
-                // Page 7: Grammar/Language
+                // Page 7: Informational Text
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar Practice</h2>
-                            <p>Practice sentence structure and grammar.</p>
-                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Practice exercises will be added here.</em></p>
+                            <h2>🌍 Informational Text: Emerald City: A Study in Green</h2>
+                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
+                                <p style="margin-bottom: 15px;">The Emerald City is one of literature's most memorable places — a gleaming green metropolis that seems too beautiful to be real. And guess what? It isn't entirely real.</p><p style="margin-bottom: 15px;">In the story, everyone entering the Emerald City must wear green-tinted spectacles. The Guardian says it's to protect their eyes from the brightness of all those emeralds. But later we discover the truth: the spectacles make everything look green. The city might not be as emerald as it appears.</p><p style="margin-bottom: 15px;">This reveals one of the story's deepest themes: appearance versus reality. Things aren't always what they seem. The "great and powerful" Wizard is just an ordinary man. The Scarecrow has a brain. The Tin Woodman has a heart. The Lion has courage. And the Emerald City might not be truly emerald.</p><p style="margin-bottom: 15px;">Why did Baum make the city green? Green symbolizes many things: growth, renewal, hope, money, and even envy. In American culture, green is associated with prosperity — "greenbacks" means money. The Emerald City represents wealth and power, everything the characters think they need.</p><p style="margin-bottom: 15px;">The idea of tinted spectacles is clever. In the 1890s, colored glasses were becoming fashionable. People wore rose-tinted glasses to make the world look prettier, or dark glasses to reduce glare. Baum took this concept and turned it into a metaphor: we see what we're told to see. If someone puts green glasses on us and says the city is green, we believe it.</p><p style="margin-bottom: 15px;">This is a warning about manipulation and propaganda. Those in power can control how we see the world simply by controlling what we're allowed to see. The Wizard uses green spectacles to maintain his illusion of a magnificent city.</p><p style="margin-bottom: 15px;">But here's the wonderful part: even after Dorothy knows the truth, she still thinks the Emerald City is beautiful. Sometimes the perception of beauty matters more than objective reality. If everyone believes something is wonderful, does it matter if it's "really" wonderful?</p><p style="margin-bottom: 15px;">The Emerald City teaches us to question what we see and ask who benefits from our beliefs.</p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 8: Writing
+                // Page 8: Grammar
+                {
+                    render: () => {
+                        const grammar = grammarLessons[day];
+                        if (!grammar) {
+                            return '<div class="lesson-page-card content-page"><h2>✏️ Grammar</h2><p>Grammar practice will be provided.</p></div>';
+                        }
+                        
+                        const explanation = grammar.explanation.split('
+
+').map(p => '<p style="margin-bottom: 10px;">' + p + '</p>').join('');
+                        const examples = grammar.examples.map(ex => '<li>' + ex + '</li>').join('');
+                        const practice = grammar.practice.map((p, i) => 
+                            '<div style="margin-bottom: 20px;">' +
+                                '<p style="font-weight: 600; margin-bottom: 8px;">' + (i + 1) + '. ' + p.prompt + '</p>' +
+                                '<textarea id="grammar-' + (i + 1) + '" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea>' +
+                            '</div>'
+                        ).join('');
+                        
+                        return '<div class="lesson-page-card content-page">' +
+                            '<h2>✏️ Grammar: ' + grammar.topic + '</h2>' +
+                            '<div style="margin: 20px 0;">' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>' +
+                                '<div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">' +
+                                    explanation +
+                                '</div>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>' +
+                                '<ul style="margin-bottom: 20px; line-height: 1.8;">' +
+                                    examples +
+                                '</ul>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>' +
+                                practice +
+                            '</div>' +
+                        '</div>';
+                    }
+                },
+                
+                // Page 9: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -186,7 +222,7 @@ The Lion blinked. "I must still be dreaming."
                     `
                 },
                 
-                // Page 9: Completion
+                // Page 10: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

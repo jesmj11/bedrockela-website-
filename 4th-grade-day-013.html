@@ -149,20 +149,56 @@ She held Toto close and waited for morning.</p>
                     `
                 },
                 
-                // Page 7: Grammar/Language
+                // Page 7: Informational Text
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar Practice</h2>
-                            <p>Practice sentence structure and grammar.</p>
-                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Practice exercises will be added here.</em></p>
+                            <h2>🌍 Informational Text: The Power of Home in Literature</h2>
+                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
+                                <p style="margin-bottom: 15px;">"There's no place like home" is one of the most famous lines in children's literature. But what makes home so powerful? Why does Dorothy spend the entire book trying to return to gray, dusty Kansas instead of staying in colorful, magical Oz?</p><p style="margin-bottom: 15px;">In literature, "home" represents more than a physical place. It represents belonging, identity, safety, and love. Home is where you're known and accepted. It's where you can be yourself without pretending.</p><p style="margin-bottom: 15px;">Many classic stories explore the theme of home. In Homer's "Odyssey," Odysseus spends ten years trying to return home after the Trojan War. In "The Chronicles of Narnia," children travel between worlds but always return home. In "Alice in Wonderland," Alice desperately wants to wake up and go home.</p><p style="margin-bottom: 15px;">Why do these stories resonate? Because everyone sometimes feels lost or out of place. We all long for somewhere we truly belong. Children especially understand this feeling — school, sleepovers, camps, even vacations can make you homesick.</p><p style="margin-bottom: 15px;">Dorothy's journey is interesting because Oz seems objectively better than Kansas. Oz has magic, adventure, talking animals, and beautiful sights. Kansas has gray dust, hard work, and very little joy. Yet Dorothy never wavers. She wants to go home to Aunt Em, even though Aunt Em rarely smiles.</p><p style="margin-bottom: 15px;">This teaches an important lesson: love and belonging matter more than comfort or excitement. Aunt Em and Uncle Henry are Dorothy's family. They might not express affection openly, but they're her people. She knows them, and they know her. That connection is irreplaceable.</p><p style="margin-bottom: 15px;">L. Frank Baum understood something profound: children need roots. They need to know where they come from and where they belong. Adventures are wonderful, but they're better when you have a home to return to.</p><p style="margin-bottom: 15px;">The book's ending — Dorothy waking up in Kansas, surrounded by familiar faces — brings the message home (pun intended). She's learned that she didn't need to find her way home through magic. The power was within her all along, in her love for the people waiting for her.</p><p style="margin-bottom: 15px;">Home isn't about the fanciest house or the most exciting place. Home is where love lives.</p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 8: Writing
+                // Page 8: Grammar
+                {
+                    render: () => {
+                        const grammar = grammarLessons[day];
+                        if (!grammar) {
+                            return '<div class="lesson-page-card content-page"><h2>✏️ Grammar</h2><p>Grammar practice will be provided.</p></div>';
+                        }
+                        
+                        const explanation = grammar.explanation.split('
+
+').map(p => '<p style="margin-bottom: 10px;">' + p + '</p>').join('');
+                        const examples = grammar.examples.map(ex => '<li>' + ex + '</li>').join('');
+                        const practice = grammar.practice.map((p, i) => 
+                            '<div style="margin-bottom: 20px;">' +
+                                '<p style="font-weight: 600; margin-bottom: 8px;">' + (i + 1) + '. ' + p.prompt + '</p>' +
+                                '<textarea id="grammar-' + (i + 1) + '" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea>' +
+                            '</div>'
+                        ).join('');
+                        
+                        return '<div class="lesson-page-card content-page">' +
+                            '<h2>✏️ Grammar: ' + grammar.topic + '</h2>' +
+                            '<div style="margin: 20px 0;">' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>' +
+                                '<div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">' +
+                                    explanation +
+                                '</div>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>' +
+                                '<ul style="margin-bottom: 20px; line-height: 1.8;">' +
+                                    examples +
+                                '</ul>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>' +
+                                practice +
+                            '</div>' +
+                        '</div>';
+                    }
+                },
+                
+                // Page 9: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -173,7 +209,7 @@ She held Toto close and waited for morning.</p>
                     `
                 },
                 
-                // Page 9: Completion
+                // Page 10: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

@@ -172,20 +172,56 @@ She looked down and found the road of bright yellow brick. With Toto trotting be
                     `
                 },
                 
-                // Page 7: Grammar/Language
+                // Page 7: Informational Text
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✏️ Language Skills</h2>
-                            <p>Practice vocabulary and language concepts.</p>
-                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Practice exercises will be added here.</em></p>
+                            <h2>🌍 Informational Text: Kansas: The Heart of America</h2>
+                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
+                                <p style="margin-bottom: 15px;">Kansas sits in the exact middle of the United States — the true heartland of America. When Dorothy describes Kansas as "flat and gray," she's not exaggerating. Kansas is one of the flattest states in America, with endless prairies stretching as far as the eye can see.</p><p style="margin-bottom: 15px;">In the 1800s and early 1900s, Kansas was farming country. Families like Dorothy's grew wheat, corn, and raised cattle. Life was hard. There were no shopping malls, no movie theaters, no video games. Families worked from sunrise to sunset just to survive.</p><p style="margin-bottom: 15px;">The Kansas prairie could be beautiful in spring, with wildflowers blooming across the grasslands. But it could also be harsh. Summers were blazing hot with little shade. Winters were bitterly cold with howling winds. Water was scarce, and droughts could ruin crops.</p><p style="margin-bottom: 15px;">Prairie homes like Dorothy's were often small — just one room for eating, sleeping, and living. There was no electricity, no running water, and definitely no air conditioning. Families cooked on wood stoves, used oil lamps for light, and drew water from wells.</p><p style="margin-bottom: 15px;">Despite the hardships, Kansas pioneers were tough and resilient. They built communities, helped their neighbors, and created a way of life that valued hard work, honesty, and loyalty — the same values Dorothy carries with her to Oz.</p><p style="margin-bottom: 15px;">Today, Kansas is still farming country, but modern technology has made life much easier. Yet the spirit of those early pioneers — the determination to work hard and help others — remains part of Kansas culture.</p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 8: Writing
+                // Page 8: Grammar
+                {
+                    render: () => {
+                        const grammar = grammarLessons[day];
+                        if (!grammar) {
+                            return '<div class="lesson-page-card content-page"><h2>✏️ Grammar</h2><p>Grammar practice will be provided.</p></div>';
+                        }
+                        
+                        const explanation = grammar.explanation.split('
+
+').map(p => '<p style="margin-bottom: 10px;">' + p + '</p>').join('');
+                        const examples = grammar.examples.map(ex => '<li>' + ex + '</li>').join('');
+                        const practice = grammar.practice.map((p, i) => 
+                            '<div style="margin-bottom: 20px;">' +
+                                '<p style="font-weight: 600; margin-bottom: 8px;">' + (i + 1) + '. ' + p.prompt + '</p>' +
+                                '<textarea id="grammar-' + (i + 1) + '" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea>' +
+                            '</div>'
+                        ).join('');
+                        
+                        return '<div class="lesson-page-card content-page">' +
+                            '<h2>✏️ Grammar: ' + grammar.topic + '</h2>' +
+                            '<div style="margin: 20px 0;">' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>' +
+                                '<div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">' +
+                                    explanation +
+                                '</div>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>' +
+                                '<ul style="margin-bottom: 20px; line-height: 1.8;">' +
+                                    examples +
+                                '</ul>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>' +
+                                practice +
+                            '</div>' +
+                        '</div>';
+                    }
+                },
+                
+                // Page 9: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -196,7 +232,7 @@ She looked down and found the road of bright yellow brick. With Toto trotting be
                     `
                 },
                 
-                // Page 9: Completion
+                // Page 10: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

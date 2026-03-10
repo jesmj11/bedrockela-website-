@@ -154,20 +154,91 @@ Dorothy was home.</p>
                     `
                 },
                 
-                // Page 7: Grammar/Language
+                // Page 7: Informational Text
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar Practice</h2>
-                            <p>Practice sentence structure and grammar.</p>
-                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Practice exercises will be added here.</em></p>
+                            <h2>🌍 Informational Text: The Power of Believing: Self-Fulfilling Prophecies</h2>
+                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
+                                <p style="margin-bottom: 15px;">One of the most fascinating psychological aspects of The Wizard of Oz is how the characters' beliefs about themselves change their behavior. This demonstrates a real psychological phenomenon called a "self-fulfilling prophecy."</p><p style="margin-bottom: 15px;">**What Is a Self-Fulfilling Prophecy?**:
+A self-fulfilling prophecy happens when believing something makes it come true:
+1. You believe something about yourself (I'm not smart)
+2. This belief affects your behavior (I don't try hard problems)
+3. Your behavior creates the expected outcome (I struggle with hard problems)
+4. The outcome reinforces your belief (See? I'm not smart)</p><p style="margin-bottom: 15px;">This creates a cycle that's hard to break. But the good news? The cycle works both ways. Positive beliefs can create positive outcomes just as powerfully as negative beliefs create negative ones.</p><p style="margin-bottom: 15px;">**The Scarecrow's Transformation**:
+**Before the "brain"**:
+- Apologizes for his stupidity
+- Asks others to make decisions
+- Doubts his ideas
+- Defers to others' judgment</p><p style="margin-bottom: 15px;">**After the "brain"**:
+- Confidently shares ideas
+- Makes decisions quickly
+- Trusts his reasoning
+- Acts without seeking validation</p><p style="margin-bottom: 15px;">What changed? Not his intelligence — he was smart all along. His belief changed. Believing he's smart makes him act smart, which makes him successful, which proves he's smart.</p><p style="margin-bottom: 15px;">**The Tin Woodman's Transformation**:
+**Before the "heart"**:
+- Questions whether he can love
+- Worries he's cold and unfeeling
+- Doubts his compassion is real
+- Thinks he's different from others</p><p style="margin-bottom: 15px;">**After the "heart"**:
+- Confidently expresses feelings
+- Trusts his emotional responses
+- Accepts his compassionate nature
+- Feels "normal" and complete</p><p style="margin-bottom: 15px;">His actions didn't change — he was always kind. But his self-acceptance did. Believing he has a heart lets him accept and express the feelings he always had.</p><p style="margin-bottom: 15px;">**The Lion's Transformation**:
+**Before "courage"**:
+- Roars to hide fear
+- Admits cowardice frequently
+- Hesitates before acting
+- Feels ashamed of himself</p><p style="margin-bottom: 15px;">**After "courage"**:
+- Acts without hesitation
+- Trusts his instincts
+- Accepts fear as normal
+- Takes pride in himself</p><p style="margin-bottom: 15px;">He was always brave — he did scary things despite fear. But believing he's courageous makes him recognize his actions as brave rather than cowardly.</p><p style="margin-bottom: 15px;">**The Science Behind It**:</p><p style="margin-bottom: 15px;">Modern psychology confirms that beliefs shape reality:</p><p style="margin-bottom: 15px;">1. **Mindset Research** (Carol Dweck): People with "growth mindsets" (believing abilities can improve) outperform those with "fixed mindsets" (believing abilities are unchangeable).</p><p style="margin-bottom: 15px;">2. **Placebo Effect**: Believing a treatment will work makes it more effective, even if it's fake. The mind influences physical outcomes.</p><p style="margin-bottom: 15px;">3. **Stereotype Threat**: Believing negative stereotypes about your group impairs performance. Believing positive things about yourself enhances it.</p><p style="margin-bottom: 15px;">4. **Confidence and Performance**: Athletes, students, and workers perform better when they believe in their abilities, independent of actual skill level.</p><p style="margin-bottom: 15px;">**How to Use This Positively**:</p><p style="margin-bottom: 15px;">1. **Identify limiting beliefs**: What do you tell yourself you "can't" do or "aren't good at"?</p><p style="margin-bottom: 15px;">2. **Look for counter-evidence**: When have you demonstrated the ability you think you lack?</p><p style="margin-bottom: 15px;">3. **Reframe your story**: Change "I'm bad at math" to "I'm learning math" or "Math is challenging for me right now."</p><p style="margin-bottom: 15px;">4. **Act as if**: Behave like someone who has the quality you want. Fake it until it becomes real.</p><p style="margin-bottom: 15px;">5. **Celebrate small wins**: Notice times when you demonstrate the quality. Build evidence against limiting beliefs.</p><p style="margin-bottom: 15px;">**The Wizard's Wisdom**:</p><p style="margin-bottom: 15px;">The Wizard understood something profound: Sometimes people need permission to recognize their own abilities. His fake gifts gave the characters permission to see themselves differently.</p><p style="margin-bottom: 15px;">You might not have a wizard to give you confidence. But you can be your own wizard. Give yourself permission to:
+- Recognize your intelligence
+- Accept your capacity for love
+- Acknowledge your courage</p><p style="margin-bottom: 15px;">**The Real Magic**:</p><p style="margin-bottom: 15px;">The Wizard's "magic" is belief. He changed what the characters believed about themselves. That belief changed how they behaved. Their behavior changed their reality.</p><p style="margin-bottom: 15px;">This is accessible magic. You don't need a wizard, a magic potion, or special powers. You need to change what you believe about yourself. Start believing you're capable, kind, and brave. Then act accordingly. The belief will become reality.</p><p style="margin-bottom: 15px;">That's not fantasy. That's psychology. And it works.</p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 8: Writing
+                // Page 8: Grammar
+                {
+                    render: () => {
+                        const grammar = grammarLessons[day];
+                        if (!grammar) {
+                            return '<div class="lesson-page-card content-page"><h2>✏️ Grammar</h2><p>Grammar practice will be provided.</p></div>';
+                        }
+                        
+                        const explanation = grammar.explanation.split('
+
+').map(p => '<p style="margin-bottom: 10px;">' + p + '</p>').join('');
+                        const examples = grammar.examples.map(ex => '<li>' + ex + '</li>').join('');
+                        const practice = grammar.practice.map((p, i) => 
+                            '<div style="margin-bottom: 20px;">' +
+                                '<p style="font-weight: 600; margin-bottom: 8px;">' + (i + 1) + '. ' + p.prompt + '</p>' +
+                                '<textarea id="grammar-' + (i + 1) + '" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea>' +
+                            '</div>'
+                        ).join('');
+                        
+                        return '<div class="lesson-page-card content-page">' +
+                            '<h2>✏️ Grammar: ' + grammar.topic + '</h2>' +
+                            '<div style="margin: 20px 0;">' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>' +
+                                '<div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">' +
+                                    explanation +
+                                '</div>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>' +
+                                '<ul style="margin-bottom: 20px; line-height: 1.8;">' +
+                                    examples +
+                                '</ul>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>' +
+                                practice +
+                            '</div>' +
+                        '</div>';
+                    }
+                },
+                
+                // Page 9: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -178,7 +249,7 @@ Dorothy was home.</p>
                     `
                 },
                 
-                // Page 9: Completion
+                // Page 10: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

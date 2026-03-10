@@ -161,20 +161,56 @@ Dorothy kept these observations to herself. But she was beginning to wonder if h
                     `
                 },
                 
-                // Page 7: Grammar/Language
+                // Page 7: Informational Text
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✏️ Language Skills</h2>
-                            <p>Practice vocabulary and language concepts.</p>
-                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Practice exercises will be added here.</em></p>
+                            <h2>🌍 Informational Text: Scarecrows: Guardians of the Garden</h2>
+                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
+                                <p style="margin-bottom: 15px;">Scarecrows have been protecting crops for thousands of years. Ancient Egyptians used them along the Nile River. Greek farmers built wooden scarecrows to guard their vineyards. But the classic scarecrow we know today — stuffed with straw, wearing old clothes — became popular in America during the 1800s.</p><p style="margin-bottom: 15px;">Why do farmers need scarecrows? Birds, especially crows and blackbirds, love to eat seeds and sprouting crops. A flock of birds can destroy a newly planted field in hours. Scarecrows are meant to frighten birds away by looking like a human standing guard.</p><p style="margin-bottom: 15px;">In the 1890s when Dorothy meets the Scarecrow, most were simple: a wooden pole with a crossbar for arms, stuffed with straw, dressed in worn-out clothes and a hat. Farmers positioned them in fields to protect corn, wheat, and other grains.</p><p style="margin-bottom: 15px;">But here's the problem: birds are smart. They quickly figure out that scarecrows don't move. Within days, crows might perch right on the scarecrow's shoulders, mocking it. That's why the Scarecrow in the story feels useless — the crows literally told him he was just "stuffed with straw."</p><p style="margin-bottom: 15px;">Modern farmers use many methods to protect crops: nets, noise makers, reflective tape, and even robots. But the traditional scarecrow remains a symbol of farming life and harvest time.</p><p style="margin-bottom: 15px;">L. Frank Baum's Scarecrow is different from a typical farm scarecrow. He can talk, walk, and think. He joins Dorothy's journey seeking a brain, yet throughout the story, he's the one who comes up with clever plans and solves problems. The lesson? Intelligence isn't about what's in your head — it's about how you use what you have.</p><p style="margin-bottom: 15px;">The Scarecrow represents a universal truth: we often have the very thing we think we're missing. We just don't recognize it yet.</p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 8: Writing
+                // Page 8: Grammar
+                {
+                    render: () => {
+                        const grammar = grammarLessons[day];
+                        if (!grammar) {
+                            return '<div class="lesson-page-card content-page"><h2>✏️ Grammar</h2><p>Grammar practice will be provided.</p></div>';
+                        }
+                        
+                        const explanation = grammar.explanation.split('
+
+').map(p => '<p style="margin-bottom: 10px;">' + p + '</p>').join('');
+                        const examples = grammar.examples.map(ex => '<li>' + ex + '</li>').join('');
+                        const practice = grammar.practice.map((p, i) => 
+                            '<div style="margin-bottom: 20px;">' +
+                                '<p style="font-weight: 600; margin-bottom: 8px;">' + (i + 1) + '. ' + p.prompt + '</p>' +
+                                '<textarea id="grammar-' + (i + 1) + '" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea>' +
+                            '</div>'
+                        ).join('');
+                        
+                        return '<div class="lesson-page-card content-page">' +
+                            '<h2>✏️ Grammar: ' + grammar.topic + '</h2>' +
+                            '<div style="margin: 20px 0;">' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>' +
+                                '<div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">' +
+                                    explanation +
+                                '</div>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>' +
+                                '<ul style="margin-bottom: 20px; line-height: 1.8;">' +
+                                    examples +
+                                '</ul>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>' +
+                                practice +
+                            '</div>' +
+                        '</div>';
+                    }
+                },
+                
+                // Page 9: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -185,7 +221,7 @@ Dorothy kept these observations to herself. But she was beginning to wonder if h
                     `
                 },
                 
-                // Page 9: Completion
+                // Page 10: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

@@ -158,20 +158,56 @@ The little dog pressed against her leg and growled at the Witch, and for that on
                     `
                 },
                 
-                // Page 7: Grammar/Language
+                // Page 7: Informational Text
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✏️ Language Skills</h2>
-                            <p>Practice vocabulary and language concepts.</p>
-                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Practice exercises will be added here.</em></p>
+                            <h2>🌍 Informational Text: Hot Air Balloons: The Original Flying Machines</h2>
+                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
+                                <p style="margin-bottom: 15px;">When the Wizard attempts to return to Kansas in a hot air balloon, he's using technology that was cutting-edge in the 1890s. Hot air balloons were humanity's first successful method of flight — created over a hundred years before airplanes.</p><p style="margin-bottom: 15px;">The Montgolfier brothers in France launched the first human-carrying hot air balloon in 1783. They discovered that hot air rises because it's lighter than cold air. By trapping hot air inside a large balloon and hanging a basket underneath, they could lift people into the sky.</p><p style="margin-bottom: 15px;">By the 1890s, hot air balloons were used for scientific observations, military reconnaissance, and entertainment. "Aeronauts" (balloon pilots) became celebrities, performing at fairs and exhibitions. The Wizard of Oz's backstory — being a circus balloonist who accidentally drifted away — would have been believable to readers in 1900.</p><p style="margin-bottom: 15px;">How do hot air balloons work? Fire heats the air inside the balloon, making it less dense than the outside air. Since hot air rises, the balloon lifts up. To descend, pilots let the air cool or release some of it through a vent. To steer... well, that's the problem. Early balloons couldn't be steered. They drifted wherever the wind carried them.</p><p style="margin-bottom: 15px;">This is exactly what happens to the Wizard at the end of the story. Dorothy is supposed to climb into the basket, but Toto runs away and she chases him. The balloon's ropes slip loose, and the Wizard drifts away without her, unable to control where he's going.</p><p style="margin-bottom: 15px;">This scene is both funny and sad. The "great and powerful Oz" can't even control his own balloon! He's at the mercy of wind and chance, just like he's always been. His whole life has been about things happening TO him rather than him controlling events.</p><p style="margin-bottom: 15px;">Modern hot air balloons are safer and more controllable, with better materials and equipment. But they still can't truly steer — they go where the wind takes them.</p><p style="margin-bottom: 15px;">The balloon's failure is symbolic. Dorothy can't get home through magic or tricks. She'll need to find another way — one that depends on what she's had all along.</p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 8: Writing
+                // Page 8: Grammar
+                {
+                    render: () => {
+                        const grammar = grammarLessons[day];
+                        if (!grammar) {
+                            return '<div class="lesson-page-card content-page"><h2>✏️ Grammar</h2><p>Grammar practice will be provided.</p></div>';
+                        }
+                        
+                        const explanation = grammar.explanation.split('
+
+').map(p => '<p style="margin-bottom: 10px;">' + p + '</p>').join('');
+                        const examples = grammar.examples.map(ex => '<li>' + ex + '</li>').join('');
+                        const practice = grammar.practice.map((p, i) => 
+                            '<div style="margin-bottom: 20px;">' +
+                                '<p style="font-weight: 600; margin-bottom: 8px;">' + (i + 1) + '. ' + p.prompt + '</p>' +
+                                '<textarea id="grammar-' + (i + 1) + '" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea>' +
+                            '</div>'
+                        ).join('');
+                        
+                        return '<div class="lesson-page-card content-page">' +
+                            '<h2>✏️ Grammar: ' + grammar.topic + '</h2>' +
+                            '<div style="margin: 20px 0;">' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>' +
+                                '<div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">' +
+                                    explanation +
+                                '</div>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>' +
+                                '<ul style="margin-bottom: 20px; line-height: 1.8;">' +
+                                    examples +
+                                '</ul>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>' +
+                                practice +
+                            '</div>' +
+                        '</div>';
+                    }
+                },
+                
+                // Page 9: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -182,7 +218,7 @@ The little dog pressed against her leg and growled at the Witch, and for that on
                     `
                 },
                 
-                // Page 9: Completion
+                // Page 10: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

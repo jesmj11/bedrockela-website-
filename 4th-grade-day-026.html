@@ -154,20 +154,84 @@ Dorothy was home.</p>
                     `
                 },
                 
-                // Page 7: Grammar/Language
+                // Page 7: Informational Text
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✏️ Language Skills</h2>
-                            <p>Practice vocabulary and language concepts.</p>
-                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Practice exercises will be added here.</em></p>
+                            <h2>🌍 Informational Text: Courage, Wisdom, and Heart: Universal Values</h2>
+                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
+                                <p style="margin-bottom: 15px;">The three gifts Dorothy's friends seek — a brain, a heart, and courage — represent universal human values that matter across all cultures and time periods. Let's explore why these three qualities matter so much.</p><p style="margin-bottom: 15px;">**The Scarecrow's Brain (Wisdom)**:
+Intelligence and wisdom aren't the same thing:
+- **Intelligence** is the ability to learn and understand
+- **Wisdom** is knowing how to use what you know</p><p style="margin-bottom: 15px;">The Scarecrow already demonstrates intelligence throughout the journey. He solves problems, creates plans, and makes smart decisions. What he lacks isn't intelligence — it's confidence in his intelligence.</p><p style="margin-bottom: 15px;">The "brain" the Wizard gives him (a mixture of bran, pins, and needles) is symbolic. Bran represents nutrition for thought. Pins and needles represent sharp thinking. None of it is magical, but believing he has a brain makes the Scarecrow confident enough to use the intelligence he always had.</p><p style="margin-bottom: 15px;">**The Tin Woodman's Heart (Compassion)**:
+The Tin Woodman thinks he can't feel because he has no biological heart. Yet he:
+- Cries when he accidentally steps on a beetle
+- Refuses to hurt any living thing
+- Risks himself to protect Dorothy
+- Shows more compassion than most "hearted" characters</p><p style="margin-bottom: 15px;">The silk heart stuffed with sawdust that the Wizard gives him doesn't enable feeling — it validates feelings he already has. He learns that having a heart isn't about anatomy; it's about how you treat others.</p><p style="margin-bottom: 15px;">**The Lion's Courage (Bravery)**:
+The Lion defines courage as absence of fear. He thinks being brave means never being scared. But true courage is acting despite fear.</p><p style="margin-bottom: 15px;">Throughout the journey, the Lion is terrified — but he acts anyway:
+- He crosses dangerous rivers
+- He fights fierce beasts (Kalidahs)
+- He leaps over chasms
+- He protects his friends</p><p style="margin-bottom: 15px;">The drink the Wizard gives him as "courage" is colored water. But believing he's brave makes the Lion recognize the courage he's demonstrated all along.</p><p style="margin-bottom: 15px;">**Why These Three?**:</p><p style="margin-bottom: 15px;">Brain, Heart, and Courage represent three essential aspects of being human:
+1. **Thinking** (brain/wisdom): Making good decisions
+2. **Feeling** (heart/compassion): Caring about others
+3. **Acting** (courage/bravery): Doing what's right despite difficulty</p><p style="margin-bottom: 15px;">All three are necessary. Wisdom without compassion becomes cold calculation. Compassion without courage becomes passive sympathy. Courage without wisdom becomes reckless foolishness.</p><p style="margin-bottom: 15px;">**Cultural Universality**:</p><p style="margin-bottom: 15px;">Every culture values these three qualities, though they use different words:
+- Ancient Greeks valued wisdom (Athena), courage (Ares), and love (Aphrodite)
+- Christianity teaches faith, hope, and charity (love)
+- Buddhism emphasizes wisdom, compassion, and courage
+- Native American traditions honor the mind, heart, and spirit
+- Modern psychology recognizes thinking, feeling, and acting</p><p style="margin-bottom: 15px;">**The Real Magic**:</p><p style="margin-bottom: 15px;">The Wizard's great trick isn't creating fake brains, hearts, and courage. It's helping the characters recognize what they already possess. He's a therapist, not a magician. He changes their self-perception, and that changes everything.</p><p style="margin-bottom: 15px;">This is the story's deepest wisdom: We often have what we think we're missing. We just don't recognize it or trust it. Sometimes we need:
+- Validation: Someone telling us we're capable
+- Evidence: Seeing ourselves succeed
+- Permission: Being told it's okay to use our abilities
+- Confidence: Believing in ourselves</p><p style="margin-bottom: 15px;">**Modern Application**:</p><p style="margin-bottom: 15px;">When you feel you lack something important, ask yourself:
+1. **Brain**: Have I used intelligence/creativity in the past, even if I didn't recognize it?
+2. **Heart**: Have I shown kindness/compassion, even in small ways?
+3. **Courage**: Have I done difficult things despite being scared?</p><p style="margin-bottom: 15px;">The answer is probably yes. Like Dorothy's friends, you likely have more wisdom, compassion, and courage than you give yourself credit for.</p><p style="margin-bottom: 15px;">The Wizard's lesson: You don't need magic to develop these qualities. You need to recognize and use what's already within you. Brain, heart, and courage aren't given — they're discovered.</p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 8: Writing
+                // Page 8: Grammar
+                {
+                    render: () => {
+                        const grammar = grammarLessons[day];
+                        if (!grammar) {
+                            return '<div class="lesson-page-card content-page"><h2>✏️ Grammar</h2><p>Grammar practice will be provided.</p></div>';
+                        }
+                        
+                        const explanation = grammar.explanation.split('
+
+').map(p => '<p style="margin-bottom: 10px;">' + p + '</p>').join('');
+                        const examples = grammar.examples.map(ex => '<li>' + ex + '</li>').join('');
+                        const practice = grammar.practice.map((p, i) => 
+                            '<div style="margin-bottom: 20px;">' +
+                                '<p style="font-weight: 600; margin-bottom: 8px;">' + (i + 1) + '. ' + p.prompt + '</p>' +
+                                '<textarea id="grammar-' + (i + 1) + '" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea>' +
+                            '</div>'
+                        ).join('');
+                        
+                        return '<div class="lesson-page-card content-page">' +
+                            '<h2>✏️ Grammar: ' + grammar.topic + '</h2>' +
+                            '<div style="margin: 20px 0;">' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>' +
+                                '<div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">' +
+                                    explanation +
+                                '</div>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>' +
+                                '<ul style="margin-bottom: 20px; line-height: 1.8;">' +
+                                    examples +
+                                '</ul>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>' +
+                                practice +
+                            '</div>' +
+                        '</div>';
+                    }
+                },
+                
+                // Page 9: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -178,7 +242,7 @@ Dorothy was home.</p>
                     `
                 },
                 
-                // Page 9: Completion
+                // Page 10: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

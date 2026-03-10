@@ -152,20 +152,68 @@ They pressed on through the forest, and the trees did not bother them again.</p>
                     `
                 },
                 
-                // Page 7: Grammar/Language
+                // Page 7: Informational Text
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar Practice</h2>
-                            <p>Practice sentence structure and grammar.</p>
-                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Practice exercises will be added here.</em></p>
+                            <h2>🌍 Informational Text: The Yellow Brick Road: Symbolism and Meaning</h2>
+                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
+                                <p style="margin-bottom: 15px;">The Yellow Brick Road is one of literature's most iconic symbols. "Follow the yellow brick road" has become a phrase meaning "follow your path" or "pursue your goal." But why yellow? Why brick? And what does the road represent?</p><p style="margin-bottom: 15px;">**Why Yellow?**
+Yellow symbolizes:
+- Sunshine and optimism
+- Gold and wealth (think "gold brick")
+- Warning and caution
+- Enlightenment and wisdom</p><p style="margin-bottom: 15px;">Some scholars believe the yellow brick road represents the gold standard — a historical monetary policy that was controversial in the 1890s. Others see it as simply representing the path toward enlightenment and self-discovery.</p><p style="margin-bottom: 15px;">**Why Brick?**
+Brick roads were modern and sophisticated in 1900. Most rural roads were dirt that turned to mud when it rained. A brick road suggested civilization, progress, and stability. It was a pathway that wouldn't wash away in storms or disappear in grass.</p><p style="margin-bottom: 15px;">The yellow brick road literally provides solid footing on Dorothy's journey. It's reliable. If she follows it, she won't get lost. This is both practical and symbolic — having a clear path makes difficult journeys possible.</p><p style="margin-bottom: 15px;">**What Does It Mean?**
+The yellow brick road represents several ideas:</p><p style="margin-bottom: 15px;">1. **Life's Journey**: We all have a path to follow, even if we don't know where it leads. Following your path requires faith that it goes somewhere meaningful.</p><p style="margin-bottom: 15px;">2. **Visible Goals**: The road is always visible. Dorothy can see where to step next, even if she can't see the final destination. This teaches us to focus on the next step, not worry about the entire journey.</p><p style="margin-bottom: 15px;">3. **Shared Path**: Others have traveled this road before Dorothy. It's worn smooth by countless feet. We're not alone in our journeys; others have faced similar challenges.</p><p style="margin-bottom: 15px;">4. **Diverging Choices**: The road sometimes splits or offers choices. Dorothy must decide which direction to take. Life requires decision-making, not just following blindly.</p><p style="margin-bottom: 15px;">5. **The Journey Matters**: The destination (Emerald City) is important, but the journey transforms Dorothy more than arriving does. Life is about the journey, not just the destination.</p><p style="margin-bottom: 15px;">**Modern Usage**:
+Today, "follow the yellow brick road" means:
+- Trust the process
+- Keep moving forward
+- Don't get distracted or lost
+- Your path will lead you where you need to go</p><p style="margin-bottom: 15px;">The phrase appears in songs, movies, and everyday language. It's become cultural shorthand for pursuing your dreams despite obstacles.</p><p style="margin-bottom: 15px;">The genius of the yellow brick road is its simplicity. Dorothy doesn't need a map, compass, or guide. She just needs to follow the yellow bricks. One step at a time, one brick at a time, she moves toward her goal.</p><p style="margin-bottom: 15px;">That's a powerful life lesson: When facing a long, difficult journey, don't focus on how far you have to go. Just take the next step. Then the next. Then the next. Follow your yellow brick road, wherever it may lead.</p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 8: Writing
+                // Page 8: Grammar
+                {
+                    render: () => {
+                        const grammar = grammarLessons[day];
+                        if (!grammar) {
+                            return '<div class="lesson-page-card content-page"><h2>✏️ Grammar</h2><p>Grammar practice will be provided.</p></div>';
+                        }
+                        
+                        const explanation = grammar.explanation.split('
+
+').map(p => '<p style="margin-bottom: 10px;">' + p + '</p>').join('');
+                        const examples = grammar.examples.map(ex => '<li>' + ex + '</li>').join('');
+                        const practice = grammar.practice.map((p, i) => 
+                            '<div style="margin-bottom: 20px;">' +
+                                '<p style="font-weight: 600; margin-bottom: 8px;">' + (i + 1) + '. ' + p.prompt + '</p>' +
+                                '<textarea id="grammar-' + (i + 1) + '" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea>' +
+                            '</div>'
+                        ).join('');
+                        
+                        return '<div class="lesson-page-card content-page">' +
+                            '<h2>✏️ Grammar: ' + grammar.topic + '</h2>' +
+                            '<div style="margin: 20px 0;">' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>' +
+                                '<div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">' +
+                                    explanation +
+                                '</div>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>' +
+                                '<ul style="margin-bottom: 20px; line-height: 1.8;">' +
+                                    examples +
+                                '</ul>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>' +
+                                practice +
+                            '</div>' +
+                        '</div>';
+                    }
+                },
+                
+                // Page 9: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -176,7 +224,7 @@ They pressed on through the forest, and the trees did not bother them again.</p>
                     `
                 },
                 
-                // Page 9: Completion
+                // Page 10: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

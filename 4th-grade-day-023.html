@@ -160,20 +160,88 @@ And running across the yard toward her, arms outstretched, was Aunt Em.</p>
                     `
                 },
                 
-                // Page 7: Grammar/Language
+                // Page 7: Informational Text
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar Practice</h2>
-                            <p>Practice sentence structure and grammar.</p>
-                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Practice exercises will be added here.</em></p>
+                            <h2>🌍 Informational Text: Kansas Geography: Understanding the Setting</h2>
+                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
+                                <p style="margin-bottom: 15px;">To truly understand Dorothy's story, we need to understand Kansas — not just any Kansas, but 1890s Kansas, where life was dramatically different from today.</p><p style="margin-bottom: 15px;">**The Geography**:
+Kansas is located in the central United States, part of the Great Plains. This region is characterized by:
+- **Flatness**: Kansas is one of America's flattest states. You can see for miles in every direction with few hills or trees blocking the view.
+- **Grasslands**: Before farming, Kansas was covered in tallgrass prairie. Grasses grew 6-8 feet high, creating a "sea of grass" that moved like waves in the wind.
+- **Extreme weather**: Kansas experiences harsh winters (blizzards, ice storms) and brutal summers (droughts, heat waves). Spring and fall bring violent thunderstorms and tornadoes.
+- **Few trees**: Natural trees are rare on the prairie. What trees exist were planted by settlers for windbreaks and shade.</p><p style="margin-bottom: 15px;">**Why Settlers Came**:
+Despite harsh conditions, people moved to Kansas in the 1800s because:
+- **Free land**: The Homestead Act gave 160 acres to anyone who would farm it for five years
+- **Good soil**: Once plowed, prairie soil is incredibly fertile and grows excellent wheat
+- **Central location**: Kansas connected East and West, making it important for transportation
+- **Opportunity**: People fleeing poverty or persecution saw Kansas as a fresh start</p><p style="margin-bottom: 15px;">**Daily Life on a Kansas Farm**:
+Dorothy's life would have included:
+- **Isolation**: Farms were miles apart. You might go days without seeing anyone outside your family.
+- **Hard physical labor**: Plowing, planting, harvesting, caring for animals, hauling water — all done by hand.
+- **Simple housing**: Most prairie homes were one-room dugouts or small wooden houses with no running water or electricity.
+- **Extreme weather**: Summer temperatures could exceed 100°F with no air conditioning. Winter blizzards could trap families indoors for days.
+- **Limited education**: School happened only after planting and before harvest. Many children attended only a few months per year.</p><p style="margin-bottom: 15px;">**Why "Gray and Dull"?**:
+Baum describes Kansas as gray and dull, which reflects several realities:
+- **Drought cycles**: Kansas experiences periodic droughts. During dry years, green grass turns brown, crops fail, and everything is covered in dust.
+- **Limited color**: Without gardens, paint, or decorations (expensive!), prairie life was visually monotonous.
+- **Hard work**: When you work from dawn to dusk just to survive, life can feel joyless.
+- **Isolation**: Without neighbors, entertainment, or variety, prairie life could feel suffocating.</p><p style="margin-bottom: 15px;">**Modern Kansas**:
+Today's Kansas is quite different:
+- Major cities like Wichita and Kansas City
+- Modern farming with tractors and irrigation
+- Good roads, schools, and infrastructure
+- Still agricultural but more diverse
+- Still experiences tornadoes!</p><p style="margin-bottom: 15px;">**Why This Matters to the Story**:
+Understanding Kansas helps us appreciate why:
+- Dorothy is so desperate to return home (Aunt Em is literally all she has)
+- Oz seems so magical (anything would compared to gray Kansas)
+- The silver slippers' power is significant (instant travel was fantasy in an era of slow horses and wagons)
+- "There's no place like home" resonates (even a harsh home is your home)</p><p style="margin-bottom: 15px;">Kansas represents reality — sometimes harsh, often difficult, rarely magical. But it's real. It's home. And for Dorothy, that matters more than all the wonders of Oz.</p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 8: Writing
+                // Page 8: Grammar
+                {
+                    render: () => {
+                        const grammar = grammarLessons[day];
+                        if (!grammar) {
+                            return '<div class="lesson-page-card content-page"><h2>✏️ Grammar</h2><p>Grammar practice will be provided.</p></div>';
+                        }
+                        
+                        const explanation = grammar.explanation.split('
+
+').map(p => '<p style="margin-bottom: 10px;">' + p + '</p>').join('');
+                        const examples = grammar.examples.map(ex => '<li>' + ex + '</li>').join('');
+                        const practice = grammar.practice.map((p, i) => 
+                            '<div style="margin-bottom: 20px;">' +
+                                '<p style="font-weight: 600; margin-bottom: 8px;">' + (i + 1) + '. ' + p.prompt + '</p>' +
+                                '<textarea id="grammar-' + (i + 1) + '" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea>' +
+                            '</div>'
+                        ).join('');
+                        
+                        return '<div class="lesson-page-card content-page">' +
+                            '<h2>✏️ Grammar: ' + grammar.topic + '</h2>' +
+                            '<div style="margin: 20px 0;">' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>' +
+                                '<div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">' +
+                                    explanation +
+                                '</div>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>' +
+                                '<ul style="margin-bottom: 20px; line-height: 1.8;">' +
+                                    examples +
+                                '</ul>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>' +
+                                practice +
+                            '</div>' +
+                        '</div>';
+                    }
+                },
+                
+                // Page 9: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -184,7 +252,7 @@ And running across the yard toward her, arms outstretched, was Aunt Em.</p>
                     `
                 },
                 
-                // Page 9: Completion
+                // Page 10: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

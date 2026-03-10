@@ -168,20 +168,56 @@ Dorothy smiled and said nothing. She was beginning to like the Scarecrow very mu
                     `
                 },
                 
-                // Page 7: Grammar/Language
+                // Page 7: Informational Text
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar Practice</h2>
-                            <p>Practice sentence structure and grammar.</p>
-                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Practice exercises will be added here.</em></p>
+                            <h2>🌍 Informational Text: Tornadoes: Nature's Most Violent Storms</h2>
+                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
+                                <p style="margin-bottom: 15px;">A tornado, also called a "cyclone" in Dorothy's time, is a violently rotating column of air that extends from a thunderstorm to the ground. Kansas sits right in the middle of "Tornado Alley" — the part of America where tornadoes happen most often.</p><p style="margin-bottom: 15px;">How do tornadoes form? They need three ingredients: warm, moist air near the ground; cool, dry air above; and wind that changes direction or speed at different heights. When these conditions meet, they can create a rotating column of air that touches down and becomes a tornado.</p><p style="margin-bottom: 15px;">Tornadoes are measured on the Enhanced Fujita Scale from EF0 (weakest) to EF5 (strongest). An EF5 tornado can have wind speeds over 200 miles per hour — strong enough to lift houses off their foundations, just like in Dorothy's story!</p><p style="margin-bottom: 15px;">In the 1890s when this story takes place, people had no tornado warnings. There were no weather satellites, no radar, no smartphones with emergency alerts. Families like Dorothy's had to watch the sky themselves. When the air turned greenish, when animals acted strange, or when the wind suddenly stopped — those were signs a tornado might be coming.</p><p style="margin-bottom: 15px;">The only protection was a storm cellar — a small underground room dug beneath or near the house. Families would rush to the cellar when a tornado approached, huddling together in the dark while the storm raged above.</p><p style="margin-bottom: 15px;">Today, meteorologists can track tornadoes and warn people hours in advance. Sirens sound, phones alert, and people have time to take shelter. But in Dorothy's time, you might have only minutes — or seconds — to react.</p><p style="margin-bottom: 15px;">L. Frank Baum chose a tornado to start Dorothy's adventure for good reason. Tornadoes are powerful, unpredictable, and can literally lift you out of your ordinary life and drop you somewhere completely new.</p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 8: Writing
+                // Page 8: Grammar
+                {
+                    render: () => {
+                        const grammar = grammarLessons[day];
+                        if (!grammar) {
+                            return '<div class="lesson-page-card content-page"><h2>✏️ Grammar</h2><p>Grammar practice will be provided.</p></div>';
+                        }
+                        
+                        const explanation = grammar.explanation.split('
+
+').map(p => '<p style="margin-bottom: 10px;">' + p + '</p>').join('');
+                        const examples = grammar.examples.map(ex => '<li>' + ex + '</li>').join('');
+                        const practice = grammar.practice.map((p, i) => 
+                            '<div style="margin-bottom: 20px;">' +
+                                '<p style="font-weight: 600; margin-bottom: 8px;">' + (i + 1) + '. ' + p.prompt + '</p>' +
+                                '<textarea id="grammar-' + (i + 1) + '" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea>' +
+                            '</div>'
+                        ).join('');
+                        
+                        return '<div class="lesson-page-card content-page">' +
+                            '<h2>✏️ Grammar: ' + grammar.topic + '</h2>' +
+                            '<div style="margin: 20px 0;">' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>' +
+                                '<div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">' +
+                                    explanation +
+                                '</div>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>' +
+                                '<ul style="margin-bottom: 20px; line-height: 1.8;">' +
+                                    examples +
+                                '</ul>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>' +
+                                practice +
+                            '</div>' +
+                        '</div>';
+                    }
+                },
+                
+                // Page 9: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -192,7 +228,7 @@ Dorothy smiled and said nothing. She was beginning to like the Scarecrow very mu
                     `
                 },
                 
-                // Page 9: Completion
+                // Page 10: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

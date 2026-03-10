@@ -154,20 +154,77 @@ Dorothy was home.</p>
                     `
                 },
                 
-                // Page 7: Grammar/Language
+                // Page 7: Informational Text
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>✏️ Language Skills</h2>
-                            <p>Practice vocabulary and language concepts.</p>
-                            <div style="margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
-                                <p><em>Practice exercises will be added here.</em></p>
+                            <h2>🌍 Informational Text: Children's Literature: Then and Now</h2>
+                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
+                                <p style="margin-bottom: 15px;">When "The Wonderful Wizard of Oz" was published in 1900, children's literature was very different from what we know today. Understanding these differences helps us appreciate why Oz was revolutionary.</p><p style="margin-bottom: 15px;">**Before 1900, Children's Books Were:**</p><p style="margin-bottom: 15px;">1. **Moralistic**: Stories existed mainly to teach moral lessons. Characters who misbehaved suffered terrible consequences. The message was more important than entertainment.</p><p style="margin-bottom: 15px;">2. **Dark and scary**: Traditional fairy tales included violence, death, and psychological terror. Children were abandoned, poisoned, or eaten. These weren't sanitized stories — they were warnings.</p><p style="margin-bottom: 15px;">3. **Class-conscious**: Most heroes were royalty or wealthy. Poor characters either stayed poor or magically became royalty. Social mobility wasn't realistic.</p><p style="margin-bottom: 15px;">4. **European**: Most stories came from Europe (Grimm, Andersen, Perrault). They featured castles, kings, and European settings. American children read about places they'd never seen.</p><p style="margin-bottom: 15px;">5. **Gender-specific**: Books for girls taught them to be passive, obedient, and domestic. Books for boys taught them to be brave, adventurous, and dominant. Few characters broke these roles.</p><p style="margin-bottom: 15px;">**Baum Changed Everything**:</p><p style="margin-bottom: 15px;">1. **Fun first**: While Oz has themes, it's primarily entertaining. Adventure and imagination matter more than moralizing.</p><p style="margin-bottom: 15px;">2. **Optimistic tone**: Bad things happen, but nobody dies. The story ends happily. Evil is defeated through cleverness and friendship, not violence.</p><p style="margin-bottom: 15px;">3. **Democratic values**: Dorothy isn't a princess; she's a farm girl. She succeeds through courage and kindness, not birthright. The "great" Wizard is exposed as an ordinary man, and that's okay.</p><p style="margin-bottom: 15px;">4. **American setting**: The story begins in Kansas and reflects American values: self-reliance, innovation, democracy, and optimism.</p><p style="margin-bottom: 15px;">5. **Gender-neutral**: Dorothy is brave, leads the group, and saves herself. The "female" characters (Dorothy, Glinda) are powerful and competent. The "male" characters (Scarecrow, Tin Woodman, Lion) are emotional and vulnerable. Everyone can be everything.</p><p style="margin-bottom: 15px;">**Impact on Modern Children's Literature**:</p><p style="margin-bottom: 15px;">Baum influenced generations of children's authors:
+- **Fantasy as legitimate literature**: Oz proved fantasy could be meaningful, not just escapist
+- **Child protagonists**: Children could be heroes without adults constantly rescuing them
+- **American mythology**: Writers could create American fantasy worlds
+- **Emotional honesty**: Characters could admit fears and weaknesses
+- **Friendship focus**: Stories could center on friendship rather than romance or family</p><p style="margin-bottom: 15px;">**Modern Children's Books Owe Oz**:
+- Harry Potter (ordinary child in magical world)
+- Percy Jackson (American mythology)
+- The Hunger Games (strong girl protagonist leading others)
+- Chronicles of Narnia (entering a magical world)
+- Coraline (finding courage to face danger)</p><p style="margin-bottom: 15px;">**What Makes a Good Children's Book?**:</p><p style="margin-bottom: 15px;">Modern understanding, influenced by Oz:
+1. Respects children's intelligence
+2. Entertains while providing meaning
+3. Features diverse, realistic characters
+4. Addresses real emotions and fears
+5. Empowers rather than preaches
+6. Ends with hope, not just "happily ever after"</p><p style="margin-bottom: 15px;">**Why Oz Endures**:</p><p style="margin-bottom: 15px;">120+ years later, The Wizard of Oz remains popular because:
+- Its themes are timeless (courage, friendship, home)
+- It empowers children rather than lecturing them
+- The story is genuinely entertaining
+- Characters are memorable and relatable
+- It balances adventure with emotional depth</p><p style="margin-bottom: 15px;">**The Legacy**:</p><p style="margin-bottom: 15px;">When you read modern children's books, you're reading in a tradition Baum helped create. Before Oz, children's books often treated readers as empty vessels needing to be filled with morals. After Oz, children's literature could be fun, empowering, and meaningful all at once.</p><p style="margin-bottom: 15px;">Baum believed children deserved stories that delighted them, not just instructed them. He believed kids were smart enough to find their own meaning in stories. And he believed American children deserved American fairy tales.</p><p style="margin-bottom: 15px;">He was right. The Wonderful Wizard of Oz proved it. And children's literature has never been the same.</p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 8: Writing
+                // Page 8: Grammar
+                {
+                    render: () => {
+                        const grammar = grammarLessons[day];
+                        if (!grammar) {
+                            return '<div class="lesson-page-card content-page"><h2>✏️ Grammar</h2><p>Grammar practice will be provided.</p></div>';
+                        }
+                        
+                        const explanation = grammar.explanation.split('
+
+').map(p => '<p style="margin-bottom: 10px;">' + p + '</p>').join('');
+                        const examples = grammar.examples.map(ex => '<li>' + ex + '</li>').join('');
+                        const practice = grammar.practice.map((p, i) => 
+                            '<div style="margin-bottom: 20px;">' +
+                                '<p style="font-weight: 600; margin-bottom: 8px;">' + (i + 1) + '. ' + p.prompt + '</p>' +
+                                '<textarea id="grammar-' + (i + 1) + '" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea>' +
+                            '</div>'
+                        ).join('');
+                        
+                        return '<div class="lesson-page-card content-page">' +
+                            '<h2>✏️ Grammar: ' + grammar.topic + '</h2>' +
+                            '<div style="margin: 20px 0;">' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>' +
+                                '<div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">' +
+                                    explanation +
+                                '</div>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>' +
+                                '<ul style="margin-bottom: 20px; line-height: 1.8;">' +
+                                    examples +
+                                '</ul>' +
+                                '<h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>' +
+                                practice +
+                            '</div>' +
+                        '</div>';
+                    }
+                },
+                
+                // Page 9: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -178,7 +235,7 @@ Dorothy was home.</p>
                     `
                 },
                 
-                // Page 9: Completion
+                // Page 10: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

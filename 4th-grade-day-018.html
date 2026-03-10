@@ -11,6 +11,7 @@
     <div id="lesson-container"></div>
 
     <script src="js/lesson-viewer.js?v=1772665488"></script>
+    <script src="js/digital-book.js?v=1772665488"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="firebase-config.js"></script>
@@ -47,6 +48,7 @@
                             <p>Today you will:</p>
                             <ul style="margin: 20px 0; line-height: 2;">
                                 <li>Learn 2 new vocabulary words</li>
+                                <li>Read <strong>The Melting of the Witch</strong> in our digital book</li>
                                 <li>Answer 2 comprehension questions</li>
                                 <li>Practice language skills</li>
                                 <li>Complete a writing task</li>
@@ -89,7 +91,35 @@
                     `
                 },
                 
-                // Page 4: Comprehension - Multiple Choice
+                // Page 4: Digital Book Reader
+                {
+                    render: () => {
+                        setTimeout(() => {
+                            if (!window.day18BookInitialized) {
+                                const bookConfig = {
+                                    coverTitle: "Chapter 14",
+                                    coverSubtitle: "The Melting of the Witch",
+                                    coverAuthor: "L. Frank Baum (adapted for 4th grade)",
+                                    coverColor: "#1B2A4A",
+                                    vocabWords: ["dissolved","liberated"],
+                                    pages: [{"text":"The next morning, Dorothy filled her bucket at the well and carried it into the kitchen. The Witch was waiting for her, wearing the stolen silver shoe on one foot and nothing on the other. She was in a foul mood.\n\n\"Scrub faster!\" the Witch snapped. \"And when you are finished with the kitchen, scrub the hallway. And when you are finished with the hallway, scrub the stairs. I want every stone in this castle clean enough to eat from.\"\n\nDorothy scrubbed. The water sloshed in the bucket, and the Witch kept her distance, watching from the doorway with her one terrible eye.\n\nIt happened quickly.\n\nThe Witch lunged forward, trying to snatch the second silver shoe from Dorothy's foot. Dorothy jumped back. The bucket tipped. Water splashed across the floor — and across the Witch.\n\nThe Witch screamed.\n\nIt was not a scream of anger. It was a scream of pure terror.\n\n\"What have you done?\" the Witch shrieked. She was shrinking. Her black robes were collapsing around her. Her body was dissolving, melting away like brown sugar in the rain. \"Don't you know that water will be the end of me?\"\n\n\"I didn't know!\" Dorothy cried, her heart hammering. \"I'm sorry!\"\n\n\"I have been wicked in my day,\" the Witch wailed, her voice fading as she grew smaller and smaller. \"But I never thought a little girl would be the end of me. Oh — I'm melting! Melting! What a world... what a world...\"\n\nHer voice trailed off into nothing. Where the Wicked Witch of the West had stood, there was now only a brown puddle on the kitchen floor and a pointed black hat floating in it.\n\nDorothy stood very still. The kitchen was silent. Toto crept out from under the table and sniffed at the puddle. Even he seemed surprised.\n\n\"It was an accident,\" Dorothy whispered. She had not meant to do it. She had been carrying water, and the Witch had lunged, and the bucket had tipped. That was all.\n\nShe picked up the silver shoe from the brown puddle, wiped it clean, and put it back on her foot. Both silver shoes were hers again.\n\nThen Dorothy took a deep breath and walked out of the kitchen."},{"text":"She found the Winkies in the courtyard. They were the people of the western land — small, quiet, frightened people who had served the Witch for years out of terror. They had watched Dorothy go into the kitchen carrying a bucket of water and heard the Witch's scream.\n\n\"The Witch is dead,\" Dorothy told them.\n\nFor a moment, no one moved. Then one Winkie began to cry. Then another. Then they were all crying and laughing at the same time, hugging each other and jumping up and down. Years of fear and cruelty dissolved in an instant, like the Witch herself.\n\nDorothy ran to the Lion's cage and broke the lock. The great beast bounded out, stretching his cramped legs and shaking his mane.\n\n\"Is it true?\" the Lion asked. \"She is really gone?\"\n\n\"She is really gone,\" Dorothy said.\n\n\"Then we must find the Scarecrow and the Tin Woodman,\" the Lion said. \"We must put our friends back together.\"\n\nThe Winkies were eager to help. They sent their best tinsmiths to find the Tin Woodman on the rocks where the Winged Monkeys had dropped him. He was badly dented — his arms bent at wrong angles, his legs twisted, one side of his body nearly flat. But the tinsmiths were the finest in Oz, and they worked for three days, hammering and shaping and polishing, until the Tin Woodman looked almost as good as new.\n\nWhen he opened his eyes and saw Dorothy, a tear rolled down his cheek. \"I thought I would never see you again,\" he said.\n\n\"Don't cry,\" Dorothy said, reaching for the oil can. \"You'll rust.\"\n\n\"Some tears are worth the rust,\" the Tin Woodman said.\n\nThe Winkies found the Scarecrow's clothes in the top of a tall tree, empty and flat. They stuffed him with fresh, clean straw — the finest straw in the western land — and sewed him up carefully. When his painted eyes blinked open, the Scarecrow looked around and said, \"Well. That was thoroughly unpleasant. But I must say, new straw feels wonderful. The old straw was getting quite lumpy.\"\n\nDorothy threw her arms around him. Then around the Tin Woodman. Then around the Lion. Toto barked and ran in circles around all of them.\n\nThey were together again. And the Wicked Witch was gone.\n\n\"Now,\" Dorothy said, \"let us go back to the Emerald City and tell Oz.\""}]
+                                };
+                                window.digitalBookInstance = new DigitalBook('digital-book-day-18', bookConfig);
+                                window.day18BookInitialized = true;
+                            }
+                        }, 100);
+                        
+                        return `
+                            <div class="lesson-page-card content-page">
+                                <h2>📖 Chapter 14: The Melting of the Witch</h2>
+                                <p style="margin: 10px 0 20px; color: #666;">Click the arrows to turn pages. Vocabulary words are highlighted in yellow!</p>
+                                <div id="digital-book-day-18"></div>
+                            </div>
+                        `;
+                    }
+                },
+                
+                // Page 5: Comprehension - Multiple Choice
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -104,7 +134,7 @@
                     `
                 },
                 
-                // Page 5: Comprehension - Short Answer
+                // Page 6: Comprehension - Short Answer
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -118,7 +148,7 @@
                     `
                 },
                 
-                // Page 6: Grammar/Language (placeholder)
+                // Page 7: Grammar/Language (placeholder)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -131,7 +161,7 @@
                     `
                 },
                 
-                // Page 7: Writing
+                // Page 8: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -142,7 +172,7 @@
                     `
                 },
                 
-                // Page 8: Completion
+                // Page 9: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

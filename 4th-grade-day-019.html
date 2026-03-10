@@ -11,6 +11,7 @@
     <div id="lesson-container"></div>
 
     <script src="js/lesson-viewer.js?v=1772665488"></script>
+    <script src="js/digital-book.js?v=1772665488"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="firebase-config.js"></script>
@@ -47,6 +48,7 @@
                             <p>Today you will:</p>
                             <ul style="margin: 20px 0; line-height: 2;">
                                 <li>Learn 2 new vocabulary words</li>
+                                <li>Read <strong>The Winged Monkeys</strong> in our digital book</li>
                                 <li>Answer 2 comprehension questions</li>
                                 <li>Practice grammar skills</li>
                                 <li>Complete a writing task</li>
@@ -89,7 +91,35 @@
                     `
                 },
                 
-                // Page 4: Comprehension - Multiple Choice
+                // Page 4: Digital Book Reader
+                {
+                    render: () => {
+                        setTimeout(() => {
+                            if (!window.day19BookInitialized) {
+                                const bookConfig = {
+                                    coverTitle: "Chapter 15",
+                                    coverSubtitle: "The Winged Monkeys",
+                                    coverAuthor: "L. Frank Baum (adapted for 4th grade)",
+                                    coverColor: "#1B2A4A",
+                                    vocabWords: ["bound","suspicious"],
+                                    pages: [{"text":"On the journey back to the Emerald City, Dorothy reached into her basket and pulled out the golden cap she had found in the Witch's castle.\n\n\"What a curious thing,\" she said, turning it over in her hands. It was soft and beautiful, with a circle of diamonds and rubies around the brim.\n\n\"That is the Golden Cap,\" the Lion said. \"I have heard stories about it. Whoever wears it can command the Winged Monkeys three times.\"\n\n\"The Winged Monkeys?\" Dorothy shuddered. She remembered all too well how they had battered the Tin Woodman, scattered the Scarecrow, and caged the Lion. \"I don't want anything to do with them.\"\n\n\"But they are not evil,\" the Lion said. \"They are bound by the cap's magic. They must obey whoever wears it. The Witch commanded them because she had the cap. Now you have it.\"\n\nDorothy looked at the cap doubtfully. \"I suppose we could use them to fly us back to the Emerald City. The road is so long, and we are all tired.\"\n\n\"That is a very clever idea,\" the Scarecrow said.\n\nDorothy put on the Golden Cap and spoke the magic words that were written inside the brim. The sky darkened, the wind picked up, and with a great rushing of wings, the Winged Monkeys appeared — dozens of them, circling overhead.\n\nTheir leader landed before Dorothy and bowed. \"What do you command?\" he asked.\n\n\"Please carry us to the Emerald City,\" Dorothy said.\n\n\"It shall be done,\" said the monkey king.\n\nThe monkeys lifted the travelers gently into the air. Dorothy rode on the back of the king himself, with Toto in her lap. The Scarecrow and the Tin Woodman were each carried by four monkeys, and eight strong monkeys bore the heavy Lion between them.\n\nAs they flew, Dorothy looked down at the beautiful land of Oz spread below her — the green fields, the sparkling rivers, the dark forests, and far behind them, the gray ruins of the Witch's castle. Ahead, the Emerald City gleamed like a jewel.\n\n\"May I ask you something?\" Dorothy said to the monkey king.\n\n\"Of course.\"\n\n\"Why did you serve the Wicked Witch? Were you afraid of her?\""},{"text":"The monkey king sighed. \"It is a long story,\" he said. \"We Winged Monkeys were once free — the happiest creatures in all of Oz. We played and flew and caused mischief wherever we went. But long ago, my grandfather played a prank on a powerful sorceress, and she was furious. She enchanted the Golden Cap and bound our people to obey whoever wore it, three times for each owner.\"\n\n\"That seems like a harsh punishment for a prank,\" Dorothy said.\n\n\"It was,\" said the monkey king. \"The cap passed from owner to owner. Some used us wisely. Some used us cruelly. The Wicked Witch was the worst. She used her first command to enslave the Winkies. She used her second to drive the Wizard of Oz out of the western lands. This — carrying you — would have been her third, but she used it on your friends instead.\"\n\n\"Wait,\" Dorothy said. \"You said she drove the Wizard away? The great and powerful Oz?\"\n\n\"Yes,\" the monkey king said. \"The Wizard was afraid of us. He fled back to his Emerald City and never returned to the west.\"\n\nDorothy thought about this. The great and powerful Oz — afraid of monkeys? That did not sound like someone who was truly all-powerful.\n\nShe tucked this information away and said nothing to the others. But it added to the doubt that had been growing in her mind since the throne room, where the Wizard had appeared in four different forms.\n\nThe monkeys set them down gently before the gates of the Emerald City. The leader bowed once more.\n\n\"You have two commands remaining,\" he told Dorothy. \"Call us when you need us.\"\n\nThen the Winged Monkeys soared back into the sky and vanished.\n\nDorothy tucked the Golden Cap into her basket and straightened her dress. \"Well,\" she said, \"let us go tell the Wizard that we have done what he asked.\"\n\nThe Guardian of the Gates gave them their green spectacles, and they walked once more through the gleaming streets to the Palace of Oz. The green-bearded soldier led them to the great throne room.\n\n\"We have killed the Wicked Witch of the West,\" Dorothy announced to the empty room. \"We have come to claim your promises.\"\n\nThere was no answer. The throne sat empty.\n\n\"Come back tomorrow,\" a voice boomed from nowhere. \"The Wizard is busy.\""},{"text":"\"Busy?\" the Scarecrow said. \"We killed a witch for him, and he is busy?\"\n\n\"Come back tomorrow,\" the voice repeated.\n\nThey had no choice. They returned to their rooms in the palace, disappointed but not defeated.\n\n\"He will see us tomorrow,\" Dorothy said. \"And when he does, he will keep his word.\"\n\nBut as she lay in bed that night, stroking Toto's ears, Dorothy thought about what the monkey king had told her. A wizard who was afraid of monkeys. A wizard who looked different to everyone. A wizard who hid behind a locked door and a booming voice.\n\nSomething was not right. And tomorrow, Dorothy intended to find out what it was."}]
+                                };
+                                window.digitalBookInstance = new DigitalBook('digital-book-day-19', bookConfig);
+                                window.day19BookInitialized = true;
+                            }
+                        }, 100);
+                        
+                        return `
+                            <div class="lesson-page-card content-page">
+                                <h2>📖 Chapter 15: The Winged Monkeys</h2>
+                                <p style="margin: 10px 0 20px; color: #666;">Click the arrows to turn pages. Vocabulary words are highlighted in yellow!</p>
+                                <div id="digital-book-day-19"></div>
+                            </div>
+                        `;
+                    }
+                },
+                
+                // Page 5: Comprehension - Multiple Choice
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -104,7 +134,7 @@
                     `
                 },
                 
-                // Page 5: Comprehension - Short Answer
+                // Page 6: Comprehension - Short Answer
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -118,7 +148,7 @@
                     `
                 },
                 
-                // Page 6: Grammar/Language (placeholder)
+                // Page 7: Grammar/Language (placeholder)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -131,7 +161,7 @@
                     `
                 },
                 
-                // Page 7: Writing
+                // Page 8: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -142,7 +172,7 @@
                     `
                 },
                 
-                // Page 8: Completion
+                // Page 9: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

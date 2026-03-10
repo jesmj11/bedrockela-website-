@@ -11,6 +11,7 @@
     <div id="lesson-container"></div>
 
     <script src="js/lesson-viewer.js?v=1772665488"></script>
+    <script src="js/digital-book.js?v=1772665488"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="firebase-config.js"></script>
@@ -47,6 +48,7 @@
                             <p>Today you will:</p>
                             <ul style="margin: 20px 0; line-height: 2;">
                                 <li>Learn 2 new vocabulary words</li>
+                                <li>Read <strong>The Journey to the Great Oz</strong> in our digital book</li>
                                 <li>Answer 2 comprehension questions</li>
                                 <li>Practice grammar skills</li>
                                 <li>Complete a writing task</li>
@@ -89,7 +91,35 @@
                     `
                 },
                 
-                // Page 4: Comprehension - Multiple Choice
+                // Page 4: Digital Book Reader
+                {
+                    render: () => {
+                        setTimeout(() => {
+                            if (!window.day9BookInitialized) {
+                                const bookConfig = {
+                                    coverTitle: "Chapter 7",
+                                    coverSubtitle: "The Journey to the Great Oz",
+                                    coverAuthor: "L. Frank Baum (adapted for 4th grade)",
+                                    coverColor: "#1B2A4A",
+                                    vocabWords: ["comrade","obstacle"],
+                                    pages: [{"text":"The next morning, they set off again on the yellow brick road. The forest was still thick around them, but the road was clear, and the four companions walked together in good spirits.\n\nThey had not gone far when they came to a great ditch that stretched across the road. It was very wide and very deep, with jagged rocks at the bottom. There was no way around it.\n\n\"What shall we do?\" Dorothy asked.\n\nThe Scarecrow thought for a moment. \"We cannot fly, and we cannot climb down and back up — it's too deep. But the Lion is very large and strong. Perhaps he could jump across.\"\n\n\"I can try,\" the Lion said nervously. \"But what about the rest of you?\"\n\n\"You could carry us, one at a time,\" the Scarecrow said.\n\nThe Lion looked at the ditch. It was a terrifying distance. His legs trembled. But he crouched low, gathered all his strength, and leaped — sailing through the air and landing safely on the other side.\n\n\"It wasn't so bad,\" he called back, though his voice shook.\n\nHe jumped back and carried the Scarecrow across first, since he was the lightest. Then Dorothy, holding Toto tightly. Finally, the Tin Woodman, who was the heaviest and made the Lion grunt with the effort. But the great beast managed it.\n\n\"There,\" said the Scarecrow. \"Problem solved.\"\n\n\"That was your idea,\" Dorothy told him. \"That was very clever.\"\n\n\"Was it?\" the Scarecrow said, surprised. \"I suppose it just seemed like common sense.\"\n\nThey continued walking. The forest thinned, and patches of sunlight began to break through the leaves. Then they heard a low, rumbling growl from the trees ahead.\n\nTwo great beasts leaped onto the road — fierce, catlike creatures with long teeth and angry eyes. They snarled at the group and crouched, ready to spring.\n\nThe Cowardly Lion stepped forward.\n\n\"Stay behind me,\" he said, and his voice came out deeper and stronger than usual. He threw back his great head and let out a roar so loud and so terrible that the leaves shook on the trees and the two beasts stopped cold. They stared at the Lion, then turned and ran back into the forest.\n\n\"They're gone,\" the Lion said, turning around. His legs were shaking. \"My heart is still pounding.\"\n\n\"You just saved us all,\" the Tin Woodman said.\n\n\"I was terrified,\" the Lion admitted."},{"text":"\"You were terrified and you did it anyway,\" Dorothy said. \"That matters more than you think.\"\n\nThey walked on. The forest grew lighter, and soon they emerged into open country filled with wildflowers. A sparkling river ran alongside the road, and they stopped to drink and rest.\n\n\"I like this much better than the forest,\" the Lion said, lying down in the tall grass. \"The open air makes me feel braver.\"\n\n\"You were plenty brave in the forest,\" Dorothy said.\n\nThe Lion shook his great mane. \"I was pretending.\"\n\n\"Everyone pretends sometimes,\" said the Tin Woodman quietly. \"I pretend I do not feel sad, even though I do.\"\n\n\"And I pretend I do not notice things,\" said the Scarecrow, \"even though I notice quite a lot.\"\n\nDorothy looked at her three friends — the one who said he had no brains, the one who said he had no heart, and the one who said he had no courage — and she thought they were the cleverest, kindest, bravest companions anyone could wish for.\n\n\"We make a good team,\" she said.\n\n\"We do,\" the Scarecrow agreed. \"Though I cannot imagine why. A girl, a man of straw, a man of tin, and a cowardly lion — we are not exactly an army.\"\n\n\"No,\" Dorothy said, smiling. \"But we are friends. And that is better.\"\n\nThey rested by the river as the afternoon sun warmed them, and Toto chased butterflies through the tall grass, and for a little while, everything was peaceful.\n\nBut the yellow brick road stretched on ahead of them, and the Emerald City was still far away. There would be more dangers before they reached it."}]
+                                };
+                                window.digitalBookInstance = new DigitalBook('digital-book-day-9', bookConfig);
+                                window.day9BookInitialized = true;
+                            }
+                        }, 100);
+                        
+                        return `
+                            <div class="lesson-page-card content-page">
+                                <h2>📖 Chapter 7: The Journey to the Great Oz</h2>
+                                <p style="margin: 10px 0 20px; color: #666;">Click the arrows to turn pages. Vocabulary words are highlighted in yellow!</p>
+                                <div id="digital-book-day-9"></div>
+                            </div>
+                        `;
+                    }
+                },
+                
+                // Page 5: Comprehension - Multiple Choice
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -104,7 +134,7 @@
                     `
                 },
                 
-                // Page 5: Comprehension - Short Answer
+                // Page 6: Comprehension - Short Answer
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -118,7 +148,7 @@
                     `
                 },
                 
-                // Page 6: Grammar/Language (placeholder)
+                // Page 7: Grammar/Language (placeholder)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -131,7 +161,7 @@
                     `
                 },
                 
-                // Page 7: Writing
+                // Page 8: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -142,7 +172,7 @@
                     `
                 },
                 
-                // Page 8: Completion
+                // Page 9: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

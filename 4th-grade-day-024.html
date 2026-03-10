@@ -11,6 +11,7 @@
     <div id="lesson-container"></div>
 
     <script src="js/lesson-viewer.js?v=1772665488"></script>
+    <script src="js/digital-book.js?v=1772665488"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="firebase-config.js"></script>
@@ -47,6 +48,7 @@
                             <p>Today you will:</p>
                             <ul style="margin: 20px 0; line-height: 2;">
                                 <li>Learn 2 new vocabulary words</li>
+                                <li>Read <strong>The Journey South</strong> in our digital book</li>
                                 <li>Answer 2 comprehension questions</li>
                                 <li>Practice language skills</li>
                                 <li>Complete a writing task</li>
@@ -89,7 +91,35 @@
                     `
                 },
                 
-                // Page 4: Comprehension - Multiple Choice
+                // Page 4: Digital Book Reader
+                {
+                    render: () => {
+                        setTimeout(() => {
+                            if (!window.day24BookInitialized) {
+                                const bookConfig = {
+                                    coverTitle: "Chapter 19",
+                                    coverSubtitle: "The Journey South",
+                                    coverAuthor: "L. Frank Baum (adapted for 4th grade)",
+                                    coverColor: "#1B2A4A",
+                                    vocabWords: ["untamed","recoiled"],
+                                    pages: [{"text":"The next morning, the four friends set out from the Emerald City heading south. The Guardian of the Gates unlocked their green spectacles, wished them well, and watched them walk away down the road.\n\n\"I hope you find what you are looking for,\" he called after them.\n\n\"So do I,\" Dorothy said quietly.\n\nThe countryside was lovely at first — green fields, gentle hills, and sparkling streams. But as they went further south, the road disappeared entirely. There were no more yellow bricks, no more fences, no more signs. Just wild, untamed land stretching in every direction.\n\n\"We must keep going south,\" the Scarecrow said, studying the position of the sun. \"Glinda's country is on the southern border of Oz. If we walk straight, we should reach it.\"\n\nThey walked through tall grass and across shallow streams. The Lion led the way, his great nose sniffing the air for danger. The Tin Woodman kept his axe ready. The Scarecrow watched the sun and kept them heading in the right direction.\n\nThen they reached the forest.\n\nIt was not like the dark forest near the Munchkin country. This forest was alive — aggressively alive. The trees were thick and gnarled, with branches that hung low across the path like arms.\n\n\"These trees look unfriendly,\" the Tin Woodman said.\n\nHe was right. When the Scarecrow tried to walk between two of them, the nearest tree swung a great branch like a fist and knocked him flying. He tumbled through the air and landed in a heap ten feet away.\n\n\"Ow,\" the Scarecrow said. Then: \"Well, not ow exactly, since I cannot feel pain. But that was very rude.\"\n\nThe trees thrashed their branches, blocking the path completely. Every time someone tried to pass, the trees struck at them. The Lion growled and swiped at a branch, but another tree hit him from behind and sent him stumbling.\n\n\"Let me try,\" the Tin Woodman said.\n\nHe marched toward the nearest fighting tree, axe raised. A branch whipped toward his head. He ducked and chopped it clean off. Another branch swung at his legs. He chopped that one, too. A third branch came from the side — chop. A fourth from above — chop."},{"text":"The trees recoiled, pulling their remaining branches tight against their trunks. They had learned very quickly that hitting a man made of tin with an axe was not a winning strategy.\n\n\"Run!\" the Tin Woodman shouted, holding the trees back.\n\nThe others dashed through the gap. The Tin Woodman followed, chopping one more branch for good measure. Behind them, the fighting trees shook with fury, but they could not follow.\n\n\"That was magnificent,\" the Lion said.\n\n\"Thank you,\" the Tin Woodman said. \"I may not have real muscles, but tin is very hard, and this axe is very sharp.\"\n\n\"Brains, heart, and courage,\" the Scarecrow said, brushing dirt from his clothes. \"We have everything we need between us.\"\n\n\"We always did,\" Dorothy said.\n\nThey pressed on through the forest, and the trees did not bother them again."}]
+                                };
+                                window.digitalBookInstance = new DigitalBook('digital-book-day-24', bookConfig);
+                                window.day24BookInitialized = true;
+                            }
+                        }, 100);
+                        
+                        return `
+                            <div class="lesson-page-card content-page">
+                                <h2>📖 Chapter 19: The Journey South</h2>
+                                <p style="margin: 10px 0 20px; color: #666;">Click the arrows to turn pages. Vocabulary words are highlighted in yellow!</p>
+                                <div id="digital-book-day-24"></div>
+                            </div>
+                        `;
+                    }
+                },
+                
+                // Page 5: Comprehension - Multiple Choice
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -104,7 +134,7 @@
                     `
                 },
                 
-                // Page 5: Comprehension - Short Answer
+                // Page 6: Comprehension - Short Answer
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -118,7 +148,7 @@
                     `
                 },
                 
-                // Page 6: Grammar/Language (placeholder)
+                // Page 7: Grammar/Language (placeholder)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -131,7 +161,7 @@
                     `
                 },
                 
-                // Page 7: Writing
+                // Page 8: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -142,7 +172,7 @@
                     `
                 },
                 
-                // Page 8: Completion
+                // Page 9: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

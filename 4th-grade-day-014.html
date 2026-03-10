@@ -11,6 +11,7 @@
     <div id="lesson-container"></div>
 
     <script src="js/lesson-viewer.js?v=1772665488"></script>
+    <script src="js/digital-book.js?v=1772665488"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="firebase-config.js"></script>
@@ -47,6 +48,7 @@
                             <p>Today you will:</p>
                             <ul style="margin: 20px 0; line-height: 2;">
                                 <li>Learn 2 new vocabulary words</li>
+                                <li>Read <strong>The Great and Terrible Oz</strong> in our digital book</li>
                                 <li>Answer 2 comprehension questions</li>
                                 <li>Practice language skills</li>
                                 <li>Complete a writing task</li>
@@ -89,7 +91,35 @@
                     `
                 },
                 
-                // Page 4: Comprehension - Multiple Choice
+                // Page 4: Digital Book Reader
+                {
+                    render: () => {
+                        setTimeout(() => {
+                            if (!window.day14BookInitialized) {
+                                const bookConfig = {
+                                    coverTitle: "Chapter 11",
+                                    coverSubtitle: "The Great and Terrible Oz",
+                                    coverAuthor: "L. Frank Baum (adapted for 4th grade)",
+                                    coverColor: "#1B2A4A",
+                                    vocabWords: ["terrible","chamber"],
+                                    pages: [{"text":"A soldier with a long green beard led them through the gleaming streets to the Palace of Oz. The palace was the grandest building Dorothy had ever seen — towering green walls, emerald-studded gates, and corridors so bright they seemed to glow from within.\n\n\"The great Oz will see you,\" the soldier told them, \"but only one at a time. Who will go first?\"\n\n\"I will,\" said Dorothy.\n\nThe soldier led her into a vast, round room. The ceiling was so high she could barely see it. The walls were covered with emeralds, and in the center of the room stood an enormous throne made of green marble.\n\nOn the throne sat nothing but a giant head.\n\nIt had no body, no arms, no legs — just an enormous head, bigger than the head of the biggest giant. It had no hair, and its eyes rolled slowly, looking down at Dorothy. Its mouth moved.\n\n\"I am Oz, the Great and Terrible,\" the head said in a voice that echoed through the chamber. \"Who are you, and why do you seek me?\"\n\nDorothy's knees trembled, but she took a breath and spoke clearly. \"I am Dorothy, the small and meek. I have come to ask you to send me back to Kansas, where my Aunt Em and Uncle Henry are. I do not like your country, although it is so beautiful. And I am sure Aunt Em must be terribly worried about me.\"\n\nThe eyes on the great head blinked slowly. \"Where did you get those silver shoes?\" the voice boomed.\n\n\"From the Wicked Witch of the East. My house fell on her when the cyclone brought me here.\"\n\n\"And where did you get that mark on your forehead?\"\n\nDorothy touched the spot where the Witch of the North had kissed her. \"The Witch of the North kissed me when she said goodbye and sent me to you.\"\n\nThe great head was silent for a long time. Then it spoke. \"I will help you — but only if you do something for me first.\"\n\n\"What must I do?\" Dorothy asked.\n\n\"You must kill the Wicked Witch of the West.\"\n\nDorothy's heart sank. \"But I cannot!\" she cried. \"I am just a girl. I have never killed anything in my life, and I do not want to start now.\""},{"text":"\"The Wicked Witch of the West is the only truly wicked creature left in this land,\" the great head said. \"You wear the silver shoes that hold her sister's power. You bear the mark of the Witch of the North's kiss, which protects you. You are stronger than you know. Kill the Witch, and I will send you home.\"\n\nDorothy left the throne room with tears in her eyes.\n\nThe Scarecrow went next. When he entered the great room, the throne was empty. Instead, a beautiful fairy floated in the air above it, with shimmering wings and a crown of jewels.\n\n\"I am Oz, the Great and Terrible,\" the fairy said. \"Why do you seek me?\"\n\n\"I want brains,\" the Scarecrow said. \"My head is stuffed with straw, and I wish to have real brains so I can think properly.\"\n\n\"Kill the Wicked Witch of the West,\" the fairy said, \"and I will give you brains — the finest brains in the land of Oz.\"\n\nThe Tin Woodman went third. He found on the throne a terrible beast, covered in thick fur, with the head of a rhinoceros and five long arms. Five eyes of flame stared down at him.\n\n\"I am Oz, the Great and Terrible,\" the beast growled. \"Why do you seek me?\"\n\n\"I want a heart,\" the Tin Woodman said. \"I am made of tin and cannot feel. I want to love and be loved.\"\n\n\"Kill the Wicked Witch of the West,\" the beast said, \"and I will give you a heart.\"\n\nThe Cowardly Lion went last. When he entered, the throne held nothing but a ball of fire, so bright and fierce that he could barely look at it. The room was unbearably hot.\n\n\"I am Oz, the Great and Terrible,\" the fire roared. \"Why do you seek me?\"\n\n\"I — I want courage,\" the Lion stammered, crouching low. \"I am a coward, and I want to be brave.\"\n\n\"Kill the Wicked Witch of the West,\" the fire blazed, \"and I will give you courage.\"\n\nThe four companions gathered in a hallway afterward and compared their experiences.\n\n\"He appeared as a giant head to me,\" Dorothy said.\n\n\"A beautiful fairy to me,\" the Scarecrow said.\n\n\"A terrible beast to me,\" the Tin Woodman said.\n\n\"A ball of fire to me,\" the Lion said.\n\nThey stared at each other."},{"text":"\"Why would he look different to each of us?\" the Scarecrow asked slowly.\n\nNo one had an answer. But a seed of doubt had been planted, and it sat quietly in each of their minds.\n\n\"He wants us to kill the Wicked Witch,\" Dorothy said unhappily. \"How can we possibly do that?\"\n\n\"We must try,\" the Scarecrow said. \"It is the only way to get what we need.\"\n\n\"I do not like it,\" the Tin Woodman said. \"But Dorothy needs to get home. So we will go.\"\n\n\"Together,\" the Lion said. His voice shook, but he said it anyway. \"We will go together.\"\n\nDorothy looked at her friends — the Scarecrow standing tall, the Tin Woodman gripping his axe, the Lion trembling but determined — and she felt something warm spread through her chest.\n\n\"Together,\" she agreed."}]
+                                };
+                                window.digitalBookInstance = new DigitalBook('digital-book-day-14', bookConfig);
+                                window.day14BookInitialized = true;
+                            }
+                        }, 100);
+                        
+                        return `
+                            <div class="lesson-page-card content-page">
+                                <h2>📖 Chapter 11: The Great and Terrible Oz</h2>
+                                <p style="margin: 10px 0 20px; color: #666;">Click the arrows to turn pages. Vocabulary words are highlighted in yellow!</p>
+                                <div id="digital-book-day-14"></div>
+                            </div>
+                        `;
+                    }
+                },
+                
+                // Page 5: Comprehension - Multiple Choice
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -104,7 +134,7 @@
                     `
                 },
                 
-                // Page 5: Comprehension - Short Answer
+                // Page 6: Comprehension - Short Answer
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -118,7 +148,7 @@
                     `
                 },
                 
-                // Page 6: Grammar/Language (placeholder)
+                // Page 7: Grammar/Language (placeholder)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -131,7 +161,7 @@
                     `
                 },
                 
-                // Page 7: Writing
+                // Page 8: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -142,7 +172,7 @@
                     `
                 },
                 
-                // Page 8: Completion
+                // Page 9: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

@@ -11,6 +11,7 @@
     <div id="lesson-container"></div>
 
     <script src="js/lesson-viewer.js?v=1772665488"></script>
+    <script src="js/digital-book.js?v=1772665488"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="firebase-config.js"></script>
@@ -47,6 +48,7 @@
                             <p>Today you will:</p>
                             <ul style="margin: 20px 0; line-height: 2;">
                                 <li>Learn 2 new vocabulary words</li>
+                                <li>Read <strong>There's No Place Like Home</strong> in our digital book</li>
                                 <li>Answer 2 comprehension questions</li>
                                 <li>Practice grammar skills</li>
                                 <li>Complete a writing task</li>
@@ -89,7 +91,35 @@
                     `
                 },
                 
-                // Page 4: Comprehension - Multiple Choice
+                // Page 4: Digital Book Reader
+                {
+                    render: () => {
+                        setTimeout(() => {
+                            if (!window.day29BookInitialized) {
+                                const bookConfig = {
+                                    coverTitle: "Chapter 23",
+                                    coverSubtitle: "There's No Place Like Home",
+                                    coverAuthor: "L. Frank Baum (adapted for 4th grade)",
+                                    coverColor: "#1B2A4A",
+                                    vocabWords: ["reveal","bittersweet"],
+                                    pages: [{"text":"\"The silver shoes,\" Glinda said, \"have a very powerful magic. They can carry you anywhere in the world in three steps.\"\n\nDorothy looked down at the shoes on her feet. She had been wearing them since the very beginning — since the moment she took them from the Wicked Witch of the East on her first day in Oz. Through forests and poppy fields, through the Emerald City and the Witch's castle, through every danger and every mile of yellow brick road — the answer had been on her feet the entire time.\n\n\"You mean,\" Dorothy said slowly, \"I could have gone home from the very start?\"\n\n\"Yes,\" Glinda said.\n\nThe room seemed to tilt. Dorothy felt dizzy with the weight of it. She could have gone home on the first day. She could have avoided the dark forest, the deadly poppies, the Wicked Witch, the humbug Wizard. She could have clicked her heels and been in Kansas before she ever set foot on the yellow brick road.\n\nBut then she never would have met the Scarecrow. Or the Tin Woodman. Or the Lion.\n\nShe never would have learned that the Scarecrow was the cleverest person she knew. She never would have watched the Tin Woodman weep over a crushed beetle. She never would have seen the Cowardly Lion stand between his friends and danger, shaking with fear but refusing to back down.\n\nShe never would have learned that a wizard could be a fraud and still teach a lesson, or that a bucket of water could defeat what an army could not, or that the smallest mouse and the fiercest lion could both be heroes.\n\nShe never would have learned what home really meant.\n\n\"I would not trade this journey for anything,\" Dorothy said.\n\nGlinda smiled. \"I know. That is why I did not tell you sooner. Some things cannot be taught. They must be lived.\"\n\n\"How do I use the shoes?\" Dorothy asked.\n\n\"Click the heels together three times,\" Glinda said. \"And with each click, say where you wish to go.\"\n\nDorothy held Toto close against her chest. She could feel his small heart beating fast. She looked at Glinda — the most powerful and the most honest person she had met in all of Oz — and said, \"Thank you.\"\n\n\"Thank yourself,\" Glinda said. \"You did this, Dorothy. All of it.\""},{"text":"Dorothy closed her eyes. She thought of Aunt Em's face. She thought of Uncle Henry's quiet hands. She thought of the flat, gray prairie and the small wooden house and the smell of bread baking in the oven.\n\nShe clicked her heels together.\n\n\"Take me home.\"\n\nClick.\n\n\"Take me home.\"\n\nClick.\n\n\"Take me home.\"\n\nClick.\n\nThe world dissolved. The ruby castle, the red flowers, the warm light — all of it swirled and blurred and spun away. Wind roared past her ears. She felt herself flying, tumbling, spinning through an impossible distance. Toto pressed against her chest, and Dorothy held on.\n\nThen — silence.\n\nShe was sitting in the grass. Real grass. Brown, dry, Kansas grass, warm from the sun.\n\nShe opened her eyes.\n\nIn front of her was a farmhouse — a new one, because the old house had flown to Oz. Uncle Henry had built it while she was gone. It was small and plain, just like the old one. No emeralds. No rubies. No green marble or yellow brick.\n\nIt was the most beautiful thing Dorothy had ever seen.\n\nAnd running across the yard toward her, arms outstretched, was Aunt Em."}]
+                                };
+                                window.digitalBookInstance = new DigitalBook('digital-book-day-29', bookConfig);
+                                window.day29BookInitialized = true;
+                            }
+                        }, 100);
+                        
+                        return `
+                            <div class="lesson-page-card content-page">
+                                <h2>📖 Chapter 23: There's No Place Like Home</h2>
+                                <p style="margin: 10px 0 20px; color: #666;">Click the arrows to turn pages. Vocabulary words are highlighted in yellow!</p>
+                                <div id="digital-book-day-29"></div>
+                            </div>
+                        `;
+                    }
+                },
+                
+                // Page 5: Comprehension - Multiple Choice
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -104,7 +134,7 @@
                     `
                 },
                 
-                // Page 5: Comprehension - Short Answer
+                // Page 6: Comprehension - Short Answer
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -118,7 +148,7 @@
                     `
                 },
                 
-                // Page 6: Grammar/Language (placeholder)
+                // Page 7: Grammar/Language (placeholder)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -131,7 +161,7 @@
                     `
                 },
                 
-                // Page 7: Writing
+                // Page 8: Writing
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
@@ -142,7 +172,7 @@
                     `
                 },
                 
-                // Page 8: Completion
+                // Page 9: Completion
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">

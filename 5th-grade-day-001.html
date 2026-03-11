@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 1 - 5th Grade BedrockELA</title>
+    <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
+</head>
+<body class="lesson-viewer">
+    <div id="lesson-container"></div>
+
+    <script src="js/lesson-viewer.js?v=1772665488"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js?v=1772665488"></script>
+    <script src="js/lesson-autosave.js?v=1772665488"></script>
+
+    <script>
+        const lesson1Config = {
+            lessonId: '5th-grade-day-001',
+            gradeLevel: '5th-grade',
+            title: 'Day 1 - Robin Hood',
+            pages: [
+    {
+        "type": "title",
+        "content": `
+                    <h1>Day 1</h1>
+                    <h2>Robin Hood</h2>
+                    <p class="unit-label">5th Grade • Week 1</p>
+                    <p class="chapter-info">Day 1 Story</p>
+                `
+    },
+    {
+        "type": "content",
+        "content": `
+                    <h2>📚 Welcome to Day 1!</h2>
+                    <div class="objectives-box">
+                        <h3>Today's Learning Goals:</h3>
+                        <ul>
+                            <li>Learn 3 new vocabulary words</li>
+                            <li>Read today's Robin Hood chapter</li>
+                            <li>Practice Simple, Compound, and Complex Sentences</li>
+                            <li>Explore informational text</li>
+                            <li>Complete a writing activity</li>
+                        </ul>
+                        <p><strong>Estimated time:</strong> 45-60 minutes</p>
+                    </div>
+                `
+    },
+    {
+        "type": "vocabulary",
+        "content": `
+                    <h2>📖 Vocabulary</h2>
+                    <p>Learn these 3 words before reading:</p>
+                    
+                    <div class="vocab-word-card">
+                        <h3>1. word1a</h3>
+                        <p class="definition"><strong>Definition:</strong> Definition for word 1a</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-1-1" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                    
+                    <div class="vocab-word-card">
+                        <h3>2. word1b</h3>
+                        <p class="definition"><strong>Definition:</strong> Definition for word 1b</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-1-2" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                    
+                    <div class="vocab-word-card">
+                        <h3>3. word1c</h3>
+                        <p class="definition"><strong>Definition:</strong> Definition for word 1c</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-1-3" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "activity",
+        "content": `
+                    <h2>🎮 Vocabulary Matching Game</h2>
+                    <p style="color: #666; margin-bottom: 5px;">Match each word to its definition!</p>
+                    <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 3</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                        <div id="wordColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                            <div class="match-word" data-word="word1a" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">word1a</div>
+                            <div class="match-word" data-word="word1b" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">word1b</div>
+                            <div class="match-word" data-word="word1c" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">word1c</div>
+                        </div>
+                        <div id="defColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                            <div class="match-def" data-word="word1a" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Definition for word 1a</div>
+                            <div class="match-def" data-word="word1b" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Definition for word 1b</div>
+                            <div class="match-def" data-word="word1c" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Definition for word 1c</div>
+                        </div>
+                    </div>
+                    
+                    <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                `,
+                onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 Day 1 Story - Part 1</h2>
+                    <div class="story-content">
+                        <p>[Story content for Day 1 would go here - this needs to be filled with actual Robin Hood chapters]</p>
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 Day 1 Story - Part 2</h2>
+                    <div class="story-content">
+                        <p>[Story content for Day 1 would go here - this needs to be filled with actual Robin Hood chapters]</p>
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 Day 1 Story - Part 3</h2>
+                    <div class="story-content">
+                        <p>[Story content for Day 1 would go here - this needs to be filled with actual Robin Hood chapters]</p>
+                    </div>
+                `
+    },
+    {
+        "type": "comprehension",
+        "content": `
+                    <h2>💭 Reading Comprehension</h2>
+                    <p>Answer these questions about today's reading:</p>
+                    
+                    <div class="question-card">
+                        <p><strong>1.</strong> Question 1 about Day 1 reading?</p>
+                        <textarea id="comp-1-1" rows="8" placeholder="Your answer..."></textarea>
+                    </div>
+                    
+                    <div class="question-card" style="margin-top: 20px;">
+                        <p><strong>2.</strong> Question 2 about Day 1 reading?</p>
+                        <textarea id="comp-1-2" rows="8" placeholder="Your answer..."></textarea>
+                    </div>
+                    
+                    <div class="question-card" style="margin-top: 20px;">
+                        <p><strong>3.</strong> Question 3 about Day 1 reading?</p>
+                        <textarea id="comp-1-3" rows="8" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "grammar-language",
+        "content": `
+                    <h2>✏️ Simple, Compound, and Complex Sentences</h2>
+                    <div class="skill-explanation">
+                        <p>Sentences can be simple, compound, or complex.<br><br>**Simple sentence:** One independent clause.<br>Example: Robin shot the arrow.<br><br>**Compound sentence:** Two independent clauses joined by a conjunction (and, but, or).<br>Example: Robin shot the arrow, and it hit the target.<br><br>**Complex sentence:** One independent clause + one dependent clause.<br>Example: When Robin shot the arrow, it hit the target.</p>
+                    </div>
+                    
+                    <h3>Examples:</h3>
+                    <ul>
+                        <li>Robin lived in Sherwood Forest. (simple)</li><li>Robin was an outlaw, but he helped the poor. (compound)</li><li>Because he helped the poor, Robin became a hero. (complex)</li>
+                    </ul>
+                    
+                    <h3>Practice:</h3>
+                    <div class="exercise-card"><p><strong>1.</strong> Identify if this is simple, compound, or complex: Robin Hood robbed the rich and gave to the poor.</p><textarea id="skill-1-1" rows="6" placeholder="Your answer..."></textarea></div><div class="exercise-card"><p><strong>2.</strong> Write a compound sentence about Robin Hood using 'but'.</p><textarea id="skill-1-2" rows="6" placeholder="Your answer..."></textarea></div><div class="exercise-card"><p><strong>3.</strong> Write a complex sentence starting with 'Although'.</p><textarea id="skill-1-3" rows="6" placeholder="Your answer..."></textarea></div>
+                `
+    },
+    {
+        "type": "informational",
+        "content": `
+                    <h2>🌍 Informational Text: Medieval England: The Time of Robin Hood</h2>
+                    <div class="informational-article">
+                        <p>Robin Hood's story takes place during the reign of King Richard I (called "Richard the Lionheart") in the late 1100s. This was the height of the Middle Ages in England, a time when society was strictly divided into classes.</p>
+    <p>At the top were the nobles — dukes, earls, and barons who owned vast estates and served the king in exchange for land. Below them were knights, who fought in armor and followed a code of honor called chivalry. The church was also powerful, with bishops and abbots controlling huge amounts of wealth.</p>
+    <p>At the bottom were the common people: farmers, craftsmen, servants, and laborers. They had almost no rights. The nobles could tax them heavily, and if someone couldn't pay, they could lose everything. Poaching (hunting the king's deer) was a crime punishable by death or mutilation.</p>
+    <p>The forest laws were especially harsh. The king claimed all forests and their animals as his property. Poor people who hunted to feed their families could be hanged, blinded, or have their hands cut off. This cruelty is why Robin Hood became a symbol of resistance — he stole from the rich to help those crushed by an unfair system.</p>
+                    </div>
+                    
+                    <h3>Questions:</h3>
+                    <div class="question-card">
+                        <p><strong>1.</strong> Why were the forest laws so important in medieval England?</p>
+                        <textarea id="info-1-1" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                    <div class="question-card">
+                        <p><strong>2.</strong> How does understanding this historical context help you understand why Robin Hood became a hero to common people?</p>
+                        <textarea id="info-1-2" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "writing",
+        "content": isOdd ? `
+                    <h2>✍️ Writing Practice</h2>
+                    <p>Write a paragraph about today's chapter. Use all three vocabulary words.</p>
+                    <div class="writing-prompt">
+                        <textarea id="writing-1" rows="15" placeholder="Your paragraph..."></textarea>
+                    </div>
+                ` : `
+                    <h2>📝 Journal Response</h2>
+                    <p>Reflect on today's reading. What did you learn about the characters or the story?</p>
+                    <div class="journal-prompt">
+                        <textarea id="journal-1" rows="15" placeholder="Your journal entry..."></textarea>
+                    </div>
+                `
+    }
+]
+        };
+
+        if (typeof initLessonViewer === 'function') {
+            initLessonViewer(lesson1Config);
+        } else {
+            console.error('initLessonViewer function not found!');
+        }
+    </script>
+</body>
+</html>

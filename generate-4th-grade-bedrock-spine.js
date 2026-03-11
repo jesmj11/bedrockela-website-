@@ -119,8 +119,12 @@ function generateRegularDay(day) {
   const skill = isOdd ? grammarLessons[day] : languageLessons[day];
   const info = infoTexts[day] || infoTexts[1];
   
-  // Split chapter into 3 parts
-  const paragraphs = chapter.content.split('\n\n').filter(p => p.trim().length > 0);
+  // Split chapter into 3 parts (handle both \n\n and \n paragraph breaks)
+  let paragraphs = chapter.content.split('\n\n').filter(p => p.trim().length > 0);
+  // If no double-newline breaks found, try single newlines
+  if (paragraphs.length === 1) {
+    paragraphs = chapter.content.split('\n').filter(p => p.trim().length > 0);
+  }
   const third = Math.ceil(paragraphs.length / 3);
   const part1 = paragraphs.slice(0, third).join('\n\n');
   const part2 = paragraphs.slice(third, third * 2).join('\n\n');

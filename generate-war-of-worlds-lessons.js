@@ -369,20 +369,32 @@ function buildRegularLesson(dayNum) {
                 `
             },
             
-            // Page 4: Vocab Game (placeholder)
+            // Page 4: Vocab Game (interactive matching)
             {
                 type: 'activity',
                 content: `
-                    <h2>🎮 Vocabulary Practice</h2>
-                    <p><strong>Game Type:</strong> ${getVocabGameType(dayNum).replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}</p>
-                    <div class="vocab-game-placeholder">
-                        <p>Practice using today's vocabulary words:</p>
-                        <ul>
-                            ${vocabWords.map(v => `<li><strong>${v.word}</strong> - ${v.definition}</li>`).join('')}
-                        </ul>
-                        <p><em>Interactive game will be added here!</em></p>
+                    <h2>🎮 Vocabulary Matching Game</h2>
+                    <p style="color: #666; margin-bottom: 5px;">Match each word to its definition!</p>
+                    <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 3</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                        <div id="wordColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                            ${vocabWords.map(v => 
+                                `<div class="match-word" data-word="${v.word}" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">${v.word}</div>`
+                            ).join('')}
+                        </div>
+                        <div id="defColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                            ${vocabWords.map(v => 
+                                `<div class="match-def" data-word="${v.word}" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">${v.definition}</div>`
+                            ).join('')}
+                        </div>
                     </div>
-                `
+                    
+                    <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                `,
+                onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
             },
             
             // Pages 5-7: Story in 3 parts
@@ -480,12 +492,12 @@ function buildRegularLesson(dayNum) {
                 `
             },
             
-            // Page 11: Writing OR Journal
+            // Page 11: Writing (odd days) OR Journal (even days)
             {
                 type: 'writing',
-                content: skillContent && skillContent.type === 'grammar' ? `
+                content: dayNum % 2 === 1 ? `
                     <h2>✍️ Writing Practice</h2>
-                    <p>Apply what you've learned about ${skillContent.topic}:</p>
+                    <p>Apply what you've learned about ${skillContent ? skillContent.topic : 'grammar'}:</p>
                     <div class="writing-prompt">
                         <p><strong>Prompt:</strong> Write a paragraph about today's chapters using the grammar skills you practiced. Include at least 2 examples of the concept.</p>
                         <textarea id="writing-${dayNum}" rows="25" placeholder="Your paragraph..."></textarea>

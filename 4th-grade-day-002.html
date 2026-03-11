@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day 2 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container"></div>
@@ -16,87 +15,90 @@
     <script src="firebase-config.js"></script>
     <script src="js/lesson-completion.js?v=1772665488"></script>
     <script src="js/lesson-autosave.js?v=1772665488"></script>
-    
+
     <script>
         const lesson2Config = {
-            lessonId: '4th-grade-day-2',
+            lessonId: '4th-grade-day-002',
             gradeLevel: '4th-grade',
-            title: 'Day 2 - Wizard of Oz',
+            title: 'Day 2 - The Wizard of Oz',
             pages: [
-                // Page 1: Title
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h1>Day 2</h1>
-                            <div class="subtitle">4th Grade ELA • Week 1</div>
-                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
-                                The Wonderful Wizard of Oz
-                            </p>
-                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 2: The Council with the Munchkins
-                            </p>
+    {
+        "type": "title",
+        "content": `
+                    <h1>Day 2</h1>
+                    <h2>The Wizard of Oz</h2>
+                    <p class="unit-label">4th Grade • Week 1</p>
+                    <p class="chapter-info">The Council with the Munchkins</p>
+                `
+    },
+    {
+        "type": "content",
+        "content": `
+                    <h2>📚 Welcome to Day 2!</h2>
+                    <div class="objectives-box">
+                        <h3>Today's Learning Goals:</h3>
+                        <ul>
+                            <li>Learn 2 new vocabulary words</li>
+                            <li>Read The Council with the Munchkins</li>
+                            <li>Practice Context Clues</li>
+                            <li>Explore informational text</li>
+                            <li>Complete a journal activity</li>
+                        </ul>
+                        <p><strong>Estimated time:</strong> 45-60 minutes</p>
+                    </div>
+                `
+    },
+    {
+        "type": "vocabulary",
+        "content": `
+                    <h2>📖 Vocabulary</h2>
+                    <p>Learn these 2 words before reading:</p>
+                    
+                    <div class="vocab-word-card">
+                        <h3>1. extraordinary</h3>
+                        <p class="definition"><strong>Definition:</strong> Very unusual or remarkable. Far beyond what is normal or expected.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-2-1" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                    
+                    <div class="vocab-word-card">
+                        <h3>2. sorceress</h3>
+                        <p class="definition"><strong>Definition:</strong> A woman who practices magic or witchcraft.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-2-2" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "activity",
+        "content": `
+                    <h2>🎮 Vocabulary Matching Game</h2>
+                    <p style="color: #666; margin-bottom: 5px;">Match each word to its definition!</p>
+                    <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 2</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                        <div id="wordColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                            <div class="match-word" data-word="extraordinary" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">extraordinary</div>
+                            <div class="match-word" data-word="sorceress" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">sorceress</div>
                         </div>
-                    `
-                },
-                
-                // Page 2: Objectives
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Welcome to Day 2!</h2>
-                            <p>Today you will:</p>
-                            <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Learn 2 new vocabulary words</li>
-                                <li>Read <strong>The Council with the Munchkins</strong></li>
-                                <li>Answer 2 comprehension questions</li>
-                                <li>Practice language skills</li>
-                                <li>Complete a writing task</li>
-                            </ul>
-                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        <div id="defColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                            <div class="match-def" data-word="extraordinary" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Very unusual or remarkable. Far beyond what is normal or expected.</div>
+                            <div class="match-def" data-word="sorceress" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">A woman who practices magic or witchcraft.</div>
                         </div>
-                    `
-                },
-                
-                // Page 3: Vocabulary
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 Vocabulary Words</h2>
-                            
-                            <div style="margin: 30px 0;">
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">extraordinary</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(adjective)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Very unusual or remarkable. Far beyond what is normal or expected.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> The cyclone had set the house down in a land of extraordinary beauty — bright flowers, green grass, and sparkling water everywhere.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> What makes something extraordinary instead of just ordinary? Compare Kansas to the land of the Munchkins.</p>
-                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                                
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">sorceress</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(noun)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">A woman who practices magic or witchcraft.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> The Witch of the North called Dorothy a noble sorceress, though Dorothy had never done magic in her life.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> Why do the Munchkins think Dorothy is a sorceress? What does this misunderstanding tell you about how people judge others?</p>
-                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 4: Story (full chapter)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 The Council with the Munchkins</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                <p style="margin-bottom: 15px;">Dorothy was awakened by a sudden jolt. The house had stopped moving. Bright sunshine streamed through the window, flooding the little room with light so cheerful that Dorothy sat up and blinked in surprise.
+                    </div>
+                    
+                    <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                `,
+                onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Council with the Munchkins - Part 1</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;">Dorothy was awakened by a sudden jolt. The house had stopped moving. Bright sunshine streamed through the window, flooding the little room with light so cheerful that Dorothy sat up and blinked in surprise.
 She ran to the door, opened it, and gave a little cry of wonder.
 The cyclone had set the house down gently in a land of extraordinary beauty. Green grass stretched in every direction, dotted with wildflowers of every color — deep reds, brilliant oranges, and purples so rich they looked like they had been painted by hand. Fruit trees heavy with blossoms lined a sparkling brook, and in the distance, she could see rolling hills touched with gold. Birds with bright feathers sang in the branches.
 After gray, flat, dead Kansas, it was like stepping into a painting.
@@ -138,101 +140,104 @@ Dorothy was alone.
 She looked around at the beautiful land — the flowers, the fruit trees, the blue sky — and thought about gray Kansas and Aunt Em.
 "Come along, Toto," she said. "We are going to the Emerald City to ask the great Oz to send us home."
 She looked down and found the road of bright yellow brick. With Toto trotting beside her, Dorothy began to walk.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 5: Comprehension - Multiple Choice
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Reading Comprehension</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">1. What happened to the Wicked Witch of the East?</p>
-                                <div>
-                                    <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> She flew away on a broomstick</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> Dorothy's house landed on her and destroyed her</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> The Witch of the North defeated her in a battle</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> She melted in the rain</label>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 6: Comprehension - Short Answer
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Short Answer</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">2. Dorothy wants to go home to gray, dull Kansas instead of staying in this beautiful, colorful land. Why? What does this tell you about what 'home' means to her?</p>
-                                <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Hint:</strong> Home is not about what a place looks like. Think about what makes somewhere feel like home.</p>
-                                <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 120px;" placeholder="Write your answer here..."></textarea>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 7: Informational Text
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>🌍 Informational Text: Kansas: The Heart of America</h2>
-                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
-                                <p style="margin-bottom: 15px;">Kansas sits in the exact middle of the United States — the true heartland of America. When Dorothy describes Kansas as "flat and gray," she's not exaggerating. Kansas is one of the flattest states in America, with endless prairies stretching as far as the eye can see.</p><p style="margin-bottom: 15px;">In the 1800s and early 1900s, Kansas was farming country. Families like Dorothy's grew wheat, corn, and raised cattle. Life was hard. There were no shopping malls, no movie theaters, no video games. Families worked from sunrise to sunset just to survive.</p><p style="margin-bottom: 15px;">The Kansas prairie could be beautiful in spring, with wildflowers blooming across the grasslands. But it could also be harsh. Summers were blazing hot with little shade. Winters were bitterly cold with howling winds. Water was scarce, and droughts could ruin crops.</p><p style="margin-bottom: 15px;">Prairie homes like Dorothy's were often small — just one room for eating, sleeping, and living. There was no electricity, no running water, and definitely no air conditioning. Families cooked on wood stoves, used oil lamps for light, and drew water from wells.</p><p style="margin-bottom: 15px;">Despite the hardships, Kansas pioneers were tough and resilient. They built communities, helped their neighbors, and created a way of life that valued hard work, honesty, and loyalty — the same values Dorothy carries with her to Oz.</p><p style="margin-bottom: 15px;">Today, Kansas is still farming country, but modern technology has made life much easier. Yet the spirit of those early pioneers — the determination to work hard and help others — remains part of Kansas culture.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 8: Grammar
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar: Nouns: People, Places, and Things</h2>
-                            <div style="margin: 20px 0;">
-                                <h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>
-                                <div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">
-                                    <p style="margin-bottom: 10px;">A noun is a word that names a person, place, or thing.</p><p style="margin-bottom: 10px;">**People**: Dorothy, Aunt Em, witch
-**Places**: Kansas, Oz, Emerald City  
-**Things**: house, cyclone, shoes</p>
-                                </div>
-                                <h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>
-                                <ul style="margin-bottom: 20px; line-height: 1.8;">
-                                    <li>Dorothy is a person noun</li><li>Kansas is a place noun</li><li>Tornado is a thing noun</li>
-                                </ul>
-                                <h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>
-                                <div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">1. Find 3 nouns in this sentence: The witch wore silver shoes in the castle.</p><textarea id="grammar-1" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div><div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">2. Write a sentence with 2 people nouns and 1 place noun.</p><textarea id="grammar-2" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 9: Writing
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✍️ Writing Time</h2>
-                            <p style="margin-bottom: 15px;">Write a journal entry about what happened in today's chapter. How would you feel if you were Dorothy?</p>
-                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 150px;" placeholder="Start writing..."></textarea>
-                        </div>
-                    `
-                },
-                
-                // Page 10: Completion
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h2 style="color: #305853; font-size: 36px; margin-bottom: 20px;">Great Job! 🎉</h2>
-                            <p style="font-size: 18px; color: #666;">You've completed Day 2!</p>
-                            <p style="font-size: 16px; color: #666; margin-top: 15px;">Click "Finish Lesson" to save your progress.</p>
-                        </div>
-                    `
-                }
-            ]
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Council with the Munchkins - Part 2</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Council with the Munchkins - Part 3</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "comprehension",
+        "content": `
+                    <h2>💭 Reading Comprehension</h2>
+                    <p>Answer these questions about today's reading:</p>
+                    
+                    <div class="question-card">
+                        <p><strong>1.</strong> What happened to the Wicked Witch of the East?</p>
+                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> She flew away on a broomstick</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> Dorothy's house landed on her and destroyed her</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> The Witch of the North defeated her in a battle</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> She melted in the rain</label>
+                    </div>
+                    
+                    <div class="question-card" style="margin-top: 20px;">
+                        <p><strong>2.</strong> Dorothy wants to go home to gray, dull Kansas instead of staying in this beautiful, colorful land. Why? What does this tell you about what 'home' means to her?</p>
+                        <p style="font-size: 14px; color: #666; margin-bottom: 10px;"><strong>Hint:</strong> Home is not about what a place looks like. Think about what makes somewhere feel like home.</p>
+                        <textarea id="comp-short" rows="8" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "grammar-language",
+        "content": skill ? `
+                    <h2>✏️ Context Clues</h2>
+                    <div class="skill-explanation">
+                        <p>Context clues help you figure out unknown words by looking at surrounding words and sentences.</p>
+                    </div>
+                    
+                    <h3>Examples:</h3>
+                    <ul>
+                        <li>"The cyclone was devastating, destroying everything in its path." (devastating = very destructive)</li><li>"Unlike the gray Kansas, Oz was colorful and bright." (contrast clue)</li>
+                    </ul>
+                    
+                    <h3>Practice:</h3>
+                    <div class="exercise-card"><p><strong>1.</strong> Use context clues: "Dorothy felt melancholy - sad and lonely - on the gray prairie."</p><textarea id="skill-2-1" rows="6" placeholder="Your answer..."></textarea></div><div class="exercise-card"><p><strong>2.</strong> What does "emerald" mean in: "The city was emerald green, sparkling like a jewel"?</p><textarea id="skill-2-2" rows="6" placeholder="Your answer..."></textarea></div>
+                ` : '<p>Skill content will be added.</p>'
+    },
+    {
+        "type": "informational",
+        "content": `
+                    <h2>🌍 Informational Text: Kansas: The Heart of America</h2>
+                    <div class="informational-article">
+                        <p>Kansas sits in the exact middle of the United States — the true heartland of America. When Dorothy describes Kansas as "flat and gray," she's not exaggerating. Kansas is one of the flattest states in America, with endless prairies stretching as far as the eye can see.</p><p>In the 1800s and early 1900s, Kansas was farming country. Families like Dorothy's grew wheat, corn, and raised cattle. Life was hard. There were no shopping malls, no movie theaters, no video games. Families worked from sunrise to sunset just to survive.</p><p>The Kansas prairie could be beautiful in spring, with wildflowers blooming across the grasslands. But it could also be harsh. Summers were blazing hot with little shade. Winters were bitterly cold with howling winds. Water was scarce, and droughts could ruin crops.</p><p>Prairie homes like Dorothy's were often small — just one room for eating, sleeping, and living. There was no electricity, no running water, and definitely no air conditioning. Families cooked on wood stoves, used oil lamps for light, and drew water from wells.</p><p>Despite the hardships, Kansas pioneers were tough and resilient. They built communities, helped their neighbors, and created a way of life that valued hard work, honesty, and loyalty — the same values Dorothy carries with her to Oz.</p><p>Today, Kansas is still farming country, but modern technology has made life much easier. Yet the spirit of those early pioneers — the determination to work hard and help others — remains part of Kansas culture.</p>
+                    </div>
+                    
+                    <h3>Questions:</h3>
+                    <div class="question-card">
+                        <p><strong>1.</strong> What did you learn from this text?</p>
+                        <textarea id="info-2-1" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                    <div class="question-card">
+                        <p><strong>2.</strong> How does this information help you understand the story?</p>
+                        <textarea id="info-2-2" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "writing",
+        "content": isOdd ? `
+                    <h2>✍️ Writing Practice</h2>
+                    <p>Write a paragraph about today's chapter. Use both vocabulary words.</p>
+                    <div class="writing-prompt">
+                        <textarea id="writing-2" rows="12" placeholder="Your paragraph..."></textarea>
+                    </div>
+                ` : `
+                    <h2>📝 Journal Response</h2>
+                    <p>Reflect on today's reading. How would you feel if you were Dorothy? What would you do?</p>
+                    <div class="journal-prompt">
+                        <textarea id="journal-2" rows="12" placeholder="Your journal entry..."></textarea>
+                    </div>
+                `
+    }
+]
         };
 
         if (typeof initLessonViewer === 'function') {
             initLessonViewer(lesson2Config);
+        } else {
+            console.error('initLessonViewer function not found!');
         }
     </script>
 </body>

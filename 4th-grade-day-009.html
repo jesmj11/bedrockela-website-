@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day 9 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container"></div>
@@ -16,87 +15,90 @@
     <script src="firebase-config.js"></script>
     <script src="js/lesson-completion.js?v=1772665488"></script>
     <script src="js/lesson-autosave.js?v=1772665488"></script>
-    
+
     <script>
         const lesson9Config = {
-            lessonId: '4th-grade-day-9',
+            lessonId: '4th-grade-day-009',
             gradeLevel: '4th-grade',
-            title: 'Day 9 - Wizard of Oz',
+            title: 'Day 9 - The Wizard of Oz',
             pages: [
-                // Page 1: Title
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h1>Day 9</h1>
-                            <div class="subtitle">4th Grade ELA • Week 2</div>
-                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
-                                The Wonderful Wizard of Oz
-                            </p>
-                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 9: The Queen of the Field Mice
-                            </p>
+    {
+        "type": "title",
+        "content": `
+                    <h1>Day 9</h1>
+                    <h2>The Wizard of Oz</h2>
+                    <p class="unit-label">4th Grade • Week 2</p>
+                    <p class="chapter-info">The Queen of the Field Mice</p>
+                `
+    },
+    {
+        "type": "content",
+        "content": `
+                    <h2>📚 Welcome to Day 9!</h2>
+                    <div class="objectives-box">
+                        <h3>Today's Learning Goals:</h3>
+                        <ul>
+                            <li>Learn 2 new vocabulary words</li>
+                            <li>Read The Queen of the Field Mice</li>
+                            <li>Practice Pronouns: Replacing Nouns</li>
+                            <li>Explore informational text</li>
+                            <li>Complete a writing activity</li>
+                        </ul>
+                        <p><strong>Estimated time:</strong> 45-60 minutes</p>
+                    </div>
+                `
+    },
+    {
+        "type": "vocabulary",
+        "content": `
+                    <h2>📖 Vocabulary</h2>
+                    <p>Learn these 2 words before reading:</p>
+                    
+                    <div class="vocab-word-card">
+                        <h3>1. debt</h3>
+                        <p class="definition"><strong>Definition:</strong> Something you owe someone because they helped you. An obligation to repay a kindness.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-9-1" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                    
+                    <div class="vocab-word-card">
+                        <h3>2. scheme</h3>
+                        <p class="definition"><strong>Definition:</strong> A clever plan for getting something done, especially one that involves many steps.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-9-2" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "activity",
+        "content": `
+                    <h2>🎮 Vocabulary Matching Game</h2>
+                    <p style="color: #666; margin-bottom: 5px;">Match each word to its definition!</p>
+                    <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 2</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                        <div id="wordColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                            <div class="match-word" data-word="debt" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">debt</div>
+                            <div class="match-word" data-word="scheme" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">scheme</div>
                         </div>
-                    `
-                },
-                
-                // Page 2: Objectives
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Welcome to Day 9!</h2>
-                            <p>Today you will:</p>
-                            <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Learn 2 new vocabulary words</li>
-                                <li>Read <strong>The Queen of the Field Mice</strong></li>
-                                <li>Answer 2 comprehension questions</li>
-                                <li>Practice grammar skills</li>
-                                <li>Complete a writing task</li>
-                            </ul>
-                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        <div id="defColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                            <div class="match-def" data-word="debt" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Something you owe someone because they helped you. An obligation to repay a kindness.</div>
+                            <div class="match-def" data-word="scheme" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">A clever plan for getting something done, especially one that involves many steps.</div>
                         </div>
-                    `
-                },
-                
-                // Page 3: Vocabulary
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 Vocabulary Words</h2>
-                            
-                            <div style="margin: 30px 0;">
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">debt</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(noun)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Something you owe someone because they helped you. An obligation to repay a kindness.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> The Queen of the Field Mice said her subjects were forever in the Tin Woodman's debt for saving her life.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> Is a debt of kindness the same as a money debt? How do people repay acts of kindness in real life?</p>
-                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                                
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">scheme</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(noun/verb)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">A clever plan for getting something done, especially one that involves many steps.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> The Scarecrow came up with a scheme to rescue the Lion: build a cart and have the mice pull it out of the poppy field.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> The Scarecrow says he has no brains, but he keeps coming up with schemes. What does this tell you?</p>
-                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 4: Story (full chapter)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 The Queen of the Field Mice</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                <p style="margin-bottom: 15px;">Dorothy and Toto lay sleeping on the grass beyond the poppy field. The Scarecrow and the Tin Woodman stood over them, relieved that they had carried their friends to safety, but sick with worry about the Lion. He lay deep in the field of poisonous flowers, too heavy for them to move, sinking into a sleep from which he might never wake.
+                    </div>
+                    
+                    <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                `,
+                onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Queen of the Field Mice - Part 1</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;">Dorothy and Toto lay sleeping on the grass beyond the poppy field. The Scarecrow and the Tin Woodman stood over them, relieved that they had carried their friends to safety, but sick with worry about the Lion. He lay deep in the field of poisonous flowers, too heavy for them to move, sinking into a sleep from which he might never wake.
 "We must do something," the Tin Woodman said. "He is our friend."
 "I know," the Scarecrow said. "Let me think."
 He thought very hard. The Scarecrow always said he had no brains, but in moments like this, his head seemed to work better than anyone's.
@@ -128,101 +130,110 @@ The Lion stirred. He opened one great eye, then the other. He yawned enormously,
 "A thousand mice pulled you on a cart," Dorothy said.
 The Lion blinked. "I must still be dreaming."
 "You are not," the Tin Woodman said, smiling. "Welcome back."</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 5: Comprehension - Multiple Choice
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Reading Comprehension</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">1. How is the Lion rescued from the poppy field?</p>
-                                <div>
-                                    <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> He wakes up on his own</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> The Wizard comes to save him</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> Thousands of field mice pull him out on a cart the Tin Woodman built</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> Dorothy splashes water on him</label>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 6: Comprehension - Short Answer
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Short Answer</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">2. The Tin Woodman saved the mouse queen without thinking — he simply could not stand to see a creature harmed. What does this automatic kindness tell us about whether he truly has no heart?</p>
-                                <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Hint:</strong> When someone does something kind without being asked and without thinking about it, what does that reveal about their character?</p>
-                                <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 120px;" placeholder="Write your answer here..."></textarea>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 7: Informational Text
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>🌍 Informational Text: Emerald City: A Study in Green</h2>
-                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
-                                <p style="margin-bottom: 15px;">The Emerald City is one of literature's most memorable places — a gleaming green metropolis that seems too beautiful to be real. And guess what? It isn't entirely real.</p><p style="margin-bottom: 15px;">In the story, everyone entering the Emerald City must wear green-tinted spectacles. The Guardian says it's to protect their eyes from the brightness of all those emeralds. But later we discover the truth: the spectacles make everything look green. The city might not be as emerald as it appears.</p><p style="margin-bottom: 15px;">This reveals one of the story's deepest themes: appearance versus reality. Things aren't always what they seem. The "great and powerful" Wizard is just an ordinary man. The Scarecrow has a brain. The Tin Woodman has a heart. The Lion has courage. And the Emerald City might not be truly emerald.</p><p style="margin-bottom: 15px;">Why did Baum make the city green? Green symbolizes many things: growth, renewal, hope, money, and even envy. In American culture, green is associated with prosperity — "greenbacks" means money. The Emerald City represents wealth and power, everything the characters think they need.</p><p style="margin-bottom: 15px;">The idea of tinted spectacles is clever. In the 1890s, colored glasses were becoming fashionable. People wore rose-tinted glasses to make the world look prettier, or dark glasses to reduce glare. Baum took this concept and turned it into a metaphor: we see what we're told to see. If someone puts green glasses on us and says the city is green, we believe it.</p><p style="margin-bottom: 15px;">This is a warning about manipulation and propaganda. Those in power can control how we see the world simply by controlling what we're allowed to see. The Wizard uses green spectacles to maintain his illusion of a magnificent city.</p><p style="margin-bottom: 15px;">But here's the wonderful part: even after Dorothy knows the truth, she still thinks the Emerald City is beautiful. Sometimes the perception of beauty matters more than objective reality. If everyone believes something is wonderful, does it matter if it's "really" wonderful?</p><p style="margin-bottom: 15px;">The Emerald City teaches us to question what we see and ask who benefits from our beliefs.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 8: Grammar
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar: Pronouns: Replacing Nouns</h2>
-                            <div style="margin: 20px 0;">
-                                <h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>
-                                <div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">
-                                    <p style="margin-bottom: 10px;">Pronouns replace nouns so we don't repeat the same words.</p><p style="margin-bottom: 10px;">Common pronouns: he, she, it, they, we, I, you, them, us</p><p style="margin-bottom: 10px;">Example:
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Queen of the Field Mice - Part 2</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Queen of the Field Mice - Part 3</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "comprehension",
+        "content": `
+                    <h2>💭 Reading Comprehension</h2>
+                    <p>Answer these questions about today's reading:</p>
+                    
+                    <div class="question-card">
+                        <p><strong>1.</strong> How is the Lion rescued from the poppy field?</p>
+                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> He wakes up on his own</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> The Wizard comes to save him</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> Thousands of field mice pull him out on a cart the Tin Woodman built</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> Dorothy splashes water on him</label>
+                    </div>
+                    
+                    <div class="question-card" style="margin-top: 20px;">
+                        <p><strong>2.</strong> The Tin Woodman saved the mouse queen without thinking — he simply could not stand to see a creature harmed. What does this automatic kindness tell us about whether he truly has no heart?</p>
+                        <p style="font-size: 14px; color: #666; margin-bottom: 10px;"><strong>Hint:</strong> When someone does something kind without being asked and without thinking about it, what does that reveal about their character?</p>
+                        <textarea id="comp-short" rows="8" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "grammar-language",
+        "content": skill ? `
+                    <h2>✏️ Pronouns: Replacing Nouns</h2>
+                    <div class="skill-explanation">
+                        <p>Pronouns replace nouns so we don't repeat the same words.
+
+Common pronouns: he, she, it, they, we, I, you, them, us
+
+Example:
 - Dorothy found the Scarecrow. *She* helped *him* down from the pole.
 (She = Dorothy, him = Scarecrow)</p>
-                                </div>
-                                <h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>
-                                <ul style="margin-bottom: 20px; line-height: 1.8;">
-                                    <li>The Lion was scared. *He* wanted courage.</li><li>Dorothy and Toto traveled together. *They* walked many miles.</li><li>The Wizard gave gifts to the friends. *He* helped *them*.</li>
-                                </ul>
-                                <h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>
-                                <div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">1. Replace with pronouns: Dorothy told the Scarecrow that Dorothy would help the Scarecrow.</p><textarea id="grammar-1" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div><div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">2. Write a sentence using at least two pronouns.</p><textarea id="grammar-2" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 9: Writing
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✍️ Writing Time</h2>
-                            <p style="margin-bottom: 15px;">Write a paragraph about what you read today. Use at least one vocabulary word.</p>
-                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 150px;" placeholder="Start writing..."></textarea>
-                        </div>
-                    `
-                },
-                
-                // Page 10: Completion
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h2 style="color: #305853; font-size: 36px; margin-bottom: 20px;">Great Job! 🎉</h2>
-                            <p style="font-size: 18px; color: #666;">You've completed Day 9!</p>
-                            <p style="font-size: 16px; color: #666; margin-top: 15px;">Click "Finish Lesson" to save your progress.</p>
-                        </div>
-                    `
-                }
-            ]
+                    </div>
+                    
+                    <h3>Examples:</h3>
+                    <ul>
+                        <li>The Lion was scared. *He* wanted courage.</li><li>Dorothy and Toto traveled together. *They* walked many miles.</li><li>The Wizard gave gifts to the friends. *He* helped *them*.</li>
+                    </ul>
+                    
+                    <h3>Practice:</h3>
+                    <div class="exercise-card"><p><strong>1.</strong> Replace with pronouns: Dorothy told the Scarecrow that Dorothy would help the Scarecrow.</p><textarea id="skill-9-1" rows="6" placeholder="Your answer..."></textarea></div><div class="exercise-card"><p><strong>2.</strong> Write a sentence using at least two pronouns.</p><textarea id="skill-9-2" rows="6" placeholder="Your answer..."></textarea></div>
+                ` : '<p>Skill content will be added.</p>'
+    },
+    {
+        "type": "informational",
+        "content": `
+                    <h2>🌍 Informational Text: Emerald City: A Study in Green</h2>
+                    <div class="informational-article">
+                        <p>The Emerald City is one of literature's most memorable places — a gleaming green metropolis that seems too beautiful to be real. And guess what? It isn't entirely real.</p><p>In the story, everyone entering the Emerald City must wear green-tinted spectacles. The Guardian says it's to protect their eyes from the brightness of all those emeralds. But later we discover the truth: the spectacles make everything look green. The city might not be as emerald as it appears.</p><p>This reveals one of the story's deepest themes: appearance versus reality. Things aren't always what they seem. The "great and powerful" Wizard is just an ordinary man. The Scarecrow has a brain. The Tin Woodman has a heart. The Lion has courage. And the Emerald City might not be truly emerald.</p><p>Why did Baum make the city green? Green symbolizes many things: growth, renewal, hope, money, and even envy. In American culture, green is associated with prosperity — "greenbacks" means money. The Emerald City represents wealth and power, everything the characters think they need.</p><p>The idea of tinted spectacles is clever. In the 1890s, colored glasses were becoming fashionable. People wore rose-tinted glasses to make the world look prettier, or dark glasses to reduce glare. Baum took this concept and turned it into a metaphor: we see what we're told to see. If someone puts green glasses on us and says the city is green, we believe it.</p><p>This is a warning about manipulation and propaganda. Those in power can control how we see the world simply by controlling what we're allowed to see. The Wizard uses green spectacles to maintain his illusion of a magnificent city.</p><p>But here's the wonderful part: even after Dorothy knows the truth, she still thinks the Emerald City is beautiful. Sometimes the perception of beauty matters more than objective reality. If everyone believes something is wonderful, does it matter if it's "really" wonderful?</p><p>The Emerald City teaches us to question what we see and ask who benefits from our beliefs.</p>
+                    </div>
+                    
+                    <h3>Questions:</h3>
+                    <div class="question-card">
+                        <p><strong>1.</strong> What did you learn from this text?</p>
+                        <textarea id="info-9-1" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                    <div class="question-card">
+                        <p><strong>2.</strong> How does this information help you understand the story?</p>
+                        <textarea id="info-9-2" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "writing",
+        "content": isOdd ? `
+                    <h2>✍️ Writing Practice</h2>
+                    <p>Write a paragraph about today's chapter. Use both vocabulary words.</p>
+                    <div class="writing-prompt">
+                        <textarea id="writing-9" rows="12" placeholder="Your paragraph..."></textarea>
+                    </div>
+                ` : `
+                    <h2>📝 Journal Response</h2>
+                    <p>Reflect on today's reading. How would you feel if you were Dorothy? What would you do?</p>
+                    <div class="journal-prompt">
+                        <textarea id="journal-9" rows="12" placeholder="Your journal entry..."></textarea>
+                    </div>
+                `
+    }
+]
         };
 
         if (typeof initLessonViewer === 'function') {
             initLessonViewer(lesson9Config);
+        } else {
+            console.error('initLessonViewer function not found!');
         }
     </script>
 </body>

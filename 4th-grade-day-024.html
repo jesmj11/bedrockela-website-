@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day 24 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container"></div>
@@ -16,87 +15,90 @@
     <script src="firebase-config.js"></script>
     <script src="js/lesson-completion.js?v=1772665488"></script>
     <script src="js/lesson-autosave.js?v=1772665488"></script>
-    
+
     <script>
         const lesson24Config = {
-            lessonId: '4th-grade-day-24',
+            lessonId: '4th-grade-day-024',
             gradeLevel: '4th-grade',
-            title: 'Day 24 - Wizard of Oz',
+            title: 'Day 24 - The Wizard of Oz',
             pages: [
-                // Page 1: Title
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h1>Day 24</h1>
-                            <div class="subtitle">4th Grade ELA • Week 5</div>
-                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
-                                The Wonderful Wizard of Oz
-                            </p>
-                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 24: Home Again
-                            </p>
+    {
+        "type": "title",
+        "content": `
+                    <h1>Day 24</h1>
+                    <h2>The Wizard of Oz</h2>
+                    <p class="unit-label">4th Grade • Week 5</p>
+                    <p class="chapter-info">Home Again</p>
+                `
+    },
+    {
+        "type": "content",
+        "content": `
+                    <h2>📚 Welcome to Day 24!</h2>
+                    <div class="objectives-box">
+                        <h3>Today's Learning Goals:</h3>
+                        <ul>
+                            <li>Learn 2 new vocabulary words</li>
+                            <li>Read Home Again</li>
+                            <li>Practice Sequence Words</li>
+                            <li>Explore informational text</li>
+                            <li>Complete a journal activity</li>
+                        </ul>
+                        <p><strong>Estimated time:</strong> 45-60 minutes</p>
+                    </div>
+                `
+    },
+    {
+        "type": "vocabulary",
+        "content": `
+                    <h2>📖 Vocabulary</h2>
+                    <p>Learn these 2 words before reading:</p>
+                    
+                    <div class="vocab-word-card">
+                        <h3>1. embrace</h3>
+                        <p class="definition"><strong>Definition:</strong> To hold someone closely in your arms. A hug that shows deep love or relief.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-24-1" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                    
+                    <div class="vocab-word-card">
+                        <h3>2. contentment</h3>
+                        <p class="definition"><strong>Definition:</strong> A deep, quiet feeling of happiness and satisfaction. The feeling that you have everything you need.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-24-2" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "activity",
+        "content": `
+                    <h2>🎮 Vocabulary Matching Game</h2>
+                    <p style="color: #666; margin-bottom: 5px;">Match each word to its definition!</p>
+                    <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 2</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                        <div id="wordColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                            <div class="match-word" data-word="embrace" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">embrace</div>
+                            <div class="match-word" data-word="contentment" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">contentment</div>
                         </div>
-                    `
-                },
-                
-                // Page 2: Objectives
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Welcome to Day 24!</h2>
-                            <p>Today you will:</p>
-                            <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Learn 2 new vocabulary words</li>
-                                <li>Read <strong>Home Again</strong></li>
-                                <li>Answer 2 comprehension questions</li>
-                                <li>Practice language skills</li>
-                                <li>Complete a writing task</li>
-                            </ul>
-                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        <div id="defColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                            <div class="match-def" data-word="embrace" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">To hold someone closely in your arms. A hug that shows deep love or relief.</div>
+                            <div class="match-def" data-word="contentment" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">A deep, quiet feeling of happiness and satisfaction. The feeling that you have everything you need.</div>
                         </div>
-                    `
-                },
-                
-                // Page 3: Vocabulary
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 Vocabulary Words</h2>
-                            
-                            <div style="margin: 30px 0;">
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">embrace</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(noun/verb)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">To hold someone closely in your arms. A hug that shows deep love or relief.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> Aunt Em swept Dorothy into a fierce embrace, holding her so tightly that Toto yelped between them.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> Why does a physical embrace mean so much after a long separation? What does Aunt Em's embrace tell Dorothy?</p>
-                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                                
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">contentment</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(noun)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">A deep, quiet feeling of happiness and satisfaction. The feeling that you have everything you need.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> Dorothy felt a deep contentment settle inside her as she sat at the kitchen table eating warm bread — she was home, and that was enough.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> Contentment is different from excitement or thrill. Why is contentment the right word for Dorothy's ending instead of something louder like joy or triumph?</p>
-                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 4: Story (full chapter)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 Home Again</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                <p style="margin-bottom: 15px;">"My darling child!" Aunt Em cried, sweeping Dorothy into her arms and holding her so tightly that Toto yelped between them. "Where in the world did you come from?"
+                    </div>
+                    
+                    <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                `,
+                onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 Home Again - Part 1</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;">"My darling child!" Aunt Em cried, sweeping Dorothy into her arms and holding her so tightly that Toto yelped between them. "Where in the world did you come from?"
 "From the land of Oz," Dorothy said into Aunt Em's shoulder. "Oh, Aunt Em, I am so glad to be home!"
 Aunt Em pulled back and looked at Dorothy's face as though she could not quite believe she was real. Her gray eyes were shining — with tears, with relief, with a fierce, burning love that Dorothy had always known was there, even when Aunt Em had been too worn down by the prairie to show it.
 Uncle Henry came out of the barn. He stopped in the doorway and stared. Then he walked across the yard, slowly, as though Dorothy might disappear if he moved too quickly. He knelt down in the dirt and put his weathered hands on her shoulders.
@@ -120,124 +122,125 @@ Dorothy ate her bread. Toto lay at her feet. Aunt Em sat across the table, watch
 Aunt Em reached across the table and took Dorothy's hand. She did not ask what the words meant. She did not need to.
 Outside, the Kansas wind blew across the prairie, and the sun began to set, painting the gray sky with gold. It was not emerald and it was not ruby. But it was warm, and it was real, and it was hers.
 Dorothy was home.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 5: Comprehension - Multiple Choice
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Reading Comprehension</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">1. What happens to the silver shoes during Dorothy's flight home?</p>
-                                <div>
-                                    <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> She gives them to Aunt Em</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> They are lost somewhere in the sky between Oz and Kansas</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> They turn into regular shoes</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> She leaves them with Glinda</label>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 6: Comprehension - Short Answer
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Short Answer</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">2. The last line of Dorothy's story is that she feels contentment — not excitement, not triumph, just a quiet feeling that she has everything she needs. Why is contentment the right ending for this story? What has Dorothy learned about what truly matters?</p>
-                                <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Hint:</strong> Dorothy started the story feeling lonely in a gray world. She ends it feeling full in the same gray world. What changed was not the place — it was Dorothy.</p>
-                                <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 120px;" placeholder="Write your answer here..."></textarea>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 7: Informational Text
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>🌍 Informational Text: Children's Literature: Then and Now</h2>
-                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
-                                <p style="margin-bottom: 15px;">When "The Wonderful Wizard of Oz" was published in 1900, children's literature was very different from what we know today. Understanding these differences helps us appreciate why Oz was revolutionary.</p><p style="margin-bottom: 15px;">**Before 1900, Children's Books Were:**</p><p style="margin-bottom: 15px;">1. **Moralistic**: Stories existed mainly to teach moral lessons. Characters who misbehaved suffered terrible consequences. The message was more important than entertainment.</p><p style="margin-bottom: 15px;">2. **Dark and scary**: Traditional fairy tales included violence, death, and psychological terror. Children were abandoned, poisoned, or eaten. These weren't sanitized stories — they were warnings.</p><p style="margin-bottom: 15px;">3. **Class-conscious**: Most heroes were royalty or wealthy. Poor characters either stayed poor or magically became royalty. Social mobility wasn't realistic.</p><p style="margin-bottom: 15px;">4. **European**: Most stories came from Europe (Grimm, Andersen, Perrault). They featured castles, kings, and European settings. American children read about places they'd never seen.</p><p style="margin-bottom: 15px;">5. **Gender-specific**: Books for girls taught them to be passive, obedient, and domestic. Books for boys taught them to be brave, adventurous, and dominant. Few characters broke these roles.</p><p style="margin-bottom: 15px;">**Baum Changed Everything**:</p><p style="margin-bottom: 15px;">1. **Fun first**: While Oz has themes, it's primarily entertaining. Adventure and imagination matter more than moralizing.</p><p style="margin-bottom: 15px;">2. **Optimistic tone**: Bad things happen, but nobody dies. The story ends happily. Evil is defeated through cleverness and friendship, not violence.</p><p style="margin-bottom: 15px;">3. **Democratic values**: Dorothy isn't a princess; she's a farm girl. She succeeds through courage and kindness, not birthright. The "great" Wizard is exposed as an ordinary man, and that's okay.</p><p style="margin-bottom: 15px;">4. **American setting**: The story begins in Kansas and reflects American values: self-reliance, innovation, democracy, and optimism.</p><p style="margin-bottom: 15px;">5. **Gender-neutral**: Dorothy is brave, leads the group, and saves herself. The "female" characters (Dorothy, Glinda) are powerful and competent. The "male" characters (Scarecrow, Tin Woodman, Lion) are emotional and vulnerable. Everyone can be everything.</p><p style="margin-bottom: 15px;">**Impact on Modern Children's Literature**:</p><p style="margin-bottom: 15px;">Baum influenced generations of children's authors:
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 Home Again - Part 2</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 Home Again - Part 3</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "comprehension",
+        "content": `
+                    <h2>💭 Reading Comprehension</h2>
+                    <p>Answer these questions about today's reading:</p>
+                    
+                    <div class="question-card">
+                        <p><strong>1.</strong> What happens to the silver shoes during Dorothy's flight home?</p>
+                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> She gives them to Aunt Em</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> They are lost somewhere in the sky between Oz and Kansas</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> They turn into regular shoes</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> She leaves them with Glinda</label>
+                    </div>
+                    
+                    <div class="question-card" style="margin-top: 20px;">
+                        <p><strong>2.</strong> The last line of Dorothy's story is that she feels contentment — not excitement, not triumph, just a quiet feeling that she has everything she needs. Why is contentment the right ending for this story? What has Dorothy learned about what truly matters?</p>
+                        <p style="font-size: 14px; color: #666; margin-bottom: 10px;"><strong>Hint:</strong> Dorothy started the story feeling lonely in a gray world. She ends it feeling full in the same gray world. What changed was not the place — it was Dorothy.</p>
+                        <textarea id="comp-short" rows="8" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "grammar-language",
+        "content": skill ? `
+                    <h2>✏️ Sequence Words</h2>
+                    <div class="skill-explanation">
+                        <p>Words that show order: first, then, next, finally.</p>
+                    </div>
+                    
+                    <h3>Examples:</h3>
+                    <ul>
+                        <li>"First, Dorothy met the Scarecrow. Then she met the Tin Man."</li>
+                    </ul>
+                    
+                    <h3>Practice:</h3>
+                    <div class="exercise-card"><p><strong>1.</strong> Retell part of the story using sequence words</p><textarea id="skill-24-1" rows="6" placeholder="Your answer..."></textarea></div>
+                ` : '<p>Skill content will be added.</p>'
+    },
+    {
+        "type": "informational",
+        "content": `
+                    <h2>🌍 Informational Text: Children's Literature: Then and Now</h2>
+                    <div class="informational-article">
+                        <p>When "The Wonderful Wizard of Oz" was published in 1900, children's literature was very different from what we know today. Understanding these differences helps us appreciate why Oz was revolutionary.</p><p>**Before 1900, Children's Books Were:**</p><p>1. **Moralistic**: Stories existed mainly to teach moral lessons. Characters who misbehaved suffered terrible consequences. The message was more important than entertainment.</p><p>2. **Dark and scary**: Traditional fairy tales included violence, death, and psychological terror. Children were abandoned, poisoned, or eaten. These weren't sanitized stories — they were warnings.</p><p>3. **Class-conscious**: Most heroes were royalty or wealthy. Poor characters either stayed poor or magically became royalty. Social mobility wasn't realistic.</p><p>4. **European**: Most stories came from Europe (Grimm, Andersen, Perrault). They featured castles, kings, and European settings. American children read about places they'd never seen.</p><p>5. **Gender-specific**: Books for girls taught them to be passive, obedient, and domestic. Books for boys taught them to be brave, adventurous, and dominant. Few characters broke these roles.</p><p>**Baum Changed Everything**:</p><p>1. **Fun first**: While Oz has themes, it's primarily entertaining. Adventure and imagination matter more than moralizing.</p><p>2. **Optimistic tone**: Bad things happen, but nobody dies. The story ends happily. Evil is defeated through cleverness and friendship, not violence.</p><p>3. **Democratic values**: Dorothy isn't a princess; she's a farm girl. She succeeds through courage and kindness, not birthright. The "great" Wizard is exposed as an ordinary man, and that's okay.</p><p>4. **American setting**: The story begins in Kansas and reflects American values: self-reliance, innovation, democracy, and optimism.</p><p>5. **Gender-neutral**: Dorothy is brave, leads the group, and saves herself. The "female" characters (Dorothy, Glinda) are powerful and competent. The "male" characters (Scarecrow, Tin Woodman, Lion) are emotional and vulnerable. Everyone can be everything.</p><p>**Impact on Modern Children's Literature**:</p><p>Baum influenced generations of children's authors:
 - **Fantasy as legitimate literature**: Oz proved fantasy could be meaningful, not just escapist
 - **Child protagonists**: Children could be heroes without adults constantly rescuing them
 - **American mythology**: Writers could create American fantasy worlds
 - **Emotional honesty**: Characters could admit fears and weaknesses
-- **Friendship focus**: Stories could center on friendship rather than romance or family</p><p style="margin-bottom: 15px;">**Modern Children's Books Owe Oz**:
+- **Friendship focus**: Stories could center on friendship rather than romance or family</p><p>**Modern Children's Books Owe Oz**:
 - Harry Potter (ordinary child in magical world)
 - Percy Jackson (American mythology)
 - The Hunger Games (strong girl protagonist leading others)
 - Chronicles of Narnia (entering a magical world)
-- Coraline (finding courage to face danger)</p><p style="margin-bottom: 15px;">**What Makes a Good Children's Book?**:</p><p style="margin-bottom: 15px;">Modern understanding, influenced by Oz:
+- Coraline (finding courage to face danger)</p><p>**What Makes a Good Children's Book?**:</p><p>Modern understanding, influenced by Oz:
 1. Respects children's intelligence
 2. Entertains while providing meaning
 3. Features diverse, realistic characters
 4. Addresses real emotions and fears
 5. Empowers rather than preaches
-6. Ends with hope, not just "happily ever after"</p><p style="margin-bottom: 15px;">**Why Oz Endures**:</p><p style="margin-bottom: 15px;">120+ years later, The Wizard of Oz remains popular because:
+6. Ends with hope, not just "happily ever after"</p><p>**Why Oz Endures**:</p><p>120+ years later, The Wizard of Oz remains popular because:
 - Its themes are timeless (courage, friendship, home)
 - It empowers children rather than lecturing them
 - The story is genuinely entertaining
 - Characters are memorable and relatable
-- It balances adventure with emotional depth</p><p style="margin-bottom: 15px;">**The Legacy**:</p><p style="margin-bottom: 15px;">When you read modern children's books, you're reading in a tradition Baum helped create. Before Oz, children's books often treated readers as empty vessels needing to be filled with morals. After Oz, children's literature could be fun, empowering, and meaningful all at once.</p><p style="margin-bottom: 15px;">Baum believed children deserved stories that delighted them, not just instructed them. He believed kids were smart enough to find their own meaning in stories. And he believed American children deserved American fairy tales.</p><p style="margin-bottom: 15px;">He was right. The Wonderful Wizard of Oz proved it. And children's literature has never been the same.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 8: Grammar
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar: Complete Sentences vs. Fragments</h2>
-                            <div style="margin: 20px 0;">
-                                <h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>
-                                <div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">
-                                    <p style="margin-bottom: 10px;">A complete sentence must have:
-1. A subject (who/what)
-2. A verb (action or being)  
-3. A complete thought</p><p style="margin-bottom: 10px;">**Complete**: Dorothy traveled to Oz.
-**Fragment**: Traveled to Oz. (no subject)</p>
-                                </div>
-                                <h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>
-                                <ul style="margin-bottom: 20px; line-height: 1.8;">
-                                    <li>Complete: The Wizard lived in the Emerald City.</li><li>Fragment: In the Emerald City. (no verb or complete thought)</li><li>Complete: Toto barked at the Lion.</li>
-                                </ul>
-                                <h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>
-                                <div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">1. Is this complete or a fragment? The yellow brick road.</p><textarea id="grammar-1" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div><div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">2. Fix this fragment: Wanted to go home.</p><textarea id="grammar-2" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 9: Writing
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✍️ Writing Time</h2>
-                            <p style="margin-bottom: 15px;">Write a journal entry about what happened in today's chapter. How would you feel if you were Dorothy?</p>
-                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 150px;" placeholder="Start writing..."></textarea>
-                        </div>
-                    `
-                },
-                
-                // Page 10: Completion
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h2 style="color: #305853; font-size: 36px; margin-bottom: 20px;">Great Job! 🎉</h2>
-                            <p style="font-size: 18px; color: #666;">You've completed Day 24!</p>
-                            <p style="font-size: 16px; color: #666; margin-top: 15px;">Click "Finish Lesson" to save your progress.</p>
-                        </div>
-                    `
-                }
-            ]
+- It balances adventure with emotional depth</p><p>**The Legacy**:</p><p>When you read modern children's books, you're reading in a tradition Baum helped create. Before Oz, children's books often treated readers as empty vessels needing to be filled with morals. After Oz, children's literature could be fun, empowering, and meaningful all at once.</p><p>Baum believed children deserved stories that delighted them, not just instructed them. He believed kids were smart enough to find their own meaning in stories. And he believed American children deserved American fairy tales.</p><p>He was right. The Wonderful Wizard of Oz proved it. And children's literature has never been the same.</p>
+                    </div>
+                    
+                    <h3>Questions:</h3>
+                    <div class="question-card">
+                        <p><strong>1.</strong> What did you learn from this text?</p>
+                        <textarea id="info-24-1" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                    <div class="question-card">
+                        <p><strong>2.</strong> How does this information help you understand the story?</p>
+                        <textarea id="info-24-2" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "writing",
+        "content": isOdd ? `
+                    <h2>✍️ Writing Practice</h2>
+                    <p>Write a paragraph about today's chapter. Use both vocabulary words.</p>
+                    <div class="writing-prompt">
+                        <textarea id="writing-24" rows="12" placeholder="Your paragraph..."></textarea>
+                    </div>
+                ` : `
+                    <h2>📝 Journal Response</h2>
+                    <p>Reflect on today's reading. How would you feel if you were Dorothy? What would you do?</p>
+                    <div class="journal-prompt">
+                        <textarea id="journal-24" rows="12" placeholder="Your journal entry..."></textarea>
+                    </div>
+                `
+    }
+]
         };
 
         if (typeof initLessonViewer === 'function') {
             initLessonViewer(lesson24Config);
+        } else {
+            console.error('initLessonViewer function not found!');
         }
     </script>
 </body>

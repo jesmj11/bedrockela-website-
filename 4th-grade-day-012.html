@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day 12 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container"></div>
@@ -16,87 +15,90 @@
     <script src="firebase-config.js"></script>
     <script src="js/lesson-completion.js?v=1772665488"></script>
     <script src="js/lesson-autosave.js?v=1772665488"></script>
-    
+
     <script>
         const lesson12Config = {
-            lessonId: '4th-grade-day-12',
+            lessonId: '4th-grade-day-012',
             gradeLevel: '4th-grade',
-            title: 'Day 12 - Wizard of Oz',
+            title: 'Day 12 - The Wizard of Oz',
             pages: [
-                // Page 1: Title
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h1>Day 12</h1>
-                            <div class="subtitle">4th Grade ELA • Week 3</div>
-                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
-                                The Wonderful Wizard of Oz
-                            </p>
-                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 12: The Search for the Wicked Witch
-                            </p>
+    {
+        "type": "title",
+        "content": `
+                    <h1>Day 12</h1>
+                    <h2>The Wizard of Oz</h2>
+                    <p class="unit-label">4th Grade • Week 3</p>
+                    <p class="chapter-info">The Search for the Wicked Witch</p>
+                `
+    },
+    {
+        "type": "content",
+        "content": `
+                    <h2>📚 Welcome to Day 12!</h2>
+                    <div class="objectives-box">
+                        <h3>Today's Learning Goals:</h3>
+                        <ul>
+                            <li>Learn 2 new vocabulary words</li>
+                            <li>Read The Search for the Wicked Witch</li>
+                            <li>Practice ABC Order</li>
+                            <li>Explore informational text</li>
+                            <li>Complete a journal activity</li>
+                        </ul>
+                        <p><strong>Estimated time:</strong> 45-60 minutes</p>
+                    </div>
+                `
+    },
+    {
+        "type": "vocabulary",
+        "content": `
+                    <h2>📖 Vocabulary</h2>
+                    <p>Learn these 2 words before reading:</p>
+                    
+                    <div class="vocab-word-card">
+                        <h3>1. domain</h3>
+                        <p class="definition"><strong>Definition:</strong> The territory or area that someone rules or controls.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-12-1" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                    
+                    <div class="vocab-word-card">
+                        <h3>2. cunning</h3>
+                        <p class="definition"><strong>Definition:</strong> Clever in a sneaky or deceptive way. Good at getting what you want through tricks.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-12-2" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "activity",
+        "content": `
+                    <h2>🎮 Vocabulary Matching Game</h2>
+                    <p style="color: #666; margin-bottom: 5px;">Match each word to its definition!</p>
+                    <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 2</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                        <div id="wordColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                            <div class="match-word" data-word="domain" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">domain</div>
+                            <div class="match-word" data-word="cunning" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">cunning</div>
                         </div>
-                    `
-                },
-                
-                // Page 2: Objectives
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Welcome to Day 12!</h2>
-                            <p>Today you will:</p>
-                            <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Learn 2 new vocabulary words</li>
-                                <li>Read <strong>The Search for the Wicked Witch</strong></li>
-                                <li>Answer 2 comprehension questions</li>
-                                <li>Practice language skills</li>
-                                <li>Complete a writing task</li>
-                            </ul>
-                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        <div id="defColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                            <div class="match-def" data-word="domain" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">The territory or area that someone rules or controls.</div>
+                            <div class="match-def" data-word="cunning" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Clever in a sneaky or deceptive way. Good at getting what you want through tricks.</div>
                         </div>
-                    `
-                },
-                
-                // Page 3: Vocabulary
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 Vocabulary Words</h2>
-                            
-                            <div style="margin: 30px 0;">
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">domain</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(noun)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">The territory or area that someone rules or controls.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> The Wicked Witch could see everything that happened in her domain with her one powerful eye.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> What makes a domain different from just a place? What does it mean to have power over an entire region?</p>
-                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                                
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">cunning</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(adjective)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Clever in a sneaky or deceptive way. Good at getting what you want through tricks.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> The Wicked Witch was cunning — she did not attack all at once but sent her forces one wave at a time.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> Is cunning the same as smart? Can cunning be used for good, or is it always a villain's quality?</p>
-                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 4: Story (full chapter)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 The Search for the Wicked Witch</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                <p style="margin-bottom: 15px;">The Wicked Witch of the West had only one eye, but it was as powerful as a telescope. She could see everything that happened in her domain, no matter how far away. So when Dorothy and her friends set out from the Emerald City heading west, the Witch saw them coming.
+                    </div>
+                    
+                    <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                `,
+                onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Search for the Wicked Witch - Part 1</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;">The Wicked Witch of the West had only one eye, but it was as powerful as a telescope. She could see everything that happened in her domain, no matter how far away. So when Dorothy and her friends set out from the Emerald City heading west, the Witch saw them coming.
 "Fools," she muttered. She sat on her throne in her dark castle and planned her attack.
 First, she called a pack of forty great wolves. "Go to those strangers and tear them to pieces," she commanded.
 The wolves ran howling across the plains. The Tin Woodman heard them coming.
@@ -124,102 +126,104 @@ The Witch was afraid of Dorothy, though she would never show it. She was afraid 
 Dorothy felt her heart break. But she did not cry — not in front of the Witch.
 "I am not alone," she said quietly. "I have Toto."
 The little dog pressed against her leg and growled at the Witch, and for that one small moment, Dorothy did not feel afraid at all.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 5: Comprehension - Multiple Choice
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Reading Comprehension</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">1. Which character defeats the Witch's pack of wolves?</p>
-                                <div>
-                                    <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> Dorothy</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> The Cowardly Lion</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> The Scarecrow</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> The Tin Woodman</label>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 6: Comprehension - Short Answer
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Short Answer</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">2. Each of Dorothy's friends defeats one of the Witch's attacks using exactly the quality they say they lack: the Tin Woodman uses tireless strength (heart-driven loyalty), the Scarecrow uses cleverness. What does this pattern tell you about what they already possess?</p>
-                                <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Hint:</strong> The author keeps showing us that the characters' ACTIONS do not match their WORDS about themselves. Why?</p>
-                                <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 120px;" placeholder="Write your answer here..."></textarea>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 7: Informational Text
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>🌍 Informational Text: Hot Air Balloons: The Original Flying Machines</h2>
-                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
-                                <p style="margin-bottom: 15px;">When the Wizard attempts to return to Kansas in a hot air balloon, he's using technology that was cutting-edge in the 1890s. Hot air balloons were humanity's first successful method of flight — created over a hundred years before airplanes.</p><p style="margin-bottom: 15px;">The Montgolfier brothers in France launched the first human-carrying hot air balloon in 1783. They discovered that hot air rises because it's lighter than cold air. By trapping hot air inside a large balloon and hanging a basket underneath, they could lift people into the sky.</p><p style="margin-bottom: 15px;">By the 1890s, hot air balloons were used for scientific observations, military reconnaissance, and entertainment. "Aeronauts" (balloon pilots) became celebrities, performing at fairs and exhibitions. The Wizard of Oz's backstory — being a circus balloonist who accidentally drifted away — would have been believable to readers in 1900.</p><p style="margin-bottom: 15px;">How do hot air balloons work? Fire heats the air inside the balloon, making it less dense than the outside air. Since hot air rises, the balloon lifts up. To descend, pilots let the air cool or release some of it through a vent. To steer... well, that's the problem. Early balloons couldn't be steered. They drifted wherever the wind carried them.</p><p style="margin-bottom: 15px;">This is exactly what happens to the Wizard at the end of the story. Dorothy is supposed to climb into the basket, but Toto runs away and she chases him. The balloon's ropes slip loose, and the Wizard drifts away without her, unable to control where he's going.</p><p style="margin-bottom: 15px;">This scene is both funny and sad. The "great and powerful Oz" can't even control his own balloon! He's at the mercy of wind and chance, just like he's always been. His whole life has been about things happening TO him rather than him controlling events.</p><p style="margin-bottom: 15px;">Modern hot air balloons are safer and more controllable, with better materials and equipment. But they still can't truly steer — they go where the wind takes them.</p><p style="margin-bottom: 15px;">The balloon's failure is symbolic. Dorothy can't get home through magic or tricks. She'll need to find another way — one that depends on what she's had all along.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 8: Grammar
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar: Quotation Marks: Showing Speech</h2>
-                            <div style="margin: 20px 0;">
-                                <h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>
-                                <div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">
-                                    <p style="margin-bottom: 10px;">Quotation marks (" ") show someone's exact words.</p><p style="margin-bottom: 10px;">Rules:
-1. Put quotes around the spoken words
-2. Capitalize the first word inside quotes  
-3. Put punctuation inside the closing quote</p><p style="margin-bottom: 10px;">Example: "I want to go home," said Dorothy.</p>
-                                </div>
-                                <h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>
-                                <ul style="margin-bottom: 20px; line-height: 1.8;">
-                                    <li>The Scarecrow said, "I need a brain."</li><li>"Follow the yellow brick road," advised the witch.</li><li>"Where is the Wizard?" asked Dorothy.</li>
-                                </ul>
-                                <h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>
-                                <div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">1. Add quotation marks: The Lion said I am afraid of everything.</p><textarea id="grammar-1" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div><div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">2. Write dialogue between Dorothy and the Scarecrow using quotation marks.</p><textarea id="grammar-2" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 9: Writing
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✍️ Writing Time</h2>
-                            <p style="margin-bottom: 15px;">Write a journal entry about what happened in today's chapter. How would you feel if you were Dorothy?</p>
-                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 150px;" placeholder="Start writing..."></textarea>
-                        </div>
-                    `
-                },
-                
-                // Page 10: Completion
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h2 style="color: #305853; font-size: 36px; margin-bottom: 20px;">Great Job! 🎉</h2>
-                            <p style="font-size: 18px; color: #666;">You've completed Day 12!</p>
-                            <p style="font-size: 16px; color: #666; margin-top: 15px;">Click "Finish Lesson" to save your progress.</p>
-                        </div>
-                    `
-                }
-            ]
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Search for the Wicked Witch - Part 2</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Search for the Wicked Witch - Part 3</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "comprehension",
+        "content": `
+                    <h2>💭 Reading Comprehension</h2>
+                    <p>Answer these questions about today's reading:</p>
+                    
+                    <div class="question-card">
+                        <p><strong>1.</strong> Which character defeats the Witch's pack of wolves?</p>
+                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> Dorothy</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> The Cowardly Lion</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> The Scarecrow</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> The Tin Woodman</label>
+                    </div>
+                    
+                    <div class="question-card" style="margin-top: 20px;">
+                        <p><strong>2.</strong> Each of Dorothy's friends defeats one of the Witch's attacks using exactly the quality they say they lack: the Tin Woodman uses tireless strength (heart-driven loyalty), the Scarecrow uses cleverness. What does this pattern tell you about what they already possess?</p>
+                        <p style="font-size: 14px; color: #666; margin-bottom: 10px;"><strong>Hint:</strong> The author keeps showing us that the characters' ACTIONS do not match their WORDS about themselves. Why?</p>
+                        <textarea id="comp-short" rows="8" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "grammar-language",
+        "content": skill ? `
+                    <h2>✏️ ABC Order</h2>
+                    <div class="skill-explanation">
+                        <p>Alphabetical order helps us organize and find words quickly.</p>
+                    </div>
+                    
+                    <h3>Examples:</h3>
+                    <ul>
+                        <li>ant, bear, cat (alphabetical)</li><li>apple, apricot, avocado (look at 2nd letter)</li>
+                    </ul>
+                    
+                    <h3>Practice:</h3>
+                    <div class="exercise-card"><p><strong>1.</strong> Put these in ABC order: yellow, brick, road, follow</p><textarea id="skill-12-1" rows="6" placeholder="Your answer..."></textarea></div>
+                ` : '<p>Skill content will be added.</p>'
+    },
+    {
+        "type": "informational",
+        "content": `
+                    <h2>🌍 Informational Text: Hot Air Balloons: The Original Flying Machines</h2>
+                    <div class="informational-article">
+                        <p>When the Wizard attempts to return to Kansas in a hot air balloon, he's using technology that was cutting-edge in the 1890s. Hot air balloons were humanity's first successful method of flight — created over a hundred years before airplanes.</p><p>The Montgolfier brothers in France launched the first human-carrying hot air balloon in 1783. They discovered that hot air rises because it's lighter than cold air. By trapping hot air inside a large balloon and hanging a basket underneath, they could lift people into the sky.</p><p>By the 1890s, hot air balloons were used for scientific observations, military reconnaissance, and entertainment. "Aeronauts" (balloon pilots) became celebrities, performing at fairs and exhibitions. The Wizard of Oz's backstory — being a circus balloonist who accidentally drifted away — would have been believable to readers in 1900.</p><p>How do hot air balloons work? Fire heats the air inside the balloon, making it less dense than the outside air. Since hot air rises, the balloon lifts up. To descend, pilots let the air cool or release some of it through a vent. To steer... well, that's the problem. Early balloons couldn't be steered. They drifted wherever the wind carried them.</p><p>This is exactly what happens to the Wizard at the end of the story. Dorothy is supposed to climb into the basket, but Toto runs away and she chases him. The balloon's ropes slip loose, and the Wizard drifts away without her, unable to control where he's going.</p><p>This scene is both funny and sad. The "great and powerful Oz" can't even control his own balloon! He's at the mercy of wind and chance, just like he's always been. His whole life has been about things happening TO him rather than him controlling events.</p><p>Modern hot air balloons are safer and more controllable, with better materials and equipment. But they still can't truly steer — they go where the wind takes them.</p><p>The balloon's failure is symbolic. Dorothy can't get home through magic or tricks. She'll need to find another way — one that depends on what she's had all along.</p>
+                    </div>
+                    
+                    <h3>Questions:</h3>
+                    <div class="question-card">
+                        <p><strong>1.</strong> What did you learn from this text?</p>
+                        <textarea id="info-12-1" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                    <div class="question-card">
+                        <p><strong>2.</strong> How does this information help you understand the story?</p>
+                        <textarea id="info-12-2" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "writing",
+        "content": isOdd ? `
+                    <h2>✍️ Writing Practice</h2>
+                    <p>Write a paragraph about today's chapter. Use both vocabulary words.</p>
+                    <div class="writing-prompt">
+                        <textarea id="writing-12" rows="12" placeholder="Your paragraph..."></textarea>
+                    </div>
+                ` : `
+                    <h2>📝 Journal Response</h2>
+                    <p>Reflect on today's reading. How would you feel if you were Dorothy? What would you do?</p>
+                    <div class="journal-prompt">
+                        <textarea id="journal-12" rows="12" placeholder="Your journal entry..."></textarea>
+                    </div>
+                `
+    }
+]
         };
 
         if (typeof initLessonViewer === 'function') {
             initLessonViewer(lesson12Config);
+        } else {
+            console.error('initLessonViewer function not found!');
         }
     </script>
 </body>

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day 28 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container"></div>
@@ -16,87 +15,90 @@
     <script src="firebase-config.js"></script>
     <script src="js/lesson-completion.js?v=1772665488"></script>
     <script src="js/lesson-autosave.js?v=1772665488"></script>
-    
+
     <script>
         const lesson28Config = {
-            lessonId: '4th-grade-day-28',
+            lessonId: '4th-grade-day-028',
             gradeLevel: '4th-grade',
-            title: 'Day 28 - Wizard of Oz',
+            title: 'Day 28 - The Wizard of Oz',
             pages: [
-                // Page 1: Title
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h1>Day 28</h1>
-                            <div class="subtitle">4th Grade ELA • Week 6</div>
-                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
-                                The Wonderful Wizard of Oz
-                            </p>
-                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 24: Home Again
-                            </p>
+    {
+        "type": "title",
+        "content": `
+                    <h1>Day 28</h1>
+                    <h2>The Wizard of Oz</h2>
+                    <p class="unit-label">4th Grade • Week 6</p>
+                    <p class="chapter-info">Home Again</p>
+                `
+    },
+    {
+        "type": "content",
+        "content": `
+                    <h2>📚 Welcome to Day 28!</h2>
+                    <div class="objectives-box">
+                        <h3>Today's Learning Goals:</h3>
+                        <ul>
+                            <li>Learn 2 new vocabulary words</li>
+                            <li>Read Home Again</li>
+                            <li>Practice Idioms</li>
+                            <li>Explore informational text</li>
+                            <li>Complete a journal activity</li>
+                        </ul>
+                        <p><strong>Estimated time:</strong> 45-60 minutes</p>
+                    </div>
+                `
+    },
+    {
+        "type": "vocabulary",
+        "content": `
+                    <h2>📖 Vocabulary</h2>
+                    <p>Learn these 2 words before reading:</p>
+                    
+                    <div class="vocab-word-card">
+                        <h3>1. embrace</h3>
+                        <p class="definition"><strong>Definition:</strong> To hold someone closely in your arms. A hug that shows deep love or relief.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-28-1" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                    
+                    <div class="vocab-word-card">
+                        <h3>2. contentment</h3>
+                        <p class="definition"><strong>Definition:</strong> A deep, quiet feeling of happiness and satisfaction. The feeling that you have everything you need.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-28-2" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "activity",
+        "content": `
+                    <h2>🎮 Vocabulary Matching Game</h2>
+                    <p style="color: #666; margin-bottom: 5px;">Match each word to its definition!</p>
+                    <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 2</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                        <div id="wordColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                            <div class="match-word" data-word="embrace" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">embrace</div>
+                            <div class="match-word" data-word="contentment" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">contentment</div>
                         </div>
-                    `
-                },
-                
-                // Page 2: Objectives
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Welcome to Day 28!</h2>
-                            <p>Today you will:</p>
-                            <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Learn 2 new vocabulary words</li>
-                                <li>Read <strong>Home Again</strong></li>
-                                <li>Answer 2 comprehension questions</li>
-                                <li>Practice language skills</li>
-                                <li>Complete a writing task</li>
-                            </ul>
-                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        <div id="defColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                            <div class="match-def" data-word="embrace" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">To hold someone closely in your arms. A hug that shows deep love or relief.</div>
+                            <div class="match-def" data-word="contentment" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">A deep, quiet feeling of happiness and satisfaction. The feeling that you have everything you need.</div>
                         </div>
-                    `
-                },
-                
-                // Page 3: Vocabulary
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 Vocabulary Words</h2>
-                            
-                            <div style="margin: 30px 0;">
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">embrace</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(noun/verb)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">To hold someone closely in your arms. A hug that shows deep love or relief.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> Aunt Em swept Dorothy into a fierce embrace, holding her so tightly that Toto yelped between them.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> Why does a physical embrace mean so much after a long separation? What does Aunt Em's embrace tell Dorothy?</p>
-                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                                
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">contentment</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(noun)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">A deep, quiet feeling of happiness and satisfaction. The feeling that you have everything you need.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> Dorothy felt a deep contentment settle inside her as she sat at the kitchen table eating warm bread — she was home, and that was enough.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> Contentment is different from excitement or thrill. Why is contentment the right word for Dorothy's ending instead of something louder like joy or triumph?</p>
-                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 4: Story (full chapter)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 Home Again</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                <p style="margin-bottom: 15px;">"My darling child!" Aunt Em cried, sweeping Dorothy into her arms and holding her so tightly that Toto yelped between them. "Where in the world did you come from?"
+                    </div>
+                    
+                    <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                `,
+                onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 Home Again - Part 1</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;">"My darling child!" Aunt Em cried, sweeping Dorothy into her arms and holding her so tightly that Toto yelped between them. "Where in the world did you come from?"
 "From the land of Oz," Dorothy said into Aunt Em's shoulder. "Oh, Aunt Em, I am so glad to be home!"
 Aunt Em pulled back and looked at Dorothy's face as though she could not quite believe she was real. Her gray eyes were shining — with tears, with relief, with a fierce, burning love that Dorothy had always known was there, even when Aunt Em had been too worn down by the prairie to show it.
 Uncle Henry came out of the barn. He stopped in the doorway and stared. Then he walked across the yard, slowly, as though Dorothy might disappear if he moved too quickly. He knelt down in the dirt and put his weathered hands on her shoulders.
@@ -120,148 +122,149 @@ Dorothy ate her bread. Toto lay at her feet. Aunt Em sat across the table, watch
 Aunt Em reached across the table and took Dorothy's hand. She did not ask what the words meant. She did not need to.
 Outside, the Kansas wind blew across the prairie, and the sun began to set, painting the gray sky with gold. It was not emerald and it was not ruby. But it was warm, and it was real, and it was hers.
 Dorothy was home.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 5: Comprehension - Multiple Choice
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Reading Comprehension</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">1. What happens to the silver shoes during Dorothy's flight home?</p>
-                                <div>
-                                    <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> She gives them to Aunt Em</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> They are lost somewhere in the sky between Oz and Kansas</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> They turn into regular shoes</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> She leaves them with Glinda</label>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 6: Comprehension - Short Answer
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Short Answer</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">2. The last line of Dorothy's story is that she feels contentment — not excitement, not triumph, just a quiet feeling that she has everything she needs. Why is contentment the right ending for this story? What has Dorothy learned about what truly matters?</p>
-                                <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Hint:</strong> Dorothy started the story feeling lonely in a gray world. She ends it feeling full in the same gray world. What changed was not the place — it was Dorothy.</p>
-                                <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 120px;" placeholder="Write your answer here..."></textarea>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 7: Informational Text
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>🌍 Informational Text: Happy Endings: Why Do We Need Them?</h2>
-                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
-                                <p style="margin-bottom: 15px;">The Wonderful Wizard of Oz has a happy ending. Dorothy returns home to Kansas, her friends get what they wanted (or realize they already had it), and the Wicked Witch is defeated. But why do we need happy endings? What purpose do they serve, especially in children's literature?</p><p style="margin-bottom: 15px;">**The Psychology of Happy Endings**:</p><p style="margin-bottom: 15px;">1. **Hope for the future**: Children need to believe that problems can be solved. Happy endings teach that difficulties are temporary, not permanent.</p><p style="margin-bottom: 15px;">2. **Reward for effort**: Dorothy and her friends work hard and face dangers. The happy ending shows that effort and courage lead to positive outcomes.</p><p style="margin-bottom: 15px;">3. **Emotional safety**: Children can experience adventure, fear, and sadness in the story because they trust it will end well. This allows emotional growth without trauma.</p><p style="margin-bottom: 15px;">4. **Life patterns**: Happy endings teach that setbacks are part of a larger arc. Things might be bad now, but they can improve.</p><p style="margin-bottom: 15px;">**What Makes an Ending "Happy"?**:</p><p style="margin-bottom: 15px;">Interesting question for Oz: Is Kansas really better than Oz?</p><p style="margin-bottom: 15px;">**Kansas**:
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 Home Again - Part 2</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 Home Again - Part 3</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "comprehension",
+        "content": `
+                    <h2>💭 Reading Comprehension</h2>
+                    <p>Answer these questions about today's reading:</p>
+                    
+                    <div class="question-card">
+                        <p><strong>1.</strong> What happens to the silver shoes during Dorothy's flight home?</p>
+                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> She gives them to Aunt Em</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> They are lost somewhere in the sky between Oz and Kansas</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> They turn into regular shoes</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> She leaves them with Glinda</label>
+                    </div>
+                    
+                    <div class="question-card" style="margin-top: 20px;">
+                        <p><strong>2.</strong> The last line of Dorothy's story is that she feels contentment — not excitement, not triumph, just a quiet feeling that she has everything she needs. Why is contentment the right ending for this story? What has Dorothy learned about what truly matters?</p>
+                        <p style="font-size: 14px; color: #666; margin-bottom: 10px;"><strong>Hint:</strong> Dorothy started the story feeling lonely in a gray world. She ends it feeling full in the same gray world. What changed was not the place — it was Dorothy.</p>
+                        <textarea id="comp-short" rows="8" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "grammar-language",
+        "content": skill ? `
+                    <h2>✏️ Idioms</h2>
+                    <div class="skill-explanation">
+                        <p>Phrases that mean something different from the literal words.</p>
+                    </div>
+                    
+                    <h3>Examples:</h3>
+                    <ul>
+                        <li>"It's raining cats and dogs" means heavy rain</li>
+                    </ul>
+                    
+                    <h3>Practice:</h3>
+                    <div class="exercise-card"><p><strong>1.</strong> What does "follow the yellow brick road" really mean?</p><textarea id="skill-28-1" rows="6" placeholder="Your answer..."></textarea></div>
+                ` : '<p>Skill content will be added.</p>'
+    },
+    {
+        "type": "informational",
+        "content": `
+                    <h2>🌍 Informational Text: Happy Endings: Why Do We Need Them?</h2>
+                    <div class="informational-article">
+                        <p>The Wonderful Wizard of Oz has a happy ending. Dorothy returns home to Kansas, her friends get what they wanted (or realize they already had it), and the Wicked Witch is defeated. But why do we need happy endings? What purpose do they serve, especially in children's literature?</p><p>**The Psychology of Happy Endings**:</p><p>1. **Hope for the future**: Children need to believe that problems can be solved. Happy endings teach that difficulties are temporary, not permanent.</p><p>2. **Reward for effort**: Dorothy and her friends work hard and face dangers. The happy ending shows that effort and courage lead to positive outcomes.</p><p>3. **Emotional safety**: Children can experience adventure, fear, and sadness in the story because they trust it will end well. This allows emotional growth without trauma.</p><p>4. **Life patterns**: Happy endings teach that setbacks are part of a larger arc. Things might be bad now, but they can improve.</p><p>**What Makes an Ending "Happy"?**:</p><p>Interesting question for Oz: Is Kansas really better than Oz?</p><p>**Kansas**:
 - Gray and dull
 - Hard work
 - No magic
-- Lonely (just Aunt Em and Uncle Henry)</p><p style="margin-bottom: 15px;">**Oz**:
+- Lonely (just Aunt Em and Uncle Henry)</p><p>**Oz**:
 - Colorful and beautiful
 - Friends and adventure
 - Magic and wonder
-- Scarecrow, Tin Woodman, and Lion loved Dorothy</p><p style="margin-bottom: 15px;">Objectively, Oz seems better! So why is returning to Kansas a happy ending?</p><p style="margin-bottom: 15px;">Because "happy" isn't about comfort or excitement. It's about:
+- Scarecrow, Tin Woodman, and Lion loved Dorothy</p><p>Objectively, Oz seems better! So why is returning to Kansas a happy ending?</p><p>Because "happy" isn't about comfort or excitement. It's about:
 - **Belonging**: Kansas is where Dorothy belongs
 - **Love**: Aunt Em and Uncle Henry are her family
 - **Home**: Familiar, safe, where she's known
-- **Identity**: Dorothy is a Kansas girl; that's part of who she is</p><p style="margin-bottom: 15px;">The happy ending isn't about reaching the best place — it's about reaching the right place for you.</p><p style="margin-bottom: 15px;">**Different Types of Happy Endings**:</p><p style="margin-bottom: 15px;">Not all happy endings are the same:</p><p style="margin-bottom: 15px;">1. **Triumph**: Hero defeats villain and wins (many superhero stories)
+- **Identity**: Dorothy is a Kansas girl; that's part of who she is</p><p>The happy ending isn't about reaching the best place — it's about reaching the right place for you.</p><p>**Different Types of Happy Endings**:</p><p>Not all happy endings are the same:</p><p>1. **Triumph**: Hero defeats villain and wins (many superhero stories)
 2. **Reunion**: Separated people reunite (Oz, Finding Nemo)
 3. **Growth**: Character becomes better version of themselves (Inside Out)
 4. **Acceptance**: Character accepts reality and finds peace (Bridge to Terabithia)
-5. **Bittersweet**: Good outcome with sad elements (many Pixar films)</p><p style="margin-bottom: 15px;">Oz combines several types: Triumph (defeating the Witch), Reunion (returning to Aunt Em), and Growth (Dorothy becoming braver and wiser).</p><p style="margin-bottom: 15px;">**Do All Stories Need Happy Endings?**:</p><p style="margin-bottom: 15px;">Not necessarily. As children mature, they can handle more complex endings:
+5. **Bittersweet**: Good outcome with sad elements (many Pixar films)</p><p>Oz combines several types: Triumph (defeating the Witch), Reunion (returning to Aunt Em), and Growth (Dorothy becoming braver and wiser).</p><p>**Do All Stories Need Happy Endings?**:</p><p>Not necessarily. As children mature, they can handle more complex endings:
 - **Middle grade** (ages 8-12): Usually happy or hopeful
 - **Young adult** (ages 12+): Can be ambiguous or bittersweet
-- **Literary fiction**: Often complex or unresolved</p><p style="margin-bottom: 15px;">But for younger children, happy endings serve important purposes:
+- **Literary fiction**: Often complex or unresolved</p><p>But for younger children, happy endings serve important purposes:
 - Build optimism and resilience
 - Teach that effort matters
 - Provide emotional closure
-- Create positive associations with reading</p><p style="margin-bottom: 15px;">**The Deeper Happiness**:</p><p style="margin-bottom: 15px;">The real happy ending in Oz isn't just Dorothy going home. It's what she learned:</p><p style="margin-bottom: 15px;">- She discovered her own courage
+- Create positive associations with reading</p><p>**The Deeper Happiness**:</p><p>The real happy ending in Oz isn't just Dorothy going home. It's what she learned:</p><p>- She discovered her own courage
 - She helped three friends find themselves
 - She defeated a powerful enemy
 - She survived incredible challenges
-- She learned "there's no place like home"</p><p style="margin-bottom: 15px;">Even if she'd never returned to Kansas, those lessons would have been valuable. The journey changed her. That's the deepest happy ending: not external success, but internal growth.</p><p style="margin-bottom: 15px;">**Modern Perspectives**:</p><p style="margin-bottom: 15px;">Today, we recognize different types of meaningful endings:
+- She learned "there's no place like home"</p><p>Even if she'd never returned to Kansas, those lessons would have been valuable. The journey changed her. That's the deepest happy ending: not external success, but internal growth.</p><p>**Modern Perspectives**:</p><p>Today, we recognize different types of meaningful endings:
 - Some problems can't be completely solved
 - Character growth can be as valuable as external success
 - Realistic endings can be satisfying without being perfectly happy
-- Sadness and loss are part of life worth exploring</p><p style="margin-bottom: 15px;">But we also recognize that children need hope. They need to believe that:
+- Sadness and loss are part of life worth exploring</p><p>But we also recognize that children need hope. They need to believe that:
 - They can overcome difficulties
 - Effort and courage matter
 - Good can triumph over evil
 - They belong somewhere
-- Things can get better</p><p style="margin-bottom: 15px;">**Why Oz's Ending Works**:</p><p style="margin-bottom: 15px;">Dorothy's return to Kansas satisfies multiple needs:
+- Things can get better</p><p>**Why Oz's Ending Works**:</p><p>Dorothy's return to Kansas satisfies multiple needs:
 - **Emotional**: She's reunited with loved ones
 - **Practical**: She's safe at home
 - **Philosophical**: She learned valuable lessons
-- **Symbolic**: She found her power within herself</p><p style="margin-bottom: 15px;">The silver slippers — her means of returning home — were on her feet the whole time. She always had the power to go home; she just had to learn the lesson first. She had to become brave, kind, and wise before she was ready to use that power.</p><p style="margin-bottom: 15px;">That's a sophisticated happy ending. It's not "everything magically becomes perfect." It's "you had what you needed all along, but you had to grow enough to recognize and use it."</p><p style="margin-bottom: 15px;">**The Ultimate Message**:</p><p style="margin-bottom: 15px;">Happy endings in children's literature aren't lying to kids or protecting them from reality. They're teaching important truths:
+- **Symbolic**: She found her power within herself</p><p>The silver slippers — her means of returning home — were on her feet the whole time. She always had the power to go home; she just had to learn the lesson first. She had to become brave, kind, and wise before she was ready to use that power.</p><p>That's a sophisticated happy ending. It's not "everything magically becomes perfect." It's "you had what you needed all along, but you had to grow enough to recognize and use it."</p><p>**The Ultimate Message**:</p><p>Happy endings in children's literature aren't lying to kids or protecting them from reality. They're teaching important truths:
 - You have more power than you think
 - Challenges can be overcome
 - Friendship and courage matter
 - Home — whatever that means for you — is worth fighting for
-- The journey changes you for the better</p><p style="margin-bottom: 15px;">These aren't false promises. They're real psychological insights wrapped in an entertaining story. And that's why happy endings, done well, matter.</p><p style="margin-bottom: 15px;">Dorothy's journey ends happily not because everything became perfect, but because she became stronger, wiser, and more confident. She found her way home — both literally and emotionally.</p><p style="margin-bottom: 15px;">That's a happy ending worth having.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 8: Grammar
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar: Exclamatory Sentences</h2>
-                            <div style="margin: 20px 0;">
-                                <h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>
-                                <div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">
-                                    <p style="margin-bottom: 10px;">Exclamatory sentences show strong feeling and end with an exclamation mark (!).</p><p style="margin-bottom: 10px;">They express:
-- Excitement: We did it!
-- Surprise: The Wizard is fake!  
-- Fear: The witch is coming!
-- Joy: We're going home!</p>
-                                </div>
-                                <h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>
-                                <ul style="margin-bottom: 20px; line-height: 1.8;">
-                                    <li>The house is spinning!</li><li>What a beautiful city!</li><li>The witch melted!</li>
-                                </ul>
-                                <h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>
-                                <div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">1. Turn into an exclamatory sentence: Dorothy was so happy to see Aunt Em.</p><textarea id="grammar-1" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div><div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">2. Write an exclamatory sentence about an exciting moment in the story.</p><textarea id="grammar-2" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 9: Writing
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✍️ Writing Time</h2>
-                            <p style="margin-bottom: 15px;">Write a journal entry about what happened in today's chapter. How would you feel if you were Dorothy?</p>
-                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 150px;" placeholder="Start writing..."></textarea>
-                        </div>
-                    `
-                },
-                
-                // Page 10: Completion
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h2 style="color: #305853; font-size: 36px; margin-bottom: 20px;">Great Job! 🎉</h2>
-                            <p style="font-size: 18px; color: #666;">You've completed Day 28!</p>
-                            <p style="font-size: 16px; color: #666; margin-top: 15px;">Click "Finish Lesson" to save your progress.</p>
-                        </div>
-                    `
-                }
-            ]
+- The journey changes you for the better</p><p>These aren't false promises. They're real psychological insights wrapped in an entertaining story. And that's why happy endings, done well, matter.</p><p>Dorothy's journey ends happily not because everything became perfect, but because she became stronger, wiser, and more confident. She found her way home — both literally and emotionally.</p><p>That's a happy ending worth having.</p>
+                    </div>
+                    
+                    <h3>Questions:</h3>
+                    <div class="question-card">
+                        <p><strong>1.</strong> What did you learn from this text?</p>
+                        <textarea id="info-28-1" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                    <div class="question-card">
+                        <p><strong>2.</strong> How does this information help you understand the story?</p>
+                        <textarea id="info-28-2" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "writing",
+        "content": isOdd ? `
+                    <h2>✍️ Writing Practice</h2>
+                    <p>Write a paragraph about today's chapter. Use both vocabulary words.</p>
+                    <div class="writing-prompt">
+                        <textarea id="writing-28" rows="12" placeholder="Your paragraph..."></textarea>
+                    </div>
+                ` : `
+                    <h2>📝 Journal Response</h2>
+                    <p>Reflect on today's reading. How would you feel if you were Dorothy? What would you do?</p>
+                    <div class="journal-prompt">
+                        <textarea id="journal-28" rows="12" placeholder="Your journal entry..."></textarea>
+                    </div>
+                `
+    }
+]
         };
 
         if (typeof initLessonViewer === 'function') {
             initLessonViewer(lesson28Config);
+        } else {
+            console.error('initLessonViewer function not found!');
         }
     </script>
 </body>

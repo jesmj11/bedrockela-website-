@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day 21 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container"></div>
@@ -16,87 +15,90 @@
     <script src="firebase-config.js"></script>
     <script src="js/lesson-completion.js?v=1772665488"></script>
     <script src="js/lesson-autosave.js?v=1772665488"></script>
-    
+
     <script>
         const lesson21Config = {
-            lessonId: '4th-grade-day-21',
+            lessonId: '4th-grade-day-021',
             gradeLevel: '4th-grade',
-            title: 'Day 21 - Wizard of Oz',
+            title: 'Day 21 - The Wizard of Oz',
             pages: [
-                // Page 1: Title
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h1>Day 21</h1>
-                            <div class="subtitle">4th Grade ELA • Week 5</div>
-                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
-                                The Wonderful Wizard of Oz
-                            </p>
-                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 21: The Country of the Quadlings
-                            </p>
+    {
+        "type": "title",
+        "content": `
+                    <h1>Day 21</h1>
+                    <h2>The Wizard of Oz</h2>
+                    <p class="unit-label">4th Grade • Week 5</p>
+                    <p class="chapter-info">The Country of the Quadlings</p>
+                `
+    },
+    {
+        "type": "content",
+        "content": `
+                    <h2>📚 Welcome to Day 21!</h2>
+                    <div class="objectives-box">
+                        <h3>Today's Learning Goals:</h3>
+                        <ul>
+                            <li>Learn 2 new vocabulary words</li>
+                            <li>Read The Country of the Quadlings</li>
+                            <li>Practice Antonyms: Opposite Words</li>
+                            <li>Explore informational text</li>
+                            <li>Complete a writing activity</li>
+                        </ul>
+                        <p><strong>Estimated time:</strong> 45-60 minutes</p>
+                    </div>
+                `
+    },
+    {
+        "type": "vocabulary",
+        "content": `
+                    <h2>📖 Vocabulary</h2>
+                    <p>Learn these 2 words before reading:</p>
+                    
+                    <div class="vocab-word-card">
+                        <h3>1. earnest</h3>
+                        <p class="definition"><strong>Definition:</strong> Serious, sincere, and determined. Showing that you truly mean what you say.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-21-1" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                    
+                    <div class="vocab-word-card">
+                        <h3>2. radiant</h3>
+                        <p class="definition"><strong>Definition:</strong> Shining brightly. Glowing with light, beauty, or happiness.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-21-2" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "activity",
+        "content": `
+                    <h2>🎮 Vocabulary Matching Game</h2>
+                    <p style="color: #666; margin-bottom: 5px;">Match each word to its definition!</p>
+                    <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 2</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                        <div id="wordColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                            <div class="match-word" data-word="earnest" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">earnest</div>
+                            <div class="match-word" data-word="radiant" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">radiant</div>
                         </div>
-                    `
-                },
-                
-                // Page 2: Objectives
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Welcome to Day 21!</h2>
-                            <p>Today you will:</p>
-                            <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Learn 2 new vocabulary words</li>
-                                <li>Read <strong>The Country of the Quadlings</strong></li>
-                                <li>Answer 2 comprehension questions</li>
-                                <li>Practice grammar skills</li>
-                                <li>Complete a writing task</li>
-                            </ul>
-                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        <div id="defColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                            <div class="match-def" data-word="earnest" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Serious, sincere, and determined. Showing that you truly mean what you say.</div>
+                            <div class="match-def" data-word="radiant" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Shining brightly. Glowing with light, beauty, or happiness.</div>
                         </div>
-                    `
-                },
-                
-                // Page 3: Vocabulary
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 Vocabulary Words</h2>
-                            
-                            <div style="margin: 30px 0;">
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">earnest</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(adjective)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Serious, sincere, and determined. Showing that you truly mean what you say.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> Dorothy spoke to Glinda in earnest, telling her story simply and honestly without exaggeration.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> After meeting a humbug wizard who was all tricks, how is Glinda's honesty different? Why does earnestness matter?</p>
-                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                                
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">radiant</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(adjective)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Shining brightly. Glowing with light, beauty, or happiness.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> Glinda was radiant — her warm eyes and gentle smile made Dorothy feel safe for the first time in weeks.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> Compare Glinda's radiance to the Wizard's dazzling tricks. What is the difference between real light and fake light?</p>
-                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 4: Story (full chapter)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 The Country of the Quadlings</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                <p style="margin-bottom: 15px;">South of the china country, the land changed again. The wild forest gave way to gentle, rolling hills covered in soft red grass and dotted with red flowers. The houses they passed were painted red, and the fences were red, and the people they met wore red clothes and had kind, cheerful faces.
+                    </div>
+                    
+                    <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                `,
+                onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Country of the Quadlings - Part 1</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;">South of the china country, the land changed again. The wild forest gave way to gentle, rolling hills covered in soft red grass and dotted with red flowers. The houses they passed were painted red, and the fences were red, and the people they met wore red clothes and had kind, cheerful faces.
 "This must be the country of the Quadlings," the Scarecrow said. "Just as the Munchkins love blue, the Quadlings love red."
 The people they met were friendly and welcoming. When Dorothy asked the way to Glinda's castle, they smiled and pointed south. "Follow the road," they said. "You cannot miss it. Glinda's castle is the most beautiful building in all of Oz."
 They were right.
@@ -129,116 +131,125 @@ Dorothy took the cap from her basket. "I have two commands left."
 Glinda smiled. "Give the cap to me. I will use the final command to set the Winged Monkeys free, so they will never be slaves again."
 Dorothy's heart swelled. "Yes," she said. "They deserve to be free."
 "Now," said Glinda, leaning forward, "let me tell you about the silver shoes."</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 5: Comprehension - Multiple Choice
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Reading Comprehension</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">1. How is Glinda different from the Wizard of Oz?</p>
-                                <div>
-                                    <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> Glinda is also a fraud</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> Glinda is honest, open, and genuinely powerful — no tricks, no locked doors, no booming voice</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> Glinda is more frightening than the Wizard</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> Glinda refuses to help Dorothy</label>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 6: Comprehension - Short Answer
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Short Answer</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">2. Compare Glinda to the Wizard. The Wizard hid behind tricks and illusions. Glinda sits in an open room, speaks honestly, and uses real power. What does this contrast teach you about real strength vs. the appearance of strength?</p>
-                                <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Hint:</strong> Real power does not need to hide or trick people. The Wizard needed tricks BECAUSE he had no real power. Glinda needs no tricks because she does.</p>
-                                <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 120px;" placeholder="Write your answer here..."></textarea>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 7: Informational Text
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>🌍 Informational Text: Magic and Science: Where Do They Meet?</h2>
-                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
-                                <p style="margin-bottom: 15px;">The Wizard of Oz exists in a fascinating middle ground between magic and science. Oz appears to be a magical world — witches cast spells, monkeys fly, and animals talk. Yet the "Wizard" himself admits he has no magic at all. He's a scientist of sorts, using tricks and technology to create illusions.</p><p style="margin-bottom: 15px;">This blend reflects the era when the book was written. The late 1800s and early 1900s were a time of incredible scientific advancement:
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Country of the Quadlings - Part 2</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Country of the Quadlings - Part 3</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "comprehension",
+        "content": `
+                    <h2>💭 Reading Comprehension</h2>
+                    <p>Answer these questions about today's reading:</p>
+                    
+                    <div class="question-card">
+                        <p><strong>1.</strong> How is Glinda different from the Wizard of Oz?</p>
+                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> Glinda is also a fraud</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> Glinda is honest, open, and genuinely powerful — no tricks, no locked doors, no booming voice</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> Glinda is more frightening than the Wizard</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> Glinda refuses to help Dorothy</label>
+                    </div>
+                    
+                    <div class="question-card" style="margin-top: 20px;">
+                        <p><strong>2.</strong> Compare Glinda to the Wizard. The Wizard hid behind tricks and illusions. Glinda sits in an open room, speaks honestly, and uses real power. What does this contrast teach you about real strength vs. the appearance of strength?</p>
+                        <p style="font-size: 14px; color: #666; margin-bottom: 10px;"><strong>Hint:</strong> Real power does not need to hide or trick people. The Wizard needed tricks BECAUSE he had no real power. Glinda needs no tricks because she does.</p>
+                        <textarea id="comp-short" rows="8" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "grammar-language",
+        "content": skill ? `
+                    <h2>✏️ Antonyms: Opposite Words</h2>
+                    <div class="skill-explanation">
+                        <p>Antonyms are words with opposite meanings.
+
+Examples:
+- hot ↔ cold  
+- happy ↔ sad
+- brave ↔ cowardly
+- good ↔ wicked
+
+The story has many antonyms: good witch vs. wicked witch!</p>
+                    </div>
+                    
+                    <h3>Examples:</h3>
+                    <ul>
+                        <li>Kansas was gray, but Oz was colorful. (gray ↔ colorful)</li><li>The Lion seemed cowardly but was really brave. (cowardly ↔ brave)</li><li>Dorothy wanted to leave Oz and return home. (leave ↔ return)</li>
+                    </ul>
+                    
+                    <h3>Practice:</h3>
+                    <div class="exercise-card"><p><strong>1.</strong> Write antonyms for: large, beautiful, happy, hard</p><textarea id="skill-21-1" rows="6" placeholder="Your answer..."></textarea></div><div class="exercise-card"><p><strong>2.</strong> Write a sentence comparing two things using antonyms.</p><textarea id="skill-21-2" rows="6" placeholder="Your answer..."></textarea></div>
+                ` : '<p>Skill content will be added.</p>'
+    },
+    {
+        "type": "informational",
+        "content": `
+                    <h2>🌍 Informational Text: Magic and Science: Where Do They Meet?</h2>
+                    <div class="informational-article">
+                        <p>The Wizard of Oz exists in a fascinating middle ground between magic and science. Oz appears to be a magical world — witches cast spells, monkeys fly, and animals talk. Yet the "Wizard" himself admits he has no magic at all. He's a scientist of sorts, using tricks and technology to create illusions.</p><p>This blend reflects the era when the book was written. The late 1800s and early 1900s were a time of incredible scientific advancement:
 - Electric lights were replacing candles and oil lamps
 - Telephones let people talk across long distances
 - X-rays revealed the inside of the human body
 - Automobiles were beginning to replace horses
-- Motion pictures showed images that seemed to move</p><p style="margin-bottom: 15px;">To people unfamiliar with these technologies, they seemed like magic. Imagine seeing electric light for the first time if you'd only known candles! Or hearing someone's voice through a telephone! These innovations must have felt supernatural.</p><p style="margin-bottom: 15px;">The Wizard represents this blending of science and magic. His "magic" tricks are actually:
+- Motion pictures showed images that seemed to move</p><p>To people unfamiliar with these technologies, they seemed like magic. Imagine seeing electric light for the first time if you'd only known candles! Or hearing someone's voice through a telephone! These innovations must have felt supernatural.</p><p>The Wizard represents this blending of science and magic. His "magic" tricks are actually:
 - Projection systems (making his giant head appear)
 - Speakers and acoustics (amplifying his voice)
 - Costumes and props (appearing as different forms)
 - Chemistry (creating smoke and fire effects)
-- Mechanical engineering (operating his machines)</p><p style="margin-bottom: 15px;">He's essentially a special effects artist creating convincing illusions. In our modern world of CGI and smartphones, his tricks seem simple. But in Oz — a pre-technological society — they're indistinguishable from magic.</p><p style="margin-bottom: 15px;">Arthur C. Clarke, a famous science fiction author, once said: "Any sufficiently advanced technology is indistinguishable from magic." The Wizard of Oz proves this point. His late-19th-century technology seems magical in Oz's medieval-style society.</p><p style="margin-bottom: 15px;">But Baum also includes genuine magic. The Good Witches truly have powers. The silver slippers are genuinely magical. The Wicked Witch can command wolves, crows, and bees. This magic exists alongside the Wizard's fake magic.</p><p style="margin-bottom: 15px;">The story suggests an important distinction:
+- Mechanical engineering (operating his machines)</p><p>He's essentially a special effects artist creating convincing illusions. In our modern world of CGI and smartphones, his tricks seem simple. But in Oz — a pre-technological society — they're indistinguishable from magic.</p><p>Arthur C. Clarke, a famous science fiction author, once said: "Any sufficiently advanced technology is indistinguishable from magic." The Wizard of Oz proves this point. His late-19th-century technology seems magical in Oz's medieval-style society.</p><p>But Baum also includes genuine magic. The Good Witches truly have powers. The silver slippers are genuinely magical. The Wicked Witch can command wolves, crows, and bees. This magic exists alongside the Wizard's fake magic.</p><p>The story suggests an important distinction:
 - **Real magic** comes from within (courage, wisdom, love, loyalty)
 - **Fake magic** comes from tricks and illusions (smoke, mirrors, costumes)
-- **Science** can seem like magic when it's not understood</p><p style="margin-bottom: 15px;">Dorothy's journey is about discovering that real magic — the kind that changes lives — isn't about spells or wizards. It's about qualities like courage, friendship, and determination. These are real powers that anyone can develop.</p><p style="margin-bottom: 15px;">The Scarecrow doesn't need a magic brain — he already has intelligence. The Tin Woodman doesn't need a magic heart — he already has compassion. The Lion doesn't need magic courage — he already has bravery. And Dorothy doesn't need magic to go home — she always had the power within her.</p><p style="margin-bottom: 15px;">This is perhaps Baum's greatest message: The most important magic is the potential within ourselves. Not supernatural powers, but natural abilities like kindness, intelligence, bravery, and love. These powers are available to everyone — no wizard required.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 8: Grammar
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar: Antonyms: Opposite Words</h2>
-                            <div style="margin: 20px 0;">
-                                <h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>
-                                <div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">
-                                    <p style="margin-bottom: 10px;">Antonyms are words with opposite meanings.</p><p style="margin-bottom: 10px;">Examples:
-- hot ↔ cold  
-- happy ↔ sad
-- brave ↔ cowardly
-- good ↔ wicked</p><p style="margin-bottom: 10px;">The story has many antonyms: good witch vs. wicked witch!</p>
-                                </div>
-                                <h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>
-                                <ul style="margin-bottom: 20px; line-height: 1.8;">
-                                    <li>Kansas was gray, but Oz was colorful. (gray ↔ colorful)</li><li>The Lion seemed cowardly but was really brave. (cowardly ↔ brave)</li><li>Dorothy wanted to leave Oz and return home. (leave ↔ return)</li>
-                                </ul>
-                                <h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>
-                                <div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">1. Write antonyms for: large, beautiful, happy, hard</p><textarea id="grammar-1" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div><div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">2. Write a sentence comparing two things using antonyms.</p><textarea id="grammar-2" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 9: Writing
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✍️ Writing Time</h2>
-                            <p style="margin-bottom: 15px;">Write a paragraph about what you read today. Use at least one vocabulary word.</p>
-                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 150px;" placeholder="Start writing..."></textarea>
-                        </div>
-                    `
-                },
-                
-                // Page 10: Completion
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h2 style="color: #305853; font-size: 36px; margin-bottom: 20px;">Great Job! 🎉</h2>
-                            <p style="font-size: 18px; color: #666;">You've completed Day 21!</p>
-                            <p style="font-size: 16px; color: #666; margin-top: 15px;">Click "Finish Lesson" to save your progress.</p>
-                        </div>
-                    `
-                }
-            ]
+- **Science** can seem like magic when it's not understood</p><p>Dorothy's journey is about discovering that real magic — the kind that changes lives — isn't about spells or wizards. It's about qualities like courage, friendship, and determination. These are real powers that anyone can develop.</p><p>The Scarecrow doesn't need a magic brain — he already has intelligence. The Tin Woodman doesn't need a magic heart — he already has compassion. The Lion doesn't need magic courage — he already has bravery. And Dorothy doesn't need magic to go home — she always had the power within her.</p><p>This is perhaps Baum's greatest message: The most important magic is the potential within ourselves. Not supernatural powers, but natural abilities like kindness, intelligence, bravery, and love. These powers are available to everyone — no wizard required.</p>
+                    </div>
+                    
+                    <h3>Questions:</h3>
+                    <div class="question-card">
+                        <p><strong>1.</strong> What did you learn from this text?</p>
+                        <textarea id="info-21-1" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                    <div class="question-card">
+                        <p><strong>2.</strong> How does this information help you understand the story?</p>
+                        <textarea id="info-21-2" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "writing",
+        "content": isOdd ? `
+                    <h2>✍️ Writing Practice</h2>
+                    <p>Write a paragraph about today's chapter. Use both vocabulary words.</p>
+                    <div class="writing-prompt">
+                        <textarea id="writing-21" rows="12" placeholder="Your paragraph..."></textarea>
+                    </div>
+                ` : `
+                    <h2>📝 Journal Response</h2>
+                    <p>Reflect on today's reading. How would you feel if you were Dorothy? What would you do?</p>
+                    <div class="journal-prompt">
+                        <textarea id="journal-21" rows="12" placeholder="Your journal entry..."></textarea>
+                    </div>
+                `
+    }
+]
         };
 
         if (typeof initLessonViewer === 'function') {
             initLessonViewer(lesson21Config);
+        } else {
+            console.error('initLessonViewer function not found!');
         }
     </script>
 </body>

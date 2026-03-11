@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day 26 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container"></div>
@@ -16,87 +15,90 @@
     <script src="firebase-config.js"></script>
     <script src="js/lesson-completion.js?v=1772665488"></script>
     <script src="js/lesson-autosave.js?v=1772665488"></script>
-    
+
     <script>
         const lesson26Config = {
-            lessonId: '4th-grade-day-26',
+            lessonId: '4th-grade-day-026',
             gradeLevel: '4th-grade',
-            title: 'Day 26 - Wizard of Oz',
+            title: 'Day 26 - The Wizard of Oz',
             pages: [
-                // Page 1: Title
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h1>Day 26</h1>
-                            <div class="subtitle">4th Grade ELA • Week 6</div>
-                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
-                                The Wonderful Wizard of Oz
-                            </p>
-                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 24: Home Again
-                            </p>
+    {
+        "type": "title",
+        "content": `
+                    <h1>Day 26</h1>
+                    <h2>The Wizard of Oz</h2>
+                    <p class="unit-label">4th Grade • Week 6</p>
+                    <p class="chapter-info">Home Again</p>
+                `
+    },
+    {
+        "type": "content",
+        "content": `
+                    <h2>📚 Welcome to Day 26!</h2>
+                    <div class="objectives-box">
+                        <h3>Today's Learning Goals:</h3>
+                        <ul>
+                            <li>Learn 2 new vocabulary words</li>
+                            <li>Read Home Again</li>
+                            <li>Practice Figurative Language - Metaphors</li>
+                            <li>Explore informational text</li>
+                            <li>Complete a journal activity</li>
+                        </ul>
+                        <p><strong>Estimated time:</strong> 45-60 minutes</p>
+                    </div>
+                `
+    },
+    {
+        "type": "vocabulary",
+        "content": `
+                    <h2>📖 Vocabulary</h2>
+                    <p>Learn these 2 words before reading:</p>
+                    
+                    <div class="vocab-word-card">
+                        <h3>1. embrace</h3>
+                        <p class="definition"><strong>Definition:</strong> To hold someone closely in your arms. A hug that shows deep love or relief.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-26-1" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                    
+                    <div class="vocab-word-card">
+                        <h3>2. contentment</h3>
+                        <p class="definition"><strong>Definition:</strong> A deep, quiet feeling of happiness and satisfaction. The feeling that you have everything you need.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-26-2" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "activity",
+        "content": `
+                    <h2>🎮 Vocabulary Matching Game</h2>
+                    <p style="color: #666; margin-bottom: 5px;">Match each word to its definition!</p>
+                    <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 2</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                        <div id="wordColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                            <div class="match-word" data-word="embrace" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">embrace</div>
+                            <div class="match-word" data-word="contentment" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">contentment</div>
                         </div>
-                    `
-                },
-                
-                // Page 2: Objectives
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Welcome to Day 26!</h2>
-                            <p>Today you will:</p>
-                            <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Learn 2 new vocabulary words</li>
-                                <li>Read <strong>Home Again</strong></li>
-                                <li>Answer 2 comprehension questions</li>
-                                <li>Practice language skills</li>
-                                <li>Complete a writing task</li>
-                            </ul>
-                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        <div id="defColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                            <div class="match-def" data-word="embrace" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">To hold someone closely in your arms. A hug that shows deep love or relief.</div>
+                            <div class="match-def" data-word="contentment" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">A deep, quiet feeling of happiness and satisfaction. The feeling that you have everything you need.</div>
                         </div>
-                    `
-                },
-                
-                // Page 3: Vocabulary
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 Vocabulary Words</h2>
-                            
-                            <div style="margin: 30px 0;">
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">embrace</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(noun/verb)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">To hold someone closely in your arms. A hug that shows deep love or relief.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> Aunt Em swept Dorothy into a fierce embrace, holding her so tightly that Toto yelped between them.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> Why does a physical embrace mean so much after a long separation? What does Aunt Em's embrace tell Dorothy?</p>
-                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                                
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">contentment</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(noun)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">A deep, quiet feeling of happiness and satisfaction. The feeling that you have everything you need.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> Dorothy felt a deep contentment settle inside her as she sat at the kitchen table eating warm bread — she was home, and that was enough.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> Contentment is different from excitement or thrill. Why is contentment the right word for Dorothy's ending instead of something louder like joy or triumph?</p>
-                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 4: Story (full chapter)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 Home Again</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                <p style="margin-bottom: 15px;">"My darling child!" Aunt Em cried, sweeping Dorothy into her arms and holding her so tightly that Toto yelped between them. "Where in the world did you come from?"
+                    </div>
+                    
+                    <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                `,
+                onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 Home Again - Part 1</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;">"My darling child!" Aunt Em cried, sweeping Dorothy into her arms and holding her so tightly that Toto yelped between them. "Where in the world did you come from?"
 "From the land of Oz," Dorothy said into Aunt Em's shoulder. "Oh, Aunt Em, I am so glad to be home!"
 Aunt Em pulled back and looked at Dorothy's face as though she could not quite believe she was real. Her gray eyes were shining — with tears, with relief, with a fierce, burning love that Dorothy had always known was there, even when Aunt Em had been too worn down by the prairie to show it.
 Uncle Henry came out of the barn. He stopped in the doorway and stared. Then he walked across the yard, slowly, as though Dorothy might disappear if he moved too quickly. He knelt down in the dirt and put his weathered hands on her shoulders.
@@ -120,128 +122,132 @@ Dorothy ate her bread. Toto lay at her feet. Aunt Em sat across the table, watch
 Aunt Em reached across the table and took Dorothy's hand. She did not ask what the words meant. She did not need to.
 Outside, the Kansas wind blew across the prairie, and the sun began to set, painting the gray sky with gold. It was not emerald and it was not ruby. But it was warm, and it was real, and it was hers.
 Dorothy was home.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 5: Comprehension - Multiple Choice
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Reading Comprehension</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">1. What happens to the silver shoes during Dorothy's flight home?</p>
-                                <div>
-                                    <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> She gives them to Aunt Em</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> They are lost somewhere in the sky between Oz and Kansas</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> They turn into regular shoes</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> She leaves them with Glinda</label>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 6: Comprehension - Short Answer
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Short Answer</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">2. The last line of Dorothy's story is that she feels contentment — not excitement, not triumph, just a quiet feeling that she has everything she needs. Why is contentment the right ending for this story? What has Dorothy learned about what truly matters?</p>
-                                <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Hint:</strong> Dorothy started the story feeling lonely in a gray world. She ends it feeling full in the same gray world. What changed was not the place — it was Dorothy.</p>
-                                <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 120px;" placeholder="Write your answer here..."></textarea>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 7: Informational Text
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>🌍 Informational Text: Courage, Wisdom, and Heart: Universal Values</h2>
-                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
-                                <p style="margin-bottom: 15px;">The three gifts Dorothy's friends seek — a brain, a heart, and courage — represent universal human values that matter across all cultures and time periods. Let's explore why these three qualities matter so much.</p><p style="margin-bottom: 15px;">**The Scarecrow's Brain (Wisdom)**:
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 Home Again - Part 2</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 Home Again - Part 3</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "comprehension",
+        "content": `
+                    <h2>💭 Reading Comprehension</h2>
+                    <p>Answer these questions about today's reading:</p>
+                    
+                    <div class="question-card">
+                        <p><strong>1.</strong> What happens to the silver shoes during Dorothy's flight home?</p>
+                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> She gives them to Aunt Em</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> They are lost somewhere in the sky between Oz and Kansas</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> They turn into regular shoes</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> She leaves them with Glinda</label>
+                    </div>
+                    
+                    <div class="question-card" style="margin-top: 20px;">
+                        <p><strong>2.</strong> The last line of Dorothy's story is that she feels contentment — not excitement, not triumph, just a quiet feeling that she has everything she needs. Why is contentment the right ending for this story? What has Dorothy learned about what truly matters?</p>
+                        <p style="font-size: 14px; color: #666; margin-bottom: 10px;"><strong>Hint:</strong> Dorothy started the story feeling lonely in a gray world. She ends it feeling full in the same gray world. What changed was not the place — it was Dorothy.</p>
+                        <textarea id="comp-short" rows="8" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "grammar-language",
+        "content": skill ? `
+                    <h2>✏️ Figurative Language - Metaphors</h2>
+                    <div class="skill-explanation">
+                        <p>Metaphors say one thing IS another to make a comparison.</p>
+                    </div>
+                    
+                    <h3>Examples:</h3>
+                    <ul>
+                        <li>"Her heart was ice." (She was cold and unfeeling)</li>
+                    </ul>
+                    
+                    <h3>Practice:</h3>
+                    <div class="exercise-card"><p><strong>1.</strong> Write a metaphor about courage</p><textarea id="skill-26-1" rows="6" placeholder="Your answer..."></textarea></div>
+                ` : '<p>Skill content will be added.</p>'
+    },
+    {
+        "type": "informational",
+        "content": `
+                    <h2>🌍 Informational Text: Courage, Wisdom, and Heart: Universal Values</h2>
+                    <div class="informational-article">
+                        <p>The three gifts Dorothy's friends seek — a brain, a heart, and courage — represent universal human values that matter across all cultures and time periods. Let's explore why these three qualities matter so much.</p><p>**The Scarecrow's Brain (Wisdom)**:
 Intelligence and wisdom aren't the same thing:
 - **Intelligence** is the ability to learn and understand
-- **Wisdom** is knowing how to use what you know</p><p style="margin-bottom: 15px;">The Scarecrow already demonstrates intelligence throughout the journey. He solves problems, creates plans, and makes smart decisions. What he lacks isn't intelligence — it's confidence in his intelligence.</p><p style="margin-bottom: 15px;">The "brain" the Wizard gives him (a mixture of bran, pins, and needles) is symbolic. Bran represents nutrition for thought. Pins and needles represent sharp thinking. None of it is magical, but believing he has a brain makes the Scarecrow confident enough to use the intelligence he always had.</p><p style="margin-bottom: 15px;">**The Tin Woodman's Heart (Compassion)**:
+- **Wisdom** is knowing how to use what you know</p><p>The Scarecrow already demonstrates intelligence throughout the journey. He solves problems, creates plans, and makes smart decisions. What he lacks isn't intelligence — it's confidence in his intelligence.</p><p>The "brain" the Wizard gives him (a mixture of bran, pins, and needles) is symbolic. Bran represents nutrition for thought. Pins and needles represent sharp thinking. None of it is magical, but believing he has a brain makes the Scarecrow confident enough to use the intelligence he always had.</p><p>**The Tin Woodman's Heart (Compassion)**:
 The Tin Woodman thinks he can't feel because he has no biological heart. Yet he:
 - Cries when he accidentally steps on a beetle
 - Refuses to hurt any living thing
 - Risks himself to protect Dorothy
-- Shows more compassion than most "hearted" characters</p><p style="margin-bottom: 15px;">The silk heart stuffed with sawdust that the Wizard gives him doesn't enable feeling — it validates feelings he already has. He learns that having a heart isn't about anatomy; it's about how you treat others.</p><p style="margin-bottom: 15px;">**The Lion's Courage (Bravery)**:
-The Lion defines courage as absence of fear. He thinks being brave means never being scared. But true courage is acting despite fear.</p><p style="margin-bottom: 15px;">Throughout the journey, the Lion is terrified — but he acts anyway:
+- Shows more compassion than most "hearted" characters</p><p>The silk heart stuffed with sawdust that the Wizard gives him doesn't enable feeling — it validates feelings he already has. He learns that having a heart isn't about anatomy; it's about how you treat others.</p><p>**The Lion's Courage (Bravery)**:
+The Lion defines courage as absence of fear. He thinks being brave means never being scared. But true courage is acting despite fear.</p><p>Throughout the journey, the Lion is terrified — but he acts anyway:
 - He crosses dangerous rivers
 - He fights fierce beasts (Kalidahs)
 - He leaps over chasms
-- He protects his friends</p><p style="margin-bottom: 15px;">The drink the Wizard gives him as "courage" is colored water. But believing he's brave makes the Lion recognize the courage he's demonstrated all along.</p><p style="margin-bottom: 15px;">**Why These Three?**:</p><p style="margin-bottom: 15px;">Brain, Heart, and Courage represent three essential aspects of being human:
+- He protects his friends</p><p>The drink the Wizard gives him as "courage" is colored water. But believing he's brave makes the Lion recognize the courage he's demonstrated all along.</p><p>**Why These Three?**:</p><p>Brain, Heart, and Courage represent three essential aspects of being human:
 1. **Thinking** (brain/wisdom): Making good decisions
 2. **Feeling** (heart/compassion): Caring about others
-3. **Acting** (courage/bravery): Doing what's right despite difficulty</p><p style="margin-bottom: 15px;">All three are necessary. Wisdom without compassion becomes cold calculation. Compassion without courage becomes passive sympathy. Courage without wisdom becomes reckless foolishness.</p><p style="margin-bottom: 15px;">**Cultural Universality**:</p><p style="margin-bottom: 15px;">Every culture values these three qualities, though they use different words:
+3. **Acting** (courage/bravery): Doing what's right despite difficulty</p><p>All three are necessary. Wisdom without compassion becomes cold calculation. Compassion without courage becomes passive sympathy. Courage without wisdom becomes reckless foolishness.</p><p>**Cultural Universality**:</p><p>Every culture values these three qualities, though they use different words:
 - Ancient Greeks valued wisdom (Athena), courage (Ares), and love (Aphrodite)
 - Christianity teaches faith, hope, and charity (love)
 - Buddhism emphasizes wisdom, compassion, and courage
 - Native American traditions honor the mind, heart, and spirit
-- Modern psychology recognizes thinking, feeling, and acting</p><p style="margin-bottom: 15px;">**The Real Magic**:</p><p style="margin-bottom: 15px;">The Wizard's great trick isn't creating fake brains, hearts, and courage. It's helping the characters recognize what they already possess. He's a therapist, not a magician. He changes their self-perception, and that changes everything.</p><p style="margin-bottom: 15px;">This is the story's deepest wisdom: We often have what we think we're missing. We just don't recognize it or trust it. Sometimes we need:
+- Modern psychology recognizes thinking, feeling, and acting</p><p>**The Real Magic**:</p><p>The Wizard's great trick isn't creating fake brains, hearts, and courage. It's helping the characters recognize what they already possess. He's a therapist, not a magician. He changes their self-perception, and that changes everything.</p><p>This is the story's deepest wisdom: We often have what we think we're missing. We just don't recognize it or trust it. Sometimes we need:
 - Validation: Someone telling us we're capable
 - Evidence: Seeing ourselves succeed
 - Permission: Being told it's okay to use our abilities
-- Confidence: Believing in ourselves</p><p style="margin-bottom: 15px;">**Modern Application**:</p><p style="margin-bottom: 15px;">When you feel you lack something important, ask yourself:
+- Confidence: Believing in ourselves</p><p>**Modern Application**:</p><p>When you feel you lack something important, ask yourself:
 1. **Brain**: Have I used intelligence/creativity in the past, even if I didn't recognize it?
 2. **Heart**: Have I shown kindness/compassion, even in small ways?
-3. **Courage**: Have I done difficult things despite being scared?</p><p style="margin-bottom: 15px;">The answer is probably yes. Like Dorothy's friends, you likely have more wisdom, compassion, and courage than you give yourself credit for.</p><p style="margin-bottom: 15px;">The Wizard's lesson: You don't need magic to develop these qualities. You need to recognize and use what's already within you. Brain, heart, and courage aren't given — they're discovered.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 8: Grammar
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar: Prepositions and Prepositional Phrases</h2>
-                            <div style="margin: 20px 0;">
-                                <h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>
-                                <div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">
-                                    <p style="margin-bottom: 10px;">Prepositions show relationships between words. Common prepositions: in, on, over, under, by, with, to, from</p><p style="margin-bottom: 10px;">**Prepositional phrase** = preposition + noun
-Example: Dorothy walked *to the castle*.</p>
-                                </div>
-                                <h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>
-                                <ul style="margin-bottom: 20px; line-height: 1.8;">
-                                    <li>The house landed *in Oz*.</li><li>The Scarecrow stood *on a pole*.</li><li>They walked *through the forest*.</li>
-                                </ul>
-                                <h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>
-                                <div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">1. Find the prepositional phrase: Dorothy walked across the yellow brick road with Toto.</p><textarea id="grammar-1" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div><div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">2. Write a sentence using two prepositional phrases.</p><textarea id="grammar-2" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 9: Writing
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✍️ Writing Time</h2>
-                            <p style="margin-bottom: 15px;">Write a journal entry about what happened in today's chapter. How would you feel if you were Dorothy?</p>
-                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 150px;" placeholder="Start writing..."></textarea>
-                        </div>
-                    `
-                },
-                
-                // Page 10: Completion
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h2 style="color: #305853; font-size: 36px; margin-bottom: 20px;">Great Job! 🎉</h2>
-                            <p style="font-size: 18px; color: #666;">You've completed Day 26!</p>
-                            <p style="font-size: 16px; color: #666; margin-top: 15px;">Click "Finish Lesson" to save your progress.</p>
-                        </div>
-                    `
-                }
-            ]
+3. **Courage**: Have I done difficult things despite being scared?</p><p>The answer is probably yes. Like Dorothy's friends, you likely have more wisdom, compassion, and courage than you give yourself credit for.</p><p>The Wizard's lesson: You don't need magic to develop these qualities. You need to recognize and use what's already within you. Brain, heart, and courage aren't given — they're discovered.</p>
+                    </div>
+                    
+                    <h3>Questions:</h3>
+                    <div class="question-card">
+                        <p><strong>1.</strong> What did you learn from this text?</p>
+                        <textarea id="info-26-1" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                    <div class="question-card">
+                        <p><strong>2.</strong> How does this information help you understand the story?</p>
+                        <textarea id="info-26-2" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "writing",
+        "content": isOdd ? `
+                    <h2>✍️ Writing Practice</h2>
+                    <p>Write a paragraph about today's chapter. Use both vocabulary words.</p>
+                    <div class="writing-prompt">
+                        <textarea id="writing-26" rows="12" placeholder="Your paragraph..."></textarea>
+                    </div>
+                ` : `
+                    <h2>📝 Journal Response</h2>
+                    <p>Reflect on today's reading. How would you feel if you were Dorothy? What would you do?</p>
+                    <div class="journal-prompt">
+                        <textarea id="journal-26" rows="12" placeholder="Your journal entry..."></textarea>
+                    </div>
+                `
+    }
+]
         };
 
         if (typeof initLessonViewer === 'function') {
             initLessonViewer(lesson26Config);
+        } else {
+            console.error('initLessonViewer function not found!');
         }
     </script>
 </body>

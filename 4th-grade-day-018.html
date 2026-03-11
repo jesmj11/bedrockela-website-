@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day 18 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container"></div>
@@ -16,87 +15,90 @@
     <script src="firebase-config.js"></script>
     <script src="js/lesson-completion.js?v=1772665488"></script>
     <script src="js/lesson-autosave.js?v=1772665488"></script>
-    
+
     <script>
         const lesson18Config = {
-            lessonId: '4th-grade-day-18',
+            lessonId: '4th-grade-day-018',
             gradeLevel: '4th-grade',
-            title: 'Day 18 - Wizard of Oz',
+            title: 'Day 18 - The Wizard of Oz',
             pages: [
-                // Page 1: Title
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h1>Day 18</h1>
-                            <div class="subtitle">4th Grade ELA • Week 4</div>
-                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
-                                The Wonderful Wizard of Oz
-                            </p>
-                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 18: The Balloon
-                            </p>
+    {
+        "type": "title",
+        "content": `
+                    <h1>Day 18</h1>
+                    <h2>The Wizard of Oz</h2>
+                    <p class="unit-label">4th Grade • Week 4</p>
+                    <p class="chapter-info">The Balloon</p>
+                `
+    },
+    {
+        "type": "content",
+        "content": `
+                    <h2>📚 Welcome to Day 18!</h2>
+                    <div class="objectives-box">
+                        <h3>Today's Learning Goals:</h3>
+                        <ul>
+                            <li>Learn 2 new vocabulary words</li>
+                            <li>Read The Balloon</li>
+                            <li>Practice Compound Words</li>
+                            <li>Explore informational text</li>
+                            <li>Complete a journal activity</li>
+                        </ul>
+                        <p><strong>Estimated time:</strong> 45-60 minutes</p>
+                    </div>
+                `
+    },
+    {
+        "type": "vocabulary",
+        "content": `
+                    <h2>📖 Vocabulary</h2>
+                    <p>Learn these 2 words before reading:</p>
+                    
+                    <div class="vocab-word-card">
+                        <h3>1. inflate</h3>
+                        <p class="definition"><strong>Definition:</strong> To fill something with air or gas so it expands and rises.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-18-1" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                    
+                    <div class="vocab-word-card">
+                        <h3>2. vanished</h3>
+                        <p class="definition"><strong>Definition:</strong> Disappeared suddenly and completely, as if into thin air.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-18-2" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "activity",
+        "content": `
+                    <h2>🎮 Vocabulary Matching Game</h2>
+                    <p style="color: #666; margin-bottom: 5px;">Match each word to its definition!</p>
+                    <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 2</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                        <div id="wordColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                            <div class="match-word" data-word="inflate" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">inflate</div>
+                            <div class="match-word" data-word="vanished" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">vanished</div>
                         </div>
-                    `
-                },
-                
-                // Page 2: Objectives
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Welcome to Day 18!</h2>
-                            <p>Today you will:</p>
-                            <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Learn 2 new vocabulary words</li>
-                                <li>Read <strong>The Balloon</strong></li>
-                                <li>Answer 2 comprehension questions</li>
-                                <li>Practice language skills</li>
-                                <li>Complete a writing task</li>
-                            </ul>
-                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        <div id="defColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                            <div class="match-def" data-word="inflate" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">To fill something with air or gas so it expands and rises.</div>
+                            <div class="match-def" data-word="vanished" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Disappeared suddenly and completely, as if into thin air.</div>
                         </div>
-                    `
-                },
-                
-                // Page 3: Vocabulary
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 Vocabulary Words</h2>
-                            
-                            <div style="margin: 30px 0;">
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">inflate</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(verb)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">To fill something with air or gas so it expands and rises.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> The great green silk balloon was inflated with hot air until it swelled and rose, tugging at its ropes.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> The balloon is the Wizard's last trick — made of silk and hot air, just like his other illusions. Is this fitting?</p>
-                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                                
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">vanished</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(verb)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Disappeared suddenly and completely, as if into thin air.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> The balloon rose into the sky and vanished, leaving Dorothy behind with no way to get home.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> How does it feel when something you were counting on vanishes? How does Dorothy handle this moment of lost hope?</p>
-                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 4: Story (full chapter)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 The Balloon</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                <p style="margin-bottom: 15px;">The man from Omaha set to work building a hot-air balloon. He had done it many times in the circus, and his hands remembered the craft even after all these years.
+                    </div>
+                    
+                    <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                `,
+                onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Balloon - Part 1</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;">The man from Omaha set to work building a hot-air balloon. He had done it many times in the circus, and his hands remembered the craft even after all these years.
 He cut strips of green silk — there was plenty of green silk in the Emerald City — and sewed them together into a great bag, wider at the top and narrow at the bottom. He coated the inside with thin glue to keep the hot air from leaking out. Then he attached the bag to a large wicker basket, big enough for two people and one small dog.
 While he worked, word spread through the city that the great Wizard of Oz was leaving. The people were upset, but the man calmed them.
 "I am going away on a journey," he announced from the palace balcony. "While I am gone, the Scarecrow will rule over you. He has brains now, and he will govern you wisely."
@@ -131,119 +133,121 @@ Then the Scarecrow put his stuffed hand on her shoulder. The Tin Woodman stood o
 "We are with you," the Lion said.
 Dorothy looked at her three friends — the ones who were supposed to need her help, who had turned out to be the ones helping her — and she allowed herself one small, tired smile.
 "All right," she said. "Another way."</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 5: Comprehension - Multiple Choice
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Reading Comprehension</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">1. Why does the balloon leave without Dorothy?</p>
-                                <div>
-                                    <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> The Wizard leaves her behind on purpose</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> Toto chases a cat, Dorothy runs after him, and the ropes break before she can get back</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> The balloon is too small for two people</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> Dorothy decides she does not want to leave</label>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 6: Comprehension - Short Answer
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Short Answer</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">2. Dorothy's hope of getting home disappears with the balloon. But her friends immediately gather around her and promise to find another way. What does this moment tell you about the value of friendship when things go wrong?</p>
-                                <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Hint:</strong> Dorothy has lost her ride home, but she has not lost the people who love her. Sometimes that is the more important thing.</p>
-                                <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 120px;" placeholder="Write your answer here..."></textarea>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 7: Informational Text
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>🌍 Informational Text: Friendship Across Differences</h2>
-                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
-                                <p style="margin-bottom: 15px;">One of the most beautiful aspects of The Wizard of Oz is how four completely different individuals become loyal friends. Dorothy (human), the Scarecrow (straw), the Tin Woodman (metal), and the Lion (animal) have almost nothing in common — except their journey and their care for each other.</p><p style="margin-bottom: 15px;">Each character believes they're missing something essential:
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Balloon - Part 2</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Balloon - Part 3</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "comprehension",
+        "content": `
+                    <h2>💭 Reading Comprehension</h2>
+                    <p>Answer these questions about today's reading:</p>
+                    
+                    <div class="question-card">
+                        <p><strong>1.</strong> Why does the balloon leave without Dorothy?</p>
+                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> The Wizard leaves her behind on purpose</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> Toto chases a cat, Dorothy runs after him, and the ropes break before she can get back</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> The balloon is too small for two people</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> Dorothy decides she does not want to leave</label>
+                    </div>
+                    
+                    <div class="question-card" style="margin-top: 20px;">
+                        <p><strong>2.</strong> Dorothy's hope of getting home disappears with the balloon. But her friends immediately gather around her and promise to find another way. What does this moment tell you about the value of friendship when things go wrong?</p>
+                        <p style="font-size: 14px; color: #666; margin-bottom: 10px;"><strong>Hint:</strong> Dorothy has lost her ride home, but she has not lost the people who love her. Sometimes that is the more important thing.</p>
+                        <textarea id="comp-short" rows="8" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "grammar-language",
+        "content": skill ? `
+                    <h2>✏️ Compound Words</h2>
+                    <div class="skill-explanation">
+                        <p>Two words combined to make one new word.</p>
+                    </div>
+                    
+                    <h3>Examples:</h3>
+                    <ul>
+                        <li>sun + light = sunlight</li><li>rain + bow = rainbow</li>
+                    </ul>
+                    
+                    <h3>Practice:</h3>
+                    <div class="exercise-card"><p><strong>1.</strong> Make a compound word with "yellow"</p><textarea id="skill-18-1" rows="6" placeholder="Your answer..."></textarea></div>
+                ` : '<p>Skill content will be added.</p>'
+    },
+    {
+        "type": "informational",
+        "content": `
+                    <h2>🌍 Informational Text: Friendship Across Differences</h2>
+                    <div class="informational-article">
+                        <p>One of the most beautiful aspects of The Wizard of Oz is how four completely different individuals become loyal friends. Dorothy (human), the Scarecrow (straw), the Tin Woodman (metal), and the Lion (animal) have almost nothing in common — except their journey and their care for each other.</p><p>Each character believes they're missing something essential:
 - The Scarecrow thinks he's stupid because he has straw instead of a brain
 - The Tin Woodman thinks he can't feel because he has no heart
 - The Lion thinks he's a coward because he feels fear
-- Dorothy thinks she's powerless because she's far from home</p><p style="margin-bottom: 15px;">Yet when we watch them interact, we see the truth:
+- Dorothy thinks she's powerless because she's far from home</p><p>Yet when we watch them interact, we see the truth:
 - The Scarecrow devises clever plans and solves problems
 - The Tin Woodman shows deep compassion and kindness
 - The Lion acts bravely despite his fears
-- Dorothy leads, decides, and shows remarkable courage</p><p style="margin-bottom: 15px;">Their friendship works because they complement each other. When one character is weak in an area, another is strong. The Scarecrow's intelligence helps the group avoid danger. The Tin Woodman's compassion keeps them moral. The Lion's strength protects them. Dorothy's determination keeps them moving forward.</p><p style="margin-bottom: 15px;">This is what good friendship looks like: not sameness, but complementary strengths. Not pretending to be perfect, but accepting each other's perceived flaws. Not competing, but cooperating toward a common goal.</p><p style="margin-bottom: 15px;">Modern research on friendship confirms what Baum understood intuitively:
+- Dorothy leads, decides, and shows remarkable courage</p><p>Their friendship works because they complement each other. When one character is weak in an area, another is strong. The Scarecrow's intelligence helps the group avoid danger. The Tin Woodman's compassion keeps them moral. The Lion's strength protects them. Dorothy's determination keeps them moving forward.</p><p>This is what good friendship looks like: not sameness, but complementary strengths. Not pretending to be perfect, but accepting each other's perceived flaws. Not competing, but cooperating toward a common goal.</p><p>Modern research on friendship confirms what Baum understood intuitively:
 - Friends who are too similar can become competitive
 - Diverse friendships expose us to different perspectives
 - Accepting differences builds stronger bonds than demanding similarity
-- Working together toward shared goals creates deep connections</p><p style="margin-bottom: 15px;">The group's differences also prevent groupthink. Because they see the world differently, they catch things others might miss. The Scarecrow notices logical problems. The Tin Woodman notices ethical concerns. The Lion notices physical dangers. Dorothy notices emotional needs.</p><p style="margin-bottom: 15px;">Their friendship teaches us:
+- Working together toward shared goals creates deep connections</p><p>The group's differences also prevent groupthink. Because they see the world differently, they catch things others might miss. The Scarecrow notices logical problems. The Tin Woodman notices ethical concerns. The Lion notices physical dangers. Dorothy notices emotional needs.</p><p>Their friendship teaches us:
 1. Look beyond surface differences to find common ground
 2. Value what others bring to the group, even if it's different from what you offer
 3. Don't define people by their limitations; see their strengths
 4. True friends help you see abilities you didn't know you had
-5. Working together makes everyone stronger than they'd be alone</p><p style="margin-bottom: 15px;">In a world that often divides people by race, religion, nationality, or background, The Wizard of Oz offers a powerful counter-message: Friendship transcends all boundaries. A girl, a scarecrow, a tin man, and a lion prove that the only requirements for friendship are kindness, loyalty, and a shared journey toward something better.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 8: Grammar
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar: Possessive Nouns</h2>
-                            <div style="margin: 20px 0;">
-                                <h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>
-                                <div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">
-                                    <p style="margin-bottom: 10px;">Possessive nouns show ownership. Use an apostrophe + s ('s).</p><p style="margin-bottom: 10px;">Examples:
-- Dorothy's shoes (the shoes belong to Dorothy)
-- the Scarecrow's brain (the brain belongs to the Scarecrow)
-- the witch's castle (the castle belongs to the witch)</p>
-                                </div>
-                                <h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>
-                                <ul style="margin-bottom: 20px; line-height: 1.8;">
-                                    <li>Aunt Em's house was small.</li><li>The Lion's courage grew stronger.</li><li>The Wizard's tricks fooled everyone.</li>
-                                </ul>
-                                <h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>
-                                <div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">1. Make possessive: The shoes of Dorothy were silver.</p><textarea id="grammar-1" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div><div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">2. Write a sentence using a possessive noun about a character.</p><textarea id="grammar-2" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 9: Writing
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✍️ Writing Time</h2>
-                            <p style="margin-bottom: 15px;">Write a journal entry about what happened in today's chapter. How would you feel if you were Dorothy?</p>
-                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 150px;" placeholder="Start writing..."></textarea>
-                        </div>
-                    `
-                },
-                
-                // Page 10: Completion
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h2 style="color: #305853; font-size: 36px; margin-bottom: 20px;">Great Job! 🎉</h2>
-                            <p style="font-size: 18px; color: #666;">You've completed Day 18!</p>
-                            <p style="font-size: 16px; color: #666; margin-top: 15px;">Click "Finish Lesson" to save your progress.</p>
-                        </div>
-                    `
-                }
-            ]
+5. Working together makes everyone stronger than they'd be alone</p><p>In a world that often divides people by race, religion, nationality, or background, The Wizard of Oz offers a powerful counter-message: Friendship transcends all boundaries. A girl, a scarecrow, a tin man, and a lion prove that the only requirements for friendship are kindness, loyalty, and a shared journey toward something better.</p>
+                    </div>
+                    
+                    <h3>Questions:</h3>
+                    <div class="question-card">
+                        <p><strong>1.</strong> What did you learn from this text?</p>
+                        <textarea id="info-18-1" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                    <div class="question-card">
+                        <p><strong>2.</strong> How does this information help you understand the story?</p>
+                        <textarea id="info-18-2" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "writing",
+        "content": isOdd ? `
+                    <h2>✍️ Writing Practice</h2>
+                    <p>Write a paragraph about today's chapter. Use both vocabulary words.</p>
+                    <div class="writing-prompt">
+                        <textarea id="writing-18" rows="12" placeholder="Your paragraph..."></textarea>
+                    </div>
+                ` : `
+                    <h2>📝 Journal Response</h2>
+                    <p>Reflect on today's reading. How would you feel if you were Dorothy? What would you do?</p>
+                    <div class="journal-prompt">
+                        <textarea id="journal-18" rows="12" placeholder="Your journal entry..."></textarea>
+                    </div>
+                `
+    }
+]
         };
 
         if (typeof initLessonViewer === 'function') {
             initLessonViewer(lesson18Config);
+        } else {
+            console.error('initLessonViewer function not found!');
         }
     </script>
 </body>

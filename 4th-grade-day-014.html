@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day 14 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container"></div>
@@ -16,87 +15,90 @@
     <script src="firebase-config.js"></script>
     <script src="js/lesson-completion.js?v=1772665488"></script>
     <script src="js/lesson-autosave.js?v=1772665488"></script>
-    
+
     <script>
         const lesson14Config = {
-            lessonId: '4th-grade-day-14',
+            lessonId: '4th-grade-day-014',
             gradeLevel: '4th-grade',
-            title: 'Day 14 - Wizard of Oz',
+            title: 'Day 14 - The Wizard of Oz',
             pages: [
-                // Page 1: Title
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h1>Day 14</h1>
-                            <div class="subtitle">4th Grade ELA • Week 3</div>
-                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
-                                The Wonderful Wizard of Oz
-                            </p>
-                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 14: The Melting of the Witch
-                            </p>
+    {
+        "type": "title",
+        "content": `
+                    <h1>Day 14</h1>
+                    <h2>The Wizard of Oz</h2>
+                    <p class="unit-label">4th Grade • Week 3</p>
+                    <p class="chapter-info">The Melting of the Witch</p>
+                `
+    },
+    {
+        "type": "content",
+        "content": `
+                    <h2>📚 Welcome to Day 14!</h2>
+                    <div class="objectives-box">
+                        <h3>Today's Learning Goals:</h3>
+                        <ul>
+                            <li>Learn 2 new vocabulary words</li>
+                            <li>Read The Melting of the Witch</li>
+                            <li>Practice Adjectives and Adverbs</li>
+                            <li>Explore informational text</li>
+                            <li>Complete a journal activity</li>
+                        </ul>
+                        <p><strong>Estimated time:</strong> 45-60 minutes</p>
+                    </div>
+                `
+    },
+    {
+        "type": "vocabulary",
+        "content": `
+                    <h2>📖 Vocabulary</h2>
+                    <p>Learn these 2 words before reading:</p>
+                    
+                    <div class="vocab-word-card">
+                        <h3>1. dissolved</h3>
+                        <p class="definition"><strong>Definition:</strong> Melted away or broke apart into nothing. Disappeared completely.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-14-1" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                    
+                    <div class="vocab-word-card">
+                        <h3>2. liberated</h3>
+                        <p class="definition"><strong>Definition:</strong> Set free from imprisonment or control. Released from someone's power.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-14-2" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "activity",
+        "content": `
+                    <h2>🎮 Vocabulary Matching Game</h2>
+                    <p style="color: #666; margin-bottom: 5px;">Match each word to its definition!</p>
+                    <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 2</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                        <div id="wordColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                            <div class="match-word" data-word="dissolved" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">dissolved</div>
+                            <div class="match-word" data-word="liberated" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">liberated</div>
                         </div>
-                    `
-                },
-                
-                // Page 2: Objectives
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Welcome to Day 14!</h2>
-                            <p>Today you will:</p>
-                            <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Learn 2 new vocabulary words</li>
-                                <li>Read <strong>The Melting of the Witch</strong></li>
-                                <li>Answer 2 comprehension questions</li>
-                                <li>Practice language skills</li>
-                                <li>Complete a writing task</li>
-                            </ul>
-                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        <div id="defColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                            <div class="match-def" data-word="dissolved" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Melted away or broke apart into nothing. Disappeared completely.</div>
+                            <div class="match-def" data-word="liberated" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Set free from imprisonment or control. Released from someone's power.</div>
                         </div>
-                    `
-                },
-                
-                // Page 3: Vocabulary
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 Vocabulary Words</h2>
-                            
-                            <div style="margin: 30px 0;">
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">dissolved</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(verb)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Melted away or broke apart into nothing. Disappeared completely.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> The Wicked Witch dissolved into a brown puddle on the kitchen floor, destroyed by nothing more than a bucket of water.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> The most powerful villain in the story is destroyed by something ordinary. What might the author be saying about the nature of evil?</p>
-                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                                
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">liberated</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(verb/adjective)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Set free from imprisonment or control. Released from someone's power.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> The Winkies were liberated from the Witch's rule and celebrated with tears of joy.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> How do the Winkies change once they are liberated? What does freedom look like after years of fear?</p>
-                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 4: Story (full chapter)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 The Melting of the Witch</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                <p style="margin-bottom: 15px;">The next morning, Dorothy filled her bucket at the well and carried it into the kitchen. The Witch was waiting for her, wearing the stolen silver shoe on one foot and nothing on the other. She was in a foul mood.
+                    </div>
+                    
+                    <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                `,
+                onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Melting of the Witch - Part 1</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;">The next morning, Dorothy filled her bucket at the well and carried it into the kitchen. The Witch was waiting for her, wearing the stolen silver shoe on one foot and nothing on the other. She was in a foul mood.
 "Scrub faster!" the Witch snapped. "And when you are finished with the kitchen, scrub the hallway. And when you are finished with the hallway, scrub the stairs. I want every stone in this castle clean enough to eat from."
 Dorothy scrubbed. The water sloshed in the bucket, and the Witch kept her distance, watching from the doorway with her one terrible eye.
 It happened quickly.
@@ -126,107 +128,108 @@ The Winkies found the Scarecrow's clothes in the top of a tall tree, empty and f
 Dorothy threw her arms around him. Then around the Tin Woodman. Then around the Lion. Toto barked and ran in circles around all of them.
 They were together again. And the Wicked Witch was gone.
 "Now," Dorothy said, "let us go back to the Emerald City and tell Oz."</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 5: Comprehension - Multiple Choice
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Reading Comprehension</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">1. How is the Wicked Witch destroyed?</p>
-                                <div>
-                                    <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> Dorothy fights her with a sword</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> The Lion attacks her</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> Water accidentally splashes on her and she melts</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> The Wizard sends a spell to destroy her</label>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 6: Comprehension - Short Answer
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Short Answer</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">2. The most powerful villain in the story is destroyed by an accident — a bucket of water. Dorothy did not plan it or mean to do it. What might the author be saying about the nature of wicked power? Is it as strong as it seems?</p>
-                                <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Hint:</strong> The Witch ruled through FEAR. But her actual weakness was something ordinary. What does that tell you about bullies and fear?</p>
-                                <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 120px;" placeholder="Write your answer here..."></textarea>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 7: Informational Text
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>🌍 Informational Text: From Page to Stage: The Wizard of Oz Adaptations</h2>
-                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
-                                <p style="margin-bottom: 15px;">"The Wonderful Wizard of Oz" became a phenomenon almost immediately after publication in 1900. Within two years, it was adapted into a Broadway musical. By 1939, it became one of the most famous movies ever made. Today, it exists in countless versions across all media.</p><p style="margin-bottom: 15px;">The 1902 Broadway musical was very different from the book. It added characters, changed the story, and included adult humor. It was a spectacular production with elaborate sets and costumes. The show ran for years and toured across America, making the story even more popular.</p><p style="margin-bottom: 15px;">Then came the 1939 MGM film — the version most people know today. This movie made several major changes:
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Melting of the Witch - Part 2</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Melting of the Witch - Part 3</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "comprehension",
+        "content": `
+                    <h2>💭 Reading Comprehension</h2>
+                    <p>Answer these questions about today's reading:</p>
+                    
+                    <div class="question-card">
+                        <p><strong>1.</strong> How is the Wicked Witch destroyed?</p>
+                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> Dorothy fights her with a sword</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> The Lion attacks her</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> Water accidentally splashes on her and she melts</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> The Wizard sends a spell to destroy her</label>
+                    </div>
+                    
+                    <div class="question-card" style="margin-top: 20px;">
+                        <p><strong>2.</strong> The most powerful villain in the story is destroyed by an accident — a bucket of water. Dorothy did not plan it or mean to do it. What might the author be saying about the nature of wicked power? Is it as strong as it seems?</p>
+                        <p style="font-size: 14px; color: #666; margin-bottom: 10px;"><strong>Hint:</strong> The Witch ruled through FEAR. But her actual weakness was something ordinary. What does that tell you about bullies and fear?</p>
+                        <textarea id="comp-short" rows="8" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "grammar-language",
+        "content": skill ? `
+                    <h2>✏️ Adjectives and Adverbs</h2>
+                    <div class="skill-explanation">
+                        <p>Adjectives describe nouns. Adverbs describe verbs (often end in -ly).</p>
+                    </div>
+                    
+                    <h3>Examples:</h3>
+                    <ul>
+                        <li>"The wicked witch" (adjective)</li><li>"Dorothy walked quickly" (adverb)</li>
+                    </ul>
+                    
+                    <h3>Practice:</h3>
+                    <div class="exercise-card"><p><strong>1.</strong> Find the adjective: "The yellow brick road"</p><textarea id="skill-14-1" rows="6" placeholder="Your answer..."></textarea></div><div class="exercise-card"><p><strong>2.</strong> Find the adverb: "Toto barked loudly"</p><textarea id="skill-14-2" rows="6" placeholder="Your answer..."></textarea></div>
+                ` : '<p>Skill content will be added.</p>'
+    },
+    {
+        "type": "informational",
+        "content": `
+                    <h2>🌍 Informational Text: From Page to Stage: The Wizard of Oz Adaptations</h2>
+                    <div class="informational-article">
+                        <p>"The Wonderful Wizard of Oz" became a phenomenon almost immediately after publication in 1900. Within two years, it was adapted into a Broadway musical. By 1939, it became one of the most famous movies ever made. Today, it exists in countless versions across all media.</p><p>The 1902 Broadway musical was very different from the book. It added characters, changed the story, and included adult humor. It was a spectacular production with elaborate sets and costumes. The show ran for years and toured across America, making the story even more popular.</p><p>Then came the 1939 MGM film — the version most people know today. This movie made several major changes:
 - The slippers are ruby instead of silver (because color film showed red better than silver)
 - Dorothy's journey might be a dream (the book makes it clear Oz is real)
 - The farmhands become the Scarecrow, Tin Man, and Lion (connecting Kansas to Oz)
-- The Wicked Witch of the West becomes the main villain</p><p style="margin-bottom: 15px;">The film also gave us "Over the Rainbow," one of the most beloved songs in cinema history. Judy Garland's performance as Dorothy made her a star and defined the character for generations.</p><p style="margin-bottom: 15px;">Why has this story been adapted so many times? Because it works on multiple levels. Young children enjoy the adventure and colorful characters. Older children relate to Dorothy's journey of self-discovery. Adults appreciate the deeper themes about courage, wisdom, compassion, and finding your place in the world.</p><p style="margin-bottom: 15px;">The story also adapts well to different interpretations. Some versions focus on the fantasy and spectacle. Others emphasize the political allegory (some scholars think the story symbolizes American economic policies of the 1890s). Still others highlight the friendship and personal growth themes.</p><p style="margin-bottom: 15px;">Modern adaptations continue to reimagine Oz. "Wicked" tells the story from the Witch's perspective. "The Wiz" retells it with an African American cast and urban setting. There are Oz prequels, sequels, and spin-offs exploring every corner of Baum's magical world.</p><p style="margin-bottom: 15px;">Each generation discovers Oz anew and finds something meaningful in Dorothy's journey. The story's core themes — friendship, courage, home, and self-discovery — remain universal and timeless.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 8: Grammar
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar: Contractions</h2>
-                            <div style="margin: 20px 0;">
-                                <h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>
-                                <div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">
-                                    <p style="margin-bottom: 10px;">A contraction combines two words and uses an apostrophe (') to show where letters are missing.</p><p style="margin-bottom: 10px;">Common contractions:
-- do not → don't
-- I am → I'm  
-- cannot → can't
-- it is → it's</p>
-                                </div>
-                                <h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>
-                                <ul style="margin-bottom: 20px; line-height: 1.8;">
-                                    <li>I'm going to the Emerald City. (I am)</li><li>The Wizard doesn't have magic. (does not)</li><li>They're on a journey. (they are)</li>
-                                </ul>
-                                <h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>
-                                <div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">1. Make contractions: I do not know where we are going.</p><textarea id="grammar-1" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div><div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">2. Write a sentence using at least one contraction.</p><textarea id="grammar-2" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 9: Writing
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✍️ Writing Time</h2>
-                            <p style="margin-bottom: 15px;">Write a journal entry about what happened in today's chapter. How would you feel if you were Dorothy?</p>
-                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 150px;" placeholder="Start writing..."></textarea>
-                        </div>
-                    `
-                },
-                
-                // Page 10: Completion
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h2 style="color: #305853; font-size: 36px; margin-bottom: 20px;">Great Job! 🎉</h2>
-                            <p style="font-size: 18px; color: #666;">You've completed Day 14!</p>
-                            <p style="font-size: 16px; color: #666; margin-top: 15px;">Click "Finish Lesson" to save your progress.</p>
-                        </div>
-                    `
-                }
-            ]
+- The Wicked Witch of the West becomes the main villain</p><p>The film also gave us "Over the Rainbow," one of the most beloved songs in cinema history. Judy Garland's performance as Dorothy made her a star and defined the character for generations.</p><p>Why has this story been adapted so many times? Because it works on multiple levels. Young children enjoy the adventure and colorful characters. Older children relate to Dorothy's journey of self-discovery. Adults appreciate the deeper themes about courage, wisdom, compassion, and finding your place in the world.</p><p>The story also adapts well to different interpretations. Some versions focus on the fantasy and spectacle. Others emphasize the political allegory (some scholars think the story symbolizes American economic policies of the 1890s). Still others highlight the friendship and personal growth themes.</p><p>Modern adaptations continue to reimagine Oz. "Wicked" tells the story from the Witch's perspective. "The Wiz" retells it with an African American cast and urban setting. There are Oz prequels, sequels, and spin-offs exploring every corner of Baum's magical world.</p><p>Each generation discovers Oz anew and finds something meaningful in Dorothy's journey. The story's core themes — friendship, courage, home, and self-discovery — remain universal and timeless.</p>
+                    </div>
+                    
+                    <h3>Questions:</h3>
+                    <div class="question-card">
+                        <p><strong>1.</strong> What did you learn from this text?</p>
+                        <textarea id="info-14-1" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                    <div class="question-card">
+                        <p><strong>2.</strong> How does this information help you understand the story?</p>
+                        <textarea id="info-14-2" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "writing",
+        "content": isOdd ? `
+                    <h2>✍️ Writing Practice</h2>
+                    <p>Write a paragraph about today's chapter. Use both vocabulary words.</p>
+                    <div class="writing-prompt">
+                        <textarea id="writing-14" rows="12" placeholder="Your paragraph..."></textarea>
+                    </div>
+                ` : `
+                    <h2>📝 Journal Response</h2>
+                    <p>Reflect on today's reading. How would you feel if you were Dorothy? What would you do?</p>
+                    <div class="journal-prompt">
+                        <textarea id="journal-14" rows="12" placeholder="Your journal entry..."></textarea>
+                    </div>
+                `
+    }
+]
         };
 
         if (typeof initLessonViewer === 'function') {
             initLessonViewer(lesson14Config);
+        } else {
+            console.error('initLessonViewer function not found!');
         }
     </script>
 </body>

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day 23 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container"></div>
@@ -16,87 +15,90 @@
     <script src="firebase-config.js"></script>
     <script src="js/lesson-completion.js?v=1772665488"></script>
     <script src="js/lesson-autosave.js?v=1772665488"></script>
-    
+
     <script>
         const lesson23Config = {
-            lessonId: '4th-grade-day-23',
+            lessonId: '4th-grade-day-023',
             gradeLevel: '4th-grade',
-            title: 'Day 23 - Wizard of Oz',
+            title: 'Day 23 - The Wizard of Oz',
             pages: [
-                // Page 1: Title
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h1>Day 23</h1>
-                            <div class="subtitle">4th Grade ELA • Week 5</div>
-                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
-                                The Wonderful Wizard of Oz
-                            </p>
-                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 23: There's No Place Like Home
-                            </p>
+    {
+        "type": "title",
+        "content": `
+                    <h1>Day 23</h1>
+                    <h2>The Wizard of Oz</h2>
+                    <p class="unit-label">4th Grade • Week 5</p>
+                    <p class="chapter-info">There's No Place Like Home</p>
+                `
+    },
+    {
+        "type": "content",
+        "content": `
+                    <h2>📚 Welcome to Day 23!</h2>
+                    <div class="objectives-box">
+                        <h3>Today's Learning Goals:</h3>
+                        <ul>
+                            <li>Learn 2 new vocabulary words</li>
+                            <li>Read There's No Place Like Home</li>
+                            <li>Practice Adverbs: Describing Verbs</li>
+                            <li>Explore informational text</li>
+                            <li>Complete a writing activity</li>
+                        </ul>
+                        <p><strong>Estimated time:</strong> 45-60 minutes</p>
+                    </div>
+                `
+    },
+    {
+        "type": "vocabulary",
+        "content": `
+                    <h2>📖 Vocabulary</h2>
+                    <p>Learn these 2 words before reading:</p>
+                    
+                    <div class="vocab-word-card">
+                        <h3>1. reveal</h3>
+                        <p class="definition"><strong>Definition:</strong> To show or make known something that was hidden. A moment when the truth becomes clear.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-23-1" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                    
+                    <div class="vocab-word-card">
+                        <h3>2. bittersweet</h3>
+                        <p class="definition"><strong>Definition:</strong> Something that is both happy and sad at the same time. Joy mixed with sorrow.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-23-2" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "activity",
+        "content": `
+                    <h2>🎮 Vocabulary Matching Game</h2>
+                    <p style="color: #666; margin-bottom: 5px;">Match each word to its definition!</p>
+                    <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 2</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                        <div id="wordColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                            <div class="match-word" data-word="reveal" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">reveal</div>
+                            <div class="match-word" data-word="bittersweet" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">bittersweet</div>
                         </div>
-                    `
-                },
-                
-                // Page 2: Objectives
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Welcome to Day 23!</h2>
-                            <p>Today you will:</p>
-                            <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Learn 2 new vocabulary words</li>
-                                <li>Read <strong>There's No Place Like Home</strong></li>
-                                <li>Answer 2 comprehension questions</li>
-                                <li>Practice grammar skills</li>
-                                <li>Complete a writing task</li>
-                            </ul>
-                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        <div id="defColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                            <div class="match-def" data-word="reveal" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">To show or make known something that was hidden. A moment when the truth becomes clear.</div>
+                            <div class="match-def" data-word="bittersweet" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Something that is both happy and sad at the same time. Joy mixed with sorrow.</div>
                         </div>
-                    `
-                },
-                
-                // Page 3: Vocabulary
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 Vocabulary Words</h2>
-                            
-                            <div style="margin: 30px 0;">
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">reveal</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(noun/verb)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">To show or make known something that was hidden. A moment when the truth becomes clear.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> Glinda's reveal about the silver shoes was the biggest surprise of all — Dorothy had the power to go home the entire time.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> Why did Glinda wait to reveal the truth about the shoes? Was it kind or cruel to let Dorothy travel so far first?</p>
-                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                                
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">bittersweet</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(adjective)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Something that is both happy and sad at the same time. Joy mixed with sorrow.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> Leaving Oz was bittersweet — Dorothy was overjoyed to go home, but heartbroken to leave her friends.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> Can you think of a bittersweet moment in your own life? Why are the most meaningful moments often bittersweet?</p>
-                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 4: Story (full chapter)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 There's No Place Like Home</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                <p style="margin-bottom: 15px;">"The silver shoes," Glinda said, "have a very powerful magic. They can carry you anywhere in the world in three steps."
+                    </div>
+                    
+                    <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                `,
+                onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 There's No Place Like Home - Part 1</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;">"The silver shoes," Glinda said, "have a very powerful magic. They can carry you anywhere in the world in three steps."
 Dorothy looked down at the shoes on her feet. She had been wearing them since the very beginning — since the moment she took them from the Wicked Witch of the East on her first day in Oz. Through forests and poppy fields, through the Emerald City and the Witch's castle, through every danger and every mile of yellow brick road — the answer had been on her feet the entire time.
 "You mean," Dorothy said slowly, "I could have gone home from the very start?"
 "Yes," Glinda said.
@@ -126,134 +128,143 @@ She opened her eyes.
 In front of her was a farmhouse — a new one, because the old house had flown to Oz. Uncle Henry had built it while she was gone. It was small and plain, just like the old one. No emeralds. No rubies. No green marble or yellow brick.
 It was the most beautiful thing Dorothy had ever seen.
 And running across the yard toward her, arms outstretched, was Aunt Em.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 5: Comprehension - Multiple Choice
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Reading Comprehension</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">1. What is the secret of the silver shoes?</p>
-                                <div>
-                                    <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> They grant three wishes</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> They can carry the wearer anywhere in the world in three steps</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> They make the wearer invisible</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> They give the wearer magical powers</label>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 6: Comprehension - Short Answer
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Short Answer</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">2. Dorothy could have gone home from the very first day. If you were Dorothy, would you be upset that no one told you sooner? Or would you agree with Glinda that the journey was necessary? Explain your thinking.</p>
-                                <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Hint:</strong> Think about everything Dorothy gained from the journey — friends, experiences, wisdom. Could she have learned those things any other way?</p>
-                                <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 120px;" placeholder="Write your answer here..."></textarea>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 7: Informational Text
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>🌍 Informational Text: Kansas Geography: Understanding the Setting</h2>
-                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
-                                <p style="margin-bottom: 15px;">To truly understand Dorothy's story, we need to understand Kansas — not just any Kansas, but 1890s Kansas, where life was dramatically different from today.</p><p style="margin-bottom: 15px;">**The Geography**:
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 There's No Place Like Home - Part 2</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 There's No Place Like Home - Part 3</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "comprehension",
+        "content": `
+                    <h2>💭 Reading Comprehension</h2>
+                    <p>Answer these questions about today's reading:</p>
+                    
+                    <div class="question-card">
+                        <p><strong>1.</strong> What is the secret of the silver shoes?</p>
+                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> They grant three wishes</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> They can carry the wearer anywhere in the world in three steps</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> They make the wearer invisible</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> They give the wearer magical powers</label>
+                    </div>
+                    
+                    <div class="question-card" style="margin-top: 20px;">
+                        <p><strong>2.</strong> Dorothy could have gone home from the very first day. If you were Dorothy, would you be upset that no one told you sooner? Or would you agree with Glinda that the journey was necessary? Explain your thinking.</p>
+                        <p style="font-size: 14px; color: #666; margin-bottom: 10px;"><strong>Hint:</strong> Think about everything Dorothy gained from the journey — friends, experiences, wisdom. Could she have learned those things any other way?</p>
+                        <textarea id="comp-short" rows="8" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "grammar-language",
+        "content": skill ? `
+                    <h2>✏️ Adverbs: Describing Verbs</h2>
+                    <div class="skill-explanation">
+                        <p>Adverbs describe verbs. They tell how, when, or where.
+
+Many adverbs end in -ly:
+- quick → quickly
+- slow → slowly  
+- brave → bravely
+
+Example: Dorothy walked *quickly* down the road.</p>
+                    </div>
+                    
+                    <h3>Examples:</h3>
+                    <ul>
+                        <li>The Lion roared *loudly*. (how)</li><li>They arrived *yesterday*. (when)</li><li>The Scarecrow fell *down*. (where)</li>
+                    </ul>
+                    
+                    <h3>Practice:</h3>
+                    <div class="exercise-card"><p><strong>1.</strong> Add an adverb: Dorothy ran _____ to catch Toto.</p><textarea id="skill-23-1" rows="6" placeholder="Your answer..."></textarea></div><div class="exercise-card"><p><strong>2.</strong> Write a sentence describing how someone did something using an adverb ending in -ly.</p><textarea id="skill-23-2" rows="6" placeholder="Your answer..."></textarea></div>
+                ` : '<p>Skill content will be added.</p>'
+    },
+    {
+        "type": "informational",
+        "content": `
+                    <h2>🌍 Informational Text: Kansas Geography: Understanding the Setting</h2>
+                    <div class="informational-article">
+                        <p>To truly understand Dorothy's story, we need to understand Kansas — not just any Kansas, but 1890s Kansas, where life was dramatically different from today.</p><p>**The Geography**:
 Kansas is located in the central United States, part of the Great Plains. This region is characterized by:
 - **Flatness**: Kansas is one of America's flattest states. You can see for miles in every direction with few hills or trees blocking the view.
 - **Grasslands**: Before farming, Kansas was covered in tallgrass prairie. Grasses grew 6-8 feet high, creating a "sea of grass" that moved like waves in the wind.
 - **Extreme weather**: Kansas experiences harsh winters (blizzards, ice storms) and brutal summers (droughts, heat waves). Spring and fall bring violent thunderstorms and tornadoes.
-- **Few trees**: Natural trees are rare on the prairie. What trees exist were planted by settlers for windbreaks and shade.</p><p style="margin-bottom: 15px;">**Why Settlers Came**:
+- **Few trees**: Natural trees are rare on the prairie. What trees exist were planted by settlers for windbreaks and shade.</p><p>**Why Settlers Came**:
 Despite harsh conditions, people moved to Kansas in the 1800s because:
 - **Free land**: The Homestead Act gave 160 acres to anyone who would farm it for five years
 - **Good soil**: Once plowed, prairie soil is incredibly fertile and grows excellent wheat
 - **Central location**: Kansas connected East and West, making it important for transportation
-- **Opportunity**: People fleeing poverty or persecution saw Kansas as a fresh start</p><p style="margin-bottom: 15px;">**Daily Life on a Kansas Farm**:
+- **Opportunity**: People fleeing poverty or persecution saw Kansas as a fresh start</p><p>**Daily Life on a Kansas Farm**:
 Dorothy's life would have included:
 - **Isolation**: Farms were miles apart. You might go days without seeing anyone outside your family.
 - **Hard physical labor**: Plowing, planting, harvesting, caring for animals, hauling water — all done by hand.
 - **Simple housing**: Most prairie homes were one-room dugouts or small wooden houses with no running water or electricity.
 - **Extreme weather**: Summer temperatures could exceed 100°F with no air conditioning. Winter blizzards could trap families indoors for days.
-- **Limited education**: School happened only after planting and before harvest. Many children attended only a few months per year.</p><p style="margin-bottom: 15px;">**Why "Gray and Dull"?**:
+- **Limited education**: School happened only after planting and before harvest. Many children attended only a few months per year.</p><p>**Why "Gray and Dull"?**:
 Baum describes Kansas as gray and dull, which reflects several realities:
 - **Drought cycles**: Kansas experiences periodic droughts. During dry years, green grass turns brown, crops fail, and everything is covered in dust.
 - **Limited color**: Without gardens, paint, or decorations (expensive!), prairie life was visually monotonous.
 - **Hard work**: When you work from dawn to dusk just to survive, life can feel joyless.
-- **Isolation**: Without neighbors, entertainment, or variety, prairie life could feel suffocating.</p><p style="margin-bottom: 15px;">**Modern Kansas**:
+- **Isolation**: Without neighbors, entertainment, or variety, prairie life could feel suffocating.</p><p>**Modern Kansas**:
 Today's Kansas is quite different:
 - Major cities like Wichita and Kansas City
 - Modern farming with tractors and irrigation
 - Good roads, schools, and infrastructure
 - Still agricultural but more diverse
-- Still experiences tornadoes!</p><p style="margin-bottom: 15px;">**Why This Matters to the Story**:
+- Still experiences tornadoes!</p><p>**Why This Matters to the Story**:
 Understanding Kansas helps us appreciate why:
 - Dorothy is so desperate to return home (Aunt Em is literally all she has)
 - Oz seems so magical (anything would compared to gray Kansas)
 - The silver slippers' power is significant (instant travel was fantasy in an era of slow horses and wagons)
-- "There's no place like home" resonates (even a harsh home is your home)</p><p style="margin-bottom: 15px;">Kansas represents reality — sometimes harsh, often difficult, rarely magical. But it's real. It's home. And for Dorothy, that matters more than all the wonders of Oz.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 8: Grammar
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar: Adverbs: Describing Verbs</h2>
-                            <div style="margin: 20px 0;">
-                                <h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>
-                                <div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">
-                                    <p style="margin-bottom: 10px;">Adverbs describe verbs. They tell how, when, or where.</p><p style="margin-bottom: 10px;">Many adverbs end in -ly:
-- quick → quickly
-- slow → slowly  
-- brave → bravely</p><p style="margin-bottom: 10px;">Example: Dorothy walked *quickly* down the road.</p>
-                                </div>
-                                <h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>
-                                <ul style="margin-bottom: 20px; line-height: 1.8;">
-                                    <li>The Lion roared *loudly*. (how)</li><li>They arrived *yesterday*. (when)</li><li>The Scarecrow fell *down*. (where)</li>
-                                </ul>
-                                <h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>
-                                <div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">1. Add an adverb: Dorothy ran _____ to catch Toto.</p><textarea id="grammar-1" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div><div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">2. Write a sentence describing how someone did something using an adverb ending in -ly.</p><textarea id="grammar-2" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 9: Writing
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✍️ Writing Time</h2>
-                            <p style="margin-bottom: 15px;">Write a paragraph about what you read today. Use at least one vocabulary word.</p>
-                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 150px;" placeholder="Start writing..."></textarea>
-                        </div>
-                    `
-                },
-                
-                // Page 10: Completion
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h2 style="color: #305853; font-size: 36px; margin-bottom: 20px;">Great Job! 🎉</h2>
-                            <p style="font-size: 18px; color: #666;">You've completed Day 23!</p>
-                            <p style="font-size: 16px; color: #666; margin-top: 15px;">Click "Finish Lesson" to save your progress.</p>
-                        </div>
-                    `
-                }
-            ]
+- "There's no place like home" resonates (even a harsh home is your home)</p><p>Kansas represents reality — sometimes harsh, often difficult, rarely magical. But it's real. It's home. And for Dorothy, that matters more than all the wonders of Oz.</p>
+                    </div>
+                    
+                    <h3>Questions:</h3>
+                    <div class="question-card">
+                        <p><strong>1.</strong> What did you learn from this text?</p>
+                        <textarea id="info-23-1" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                    <div class="question-card">
+                        <p><strong>2.</strong> How does this information help you understand the story?</p>
+                        <textarea id="info-23-2" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "writing",
+        "content": isOdd ? `
+                    <h2>✍️ Writing Practice</h2>
+                    <p>Write a paragraph about today's chapter. Use both vocabulary words.</p>
+                    <div class="writing-prompt">
+                        <textarea id="writing-23" rows="12" placeholder="Your paragraph..."></textarea>
+                    </div>
+                ` : `
+                    <h2>📝 Journal Response</h2>
+                    <p>Reflect on today's reading. How would you feel if you were Dorothy? What would you do?</p>
+                    <div class="journal-prompt">
+                        <textarea id="journal-23" rows="12" placeholder="Your journal entry..."></textarea>
+                    </div>
+                `
+    }
+]
         };
 
         if (typeof initLessonViewer === 'function') {
             initLessonViewer(lesson23Config);
+        } else {
+            console.error('initLessonViewer function not found!');
         }
     </script>
 </body>

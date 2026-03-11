@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day 8 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container"></div>
@@ -16,87 +15,90 @@
     <script src="firebase-config.js"></script>
     <script src="js/lesson-completion.js?v=1772665488"></script>
     <script src="js/lesson-autosave.js?v=1772665488"></script>
-    
+
     <script>
         const lesson8Config = {
-            lessonId: '4th-grade-day-8',
+            lessonId: '4th-grade-day-008',
             gradeLevel: '4th-grade',
-            title: 'Day 8 - Wizard of Oz',
+            title: 'Day 8 - The Wizard of Oz',
             pages: [
-                // Page 1: Title
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h1>Day 8</h1>
-                            <div class="subtitle">4th Grade ELA • Week 2</div>
-                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
-                                The Wonderful Wizard of Oz
-                            </p>
-                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 8: The Deadly Poppy Field
-                            </p>
+    {
+        "type": "title",
+        "content": `
+                    <h1>Day 8</h1>
+                    <h2>The Wizard of Oz</h2>
+                    <p class="unit-label">4th Grade • Week 2</p>
+                    <p class="chapter-info">The Deadly Poppy Field</p>
+                `
+    },
+    {
+        "type": "content",
+        "content": `
+                    <h2>📚 Welcome to Day 8!</h2>
+                    <div class="objectives-box">
+                        <h3>Today's Learning Goals:</h3>
+                        <ul>
+                            <li>Learn 2 new vocabulary words</li>
+                            <li>Read The Deadly Poppy Field</li>
+                            <li>Practice Multiple Meaning Words</li>
+                            <li>Explore informational text</li>
+                            <li>Complete a journal activity</li>
+                        </ul>
+                        <p><strong>Estimated time:</strong> 45-60 minutes</p>
+                    </div>
+                `
+    },
+    {
+        "type": "vocabulary",
+        "content": `
+                    <h2>📖 Vocabulary</h2>
+                    <p>Learn these 2 words before reading:</p>
+                    
+                    <div class="vocab-word-card">
+                        <h3>1. poisonous</h3>
+                        <p class="definition"><strong>Definition:</strong> Containing something harmful that can make you sick or cause damage, even if it looks safe.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-8-1" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                    
+                    <div class="vocab-word-card">
+                        <h3>2. desperate</h3>
+                        <p class="definition"><strong>Definition:</strong> Feeling that a situation is so bad that you will try anything to fix it. Having almost no hope left.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-8-2" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "activity",
+        "content": `
+                    <h2>🎮 Vocabulary Matching Game</h2>
+                    <p style="color: #666; margin-bottom: 5px;">Match each word to its definition!</p>
+                    <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 2</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                        <div id="wordColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                            <div class="match-word" data-word="poisonous" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">poisonous</div>
+                            <div class="match-word" data-word="desperate" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">desperate</div>
                         </div>
-                    `
-                },
-                
-                // Page 2: Objectives
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Welcome to Day 8!</h2>
-                            <p>Today you will:</p>
-                            <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Learn 2 new vocabulary words</li>
-                                <li>Read <strong>The Deadly Poppy Field</strong></li>
-                                <li>Answer 2 comprehension questions</li>
-                                <li>Practice language skills</li>
-                                <li>Complete a writing task</li>
-                            </ul>
-                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        <div id="defColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                            <div class="match-def" data-word="poisonous" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Containing something harmful that can make you sick or cause damage, even if it looks safe.</div>
+                            <div class="match-def" data-word="desperate" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Feeling that a situation is so bad that you will try anything to fix it. Having almost no hope left.</div>
                         </div>
-                    `
-                },
-                
-                // Page 3: Vocabulary
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 Vocabulary Words</h2>
-                            
-                            <div style="margin: 30px 0;">
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">poisonous</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(adjective)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Containing something harmful that can make you sick or cause damage, even if it looks safe.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> The beautiful poppies were poisonous — their sweet scent put any living creature into a sleep so deep they might never wake.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> Why is it MORE dangerous when something harmful looks beautiful? How does this connect to the theme that things are not always what they seem?</p>
-                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                                
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">desperate</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(adjective)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Feeling that a situation is so bad that you will try anything to fix it. Having almost no hope left.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> The Scarecrow and the Tin Woodman were desperate to save their friends from the deadly flowers.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> When you are desperate, you sometimes find strength you did not know you had. How does desperation help the Scarecrow and Tin Woodman here?</p>
-                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 4: Story (full chapter)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 The Deadly Poppy Field</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                <p style="margin-bottom: 15px;">The yellow brick road led them through rolling green meadows now, and the sun shone warm and bright. After the darkness of the forest, it felt wonderful to be in open country again. Dorothy could see for miles in every direction — green fields, blue sky, and in the far distance, a faint shimmer that might have been the Emerald City.
+                    </div>
+                    
+                    <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                `,
+                onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Deadly Poppy Field - Part 1</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;">The yellow brick road led them through rolling green meadows now, and the sun shone warm and bright. After the darkness of the forest, it felt wonderful to be in open country again. Dorothy could see for miles in every direction — green fields, blue sky, and in the far distance, a faint shimmer that might have been the Emerald City.
 "Look," said the Scarecrow, shading his painted eyes with one stuffed hand. "Flowers."
 He was right. Ahead of them, the fields were filled with enormous poppies — great scarlet flowers nodding on their stems, stretching out on both sides of the road as far as they could see. They were beautiful, and their sweet, heavy scent drifted toward the travelers on the breeze.
 "How lovely!" Dorothy said, breathing deeply. The smell was rich and thick, like warm honey.
@@ -122,103 +124,104 @@ Finally — finally — they reached the edge of the poppy field and tumbled out
 "But what about the Lion?" the Scarecrow asked, looking back at the vast field. The Lion was a distant golden shape among the red flowers, motionless. "He is far too heavy for us to carry."
 They stared at each other helplessly. The Lion was their friend. They could not leave him there to sleep forever.
 "We need help," the Scarecrow said. "And I think I know where to find it."</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 5: Comprehension - Multiple Choice
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Reading Comprehension</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">1. Why aren't the Scarecrow and Tin Woodman affected by the poisonous poppies?</p>
-                                <div>
-                                    <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> They held their breath</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> They are not made of flesh and do not breathe</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> They have magical protection</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> They ran through the field too quickly</label>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 6: Comprehension - Short Answer
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Short Answer</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">2. The poppies are beautiful but deadly — they look safe but are actually dangerous. How does this connect to the bigger theme of the story that things are not always what they seem?</p>
-                                <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Hint:</strong> Think about other things in the story that are not what they appear to be. The Scarecrow seems brainless but is clever. The Lion seems cowardly but is brave. What else?</p>
-                                <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 120px;" placeholder="Write your answer here..."></textarea>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 7: Informational Text
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>🌍 Informational Text: Lions in Literature and Symbolism</h2>
-                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
-                                <p style="margin-bottom: 15px;">Lions have been symbols of courage for thousands of years. They're called the "king of beasts," appearing on flags, crests, and shields across cultures. Ancient civilizations carved stone lions to guard temples. Medieval knights displayed lions on their armor to show bravery.</p><p style="margin-bottom: 15px;">But L. Frank Baum flipped this symbolism upside down. His Lion is enormous, powerful, and terrifying — but inside, he's a coward. He roars to scare others before they discover his secret: he's afraid of almost everything.</p><p style="margin-bottom: 15px;">Real lions are fascinating animals. Male lions can weigh over 400 pounds and have a roar that can be heard five miles away. They live in groups called prides, and while females do most of the hunting, males protect the territory.</p><p style="margin-bottom: 15px;">Interestingly, male lions sleep up to 20 hours a day! They're not constantly fierce and aggressive. They're actually quite lazy and avoid fights when possible. Maybe the Cowardly Lion isn't so different from real lions after all.</p><p style="margin-bottom: 15px;">In American culture of the 1890s, courage was highly valued. The frontier required bravery — facing harsh weather, dangerous animals, uncertain futures. Men were expected to be fearless protectors. A coward was considered shameful.</p><p style="margin-bottom: 15px;">Yet Baum's Lion is sympathetic, not shameful. He admits his fear honestly. He doesn't pretend to be brave when he's not. And here's what's remarkable: despite being terrified, the Lion still acts. He fights the Kalidahs. He carries his friends across the river. He faces his fears to help Dorothy.</p><p style="margin-bottom: 15px;">This is the secret of true courage: it's not the absence of fear. It's acting despite being afraid. A person who feels no fear can't be brave — bravery requires fear and choosing to act anyway.</p><p style="margin-bottom: 15px;">The Cowardly Lion discovers he's been courageous all along. He just didn't recognize it because he was looking for fearlessness instead of brave actions.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 8: Grammar
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar: Compound Words</h2>
-                            <div style="margin: 20px 0;">
-                                <h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>
-                                <div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">
-                                    <p style="margin-bottom: 10px;">A compound word is made by joining two smaller words together.</p><p style="margin-bottom: 10px;">Examples from the story:
-- sun + flower = sunflower
-- scare + crow = scarecrow  
-- any + thing = anything
-- grass + land = grassland</p>
-                                </div>
-                                <h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>
-                                <ul style="margin-bottom: 20px; line-height: 1.8;">
-                                    <li>The Scarecrow was made to frighten crows.</li><li>Dorothy saw sunflowers in Kansas.</li><li>The cyclone destroyed everything in its path.</li>
-                                </ul>
-                                <h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>
-                                <div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">1. Make compound words: rain + bow = ___, basket + ball = ___</p><textarea id="grammar-1" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div><div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">2. Find the compound word: Dorothy walked along the pathway to the farmhouse.</p><textarea id="grammar-2" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 9: Writing
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✍️ Writing Time</h2>
-                            <p style="margin-bottom: 15px;">Write a journal entry about what happened in today's chapter. How would you feel if you were Dorothy?</p>
-                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 150px;" placeholder="Start writing..."></textarea>
-                        </div>
-                    `
-                },
-                
-                // Page 10: Completion
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h2 style="color: #305853; font-size: 36px; margin-bottom: 20px;">Great Job! 🎉</h2>
-                            <p style="font-size: 18px; color: #666;">You've completed Day 8!</p>
-                            <p style="font-size: 16px; color: #666; margin-top: 15px;">Click "Finish Lesson" to save your progress.</p>
-                        </div>
-                    `
-                }
-            ]
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Deadly Poppy Field - Part 2</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Deadly Poppy Field - Part 3</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "comprehension",
+        "content": `
+                    <h2>💭 Reading Comprehension</h2>
+                    <p>Answer these questions about today's reading:</p>
+                    
+                    <div class="question-card">
+                        <p><strong>1.</strong> Why aren't the Scarecrow and Tin Woodman affected by the poisonous poppies?</p>
+                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> They held their breath</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> They are not made of flesh and do not breathe</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> They have magical protection</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> They ran through the field too quickly</label>
+                    </div>
+                    
+                    <div class="question-card" style="margin-top: 20px;">
+                        <p><strong>2.</strong> The poppies are beautiful but deadly — they look safe but are actually dangerous. How does this connect to the bigger theme of the story that things are not always what they seem?</p>
+                        <p style="font-size: 14px; color: #666; margin-bottom: 10px;"><strong>Hint:</strong> Think about other things in the story that are not what they appear to be. The Scarecrow seems brainless but is clever. The Lion seems cowardly but is brave. What else?</p>
+                        <textarea id="comp-short" rows="8" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "grammar-language",
+        "content": skill ? `
+                    <h2>✏️ Multiple Meaning Words</h2>
+                    <div class="skill-explanation">
+                        <p>Some words have more than one meaning depending on context.</p>
+                    </div>
+                    
+                    <h3>Examples:</h3>
+                    <ul>
+                        <li>"The witch was mean." (cruel)</li><li>"What does that word mean?" (definition)</li>
+                    </ul>
+                    
+                    <h3>Practice:</h3>
+                    <div class="exercise-card"><p><strong>1.</strong> Use "fair" in two different ways</p><textarea id="skill-8-1" rows="6" placeholder="Your answer..."></textarea></div>
+                ` : '<p>Skill content will be added.</p>'
+    },
+    {
+        "type": "informational",
+        "content": `
+                    <h2>🌍 Informational Text: Lions in Literature and Symbolism</h2>
+                    <div class="informational-article">
+                        <p>Lions have been symbols of courage for thousands of years. They're called the "king of beasts," appearing on flags, crests, and shields across cultures. Ancient civilizations carved stone lions to guard temples. Medieval knights displayed lions on their armor to show bravery.</p><p>But L. Frank Baum flipped this symbolism upside down. His Lion is enormous, powerful, and terrifying — but inside, he's a coward. He roars to scare others before they discover his secret: he's afraid of almost everything.</p><p>Real lions are fascinating animals. Male lions can weigh over 400 pounds and have a roar that can be heard five miles away. They live in groups called prides, and while females do most of the hunting, males protect the territory.</p><p>Interestingly, male lions sleep up to 20 hours a day! They're not constantly fierce and aggressive. They're actually quite lazy and avoid fights when possible. Maybe the Cowardly Lion isn't so different from real lions after all.</p><p>In American culture of the 1890s, courage was highly valued. The frontier required bravery — facing harsh weather, dangerous animals, uncertain futures. Men were expected to be fearless protectors. A coward was considered shameful.</p><p>Yet Baum's Lion is sympathetic, not shameful. He admits his fear honestly. He doesn't pretend to be brave when he's not. And here's what's remarkable: despite being terrified, the Lion still acts. He fights the Kalidahs. He carries his friends across the river. He faces his fears to help Dorothy.</p><p>This is the secret of true courage: it's not the absence of fear. It's acting despite being afraid. A person who feels no fear can't be brave — bravery requires fear and choosing to act anyway.</p><p>The Cowardly Lion discovers he's been courageous all along. He just didn't recognize it because he was looking for fearlessness instead of brave actions.</p>
+                    </div>
+                    
+                    <h3>Questions:</h3>
+                    <div class="question-card">
+                        <p><strong>1.</strong> What did you learn from this text?</p>
+                        <textarea id="info-8-1" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                    <div class="question-card">
+                        <p><strong>2.</strong> How does this information help you understand the story?</p>
+                        <textarea id="info-8-2" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "writing",
+        "content": isOdd ? `
+                    <h2>✍️ Writing Practice</h2>
+                    <p>Write a paragraph about today's chapter. Use both vocabulary words.</p>
+                    <div class="writing-prompt">
+                        <textarea id="writing-8" rows="12" placeholder="Your paragraph..."></textarea>
+                    </div>
+                ` : `
+                    <h2>📝 Journal Response</h2>
+                    <p>Reflect on today's reading. How would you feel if you were Dorothy? What would you do?</p>
+                    <div class="journal-prompt">
+                        <textarea id="journal-8" rows="12" placeholder="Your journal entry..."></textarea>
+                    </div>
+                `
+    }
+]
         };
 
         if (typeof initLessonViewer === 'function') {
             initLessonViewer(lesson8Config);
+        } else {
+            console.error('initLessonViewer function not found!');
         }
     </script>
 </body>

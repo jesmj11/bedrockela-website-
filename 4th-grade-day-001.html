@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day 1 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container"></div>
@@ -16,87 +15,90 @@
     <script src="firebase-config.js"></script>
     <script src="js/lesson-completion.js?v=1772665488"></script>
     <script src="js/lesson-autosave.js?v=1772665488"></script>
-    
+
     <script>
         const lesson1Config = {
-            lessonId: '4th-grade-day-1',
+            lessonId: '4th-grade-day-001',
             gradeLevel: '4th-grade',
-            title: 'Day 1 - Wizard of Oz',
+            title: 'Day 1 - The Wizard of Oz',
             pages: [
-                // Page 1: Title
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h1>Day 1</h1>
-                            <div class="subtitle">4th Grade ELA • Week 1</div>
-                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
-                                The Wonderful Wizard of Oz
-                            </p>
-                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 1: The Cyclone
-                            </p>
+    {
+        "type": "title",
+        "content": `
+                    <h1>Day 1</h1>
+                    <h2>The Wizard of Oz</h2>
+                    <p class="unit-label">4th Grade • Week 1</p>
+                    <p class="chapter-info">The Cyclone</p>
+                `
+    },
+    {
+        "type": "content",
+        "content": `
+                    <h2>📚 Welcome to Day 1!</h2>
+                    <div class="objectives-box">
+                        <h3>Today's Learning Goals:</h3>
+                        <ul>
+                            <li>Learn 2 new vocabulary words</li>
+                            <li>Read The Cyclone</li>
+                            <li>Practice Sentence Types: Statements and Questions</li>
+                            <li>Explore informational text</li>
+                            <li>Complete a writing activity</li>
+                        </ul>
+                        <p><strong>Estimated time:</strong> 45-60 minutes</p>
+                    </div>
+                `
+    },
+    {
+        "type": "vocabulary",
+        "content": `
+                    <h2>📖 Vocabulary</h2>
+                    <p>Learn these 2 words before reading:</p>
+                    
+                    <div class="vocab-word-card">
+                        <h3>1. prairie</h3>
+                        <p class="definition"><strong>Definition:</strong> A large, flat area of grassland with few or no trees.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-1-1" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                    
+                    <div class="vocab-word-card">
+                        <h3>2. cyclone</h3>
+                        <p class="definition"><strong>Definition:</strong> A powerful, spinning windstorm that can cause great destruction.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-1-2" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "activity",
+        "content": `
+                    <h2>🎮 Vocabulary Matching Game</h2>
+                    <p style="color: #666; margin-bottom: 5px;">Match each word to its definition!</p>
+                    <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 2</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                        <div id="wordColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                            <div class="match-word" data-word="prairie" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">prairie</div>
+                            <div class="match-word" data-word="cyclone" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">cyclone</div>
                         </div>
-                    `
-                },
-                
-                // Page 2: Objectives
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Welcome to Day 1!</h2>
-                            <p>Today you will:</p>
-                            <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Learn 2 new vocabulary words</li>
-                                <li>Read <strong>The Cyclone</strong></li>
-                                <li>Answer 2 comprehension questions</li>
-                                <li>Practice grammar skills</li>
-                                <li>Complete a writing task</li>
-                            </ul>
-                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        <div id="defColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                            <div class="match-def" data-word="prairie" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">A large, flat area of grassland with few or no trees.</div>
+                            <div class="match-def" data-word="cyclone" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">A powerful, spinning windstorm that can cause great destruction.</div>
                         </div>
-                    `
-                },
-                
-                // Page 3: Vocabulary
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 Vocabulary Words</h2>
-                            
-                            <div style="margin: 30px 0;">
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">prairie</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(noun)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">A large, flat area of grassland with few or no trees.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> Dorothy lived in the middle of the great Kansas prairies, where the land was flat and gray as far as the eye could see.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> How does living on a flat, empty prairie affect how a person feels? Why might Dorothy feel lonely there?</p>
-                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                                
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">cyclone</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(noun)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">A powerful, spinning windstorm that can cause great destruction.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> The cyclone lifted the house right up into the air and carried it away, spinning slowly like a leaf in the wind.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> Why did Baum choose to start Dorothy's story with a cyclone? What does it do to the story right away?</p>
-                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 4: Story (full chapter)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 The Cyclone</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                <p style="margin-bottom: 15px;">Dorothy lived in the middle of the great Kansas prairies with Uncle Henry, who was a farmer, and Aunt Em, who was the farmer's wife. Their house was small — just one room — with a rusty stove, a cupboard, a table, and three or four chairs. There were no curtains, no pictures on the walls, and nothing pretty at all.
+                    </div>
+                    
+                    <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                `,
+                onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Cyclone - Part 1</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;">Dorothy lived in the middle of the great Kansas prairies with Uncle Henry, who was a farmer, and Aunt Em, who was the farmer's wife. Their house was small — just one room — with a rusty stove, a cupboard, a table, and three or four chairs. There were no curtains, no pictures on the walls, and nothing pretty at all.
 Uncle Henry never laughed. He worked from morning till night and rarely spoke. Aunt Em had once been young and cheerful, but years of sun and wind on the dry prairie had taken the color from her eyes and cheeks. She never smiled anymore, either.
 It was Toto who made Dorothy laugh. Toto was a small, scrappy black dog with long silky hair and bright little eyes that twinkled on either side of his funny nose. Dorothy loved Toto dearly. He was the one thing in Kansas that was not gray.
 Everything around them was gray. The sun had baked the plowed land into a gray mass. Even the paint on the house had faded until it was as dull and gray as everything else. When Aunt Em first came to Kansas, the sun and wind had changed her, too. They had taken the sparkle from her eyes and left them a sober gray; they had taken the red from her cheeks and lips, and they were gray also.
@@ -112,101 +114,110 @@ The house was caught in the very center of the cyclone. The wind on every side p
 Toto did not like it. He ran around the room, barking, but Dorothy sat quite still on the floor and waited to see what would happen.
 Once, Toto got too near the open trapdoor and fell in with a little yelp. Dorothy thought she had lost him. But his ear stuck up through the hole, and she grabbed it and pulled him back into the room. Then she closed the trapdoor so no more accidents could happen.
 Hours passed. Slowly, Dorothy got over her fright. She felt quite lonely with the wind screaming so loudly around her, but there was nothing to do except sit and wait. Eventually, she crawled across the swaying floor to her bed, and Toto followed her. Dorothy lay down and, despite the swaying and the howling wind, fell fast asleep.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 5: Comprehension - Multiple Choice
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Reading Comprehension</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">1. What is Dorothy's life like in Kansas before the cyclone?</p>
-                                <div>
-                                    <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> Exciting and full of adventure</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> Gray, flat, and quiet — Uncle Henry and Aunt Em rarely smile or laugh</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> She lives in a big city with many friends</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> She goes to school and plays sports</label>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 6: Comprehension - Short Answer
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Short Answer</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">2. The author describes Kansas as gray over and over. Why do you think he does this? What might he be setting up for later in the story?</p>
-                                <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Hint:</strong> Think about contrast. If Kansas is gray, what might the NEXT place look like?</p>
-                                <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 120px;" placeholder="Write your answer here..."></textarea>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 7: Informational Text
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>🌍 Informational Text: L. Frank Baum: The Man Behind Oz</h2>
-                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
-                                <p style="margin-bottom: 15px;">L. Frank Baum was born in 1856 in New York. As a young man, he tried many jobs — actor, newspaper reporter, store owner — but none made him truly happy. What he loved most was telling stories to children.</p><p style="margin-bottom: 15px;">In 1899, Baum published his first successful children's book. But it was "The Wonderful Wizard of Oz," published in 1900, that made him famous. The story came to him while entertaining neighborhood children. He told them about a girl from Kansas who traveled to a magical land, and the children begged him to write it down.</p><p style="margin-bottom: 15px;">Baum wanted to create a new kind of fairy tale — one that was purely American, without scary monsters or dark warnings. His stories were filled with wonder, friendship, and hope. He believed children deserved stories that made them smile, not nightmares that frightened them.</p><p style="margin-bottom: 15px;">"The Wonderful Wizard of Oz" became an instant bestseller. Children loved Dorothy's adventures, and adults appreciated the book's deeper messages about courage, friendship, and finding your way home. Baum wrote 13 more Oz books before he died in 1919.</p><p style="margin-bottom: 15px;">Today, over 120 years later, Dorothy and her friends are still beloved around the world. L. Frank Baum's dream of creating timeless American fairy tales came true.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 8: Grammar
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar: Sentence Types: Statements and Questions</h2>
-                            <div style="margin: 20px 0;">
-                                <h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>
-                                <div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">
-                                    <p style="margin-bottom: 10px;">There are four types of sentences, and today we'll focus on two: statements and questions.</p><p style="margin-bottom: 10px;">**Statements** tell us something and end with a period (.)
-Example: Dorothy lived in Kansas.</p><p style="margin-bottom: 10px;">**Questions** ask something and end with a question mark (?)
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Cyclone - Part 2</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Cyclone - Part 3</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "comprehension",
+        "content": `
+                    <h2>💭 Reading Comprehension</h2>
+                    <p>Answer these questions about today's reading:</p>
+                    
+                    <div class="question-card">
+                        <p><strong>1.</strong> What is Dorothy's life like in Kansas before the cyclone?</p>
+                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> Exciting and full of adventure</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> Gray, flat, and quiet — Uncle Henry and Aunt Em rarely smile or laugh</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> She lives in a big city with many friends</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> She goes to school and plays sports</label>
+                    </div>
+                    
+                    <div class="question-card" style="margin-top: 20px;">
+                        <p><strong>2.</strong> The author describes Kansas as gray over and over. Why do you think he does this? What might he be setting up for later in the story?</p>
+                        <p style="font-size: 14px; color: #666; margin-bottom: 10px;"><strong>Hint:</strong> Think about contrast. If Kansas is gray, what might the NEXT place look like?</p>
+                        <textarea id="comp-short" rows="8" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "grammar-language",
+        "content": skill ? `
+                    <h2>✏️ Sentence Types: Statements and Questions</h2>
+                    <div class="skill-explanation">
+                        <p>There are four types of sentences, and today we'll focus on two: statements and questions.
+
+**Statements** tell us something and end with a period (.)
+Example: Dorothy lived in Kansas.
+
+**Questions** ask something and end with a question mark (?)
 Example: Where does Dorothy live?</p>
-                                </div>
-                                <h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>
-                                <ul style="margin-bottom: 20px; line-height: 1.8;">
-                                    <li>The Scarecrow stood in the field. (statement)</li><li>Where is the Emerald City? (question)</li><li>Toto is Dorothy's dog. (statement)</li>
-                                </ul>
-                                <h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>
-                                <div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">1. Turn this statement into a question: The cyclone lifted the house.</p><textarea id="grammar-1" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div><div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">2. Write a statement about Dorothy.</p><textarea id="grammar-2" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div><div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">3. Write a question about the Wizard.</p><textarea id="grammar-3" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 9: Writing
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✍️ Writing Time</h2>
-                            <p style="margin-bottom: 15px;">Write a paragraph about what you read today. Use at least one vocabulary word.</p>
-                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 150px;" placeholder="Start writing..."></textarea>
-                        </div>
-                    `
-                },
-                
-                // Page 10: Completion
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h2 style="color: #305853; font-size: 36px; margin-bottom: 20px;">Great Job! 🎉</h2>
-                            <p style="font-size: 18px; color: #666;">You've completed Day 1!</p>
-                            <p style="font-size: 16px; color: #666; margin-top: 15px;">Click "Finish Lesson" to save your progress.</p>
-                        </div>
-                    `
-                }
-            ]
+                    </div>
+                    
+                    <h3>Examples:</h3>
+                    <ul>
+                        <li>The Scarecrow stood in the field. (statement)</li><li>Where is the Emerald City? (question)</li><li>Toto is Dorothy's dog. (statement)</li>
+                    </ul>
+                    
+                    <h3>Practice:</h3>
+                    <div class="exercise-card"><p><strong>1.</strong> Turn this statement into a question: The cyclone lifted the house.</p><textarea id="skill-1-1" rows="6" placeholder="Your answer..."></textarea></div><div class="exercise-card"><p><strong>2.</strong> Write a statement about Dorothy.</p><textarea id="skill-1-2" rows="6" placeholder="Your answer..."></textarea></div><div class="exercise-card"><p><strong>3.</strong> Write a question about the Wizard.</p><textarea id="skill-1-3" rows="6" placeholder="Your answer..."></textarea></div>
+                ` : '<p>Skill content will be added.</p>'
+    },
+    {
+        "type": "informational",
+        "content": `
+                    <h2>🌍 Informational Text: L. Frank Baum: The Man Behind Oz</h2>
+                    <div class="informational-article">
+                        <p>L. Frank Baum was born in 1856 in New York. As a young man, he tried many jobs — actor, newspaper reporter, store owner — but none made him truly happy. What he loved most was telling stories to children.</p><p>In 1899, Baum published his first successful children's book. But it was "The Wonderful Wizard of Oz," published in 1900, that made him famous. The story came to him while entertaining neighborhood children. He told them about a girl from Kansas who traveled to a magical land, and the children begged him to write it down.</p><p>Baum wanted to create a new kind of fairy tale — one that was purely American, without scary monsters or dark warnings. His stories were filled with wonder, friendship, and hope. He believed children deserved stories that made them smile, not nightmares that frightened them.</p><p>"The Wonderful Wizard of Oz" became an instant bestseller. Children loved Dorothy's adventures, and adults appreciated the book's deeper messages about courage, friendship, and finding your way home. Baum wrote 13 more Oz books before he died in 1919.</p><p>Today, over 120 years later, Dorothy and her friends are still beloved around the world. L. Frank Baum's dream of creating timeless American fairy tales came true.</p>
+                    </div>
+                    
+                    <h3>Questions:</h3>
+                    <div class="question-card">
+                        <p><strong>1.</strong> What did you learn from this text?</p>
+                        <textarea id="info-1-1" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                    <div class="question-card">
+                        <p><strong>2.</strong> How does this information help you understand the story?</p>
+                        <textarea id="info-1-2" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "writing",
+        "content": isOdd ? `
+                    <h2>✍️ Writing Practice</h2>
+                    <p>Write a paragraph about today's chapter. Use both vocabulary words.</p>
+                    <div class="writing-prompt">
+                        <textarea id="writing-1" rows="12" placeholder="Your paragraph..."></textarea>
+                    </div>
+                ` : `
+                    <h2>📝 Journal Response</h2>
+                    <p>Reflect on today's reading. How would you feel if you were Dorothy? What would you do?</p>
+                    <div class="journal-prompt">
+                        <textarea id="journal-1" rows="12" placeholder="Your journal entry..."></textarea>
+                    </div>
+                `
+    }
+]
         };
 
         if (typeof initLessonViewer === 'function') {
             initLessonViewer(lesson1Config);
+        } else {
+            console.error('initLessonViewer function not found!');
         }
     </script>
 </body>

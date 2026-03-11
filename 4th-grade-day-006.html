@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day 6 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container"></div>
@@ -16,87 +15,90 @@
     <script src="firebase-config.js"></script>
     <script src="js/lesson-completion.js?v=1772665488"></script>
     <script src="js/lesson-autosave.js?v=1772665488"></script>
-    
+
     <script>
         const lesson6Config = {
-            lessonId: '4th-grade-day-6',
+            lessonId: '4th-grade-day-006',
             gradeLevel: '4th-grade',
-            title: 'Day 6 - Wizard of Oz',
+            title: 'Day 6 - The Wizard of Oz',
             pages: [
-                // Page 1: Title
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h1>Day 6</h1>
-                            <div class="subtitle">4th Grade ELA • Week 2</div>
-                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
-                                The Wonderful Wizard of Oz
-                            </p>
-                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 6: The Cowardly Lion
-                            </p>
+    {
+        "type": "title",
+        "content": `
+                    <h1>Day 6</h1>
+                    <h2>The Wizard of Oz</h2>
+                    <p class="unit-label">4th Grade • Week 2</p>
+                    <p class="chapter-info">The Cowardly Lion</p>
+                `
+    },
+    {
+        "type": "content",
+        "content": `
+                    <h2>📚 Welcome to Day 6!</h2>
+                    <div class="objectives-box">
+                        <h3>Today's Learning Goals:</h3>
+                        <ul>
+                            <li>Learn 2 new vocabulary words</li>
+                            <li>Read The Cowardly Lion</li>
+                            <li>Practice Synonyms and Antonyms</li>
+                            <li>Explore informational text</li>
+                            <li>Complete a journal activity</li>
+                        </ul>
+                        <p><strong>Estimated time:</strong> 45-60 minutes</p>
+                    </div>
+                `
+    },
+    {
+        "type": "vocabulary",
+        "content": `
+                    <h2>📖 Vocabulary</h2>
+                    <p>Learn these 2 words before reading:</p>
+                    
+                    <div class="vocab-word-card">
+                        <h3>1. courage</h3>
+                        <p class="definition"><strong>Definition:</strong> The ability to do something even when you are afraid. Being brave when it is hard.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-6-1" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                    
+                    <div class="vocab-word-card">
+                        <h3>2. contradiction</h3>
+                        <p class="definition"><strong>Definition:</strong> When two things are opposite or do not match — when someone says one thing but does another.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-6-2" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "activity",
+        "content": `
+                    <h2>🎮 Vocabulary Matching Game</h2>
+                    <p style="color: #666; margin-bottom: 5px;">Match each word to its definition!</p>
+                    <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 2</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                        <div id="wordColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                            <div class="match-word" data-word="courage" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">courage</div>
+                            <div class="match-word" data-word="contradiction" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">contradiction</div>
                         </div>
-                    `
-                },
-                
-                // Page 2: Objectives
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Welcome to Day 6!</h2>
-                            <p>Today you will:</p>
-                            <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Learn 2 new vocabulary words</li>
-                                <li>Read <strong>The Cowardly Lion</strong></li>
-                                <li>Answer 2 comprehension questions</li>
-                                <li>Practice language skills</li>
-                                <li>Complete a writing task</li>
-                            </ul>
-                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        <div id="defColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                            <div class="match-def" data-word="courage" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">The ability to do something even when you are afraid. Being brave when it is hard.</div>
+                            <div class="match-def" data-word="contradiction" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">When two things are opposite or do not match — when someone says one thing but does another.</div>
                         </div>
-                    `
-                },
-                
-                // Page 3: Vocabulary
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 Vocabulary Words</h2>
-                            
-                            <div style="margin: 30px 0;">
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">courage</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(noun)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">The ability to do something even when you are afraid. Being brave when it is hard.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> The Lion said he had no courage, yet he leaped out of the trees to frighten the travelers — which took courage in itself.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> Is courage the same as not being afraid? Or is courage doing something EVEN THOUGH you are afraid? What do you think?</p>
-                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                                
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">contradiction</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(noun)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">When two things are opposite or do not match — when someone says one thing but does another.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> The Lion is a contradiction: he calls himself a coward, but his actions show bravery again and again.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> Can you find other contradictions in the story? Think about the Scarecrow and the Tin Woodman too.</p>
-                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 4: Story (full chapter)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 The Cowardly Lion</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                <p style="margin-bottom: 15px;">The forest grew darker and wilder. Strange sounds echoed through the trees — growls, rustling, and the snap of twigs. Dorothy walked closer to her friends.
+                    </div>
+                    
+                    <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                `,
+                onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Cowardly Lion - Part 1</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;">The forest grew darker and wilder. Strange sounds echoed through the trees — growls, rustling, and the snap of twigs. Dorothy walked closer to her friends.
 "How far is it to the Emerald City?" she asked.
 "I don't know," said the Tin Woodman. "I have never been there. But my father once told me it was a long, difficult journey."
 "I heard that the road passes through dangerous country," the Scarecrow added. "But since I have no brains, I am not afraid."
@@ -127,102 +129,104 @@ The Lion thought about this for a long moment. "No," he said finally. "I think r
 "I'm not sure about that," Dorothy said. But she did not argue.
 They walked on through the forest. Dorothy noticed something: the Scarecrow, who said he had no brains, was the one who figured out the safest path through the trees. The Tin Woodman, who said he had no heart, carefully moved a beetle off the road so it would not be stepped on. And the Lion, who said he had no courage, walked at the back of the group, keeping watch for danger.
 Dorothy kept these observations to herself. But she was beginning to wonder if her friends already had exactly what they were looking for, and simply did not know it.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 5: Comprehension - Multiple Choice
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Reading Comprehension</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">1. What pattern has the author created with the main characters?</p>
-                                <div>
-                                    <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> They are all from Kansas</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> They each want something they believe they do not have</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> They are all afraid of the Wizard</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> They all want to stay in Oz forever</label>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 6: Comprehension - Short Answer
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Short Answer</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">2. Dorothy slaps a lion on the nose to protect Toto. The Scarecrow figures out the safest path. The Tin Woodman moves a beetle off the road so it won't be stepped on. What do these actions tell us about whether the characters already have what they wish for?</p>
-                                <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Hint:</strong> Look at ACTIONS, not words. What each character DOES tells a different story than what they SAY about themselves.</p>
-                                <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 120px;" placeholder="Write your answer here..."></textarea>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 7: Informational Text
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>🌍 Informational Text: Scarecrows: Guardians of the Garden</h2>
-                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
-                                <p style="margin-bottom: 15px;">Scarecrows have been protecting crops for thousands of years. Ancient Egyptians used them along the Nile River. Greek farmers built wooden scarecrows to guard their vineyards. But the classic scarecrow we know today — stuffed with straw, wearing old clothes — became popular in America during the 1800s.</p><p style="margin-bottom: 15px;">Why do farmers need scarecrows? Birds, especially crows and blackbirds, love to eat seeds and sprouting crops. A flock of birds can destroy a newly planted field in hours. Scarecrows are meant to frighten birds away by looking like a human standing guard.</p><p style="margin-bottom: 15px;">In the 1890s when Dorothy meets the Scarecrow, most were simple: a wooden pole with a crossbar for arms, stuffed with straw, dressed in worn-out clothes and a hat. Farmers positioned them in fields to protect corn, wheat, and other grains.</p><p style="margin-bottom: 15px;">But here's the problem: birds are smart. They quickly figure out that scarecrows don't move. Within days, crows might perch right on the scarecrow's shoulders, mocking it. That's why the Scarecrow in the story feels useless — the crows literally told him he was just "stuffed with straw."</p><p style="margin-bottom: 15px;">Modern farmers use many methods to protect crops: nets, noise makers, reflective tape, and even robots. But the traditional scarecrow remains a symbol of farming life and harvest time.</p><p style="margin-bottom: 15px;">L. Frank Baum's Scarecrow is different from a typical farm scarecrow. He can talk, walk, and think. He joins Dorothy's journey seeking a brain, yet throughout the story, he's the one who comes up with clever plans and solves problems. The lesson? Intelligence isn't about what's in your head — it's about how you use what you have.</p><p style="margin-bottom: 15px;">The Scarecrow represents a universal truth: we often have the very thing we think we're missing. We just don't recognize it yet.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 8: Grammar
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar: Capitalization: Proper Nouns</h2>
-                            <div style="margin: 20px 0;">
-                                <h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>
-                                <div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">
-                                    <p style="margin-bottom: 10px;">Proper nouns are specific names of people, places, or things. They always start with a capital letter.</p><p style="margin-bottom: 10px;">**Always capitalize:**
-- Names of people: Dorothy, Aunt Em, Uncle Henry
-- Names of places: Kansas, Oz, Emerald City
-- Titles: Wizard, Witch of the North</p>
-                                </div>
-                                <h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>
-                                <ul style="margin-bottom: 20px; line-height: 1.8;">
-                                    <li>Dorothy lives in Kansas.</li><li>The Wizard of Oz lived in the Emerald City.</li><li>Toto was Dorothy's dog.</li>
-                                </ul>
-                                <h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>
-                                <div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">1. Fix the capitalization: dorothy met the scarecrow near the munchkin village.</p><textarea id="grammar-1" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div><div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">2. Write a sentence about your favorite character. Use correct capitalization.</p><textarea id="grammar-2" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 9: Writing
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✍️ Writing Time</h2>
-                            <p style="margin-bottom: 15px;">Write a journal entry about what happened in today's chapter. How would you feel if you were Dorothy?</p>
-                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 150px;" placeholder="Start writing..."></textarea>
-                        </div>
-                    `
-                },
-                
-                // Page 10: Completion
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h2 style="color: #305853; font-size: 36px; margin-bottom: 20px;">Great Job! 🎉</h2>
-                            <p style="font-size: 18px; color: #666;">You've completed Day 6!</p>
-                            <p style="font-size: 16px; color: #666; margin-top: 15px;">Click "Finish Lesson" to save your progress.</p>
-                        </div>
-                    `
-                }
-            ]
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Cowardly Lion - Part 2</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Cowardly Lion - Part 3</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "comprehension",
+        "content": `
+                    <h2>💭 Reading Comprehension</h2>
+                    <p>Answer these questions about today's reading:</p>
+                    
+                    <div class="question-card">
+                        <p><strong>1.</strong> What pattern has the author created with the main characters?</p>
+                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> They are all from Kansas</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> They each want something they believe they do not have</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> They are all afraid of the Wizard</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> They all want to stay in Oz forever</label>
+                    </div>
+                    
+                    <div class="question-card" style="margin-top: 20px;">
+                        <p><strong>2.</strong> Dorothy slaps a lion on the nose to protect Toto. The Scarecrow figures out the safest path. The Tin Woodman moves a beetle off the road so it won't be stepped on. What do these actions tell us about whether the characters already have what they wish for?</p>
+                        <p style="font-size: 14px; color: #666; margin-bottom: 10px;"><strong>Hint:</strong> Look at ACTIONS, not words. What each character DOES tells a different story than what they SAY about themselves.</p>
+                        <textarea id="comp-short" rows="8" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "grammar-language",
+        "content": skill ? `
+                    <h2>✏️ Synonyms and Antonyms</h2>
+                    <div class="skill-explanation">
+                        <p>Synonyms are words with similar meanings. Antonyms are opposites.</p>
+                    </div>
+                    
+                    <h3>Examples:</h3>
+                    <ul>
+                        <li>happy/joyful (synonyms)</li><li>hot/cold (antonyms)</li>
+                    </ul>
+                    
+                    <h3>Practice:</h3>
+                    <div class="exercise-card"><p><strong>1.</strong> Name a synonym for "brave"</p><textarea id="skill-6-1" rows="6" placeholder="Your answer..."></textarea></div><div class="exercise-card"><p><strong>2.</strong> What is the antonym of "wicked"?</p><textarea id="skill-6-2" rows="6" placeholder="Your answer..."></textarea></div>
+                ` : '<p>Skill content will be added.</p>'
+    },
+    {
+        "type": "informational",
+        "content": `
+                    <h2>🌍 Informational Text: Scarecrows: Guardians of the Garden</h2>
+                    <div class="informational-article">
+                        <p>Scarecrows have been protecting crops for thousands of years. Ancient Egyptians used them along the Nile River. Greek farmers built wooden scarecrows to guard their vineyards. But the classic scarecrow we know today — stuffed with straw, wearing old clothes — became popular in America during the 1800s.</p><p>Why do farmers need scarecrows? Birds, especially crows and blackbirds, love to eat seeds and sprouting crops. A flock of birds can destroy a newly planted field in hours. Scarecrows are meant to frighten birds away by looking like a human standing guard.</p><p>In the 1890s when Dorothy meets the Scarecrow, most were simple: a wooden pole with a crossbar for arms, stuffed with straw, dressed in worn-out clothes and a hat. Farmers positioned them in fields to protect corn, wheat, and other grains.</p><p>But here's the problem: birds are smart. They quickly figure out that scarecrows don't move. Within days, crows might perch right on the scarecrow's shoulders, mocking it. That's why the Scarecrow in the story feels useless — the crows literally told him he was just "stuffed with straw."</p><p>Modern farmers use many methods to protect crops: nets, noise makers, reflective tape, and even robots. But the traditional scarecrow remains a symbol of farming life and harvest time.</p><p>L. Frank Baum's Scarecrow is different from a typical farm scarecrow. He can talk, walk, and think. He joins Dorothy's journey seeking a brain, yet throughout the story, he's the one who comes up with clever plans and solves problems. The lesson? Intelligence isn't about what's in your head — it's about how you use what you have.</p><p>The Scarecrow represents a universal truth: we often have the very thing we think we're missing. We just don't recognize it yet.</p>
+                    </div>
+                    
+                    <h3>Questions:</h3>
+                    <div class="question-card">
+                        <p><strong>1.</strong> What did you learn from this text?</p>
+                        <textarea id="info-6-1" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                    <div class="question-card">
+                        <p><strong>2.</strong> How does this information help you understand the story?</p>
+                        <textarea id="info-6-2" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "writing",
+        "content": isOdd ? `
+                    <h2>✍️ Writing Practice</h2>
+                    <p>Write a paragraph about today's chapter. Use both vocabulary words.</p>
+                    <div class="writing-prompt">
+                        <textarea id="writing-6" rows="12" placeholder="Your paragraph..."></textarea>
+                    </div>
+                ` : `
+                    <h2>📝 Journal Response</h2>
+                    <p>Reflect on today's reading. How would you feel if you were Dorothy? What would you do?</p>
+                    <div class="journal-prompt">
+                        <textarea id="journal-6" rows="12" placeholder="Your journal entry..."></textarea>
+                    </div>
+                `
+    }
+]
         };
 
         if (typeof initLessonViewer === 'function') {
             initLessonViewer(lesson6Config);
+        } else {
+            console.error('initLessonViewer function not found!');
         }
     </script>
 </body>

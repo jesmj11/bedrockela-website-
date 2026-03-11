@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day 19 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container"></div>
@@ -16,87 +15,90 @@
     <script src="firebase-config.js"></script>
     <script src="js/lesson-completion.js?v=1772665488"></script>
     <script src="js/lesson-autosave.js?v=1772665488"></script>
-    
+
     <script>
         const lesson19Config = {
-            lessonId: '4th-grade-day-19',
+            lessonId: '4th-grade-day-019',
             gradeLevel: '4th-grade',
-            title: 'Day 19 - Wizard of Oz',
+            title: 'Day 19 - The Wizard of Oz',
             pages: [
-                // Page 1: Title
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h1>Day 19</h1>
-                            <div class="subtitle">4th Grade ELA • Week 4</div>
-                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
-                                The Wonderful Wizard of Oz
-                            </p>
-                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 19: The Journey South
-                            </p>
+    {
+        "type": "title",
+        "content": `
+                    <h1>Day 19</h1>
+                    <h2>The Wizard of Oz</h2>
+                    <p class="unit-label">4th Grade • Week 4</p>
+                    <p class="chapter-info">The Journey South</p>
+                `
+    },
+    {
+        "type": "content",
+        "content": `
+                    <h2>📚 Welcome to Day 19!</h2>
+                    <div class="objectives-box">
+                        <h3>Today's Learning Goals:</h3>
+                        <ul>
+                            <li>Learn 2 new vocabulary words</li>
+                            <li>Read The Journey South</li>
+                            <li>Practice Synonyms: Words with Similar Meanings</li>
+                            <li>Explore informational text</li>
+                            <li>Complete a writing activity</li>
+                        </ul>
+                        <p><strong>Estimated time:</strong> 45-60 minutes</p>
+                    </div>
+                `
+    },
+    {
+        "type": "vocabulary",
+        "content": `
+                    <h2>📖 Vocabulary</h2>
+                    <p>Learn these 2 words before reading:</p>
+                    
+                    <div class="vocab-word-card">
+                        <h3>1. untamed</h3>
+                        <p class="definition"><strong>Definition:</strong> Wild and not controlled by people. Land or creatures that have not been civilized.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-19-1" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                    
+                    <div class="vocab-word-card">
+                        <h3>2. recoiled</h3>
+                        <p class="definition"><strong>Definition:</strong> Pulled back quickly in fear, pain, or surprise.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-19-2" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "activity",
+        "content": `
+                    <h2>🎮 Vocabulary Matching Game</h2>
+                    <p style="color: #666; margin-bottom: 5px;">Match each word to its definition!</p>
+                    <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 2</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                        <div id="wordColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                            <div class="match-word" data-word="untamed" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">untamed</div>
+                            <div class="match-word" data-word="recoiled" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">recoiled</div>
                         </div>
-                    `
-                },
-                
-                // Page 2: Objectives
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Welcome to Day 19!</h2>
-                            <p>Today you will:</p>
-                            <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Learn 2 new vocabulary words</li>
-                                <li>Read <strong>The Journey South</strong></li>
-                                <li>Answer 2 comprehension questions</li>
-                                <li>Practice grammar skills</li>
-                                <li>Complete a writing task</li>
-                            </ul>
-                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        <div id="defColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                            <div class="match-def" data-word="untamed" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Wild and not controlled by people. Land or creatures that have not been civilized.</div>
+                            <div class="match-def" data-word="recoiled" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Pulled back quickly in fear, pain, or surprise.</div>
                         </div>
-                    `
-                },
-                
-                // Page 3: Vocabulary
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 Vocabulary Words</h2>
-                            
-                            <div style="margin: 30px 0;">
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">untamed</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(adjective)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Wild and not controlled by people. Land or creatures that have not been civilized.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> South of the Emerald City, the land grew untamed — no roads, no fences, just wild grass and tangled forest.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> How is untamed land both dangerous and beautiful? Compare the untamed south to the controlled Emerald City.</p>
-                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                                
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">recoiled</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(verb)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Pulled back quickly in fear, pain, or surprise.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> The fighting trees recoiled when the Tin Woodman chopped their branches, pulling their limbs tight against their trunks.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> Even something powerful recoils when it meets something stronger. What makes the Tin Woodman effective against the trees?</p>
-                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 4: Story (full chapter)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 The Journey South</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                <p style="margin-bottom: 15px;">The next morning, the four friends set out from the Emerald City heading south. The Guardian of the Gates unlocked their green spectacles, wished them well, and watched them walk away down the road.
+                    </div>
+                    
+                    <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                `,
+                onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Journey South - Part 1</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;">The next morning, the four friends set out from the Emerald City heading south. The Guardian of the Gates unlocked their green spectacles, wished them well, and watched them walk away down the road.
 "I hope you find what you are looking for," he called after them.
 "So do I," Dorothy said quietly.
 The countryside was lovely at first — green fields, gentle hills, and sparkling streams. But as they went further south, the road disappeared entirely. There were no more yellow bricks, no more fences, no more signs. Just wild, untamed land stretching in every direction.
@@ -118,114 +120,123 @@ The others dashed through the gap. The Tin Woodman followed, chopping one more b
 "Brains, heart, and courage," the Scarecrow said, brushing dirt from his clothes. "We have everything we need between us."
 "We always did," Dorothy said.
 They pressed on through the forest, and the trees did not bother them again.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 5: Comprehension - Multiple Choice
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Reading Comprehension</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">1. How does the group get past the fighting trees?</p>
-                                <div>
-                                    <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> The Lion scares them with a roar</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> Dorothy uses magic from the silver shoes</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> The Tin Woodman chops their branches with his axe until they pull back</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> The Scarecrow tricks them</label>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 6: Comprehension - Short Answer
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Short Answer</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">2. The Scarecrow says: 'Brains, heart, and courage — we have everything we need between us.' How has the group changed since the beginning of the story? Do they still need the Wizard, or have they become their own solution?</p>
-                                <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Hint:</strong> At the start, they were searching for someone to FIX them. Now they solve their own problems. What changed?</p>
-                                <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 120px;" placeholder="Write your answer here..."></textarea>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 7: Informational Text
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>🌍 Informational Text: The Yellow Brick Road: Symbolism and Meaning</h2>
-                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
-                                <p style="margin-bottom: 15px;">The Yellow Brick Road is one of literature's most iconic symbols. "Follow the yellow brick road" has become a phrase meaning "follow your path" or "pursue your goal." But why yellow? Why brick? And what does the road represent?</p><p style="margin-bottom: 15px;">**Why Yellow?**
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Journey South - Part 2</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 The Journey South - Part 3</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "comprehension",
+        "content": `
+                    <h2>💭 Reading Comprehension</h2>
+                    <p>Answer these questions about today's reading:</p>
+                    
+                    <div class="question-card">
+                        <p><strong>1.</strong> How does the group get past the fighting trees?</p>
+                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> The Lion scares them with a roar</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> Dorothy uses magic from the silver shoes</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> The Tin Woodman chops their branches with his axe until they pull back</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> The Scarecrow tricks them</label>
+                    </div>
+                    
+                    <div class="question-card" style="margin-top: 20px;">
+                        <p><strong>2.</strong> The Scarecrow says: 'Brains, heart, and courage — we have everything we need between us.' How has the group changed since the beginning of the story? Do they still need the Wizard, or have they become their own solution?</p>
+                        <p style="font-size: 14px; color: #666; margin-bottom: 10px;"><strong>Hint:</strong> At the start, they were searching for someone to FIX them. Now they solve their own problems. What changed?</p>
+                        <textarea id="comp-short" rows="8" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "grammar-language",
+        "content": skill ? `
+                    <h2>✏️ Synonyms: Words with Similar Meanings</h2>
+                    <div class="skill-explanation">
+                        <p>Synonyms are words that mean almost the same thing.
+
+Examples:
+- big = large, huge, enormous
+- happy = joyful, glad, cheerful  
+- walk = stroll, march, hike
+
+Using synonyms makes writing more interesting!</p>
+                    </div>
+                    
+                    <h3>Examples:</h3>
+                    <ul>
+                        <li>The cyclone was huge/enormous/gigantic.</li><li>Dorothy was happy/glad/joyful to see Aunt Em.</li><li>The friends walked/marched/traveled to Oz.</li>
+                    </ul>
+                    
+                    <h3>Practice:</h3>
+                    <div class="exercise-card"><p><strong>1.</strong> Replace with a synonym: The Scarecrow was very smart.</p><textarea id="skill-19-1" rows="6" placeholder="Your answer..."></textarea></div><div class="exercise-card"><p><strong>2.</strong> Write two sentences about the Lion using synonyms for 'brave.'</p><textarea id="skill-19-2" rows="6" placeholder="Your answer..."></textarea></div>
+                ` : '<p>Skill content will be added.</p>'
+    },
+    {
+        "type": "informational",
+        "content": `
+                    <h2>🌍 Informational Text: The Yellow Brick Road: Symbolism and Meaning</h2>
+                    <div class="informational-article">
+                        <p>The Yellow Brick Road is one of literature's most iconic symbols. "Follow the yellow brick road" has become a phrase meaning "follow your path" or "pursue your goal." But why yellow? Why brick? And what does the road represent?</p><p>**Why Yellow?**
 Yellow symbolizes:
 - Sunshine and optimism
 - Gold and wealth (think "gold brick")
 - Warning and caution
-- Enlightenment and wisdom</p><p style="margin-bottom: 15px;">Some scholars believe the yellow brick road represents the gold standard — a historical monetary policy that was controversial in the 1890s. Others see it as simply representing the path toward enlightenment and self-discovery.</p><p style="margin-bottom: 15px;">**Why Brick?**
-Brick roads were modern and sophisticated in 1900. Most rural roads were dirt that turned to mud when it rained. A brick road suggested civilization, progress, and stability. It was a pathway that wouldn't wash away in storms or disappear in grass.</p><p style="margin-bottom: 15px;">The yellow brick road literally provides solid footing on Dorothy's journey. It's reliable. If she follows it, she won't get lost. This is both practical and symbolic — having a clear path makes difficult journeys possible.</p><p style="margin-bottom: 15px;">**What Does It Mean?**
-The yellow brick road represents several ideas:</p><p style="margin-bottom: 15px;">1. **Life's Journey**: We all have a path to follow, even if we don't know where it leads. Following your path requires faith that it goes somewhere meaningful.</p><p style="margin-bottom: 15px;">2. **Visible Goals**: The road is always visible. Dorothy can see where to step next, even if she can't see the final destination. This teaches us to focus on the next step, not worry about the entire journey.</p><p style="margin-bottom: 15px;">3. **Shared Path**: Others have traveled this road before Dorothy. It's worn smooth by countless feet. We're not alone in our journeys; others have faced similar challenges.</p><p style="margin-bottom: 15px;">4. **Diverging Choices**: The road sometimes splits or offers choices. Dorothy must decide which direction to take. Life requires decision-making, not just following blindly.</p><p style="margin-bottom: 15px;">5. **The Journey Matters**: The destination (Emerald City) is important, but the journey transforms Dorothy more than arriving does. Life is about the journey, not just the destination.</p><p style="margin-bottom: 15px;">**Modern Usage**:
+- Enlightenment and wisdom</p><p>Some scholars believe the yellow brick road represents the gold standard — a historical monetary policy that was controversial in the 1890s. Others see it as simply representing the path toward enlightenment and self-discovery.</p><p>**Why Brick?**
+Brick roads were modern and sophisticated in 1900. Most rural roads were dirt that turned to mud when it rained. A brick road suggested civilization, progress, and stability. It was a pathway that wouldn't wash away in storms or disappear in grass.</p><p>The yellow brick road literally provides solid footing on Dorothy's journey. It's reliable. If she follows it, she won't get lost. This is both practical and symbolic — having a clear path makes difficult journeys possible.</p><p>**What Does It Mean?**
+The yellow brick road represents several ideas:</p><p>1. **Life's Journey**: We all have a path to follow, even if we don't know where it leads. Following your path requires faith that it goes somewhere meaningful.</p><p>2. **Visible Goals**: The road is always visible. Dorothy can see where to step next, even if she can't see the final destination. This teaches us to focus on the next step, not worry about the entire journey.</p><p>3. **Shared Path**: Others have traveled this road before Dorothy. It's worn smooth by countless feet. We're not alone in our journeys; others have faced similar challenges.</p><p>4. **Diverging Choices**: The road sometimes splits or offers choices. Dorothy must decide which direction to take. Life requires decision-making, not just following blindly.</p><p>5. **The Journey Matters**: The destination (Emerald City) is important, but the journey transforms Dorothy more than arriving does. Life is about the journey, not just the destination.</p><p>**Modern Usage**:
 Today, "follow the yellow brick road" means:
 - Trust the process
 - Keep moving forward
 - Don't get distracted or lost
-- Your path will lead you where you need to go</p><p style="margin-bottom: 15px;">The phrase appears in songs, movies, and everyday language. It's become cultural shorthand for pursuing your dreams despite obstacles.</p><p style="margin-bottom: 15px;">The genius of the yellow brick road is its simplicity. Dorothy doesn't need a map, compass, or guide. She just needs to follow the yellow bricks. One step at a time, one brick at a time, she moves toward her goal.</p><p style="margin-bottom: 15px;">That's a powerful life lesson: When facing a long, difficult journey, don't focus on how far you have to go. Just take the next step. Then the next. Then the next. Follow your yellow brick road, wherever it may lead.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 8: Grammar
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar: Synonyms: Words with Similar Meanings</h2>
-                            <div style="margin: 20px 0;">
-                                <h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>
-                                <div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">
-                                    <p style="margin-bottom: 10px;">Synonyms are words that mean almost the same thing.</p><p style="margin-bottom: 10px;">Examples:
-- big = large, huge, enormous
-- happy = joyful, glad, cheerful  
-- walk = stroll, march, hike</p><p style="margin-bottom: 10px;">Using synonyms makes writing more interesting!</p>
-                                </div>
-                                <h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>
-                                <ul style="margin-bottom: 20px; line-height: 1.8;">
-                                    <li>The cyclone was huge/enormous/gigantic.</li><li>Dorothy was happy/glad/joyful to see Aunt Em.</li><li>The friends walked/marched/traveled to Oz.</li>
-                                </ul>
-                                <h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>
-                                <div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">1. Replace with a synonym: The Scarecrow was very smart.</p><textarea id="grammar-1" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div><div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">2. Write two sentences about the Lion using synonyms for 'brave.'</p><textarea id="grammar-2" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 9: Writing
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✍️ Writing Time</h2>
-                            <p style="margin-bottom: 15px;">Write a paragraph about what you read today. Use at least one vocabulary word.</p>
-                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 150px;" placeholder="Start writing..."></textarea>
-                        </div>
-                    `
-                },
-                
-                // Page 10: Completion
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h2 style="color: #305853; font-size: 36px; margin-bottom: 20px;">Great Job! 🎉</h2>
-                            <p style="font-size: 18px; color: #666;">You've completed Day 19!</p>
-                            <p style="font-size: 16px; color: #666; margin-top: 15px;">Click "Finish Lesson" to save your progress.</p>
-                        </div>
-                    `
-                }
-            ]
+- Your path will lead you where you need to go</p><p>The phrase appears in songs, movies, and everyday language. It's become cultural shorthand for pursuing your dreams despite obstacles.</p><p>The genius of the yellow brick road is its simplicity. Dorothy doesn't need a map, compass, or guide. She just needs to follow the yellow bricks. One step at a time, one brick at a time, she moves toward her goal.</p><p>That's a powerful life lesson: When facing a long, difficult journey, don't focus on how far you have to go. Just take the next step. Then the next. Then the next. Follow your yellow brick road, wherever it may lead.</p>
+                    </div>
+                    
+                    <h3>Questions:</h3>
+                    <div class="question-card">
+                        <p><strong>1.</strong> What did you learn from this text?</p>
+                        <textarea id="info-19-1" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                    <div class="question-card">
+                        <p><strong>2.</strong> How does this information help you understand the story?</p>
+                        <textarea id="info-19-2" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "writing",
+        "content": isOdd ? `
+                    <h2>✍️ Writing Practice</h2>
+                    <p>Write a paragraph about today's chapter. Use both vocabulary words.</p>
+                    <div class="writing-prompt">
+                        <textarea id="writing-19" rows="12" placeholder="Your paragraph..."></textarea>
+                    </div>
+                ` : `
+                    <h2>📝 Journal Response</h2>
+                    <p>Reflect on today's reading. How would you feel if you were Dorothy? What would you do?</p>
+                    <div class="journal-prompt">
+                        <textarea id="journal-19" rows="12" placeholder="Your journal entry..."></textarea>
+                    </div>
+                `
+    }
+]
         };
 
         if (typeof initLessonViewer === 'function') {
             initLessonViewer(lesson19Config);
+        } else {
+            console.error('initLessonViewer function not found!');
         }
     </script>
 </body>

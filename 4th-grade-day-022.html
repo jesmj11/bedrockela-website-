@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day 22 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container"></div>
@@ -16,87 +15,90 @@
     <script src="firebase-config.js"></script>
     <script src="js/lesson-completion.js?v=1772665488"></script>
     <script src="js/lesson-autosave.js?v=1772665488"></script>
-    
+
     <script>
         const lesson22Config = {
-            lessonId: '4th-grade-day-22',
+            lessonId: '4th-grade-day-022',
             gradeLevel: '4th-grade',
-            title: 'Day 22 - Wizard of Oz',
+            title: 'Day 22 - The Wizard of Oz',
             pages: [
-                // Page 1: Title
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h1>Day 22</h1>
-                            <div class="subtitle">4th Grade ELA • Week 5</div>
-                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
-                                The Wonderful Wizard of Oz
-                            </p>
-                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 22: Glinda Grants Dorothy's Wish
-                            </p>
+    {
+        "type": "title",
+        "content": `
+                    <h1>Day 22</h1>
+                    <h2>The Wizard of Oz</h2>
+                    <p class="unit-label">4th Grade • Week 5</p>
+                    <p class="chapter-info">Glinda Grants Dorothy's Wish</p>
+                `
+    },
+    {
+        "type": "content",
+        "content": `
+                    <h2>📚 Welcome to Day 22!</h2>
+                    <div class="objectives-box">
+                        <h3>Today's Learning Goals:</h3>
+                        <ul>
+                            <li>Learn 2 new vocabulary words</li>
+                            <li>Read Glinda Grants Dorothy's Wish</li>
+                            <li>Practice Cause and Effect Words</li>
+                            <li>Explore informational text</li>
+                            <li>Complete a journal activity</li>
+                        </ul>
+                        <p><strong>Estimated time:</strong> 45-60 minutes</p>
+                    </div>
+                `
+    },
+    {
+        "type": "vocabulary",
+        "content": `
+                    <h2>📖 Vocabulary</h2>
+                    <p>Learn these 2 words before reading:</p>
+                    
+                    <div class="vocab-word-card">
+                        <h3>1. destiny</h3>
+                        <p class="definition"><strong>Definition:</strong> The future path or purpose that seems meant for someone. Where you are supposed to end up.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-22-1" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                    
+                    <div class="vocab-word-card">
+                        <h3>2. farewell</h3>
+                        <p class="definition"><strong>Definition:</strong> A goodbye, especially one that is emotional or final. The act of saying goodbye when you may not see someone again.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-22-2" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "activity",
+        "content": `
+                    <h2>🎮 Vocabulary Matching Game</h2>
+                    <p style="color: #666; margin-bottom: 5px;">Match each word to its definition!</p>
+                    <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 2</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                        <div id="wordColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                            <div class="match-word" data-word="destiny" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">destiny</div>
+                            <div class="match-word" data-word="farewell" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">farewell</div>
                         </div>
-                    `
-                },
-                
-                // Page 2: Objectives
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Welcome to Day 22!</h2>
-                            <p>Today you will:</p>
-                            <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Learn 2 new vocabulary words</li>
-                                <li>Read <strong>Glinda Grants Dorothy's Wish</strong></li>
-                                <li>Answer 2 comprehension questions</li>
-                                <li>Practice language skills</li>
-                                <li>Complete a writing task</li>
-                            </ul>
-                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        <div id="defColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                            <div class="match-def" data-word="destiny" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">The future path or purpose that seems meant for someone. Where you are supposed to end up.</div>
+                            <div class="match-def" data-word="farewell" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">A goodbye, especially one that is emotional or final. The act of saying goodbye when you may not see someone again.</div>
                         </div>
-                    `
-                },
-                
-                // Page 3: Vocabulary
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 Vocabulary Words</h2>
-                            
-                            <div style="margin: 30px 0;">
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">destiny</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(noun)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">The future path or purpose that seems meant for someone. Where you are supposed to end up.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> Each of Dorothy's friends found their destiny: the Scarecrow as ruler, the Tin Woodman as emperor, the Lion as king.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> Did Dorothy's friends find their destinies because of magic, or because of who they already were? What is the difference?</p>
-                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                                
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">farewell</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(noun/interjection)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">A goodbye, especially one that is emotional or final. The act of saying goodbye when you may not see someone again.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> The farewells were the hardest part — saying goodbye to friends who had become family.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> Why are farewells so difficult? What makes a goodbye painful even when you are going somewhere you want to be?</p>
-                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 4: Story (full chapter)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 Glinda Grants Dorothy's Wish</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                <p style="margin-bottom: 15px;">Glinda sat on her throne of rubies and looked at Dorothy with warm, knowing eyes.
+                    </div>
+                    
+                    <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                `,
+                onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 Glinda Grants Dorothy's Wish - Part 1</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;">Glinda sat on her throne of rubies and looked at Dorothy with warm, knowing eyes.
 "Before I tell you how to get home," Glinda said, "let me help your friends find their places in the world."
 She turned to the Scarecrow. "The people of the Emerald City have asked me to find them a good ruler. They love you, Scarecrow. You helped defeat the witches, and you governed wisely while the Wizard was... away. Will you return and lead them?"
 The Scarecrow straightened up. His painted face seemed to glow. "I will," he said. "I have brains now, and I will use them to make the Emerald City the wisest place in all of Oz."
@@ -130,111 +132,116 @@ The Winged Monkeys lifted her three friends into the air. Dorothy watched them g
 She stood in the courtyard of the ruby castle, holding Toto, and allowed herself to cry.
 Then she wiped her eyes, took a breath, and turned back to Glinda.
 "Now," Dorothy said. "Tell me about the silver shoes."</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 5: Comprehension - Multiple Choice
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Reading Comprehension</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">1. What does Glinda plan to do with the Golden Cap after Dorothy uses it?</p>
-                                <div>
-                                    <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> Keep it for herself</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> Destroy it</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> Use the final command to set the Winged Monkeys free forever</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> Give it to the Scarecrow</label>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 6: Comprehension - Short Answer
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Short Answer</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">2. Each of Dorothy's friends receives a role that perfectly matches who they already are: the Scarecrow rules (brains), the Tin Woodman serves with kindness (heart), and the Lion protects (courage). Were these destinies created by the Wizard's gifts, or were they always who these characters were meant to be?</p>
-                                <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Hint:</strong> The gifts were symbols. The characters' true qualities were visible from the very beginning — in what they DID, not what they SAID about themselves.</p>
-                                <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 120px;" placeholder="Write your answer here..."></textarea>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 7: Informational Text
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>🌍 Informational Text: The Hero's Journey: Dorothy's Transformation</h2>
-                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
-                                <p style="margin-bottom: 15px;">The Wizard of Oz follows a pattern that appears in stories across all cultures and time periods: the Hero's Journey. Identified by scholar Joseph Campbell, this pattern includes stages that Dorothy experiences almost exactly.</p><p style="margin-bottom: 15px;">**Stage 1: The Ordinary World**
-Dorothy lives in gray Kansas, dissatisfied but accepting her life. She's ordinary, unhappy, but unaware of her potential.</p><p style="margin-bottom: 15px;">**Stage 2: Call to Adventure**
-The tornado literally calls Dorothy to adventure, lifting her house and dropping her in Oz. She didn't choose this; it chose her.</p><p style="margin-bottom: 15px;">**Stage 3: Refusal of the Call**
-Dorothy immediately wants to go home. She doesn't want adventure — she wants Kansas. This is normal; most heroes initially refuse the call.</p><p style="margin-bottom: 15px;">**Stage 4: Meeting the Mentor**
-The Good Witch of the North becomes Dorothy's mentor. She gives advice, protects Dorothy (with a kiss), and points her toward the Wizard.</p><p style="margin-bottom: 15px;">**Stage 5: Crossing the Threshold**
-Dorothy steps onto the Yellow Brick Road. She's committed now. There's no turning back.</p><p style="margin-bottom: 15px;">**Stage 6: Tests, Allies, and Enemies**
-Dorothy meets allies (Scarecrow, Tin Woodman, Lion) and enemies (Wicked Witch). Each test builds her strength and confidence.</p><p style="margin-bottom: 15px;">**Stage 7: Approach to the Inmost Cave**
-Dorothy reaches the Emerald City. She's approaching the source of power she thinks can solve her problem.</p><p style="margin-bottom: 15px;">**Stage 8: The Ordeal**
-The Wizard sends Dorothy to kill the Wicked Witch — an impossible task. But she succeeds, not through power but through accident (water) and determination.</p><p style="margin-bottom: 15px;">**Stage 9: Reward**
-Dorothy returns victorious. She's earned her reward: going home.</p><p style="margin-bottom: 15px;">**Stage 10: The Road Back**
-Complications arise (the balloon leaves without her), but Dorothy continues searching for a way home.</p><p style="margin-bottom: 15px;">**Stage 11: Resurrection**
-Dorothy learns the truth: she could have gone home anytime using the silver slippers. She had the power all along.</p><p style="margin-bottom: 15px;">**Stage 12: Return with the Elixir**
-Dorothy returns to Kansas transformed. She looks the same, but she's different inside. She's braver, wiser, and more confident. The adventure changed her.</p><p style="margin-bottom: 15px;">**Why Does This Pattern Matter?**</p><p style="margin-bottom: 15px;">The Hero's Journey resonates because it mirrors real life. We all face challenges that push us out of our comfort zones. We all meet helpful people and difficult obstacles. We all discover strengths we didn't know we had.</p><p style="margin-bottom: 15px;">Dorothy starts as a helpless girl carried away by forces beyond her control. She ends as a leader who defeated a powerful witch, survived numerous dangers, and helped three friends discover their own strengths.</p><p style="margin-bottom: 15px;">The key insight: she didn't gain new powers. She discovered powers she always had. Courage, leadership, kindness, and determination were within her all along. The journey simply revealed them.</p><p style="margin-bottom: 15px;">This is why the story remains powerful over 120 years after publication. It's not about magic slippers or wizard — it's about discovering your own strength through adversity.</p><p style="margin-bottom: 15px;">Every one of us is on a hero's journey. School, friendships, family challenges, personal growth — these are our adventures. Like Dorothy, we start feeling powerless. But through our journey, we discover capabilities we never knew we possessed.</p><p style="margin-bottom: 15px;">The question isn't whether you have the strength to face your challenges. The question is whether you'll take the first step on your yellow brick road and discover the hero you already are.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 8: Grammar
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar: Compound Sentences with Conjunctions</h2>
-                            <div style="margin: 20px 0;">
-                                <h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>
-                                <div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">
-                                    <p style="margin-bottom: 10px;">A compound sentence joins two complete thoughts with a conjunction.</p><p style="margin-bottom: 10px;">**Common conjunctions**: and, but, or</p><p style="margin-bottom: 10px;">Pattern: sentence, conjunction sentence.</p><p style="margin-bottom: 10px;">Example: Dorothy wanted to go home, *but* she didn't know how.</p>
-                                </div>
-                                <h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>
-                                <ul style="margin-bottom: 20px; line-height: 1.8;">
-                                    <li>The Scarecrow wanted a brain, and the Tin Woodman wanted a heart.</li><li>Dorothy could stay in Oz, or she could return to Kansas.</li><li>The Lion was afraid, but he acted bravely anyway.</li>
-                                </ul>
-                                <h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>
-                                <div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">1. Combine with a conjunction: The cyclone came. Dorothy couldn't reach the cellar.</p><textarea id="grammar-1" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div><div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">2. Write a compound sentence about two characters using 'and' or 'but.'</p><textarea id="grammar-2" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 9: Writing
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✍️ Writing Time</h2>
-                            <p style="margin-bottom: 15px;">Write a journal entry about what happened in today's chapter. How would you feel if you were Dorothy?</p>
-                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 150px;" placeholder="Start writing..."></textarea>
-                        </div>
-                    `
-                },
-                
-                // Page 10: Completion
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h2 style="color: #305853; font-size: 36px; margin-bottom: 20px;">Great Job! 🎉</h2>
-                            <p style="font-size: 18px; color: #666;">You've completed Day 22!</p>
-                            <p style="font-size: 16px; color: #666; margin-top: 15px;">Click "Finish Lesson" to save your progress.</p>
-                        </div>
-                    `
-                }
-            ]
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 Glinda Grants Dorothy's Wish - Part 2</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 Glinda Grants Dorothy's Wish - Part 3</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "comprehension",
+        "content": `
+                    <h2>💭 Reading Comprehension</h2>
+                    <p>Answer these questions about today's reading:</p>
+                    
+                    <div class="question-card">
+                        <p><strong>1.</strong> What does Glinda plan to do with the Golden Cap after Dorothy uses it?</p>
+                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> Keep it for herself</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> Destroy it</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> Use the final command to set the Winged Monkeys free forever</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> Give it to the Scarecrow</label>
+                    </div>
+                    
+                    <div class="question-card" style="margin-top: 20px;">
+                        <p><strong>2.</strong> Each of Dorothy's friends receives a role that perfectly matches who they already are: the Scarecrow rules (brains), the Tin Woodman serves with kindness (heart), and the Lion protects (courage). Were these destinies created by the Wizard's gifts, or were they always who these characters were meant to be?</p>
+                        <p style="font-size: 14px; color: #666; margin-bottom: 10px;"><strong>Hint:</strong> The gifts were symbols. The characters' true qualities were visible from the very beginning — in what they DID, not what they SAID about themselves.</p>
+                        <textarea id="comp-short" rows="8" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "grammar-language",
+        "content": skill ? `
+                    <h2>✏️ Cause and Effect Words</h2>
+                    <div class="skill-explanation">
+                        <p>Some words signal cause and effect: because, so, since, therefore.</p>
+                    </div>
+                    
+                    <h3>Examples:</h3>
+                    <ul>
+                        <li>"Dorothy was scared because of the tornado."</li><li>"The house fell, so Dorothy went to Oz."</li>
+                    </ul>
+                    
+                    <h3>Practice:</h3>
+                    <div class="exercise-card"><p><strong>1.</strong> Write a sentence using "because"</p><textarea id="skill-22-1" rows="6" placeholder="Your answer..."></textarea></div>
+                ` : '<p>Skill content will be added.</p>'
+    },
+    {
+        "type": "informational",
+        "content": `
+                    <h2>🌍 Informational Text: The Hero's Journey: Dorothy's Transformation</h2>
+                    <div class="informational-article">
+                        <p>The Wizard of Oz follows a pattern that appears in stories across all cultures and time periods: the Hero's Journey. Identified by scholar Joseph Campbell, this pattern includes stages that Dorothy experiences almost exactly.</p><p>**Stage 1: The Ordinary World**
+Dorothy lives in gray Kansas, dissatisfied but accepting her life. She's ordinary, unhappy, but unaware of her potential.</p><p>**Stage 2: Call to Adventure**
+The tornado literally calls Dorothy to adventure, lifting her house and dropping her in Oz. She didn't choose this; it chose her.</p><p>**Stage 3: Refusal of the Call**
+Dorothy immediately wants to go home. She doesn't want adventure — she wants Kansas. This is normal; most heroes initially refuse the call.</p><p>**Stage 4: Meeting the Mentor**
+The Good Witch of the North becomes Dorothy's mentor. She gives advice, protects Dorothy (with a kiss), and points her toward the Wizard.</p><p>**Stage 5: Crossing the Threshold**
+Dorothy steps onto the Yellow Brick Road. She's committed now. There's no turning back.</p><p>**Stage 6: Tests, Allies, and Enemies**
+Dorothy meets allies (Scarecrow, Tin Woodman, Lion) and enemies (Wicked Witch). Each test builds her strength and confidence.</p><p>**Stage 7: Approach to the Inmost Cave**
+Dorothy reaches the Emerald City. She's approaching the source of power she thinks can solve her problem.</p><p>**Stage 8: The Ordeal**
+The Wizard sends Dorothy to kill the Wicked Witch — an impossible task. But she succeeds, not through power but through accident (water) and determination.</p><p>**Stage 9: Reward**
+Dorothy returns victorious. She's earned her reward: going home.</p><p>**Stage 10: The Road Back**
+Complications arise (the balloon leaves without her), but Dorothy continues searching for a way home.</p><p>**Stage 11: Resurrection**
+Dorothy learns the truth: she could have gone home anytime using the silver slippers. She had the power all along.</p><p>**Stage 12: Return with the Elixir**
+Dorothy returns to Kansas transformed. She looks the same, but she's different inside. She's braver, wiser, and more confident. The adventure changed her.</p><p>**Why Does This Pattern Matter?**</p><p>The Hero's Journey resonates because it mirrors real life. We all face challenges that push us out of our comfort zones. We all meet helpful people and difficult obstacles. We all discover strengths we didn't know we had.</p><p>Dorothy starts as a helpless girl carried away by forces beyond her control. She ends as a leader who defeated a powerful witch, survived numerous dangers, and helped three friends discover their own strengths.</p><p>The key insight: she didn't gain new powers. She discovered powers she always had. Courage, leadership, kindness, and determination were within her all along. The journey simply revealed them.</p><p>This is why the story remains powerful over 120 years after publication. It's not about magic slippers or wizard — it's about discovering your own strength through adversity.</p><p>Every one of us is on a hero's journey. School, friendships, family challenges, personal growth — these are our adventures. Like Dorothy, we start feeling powerless. But through our journey, we discover capabilities we never knew we possessed.</p><p>The question isn't whether you have the strength to face your challenges. The question is whether you'll take the first step on your yellow brick road and discover the hero you already are.</p>
+                    </div>
+                    
+                    <h3>Questions:</h3>
+                    <div class="question-card">
+                        <p><strong>1.</strong> What did you learn from this text?</p>
+                        <textarea id="info-22-1" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                    <div class="question-card">
+                        <p><strong>2.</strong> How does this information help you understand the story?</p>
+                        <textarea id="info-22-2" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "writing",
+        "content": isOdd ? `
+                    <h2>✍️ Writing Practice</h2>
+                    <p>Write a paragraph about today's chapter. Use both vocabulary words.</p>
+                    <div class="writing-prompt">
+                        <textarea id="writing-22" rows="12" placeholder="Your paragraph..."></textarea>
+                    </div>
+                ` : `
+                    <h2>📝 Journal Response</h2>
+                    <p>Reflect on today's reading. How would you feel if you were Dorothy? What would you do?</p>
+                    <div class="journal-prompt">
+                        <textarea id="journal-22" rows="12" placeholder="Your journal entry..."></textarea>
+                    </div>
+                `
+    }
+]
         };
 
         if (typeof initLessonViewer === 'function') {
             initLessonViewer(lesson22Config);
+        } else {
+            console.error('initLessonViewer function not found!');
         }
     </script>
 </body>

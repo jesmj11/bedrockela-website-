@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day 13 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container"></div>
@@ -16,87 +15,90 @@
     <script src="firebase-config.js"></script>
     <script src="js/lesson-completion.js?v=1772665488"></script>
     <script src="js/lesson-autosave.js?v=1772665488"></script>
-    
+
     <script>
         const lesson13Config = {
-            lessonId: '4th-grade-day-13',
+            lessonId: '4th-grade-day-013',
             gradeLevel: '4th-grade',
-            title: 'Day 13 - Wizard of Oz',
+            title: 'Day 13 - The Wizard of Oz',
             pages: [
-                // Page 1: Title
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h1>Day 13</h1>
-                            <div class="subtitle">4th Grade ELA • Week 3</div>
-                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
-                                The Wonderful Wizard of Oz
-                            </p>
-                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 13: Dorothy the Prisoner
-                            </p>
+    {
+        "type": "title",
+        "content": `
+                    <h1>Day 13</h1>
+                    <h2>The Wizard of Oz</h2>
+                    <p class="unit-label">4th Grade • Week 3</p>
+                    <p class="chapter-info">Dorothy the Prisoner</p>
+                `
+    },
+    {
+        "type": "content",
+        "content": `
+                    <h2>📚 Welcome to Day 13!</h2>
+                    <div class="objectives-box">
+                        <h3>Today's Learning Goals:</h3>
+                        <ul>
+                            <li>Learn 2 new vocabulary words</li>
+                            <li>Read Dorothy the Prisoner</li>
+                            <li>Practice Commas in a Series</li>
+                            <li>Explore informational text</li>
+                            <li>Complete a writing activity</li>
+                        </ul>
+                        <p><strong>Estimated time:</strong> 45-60 minutes</p>
+                    </div>
+                `
+    },
+    {
+        "type": "vocabulary",
+        "content": `
+                    <h2>📖 Vocabulary</h2>
+                    <p>Learn these 2 words before reading:</p>
+                    
+                    <div class="vocab-word-card">
+                        <h3>1. captive</h3>
+                        <p class="definition"><strong>Definition:</strong> A person who is held prisoner and cannot leave. Trapped against your will.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-13-1" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                    
+                    <div class="vocab-word-card">
+                        <h3>2. defiant</h3>
+                        <p class="definition"><strong>Definition:</strong> Boldly refusing to obey or submit. Standing up against someone more powerful than you.</p>
+                        <label>Write the definition in your own words:</label>
+                        <textarea id="vocab-13-2" rows="5" placeholder="Your definition..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "activity",
+        "content": `
+                    <h2>🎮 Vocabulary Matching Game</h2>
+                    <p style="color: #666; margin-bottom: 5px;">Match each word to its definition!</p>
+                    <p style="color: #305853; font-weight: 600; margin-bottom: 20px;">Score: <span id="gameScore">0</span> / 2</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto;">
+                        <div id="wordColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #305853; margin-bottom: 10px;">Words</h3>
+                            <div class="match-word" data-word="captive" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">captive</div>
+                            <div class="match-word" data-word="defiant" onclick="selectWord(this)" style="padding: 12px 16px; margin: 6px; background: #305853; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.2s;">defiant</div>
                         </div>
-                    `
-                },
-                
-                // Page 2: Objectives
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Welcome to Day 13!</h2>
-                            <p>Today you will:</p>
-                            <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Learn 2 new vocabulary words</li>
-                                <li>Read <strong>Dorothy the Prisoner</strong></li>
-                                <li>Answer 2 comprehension questions</li>
-                                <li>Practice grammar skills</li>
-                                <li>Complete a writing task</li>
-                            </ul>
-                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        <div id="defColumn" style="display: flex; flex-direction: column;">
+                            <h3 style="text-align: center; color: #8B4513; margin-bottom: 10px;">Definitions</h3>
+                            <div class="match-def" data-word="captive" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">A person who is held prisoner and cannot leave. Trapped against your will.</div>
+                            <div class="match-def" data-word="defiant" onclick="selectDef(this)" style="padding: 12px 16px; margin: 6px; background: white; border: 2px solid #8B4513; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Boldly refusing to obey or submit. Standing up against someone more powerful than you.</div>
                         </div>
-                    `
-                },
-                
-                // Page 3: Vocabulary
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 Vocabulary Words</h2>
-                            
-                            <div style="margin: 30px 0;">
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A; margin-bottom: 20px;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">captive</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(noun/adjective)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">A person who is held prisoner and cannot leave. Trapped against your will.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> Dorothy was a captive in the Witch's castle, forced to cook and clean from morning until night.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> How does being a captive test Dorothy's character? What does she do that shows she has not given up?</p>
-                                    <textarea id="vocab-1" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                                
-                                <div style="padding: 25px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">defiant</span>
-                                        <span style="font-size: 14px; color: #666; margin-left: 10px;">(adjective)</span>
-                                    </div>
-                                    <p style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Boldly refusing to obey or submit. Standing up against someone more powerful than you.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>From the story:</strong> Even as a prisoner, Dorothy remained defiant — she refused to be broken by the Witch's cruelty.</p>
-                                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Think about it:</strong> Where does Dorothy's defiance come from? Is defiance a kind of courage?</p>
-                                    <textarea id="vocab-2" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 100px;" placeholder="Write a sentence using this word..."></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 4: Story (full chapter)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>📖 Dorothy the Prisoner</h2>
-                            <div style="font-size: 16px; line-height: 1.8; color: #333;">
-                                <p style="margin-bottom: 15px;">The Wicked Witch of the West kept Dorothy as her prisoner. She set her to work in the kitchen — scrubbing floors, washing pots, carrying water, sweeping ashes from the great fireplace. The work was hard and the Witch was cruel, but Dorothy did not break.
+                    </div>
+                    
+                    <div id="gameFeedback" style="margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;"></div>
+                `,
+                onLoad: () => { if(window.initVocabGame) window.initVocabGame(); }
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 Dorothy the Prisoner - Part 1</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;">The Wicked Witch of the West kept Dorothy as her prisoner. She set her to work in the kitchen — scrubbing floors, washing pots, carrying water, sweeping ashes from the great fireplace. The work was hard and the Witch was cruel, but Dorothy did not break.
 Every day, Dorothy checked on the Cowardly Lion, who was locked in an iron cage in the courtyard. The Witch was trying to starve him into pulling her carriage like a horse, but the Lion refused.
 "I will not serve her," the Lion said through the bars. His voice was hoarse, but his eyes were fierce. "She can keep me in this cage forever, but I will not bow to a bully."
 "That is very brave of you," Dorothy said, pushing food through the bars. She had saved scraps from the kitchen — bread, vegetables, a few pieces of meat she had hidden in her apron.
@@ -115,99 +117,108 @@ The Witch laughed. But there was something nervous in her laugh, because she cou
 Dorothy lay awake that night, stroking Toto's ears and thinking. She still had one silver shoe. The Witch had the other. The Witch was afraid of water. And tomorrow, Dorothy would have to carry water from the well again, as she did every day.
 An idea was forming — not a plan, exactly, but a feeling. A sense that something was about to change.
 She held Toto close and waited for morning.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 5: Comprehension - Multiple Choice
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Reading Comprehension</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">1. Why is the Wicked Witch afraid of Dorothy?</p>
-                                <div>
-                                    <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> Dorothy is physically stronger than her</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> Dorothy has an army</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> Dorothy wears the silver shoes and bears the mark of the Witch of the North's kiss</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> Dorothy knows magic spells</label>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 6: Comprehension - Short Answer
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>💭 Short Answer</h2>
-                            <div style="margin: 20px 0;">
-                                <p style="font-weight: 600; margin-bottom: 15px;">2. Even as a prisoner, Dorothy sneaks food to the Lion and refuses to give up. Where do you think her strength comes from? Is Dorothy brave in the same way as the Lion, or is her courage different?</p>
-                                <p style="font-size: 14px; color: #666; margin-bottom: 15px;"><strong>Hint:</strong> Think about different kinds of bravery. The Lion's courage is about facing physical danger. Dorothy's courage might be about something quieter — endurance, loyalty, and refusing to quit.</p>
-                                <textarea id="comp-short" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 120px;" placeholder="Write your answer here..."></textarea>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 7: Informational Text
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>🌍 Informational Text: The Power of Home in Literature</h2>
-                            <div style="font-size: 15px; line-height: 1.7; color: #333; margin: 20px 0;">
-                                <p style="margin-bottom: 15px;">"There's no place like home" is one of the most famous lines in children's literature. But what makes home so powerful? Why does Dorothy spend the entire book trying to return to gray, dusty Kansas instead of staying in colorful, magical Oz?</p><p style="margin-bottom: 15px;">In literature, "home" represents more than a physical place. It represents belonging, identity, safety, and love. Home is where you're known and accepted. It's where you can be yourself without pretending.</p><p style="margin-bottom: 15px;">Many classic stories explore the theme of home. In Homer's "Odyssey," Odysseus spends ten years trying to return home after the Trojan War. In "The Chronicles of Narnia," children travel between worlds but always return home. In "Alice in Wonderland," Alice desperately wants to wake up and go home.</p><p style="margin-bottom: 15px;">Why do these stories resonate? Because everyone sometimes feels lost or out of place. We all long for somewhere we truly belong. Children especially understand this feeling — school, sleepovers, camps, even vacations can make you homesick.</p><p style="margin-bottom: 15px;">Dorothy's journey is interesting because Oz seems objectively better than Kansas. Oz has magic, adventure, talking animals, and beautiful sights. Kansas has gray dust, hard work, and very little joy. Yet Dorothy never wavers. She wants to go home to Aunt Em, even though Aunt Em rarely smiles.</p><p style="margin-bottom: 15px;">This teaches an important lesson: love and belonging matter more than comfort or excitement. Aunt Em and Uncle Henry are Dorothy's family. They might not express affection openly, but they're her people. She knows them, and they know her. That connection is irreplaceable.</p><p style="margin-bottom: 15px;">L. Frank Baum understood something profound: children need roots. They need to know where they come from and where they belong. Adventures are wonderful, but they're better when you have a home to return to.</p><p style="margin-bottom: 15px;">The book's ending — Dorothy waking up in Kansas, surrounded by familiar faces — brings the message home (pun intended). She's learned that she didn't need to find her way home through magic. The power was within her all along, in her love for the people waiting for her.</p><p style="margin-bottom: 15px;">Home isn't about the fanciest house or the most exciting place. Home is where love lives.</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 8: Grammar
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✏️ Grammar: Commas in a Series</h2>
-                            <div style="margin: 20px 0;">
-                                <h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>
-                                <div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">
-                                    <p style="margin-bottom: 10px;">When listing three or more items, use commas to separate them.</p><p style="margin-bottom: 10px;">Pattern: item, item, and item</p><p style="margin-bottom: 10px;">Example: Dorothy met the Scarecrow, the Tin Woodman, and the Lion.</p>
-                                </div>
-                                <h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>
-                                <ul style="margin-bottom: 20px; line-height: 1.8;">
-                                    <li>The Scarecrow wanted a brain, the Tin Woodman wanted a heart, and the Lion wanted courage.</li><li>Dorothy packed bread, water, and her basket.</li><li>Kansas was gray, flat, and dusty.</li>
-                                </ul>
-                                <h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>
-                                <div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">1. Add commas: The witch had wolves crows and bees.</p><textarea id="grammar-1" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div><div style="margin-bottom: 20px;"><p style="font-weight: 600; margin-bottom: 8px;">2. Write a sentence listing three things Dorothy saw in Oz.</p><textarea id="grammar-2" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea></div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 9: Writing
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>✍️ Writing Time</h2>
-                            <p style="margin-bottom: 15px;">Write a paragraph about what you read today. Use at least one vocabulary word.</p>
-                            <textarea id="writing" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 150px;" placeholder="Start writing..."></textarea>
-                        </div>
-                    `
-                },
-                
-                // Page 10: Completion
-                {
-                    render: () => `
-                        <div class="lesson-page-card title-page">
-                            <h2 style="color: #305853; font-size: 36px; margin-bottom: 20px;">Great Job! 🎉</h2>
-                            <p style="font-size: 18px; color: #666;">You've completed Day 13!</p>
-                            <p style="font-size: 16px; color: #666; margin-top: 15px;">Click "Finish Lesson" to save your progress.</p>
-                        </div>
-                    `
-                }
-            ]
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 Dorothy the Prisoner - Part 2</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "reading",
+        "content": `
+                    <h2>📖 Dorothy the Prisoner - Part 3</h2>
+                    <div class="story-content">
+                        <p style="margin-bottom: 15px;"></p>
+                    </div>
+                `
+    },
+    {
+        "type": "comprehension",
+        "content": `
+                    <h2>💭 Reading Comprehension</h2>
+                    <p>Answer these questions about today's reading:</p>
+                    
+                    <div class="question-card">
+                        <p><strong>1.</strong> Why is the Wicked Witch afraid of Dorothy?</p>
+                        <label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="A" style="margin-right: 10px;"><strong>A)</strong> Dorothy is physically stronger than her</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="B" style="margin-right: 10px;"><strong>B)</strong> Dorothy has an army</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="C" style="margin-right: 10px;"><strong>C)</strong> Dorothy wears the silver shoes and bears the mark of the Witch of the North's kiss</label><label style="display: block; margin: 10px 0; padding: 12px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;"><input type="radio" name="mc-q1" value="D" style="margin-right: 10px;"><strong>D)</strong> Dorothy knows magic spells</label>
+                    </div>
+                    
+                    <div class="question-card" style="margin-top: 20px;">
+                        <p><strong>2.</strong> Even as a prisoner, Dorothy sneaks food to the Lion and refuses to give up. Where do you think her strength comes from? Is Dorothy brave in the same way as the Lion, or is her courage different?</p>
+                        <p style="font-size: 14px; color: #666; margin-bottom: 10px;"><strong>Hint:</strong> Think about different kinds of bravery. The Lion's courage is about facing physical danger. Dorothy's courage might be about something quieter — endurance, loyalty, and refusing to quit.</p>
+                        <textarea id="comp-short" rows="8" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "grammar-language",
+        "content": skill ? `
+                    <h2>✏️ Commas in a Series</h2>
+                    <div class="skill-explanation">
+                        <p>When listing three or more items, use commas to separate them.
+
+Pattern: item, item, and item
+
+Example: Dorothy met the Scarecrow, the Tin Woodman, and the Lion.</p>
+                    </div>
+                    
+                    <h3>Examples:</h3>
+                    <ul>
+                        <li>The Scarecrow wanted a brain, the Tin Woodman wanted a heart, and the Lion wanted courage.</li><li>Dorothy packed bread, water, and her basket.</li><li>Kansas was gray, flat, and dusty.</li>
+                    </ul>
+                    
+                    <h3>Practice:</h3>
+                    <div class="exercise-card"><p><strong>1.</strong> Add commas: The witch had wolves crows and bees.</p><textarea id="skill-13-1" rows="6" placeholder="Your answer..."></textarea></div><div class="exercise-card"><p><strong>2.</strong> Write a sentence listing three things Dorothy saw in Oz.</p><textarea id="skill-13-2" rows="6" placeholder="Your answer..."></textarea></div>
+                ` : '<p>Skill content will be added.</p>'
+    },
+    {
+        "type": "informational",
+        "content": `
+                    <h2>🌍 Informational Text: The Power of Home in Literature</h2>
+                    <div class="informational-article">
+                        <p>"There's no place like home" is one of the most famous lines in children's literature. But what makes home so powerful? Why does Dorothy spend the entire book trying to return to gray, dusty Kansas instead of staying in colorful, magical Oz?</p><p>In literature, "home" represents more than a physical place. It represents belonging, identity, safety, and love. Home is where you're known and accepted. It's where you can be yourself without pretending.</p><p>Many classic stories explore the theme of home. In Homer's "Odyssey," Odysseus spends ten years trying to return home after the Trojan War. In "The Chronicles of Narnia," children travel between worlds but always return home. In "Alice in Wonderland," Alice desperately wants to wake up and go home.</p><p>Why do these stories resonate? Because everyone sometimes feels lost or out of place. We all long for somewhere we truly belong. Children especially understand this feeling — school, sleepovers, camps, even vacations can make you homesick.</p><p>Dorothy's journey is interesting because Oz seems objectively better than Kansas. Oz has magic, adventure, talking animals, and beautiful sights. Kansas has gray dust, hard work, and very little joy. Yet Dorothy never wavers. She wants to go home to Aunt Em, even though Aunt Em rarely smiles.</p><p>This teaches an important lesson: love and belonging matter more than comfort or excitement. Aunt Em and Uncle Henry are Dorothy's family. They might not express affection openly, but they're her people. She knows them, and they know her. That connection is irreplaceable.</p><p>L. Frank Baum understood something profound: children need roots. They need to know where they come from and where they belong. Adventures are wonderful, but they're better when you have a home to return to.</p><p>The book's ending — Dorothy waking up in Kansas, surrounded by familiar faces — brings the message home (pun intended). She's learned that she didn't need to find her way home through magic. The power was within her all along, in her love for the people waiting for her.</p><p>Home isn't about the fanciest house or the most exciting place. Home is where love lives.</p>
+                    </div>
+                    
+                    <h3>Questions:</h3>
+                    <div class="question-card">
+                        <p><strong>1.</strong> What did you learn from this text?</p>
+                        <textarea id="info-13-1" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                    <div class="question-card">
+                        <p><strong>2.</strong> How does this information help you understand the story?</p>
+                        <textarea id="info-13-2" rows="6" placeholder="Your answer..."></textarea>
+                    </div>
+                `
+    },
+    {
+        "type": "writing",
+        "content": isOdd ? `
+                    <h2>✍️ Writing Practice</h2>
+                    <p>Write a paragraph about today's chapter. Use both vocabulary words.</p>
+                    <div class="writing-prompt">
+                        <textarea id="writing-13" rows="12" placeholder="Your paragraph..."></textarea>
+                    </div>
+                ` : `
+                    <h2>📝 Journal Response</h2>
+                    <p>Reflect on today's reading. How would you feel if you were Dorothy? What would you do?</p>
+                    <div class="journal-prompt">
+                        <textarea id="journal-13" rows="12" placeholder="Your journal entry..."></textarea>
+                    </div>
+                `
+    }
+]
         };
 
         if (typeof initLessonViewer === 'function') {
             initLessonViewer(lesson13Config);
+        } else {
+            console.error('initLessonViewer function not found!');
         }
     </script>
 </body>

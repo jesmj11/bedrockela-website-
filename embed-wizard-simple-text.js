@@ -238,37 +238,28 @@ function generateRegularLesson(day) {
                 
                 // Page 8: Grammar
                 {
-                    render: () => {
-                        const grammar = grammarLessons[day];
-                        if (!grammar) {
-                            return '<div class="lesson-page-card content-page"><h2>✏️ Grammar</h2><p>Grammar practice will be provided.</p></div>';
-                        }
-                        
-                        const explanation = grammar.explanation.split('\n\n').map(p => '<p style="margin-bottom: 10px;">' + p + '</p>').join('');
-                        const examples = grammar.examples.map(ex => '<li>' + ex + '</li>').join('');
-                        const practice = grammar.practice.map((p, i) => 
-                            '<div style="margin-bottom: 20px;">' +
-                                '<p style="font-weight: 600; margin-bottom: 8px;">' + (i + 1) + '. ' + p.prompt + '</p>' +
-                                '<textarea id="grammar-' + (i + 1) + '" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea>' +
-                            '</div>'
-                        ).join('');
-                        
-                        return '<div class="lesson-page-card content-page">' +
-                            '<h2>✏️ Grammar: ' + grammar.topic + '</h2>' +
-                            '<div style="margin: 20px 0;">' +
-                                '<h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>' +
-                                '<div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">' +
-                                    explanation +
-                                '</div>' +
-                                '<h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>' +
-                                '<ul style="margin-bottom: 20px; line-height: 1.8;">' +
-                                    examples +
-                                '</ul>' +
-                                '<h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>' +
-                                practice +
-                            '</div>' +
-                        '</div>';
-                    }
+                    render: () => ${grammarLessons[day] ? `\`
+                        <div class="lesson-page-card content-page">
+                            <h2>✏️ Grammar: ${grammarLessons[day].topic}</h2>
+                            <div style="margin: 20px 0;">
+                                <h3 style="color: #305853; margin-bottom: 10px;">📝 Learn</h3>
+                                <div style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">
+                                    ${grammarLessons[day].explanation.split('\n\n').map(p => '<p style="margin-bottom: 10px;">' + p + '</p>').join('')}
+                                </div>
+                                <h3 style="color: #305853; margin-bottom: 10px;">💡 Examples</h3>
+                                <ul style="margin-bottom: 20px; line-height: 1.8;">
+                                    ${grammarLessons[day].examples.map(ex => '<li>' + ex + '</li>').join('')}
+                                </ul>
+                                <h3 style="color: #305853; margin-bottom: 10px;">✍️ Practice</h3>
+                                ${grammarLessons[day].practice.map((p, i) => 
+                                    '<div style="margin-bottom: 20px;">' +
+                                        '<p style="font-weight: 600; margin-bottom: 8px;">' + (i + 1) + '. ' + p.prompt + '</p>' +
+                                        '<textarea id="grammar-' + (i + 1) + '" style="width: 100%; padding: 12px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 80px;" placeholder="Your answer..."></textarea>' +
+                                    '</div>'
+                                ).join('')}
+                            </div>
+                        </div>
+                    \`` : '`<div class="lesson-page-card content-page"><h2>✏️ Grammar</h2><p>Grammar practice will be provided.</p></div>`'}
                 },
                 
                 // Page 9: Writing

@@ -4,79 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day 73 - Assessment</title>
-    <link rel="stylesheet" href="css/student-dashboard.css">
+    <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
 </head>
-<body>
-    <div class="lesson-container">
-        <div class="lesson-content" id="lesson-content"></div>
+<body class="lesson-viewer">
+    <div id="lesson-container"></div>
         
-        <div class="navigation-arrows">
-            <button class="nav-arrow nav-prev" id="prevBtn" style="display:none;">← Previous</button>
-            <button class="nav-arrow nav-next" id="nextBtn">Next →</button>
-        </div>
         
-        <div class="progress-indicator">
-            <span id="pageIndicator">Page 1 of 6</span>
-        </div>
     </div>
 
+    
+    <script src="js/lesson-viewer.js?v=1772665488"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/lesson-completion.js?v=1772665488"></script>
+    <script src="js/lesson-autosave.js?v=1772665488"></script>
+
     <script>
-        const lessonData = [
+        const lesson73Config = {
+            lessonId: '8th-grade-day-073',
+            gradeLevel: '8th-grade',
+            title: 'Day 73',
+            pages: [
     {
-        "html": "\n            <div class=\"page-card title-page\">\n                <h1>📚 8th Grade English Language Arts</h1>\n                <h2>Day 73 - Week 15</h2>\n                <h3>Sherlock Holmes - Assessment</h3>\n                <p class=\"instruction\">Click \"Next\" to begin your assessment.</p>\n            </div>\n        "
+        "type": "title", "content": "\n                <h1>📚 8th Grade English Language Arts</h1>\n                <h2>Day 73 - Week 15</h2>\n                <h3>Sherlock Holmes - Assessment</h3>\n                <p class=\"instruction\">Click \"Next\" to begin your assessment.</p>\n            </div>\n        "
     },
     {
-        "html": "\n            <div class=\"page-card\">\n                <h2>📝 Vocabulary Quiz</h2>\n                <p class=\"instruction\">Match each word with its definition.</p>\n                <p class=\"placeholder\">Vocabulary quiz for 12 words will be added here.</p>\n            </div>\n        "
+        "type": "page", "content": "\n            <div class=\"page-card\">\n                <h2>📝 Vocabulary Quiz</h2>\n                <p class=\"instruction\">Match each word with its definition.</p>\n                <p class=\"placeholder\">Vocabulary quiz for 12 words will be added here.</p>\n            </div>\n        "
     },
     {
-        "html": "\n            <div class=\"page-card\">\n                <h2>✏️ Grammar & Language Review</h2>\n                <p class=\"placeholder\">Grammar and language review exercises will be added here.</p>\n            </div>\n        "
+        "type": "page", "content": "\n            <div class=\"page-card\">\n                <h2>✏️ Grammar & Language Review</h2>\n                <p class=\"placeholder\">Grammar and language review exercises will be added here.</p>\n            </div>\n        "
     },
     {
-        "html": "\n            <div class=\"page-card\">\n                <h2>📖 Comprehension Review</h2>\n                <p class=\"placeholder\">Comprehension questions covering this week's chapters will be added here.</p>\n            </div>\n        "
+        "type": "page", "content": "\n            <div class=\"page-card\">\n                <h2>📖 Comprehension Review</h2>\n                <p class=\"placeholder\">Comprehension questions covering this week's chapters will be added here.</p>\n            </div>\n        "
     },
     {
-        "html": "\n            <div class=\"page-card\">\n                <h2>✍️ Writing Prompt</h2>\n                <p class=\"placeholder\">Essay prompt will be added here.</p>\n            </div>\n        "
+        "type": "page", "content": "\n            <div class=\"page-card\">\n                <h2>✍️ Writing Prompt</h2>\n                <p class=\"placeholder\">Essay prompt will be added here.</p>\n            </div>\n        "
     },
     {
-        "html": "\n            <div class=\"page-card completion-page\">\n                <h1>🎉 Great Work!</h1>\n                <p>You've completed Day 73!</p>\n                <p class=\"instruction\">Click \"Complete Lesson\" to return to your dashboard.</p>\n            </div>\n        "
+        "type": "completion", "content": "\n                <h1>🎉 Great Work!</h1>\n                <p>You've completed Day 73!</p>\n                <p class=\"instruction\">Click \"Complete Lesson\" to return to your dashboard.</p>\n            </div>\n        "
     }
-];
-        
-        let currentPage = 0;
-        
-        function renderPage(pageIndex) {
-            const page = lessonData[pageIndex];
-            const content = document.getElementById('lesson-content');
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-            const pageIndicator = document.getElementById('pageIndicator');
-            
-            content.innerHTML = page.html;
-            
-            prevBtn.style.display = pageIndex > 0 ? 'block' : 'none';
-            nextBtn.textContent = pageIndex === lessonData.length - 1 ? 'Complete Lesson →' : 'Next →';
-            
-            pageIndicator.textContent = `Page ${pageIndex + 1} of ${lessonData.length}`;
-            
-            currentPage = pageIndex;
-            window.scrollTo(0, 0);
+]
+        };
+
+        if (typeof initLessonViewer === 'function') {
+            initLessonViewer(lesson73Config);
+        } else {
+            console.error('initLessonViewer function not found!');
         }
-        
-        document.getElementById('prevBtn').addEventListener('click', () => {
-            if (currentPage > 0) {
-                renderPage(currentPage - 1);
-            }
-        });
-        
-        document.getElementById('nextBtn').addEventListener('click', () => {
-            if (currentPage < lessonData.length - 1) {
-                renderPage(currentPage + 1);
-            } else {
-                window.location.href = 'student-dashboard.html';
-            }
-        });
-        
-        renderPage(0);
     </script>
 </body>
 </html>

@@ -3,345 +3,490 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 3 - 6th Grade BedrockELA</title>
+    <title>Lesson 3 - 6th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="lesson-viewer">
-    <div id="lesson-container"></div>
+    <div id="lesson-container" class="lesson-container"></div>
 
+    <script src="js/billy-tts.js"></script>
     <script src="js/lesson-viewer.js?v=1772665488"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="firebase-config.js"></script>
     <script src="js/lesson-completion.js?v=1772665488"></script>
     <script src="js/lesson-autosave.js?v=1772665488"></script>
-
+    <script src="js/save-button-injector.js?v=1772665488"></script>
+    <script src="js/answer-validation.js?v=1772665488"></script>
+    <script src="js/grade-normalizer.js?v=1772665488"></script>
+    <script src="js/offline-sync.js?v=1772665488"></script>
+    <script src="js/text-to-speech.js?v=1772665488"></script>
+    
     <script>
         const lesson3Config = {
             lessonId: '6th-grade-day-3',
             gradeLevel: '6th-grade',
-            title: 'Day 3 - The Adventures of Tom Sawyer',
+            title: 'Lesson 3 - 6th Grade',
             pages: [
-    {
-        "type": "title",
-        "content": `
-                    <h1>Day 3</h1>
-                    <h2>The Adventures of Tom Sawyer</h2>
-                    <p class="unit-label">6th Grade • Week 1</p>
-                    <p class="chapter-info">CHAPTER III</p>
-                `
-    },
-    {
-        "type": "content",
-        "content": `
-                    <h2>📚 Welcome to Day 3!</h2>
-                    <div class="objectives-box">
-                        <h3>Today's Learning Goals:</h3>
-                        <ul>
-                            <li>Learn 3 new vocabulary words</li>
-                            <li>Read CHAPTER III of Tom Sawyer</li>
-                            <li>Practice Active and Passive Voice</li>
-                            <li>Explore informational text</li>
-                            <li>Complete a writing exercise</li>
-                        </ul>
-                        <p><strong>Estimated time:</strong> 45-60 minutes</p>
-                    </div>
-                `
-    },
-    {
-        "type": "vocabulary",
-        "content": `
-                    <h2>📖 Vocabulary</h2>
-                    <p>Learn these 3 words before reading today's chapter:</p>
-                    
-                    <div class="vocab-word-card">
-                        <h3>1. admiration</h3>
-                        <p class="definition"><strong>Definition:</strong> respect and approval</p>
-                        <label>Write the definition in your own words:</label>
-                        <textarea id="vocab-3-1" rows="5" placeholder="Your definition..."></textarea>
-                    </div>
-                    
-                    <div class="vocab-word-card">
-                        <h3>2. devoted</h3>
-                        <p class="definition"><strong>Definition:</strong> very loyal or loving</p>
-                        <label>Write the definition in your own words:</label>
-                        <textarea id="vocab-3-2" rows="5" placeholder="Your definition..."></textarea>
-                    </div>
-                    
-                    <div class="vocab-word-card">
-                        <h3>3. enchanted</h3>
-                        <p class="definition"><strong>Definition:</strong> filled with delight; charmed</p>
-                        <label>Write the definition in your own words:</label>
-                        <textarea id="vocab-3-3" rows="5" placeholder="Your definition..."></textarea>
-                    </div>
-                `
-    },
-    {
-        "type": "activity",
-        "content": `
-                    <h2>🎮 Vocabulary Practice</h2>
-                    <p>Match each word to its definition!</p>
-                    <div class="vocab-game-placeholder">
-                        <p><strong>admiration:</strong> respect and approval</p>
-                        <p><strong>devoted:</strong> very loyal or loving</p>
-                        <p><strong>enchanted:</strong> filled with delight; charmed</p>
-                        <p style="margin-top: 20px;"><em>Interactive matching game will be added here!</em></p>
-                    </div>
-                `
-    },
-    {
-        "type": "reading",
-        "content": `
-                    <h2>📖 CHAPTER III - Part 1</h2>
-                    <div class="story-content">
-                        CHAPTER III<br><br><br><br>Tom presented himself before Aunt Polly, who was sitting by an
-open window in a pleasant rearward apartment, which was bedroom,
-breakfast-room, dining-room, and library, combined. The balmy summer
-air, the restful quiet, the odor of the flowers, and the drowsing
-murmur of the bees had had their effect, and she was nodding over her
-knitting—for she had no company but the cat, and it was asleep in her
-lap. Her spectacles were propped up on her gray head for safety. She had
-thought that of course Tom had deserted long ago, and she wondered at
-seeing him place himself in her power again in this intrepid way. He
-said: “Mayn’t I go and play now, aunt?”<br><br><br><br>“What, a’ready? How much have you done?”<br><br><br><br>“It’s all done, aunt.”<br><br><br><br>“Tom, don’t lie to me—I can’t bear it.”<br><br><br><br>“I ain’t, aunt; it _is_ all done.”<br><br><br><br>Aunt Polly placed small trust in such evidence. She went out to see for
-herself; and she would have been content to find twenty per cent. of
-Tom’s statement true. When she found the entire fence white-washed, and
-not only whitewashed but elaborately coated and recoated, and even a
-streak added to the ground, her astonishment was almost unspeakable. She
-said:<br><br><br><br>“Well, I never! There’s no getting round it, you can work when you’re a
-mind to, Tom.” And then she diluted the compliment by adding, “But it’s
-powerful seldom you’re a mind to, I’m bound to say. Well, go ’long and
-play; but mind you get back some time in a week, or I’ll tan you.”<br><br><br><br>She was so overcome by the splendor of his achievement that she took
-him into the closet and selected a choice apple and delivered it to him,
-along with an improving lecture upon the added value and flavor a treat
-took to itself when it came without sin through virtuous effort.
-And while she closed with a happy Scriptural flourish, he “hooked” a
-doughnut.<br><br><br><br>Then he skipped out, and saw Sid just starting up the outside stairway
-that led to the back rooms on the second floor. Clods were handy and
-the air was full of them in a twinkling. They raged around Sid like a
-hail-storm; and before Aunt Polly could collect her surprised faculties
-and sally to the rescue, six or seven clods had taken personal effect,
-and Tom was over the fence and gone. There was a gate, but as a general
-thing he was too crowded for time to make use of it. His soul was at
-peace, now that he had settled with Sid for calling attention to his
-black thread and getting him into trouble.
-                    </div>
-                `
-    },
-    {
-        "type": "reading",
-        "content": `
-                    <h2>📖 CHAPTER III - Part 2</h2>
-                    <div class="story-content">
-                        Tom skirted the block, and came round into a muddy alley that led by the
-back of his aunt’s cow-stable. He presently got safely beyond the reach
-of capture and punishment, and hastened toward the public square of the
-village, where two “military” companies of boys had met for conflict,
-according to previous appointment. Tom was General of one of these
-armies, Joe Harper (a bosom friend) General of the other. These two
-great commanders did not condescend to fight in person—that being better
-suited to the still smaller fry—but sat together on an eminence
-and conducted the field operations by orders delivered through
-aides-de-camp. Tom’s army won a great victory, after a long and
-hard-fought battle. Then the dead were counted, prisoners exchanged,
-the terms of the next disagreement agreed upon, and the day for the
-necessary battle appointed; after which the armies fell into line and
-marched away, and Tom turned homeward alone.<br><br><br><br>As he was passing by the house where Jeff Thatcher lived, he saw a new
-girl in the garden—a lovely little blue-eyed creature with yellow
-hair plaited into two long-tails, white summer frock and embroidered
-pantalettes. The fresh-crowned hero fell without firing a shot. A
-certain Amy Lawrence vanished out of his heart and left not even a
-memory of herself behind. He had thought he loved her to distraction;
-he had regarded his passion as adoration; and behold it was only a poor
-little evanescent partiality. He had been months winning her; she had
-confessed hardly a week ago; he had been the happiest and the proudest
-boy in the world only seven short days, and here in one instant of time
-she had gone out of his heart like a casual stranger whose visit is
-done.<br><br><br><br>He worshipped this new angel with furtive eye, till he saw that she had
-discovered him; then he pretended he did not know she was present, and
-began to “show off” in all sorts of absurd boyish ways, in order to win
-her admiration. He kept up this grotesque foolishness for some time;
-but by-and-by, while he was in the midst of some dangerous gymnastic
-performances, he glanced aside and saw that the little girl was wending
-her way toward the house. Tom came up to the fence and leaned on it,
-grieving, and hoping she would tarry yet awhile longer. She halted a
-moment on the steps and then moved toward the door. Tom heaved a great
-sigh as she put her foot on the threshold. But his face lit up,
-right away, for she tossed a pansy over the fence a moment before she
-disappeared.<br><br><br><br>The boy ran around and stopped within a foot or two of the flower, and
-then shaded his eyes with his hand and began to look down street as
-if he had discovered something of interest going on in that direction.
-Presently he picked up a straw and began trying to balance it on his
-nose, with his head tilted far back; and as he moved from side to side,
-in his efforts, he edged nearer and nearer toward the pansy; finally his
-bare foot rested upon it, his pliant toes closed upon it, and he hopped
-away with the treasure and disappeared round the corner. But only for a
-minute—only while he could button the flower inside his jacket, next
-his heart—or next his stomach, possibly, for he was not much posted in
-anatomy, and not hypercritical, anyway.<br><br><br><br>He returned, now, and hung about the fence till nightfall, “showing
-off,” as before; but the girl never exhibited herself again, though Tom
-comforted himself a little with the hope that she had been near some
-window, meantime, and been aware of his attentions. Finally he strode
-home reluctantly, with his poor head full of visions.<br><br><br><br>All through supper his spirits were so high that his aunt wondered “what
-had got into the child.” He took a good scolding about clodding Sid, and
-did not seem to mind it in the least. He tried to steal sugar under his
-aunt’s very nose, and got his knuckles rapped for it. He said:<br><br><br><br>“Aunt, you don’t whack Sid when he takes it.”<br><br><br><br>“Well, Sid don’t torment a body the way you do. You’d be always into
-that sugar if I warn’t watching you.”<br><br><br><br>Presently she stepped into the kitchen, and Sid, happy in his immunity,
-reached for the sugar-bowl—a sort of glorying over Tom which was
-wellnigh unbearable. But Sid’s fingers slipped and the bowl dropped and
-broke. Tom was in ecstasies. In such ecstasies that he even controlled
-his tongue and was silent. He said to himself that he would not speak a
-word, even when his aunt came in, but would sit perfectly still till she
-asked who did the mischief; and then he would tell, and there would be
-nothing so good in the world as to see that pet model “catch it.” He was
-so brimful of exultation that he could hardly hold himself when the old
-lady came back and stood above the wreck discharging lightnings of wrath
-from over her spectacles. He said to himself, “Now it’s coming!” And the
-next instant he was sprawling on the floor! The potent palm was uplifted
-to strike again when Tom cried out:<br><br><br><br>“Hold on, now, what ’er you belting _me_ for?—Sid broke it!”
-                    </div>
-                `
-    },
-    {
-        "type": "reading",
-        "content": `
-                    <h2>📖 CHAPTER III - Part 3</h2>
-                    <div class="story-content">
-                        Aunt Polly paused, perplexed, and Tom looked for healing pity. But when
-she got her tongue again, she only said:<br><br><br><br>“Umf! Well, you didn’t get a lick amiss, I reckon. You been into some
-other audacious mischief when I wasn’t around, like enough.”<br><br><br><br>Then her conscience reproached her, and she yearned to say something
-kind and loving; but she judged that this would be construed into a
-confession that she had been in the wrong, and discipline forbade that.
-So she kept silence, and went about her affairs with a troubled heart.
-Tom sulked in a corner and exalted his woes. He knew that in her heart
-his aunt was on her knees to him, and he was morosely gratified by the
-consciousness of it. He would hang out no signals, he would take notice
-of none. He knew that a yearning glance fell upon him, now and then,
-through a film of tears, but he refused recognition of it. He pictured
-himself lying sick unto death and his aunt bending over him beseeching
-one little forgiving word, but he would turn his face to the wall, and
-die with that word unsaid. Ah, how would she feel then? And he pictured
-himself brought home from the river, dead, with his curls all wet, and
-his sore heart at rest. How she would throw herself upon him, and how
-her tears would fall like rain, and her lips pray God to give her back
-her boy and she would never, never abuse him any more! But he would
-lie there cold and white and make no sign—a poor little sufferer, whose
-griefs were at an end. He so worked upon his feelings with the pathos of
-these dreams, that he had to keep swallowing, he was so like to choke;
-and his eyes swam in a blur of water, which overflowed when he winked,
-and ran down and trickled from the end of his nose. And such a luxury to
-him was this petting of his sorrows, that he could not bear to have any
-worldly cheeriness or any grating delight intrude upon it; it was too
-sacred for such contact; and so, presently, when his cousin Mary danced
-in, all alive with the joy of seeing home again after an age-long visit
-of one week to the country, he got up and moved in clouds and darkness
-out at one door as she brought song and sunshine in at the other.<br><br><br><br>He wandered far from the accustomed haunts of boys, and sought desolate
-places that were in harmony with his spirit. A log raft in the river
-invited him, and he seated himself on its outer edge and contemplated
-the dreary vastness of the stream, wishing, the while, that he could
-only be drowned, all at once and unconsciously, without undergoing the
-uncomfortable routine devised by nature. Then he thought of his flower.
-He got it out, rumpled and wilted, and it mightily increased his dismal
-felicity. He wondered if she would pity him if she knew? Would she
-cry, and wish that she had a right to put her arms around his neck and
-comfort him? Or would she turn coldly away like all the hollow world?
-This picture brought such an agony of pleasurable suffering that he
-worked it over and over again in his mind and set it up in new and
-varied lights, till he wore it threadbare. At last he rose up sighing
-and departed in the darkness.<br><br><br><br>About half-past nine or ten o’clock he came along the deserted street to
-where the Adored Unknown lived; he paused a moment; no sound fell upon
-his listening ear; a candle was casting a dull glow upon the curtain
-of a second-story window. Was the sacred presence there? He climbed the
-fence, threaded his stealthy way through the plants, till he stood under
-that window; he looked up at it long, and with emotion; then he laid him
-down on the ground under it, disposing himself upon his back, with his
-hands clasped upon his breast and holding his poor wilted flower.
-And thus he would die—out in the cold world, with no shelter over his
-homeless head, no friendly hand to wipe the death-damps from his brow,
-no loving face to bend pityingly over him when the great agony came. And
-thus _she_ would see him when she looked out upon the glad morning, and
-oh! would she drop one little tear upon his poor, lifeless form, would
-she heave one little sigh to see a bright young life so rudely blighted,
-so untimely cut down?<br><br><br><br>The window went up, a maid-servant’s discordant voice profaned the holy
-calm, and a deluge of water drenched the prone martyr’s remains!<br><br><br><br>The strangling hero sprang up with a relieving snort. There was a whiz
-as of a missile in the air, mingled with the murmur of a curse, a sound
-as of shivering glass followed, and a small, vague form went over the
-fence and shot away in the gloom.<br><br><br><br>Not long after, as Tom, all undressed for bed, was surveying his
-drenched garments by the light of a tallow dip, Sid woke up; but if he
-had any dim idea of making any “references to allusions,” he thought
-better of it and held his peace, for there was danger in Tom’s eye.<br><br><br><br>Tom turned in without the added vexation of prayers, and Sid made mental
-note of the omission.
-                    </div>
-                `
-    },
-    {
-        "type": "comprehension",
-        "content": `
-                    <h2>💭 Reading Comprehension</h2>
-                    <p>Answer these questions about what you just read:</p>
-                    
-                    <div class="question-card">
-                        <p><strong>1.</strong> What were the most important events in this chapter?</p>
-                        <textarea id="comp-3-1" rows="8" placeholder="Your answer..."></textarea>
-                    </div>
-                    
-                    <div class="question-card">
-                        <p><strong>2.</strong> How does Tom's character develop in this chapter?</p>
-                        <textarea id="comp-3-2" rows="8" placeholder="Your answer..."></textarea>
-                    </div>
-                    
-                    <div class="question-card">
-                        <p><strong>3.</strong> What challenges or conflicts did the characters face?</p>
-                        <textarea id="comp-3-3" rows="8" placeholder="Your answer..."></textarea>
-                    </div>
-                `
-    },
-    {
-        "type": "grammar-language",
-        "content": `
-                    <h2>✏️ Active and Passive Voice</h2>
-                    <div class="skill-explanation">
-                        <p>In **active voice**, the subject performs the action. In **passive voice**, the subject receives the action. Active voice is usually clearer and stronger.</p>
-                    </div>
-                    
-                    <h3>Examples:</h3>
-                    <ul>
-                        <li>Tom painted the fence. (active)</li><li>The fence was painted by Tom. (passive)</li><li>Aunt Polly punished Tom. (active)</li>
-                    </ul>
-                    
-                    <h3>Practice:</h3>
-                    <div class="exercise-card"><p><strong>1.</strong> Change to passive: "Tom tricked Ben."</p><textarea id="skill-3-1" rows="6" placeholder="Your answer..."></textarea></div><div class="exercise-card"><p><strong>2.</strong> Change to active: "The fence was whitewashed by the boys."</p><textarea id="skill-3-2" rows="6" placeholder="Your answer..."></textarea></div><div class="exercise-card"><p><strong>3.</strong> Why is active voice usually better for storytelling?</p><textarea id="skill-3-3" rows="6" placeholder="Your answer..."></textarea></div>
-                `
-    },
-    {
-        "type": "informational",
-        "content": `
-                    <h2>🌍 Informational Text: Mark Twain: America's Greatest Humorist</h2>
-                    <div class="informational-article">
-                        <p>Mark Twain, born Samuel Clemens in 1835, grew up in Hannibal, Missouri—a small town on the Mississippi River that would inspire his most famous stories. As a boy, Sam loved swimming, fishing, and exploring caves with his friends, just like Tom Sawyer.</p><p>Twain didn't have an easy childhood. His father died when he was 11, forcing him to leave school and work as a printer's apprentice. Later, he became a riverboat pilot on the Mississippi, where he got his pen name "Mark Twain"—a riverboat term meaning the water is two fathoms (12 feet) deep, safe for navigation.</p><p>After the Civil War ended riverboat traffic, Twain moved west and became a journalist. His humorous stories and sharp observations about human nature made him famous. In 1876, he published "The Adventures of Tom Sawyer," drawing on his own boyhood experiences.</p><p>Twain used humor to address serious topics like slavery, greed, and hypocrisy. His writing style was revolutionary—he wrote how people actually talked, using dialects and slang instead of formal literary language. This made his characters feel real and his stories accessible to everyone, not just educated readers.</p>
-                    </div>
-                    
-                    <h3>Discussion Questions:</h3>
-                    <div class="question-card"><p><strong>1.</strong> How did Samuel Clemens get the pen name "Mark Twain"?</p><textarea id="info-3-1" rows="6" placeholder="Your answer..."></textarea></div><div class="question-card"><p><strong>2.</strong> What made Twain's writing style revolutionary?</p><textarea id="info-3-2" rows="6" placeholder="Your answer..."></textarea></div><div class="question-card"><p><strong>3.</strong> How did Twain's childhood influence Tom Sawyer?</p><textarea id="info-3-3" rows="6" placeholder="Your answer..."></textarea></div>
-                `
-    },
-    {
-        "type": "writing",
-        "content": `
-                    <h2>✍️ Writing Practice</h2>
-                    <p>Write a paragraph about today's chapter. Use all three vocabulary words and apply the grammar concept you learned.</p>
-                    <div class="writing-prompt">
-                        <textarea id="writing-3" rows="15" placeholder="Your paragraph..."></textarea>
-                    </div>
-                `
-    }
-]
+                // Page 1: Title
+                {
+                    render: () => `
+                        <div class="lesson-page-card title-page">
+                            <h1>Lesson 3</h1>
+                            <div class="subtitle">6th Grade ELA</div>
+                            <p style="color: #8B4513; font-size: 20px; margin-top: 20px;">
+                                The Adventures of Tom Sawyer
+                            </p>
+                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
+                                Chapter 3 • Week 1
+                            </p>
+                        </div>
+                    `
+                },
+                
+                // Page 2: Welcome & Objectives
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>Welcome to Lesson 3!</h2>
+                            <p>Today you will:</p>
+                            <ul style="margin: 20px 0; line-height: 2;">
+                                <li>Read Chapter 3: <em>SHOWING OFF FOR BECKY</em></li>
+                                <li>Learn 3 new vocabulary words</li>
+                                <li>Read informational text: "School Life in the 1840s"</li>
+                                <li>Practice grammar skills</li>
+                                <li>Complete writing activity</li>
+                            </ul>
+                            <p><strong>Time needed:</strong> About 45-60 minutes</p>
+                        </div>
+                    `
+                },
+                
+                // Page 3: Vocabulary (3 words)
+                {
+                    render: () => {
+                        const updateWordCount = (textareaId, countId, minWords) => {
+                            const textarea = document.getElementById(textareaId);
+                            const countEl = document.getElementById(countId);
+                            const statusEl = document.getElementById(countId + '-status');
+                            if (!textarea || !countEl) return;
+                            
+                            const text = textarea.value.trim();
+                            const words = text.length > 0 ? text.split(/\s+/).length : 0;
+                            countEl.textContent = words + ' / ' + minWords + ' words';
+                            
+                            if (words >= minWords) {
+                                statusEl.textContent = '✅ Complete';
+                                statusEl.style.color = '#22c55e';
+                            } else if (words > 0) {
+                                statusEl.textContent = (minWords - words) + ' more needed';
+                                statusEl.style.color = '#f59e0b';
+                            } else {
+                                statusEl.textContent = '';
+                            }
+                        };
+                        
+                        window.updateWordCount = updateWordCount;
+                        
+                        return `
+                            <div class="lesson-page-card content-page">
+                                <h2>📖 Vocabulary Words</h2>
+                                <p style="margin-bottom: 25px; color: #666;">
+                                    Look up each word in a dictionary. Write the definition in your own words (minimum 10 words each).
+                                </p>
+                                
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">mortified</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+  
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">caricature</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-2"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+  
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">fascinate</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-3"
+                                      style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-3', 'vocab-count-3', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-3" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-3-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+  
+                                
+                                <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                    <p style="margin: 0;"><strong>Watch for these words</strong> in today's reading!</p>
+                                </div>
+                            </div>
+                        `;
+                    }
+                },
+                
+                
+                // Page 4: Vocabulary Matching Game
+                {
+                    render: () => {
+                        const vocabWords = ["mortified","caricature","fascinate"];
+                        const definitions = ["extremely embarrassed or humiliated","an exaggerated or distorted drawing or description of someone","to attract and hold someone's attention completely"];
+                        
+                        return `
+                            <div class="lesson-page-card content-page">
+                                <h2>🎮 Vocabulary Matching Game</h2>
+                                <p style="margin-bottom: 20px;">Match each vocabulary word with its correct definition.</p>
+                                
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 800px; margin: 0 auto;">
+                                    <div>
+                                        <h3 style="color: #305853; margin-bottom: 15px;">Words</h3>
+                                        ${vocabWords.map((word, i) => `
+                                            <div style="padding: 15px; margin-bottom: 10px; background: #f0f7f4; border-radius: 8px; border: 2px solid #305853;">
+                                                <strong>${i + 1}.</strong> ${word}
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                    
+                                    <div>
+                                        <h3 style="color: #8B4513; margin-bottom: 15px;">Definitions</h3>
+                                        ${definitions.map((def, i) => `
+                                            <div style="padding: 15px; margin-bottom: 10px; background: #fef3e2; border-radius: 8px; border: 2px solid #8B4513;">
+                                                <strong>${['A', 'B', 'C'][i]}.</strong> ${def}
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                                
+                                <div style="margin-top: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #305853;">
+                                    <p style="margin-bottom: 10px;"><strong>Your Answers:</strong></p>
+                                    <p>1 = <input type="text" style="width: 60px; padding: 8px; border: 2px solid #ccc; border-radius: 4px;" placeholder="A, B, or C" maxlength="1" /></p>
+                                    <p>2 = <input type="text" style="width: 60px; padding: 8px; border: 2px solid #ccc; border-radius: 4px;" placeholder="A, B, or C" maxlength="1" /></p>
+                                    <p>3 = <input type="text" style="width: 60px; padding: 8px; border: 2px solid #ccc; border-radius: 4px;" placeholder="A, B, or C" maxlength="1" /></p>
+                                </div>
+                            </div>
+                        `;
+                    }
+                },
+                
+                // Pages 5-7: Story in 3 parts
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📚 Reading: SHOWING OFF FOR BECKY</h2>
+                            <h3 style="color: #8B4513;">Part 1 of 3</h3>
+                            <div style="line-height: 1.8; color: #333; font-size: 16px; margin-top: 20px;">
+                                <p style="margin-bottom: 15px; line-height: 1.8;">After church on Sunday, Tom sat through a long, boring sermon. The only interesting moment came when a stray poodle wandered down the aisle and sat on a large beetle. The resulting yelp sent the dog flying around the church like a furry comet, and the whole congregation nearly suffocated trying not to laugh. The sermon never recovered, and Tom went home in a fine mood.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Monday morning found Tom miserable. Monday mornings always found him miserable, because Monday meant another long week of school.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom lay in bed, trying to think of an excuse to stay home. He checked himself for symptoms. He thought he might be getting a stomachache, but it faded before he could get his hopes up. Then he discovered something—one of his front teeth was loose! He was about to start groaning when he realized that if Aunt Polly found out, she&#039;d just yank it out. Better save the tooth for later.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Then he remembered hearing the doctor talk about a disease that could lay a person up for weeks. Tom pulled his sore toe out from under the covers and examined it with great interest. He didn&#039;t actually know what the symptoms were, but it seemed worth a try.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Oh!&quot; he groaned. &quot;Ohhhh, my sore toe!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom groaned louder. &quot;Ohhhh, I&#039;m dying!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom shook him. &quot;Sid! Sid!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Sid finally woke up. &quot;Tom? What&#039;s the matter?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom moaned, &quot;Don&#039;t jostle me. My sore toe is turning black and about to fall off.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Tom! Let me get Aunt Polly—&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;No! It&#039;ll pass. Don&#039;t call anyone. I just want you to know—if I don&#039;t make it, Sid—I forgive you for everything. Tell everyone I said so. And give my cat and my window sash to that new girl who just moved to town...&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">But Sid was already thundering down the stairs. &quot;Aunt Polly! Come quick! Tom&#039;s dying!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Dying?&quot; She flew upstairs with Sid and Mary right behind her. Her face went white. &quot;Tom! What&#039;s wrong with you?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Oh, Auntie—my sore toe is infected!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The old woman sank into a chair and laughed, then cried, then laughed again. &quot;Tom Sawyer, you gave me a heart attack. Now stop that nonsense and get out of that bed.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The groaning stopped. The toe felt fine. &quot;It really did seem infected, Aunt Polly. It hurt so bad I forgot all about my tooth.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Your tooth? What&#039;s wrong with your tooth?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;One of them&#039;s loose, and it aches something awful.&quot;</p>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📚 Reading: SHOWING OFF FOR BECKY</h2>
+                            <h3 style="color: #8B4513;">Part 2 of 3</h3>
+                            <div style="line-height: 1.8; color: #333; font-size: 16px; margin-top: 20px;">
+                                <p style="margin-bottom: 15px; line-height: 1.8;">&quot;Open your mouth. Well, your tooth is loose, all right, but you&#039;re not going to die from it. Mary, get me a silk thread and a hot coal from the kitchen.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom started backpedaling fast. &quot;Please don&#039;t pull it! It doesn&#039;t hurt anymore! Please, Aunt Polly—I don&#039;t want to stay home from school!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Oh, so now you don&#039;t want to stay home! This whole production was about skipping school.&quot; She tied one end of the thread to his tooth and the other end to the bedpost. Then she waved the hot coal near his face—and out popped the tooth.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">But there was a silver lining. On his way to school, every boy he passed was jealous of the gap in his teeth, because it let him spit in a spectacular new way. He gathered a following of admirers.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Shortly after, Tom ran into Huckleberry Finn—the most envied boy in town. Huck was the son of the town drunk. He didn&#039;t have to go to school, didn&#039;t have to go to church, didn&#039;t answer to anyone. He went fishing whenever he wanted, slept wherever he pleased, and nobody told him what to do. He wore ragged hand-me-downs from grown men, and his hat was full of holes. Every respectable mother in St. Petersburg hated him, and every boy wished he could be him.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Hey, Huckleberry! What&#039;ve you got there?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Lemme see. What are dead cats good for?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The two boys fell into a long, serious discussion about warts, dead cats, spells, and superstitions—the kind of conversation that felt like the most important thing in the world. Huck was heading to the graveyard that night to try the dead cat cure, and Tom made him promise to come get him first.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom was late to school. He marched in briskly, hoping to slide into his seat unnoticed.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom knew that whenever his full name was used, it meant trouble.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Come here. Why are you late again?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom was about to lie, but then he noticed two long braids of yellow hair hanging down a back he didn&#039;t recognize. The only empty seat on the girls&#039; side of the room was right next to those braids. He made a split-second decision.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;I stopped to talk with Huckleberry Finn!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The teacher&#039;s jaw dropped. &quot;You—you did what?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Stopped to talk with Huckleberry Finn.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">There was no mistaking the words. The teacher said: &quot;Thomas Sawyer, that is the most shocking thing I have ever heard. Take off your jacket—you will be whipped. And then you will go sit with the girls.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">A ripple of laughter went through the room. Tom pretended to be embarrassed, but his heart was soaring. He took his punishment and sat down at the end of the bench next to the girl with the yellow braids.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">She turned away from him with a toss of her head. But Tom slid a peach across the desk toward her. She pushed it away. He slid it back. She pushed it away again—but with less force. He slid it back once more. This time she let it stay.</p>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📚 Reading: SHOWING OFF FOR BECKY</h2>
+                            <h3 style="color: #8B4513;">Part 3 of 3</h3>
+                            <div style="line-height: 1.8; color: #333; font-size: 16px; margin-top: 20px;">
+                                <p style="margin-bottom: 15px; line-height: 1.8;">Tom began drawing something on his slate, hiding it with his hand. The girl tried not to look. She failed.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Let me see,&quot; she whispered.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom uncovered a lopsided drawing of a house with a curly bit of smoke coming out of the chimney.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;It&#039;s nice. Draw a man.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom drew a figure that could have been a man or a scarecrow. &quot;It&#039;s beautiful,&quot; she whispered. &quot;I wish I could draw.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;It&#039;s easy. I&#039;ll teach you. What&#039;s your name?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Becky Thatcher. What&#039;s yours? Oh—I know. It&#039;s Thomas Sawyer.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;That&#039;s what they call me when I&#039;m in trouble. I&#039;m Tom when I&#039;m good. Call me Tom, will you?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom began scrawling something else on the slate, hiding the words carefully.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Let me see!&quot; Becky said.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;No I won&#039;t. I promise.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;You won&#039;t tell anybody? Ever?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;I won&#039;t ever tell anybody. Let me see!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom moved his hand. On the slate it said: I LOVE YOU.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Oh, you bad thing!&quot; She slapped his hand—but her cheeks turned pink, and she looked pleased.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">At that exact moment, the teacher&#039;s hand clamped down on Tom&#039;s ear, and he was hauled across the room back to his own seat. The whole school giggled. But Tom&#039;s heart was doing cartwheels.</p>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 8: Comprehension (2 MC + 1 short answer)
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>💭 Reading Comprehension</h2>
+                            <p style="margin-bottom: 25px;">Answer these questions about today's chapter.</p>
+                            
+                            
+                            <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">1. Why does Tom deliberately tell the teacher he was talking to Huckleberry Finn?</p>
+                                <div style="margin-left: 20px;">
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-1" value="A" style="margin-right: 8px;">
+                                            <strong>A.</strong> He wants to impress the other students with his bravery.
+                                        </label>
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-1" value="B" style="margin-right: 8px;">
+                                            <strong>B.</strong> He knows it will get him punished and sent to sit with the girls — next to Becky.
+                                        </label>
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-1" value="C" style="margin-right: 8px;">
+                                            <strong>C.</strong> He is too honest to lie to the teacher.
+                                        </label>
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-1" value="D" style="margin-right: 8px;">
+                                            <strong>D.</strong> He wants Huckleberry to get in trouble too.
+                                        </label>
+                                    
+                                </div>
+                            </div>
+  
+                            <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">2. How does Becky first respond when Tom slides a peach toward her on the desk?</p>
+                                <div style="margin-left: 20px;">
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-2" value="A" style="margin-right: 8px;">
+                                            <strong>A.</strong> She eats it immediately.
+                                        </label>
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-2" value="B" style="margin-right: 8px;">
+                                            <strong>B.</strong> She thanks him quietly.
+                                        </label>
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-2" value="C" style="margin-right: 8px;">
+                                            <strong>C.</strong> She pushes it away.
+                                        </label>
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-2" value="D" style="margin-right: 8px;">
+                                            <strong>D.</strong> She gives it to another student.
+                                        </label>
+                                    
+                                </div>
+                            </div>
+  
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">3. Tom gets himself whipped and sent to the girls&#039; side on purpose. What does this decision reveal about Tom&#039;s character? Is he foolish, brave, romantic, or something else? Explain your thinking using details from the chapter.</p>
+                                <textarea 
+                                  id="comp-3"
+                                  style="width: 100%; min-height: 120px; padding: 15px; border: 2px solid #305853; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Write your answer here. Be specific and use evidence from the text."
+                                ></textarea>
+                            </div>
+  
+                        </div>
+                    `
+                },
+                
+                
+                // Page 9: Grammar Workshop
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📝 Grammar Workshop</h2>
+                            <h3 style="color: #8B4513; margin-top: 20px;">Independent vs. Dependent Clauses</h3>
+                            
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin: 25px 0;">
+                                <p style="font-size: 16px; line-height: 1.8; margin-bottom: 15px;">
+                                    <strong>What is it?</strong><br>
+                                    An independent clause can stand alone as a complete sentence. A dependent clause starts with a subordinating conjunction and needs an independent clause to complete its meaning. In Tom Sawyer, Twain uses both types to create varied sentence structures.
+                                </p>
+                                <p style="font-size: 16px; line-height: 1.8; margin: 0;">
+                                    <strong>Example:</strong><br>
+                                    <em>"Independent: &#039;Tom climbed the fence.&#039; / Dependent: &#039;Because he wanted to escape&#039; (needs more to be complete)"</em>
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                <p style="font-weight: 600; margin-bottom: 12px; font-size: 18px;">✍️ Your Turn:</p>
+                                <p style="margin-bottom: 15px; line-height: 1.6;">Find two sentences in today&#039;s reading. Identify the independent and dependent clauses in each. Then write two of your own complex sentences and label the clauses.</p>
+                                <textarea 
+                                  id="grammar-practice"
+                                  style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #305853; border-radius: 8px; font-size: 16px; line-height: 1.8; font-family: inherit;"
+                                  placeholder="Write your practice sentences here..."
+                                ></textarea>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                // Page 10: Informational Text
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📰 Informational Text</h2>
+                            <h3 style="color: #8B4513; margin-top: 20px;">School Life in the 1840s</h3>
+                            <div style="line-height: 1.8; color: #333; font-size: 16px; margin: 25px 0;">
+                                <p style="margin-bottom: 15px;">Education in 1840s America was very different from today. In small towns like St. Petersburg, children attended one-room schoolhouses where all grades learned together. A single teacher managed students ranging from first grade through eighth grade.</p><p style="margin-bottom: 15px;">School was not mandatory, and many children, especially from farming families, attended only when their labor wasn&#039;t needed at home. The school year was often shorter, with long breaks during planting and harvest seasons.</p><p style="margin-bottom: 15px;">Discipline was strict. Teachers commonly used corporal punishment, and students who misbehaved might be spanked with a switch or made to sit in the corner wearing a dunce cap. The curriculum focused on the &quot;three Rs&quot;—reading, writing, and arithmetic. Students practiced penmanship by copying passages and learned math through rote memorization.</p><p style="margin-bottom: 15px;">Despite these harsh conditions, school was also a social hub where children made friends and sometimes got into mischief—just as Tom Sawyer demonstrates throughout the novel. The schoolhouse was often the center of community events, hosting spelling bees, recitals, and other gatherings.</p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513; margin-top: 20px;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">Question 1: What is the main idea of this text?</p>
+                                <textarea 
+                                  id="info-q1"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #305853; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  oninput="updateWordCount('info-q1', 'info-count-1', 30)"
+                                  placeholder="Write your answer here (minimum 30 words)..."
+                                ></textarea>
+                                <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                  <span id="info-count-1" style="font-size: 13px; color: #666;">0 / 30 words</span>
+                                  <span id="info-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                </div>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513; margin-top: 20px;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">Question 2: What is one interesting fact you learned?</p>
+                                <textarea 
+                                  id="info-q2"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #305853; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  oninput="updateWordCount('info-q2', 'info-count-2', 30)"
+                                  placeholder="Write your answer here (minimum 30 words)..."
+                                ></textarea>
+                                <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                  <span id="info-count-2" style="font-size: 13px; color: #666;">0 / 30 words</span>
+                                  <span id="info-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                </div>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513; margin-top: 20px;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">Question 3: How does this information connect to Tom Sawyer's story?</p>
+                                <textarea 
+                                  id="info-q3"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #305853; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  oninput="updateWordCount('info-q3', 'info-count-3', 30)"
+                                  placeholder="Write your answer here (minimum 30 words)..."
+                                ></textarea>
+                                <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                  <span id="info-count-3" style="font-size: 13px; color: #666;">0 / 30 words</span>
+                                  <span id="info-count-3-status" style="font-size: 13px; font-weight: 600;"></span>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                
+                
+                // Page 11: Writing Practice
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>✏️ Writing Practice</h2>
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin: 20px 0;">
+                                <p style="font-size: 16px; line-height: 1.8;">
+                                    <strong>Prompt:</strong><br>
+                                    Write a descriptive paragraph about your neighborhood or town, using sensory details like Mark Twain does.
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                <textarea 
+                                  id="writing"
+                                  style="width: 100%; min-height: 300px; padding: 15px; border: 2px solid #305853; border-radius: 8px; font-size: 16px; line-height: 1.8; font-family: inherit;"
+                                  placeholder="Write your response here. Aim for at least 8-10 sentences."
+                                ></textarea>
+                                <p style="margin-top: 10px; color: #666; font-size: 14px;">
+                                    💡 <strong>Tips:</strong> Start with a topic sentence, include specific details, and end with a conclusion.
+                                </p>
+                            </div>
+                        </div>
+                    `
+                }
+            ]
         };
 
         if (typeof initLessonViewer === 'function') {
             initLessonViewer(lesson3Config);
-        } else {
-            console.error('initLessonViewer function not found!');
         }
     </script>
 </body>

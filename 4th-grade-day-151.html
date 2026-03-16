@@ -10,6 +10,7 @@
 <body class="lesson-viewer">
     <div id="lesson-container" class="lesson-container"></div>
 
+    <script src="js/billy-tts.js"></script>
     <script src="js/lesson-viewer.js?v=1772665488"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
@@ -21,11 +22,10 @@
     <script src="js/grade-normalizer.js?v=1772665488"></script>
     <script src="js/offline-sync.js?v=1772665488"></script>
     <script src="js/text-to-speech.js?v=1772665488"></script>
-    <script src="js/digital-book.js?v=1772665488"></script>
     
     <script>
         const lesson151Config = {
-            lessonId: '4th-grade-day-151',
+            lessonId: '4th-grade-day-1',
             gradeLevel: '4th-grade',
             title: 'Lesson 151 - 4th Grade',
             pages: [
@@ -33,48 +33,72 @@
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">
-                            
                             <h1>Lesson 151</h1>
                             <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #C7158A; font-size: 20px; margin-top: 20px;">
-                                Alice in Wonderland
+                            <p style="color: #8B4513; font-size: 20px; margin-top: 20px;">
+                                The Adventures of The Wizard of Oz
                             </p>
                             <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 1</p>
+                                Chapter 7: The Journey to the Great Oz</p>
                         </div>
                     `
                 },
                 
-                // Page 2: Welcome & Learning Objectives
+                // Page 2: Welcome & Objectives
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
                             <h2>Welcome to Lesson 151!</h2>
                             <p>Today you will:</p>
                             <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Read from <em>Alice in Wonderland</em></li>
-                                <li>Learn 2 new vocabulary words</li>
-                                <li>Read informational text: "Related Non-Fiction"</li>
-                                <li>Practice grammar: Past Progressive Tense</li>
-                                <li>Write: Opinion Writing</li>
-                                <li>Explore: Similes and Metaphors</li>
+                                <li>Read Chapter 7: The Journey to the Great Oz<em>TOM AND AUNT POLLY</em></li>
+                                <li>Learn 3 new vocabulary words</li>
+                                <li>Read informational text: "Life Along the Mississippi in 1840s Missouri"</li>
+                                <li>Practice grammar skills</li>
+                                <li>Complete writing activity</li>
                             </ul>
                             <p><strong>Time needed:</strong> About 45-60 minutes</p>
                         </div>
                     `
                 },
                 
-                // Page 3: Vocabulary (2 words from text)
+                // Page 3: Vocabulary (3 words)
                 {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Vocabulary Words</h2>
+                    render: () => {
+                        const updateWordCount = (textareaId, countId, minWords) => {
+                            const textarea = document.getElementById(textareaId);
+                            const countEl = document.getElementById(countId);
+                            const statusEl = document.getElementById(countId + '-status');
+                            if (!textarea || !countEl) return;
                             
-                            <div style="margin: 30px 0;">
+                            const text = textarea.value.trim();
+                            const words = text.length > 0 ? text.split(/\s+/).length : 0;
+                            countEl.textContent = words + ' / ' + minWords + ' words';
+                            
+                            if (words >= minWords) {
+                                statusEl.textContent = '✅ Complete';
+                                statusEl.style.color = '#22c55e';
+                            } else if (words > 0) {
+                                statusEl.textContent = (minWords - words) + ' more needed';
+                                statusEl.style.color = '#f59e0b';
+                            } else {
+                                statusEl.textContent = '';
+                            }
+                        };
+                        
+                        window.updateWordCount = updateWordCount;
+                        
+                        return `
+                            <div class="lesson-page-card content-page">
+                                <h2>📖 Vocabulary Words</h2>
+                                <p style="margin-bottom: 25px; color: #666;">
+                                    Look up each word in a dictionary. Write the definition in your own words (minimum 10 words each).
+                                </p>
                                 
-                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #C7158A;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
                                     <div style="margin-bottom: 12px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">cyclone</span>
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">spectacles</span>
                                     </div>
                                     <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
                                         Look up this word in a dictionary, then write the definition in your own words:
@@ -91,10 +115,10 @@
                                       <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
                                     </div>
                                 </div>
-                                
-                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #C7158A;">
+  
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
                                     <div style="margin-bottom: 12px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">prairie</span>
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">ambuscade</span>
                                     </div>
                                     <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
                                         Look up this word in a dictionary, then write the definition in your own words:
@@ -111,509 +135,272 @@
                                       <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
                                     </div>
                                 </div>
+  
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">sagacity</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-3"
+                                      style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-3', 'vocab-count-3', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-3" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-3-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+  
                                 
-                            </div>
-                            
-                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
-                                <p style="margin: 0;"><strong>Watch for these words</strong> in today's reading!</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                
-                
-                
-                // Reading Page 1 of 5
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: Alice in Wonderland</h2>
-                            <h3 style="color: var(--book-color, #305853);">Chapter 1.
-Down the Rabbit-Hole</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 1 of 5</p>
-                            
-                            <div style="padding: 15px; background: #f9f9f9; border-radius: 12px; line-height: 1.2; font-size: 11px;" class="reading-passage">
-                                <p style="margin-bottom: 15px; line-height: 1.8;">Alice was beginning to get very tired of sitting by her sister on the
-bank, and of having nothing to do: once or twice she had peeped into
-the book her sister was reading, but it had no pictures or
-conversations in it, “and what is the use of a book,” thought Alice
-“without pictures or conversations?”
-
-So she was considering in her own mind (as well as she could, for the
-hot day made her feel very sleepy and stupid), whether the pleasure of
-making a daisy-chain would be worth the trouble of getting up and
-picking the daisies, when suddenly a White Rabbit with pink eyes ran
-close by her. There was nothing so _very_ remarkable in that; nor did Alice think it
-so _very_ much out of the way to hear the Rabbit say to itself, “Oh
-dear! Oh dear! I shall be late!” (when she thought it over afterwards,
-it occurred to her that she ought to have wondered at this, but at the
-time it all seemed quite natural); but when the Rabbit actually _took a
-watch out of its waistcoat-pocket_, and looked at it, and then hurried
-on, Alice started to her feet, for it flashed across her mind that she
-had never before seen a rabbit with either a waistcoat-pocket, or a
-watch to take out of it, and burning with curiosity, she ran across the
-field after it, and fortunately was just in time to see it pop down a
-large rabbit-hole under the hedge. In another moment down went Alice after it, never once considering how
-in the world she was to get out again.</p>
-<p style="margin-bottom: 15px; line-height: 1.8;">The rabbit-hole went straight on like a tunnel for some way, and then
-dipped suddenly down, so suddenly that Alice had not a moment to think
-about stopping herself before she found herself falling down a very
-deep well. Either the well was very deep, or she fell very slowly, for she had
-plenty of time as she went down to look about her and to wonder what
-was going to happen next. First, she tried to look down and make out
-what she was coming to, but it was too dark to see anything; then she
-looked at the sides of the well, and noticed that they were filled with
-cupboards and book-shelves; here and there she saw maps and pictures
-hung upon pegs. She took down a jar from one of the shelves as she
-passed; it was labelled “ORANGE MARMALADE”, but to her great
-disappointment it was empty: she did not like to drop the jar for fear
-of killing somebody underneath, so managed to put it into one of the
-cupboards as she fell past it.
-
-“Well!” thought Alice to herself, “after such a fall as this, I shall
-think nothing of tumbling down stairs! How brave they’ll all think me
-at home! Why, I wouldn’t say anything about it, even if I fell off the
-top of the house!” (Which was very likely true.)
-
-Down, down, down. Would the fall _never_ come to an end? “I wonder how
-many miles I’ve fallen by this time?” she said aloud. “I must be
-getting somewhere near the centre of the earth.</p>
-                            </div>
-                            
-                        </div>
-                    `
-                },
-
-                // Reading Page 2 of 5
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 2 of 5</p>
-                            
-                            <div style="padding: 15px; background: #f9f9f9; border-radius: 12px; line-height: 1.2; font-size: 11px;" class="reading-passage">
-                                <p style="margin-bottom: 15px; line-height: 1.8;">Let me see: that would
-be four thousand miles down, I think—” (for, you see, Alice had learnt
-several things of this sort in her lessons in the schoolroom, and
-though this was not a _very_ good opportunity for showing off her
-knowledge, as there was no one to listen to her, still it was good
-practice to say it over) “—yes, that’s about the right distance—but
-then I wonder what Latitude or Longitude I’ve got to?” (Alice had no
-idea what Latitude was, or Longitude either, but thought they were nice
-grand words to say.)
-
-Presently she began again. “I wonder if I shall fall right _through_
-the earth! How funny it’ll seem to come out among the people that walk
-with their heads downward! The Antipathies, I think—” (she was rather
-glad there _was_ no one listening, this time, as it didn’t sound at all
-the right word) “—but I shall have to ask them what the name of the
-country is, you know. Please, Ma’am, is this New Zealand or Australia?”
-(and she tried to curtsey as she spoke—fancy _curtseying_ as you’re
-falling through the air! Do you think you could manage it?) “And what
-an ignorant little girl she’ll think me for asking! No, it’ll never do
-to ask: perhaps I shall see it written up somewhere.”
-
-Down, down, down. There was nothing else to do, so Alice soon began
-talking again. “Dinah’ll miss me very much to-night, I should think!”
-(Dinah was the cat.) “I hope they’ll remember her saucer of milk at
-tea-time. Dinah my dear! I wish you were down here with me! There are
-no mice in the air, I’m afraid, but you might catch a bat, and that’s
-very like a mouse, you know.</p>
-                            </div>
-                            
-                        </div>
-                    `
-                },
-
-                // Reading Page 3 of 5
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 3 of 5</p>
-                            
-                            <div style="padding: 15px; background: #f9f9f9; border-radius: 12px; line-height: 1.2; font-size: 11px;" class="reading-passage">
-                                <p style="margin-bottom: 15px; line-height: 1.8;">But do cats eat bats, I wonder?” And here
-Alice began to get rather sleepy, and went on saying to herself, in a
-dreamy sort of way, “Do cats eat bats? Do cats eat bats?” and
-sometimes, “Do bats eat cats?” for, you see, as she couldn’t answer
-either question, it didn’t much matter which way she put it. She felt
-that she was dozing off, and had just begun to dream that she was
-walking hand in hand with Dinah, and saying to her very earnestly,
-“Now, Dinah, tell me the truth: did you ever eat a bat?” when suddenly,
-thump! thump! down she came upon a heap of sticks and dry leaves, and
-the fall was over. Alice was not a bit hurt, and she jumped up on to her feet in a moment:
-she looked up, but it was all dark overhead; before her was another
-long passage, and the White Rabbit was still in sight, hurrying down
-it. There was not a moment to be lost: away went Alice like the wind,
-and was just in time to hear it say, as it turned a corner, “Oh my ears
-and whiskers, how late it’s getting!” She was close behind it when she
-turned the corner, but the Rabbit was no longer to be seen: she found
-herself in a long, low hall, which was lit up by a row of lamps hanging
-from the roof. There were doors all round the hall, but they were all locked; and when
-Alice had been all the way down one side and up the other, trying every
-door, she walked sadly down the middle, wondering how she was ever to
-get out again.</p>
-<p style="margin-bottom: 15px; line-height: 1.8;">Suddenly she came upon a little three-legged table, all made of solid
-glass; there was nothing on it except a tiny golden key, and Alice’s
-first thought was that it might belong to one of the doors of the hall;
-but, alas! either the locks were too large, or the key was too small,
-but at any rate it would not open any of them. However, on the second
-time round, she came upon a low curtain she had not noticed before, and
-behind it was a little door about fifteen inches high: she tried the
-little golden key in the lock, and to her great delight it fitted! Alice opened the door and found that it led into a small passage, not
-much larger than a rat-hole: she knelt down and looked along the
-passage into the loveliest garden you ever saw. How she longed to get
-out of that dark hall, and wander about among those beds of bright
-flowers and those cool fountains, but she could not even get her head
-through the doorway; “and even if my head would go through,” thought
-poor Alice, “it would be of very little use without my shoulders. Oh,
-how I wish I could shut up like a telescope! I think I could, if I only
-knew how to begin.” For, you see, so many out-of-the-way things had
-happened lately, that Alice had begun to think that very few things
-indeed were really impossible.</p>
-                            </div>
-                            
-                        </div>
-                    `
-                },
-
-                // Reading Page 4 of 5
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 4 of 5</p>
-                            
-                            <div style="padding: 15px; background: #f9f9f9; border-radius: 12px; line-height: 1.2; font-size: 11px;" class="reading-passage">
-                                <p style="margin-bottom: 15px; line-height: 1.8;">There seemed to be no use in waiting by the little door, so she went
-back to the table, half hoping she might find another key on it, or at
-any rate a book of rules for shutting people up like telescopes: this
-time she found a little bottle on it, (“which certainly was not here
-before,” said Alice,) and round the neck of the bottle was a paper
-label, with the words “DRINK ME,” beautifully printed on it in large
-letters. It was all very well to say “Drink me,” but the wise little Alice was
-not going to do _that_ in a hurry. “No, I’ll look first,” she said,
-“and see whether it’s marked ‘_poison_’ or not”; for she had read
-several nice little histories about children who had got burnt, and
-eaten up by wild beasts and other unpleasant things, all because they
-_would_ not remember the simple rules their friends had taught them:
-such as, that a red-hot poker will burn you if you hold it too long;
-and that if you cut your finger _very_ deeply with a knife, it usually
-bleeds; and she had never forgotten that, if you drink much from a
-bottle marked “poison,” it is almost certain to disagree with you,
-sooner or later.</p>
-<p style="margin-bottom: 15px; line-height: 1.8;">However, this bottle was _not_ marked “poison,” so Alice ventured to
-taste it, and finding it very nice, (it had, in fact, a sort of mixed
-flavour of cherry-tart, custard, pine-apple, roast turkey, toffee, and
-hot buttered toast,) she very soon finished it off.
-
-*      *      *      *      *      *      *
-
-    *      *      *      *      *      *
-
-*      *      *      *      *      *      *
-
-
-“What a curious feeling!” said Alice; “I must be shutting up like a
-telescope.”
-
-And so it was indeed: she was now only ten inches high, and her face
-brightened up at the thought that she was now the right size for going
-through the little door into that lovely garden. First, however, she
-waited for a few minutes to see if she was going to shrink any further:
-she felt a little nervous about this; “for it might end, you know,”
-said Alice to herself, “in my going out altogether, like a candle. I
-wonder what I should be like then?” And she tried to fancy what the
-flame of a candle is like after the candle is blown out, for she could
-not remember ever having seen such a thing.</p>
-                            </div>
-                            
-                        </div>
-                    `
-                },
-
-                // Reading Page 5 of 5
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 5 of 5</p>
-                            
-                            <div style="padding: 15px; background: #f9f9f9; border-radius: 12px; line-height: 1.2; font-size: 11px;" class="reading-passage">
-                                <p style="margin-bottom: 15px; line-height: 1.8;">After a while, finding that nothing more happened, she decided on going
-into the garden at once; but, alas for poor Alice! when she got to the
-door, she found she had forgotten the little golden key, and when she
-went back to the table for it, she found she could not possibly reach
-it: she could see it quite plainly through the glass, and she tried her
-best to climb up one of the legs of the table, but it was too slippery;
-and when she had tired herself out with trying, the poor little thing
-sat down and cried.
-
-“Come, there’s no use in crying like that!” said Alice to herself,
-rather sharply; “I advise you to leave off this minute!” She generally
-gave herself very good advice, (though she very seldom followed it),
-and sometimes she scolded herself so severely as to bring tears into
-her eyes; and once she remembered trying to box her own ears for having
-cheated herself in a game of croquet she was playing against herself,
-for this curious child was very fond of pretending to be two people.
-“But it’s no use now,” thought poor Alice, “to pretend to be two
-people!</p>
-<p style="margin-bottom: 15px; line-height: 1.8;">Why, there’s hardly enough of me left to make _one_ respectable
-person!”
-
-Soon her eye fell on a little glass box that was lying under the table:
-she opened it, and found in it a very small cake, on which the words
-“EAT ME” were beautifully marked in currants. “Well, I’ll eat it,” said
-Alice, “and if it makes me grow larger, I can reach the key; and if it
-makes me grow smaller, I can creep under the door; so either way I’ll
-get into the garden, and I don’t care which happens!”
-
-She ate a little bit, and said anxiously to herself, “Which way? Which
-way?”, holding her hand on the top of her head to feel which way it was
-growing, and she was quite surprised to find that she remained the same
-size: to be sure, this generally happens when one eats cake, but Alice
-had got so much into the way of expecting nothing but out-of-the-way
-things to happen, that it seemed quite dull and stupid for life to go
-on in the common way. So she set to work, and very soon finished off the cake.
-
-*      *      *      *      *      *      *
-
-    *      *      *      *      *      *
-
-*      *      *      *      *      *      *</p>
-                            </div>
-                            
-                        </div>
-                    `
-                },
-
-
-                
-                // Page 5: Comprehension Question 1
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading Comprehension</h2>
-                            <p style="margin-bottom: 30px;">Question 1 of 3</p>
-                            
-                            <div style="margin: 30px 0;">
-                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #C7158A;">
-                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 1:</p>
-                                    <p style="margin-bottom: 12px; color: #444;">What was the name of the rabbit that Alice saw running and why was he in a hurry?</p>
-                                    <textarea 
-                                      id="comp-1"
-                                      style="width: 100%; min-height: 150px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;"
-                                      oninput="updateWordCount('comp-1', 'word-count-comp-1', 30)"
-                                      placeholder="Write your answer here (minimum 30 words)..."
-                                    ></textarea>
-                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
-                                      <span id="word-count-comp-1" style="font-size: 14px; color: #666;">0 / 30 words</span>
-                                      <span id="word-count-comp-1-status" style="font-size: 14px; font-weight: 600;"></span>
-                                    </div>
+                                <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                    <p style="margin: 0;"><strong>Watch for these words</strong> in today's reading!</p>
                                 </div>
                             </div>
-                        </div>
-                    `
+                        `;
+                    }
                 },
                 
-                // Page 6: Comprehension Question 2
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading Comprehension</h2>
-                            <p style="margin-bottom: 30px;">Question 2 of 3</p>
-                            
-                            <div style="margin: 30px 0;">
-                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #C7158A;">
-                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 2:</p>
-                                    <p style="margin-bottom: 12px; color: #444;">How did Alice's size change throughout the chapter, and how did she feel about these changes?</p>
-                                    <textarea 
-                                      id="comp-2"
-                                      style="width: 100%; min-height: 150px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;"
-                                      oninput="updateWordCount('comp-2', 'word-count-comp-2', 30)"
-                                      placeholder="Write your answer here (minimum 30 words)..."
-                                    ></textarea>
-                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
-                                      <span id="word-count-comp-2" style="font-size: 14px; color: #666;">0 / 30 words</span>
-                                      <span id="word-count-comp-2-status" style="font-size: 14px; font-weight: 600;"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
                 
-                // Page 7: Comprehension Question 3
+                // Page 4: Vocabulary Matching Game
                 {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading Comprehension</h2>
-                            <p style="margin-bottom: 30px;">Question 3 of 3</p>
-                            
-                            <div style="margin: 30px 0;">
-                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #C7158A;">
-                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 3:</p>
-                                    <p style="margin-bottom: 12px; color: #444;">What do you think the significance of the rabbit hole and the strange world Alice entered represents?</p>
-                                    <textarea 
-                                      id="comp-3"
-                                      style="width: 100%; min-height: 150px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;"
-                                      oninput="updateWordCount('comp-3', 'word-count-comp-3', 30)"
-                                      placeholder="Write your answer here (minimum 30 words)..."
-                                    ></textarea>
-                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
-                                      <span id="word-count-comp-3" style="font-size: 14px; color: #666;">0 / 30 words</span>
-                                      <span id="word-count-comp-3-status" style="font-size: 14px; font-weight: 600;"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 8: Journal Reflection
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Journal Reflection</h2>
-                            
-                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 20px;">
-                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
-                                    [Personal reflection prompt related to Chapter 1]
-                                </p>
-                            </div>
-                            
-                            <textarea 
-                              id="journal"
-                              style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #C7158A; border-radius: 12px; font-family: inherit; font-size: 16px; line-height: 1.6;"
-                              placeholder="Write your thoughts here..."
-                            ></textarea>
-                        </div>
-                    `
-                },
-                
-                // NEW PAGE 8: Informational Text 
-                // Page 9: Informational Text - Reading (Part 1)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Informational Text</h2>
-                            <h3 style="color: #8B4513;">Informational Text</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 20px;">Part 1 of 2</p>
-                            
-                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;">
-                                </p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 10: Informational Text - Reading (Part 2)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h3 style="color: #8B4513;">Informational Text</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 20px;">Part 2 of 2</p>
-                            
-                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;">
+                    render: () => {
+                        const vocabWords = ["spectacles","ambuscade","sagacity"];
+                        const definitions = ["eyeglasses","an ambush; a surprise attack from a hidden position","wisdom; the ability to make good judgments"];
+                        
+                        return `
+                            <div class="lesson-page-card content-page">
+                                <h2>🎮 Vocabulary Matching Game</h2>
+                                <p style="margin-bottom: 20px;">Match each vocabulary word with its correct definition.</p>
                                 
-                                <p style="margin-bottom: 15px;">Informational text content goes here.</p>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 800px; margin: 0 auto;">
+                                    <div>
+                                        <h3 style="color: #305853; margin-bottom: 15px;">Words</h3>
+                                        ${vocabWords.map((word, i) => `
+                                            <div style="padding: 15px; margin-bottom: 10px; background: #f0f7f4; border-radius: 8px; border: 2px solid #305853;">
+                                                <strong>${i + 1}.</strong> ${word}
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                    
+                                    <div>
+                                        <h3 style="color: #8B4513; margin-bottom: 15px;">Definitions</h3>
+                                        ${definitions.map((def, i) => `
+                                            <div style="padding: 15px; margin-bottom: 10px; background: #fef3e2; border-radius: 8px; border: 2px solid #8B4513;">
+                                                <strong>${['A', 'B', 'C'][i]}.</strong> ${def}
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                                
+                                <div style="margin-top: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #305853;">
+                                    <p style="margin-bottom: 10px;"><strong>Your Answers:</strong></p>
+                                    <p>1 = <input type="text" style="width: 60px; padding: 8px; border: 2px solid #ccc; border-radius: 4px;" placeholder="A, B, or C" maxlength="1" /></p>
+                                    <p>2 = <input type="text" style="width: 60px; padding: 8px; border: 2px solid #ccc; border-radius: 4px;" placeholder="A, B, or C" maxlength="1" /></p>
+                                    <p>3 = <input type="text" style="width: 60px; padding: 8px; border: 2px solid #ccc; border-radius: 4px;" placeholder="A, B, or C" maxlength="1" /></p>
+                                </div>
+                            </div>
+                        `;
+                    }
+                },
+                
+                // Pages 5-7: Story in 3 parts
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📚 Reading: TOM AND AUNT POLLY</h2>
+                            <h3 style="color: #8B4513;">Part 1 of 3</h3>
+                            <div style="line-height: 1.8; color: #333; font-size: 16px; margin-top: 20px;">
+                                <p style="margin-bottom: 15px; line-height: 1.8;">&quot;Where has that boy gone? You, Tom!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The old woman pulled her glasses down and peered over them, scanning the room. Then she pushed them up and looked underneath them. She almost never looked through them—they were her fancy pair, meant for style, not for actually seeing anything. She could have seen just as well through a pair of oven doors.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">She looked annoyed but not truly angry. &quot;Well, I swear, if I catch you, I&#039;ll—&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">She didn&#039;t finish, because she was already on her hands and knees, jabbing a broom handle under the bed. She found nothing but the cat.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;I have never seen a boy like this one!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">She marched to the open door and looked out at the tangled garden—tomato vines, weeds growing every which way. No Tom. She took a deep breath and hollered toward the distance: &quot;Y-o-u-u, Tom!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">A small noise came from behind her. She spun around just in time to grab a boy by the back of his shirt before he could escape.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;There you are! What have you been doing in that closet?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Nothing! Look at your hands. And your mouth. What is that stuff?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;I don&#039;t know, Aunt Polly.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Well, I know. It&#039;s jam. I have told you forty times—if you don&#039;t leave that jam alone, I will skin you alive. Hand me that switch.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The switch hovered in the air. Things looked bad—</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;My! Look behind you, Aunt!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The old woman spun around, grabbing at her skirts. In that instant, the boy bolted. He scrambled up the tall board fence and vanished over the other side.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">His Aunt Polly stood there a moment, surprised, and then laughed softly.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;That boy! Can&#039;t I ever learn? He&#039;s played that same trick on me enough times that I ought to know better. But he never does it the same way twice, so how am I supposed to keep up? He knows exactly how far he can push me before I lose my temper, and he knows if he can make me laugh, I can&#039;t bring myself to punish him. I&#039;m not doing right by that boy, and that&#039;s the honest truth. But he&#039;s my dead sister&#039;s child, and I haven&#039;t got the heart to whip him. Every time I let him off, my conscience hurts me, and every time I do punish him, my old heart nearly breaks. Well—he&#039;ll skip school this afternoon, so I&#039;ll have to make him work tomorrow as punishment. Making him work on a Saturday, when all the other boys are free—that&#039;s the hardest thing in the world for him. But I&#039;ve got to do my duty, or I&#039;ll be the ruin of that child.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom did skip school, and he had a fine time doing it. He got home barely in time to help Jim, the hired boy, chop wood for supper—or at least he was there in time to tell Jim about his adventures while Jim did most of the work.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom&#039;s younger half-brother, Sid, was already done with his chores. Sid was a quiet boy who never caused trouble and never looked for any.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">While Tom ate supper and snuck sugar whenever he got the chance, Aunt Polly asked him tricky questions, trying to catch him in a lie. She fancied herself a clever detective. She said:</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Tom, it was pretty warm in school today, wasn&#039;t it?&quot;</p>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📚 Reading: TOM AND AUNT POLLY</h2>
+                            <h3 style="color: #8B4513;">Part 2 of 3</h3>
+                            <div style="line-height: 1.8; color: #333; font-size: 16px; margin-top: 20px;">
+                                <p style="margin-bottom: 15px; line-height: 1.8;">&quot;Very warm, wasn&#039;t it?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Didn&#039;t you want to go swimming?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">A flicker of alarm crossed Tom&#039;s face. He studied his aunt&#039;s expression, but she gave nothing away. &quot;No ma&#039;am—well, not too much.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Aunt Polly reached out and felt his shirt. &quot;But you don&#039;t seem too warm now.&quot; She was pleased with herself for checking whether the shirt was dry without anyone knowing that was her plan. But Tom was onto her, so he got ahead of the next move.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Some of us pumped water on our heads at school. Mine&#039;s still a little damp. See?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Aunt Polly was annoyed she&#039;d missed that detail. Then she had a new idea: &quot;Tom, you didn&#039;t have to undo the collar I sewed shut to pump water on your head, did you? Unbutton your jacket!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom opened his jacket. His shirt collar was securely sewn shut.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Hmph! All right, go on. I was sure you&#039;d skipped school and gone swimming. But I forgive you, Tom. I suppose you&#039;re better than you look.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">She was half sorry her detective work had failed and half glad that Tom had actually behaved for once.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">But then Sid spoke up. &quot;Funny—I thought you sewed that collar with white thread, Aunt Polly. But it&#039;s black.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Why, I did sew it with white! Tom—&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">But Tom was already out the door. &quot;I&#039;ll get you for that, Sid,&quot; he called back.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">In a safe spot, Tom examined two needles stuck into his jacket—one threaded with white, one with black. He&#039;d switched the thread before coming home.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;She&#039;d never have noticed if Sid hadn&#039;t opened his big mouth,&quot; Tom muttered. &quot;Sometimes she uses white thread and sometimes black. I wish she&#039;d pick one and stick with it. But I will get even with Sid.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom was not the model boy of the village. He knew who the model boy was, though—and hated him.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Within two minutes, Tom had forgotten every one of his troubles. Not because they were small troubles—they felt just as heavy to him as a grown man&#039;s worries feel to a grown man. But a new interest had pushed everything else aside. He&#039;d just learned a new way of whistling from one of the older boys in town, and he was dying to practice it.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The summer evening was long, and it wasn&#039;t dark yet. As Tom walked down the street, whistling happily, he spotted a stranger—a boy about his own size. A newcomer in the small village of St. Petersburg was a rare and impressive sight. This boy was well-dressed, too, which was downright amazing for a weekday. He wore a neat cap, a buttoned-up jacket, nice pants, and actual shoes—on a Friday! He even had a necktie. Everything about him screamed city boy.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The fancier this stranger looked, the shabbier Tom felt. Neither boy spoke. They circled each other like cats.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Finally Tom said, &quot;I can lick you.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;I&#039;d like to see you try.&quot;</p>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📚 Reading: TOM AND AUNT POLLY</h2>
+                            <h3 style="color: #8B4513;">Part 3 of 3</h3>
+                            <div style="line-height: 1.8; color: #333; font-size: 16px; margin-top: 20px;">
+                                <p style="margin-bottom: 15px; line-height: 1.8;">There was an uncomfortable pause. Tom said, &quot;What&#039;s your name?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;None of your business.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;I&#039;ll make it my business.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;You think you&#039;re something special, don&#039;t you? What a stupid hat.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;You can knock it off if you don&#039;t like it.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;You&#039;re a fighting liar and too scared to back it up.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Get away from here!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">They stood nose to nose, each with one foot braced, shoving with all their might. Neither could budge the other. Both were red-faced and sweating.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom drew a line in the dirt with his toe. &quot;Step over that line, and I&#039;ll fight you till you can&#039;t stand up.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The new boy stepped over it immediately.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Now you said you would—so do it!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;For two cents, I would.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The new boy dug two pennies out of his pocket and held them out. Tom smacked them to the ground.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">In the next instant, both boys were rolling in the dirt, punching and pulling hair, covered in dust. When the dust settled, Tom was sitting on top of the new boy, hammering him with his fists.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The boy struggled, crying—mostly from rage.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">At last the stranger choked out: &quot;Uncle!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom let him up. &quot;That&#039;ll teach you. Better watch who you mess with.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The new boy slunk off, crying and threatening revenge. Tom jeered after him and started walking home, feeling like a champion. The moment Tom turned his back, the new boy snatched up a rock and hurled it, catching Tom right between the shoulder blades. Then he ran.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom chased the boy all the way home and stood outside his gate for a long time, daring him to come out. But the boy only made faces through the window. Finally the boy&#039;s mother appeared, called Tom a wicked, vulgar child, and ordered him away.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom got home late that night. When he climbed in through the window, he ran straight into an ambush: Aunt Polly was waiting. When she saw the state of his clothes, she made up her mind. His Saturday holiday was about to become a Saturday of hard labor—and there would be no getting out of it.</p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 11: Informational Text - Question 1
+                // Page 8: Comprehension (2 MC + 1 short answer)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <p style="margin-bottom: 30px;">Question 1 of 3</p>
+                            <h2>💭 Reading Comprehension</h2>
+                            <p style="margin-bottom: 25px;">Answer these questions about today's chapter.</p>
                             
-                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
-                                <p style="font-weight: 600; margin-bottom: 12px;">1. Question 1?</p>
-                                <textarea 
-                                  id="info-1"
-                                  style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;"
-                                  oninput="updateWordCount('info-1', 'word-count-info-1', 20)"
-                                  placeholder="Write your answer here (minimum 20 words)..."
-                                ></textarea>
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
-                                  <span id="word-count-info-1" style="font-size: 14px; color: #666;">0 / 20 words</span>
-                                  <span id="word-count-info-1-status" style="font-size: 14px; font-weight: 600;"></span>
+                            
+                            <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">1. Why does Tom say &quot;My! Look behind you, Aunt!&quot; while Aunt Polly is holding the switch?</p>
+                                <div style="margin-left: 20px;">
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-1" value="A" style="margin-right: 8px;">
+                                            <strong>A.</strong> He sees something scary behind her.
+                                        </label>
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-1" value="B" style="margin-right: 8px;">
+                                            <strong>B.</strong> He is trying to distract her so he can escape.
+                                        </label>
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-1" value="C" style="margin-right: 8px;">
+                                            <strong>C.</strong> He wants to show her something interesting.
+                                        </label>
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-1" value="D" style="margin-right: 8px;">
+                                            <strong>D.</strong> He is warning her about a falling object.
+                                        </label>
+                                    
                                 </div>
                             </div>
+  
+                            <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">2. What does Sid do that gets Tom in trouble at the supper table?</p>
+                                <div style="margin-left: 20px;">
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-2" value="A" style="margin-right: 8px;">
+                                            <strong>A.</strong> He tells Aunt Polly that Tom skipped school.
+                                        </label>
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-2" value="B" style="margin-right: 8px;">
+                                            <strong>B.</strong> He points out that Tom&#039;s shirt collar was sewn with black thread, not white.
+                                        </label>
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-2" value="C" style="margin-right: 8px;">
+                                            <strong>C.</strong> He shows Aunt Polly the jam on Tom&#039;s hands.
+                                        </label>
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-2" value="D" style="margin-right: 8px;">
+                                            <strong>D.</strong> He tells Aunt Polly that Tom was fighting the new boy.
+                                        </label>
+                                    
+                                </div>
+                            </div>
+  
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">3. Aunt Polly says, &quot;Every time I let him off, my conscience does hurt me so, and every time I hit him my old heart most breaks.&quot; What does this tell us about the conflict Aunt Polly feels about raising Tom? Use evidence from the chapter to support your answer.</p>
+                                <textarea 
+                                  id="comp-3"
+                                  style="width: 100%; min-height: 120px; padding: 15px; border: 2px solid #305853; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Write your answer here. Be specific and use evidence from the text."
+                                ></textarea>
+                            </div>
+  
                         </div>
                     `
                 },
                 
-                // Page 12: Informational Text - Question 2
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <p style="margin-bottom: 30px;">Question 2 of 3</p>
-                            
-                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
-                                <p style="font-weight: 600; margin-bottom: 12px;">2. Question 2?</p>
-                                <textarea 
-                                  id="info-2"
-                                  style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;"
-                                  oninput="updateWordCount('info-2', 'word-count-info-2', 20)"
-                                  placeholder="Write your answer here (minimum 20 words)..."
-                                ></textarea>
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
-                                  <span id="word-count-info-2" style="font-size: 14px; color: #666;">0 / 20 words</span>
-                                  <span id="word-count-info-2-status" style="font-size: 14px; font-weight: 600;"></span>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
                 
-                // Page 13: Informational Text - Question 3
+                // Page 9: Grammar Workshop
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <p style="margin-bottom: 30px;">Question 3 of 3</p>
+                            <h2>📝 Grammar Workshop</h2>
+                            <h3 style="color: #8B4513; margin-top: 20px;">Complex Sentences</h3>
                             
-                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
-                                <p style="font-weight: 600; margin-bottom: 12px;">3. Question 3?</p>
-                                <textarea 
-                                  id="info-3"
-                                  style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;"
-                                  oninput="updateWordCount('info-3', 'word-count-info-3', 20)"
-                                  placeholder="Write your answer here (minimum 20 words)..."
-                                ></textarea>
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
-                                  <span id="word-count-info-3" style="font-size: 14px; color: #666;">0 / 20 words</span>
-                                  <span id="word-count-info-3-status" style="font-size: 14px; font-weight: 600;"></span>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },,
-                
-                // NEW PAGE 9: Grammar in Context 
-                // Page 14: Grammar Workshop
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Grammar Workshop</h2>
-                            <h3 style="color: #C7158A;">Past Progressive Tense</h3>
-                            
-                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
-                                <p style="font-size: 16px; line-height: 1.6; margin-bottom: 15px;">
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin: 25px 0;">
+                                <p style="font-size: 16px; line-height: 1.8; margin-bottom: 15px;">
                                     <strong>What is it?</strong><br>
-                                    The past progressive tense shows an action that was ongoing in the past. Form it by using 'was' or 'were' + verb ending in '-ing'.
+                                    A complex sentence contains one independent clause and at least one dependent clause. The dependent clause adds extra information but cannot stand alone. Example from The Wizard of Oz: &#039;When Tom got home, Aunt Polly was waiting for him.&#039;
                                 </p>
-                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
-                                    <strong>Example from today's reading:</strong><br>
-                                    <em>"Dorothy was walking (past progressive) when she saw (simple past) the Scarecrow."</em>
+                                <p style="font-size: 16px; line-height: 1.8; margin: 0;">
+                                    <strong>Example:</strong><br>
+                                    <em>"Although Tom was clever, he sometimes got into trouble."</em>
                                 </p>
                             </div>
                             
-                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #C7158A;">
-                                <p style="font-weight: 600; margin-bottom: 12px;">Your Turn:</p>
-                                <p style="margin-bottom: 12px;">Write three sentences using the past progressive tense to describe things happening in today's chapter.</p>
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                <p style="font-weight: 600; margin-bottom: 12px; font-size: 18px;">✍️ Your Turn:</p>
+                                <p style="margin-bottom: 15px; line-height: 1.6;">Write three complex sentences about a character from today&#039;s chapter. Use subordinating conjunctions like: although, because, when, if, since, while.</p>
                                 <textarea 
-                                  id="grammar"
-                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  id="grammar-practice"
+                                  style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #305853; border-radius: 8px; font-size: 16px; line-height: 1.8; font-family: inherit;"
                                   placeholder="Write your practice sentences here..."
                                 ></textarea>
                             </div>
@@ -621,84 +408,82 @@ on in the common way. So she set to work, and very soon finished off the cake.
                     `
                 },
                 
-                // NEW PAGE 10: Writing Workshop 
-                // Page 15: Writing Practice
+                // Page 10: Informational Text
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>Opinion Writing</h2>
-                            
-                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
-                                <p style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">Prompt:</p>
-                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
-                                    Should Dorothy have tried harder to get into the cellar, or was it okay that she stopped to get Toto? Defend your opinion.
-                                </p>
+                            <h2>📰 Informational Text</h2>
+                            <h3 style="color: #8B4513; margin-top: 20px;">Life Along the Mississippi in 1840s Missouri</h3>
+                            <div style="line-height: 1.8; color: #333; font-size: 16px; margin: 25px 0;">
+                                <p style="margin-bottom: 15px;">The Adventures of The Wizard of Oz is set in the fictional town of St. Petersburg, Missouri, along the Mississippi River in the 1840s. This was a time of great change in America, as the country expanded westward and steamboats transformed river commerce.</p><p style="margin-bottom: 15px;">Small towns like St. Petersburg were close-knit communities where everyone knew their neighbors. Children had more freedom to roam and play outdoors than they do today. There were no televisions, computers, or video games—kids created their own entertainment through imaginative play, just as Tom does throughout the story.</p><p style="margin-bottom: 15px;">The Mississippi River was the lifeblood of these communities, providing transportation, trade, and adventure. Boys like Tom dreamed of becoming steamboat pilots, one of the most prestigious and well-paid jobs of the era. The river also represented freedom and possibility, which is why it plays such an important role in the story.</p><p style="margin-bottom: 15px;">Mark Twain himself grew up in Hannibal, Missouri, a town very similar to the fictional St. Petersburg. Many of the adventures in The Wizard of Oz are based on Twain&#039;s own childhood experiences, making the novel partly autobiographical.</p>
                             </div>
                             
-                            <div style="padding: 15px; background: #fffbf0; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 20px;">
-                                <p style="margin: 0; font-size: 14px;">
-                                    <strong>Remember:</strong> Write a paragraph stating your opinion with at least 2-3 reasons supporting your view. Include a topic sentence and conclusion.
-                                </p>
-                            </div>
-                            
-                            <textarea 
-                              id="writing"
-                              style="width: 100%; min-height: 250px; padding: 15px; border: 2px solid #C7158A; border-radius: 12px; font-size: 16px; line-height: 1.8;"
-                              placeholder="Start writing here..."
-                            ></textarea>
-                            
-                            <div style="margin-top: 15px; padding: 12px; background: #f0f9ff; border-radius: 8px;">
-                                <p style="margin: 0; font-size: 13px; color: #0369a1;">
-                                    <strong>Checklist:</strong> Did you include a topic sentence? Supporting details? A conclusion?
-                                </p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // NEW PAGE 11: Language Skills 
-                // Page 16: Language Skills
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Language Skills</h2>
-                            <h3 style="color: #C7158A;">Similes and Metaphors</h3>
-                            
-                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
-                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
-                                    <strong>Learn:</strong><br>
-                                    A simile compares two things using 'like' or 'as'. A metaphor says one thing IS another thing.
-                                </p>
-                            </div>
-                            
-                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #C7158A;">
-                                <p style="font-weight: 600; margin-bottom: 12px;">Activity:</p>
-                                <p style="margin-bottom: 12px;">Find the simile in today's reading or create your own simile about the story.</p>
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513; margin-top: 20px;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">Question 1: What is the main idea of this text?</p>
                                 <textarea 
-                                  id="language"
-                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
-                                  placeholder="Complete the activity here..."
+                                  id="info-q1"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #305853; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  oninput="updateWordCount('info-q1', 'info-count-1', 30)"
+                                  placeholder="Write your answer here (minimum 30 words)..."
                                 ></textarea>
+                                <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                  <span id="info-count-1" style="font-size: 13px; color: #666;">0 / 30 words</span>
+                                  <span id="info-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                </div>
                             </div>
                             
-                            <div style="margin-top: 20px; text-align: center; padding: 30px;">
-                                <div style="font-size: 48px; margin-bottom: 15px;"></div>
-                                <h3 style="color: #305853;">Excellent Work!</h3>
-                                <p style="color: #666;">You've completed all 11 pages of Lesson 151!</p>
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513; margin-top: 20px;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">Question 2: What is one interesting fact you learned?</p>
+                                <textarea 
+                                  id="info-q2"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #305853; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  oninput="updateWordCount('info-q2', 'info-count-2', 30)"
+                                  placeholder="Write your answer here (minimum 30 words)..."
+                                ></textarea>
+                                <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                  <span id="info-count-2" style="font-size: 13px; color: #666;">0 / 30 words</span>
+                                  <span id="info-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                </div>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513; margin-top: 20px;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">Question 3: How does this information connect to The Wizard of Oz's story?</p>
+                                <textarea 
+                                  id="info-q3"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #305853; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  oninput="updateWordCount('info-q3', 'info-count-3', 30)"
+                                  placeholder="Write your answer here (minimum 30 words)..."
+                                ></textarea>
+                                <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                  <span id="info-count-3" style="font-size: 13px; color: #666;">0 / 30 words</span>
+                                  <span id="info-count-3-status" style="font-size: 13px; font-weight: 600;"></span>
+                                </div>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 17: Completion
+                
+                // Page 11: Writing Practice
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <div style="text-align: center; padding: 40px 20px;">
-                                <div style="font-size: 72px; margin-bottom: 20px;"></div>
-                                <h2 style="color: #305853; margin-bottom: 20px;">Great Job!</h2>
-                                <p style="font-size: 18px; color: #666; max-width: 500px; margin: 0 auto;">
-                                    You've completed Lesson 151! Come back tomorrow to continue reading <em>Alice in Wonderland</em>.
+                            <h2>✏️ Writing Practice</h2>
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin: 20px 0;">
+                                <p style="font-size: 16px; line-height: 1.8;">
+                                    <strong>Prompt:</strong><br>
+                                    Write a paragraph describing a time when you had to do a chore you didn&#039;t want to do. How did you handle it? What did you learn?
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                <textarea 
+                                  id="writing"
+                                  style="width: 100%; min-height: 300px; padding: 15px; border: 2px solid #305853; border-radius: 8px; font-size: 16px; line-height: 1.8; font-family: inherit;"
+                                  placeholder="Write your response here. Aim for at least 8-10 sentences."
+                                ></textarea>
+                                <p style="margin-top: 10px; color: #666; font-size: 14px;">
+                                    💡 <strong>Tips:</strong> Start with a topic sentence, include specific details, and end with a conclusion.
                                 </p>
                             </div>
                         </div>
@@ -706,8 +491,7 @@ on in the common way. So she set to work, and very soon finished off the cake.
                 }
             ]
         };
-        
-        // Initialize lesson viewer
+
         if (typeof initLessonViewer === 'function') {
             initLessonViewer(lesson151Config);
         }

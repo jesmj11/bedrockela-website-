@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 105 Assessment - 4th Grade BedrockELA</title>
+    <title>Lesson 105 - 4th Grade BedrockELA</title>
     <link rel="stylesheet" href="css/lesson-viewer.css?v=1772665488">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="lesson-viewer">
     <div id="lesson-container" class="lesson-container"></div>
 
+    <script src="js/billy-tts.js"></script>
     <script src="js/lesson-viewer.js?v=1772665488"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
@@ -24,295 +25,465 @@
     
     <script>
         const lesson105Config = {
-            lessonId: '4th-grade-day-105',
+            lessonId: '4th-grade-day-1',
             gradeLevel: '4th-grade',
-            title: 'Day 105 Assessment - 4th Grade',
+            title: 'Lesson 105 - 4th Grade',
             pages: [
                 // Page 1: Title
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">
-                            
                             <h1>Lesson 105</h1>
-                            <div class="subtitle">Assessment Day</div>
-                            <p style="color: #2D3436; font-size: 20px; margin-top: 20px;">
-                                Black Beauty
+                            <div class="subtitle">4th Grade ELA</div>
+                            <p style="color: #8B4513; font-size: 20px; margin-top: 20px;">
+                                The Adventures of The Wizard of Oz
                             </p>
+                            <p style="color: #666; font-size: 16px; margin-top: 10px;">
+                                Chapter 9: The Queen of the Field Mice</p>
                         </div>
                     `
                 },
                 
-                // Page 2: Assessment Instructions
+                // Page 2: Welcome & Objectives
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>Assessment Instructions</h2>
-                            <p>Today is an assessment day! You'll be tested on:</p>
+                            <h2>Welcome to Lesson 105!</h2>
+                            <p>Today you will:</p>
                             <ul style="margin: 20px 0; line-height: 2;">
-                                <li><strong>Vocabulary:</strong> 10 words from Days 101-105</li>
-                                <li><strong>Reading Comprehension:</strong> Questions about the chapters</li>
-                                <li><strong>Grammar:</strong> Adjectives and Adjective Order</li>
-                                <li><strong>Writing:</strong> Narrative Writing</li>
+                                <li>Read Chapter 9: The Queen of the Field Mice<em>TOM AND AUNT POLLY</em></li>
+                                <li>Learn 3 new vocabulary words</li>
+                                <li>Read informational text: "Life Along the Mississippi in 1840s Missouri"</li>
+                                <li>Practice grammar skills</li>
+                                <li>Complete writing activity</li>
                             </ul>
                             <p><strong>Time needed:</strong> About 45-60 minutes</p>
-                            <p style="padding: 15px; background: #fffbf0; border-radius: 8px; border-left: 4px solid #f59e0b; margin-top: 20px;">
-                                <strong>Tip:</strong> Take your time and do your best work!
-                            </p>
                         </div>
                     `
                 },
                 
-                // Page 3: Vocabulary Quiz (10 words)
+                // Page 3: Vocabulary (3 words)
+                {
+                    render: () => {
+                        const updateWordCount = (textareaId, countId, minWords) => {
+                            const textarea = document.getElementById(textareaId);
+                            const countEl = document.getElementById(countId);
+                            const statusEl = document.getElementById(countId + '-status');
+                            if (!textarea || !countEl) return;
+                            
+                            const text = textarea.value.trim();
+                            const words = text.length > 0 ? text.split(/\s+/).length : 0;
+                            countEl.textContent = words + ' / ' + minWords + ' words';
+                            
+                            if (words >= minWords) {
+                                statusEl.textContent = '✅ Complete';
+                                statusEl.style.color = '#22c55e';
+                            } else if (words > 0) {
+                                statusEl.textContent = (minWords - words) + ' more needed';
+                                statusEl.style.color = '#f59e0b';
+                            } else {
+                                statusEl.textContent = '';
+                            }
+                        };
+                        
+                        window.updateWordCount = updateWordCount;
+                        
+                        return `
+                            <div class="lesson-page-card content-page">
+                                <h2>📖 Vocabulary Words</h2>
+                                <p style="margin-bottom: 25px; color: #666;">
+                                    Look up each word in a dictionary. Write the definition in your own words (minimum 10 words each).
+                                </p>
+                                
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">spectacles</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-1"
+                                      style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-1', 'vocab-count-1', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-1" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+  
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">ambuscade</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-2"
+                                      style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-2', 'vocab-count-2', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-2" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+  
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">sagacity</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-3"
+                                      style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-3', 'vocab-count-3', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-3" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-3-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+  
+                                
+                                <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                    <p style="margin: 0;"><strong>Watch for these words</strong> in today's reading!</p>
+                                </div>
+                            </div>
+                        `;
+                    }
+                },
+                
+                
+                // Page 4: Vocabulary Matching Game
+                {
+                    render: () => {
+                        const vocabWords = ["spectacles","ambuscade","sagacity"];
+                        const definitions = ["eyeglasses","an ambush; a surprise attack from a hidden position","wisdom; the ability to make good judgments"];
+                        
+                        return `
+                            <div class="lesson-page-card content-page">
+                                <h2>🎮 Vocabulary Matching Game</h2>
+                                <p style="margin-bottom: 20px;">Match each vocabulary word with its correct definition.</p>
+                                
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 800px; margin: 0 auto;">
+                                    <div>
+                                        <h3 style="color: #305853; margin-bottom: 15px;">Words</h3>
+                                        ${vocabWords.map((word, i) => `
+                                            <div style="padding: 15px; margin-bottom: 10px; background: #f0f7f4; border-radius: 8px; border: 2px solid #305853;">
+                                                <strong>${i + 1}.</strong> ${word}
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                    
+                                    <div>
+                                        <h3 style="color: #8B4513; margin-bottom: 15px;">Definitions</h3>
+                                        ${definitions.map((def, i) => `
+                                            <div style="padding: 15px; margin-bottom: 10px; background: #fef3e2; border-radius: 8px; border: 2px solid #8B4513;">
+                                                <strong>${['A', 'B', 'C'][i]}.</strong> ${def}
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                                
+                                <div style="margin-top: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #305853;">
+                                    <p style="margin-bottom: 10px;"><strong>Your Answers:</strong></p>
+                                    <p>1 = <input type="text" style="width: 60px; padding: 8px; border: 2px solid #ccc; border-radius: 4px;" placeholder="A, B, or C" maxlength="1" /></p>
+                                    <p>2 = <input type="text" style="width: 60px; padding: 8px; border: 2px solid #ccc; border-radius: 4px;" placeholder="A, B, or C" maxlength="1" /></p>
+                                    <p>3 = <input type="text" style="width: 60px; padding: 8px; border: 2px solid #ccc; border-radius: 4px;" placeholder="A, B, or C" maxlength="1" /></p>
+                                </div>
+                            </div>
+                        `;
+                    }
+                },
+                
+                // Pages 5-7: Story in 3 parts
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>Vocabulary Assessment</h2>
-                            <p style="margin-bottom: 25px;">Write the definition for each word. Use complete sentences.</p>
-                            
-                            <div style="margin: 20px 0;">
-                                
-                                <div style="margin-bottom: 25px; padding: 18px; background: #f9f9f9; border-radius: 10px; border-left: 4px solid #2D3436;">
-                                    <p style="font-size: 18px; font-weight: 700; color: #305853; margin-bottom: 10px;">
-                                        1. cyclone
-                                    </p>
-                                    <textarea 
-                                      id="vocab-quiz-1"
-                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
-                                      placeholder="Write the definition..."
-                                    ></textarea>
-                                </div>
-                                
-                                <div style="margin-bottom: 25px; padding: 18px; background: #f9f9f9; border-radius: 10px; border-left: 4px solid #2D3436;">
-                                    <p style="font-size: 18px; font-weight: 700; color: #305853; margin-bottom: 10px;">
-                                        2. prairie
-                                    </p>
-                                    <textarea 
-                                      id="vocab-quiz-2"
-                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
-                                      placeholder="Write the definition..."
-                                    ></textarea>
-                                </div>
-                                
-                                <div style="margin-bottom: 25px; padding: 18px; background: #f9f9f9; border-radius: 10px; border-left: 4px solid #2D3436;">
-                                    <p style="font-size: 18px; font-weight: 700; color: #305853; margin-bottom: 10px;">
-                                        3. gaunt
-                                    </p>
-                                    <textarea 
-                                      id="vocab-quiz-3"
-                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
-                                      placeholder="Write the definition..."
-                                    ></textarea>
-                                </div>
-                                
-                                <div style="margin-bottom: 25px; padding: 18px; background: #f9f9f9; border-radius: 10px; border-left: 4px solid #2D3436;">
-                                    <p style="font-size: 18px; font-weight: 700; color: #305853; margin-bottom: 10px;">
-                                        4. solemn
-                                    </p>
-                                    <textarea 
-                                      id="vocab-quiz-4"
-                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
-                                      placeholder="Write the definition..."
-                                    ></textarea>
-                                </div>
-                                
-                                <div style="margin-bottom: 25px; padding: 18px; background: #f9f9f9; border-radius: 10px; border-left: 4px solid #2D3436;">
-                                    <p style="font-size: 18px; font-weight: 700; color: #305853; margin-bottom: 10px;">
-                                        5. anxiously
-                                    </p>
-                                    <textarea 
-                                      id="vocab-quiz-5"
-                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
-                                      placeholder="Write the definition..."
-                                    ></textarea>
-                                </div>
-                                
-                                <div style="margin-bottom: 25px; padding: 18px; background: #f9f9f9; border-radius: 10px; border-left: 4px solid #2D3436;">
-                                    <p style="font-size: 18px; font-weight: 700; color: #305853; margin-bottom: 10px;">
-                                        6. swift
-                                    </p>
-                                    <textarea 
-                                      id="vocab-quiz-6"
-                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
-                                      placeholder="Write the definition..."
-                                    ></textarea>
-                                </div>
-                                
-                                <div style="margin-bottom: 25px; padding: 18px; background: #f9f9f9; border-radius: 10px; border-left: 4px solid #2D3436;">
-                                    <p style="font-size: 18px; font-weight: 700; color: #305853; margin-bottom: 10px;">
-                                        7. gleaming
-                                    </p>
-                                    <textarea 
-                                      id="vocab-quiz-7"
-                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
-                                      placeholder="Write the definition..."
-                                    ></textarea>
-                                </div>
-                                
-                                <div style="margin-bottom: 25px; padding: 18px; background: #f9f9f9; border-radius: 10px; border-left: 4px solid #2D3436;">
-                                    <p style="font-size: 18px; font-weight: 700; color: #305853; margin-bottom: 10px;">
-                                        8. magnificent
-                                    </p>
-                                    <textarea 
-                                      id="vocab-quiz-8"
-                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
-                                      placeholder="Write the definition..."
-                                    ></textarea>
-                                </div>
-                                
-                                <div style="margin-bottom: 25px; padding: 18px; background: #f9f9f9; border-radius: 10px; border-left: 4px solid #2D3436;">
-                                    <p style="font-size: 18px; font-weight: 700; color: #305853; margin-bottom: 10px;">
-                                        9. peculiar
-                                    </p>
-                                    <textarea 
-                                      id="vocab-quiz-9"
-                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
-                                      placeholder="Write the definition..."
-                                    ></textarea>
-                                </div>
-                                
-                                <div style="margin-bottom: 25px; padding: 18px; background: #f9f9f9; border-radius: 10px; border-left: 4px solid #2D3436;">
-                                    <p style="font-size: 18px; font-weight: 700; color: #305853; margin-bottom: 10px;">
-                                        10. rescued
-                                    </p>
-                                    <textarea 
-                                      id="vocab-quiz-10"
-                                      style="width: 100%; min-height: 100px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 15px;"
-                                      placeholder="Write the definition..."
-                                    ></textarea>
-                                </div>
-                                
+                            <h2>📚 Reading: TOM AND AUNT POLLY</h2>
+                            <h3 style="color: #8B4513;">Part 1 of 3</h3>
+                            <div style="line-height: 1.8; color: #333; font-size: 16px; margin-top: 20px;">
+                                <p style="margin-bottom: 15px; line-height: 1.8;">&quot;Where has that boy gone? You, Tom!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The old woman pulled her glasses down and peered over them, scanning the room. Then she pushed them up and looked underneath them. She almost never looked through them—they were her fancy pair, meant for style, not for actually seeing anything. She could have seen just as well through a pair of oven doors.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">She looked annoyed but not truly angry. &quot;Well, I swear, if I catch you, I&#039;ll—&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">She didn&#039;t finish, because she was already on her hands and knees, jabbing a broom handle under the bed. She found nothing but the cat.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;I have never seen a boy like this one!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">She marched to the open door and looked out at the tangled garden—tomato vines, weeds growing every which way. No Tom. She took a deep breath and hollered toward the distance: &quot;Y-o-u-u, Tom!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">A small noise came from behind her. She spun around just in time to grab a boy by the back of his shirt before he could escape.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;There you are! What have you been doing in that closet?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Nothing! Look at your hands. And your mouth. What is that stuff?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;I don&#039;t know, Aunt Polly.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Well, I know. It&#039;s jam. I have told you forty times—if you don&#039;t leave that jam alone, I will skin you alive. Hand me that switch.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The switch hovered in the air. Things looked bad—</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;My! Look behind you, Aunt!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The old woman spun around, grabbing at her skirts. In that instant, the boy bolted. He scrambled up the tall board fence and vanished over the other side.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">His Aunt Polly stood there a moment, surprised, and then laughed softly.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;That boy! Can&#039;t I ever learn? He&#039;s played that same trick on me enough times that I ought to know better. But he never does it the same way twice, so how am I supposed to keep up? He knows exactly how far he can push me before I lose my temper, and he knows if he can make me laugh, I can&#039;t bring myself to punish him. I&#039;m not doing right by that boy, and that&#039;s the honest truth. But he&#039;s my dead sister&#039;s child, and I haven&#039;t got the heart to whip him. Every time I let him off, my conscience hurts me, and every time I do punish him, my old heart nearly breaks. Well—he&#039;ll skip school this afternoon, so I&#039;ll have to make him work tomorrow as punishment. Making him work on a Saturday, when all the other boys are free—that&#039;s the hardest thing in the world for him. But I&#039;ve got to do my duty, or I&#039;ll be the ruin of that child.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom did skip school, and he had a fine time doing it. He got home barely in time to help Jim, the hired boy, chop wood for supper—or at least he was there in time to tell Jim about his adventures while Jim did most of the work.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom&#039;s younger half-brother, Sid, was already done with his chores. Sid was a quiet boy who never caused trouble and never looked for any.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">While Tom ate supper and snuck sugar whenever he got the chance, Aunt Polly asked him tricky questions, trying to catch him in a lie. She fancied herself a clever detective. She said:</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Tom, it was pretty warm in school today, wasn&#039;t it?&quot;</p>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📚 Reading: TOM AND AUNT POLLY</h2>
+                            <h3 style="color: #8B4513;">Part 2 of 3</h3>
+                            <div style="line-height: 1.8; color: #333; font-size: 16px; margin-top: 20px;">
+                                <p style="margin-bottom: 15px; line-height: 1.8;">&quot;Very warm, wasn&#039;t it?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Didn&#039;t you want to go swimming?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">A flicker of alarm crossed Tom&#039;s face. He studied his aunt&#039;s expression, but she gave nothing away. &quot;No ma&#039;am—well, not too much.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Aunt Polly reached out and felt his shirt. &quot;But you don&#039;t seem too warm now.&quot; She was pleased with herself for checking whether the shirt was dry without anyone knowing that was her plan. But Tom was onto her, so he got ahead of the next move.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Some of us pumped water on our heads at school. Mine&#039;s still a little damp. See?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Aunt Polly was annoyed she&#039;d missed that detail. Then she had a new idea: &quot;Tom, you didn&#039;t have to undo the collar I sewed shut to pump water on your head, did you? Unbutton your jacket!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom opened his jacket. His shirt collar was securely sewn shut.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Hmph! All right, go on. I was sure you&#039;d skipped school and gone swimming. But I forgive you, Tom. I suppose you&#039;re better than you look.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">She was half sorry her detective work had failed and half glad that Tom had actually behaved for once.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">But then Sid spoke up. &quot;Funny—I thought you sewed that collar with white thread, Aunt Polly. But it&#039;s black.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Why, I did sew it with white! Tom—&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">But Tom was already out the door. &quot;I&#039;ll get you for that, Sid,&quot; he called back.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">In a safe spot, Tom examined two needles stuck into his jacket—one threaded with white, one with black. He&#039;d switched the thread before coming home.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;She&#039;d never have noticed if Sid hadn&#039;t opened his big mouth,&quot; Tom muttered. &quot;Sometimes she uses white thread and sometimes black. I wish she&#039;d pick one and stick with it. But I will get even with Sid.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom was not the model boy of the village. He knew who the model boy was, though—and hated him.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Within two minutes, Tom had forgotten every one of his troubles. Not because they were small troubles—they felt just as heavy to him as a grown man&#039;s worries feel to a grown man. But a new interest had pushed everything else aside. He&#039;d just learned a new way of whistling from one of the older boys in town, and he was dying to practice it.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The summer evening was long, and it wasn&#039;t dark yet. As Tom walked down the street, whistling happily, he spotted a stranger—a boy about his own size. A newcomer in the small village of St. Petersburg was a rare and impressive sight. This boy was well-dressed, too, which was downright amazing for a weekday. He wore a neat cap, a buttoned-up jacket, nice pants, and actual shoes—on a Friday! He even had a necktie. Everything about him screamed city boy.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The fancier this stranger looked, the shabbier Tom felt. Neither boy spoke. They circled each other like cats.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Finally Tom said, &quot;I can lick you.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;I&#039;d like to see you try.&quot;</p>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📚 Reading: TOM AND AUNT POLLY</h2>
+                            <h3 style="color: #8B4513;">Part 3 of 3</h3>
+                            <div style="line-height: 1.8; color: #333; font-size: 16px; margin-top: 20px;">
+                                <p style="margin-bottom: 15px; line-height: 1.8;">There was an uncomfortable pause. Tom said, &quot;What&#039;s your name?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;None of your business.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;I&#039;ll make it my business.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;You think you&#039;re something special, don&#039;t you? What a stupid hat.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;You can knock it off if you don&#039;t like it.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;You&#039;re a fighting liar and too scared to back it up.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Get away from here!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">They stood nose to nose, each with one foot braced, shoving with all their might. Neither could budge the other. Both were red-faced and sweating.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom drew a line in the dirt with his toe. &quot;Step over that line, and I&#039;ll fight you till you can&#039;t stand up.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The new boy stepped over it immediately.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Now you said you would—so do it!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;For two cents, I would.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The new boy dug two pennies out of his pocket and held them out. Tom smacked them to the ground.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">In the next instant, both boys were rolling in the dirt, punching and pulling hair, covered in dust. When the dust settled, Tom was sitting on top of the new boy, hammering him with his fists.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The boy struggled, crying—mostly from rage.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">At last the stranger choked out: &quot;Uncle!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom let him up. &quot;That&#039;ll teach you. Better watch who you mess with.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The new boy slunk off, crying and threatening revenge. Tom jeered after him and started walking home, feeling like a champion. The moment Tom turned his back, the new boy snatched up a rock and hurled it, catching Tom right between the shoulder blades. Then he ran.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom chased the boy all the way home and stood outside his gate for a long time, daring him to come out. But the boy only made faces through the window. Finally the boy&#039;s mother appeared, called Tom a wicked, vulgar child, and ordered him away.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom got home late that night. When he climbed in through the window, he ran straight into an ambush: Aunt Polly was waiting. When she saw the state of his clothes, she made up her mind. His Saturday holiday was about to become a Saturday of hard labor—and there would be no getting out of it.</p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 4: Reading Comprehension Test
+                // Page 8: Comprehension (2 MC + 1 short answer)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>Reading Comprehension Test</h2>
-                            <p>Answer these questions about the chapters you read this week:</p>
+                            <h2>💭 Reading Comprehension</h2>
+                            <p style="margin-bottom: 25px;">Answer these questions about today's chapter.</p>
                             
-                            <div style="margin: 30px 0;">
-                                
-                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #2D3436;">
-                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 1:</p>
-                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about this week's chapters]</p>
-                                    <textarea 
-                                      id="comp-test-1"
-                                      style="width: 100%; min-height: 150px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px;"
-                                      placeholder="Write your answer here..."
-                                    ></textarea>
+                            
+                            <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">1. Why does Tom say &quot;My! Look behind you, Aunt!&quot; while Aunt Polly is holding the switch?</p>
+                                <div style="margin-left: 20px;">
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-1" value="A" style="margin-right: 8px;">
+                                            <strong>A.</strong> He sees something scary behind her.
+                                        </label>
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-1" value="B" style="margin-right: 8px;">
+                                            <strong>B.</strong> He is trying to distract her so he can escape.
+                                        </label>
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-1" value="C" style="margin-right: 8px;">
+                                            <strong>C.</strong> He wants to show her something interesting.
+                                        </label>
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-1" value="D" style="margin-right: 8px;">
+                                            <strong>D.</strong> He is warning her about a falling object.
+                                        </label>
+                                    
                                 </div>
-                                
-                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #2D3436;">
-                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 2:</p>
-                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about this week's chapters]</p>
-                                    <textarea 
-                                      id="comp-test-2"
-                                      style="width: 100%; min-height: 150px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px;"
-                                      placeholder="Write your answer here..."
-                                    ></textarea>
-                                </div>
-                                
-                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #2D3436;">
-                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 3:</p>
-                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about this week's chapters]</p>
-                                    <textarea 
-                                      id="comp-test-3"
-                                      style="width: 100%; min-height: 150px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px;"
-                                      placeholder="Write your answer here..."
-                                    ></textarea>
-                                </div>
-                                
-                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #2D3436;">
-                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 4:</p>
-                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about this week's chapters]</p>
-                                    <textarea 
-                                      id="comp-test-4"
-                                      style="width: 100%; min-height: 150px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px;"
-                                      placeholder="Write your answer here..."
-                                    ></textarea>
-                                </div>
-                                
-                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #2D3436;">
-                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 5:</p>
-                                    <p style="margin-bottom: 12px; color: #444;">[Comprehension question about this week's chapters]</p>
-                                    <textarea 
-                                      id="comp-test-5"
-                                      style="width: 100%; min-height: 150px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px;"
-                                      placeholder="Write your answer here..."
-                                    ></textarea>
-                                </div>
-                                
                             </div>
+  
+                            <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">2. What does Sid do that gets Tom in trouble at the supper table?</p>
+                                <div style="margin-left: 20px;">
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-2" value="A" style="margin-right: 8px;">
+                                            <strong>A.</strong> He tells Aunt Polly that Tom skipped school.
+                                        </label>
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-2" value="B" style="margin-right: 8px;">
+                                            <strong>B.</strong> He points out that Tom&#039;s shirt collar was sewn with black thread, not white.
+                                        </label>
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-2" value="C" style="margin-right: 8px;">
+                                            <strong>C.</strong> He shows Aunt Polly the jam on Tom&#039;s hands.
+                                        </label>
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-2" value="D" style="margin-right: 8px;">
+                                            <strong>D.</strong> He tells Aunt Polly that Tom was fighting the new boy.
+                                        </label>
+                                    
+                                </div>
+                            </div>
+  
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">3. Aunt Polly says, &quot;Every time I let him off, my conscience does hurt me so, and every time I hit him my old heart most breaks.&quot; What does this tell us about the conflict Aunt Polly feels about raising Tom? Use evidence from the chapter to support your answer.</p>
+                                <textarea 
+                                  id="comp-3"
+                                  style="width: 100%; min-height: 120px; padding: 15px; border: 2px solid #305853; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Write your answer here. Be specific and use evidence from the text."
+                                ></textarea>
+                            </div>
+  
                         </div>
                     `
                 },
                 
-                // Page 5: Grammar Test
+                
+                // Page 9: Grammar Workshop
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>Grammar Assessment</h2>
-                            <h3 style="color: #2D3436;">Adjectives and Adjective Order</h3>
+                            <h2>📝 Grammar Workshop</h2>
+                            <h3 style="color: #8B4513; margin-top: 20px;">Complex Sentences</h3>
                             
-                            <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; margin-bottom: 25px;">
-                                <p style="font-size: 16px; line-height: 1.6;">
-                                    Write three sentences with multiple adjectives describing characters or places from the chapter.
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin: 25px 0;">
+                                <p style="font-size: 16px; line-height: 1.8; margin-bottom: 15px;">
+                                    <strong>What is it?</strong><br>
+                                    A complex sentence contains one independent clause and at least one dependent clause. The dependent clause adds extra information but cannot stand alone. Example from The Wizard of Oz: &#039;When Tom got home, Aunt Polly was waiting for him.&#039;
+                                </p>
+                                <p style="font-size: 16px; line-height: 1.8; margin: 0;">
+                                    <strong>Example:</strong><br>
+                                    <em>"Although Tom was clever, he sometimes got into trouble."</em>
                                 </p>
                             </div>
                             
-                            <textarea 
-                              id="grammar-test"
-                              style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #2D3436; border-radius: 12px; font-size: 16px; line-height: 1.6;"
-                              placeholder="Complete the grammar exercise here..."
-                            ></textarea>
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                <p style="font-weight: 600; margin-bottom: 12px; font-size: 18px;">✍️ Your Turn:</p>
+                                <p style="margin-bottom: 15px; line-height: 1.6;">Write three complex sentences about a character from today&#039;s chapter. Use subordinating conjunctions like: although, because, when, if, since, while.</p>
+                                <textarea 
+                                  id="grammar-practice"
+                                  style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #305853; border-radius: 8px; font-size: 16px; line-height: 1.8; font-family: inherit;"
+                                  placeholder="Write your practice sentences here..."
+                                ></textarea>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 6: Writing Assessment
+                // Page 10: Informational Text
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>Writing Assessment</h2>
-                            <h3 style="color: #2D3436;">Narrative Writing</h3>
-                            
-                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
-                                <p style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">Prompt:</p>
-                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
-                                    Imagine you are Aunt Em in the cellar. Write about what you're thinking as the storm passes overhead.
-                                </p>
+                            <h2>📰 Informational Text</h2>
+                            <h3 style="color: #8B4513; margin-top: 20px;">Life Along the Mississippi in 1840s Missouri</h3>
+                            <div style="line-height: 1.8; color: #333; font-size: 16px; margin: 25px 0;">
+                                <p style="margin-bottom: 15px;">The Adventures of The Wizard of Oz is set in the fictional town of St. Petersburg, Missouri, along the Mississippi River in the 1840s. This was a time of great change in America, as the country expanded westward and steamboats transformed river commerce.</p><p style="margin-bottom: 15px;">Small towns like St. Petersburg were close-knit communities where everyone knew their neighbors. Children had more freedom to roam and play outdoors than they do today. There were no televisions, computers, or video games—kids created their own entertainment through imaginative play, just as Tom does throughout the story.</p><p style="margin-bottom: 15px;">The Mississippi River was the lifeblood of these communities, providing transportation, trade, and adventure. Boys like Tom dreamed of becoming steamboat pilots, one of the most prestigious and well-paid jobs of the era. The river also represented freedom and possibility, which is why it plays such an important role in the story.</p><p style="margin-bottom: 15px;">Mark Twain himself grew up in Hannibal, Missouri, a town very similar to the fictional St. Petersburg. Many of the adventures in The Wizard of Oz are based on Twain&#039;s own childhood experiences, making the novel partly autobiographical.</p>
                             </div>
                             
-                            <div style="padding: 15px; background: #fffbf0; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 20px;">
-                                <p style="margin: 0; font-size: 14px;">
-                                    <strong>Requirements:</strong> Write a short story or scene with a clear beginning, middle, and end. Include descriptive details and dialogue if appropriate.
-                                </p>
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513; margin-top: 20px;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">Question 1: What is the main idea of this text?</p>
+                                <textarea 
+                                  id="info-q1"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #305853; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  oninput="updateWordCount('info-q1', 'info-count-1', 30)"
+                                  placeholder="Write your answer here (minimum 30 words)..."
+                                ></textarea>
+                                <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                  <span id="info-count-1" style="font-size: 13px; color: #666;">0 / 30 words</span>
+                                  <span id="info-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                </div>
                             </div>
                             
-                            <textarea 
-                              id="writing-test"
-                              style="width: 100%; min-height: 300px; padding: 15px; border: 2px solid #2D3436; border-radius: 12px; font-size: 16px; line-height: 1.8;"
-                              placeholder="Write your response here..."
-                            ></textarea>
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513; margin-top: 20px;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">Question 2: What is one interesting fact you learned?</p>
+                                <textarea 
+                                  id="info-q2"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #305853; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  oninput="updateWordCount('info-q2', 'info-count-2', 30)"
+                                  placeholder="Write your answer here (minimum 30 words)..."
+                                ></textarea>
+                                <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                  <span id="info-count-2" style="font-size: 13px; color: #666;">0 / 30 words</span>
+                                  <span id="info-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                </div>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513; margin-top: 20px;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">Question 3: How does this information connect to The Wizard of Oz's story?</p>
+                                <textarea 
+                                  id="info-q3"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #305853; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  oninput="updateWordCount('info-q3', 'info-count-3', 30)"
+                                  placeholder="Write your answer here (minimum 30 words)..."
+                                ></textarea>
+                                <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                  <span id="info-count-3" style="font-size: 13px; color: #666;">0 / 30 words</span>
+                                  <span id="info-count-3-status" style="font-size: 13px; font-weight: 600;"></span>
+                                </div>
+                            </div>
                         </div>
                     `
                 },
                 
-                // Page 7: Completion
+                
+                // Page 11: Writing Practice
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <div style="text-align: center; padding: 40px 20px;">
-                                <div style="font-size: 72px; margin-bottom: 20px;"></div>
-                                <h2 style="color: #305853; margin-bottom: 20px;">Assessment Complete!</h2>
-                                <p style="font-size: 18px; color: #666; max-width: 500px; margin: 0 auto 30px auto;">
-                                    Great work on your assessment! You've completed 5 full days of <em>Black Beauty</em>.
+                            <h2>✏️ Writing Practice</h2>
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin: 20px 0;">
+                                <p style="font-size: 16px; line-height: 1.8;">
+                                    <strong>Prompt:</strong><br>
+                                    Write a paragraph describing a time when you had to do a chore you didn&#039;t want to do. How did you handle it? What did you learn?
                                 </p>
-                                <p style="font-size: 16px; color: #B06821; font-weight: 600;">
-                                    See you on Day 106!
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                <textarea 
+                                  id="writing"
+                                  style="width: 100%; min-height: 300px; padding: 15px; border: 2px solid #305853; border-radius: 8px; font-size: 16px; line-height: 1.8; font-family: inherit;"
+                                  placeholder="Write your response here. Aim for at least 8-10 sentences."
+                                ></textarea>
+                                <p style="margin-top: 10px; color: #666; font-size: 14px;">
+                                    💡 <strong>Tips:</strong> Start with a topic sentence, include specific details, and end with a conclusion.
                                 </p>
                             </div>
                         </div>
@@ -320,8 +491,7 @@
                 }
             ]
         };
-        
-        // Initialize lesson viewer
+
         if (typeof initLessonViewer === 'function') {
             initLessonViewer(lesson105Config);
         }

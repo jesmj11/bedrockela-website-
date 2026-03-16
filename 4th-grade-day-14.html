@@ -10,6 +10,7 @@
 <body class="lesson-viewer">
     <div id="lesson-container" class="lesson-container"></div>
 
+    <script src="js/billy-tts.js"></script>
     <script src="js/lesson-viewer.js?v=1772665488"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
@@ -21,11 +22,10 @@
     <script src="js/grade-normalizer.js?v=1772665488"></script>
     <script src="js/offline-sync.js?v=1772665488"></script>
     <script src="js/text-to-speech.js?v=1772665488"></script>
-    <script src="js/digital-book.js?v=1772665488"></script>
     
     <script>
         const lesson14Config = {
-            lessonId: '4th-grade-day-14',
+            lessonId: '4th-grade-day-1',
             gradeLevel: '4th-grade',
             title: 'Lesson 14 - 4th Grade',
             pages: [
@@ -33,48 +33,72 @@
                 {
                     render: () => `
                         <div class="lesson-page-card title-page">
-                            
                             <h1>Lesson 14</h1>
                             <div class="subtitle">4th Grade ELA</div>
-                            <p style="color: #1B2A4A; font-size: 20px; margin-top: 20px;">
-                                The Wonderful Wizard of Oz
+                            <p style="color: #8B4513; font-size: 20px; margin-top: 20px;">
+                                The Adventures of The Wizard of Oz
                             </p>
                             <p style="color: #666; font-size: 16px; margin-top: 10px;">
-                                Chapter 12</p>
+                                Chapter 14: The Winged Monkeys</p>
                         </div>
                     `
                 },
                 
-                // Page 2: Welcome & Learning Objectives
+                // Page 2: Welcome & Objectives
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
                             <h2>Welcome to Lesson 14!</h2>
                             <p>Today you will:</p>
                             <ul style="margin: 20px 0; line-height: 2;">
-                                <li>Read from <em>The Wonderful Wizard of Oz</em></li>
-                                <li>Learn 2 new vocabulary words</li>
-                                <li>Read informational text: "Related Non-Fiction"</li>
-                                <li>Practice grammar: Action vs. Linking Verbs</li>
-                                <li>Write: Informative Writing</li>
-                                <li>Explore: Idioms and Figurative Language</li>
+                                <li>Read Chapter 14: The Winged Monkeys<em>TOM AND AUNT POLLY</em></li>
+                                <li>Learn 3 new vocabulary words</li>
+                                <li>Read informational text: "Life Along the Mississippi in 1840s Missouri"</li>
+                                <li>Practice grammar skills</li>
+                                <li>Complete writing activity</li>
                             </ul>
                             <p><strong>Time needed:</strong> About 45-60 minutes</p>
                         </div>
                     `
                 },
                 
-                // Page 3: Vocabulary (2 words from text)
+                // Page 3: Vocabulary (3 words)
                 {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Vocabulary Words</h2>
+                    render: () => {
+                        const updateWordCount = (textareaId, countId, minWords) => {
+                            const textarea = document.getElementById(textareaId);
+                            const countEl = document.getElementById(countId);
+                            const statusEl = document.getElementById(countId + '-status');
+                            if (!textarea || !countEl) return;
                             
-                            <div style="margin: 30px 0;">
+                            const text = textarea.value.trim();
+                            const words = text.length > 0 ? text.split(/\s+/).length : 0;
+                            countEl.textContent = words + ' / ' + minWords + ' words';
+                            
+                            if (words >= minWords) {
+                                statusEl.textContent = '✅ Complete';
+                                statusEl.style.color = '#22c55e';
+                            } else if (words > 0) {
+                                statusEl.textContent = (minWords - words) + ' more needed';
+                                statusEl.style.color = '#f59e0b';
+                            } else {
+                                statusEl.textContent = '';
+                            }
+                        };
+                        
+                        window.updateWordCount = updateWordCount;
+                        
+                        return `
+                            <div class="lesson-page-card content-page">
+                                <h2>📖 Vocabulary Words</h2>
+                                <p style="margin-bottom: 25px; color: #666;">
+                                    Look up each word in a dictionary. Write the definition in your own words (minimum 10 words each).
+                                </p>
                                 
-                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
+                                
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
                                     <div style="margin-bottom: 12px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">gleaming</span>
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">spectacles</span>
                                     </div>
                                     <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
                                         Look up this word in a dictionary, then write the definition in your own words:
@@ -91,10 +115,10 @@
                                       <span id="vocab-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
                                     </div>
                                 </div>
-                                
-                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
+  
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
                                     <div style="margin-bottom: 12px;">
-                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">magnificent</span>
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">ambuscade</span>
                                     </div>
                                     <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
                                         Look up this word in a dictionary, then write the definition in your own words:
@@ -111,394 +135,272 @@
                                       <span id="vocab-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
                                     </div>
                                 </div>
+  
+                                <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                    <div style="margin-bottom: 12px;">
+                                        <span style="font-size: 28px; font-weight: 800; color: #305853;">sagacity</span>
+                                    </div>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                                        Look up this word in a dictionary, then write the definition in your own words:
+                                    </p>
+                                    <textarea 
+                                      id="vocab-3"
+                                      style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px;"
+                                      oninput="updateWordCount('vocab-3', 'vocab-count-3', 10)"
+                                      onpaste="return false"
+                                      placeholder="Type the definition here (minimum 10 words, no pasting)..."
+                                    ></textarea>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                      <span id="vocab-count-3" style="font-size: 13px; color: #666;">0 / 10 words</span>
+                                      <span id="vocab-count-3-status" style="font-size: 13px; font-weight: 600;"></span>
+                                    </div>
+                                </div>
+  
                                 
-                            </div>
-                            
-                            <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
-                                <p style="margin: 0;"><strong>Watch for these words</strong> in today's reading!</p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                
-                
-                
-                // Reading Page 1 of 10
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading: The Wonderful Wizard of Oz</h2>
-                            <h3 style="color: var(--book-color, #305853);">Chapter 12: The Search for the Wicked Witch</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 1 of 10</p>
-                            
-                            <div style="padding: 15px; background: #f9f9f9; border-radius: 12px; line-height: 1.2; font-size: 11px;" class="reading-passage">
-                                <p style="margin-bottom: 15px; line-height: 1.8;">The soldier with the green whiskers led them through the streets of the Emerald City until they reached the room where the Guardian of the Gates lived. This officer unlocked their spectacles to put them back in his great box, and then he politely opened the gate for our friends. “Which road leads to the Wicked Witch of the West?” asked Dorothy. “There is no road,” answered the Guardian of the Gates. “No one ever wishes to go that way.” “How, then, are we to find her?” inquired the girl. “That will be easy,” replied the man, “for when she knows you are in the country of the Winkies she will find you, and make you all her slaves.” “Perhaps not,” said the Scarecrow, “for we mean to destroy her.” “Oh, that is different,” said the Guardian of the Gates. “No one has ever destroyed her before, so I naturally thought she would make slaves of you, as she has of the rest. But take care; for she is wicked and fierce, and may not allow you to destroy her. Keep to the West, where the sun sets, and you cannot fail to find her.” They thanked him and bade him good-bye, and turned toward the West, walking over fields of soft grass dotted here and there with daisies and buttercups. Dorothy still wore the pretty silk dress she had put on in the palace, but now, to her surprise, she found it was no longer green, but pure white. The ribbon around Toto’s neck had also lost its green color and was as white as Dorothy’s dress. The Emerald City was soon left far behind.</p>
-<p style="margin-bottom: 15px; line-height: 1.8;">As they advanced the ground became rougher and hillier, for there were no farms nor houses in this country of the West, and the ground was untilled. In the afternoon the sun shone hot in their faces, for there were no trees to offer them shade; so that before night Dorothy and Toto and the Lion were tired, and lay down upon the grass and fell asleep, with the Woodman and the Scarecrow keeping watch. Now the Wicked Witch of the West had but one eye, yet that was as powerful as a telescope, and could see everywhere. So, as she sat in the door of her castle, she happened to look around and saw Dorothy lying asleep, with her friends all about her. They were a long distance off, but the Wicked Witch was angry to find them in her country; so she blew upon a silver whistle that hung around her neck. At once there came running to her from all directions a pack of great wolves. They had long legs and fierce eyes and sharp teeth. “Go to those people,” said the Witch, “and tear them to pieces.” “Are you not going to make them your slaves?” asked the leader of the wolves. “No,” she answered, “one is of tin, and one of straw; one is a girl and another a Lion. None of them is fit to work, so you may tear them into small pieces.” “Very well,” said the wolf, and he dashed away at full speed, followed by the others.</p>
-                            </div>
-                            
-                        </div>
-                    `
-                },
-
-                // Reading Page 2 of 10
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 2 of 10</p>
-                            
-                            <div style="padding: 15px; background: #f9f9f9; border-radius: 12px; line-height: 1.2; font-size: 11px;" class="reading-passage">
-                                <p style="margin-bottom: 15px; line-height: 1.8;">It was lucky the Scarecrow and the Woodman were wide awake and heard the wolves coming. “This is my fight,” said the Woodman, “so get behind me and I will meet them as they come.” He seized his axe, which he had made very sharp, and as the leader of the wolves came on the Tin Woodman swung his arm and chopped the wolf’s head from its body, so that it immediately died. As soon as he could raise his axe another wolf came up, and he also fell under the sharp edge of the Tin Woodman’s weapon. There were forty wolves, and forty times a wolf was killed, so that at last they all lay dead in a heap before the Woodman. Then he put down his axe and sat beside the Scarecrow, who said, “It was a good fight, friend.” They waited until Dorothy awoke the next morning. The little girl was quite frightened when she saw the great pile of shaggy wolves, but the Tin Woodman told her all. She thanked him for saving them and sat down to breakfast, after which they started again upon their journey. Now this same morning the Wicked Witch came to the door of her castle and looked out with her one eye that could see far off. She saw all her wolves lying dead, and the strangers still traveling through her country. This made her angrier than before, and she blew her silver whistle twice. Straightway a great flock of wild crows came flying toward her, enough to darken the sky. And the Wicked Witch said to the King Crow, “Fly at once to the strangers; peck out their eyes and tear them to pieces.” The wild crows flew in one great flock toward Dorothy and her companions.</p>
-<p style="margin-bottom: 15px; line-height: 1.8;">When the little girl saw them coming she was afraid. But the Scarecrow said, “This is my battle, so lie down beside me and you will not be harmed.” So they all lay upon the ground except the Scarecrow, and he stood up and stretched out his arms. And when the crows saw him they were frightened, as these birds always are by scarecrows, and did not dare to come any nearer. But the King Crow said: “It is only a stuffed man. I will peck his eyes out.” The King Crow flew at the Scarecrow, who caught it by the head and twisted its neck until it died. And then another crow flew at him, and the Scarecrow twisted its neck also. There were forty crows, and forty times the Scarecrow twisted a neck, until at last all were lying dead beside him. Then he called to his companions to rise, and again they went upon their journey. When the Wicked Witch looked out again and saw all her crows lying in a heap, she got into a terrible rage, and blew three times upon her silver whistle. Forthwith there was heard a great buzzing in the air, and a swarm of black bees came flying toward her. “Go to the strangers and sting them to death!” commanded the Witch, and the bees turned and flew rapidly until they came to where Dorothy and her friends were walking.</p>
-                            </div>
-                            
-                        </div>
-                    `
-                },
-
-                // Reading Page 3 of 10
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 3 of 10</p>
-                            
-                            <div style="padding: 15px; background: #f9f9f9; border-radius: 12px; line-height: 1.2; font-size: 11px;" class="reading-passage">
-                                <p style="margin-bottom: 15px; line-height: 1.8;">But the Woodman had seen them coming, and the Scarecrow had decided what to do. “Take out my straw and scatter it over the little girl and the dog and the Lion,” he said to the Woodman, “and the bees cannot sting them.” This the Woodman did, and as Dorothy lay close beside the Lion and held Toto in her arms, the straw covered them entirely. The bees came and found no one but the Woodman to sting, so they flew at him and broke off all their stings against the tin, without hurting the Woodman at all. And as bees cannot live when their stings are broken that was the end of the black bees, and they lay scattered thick about the Woodman, like little heaps of fine coal. Then Dorothy and the Lion got up, and the girl helped the Tin Woodman put the straw back into the Scarecrow again, until he was as good as ever. So they started upon their journey once more. The Wicked Witch was so angry when she saw her black bees in little heaps like fine coal that she stamped her foot and tore her hair and gnashed her teeth. And then she called a dozen of her slaves, who were the Winkies, and gave them sharp spears, telling them to go to the strangers and destroy them. The Winkies were not a brave people, but they had to do as they were told. So they marched away until they came near to Dorothy. Then the Lion gave a great roar and sprang towards them, and the poor Winkies were so frightened that they ran back as fast as they could.</p>
-                            </div>
-                            
-                        </div>
-                    `
-                },
-
-                // Reading Page 4 of 10
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 4 of 10</p>
-                            
-                            <div style="padding: 15px; background: #f9f9f9; border-radius: 12px; line-height: 1.2; font-size: 11px;" class="reading-passage">
-                                <p style="margin-bottom: 15px; line-height: 1.8;">When they returned to the castle the Wicked Witch beat them well with a strap, and sent them back to their work, after which she sat down to think what she should do next. She could not understand how all her plans to destroy these strangers had failed; but she was a powerful Witch, as well as a wicked one, and she soon made up her mind how to act. There was, in her cupboard, a Golden Cap, with a circle of diamonds and rubies running round it. This Golden Cap had a charm. Whoever owned it could call three times upon the Winged Monkeys, who would obey any order they were given. But no person could command these strange creatures more than three times. Twice already the Wicked Witch had used the charm of the Cap. Once was when she had made the Winkies her slaves, and set herself to rule over their country. The Winged Monkeys had helped her do this. The second time was when she had fought against the Great Oz himself, and driven him out of the land of the West. The Winged Monkeys had also helped her in doing this. Only once more could she use this Golden Cap, for which reason she did not like to do so until all her other powers were exhausted. But now that her fierce wolves and her wild crows and her stinging bees were gone, and her slaves had been scared away by the Cowardly Lion, she saw there was only one way left to destroy Dorothy and her friends. So the Wicked Witch took the Golden Cap from her cupboard and placed it upon her head.</p>
-                            </div>
-                            
-                        </div>
-                    `
-                },
-
-                // Reading Page 5 of 10
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 5 of 10</p>
-                            
-                            <div style="padding: 15px; background: #f9f9f9; border-radius: 12px; line-height: 1.2; font-size: 11px;" class="reading-passage">
-                                <p style="margin-bottom: 15px; line-height: 1.8;">Then she stood upon her left foot and said, slowly: “Ep-pe, pep-pe, kak-ke!” Next she stood upon her right foot and said: “Hil-lo, hol-lo, hel-lo!” After this she stood upon both feet and cried in a loud voice: “Ziz-zy, zuz-zy, zik!” Now the charm began to work. The sky was darkened, and a low rumbling sound was heard in the air. There was a rushing of many wings, a great chattering and laughing, and the sun came out of the dark sky to show the Wicked Witch surrounded by a crowd of monkeys, each with a pair of immense and powerful wings on his shoulders. One, much bigger than the others, seemed to be their leader. He flew close to the Witch and said, “You have called us for the third and last time. What do you command?” “Go to the strangers who are within my land and destroy them all except the Lion,” said the Wicked Witch. “Bring that beast to me, for I have a mind to harness him like a horse, and make him work.” “Your commands shall be obeyed,” said the leader. Then, with a great deal of chattering and noise, the Winged Monkeys flew away to the place where Dorothy and her friends were walking. Some of the Monkeys seized the Tin Woodman and carried him through the air until they were over a country thickly covered with sharp rocks. Here they dropped the poor Woodman, who fell a great distance to the rocks, where he lay so battered and dented that he could neither move nor groan. Others of the Monkeys caught the Scarecrow, and with their long fingers pulled all of the straw out of his clothes and head.</p>
-                            </div>
-                            
-                        </div>
-                    `
-                },
-
-                // Reading Page 6 of 10
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 6 of 10</p>
-                            
-                            <div style="padding: 15px; background: #f9f9f9; border-radius: 12px; line-height: 1.2; font-size: 11px;" class="reading-passage">
-                                <p style="margin-bottom: 15px; line-height: 1.8;">They made his hat and boots and clothes into a small bundle and threw it into the top branches of a tall tree. The remaining Monkeys threw pieces of stout rope around the Lion and wound many coils about his body and head and legs, until he was unable to bite or scratch or struggle in any way. Then they lifted him up and flew away with him to the Witch’s castle, where he was placed in a small yard with a high iron fence around it, so that he could not escape. But Dorothy they did not harm at all. She stood, with Toto in her arms, watching the sad fate of her comrades and thinking it would soon be her turn. The leader of the Winged Monkeys flew up to her, his long, hairy arms stretched out and his ugly face grinning terribly; but he saw the mark of the Good Witch’s kiss upon her forehead and stopped short, motioning the others not to touch her. “We dare not harm this little girl,” he said to them, “for she is protected by the Power of Good, and that is greater than the Power of Evil. All we can do is to carry her to the castle of the Wicked Witch and leave her there.” So, carefully and gently, they lifted Dorothy in their arms and carried her swiftly through the air until they came to the castle, where they set her down upon the front doorstep. Then the leader said to the Witch: “We have obeyed you as far as we were able. The Tin Woodman and the Scarecrow are destroyed, and the Lion is tied up in your yard. The little girl we dare not harm, nor the dog she carries in her arms.</p>
-                            </div>
-                            
-                        </div>
-                    `
-                },
-
-                // Reading Page 7 of 10
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 7 of 10</p>
-                            
-                            <div style="padding: 15px; background: #f9f9f9; border-radius: 12px; line-height: 1.2; font-size: 11px;" class="reading-passage">
-                                <p style="margin-bottom: 15px; line-height: 1.8;">Your power over our band is now ended, and you will never see us again.” Then all the Winged Monkeys, with much laughing and chattering and noise, flew into the air and were soon out of sight. The Wicked Witch was both surprised and worried when she saw the mark on Dorothy’s forehead, for she knew well that neither the Winged Monkeys nor she, herself, dare hurt the girl in any way. She looked down at Dorothy’s feet, and seeing the Silver Shoes, began to tremble with fear, for she knew what a powerful charm belonged to them. At first the Witch was tempted to run away from Dorothy; but she happened to look into the child’s eyes and saw how simple the soul behind them was, and that the little girl did not know of the wonderful power the Silver Shoes gave her. So the Wicked Witch laughed to herself, and thought, “I can still make her my slave, for she does not know how to use her power.” Then she said to Dorothy, harshly and severely: “Come with me; and see that you mind everything I tell you, for if you do not I will make an end of you, as I did of the Tin Woodman and the Scarecrow.” Dorothy followed her through many of the beautiful rooms in her castle until they came to the kitchen, where the Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood. Dorothy went to work meekly, with her mind made up to work as hard as she could; for she was glad the Wicked Witch had decided not to kill her.</p>
-                            </div>
-                            
-                        </div>
-                    `
-                },
-
-                // Reading Page 8 of 10
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 8 of 10</p>
-                            
-                            <div style="padding: 15px; background: #f9f9f9; border-radius: 12px; line-height: 1.2; font-size: 11px;" class="reading-passage">
-                                <p style="margin-bottom: 15px; line-height: 1.8;">With Dorothy hard at work, the Witch thought she would go into the courtyard and harness the Cowardly Lion like a horse; it would amuse her, she was sure, to make him draw her chariot whenever she wished to go to drive. But as she opened the gate the Lion gave a loud roar and bounded at her so fiercely that the Witch was afraid, and ran out and shut the gate again. “If I cannot harness you,” said the Witch to the Lion, speaking through the bars of the gate, “I can starve you. You shall have nothing to eat until you do as I wish.” So after that she took no food to the imprisoned Lion; but every day she came to the gate at noon and asked, “Are you ready to be harnessed like a horse?” And the Lion would answer, “No. If you come in this yard, I will bite you.” The reason the Lion did not have to do as the Witch wished was that every night, while the woman was asleep, Dorothy carried him food from the cupboard. After he had eaten he would lie down on his bed of straw, and Dorothy would lie beside him and put her head on his soft, shaggy mane, while they talked of their troubles and tried to plan some way to escape. But they could find no way to get out of the castle, for it was constantly guarded by the yellow Winkies, who were the slaves of the Wicked Witch and too afraid of her not to do as she told them. The girl had to work hard during the day, and often the Witch threatened to beat her with the same old umbrella she always carried in her hand.</p>
-                            </div>
-                            
-                        </div>
-                    `
-                },
-
-                // Reading Page 9 of 10
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 9 of 10</p>
-                            
-                            <div style="padding: 15px; background: #f9f9f9; border-radius: 12px; line-height: 1.2; font-size: 11px;" class="reading-passage">
-                                <p style="margin-bottom: 15px; line-height: 1.8;">But, in truth, she did not dare to strike Dorothy, because of the mark upon her forehead. The child did not know this, and was full of fear for herself and Toto. Once the Witch struck Toto a blow with her umbrella and the brave little dog flew at her and bit her leg in return. The Witch did not bleed where she was bitten, for she was so wicked that the blood in her had dried up many years before. Dorothy’s life became very sad as she grew to understand that it would be harder than ever to get back to Kansas and Aunt Em again. Sometimes she would cry bitterly for hours, with Toto sitting at her feet and looking into her face, whining dismally to show how sorry he was for his little mistress. Toto did not really care whether he was in Kansas or the Land of Oz so long as Dorothy was with him; but he knew the little girl was unhappy, and that made him unhappy too. Now the Wicked Witch had a great longing to have for her own the Silver Shoes which the girl always wore. Her bees and her crows and her wolves were lying in heaps and drying up, and she had used up all the power of the Golden Cap; but if she could only get hold of the Silver Shoes, they would give her more power than all the other things she had lost. She watched Dorothy carefully, to see if she ever took off her shoes, thinking she might steal them. But the child was so proud of her pretty shoes that she never took them off except at night and when she took her bath.</p>
-<p style="margin-bottom: 15px; line-height: 1.8;">The Witch was too much afraid of the dark to dare go in Dorothy’s room at night to take the shoes, and her dread of water was greater than her fear of the dark, so she never came near when Dorothy was bathing. Indeed, the old Witch never touched water, nor ever let water touch her in any way. But the wicked creature was very cunning, and she finally thought of a trick that would give her what she wanted. She placed a bar of iron in the middle of the kitchen floor, and then by her magic arts made the iron invisible to human eyes. So that when Dorothy walked across the floor she stumbled over the bar, not being able to see it, and fell at full length. She was not much hurt, but in her fall one of the Silver Shoes came off; and before she could reach it, the Witch had snatched it away and put it on her own skinny foot. The wicked woman was greatly pleased with the success of her trick, for as long as she had one of the shoes she owned half the power of their charm, and Dorothy could not use it against her, even had she known how to do so.</p>
-                            </div>
-                            
-                        </div>
-                    `
-                },
-
-                // Reading Page 10 of 10
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Page 10 of 10</p>
-                            
-                            <div style="padding: 15px; background: #f9f9f9; border-radius: 12px; line-height: 1.2; font-size: 11px;" class="reading-passage">
-                                <p style="margin-bottom: 15px; line-height: 1.8;">The little girl, seeing she had lost one of her pretty shoes, grew angry, and said to the Witch, “Give me back my shoe!” “I will not,” retorted the Witch, “for it is now my shoe, and not yours.” “You are a wicked creature!” cried Dorothy. “You have no right to take my shoe from me.” “I shall keep it, just the same,” said the Witch, laughing at her, “and someday I shall get the other one from you, too.” This made Dorothy so very angry that she picked up the bucket of water that stood near and dashed it over the Witch, wetting her from head to foot. Instantly the wicked woman gave a loud cry of fear, and then, as Dorothy looked at her in wonder, the Witch began to shrink and fall away. “See what you have done!” she screamed. “In a minute I shall melt away.” “I’m very sorry, indeed,” said Dorothy, who was truly frightened to see the Witch actually melting away like brown sugar before her very eyes. “Didn’t you know water would be the end of me?” asked the Witch, in a wailing, despairing voice. “Of course not,” answered Dorothy. “How should I?” “Well, in a few minutes I shall be all melted, and you will have the castle to yourself. I have been wicked in my day, but I never thought a little girl like you would ever be able to melt me and end my wicked deeds. Look out—here I go!” With these words the Witch fell down in a brown, melted, shapeless mass and began to spread over the clean boards of the kitchen floor. Seeing that she had really melted away to nothing, Dorothy drew another bucket of water and threw it over the mess.</p>
-<p style="margin-bottom: 15px; line-height: 1.8;">She then swept it all out the door. After picking out the silver shoe, which was all that was left of the old woman, she cleaned and dried it with a cloth, and put it on her foot again. Then, being at last free to do as she chose, she ran out to the courtyard to tell the Lion that the Wicked Witch of the West had come to an end, and that they were no longer prisoners in a strange land.</p>
-                            </div>
-                            
-                        </div>
-                    `
-                },
-
-
-                
-                // Page 5: Comprehension Question 1
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading Comprehension</h2>
-                            <p style="margin-bottom: 30px;">Question 1 of 3</p>
-                            
-                            <div style="margin: 30px 0;">
-                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1B2A4A;">
-                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 1:</p>
-                                    <p style="margin-bottom: 12px; color: #444;">Why did Dorothy and her friends decide to visit the Emerald City?</p>
-                                    <textarea 
-                                      id="comp-1"
-                                      style="width: 100%; min-height: 150px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;"
-                                      oninput="updateWordCount('comp-1', 'word-count-comp-1', 30)"
-                                      placeholder="Write your answer here (minimum 30 words)..."
-                                    ></textarea>
-                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
-                                      <span id="word-count-comp-1" style="font-size: 14px; color: #666;">0 / 30 words</span>
-                                      <span id="word-count-comp-1-status" style="font-size: 14px; font-weight: 600;"></span>
-                                    </div>
+                                <div style="padding: 15px; background: rgba(176,104,33,0.1); border-radius: 10px;">
+                                    <p style="margin: 0;"><strong>Watch for these words</strong> in today's reading!</p>
                                 </div>
                             </div>
-                        </div>
-                    `
+                        `;
+                    }
                 },
                 
-                // Page 6: Comprehension Question 2
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading Comprehension</h2>
-                            <p style="margin-bottom: 30px;">Question 2 of 3</p>
-                            
-                            <div style="margin: 30px 0;">
-                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1B2A4A;">
-                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 2:</p>
-                                    <p style="margin-bottom: 12px; color: #444;">What character traits did the Cowardly Lion demonstrate during their journey?</p>
-                                    <textarea 
-                                      id="comp-2"
-                                      style="width: 100%; min-height: 150px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;"
-                                      oninput="updateWordCount('comp-2', 'word-count-comp-2', 30)"
-                                      placeholder="Write your answer here (minimum 30 words)..."
-                                    ></textarea>
-                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
-                                      <span id="word-count-comp-2" style="font-size: 14px; color: #666;">0 / 30 words</span>
-                                      <span id="word-count-comp-2-status" style="font-size: 14px; font-weight: 600;"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
                 
-                // Page 7: Comprehension Question 3
+                // Page 4: Vocabulary Matching Game
                 {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Reading Comprehension</h2>
-                            <p style="margin-bottom: 30px;">Question 3 of 3</p>
-                            
-                            <div style="margin: 30px 0;">
-                                <div style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; border-left: 4px solid #1B2A4A;">
-                                    <p style="font-weight: 600; margin-bottom: 12px;">Question 3:</p>
-                                    <p style="margin-bottom: 12px; color: #444;">Do you think the Wizard will be able to help the Cowardly Lion overcome his fear? Why or why not?</p>
-                                    <textarea 
-                                      id="comp-3"
-                                      style="width: 100%; min-height: 150px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;"
-                                      oninput="updateWordCount('comp-3', 'word-count-comp-3', 30)"
-                                      placeholder="Write your answer here (minimum 30 words)..."
-                                    ></textarea>
-                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
-                                      <span id="word-count-comp-3" style="font-size: 14px; color: #666;">0 / 30 words</span>
-                                      <span id="word-count-comp-3-status" style="font-size: 14px; font-weight: 600;"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 8: Journal Reflection
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Journal Reflection</h2>
-                            
-                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 20px;">
-                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
-                                    [Personal reflection prompt related to Chapter 14]
-                                </p>
-                            </div>
-                            
-                            <textarea 
-                              id="journal"
-                              style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #1B2A4A; border-radius: 12px; font-family: inherit; font-size: 16px; line-height: 1.6;"
-                              placeholder="Write your thoughts here..."
-                            ></textarea>
-                        </div>
-                    `
-                },
-                
-                // NEW PAGE 8: Informational Text 
-                // Page 9: Informational Text - Reading (Part 1)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Informational Text</h2>
-                            <h3 style="color: #8B4513;">Informational Text</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 20px;">Part 1 of 2</p>
-                            
-                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;">
-                                </p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // Page 10: Informational Text - Reading (Part 2)
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h3 style="color: #8B4513;">Informational Text</h3>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 20px;">Part 2 of 2</p>
-                            
-                            <div style="padding: 25px; background: #f9f9f9; border-radius: 12px; line-height: 1.8; font-size: 16px;">
+                    render: () => {
+                        const vocabWords = ["spectacles","ambuscade","sagacity"];
+                        const definitions = ["eyeglasses","an ambush; a surprise attack from a hidden position","wisdom; the ability to make good judgments"];
+                        
+                        return `
+                            <div class="lesson-page-card content-page">
+                                <h2>🎮 Vocabulary Matching Game</h2>
+                                <p style="margin-bottom: 20px;">Match each vocabulary word with its correct definition.</p>
                                 
-                                <p style="margin-bottom: 15px;">Informational text content goes here.</p>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 800px; margin: 0 auto;">
+                                    <div>
+                                        <h3 style="color: #305853; margin-bottom: 15px;">Words</h3>
+                                        ${vocabWords.map((word, i) => `
+                                            <div style="padding: 15px; margin-bottom: 10px; background: #f0f7f4; border-radius: 8px; border: 2px solid #305853;">
+                                                <strong>${i + 1}.</strong> ${word}
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                    
+                                    <div>
+                                        <h3 style="color: #8B4513; margin-bottom: 15px;">Definitions</h3>
+                                        ${definitions.map((def, i) => `
+                                            <div style="padding: 15px; margin-bottom: 10px; background: #fef3e2; border-radius: 8px; border: 2px solid #8B4513;">
+                                                <strong>${['A', 'B', 'C'][i]}.</strong> ${def}
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                                
+                                <div style="margin-top: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #305853;">
+                                    <p style="margin-bottom: 10px;"><strong>Your Answers:</strong></p>
+                                    <p>1 = <input type="text" style="width: 60px; padding: 8px; border: 2px solid #ccc; border-radius: 4px;" placeholder="A, B, or C" maxlength="1" /></p>
+                                    <p>2 = <input type="text" style="width: 60px; padding: 8px; border: 2px solid #ccc; border-radius: 4px;" placeholder="A, B, or C" maxlength="1" /></p>
+                                    <p>3 = <input type="text" style="width: 60px; padding: 8px; border: 2px solid #ccc; border-radius: 4px;" placeholder="A, B, or C" maxlength="1" /></p>
+                                </div>
+                            </div>
+                        `;
+                    }
+                },
+                
+                // Pages 5-7: Story in 3 parts
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📚 Reading: TOM AND AUNT POLLY</h2>
+                            <h3 style="color: #8B4513;">Part 1 of 3</h3>
+                            <div style="line-height: 1.8; color: #333; font-size: 16px; margin-top: 20px;">
+                                <p style="margin-bottom: 15px; line-height: 1.8;">&quot;Where has that boy gone? You, Tom!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The old woman pulled her glasses down and peered over them, scanning the room. Then she pushed them up and looked underneath them. She almost never looked through them—they were her fancy pair, meant for style, not for actually seeing anything. She could have seen just as well through a pair of oven doors.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">She looked annoyed but not truly angry. &quot;Well, I swear, if I catch you, I&#039;ll—&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">She didn&#039;t finish, because she was already on her hands and knees, jabbing a broom handle under the bed. She found nothing but the cat.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;I have never seen a boy like this one!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">She marched to the open door and looked out at the tangled garden—tomato vines, weeds growing every which way. No Tom. She took a deep breath and hollered toward the distance: &quot;Y-o-u-u, Tom!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">A small noise came from behind her. She spun around just in time to grab a boy by the back of his shirt before he could escape.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;There you are! What have you been doing in that closet?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Nothing! Look at your hands. And your mouth. What is that stuff?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;I don&#039;t know, Aunt Polly.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Well, I know. It&#039;s jam. I have told you forty times—if you don&#039;t leave that jam alone, I will skin you alive. Hand me that switch.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The switch hovered in the air. Things looked bad—</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;My! Look behind you, Aunt!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The old woman spun around, grabbing at her skirts. In that instant, the boy bolted. He scrambled up the tall board fence and vanished over the other side.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">His Aunt Polly stood there a moment, surprised, and then laughed softly.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;That boy! Can&#039;t I ever learn? He&#039;s played that same trick on me enough times that I ought to know better. But he never does it the same way twice, so how am I supposed to keep up? He knows exactly how far he can push me before I lose my temper, and he knows if he can make me laugh, I can&#039;t bring myself to punish him. I&#039;m not doing right by that boy, and that&#039;s the honest truth. But he&#039;s my dead sister&#039;s child, and I haven&#039;t got the heart to whip him. Every time I let him off, my conscience hurts me, and every time I do punish him, my old heart nearly breaks. Well—he&#039;ll skip school this afternoon, so I&#039;ll have to make him work tomorrow as punishment. Making him work on a Saturday, when all the other boys are free—that&#039;s the hardest thing in the world for him. But I&#039;ve got to do my duty, or I&#039;ll be the ruin of that child.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom did skip school, and he had a fine time doing it. He got home barely in time to help Jim, the hired boy, chop wood for supper—or at least he was there in time to tell Jim about his adventures while Jim did most of the work.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom&#039;s younger half-brother, Sid, was already done with his chores. Sid was a quiet boy who never caused trouble and never looked for any.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">While Tom ate supper and snuck sugar whenever he got the chance, Aunt Polly asked him tricky questions, trying to catch him in a lie. She fancied herself a clever detective. She said:</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Tom, it was pretty warm in school today, wasn&#039;t it?&quot;</p>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📚 Reading: TOM AND AUNT POLLY</h2>
+                            <h3 style="color: #8B4513;">Part 2 of 3</h3>
+                            <div style="line-height: 1.8; color: #333; font-size: 16px; margin-top: 20px;">
+                                <p style="margin-bottom: 15px; line-height: 1.8;">&quot;Very warm, wasn&#039;t it?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Didn&#039;t you want to go swimming?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">A flicker of alarm crossed Tom&#039;s face. He studied his aunt&#039;s expression, but she gave nothing away. &quot;No ma&#039;am—well, not too much.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Aunt Polly reached out and felt his shirt. &quot;But you don&#039;t seem too warm now.&quot; She was pleased with herself for checking whether the shirt was dry without anyone knowing that was her plan. But Tom was onto her, so he got ahead of the next move.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Some of us pumped water on our heads at school. Mine&#039;s still a little damp. See?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Aunt Polly was annoyed she&#039;d missed that detail. Then she had a new idea: &quot;Tom, you didn&#039;t have to undo the collar I sewed shut to pump water on your head, did you? Unbutton your jacket!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom opened his jacket. His shirt collar was securely sewn shut.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Hmph! All right, go on. I was sure you&#039;d skipped school and gone swimming. But I forgive you, Tom. I suppose you&#039;re better than you look.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">She was half sorry her detective work had failed and half glad that Tom had actually behaved for once.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">But then Sid spoke up. &quot;Funny—I thought you sewed that collar with white thread, Aunt Polly. But it&#039;s black.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Why, I did sew it with white! Tom—&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">But Tom was already out the door. &quot;I&#039;ll get you for that, Sid,&quot; he called back.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">In a safe spot, Tom examined two needles stuck into his jacket—one threaded with white, one with black. He&#039;d switched the thread before coming home.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;She&#039;d never have noticed if Sid hadn&#039;t opened his big mouth,&quot; Tom muttered. &quot;Sometimes she uses white thread and sometimes black. I wish she&#039;d pick one and stick with it. But I will get even with Sid.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom was not the model boy of the village. He knew who the model boy was, though—and hated him.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Within two minutes, Tom had forgotten every one of his troubles. Not because they were small troubles—they felt just as heavy to him as a grown man&#039;s worries feel to a grown man. But a new interest had pushed everything else aside. He&#039;d just learned a new way of whistling from one of the older boys in town, and he was dying to practice it.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The summer evening was long, and it wasn&#039;t dark yet. As Tom walked down the street, whistling happily, he spotted a stranger—a boy about his own size. A newcomer in the small village of St. Petersburg was a rare and impressive sight. This boy was well-dressed, too, which was downright amazing for a weekday. He wore a neat cap, a buttoned-up jacket, nice pants, and actual shoes—on a Friday! He even had a necktie. Everything about him screamed city boy.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The fancier this stranger looked, the shabbier Tom felt. Neither boy spoke. They circled each other like cats.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Finally Tom said, &quot;I can lick you.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;I&#039;d like to see you try.&quot;</p>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    render: () => `
+                        <div class="lesson-page-card content-page">
+                            <h2>📚 Reading: TOM AND AUNT POLLY</h2>
+                            <h3 style="color: #8B4513;">Part 3 of 3</h3>
+                            <div style="line-height: 1.8; color: #333; font-size: 16px; margin-top: 20px;">
+                                <p style="margin-bottom: 15px; line-height: 1.8;">There was an uncomfortable pause. Tom said, &quot;What&#039;s your name?&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;None of your business.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;I&#039;ll make it my business.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;You think you&#039;re something special, don&#039;t you? What a stupid hat.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;You can knock it off if you don&#039;t like it.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;You&#039;re a fighting liar and too scared to back it up.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Get away from here!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">They stood nose to nose, each with one foot braced, shoving with all their might. Neither could budge the other. Both were red-faced and sweating.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom drew a line in the dirt with his toe. &quot;Step over that line, and I&#039;ll fight you till you can&#039;t stand up.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The new boy stepped over it immediately.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;Now you said you would—so do it!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">&quot;For two cents, I would.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The new boy dug two pennies out of his pocket and held them out. Tom smacked them to the ground.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">In the next instant, both boys were rolling in the dirt, punching and pulling hair, covered in dust. When the dust settled, Tom was sitting on top of the new boy, hammering him with his fists.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The boy struggled, crying—mostly from rage.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">At last the stranger choked out: &quot;Uncle!&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom let him up. &quot;That&#039;ll teach you. Better watch who you mess with.&quot;</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">The new boy slunk off, crying and threatening revenge. Tom jeered after him and started walking home, feeling like a champion. The moment Tom turned his back, the new boy snatched up a rock and hurled it, catching Tom right between the shoulder blades. Then he ran.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom chased the boy all the way home and stood outside his gate for a long time, daring him to come out. But the boy only made faces through the window. Finally the boy&#039;s mother appeared, called Tom a wicked, vulgar child, and ordered him away.</p>
+<p style="margin-bottom: 15px; line-height: 1.8;">Tom got home late that night. When he climbed in through the window, he ran straight into an ambush: Aunt Polly was waiting. When she saw the state of his clothes, she made up her mind. His Saturday holiday was about to become a Saturday of hard labor—and there would be no getting out of it.</p>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 11: Informational Text - Question 1
+                // Page 8: Comprehension (2 MC + 1 short answer)
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <p style="margin-bottom: 30px;">Question 1 of 3</p>
+                            <h2>💭 Reading Comprehension</h2>
+                            <p style="margin-bottom: 25px;">Answer these questions about today's chapter.</p>
                             
-                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
-                                <p style="font-weight: 600; margin-bottom: 12px;">1. Question 1?</p>
-                                <textarea 
-                                  id="info-1"
-                                  style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;"
-                                  oninput="updateWordCount('info-1', 'word-count-info-1', 20)"
-                                  placeholder="Write your answer here (minimum 20 words)..."
-                                ></textarea>
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
-                                  <span id="word-count-info-1" style="font-size: 14px; color: #666;">0 / 20 words</span>
-                                  <span id="word-count-info-1-status" style="font-size: 14px; font-weight: 600;"></span>
+                            
+                            <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">1. Why does Tom say &quot;My! Look behind you, Aunt!&quot; while Aunt Polly is holding the switch?</p>
+                                <div style="margin-left: 20px;">
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-1" value="A" style="margin-right: 8px;">
+                                            <strong>A.</strong> He sees something scary behind her.
+                                        </label>
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-1" value="B" style="margin-right: 8px;">
+                                            <strong>B.</strong> He is trying to distract her so he can escape.
+                                        </label>
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-1" value="C" style="margin-right: 8px;">
+                                            <strong>C.</strong> He wants to show her something interesting.
+                                        </label>
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-1" value="D" style="margin-right: 8px;">
+                                            <strong>D.</strong> He is warning her about a falling object.
+                                        </label>
+                                    
                                 </div>
                             </div>
+  
+                            <div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">2. What does Sid do that gets Tom in trouble at the supper table?</p>
+                                <div style="margin-left: 20px;">
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-2" value="A" style="margin-right: 8px;">
+                                            <strong>A.</strong> He tells Aunt Polly that Tom skipped school.
+                                        </label>
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-2" value="B" style="margin-right: 8px;">
+                                            <strong>B.</strong> He points out that Tom&#039;s shirt collar was sewn with black thread, not white.
+                                        </label>
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-2" value="C" style="margin-right: 8px;">
+                                            <strong>C.</strong> He shows Aunt Polly the jam on Tom&#039;s hands.
+                                        </label>
+                                    
+                                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                                            <input type="radio" name="comp-2" value="D" style="margin-right: 8px;">
+                                            <strong>D.</strong> He tells Aunt Polly that Tom was fighting the new boy.
+                                        </label>
+                                    
+                                </div>
+                            </div>
+  
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">3. Aunt Polly says, &quot;Every time I let him off, my conscience does hurt me so, and every time I hit him my old heart most breaks.&quot; What does this tell us about the conflict Aunt Polly feels about raising Tom? Use evidence from the chapter to support your answer.</p>
+                                <textarea 
+                                  id="comp-3"
+                                  style="width: 100%; min-height: 120px; padding: 15px; border: 2px solid #305853; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  placeholder="Write your answer here. Be specific and use evidence from the text."
+                                ></textarea>
+                            </div>
+  
                         </div>
                     `
                 },
                 
-                // Page 12: Informational Text - Question 2
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <p style="margin-bottom: 30px;">Question 2 of 3</p>
-                            
-                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
-                                <p style="font-weight: 600; margin-bottom: 12px;">2. Question 2?</p>
-                                <textarea 
-                                  id="info-2"
-                                  style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;"
-                                  oninput="updateWordCount('info-2', 'word-count-info-2', 20)"
-                                  placeholder="Write your answer here (minimum 20 words)..."
-                                ></textarea>
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
-                                  <span id="word-count-info-2" style="font-size: 14px; color: #666;">0 / 20 words</span>
-                                  <span id="word-count-info-2-status" style="font-size: 14px; font-weight: 600;"></span>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
                 
-                // Page 13: Informational Text - Question 3
+                // Page 9: Grammar Workshop
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <p style="margin-bottom: 30px;">Question 3 of 3</p>
+                            <h2>📝 Grammar Workshop</h2>
+                            <h3 style="color: #8B4513; margin-top: 20px;">Complex Sentences</h3>
                             
-                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
-                                <p style="font-weight: 600; margin-bottom: 12px;">3. Question 3?</p>
-                                <textarea 
-                                  id="info-3"
-                                  style="width: 100%; min-height: 120px; padding: 10px; border: 2px solid #305853; border-radius: 8px; font-family: inherit; font-size: 16px; line-height: 1.6;"
-                                  oninput="updateWordCount('info-3', 'word-count-info-3', 20)"
-                                  placeholder="Write your answer here (minimum 20 words)..."
-                                ></textarea>
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
-                                  <span id="word-count-info-3" style="font-size: 14px; color: #666;">0 / 20 words</span>
-                                  <span id="word-count-info-3-status" style="font-size: 14px; font-weight: 600;"></span>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },,
-                
-                // NEW PAGE 9: Grammar in Context 
-                // Page 14: Grammar Workshop
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Grammar Workshop</h2>
-                            <h3 style="color: #1B2A4A;">Action vs. Linking Verbs</h3>
-                            
-                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
-                                <p style="font-size: 16px; line-height: 1.6; margin-bottom: 15px;">
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin: 25px 0;">
+                                <p style="font-size: 16px; line-height: 1.8; margin-bottom: 15px;">
                                     <strong>What is it?</strong><br>
-                                    Action verbs show what someone does (run, jump, think). Linking verbs connect the subject to a description (is, was, seems, feels).
+                                    A complex sentence contains one independent clause and at least one dependent clause. The dependent clause adds extra information but cannot stand alone. Example from The Wizard of Oz: &#039;When Tom got home, Aunt Polly was waiting for him.&#039;
                                 </p>
-                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
-                                    <strong>Example from today's reading:</strong><br>
-                                    <em>"Toto was (linking) a little black dog. Dorothy felt (linking) lonely. The wind howled (action) horribly."</em>
+                                <p style="font-size: 16px; line-height: 1.8; margin: 0;">
+                                    <strong>Example:</strong><br>
+                                    <em>"Although Tom was clever, he sometimes got into trouble."</em>
                                 </p>
                             </div>
                             
-                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                <p style="font-weight: 600; margin-bottom: 12px;">Your Turn:</p>
-                                <p style="margin-bottom: 12px;">Find five verbs in today's reading and label each as action or linking.</p>
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                <p style="font-weight: 600; margin-bottom: 12px; font-size: 18px;">✍️ Your Turn:</p>
+                                <p style="margin-bottom: 15px; line-height: 1.6;">Write three complex sentences about a character from today&#039;s chapter. Use subordinating conjunctions like: although, because, when, if, since, while.</p>
                                 <textarea 
-                                  id="grammar"
-                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  id="grammar-practice"
+                                  style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #305853; border-radius: 8px; font-size: 16px; line-height: 1.8; font-family: inherit;"
                                   placeholder="Write your practice sentences here..."
                                 ></textarea>
                             </div>
@@ -506,83 +408,82 @@
                     `
                 },
                 
-                // NEW PAGE 10: Writing Workshop 
+                // Page 10: Informational Text
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <h2>Informative Writing</h2>
-                            
-                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
-                                <p style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">Prompt:</p>
-                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
-                                    Describe what life was like for Dorothy in Kansas before the cyclone. Include at least 3 specific details.
-                                </p>
+                            <h2>📰 Informational Text</h2>
+                            <h3 style="color: #8B4513; margin-top: 20px;">Life Along the Mississippi in 1840s Missouri</h3>
+                            <div style="line-height: 1.8; color: #333; font-size: 16px; margin: 25px 0;">
+                                <p style="margin-bottom: 15px;">The Adventures of The Wizard of Oz is set in the fictional town of St. Petersburg, Missouri, along the Mississippi River in the 1840s. This was a time of great change in America, as the country expanded westward and steamboats transformed river commerce.</p><p style="margin-bottom: 15px;">Small towns like St. Petersburg were close-knit communities where everyone knew their neighbors. Children had more freedom to roam and play outdoors than they do today. There were no televisions, computers, or video games—kids created their own entertainment through imaginative play, just as Tom does throughout the story.</p><p style="margin-bottom: 15px;">The Mississippi River was the lifeblood of these communities, providing transportation, trade, and adventure. Boys like Tom dreamed of becoming steamboat pilots, one of the most prestigious and well-paid jobs of the era. The river also represented freedom and possibility, which is why it plays such an important role in the story.</p><p style="margin-bottom: 15px;">Mark Twain himself grew up in Hannibal, Missouri, a town very similar to the fictional St. Petersburg. Many of the adventures in The Wizard of Oz are based on Twain&#039;s own childhood experiences, making the novel partly autobiographical.</p>
                             </div>
                             
-                            <div style="padding: 15px; background: #fffbf0; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 20px;">
-                                <p style="margin: 0; font-size: 14px;">
-                                    <strong>Remember:</strong> Write a paragraph explaining something from the story. Include clear details and examples.
-                                </p>
-                            </div>
-                            
-                            <textarea 
-                              id="writing"
-                              style="width: 100%; min-height: 250px; padding: 15px; border: 2px solid #1B2A4A; border-radius: 12px; font-size: 16px; line-height: 1.8;"
-                              placeholder="Start writing here..."
-                            ></textarea>
-                            
-                            <div style="margin-top: 15px; padding: 12px; background: #f0f9ff; border-radius: 8px;">
-                                <p style="margin: 0; font-size: 13px; color: #0369a1;">
-                                    <strong>Checklist:</strong> Did you include a topic sentence? Supporting details? A conclusion?
-                                </p>
-                            </div>
-                        </div>
-                    `
-                },
-                
-                // NEW PAGE 11: Language Skills 
-                // Page 16: Language Skills
-                {
-                    render: () => `
-                        <div class="lesson-page-card content-page">
-                            <h2>Language Skills</h2>
-                            <h3 style="color: #1B2A4A;">Idioms and Figurative Language</h3>
-                            
-                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin-bottom: 25px;">
-                                <p style="font-size: 16px; line-height: 1.6; margin: 0;">
-                                    <strong>Learn:</strong><br>
-                                    Idioms are phrases that don't mean exactly what the words say (like 'raining cats and dogs').
-                                </p>
-                            </div>
-                            
-                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #1B2A4A;">
-                                <p style="font-weight: 600; margin-bottom: 12px;">Activity:</p>
-                                <p style="margin-bottom: 12px;">Identify any idioms or figurative language in today's chapter and explain what they really mean.</p>
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513; margin-top: 20px;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">Question 1: What is the main idea of this text?</p>
                                 <textarea 
-                                  id="language"
-                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 16px; line-height: 1.6;"
-                                  placeholder="Complete the activity here..."
+                                  id="info-q1"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #305853; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  oninput="updateWordCount('info-q1', 'info-count-1', 30)"
+                                  placeholder="Write your answer here (minimum 30 words)..."
                                 ></textarea>
+                                <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                  <span id="info-count-1" style="font-size: 13px; color: #666;">0 / 30 words</span>
+                                  <span id="info-count-1-status" style="font-size: 13px; font-weight: 600;"></span>
+                                </div>
                             </div>
                             
-                            <div style="margin-top: 20px; text-align: center; padding: 30px;">
-                                <div style="font-size: 48px; margin-bottom: 15px;"></div>
-                                <h3 style="color: #305853;">Excellent Work!</h3>
-                                <p style="color: #666;">You've completed all 11 pages of Lesson 14!</p>
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513; margin-top: 20px;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">Question 2: What is one interesting fact you learned?</p>
+                                <textarea 
+                                  id="info-q2"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #305853; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  oninput="updateWordCount('info-q2', 'info-count-2', 30)"
+                                  placeholder="Write your answer here (minimum 30 words)..."
+                                ></textarea>
+                                <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                  <span id="info-count-2" style="font-size: 13px; color: #666;">0 / 30 words</span>
+                                  <span id="info-count-2-status" style="font-size: 13px; font-weight: 600;"></span>
+                                </div>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513; margin-top: 20px;">
+                                <p style="font-weight: 600; margin-bottom: 12px;">Question 3: How does this information connect to The Wizard of Oz's story?</p>
+                                <textarea 
+                                  id="info-q3"
+                                  style="width: 100%; min-height: 150px; padding: 15px; border: 2px solid #305853; border-radius: 8px; font-size: 16px; line-height: 1.6;"
+                                  oninput="updateWordCount('info-q3', 'info-count-3', 30)"
+                                  placeholder="Write your answer here (minimum 30 words)..."
+                                ></textarea>
+                                <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                  <span id="info-count-3" style="font-size: 13px; color: #666;">0 / 30 words</span>
+                                  <span id="info-count-3-status" style="font-size: 13px; font-weight: 600;"></span>
+                                </div>
                             </div>
                         </div>
                     `
                 },
                 
-                // Page 17: Completion
+                
+                // Page 11: Writing Practice
                 {
                     render: () => `
                         <div class="lesson-page-card content-page">
-                            <div style="text-align: center; padding: 40px 20px;">
-                                <div style="font-size: 72px; margin-bottom: 20px;"></div>
-                                <h2 style="color: #305853; margin-bottom: 20px;">Great Job!</h2>
-                                <p style="font-size: 18px; color: #666; max-width: 500px; margin: 0 auto;">
-                                    You've completed Lesson 14! Come back tomorrow to continue reading <em>The Wonderful Wizard of Oz</em>.
+                            <h2>✏️ Writing Practice</h2>
+                            <div style="padding: 20px; background: linear-gradient(135deg, rgba(48,88,83,0.1), rgba(176,104,33,0.1)); border-radius: 12px; margin: 20px 0;">
+                                <p style="font-size: 16px; line-height: 1.8;">
+                                    <strong>Prompt:</strong><br>
+                                    Write a paragraph describing a time when you had to do a chore you didn&#039;t want to do. How did you handle it? What did you learn?
+                                </p>
+                            </div>
+                            
+                            <div style="padding: 20px; background: white; border-radius: 12px; border: 2px solid #8B4513;">
+                                <textarea 
+                                  id="writing"
+                                  style="width: 100%; min-height: 300px; padding: 15px; border: 2px solid #305853; border-radius: 8px; font-size: 16px; line-height: 1.8; font-family: inherit;"
+                                  placeholder="Write your response here. Aim for at least 8-10 sentences."
+                                ></textarea>
+                                <p style="margin-top: 10px; color: #666; font-size: 14px;">
+                                    💡 <strong>Tips:</strong> Start with a topic sentence, include specific details, and end with a conclusion.
                                 </p>
                             </div>
                         </div>
@@ -590,8 +491,7 @@
                 }
             ]
         };
-        
-        // Initialize lesson viewer
+
         if (typeof initLessonViewer === 'function') {
             initLessonViewer(lesson14Config);
         }

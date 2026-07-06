@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curriculum Library - BedrockELA</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #1B2A30;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #305853 0%, #1B2A30 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content,
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .logo {
+            font-size: 1.45rem;
+            font-weight: 800;
+        }
+
+        .nav-link {
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            border-radius: 999px;
+            padding: 9px 16px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .container {
+            padding-top: 30px;
+            padding-bottom: 44px;
+        }
+
+        .intro {
+            background: white;
+            border-radius: 14px;
+            padding: 26px;
+            margin-bottom: 22px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .intro h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .intro p {
+            color: #526066;
+            line-height: 1.55;
+            max-width: 820px;
+        }
+
+        .grade-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+
+        .grade-tab {
+            border: 2px solid #305853;
+            background: white;
+            color: #305853;
+            padding: 10px 16px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-weight: 800;
+        }
+
+        .grade-tab.active {
+            background: #305853;
+            color: white;
+        }
+
+        .status-line {
+            color: #526066;
+            margin-bottom: 16px;
+            font-weight: 650;
+        }
+
+        .pocket-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 18px;
+        }
+
+        .pocket {
+            background: white;
+            border-radius: 14px;
+            padding: 18px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid #305853;
+        }
+
+        .pocket-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .pocket h2 {
+            font-size: 1.08rem;
+            line-height: 1.3;
+        }
+
+        .days {
+            white-space: nowrap;
+            color: #305853;
+            font-size: 0.84rem;
+            font-weight: 800;
+            background: #eaf2f0;
+            padding: 5px 9px;
+            border-radius: 999px;
+        }
+
+        .focus {
+            color: #526066;
+            font-size: 0.92rem;
+            line-height: 1.45;
+            margin-bottom: 14px;
+        }
+
+        .card-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .card {
+            border: 1px solid #d9e2e0;
+            border-radius: 10px;
+            padding: 13px;
+            background: #fbfcfc;
+        }
+
+        .card.primary {
+            border-color: #B06821;
+            background: #fffaf3;
+        }
+
+        .card-title {
+            display: flex;
+            align-items: start;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .card-title h3 {
+            font-size: 1rem;
+            line-height: 1.25;
+        }
+
+        .badge {
+            border-radius: 999px;
+            padding: 4px 8px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            white-space: nowrap;
+            background: #e9ecef;
+            color: #1B2A30;
+        }
+
+        .badge.ready {
+            background: #dff2e7;
+            color: #14552f;
+        }
+
+        .badge.needs {
+            background: #fff0d8;
+            color: #7a440d;
+        }
+
+        .badge.missing {
+            background: #f7dfdc;
+            color: #7c211a;
+        }
+
+        .meta,
+        .components {
+            color: #526066;
+            font-size: 0.86rem;
+            line-height: 1.45;
+        }
+
+        .components {
+            margin-top: 8px;
+        }
+
+        .empty {
+            color: #7a7a7a;
+            font-style: italic;
+        }
+
+        @media (max-width: 640px) {
+            .header-content {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .intro h1 {
+                font-size: 1.55rem;
+            }
+
+            .pocket-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">BedrockELA Curriculum Library</div>
+            <a class="nav-link" href="parent-dashboard-live.html">Parent Dashboard</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="intro">
+            <h1>Choose the next book card</h1>
+            <p>Each pocket represents a 30-day curriculum slot. Cards marked as the default path build the 180-day year; compatible cards can be chosen by a parent when the child is ready for a different book in that same skill band.</p>
+        </section>
+
+        <nav id="gradeTabs" class="grade-tabs" aria-label="Grade levels"></nav>
+        <div id="statusLine" class="status-line">Loading curriculum library...</div>
+        <section id="pocketGrid" class="pocket-grid"></section>
+    </main>
+
+    <script>
+        const grades = [1, 2, 3, 4, 5, 6, 8];
+        const loaded = new Map();
+        let activeGrade = 4;
+
+        const stageLabel = {
+            'content-ready': 'Ready',
+            'needs-content': 'Needs fill-ins',
+            'needs-card': 'Needs card',
+            'planning-card': 'Planning',
+            'missing-source': 'Missing source'
+        };
+
+        const requiredLabels = {
+            readingSchedule: 'reading',
+            vocabulary: 'vocab',
+            journals: 'journals',
+            writing: 'writing',
+            questions: 'questions',
+            informationalTexts: 'info texts',
+            assessments: 'assessments'
+        };
+
+        function badgeClass(stage) {
+            if (stage === 'content-ready') return 'ready';
+            if (stage === 'missing-source') return 'missing';
+            return 'needs';
+        }
+
+        async function loadJson(url) {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`Could not load ${url}`);
+            return response.json();
+        }
+
+        async function loadGrade(grade) {
+            if (loaded.has(grade)) return loaded.get(grade);
+
+            const base = `curriculum-library/grades/grade-${grade}`;
+            const [pockets, yearMap] = await Promise.all([
+                loadJson(`${base}/pockets.json`),
+                loadJson(`${base}/year-map.json`)
+            ]);
+
+            const cardIds = [...new Set(yearMap.pockets.flatMap(pocket => [
+                ...(pocket.assignedCards || []),
+                ...(pocket.compatibleCards || [])
+            ]))].filter(Boolean);
+
+            const cards = {};
+            await Promise.all(cardIds.map(async id => {
+                try {
+                    cards[id] = await loadJson(`curriculum-library/cards/grade-${grade}/${id}.json`);
+                } catch (error) {
+                    cards[id] = {
+                        id,
+                        title: id,
+                        status: { stage: 'missing-source', notes: ['Card JSON not found.'] },
+                        requiredComponents: {}
+                    };
+                }
+            }));
+
+            const data = { pockets, yearMap, cards };
+            loaded.set(grade, data);
+            return data;
+        }
+
+        function renderTabs() {
+            const tabs = document.getElementById('gradeTabs');
+            tabs.innerHTML = grades.map(grade => (
+                `<button class="grade-tab ${grade === activeGrade ? 'active' : ''}" data-grade="${grade}">Grade ${grade}</button>`
+            )).join('');
+
+            tabs.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', () => {
+                    activeGrade = Number(button.dataset.grade);
+                    render();
+                });
+            });
+        }
+
+        function componentSummary(card) {
+            const required = card.requiredComponents || {};
+            const missing = Object.entries(required)
+                .filter(([, value]) => value === 'missing')
+                .map(([key]) => requiredLabels[key] || key);
+            if (!missing.length) return 'All required card sections are present.';
+            return `Needs: ${missing.join(', ')}.`;
+        }
+
+        function renderCard(card, assignedCards) {
+            const stage = card.status?.stage || 'planning-card';
+            const isPrimary = assignedCards.includes(card.id);
+            const notes = card.status?.notes?.[0] || card.book?.description || '';
+            return `
+                <article class="card ${isPrimary ? 'primary' : ''}">
+                    <div class="card-title">
+                        <h3>${card.title || card.id}</h3>
+                        <span class="badge ${badgeClass(stage)}">${isPrimary ? 'Default' : stageLabel[stage] || stage}</span>
+                    </div>
+                    <div class="meta">${card.book?.textType || 'card'}${card.pocket?.dayRange ? ` • Days ${card.pocket.dayRange.start}-${card.pocket.dayRange.end}` : ''}</div>
+                    <div class="components">${componentSummary(card)}</div>
+                    ${notes ? `<div class="components">${notes}</div>` : ''}
+                </article>
+            `;
+        }
+
+        async function render() {
+            renderTabs();
+            const statusLine = document.getElementById('statusLine');
+            const grid = document.getElementById('pocketGrid');
+            statusLine.textContent = `Loading Grade ${activeGrade}...`;
+            grid.innerHTML = '';
+
+            try {
+                const { pockets, yearMap, cards } = await loadGrade(activeGrade);
+                const pocketsById = Object.fromEntries(pockets.map(pocket => [pocket.id, pocket]));
+                statusLine.textContent = `Grade ${activeGrade}: ${yearMap.schoolYearLengthDays} days mapped across ${yearMap.pockets.length} pockets.`;
+
+                grid.innerHTML = yearMap.pockets.map(mapped => {
+                    const pocket = pocketsById[mapped.pocketId] || mapped;
+                    const assignedCards = mapped.assignedCards || [];
+                    const cardIds = [...new Set([...(mapped.assignedCards || []), ...(mapped.compatibleCards || [])])];
+                    return `
+                        <section class="pocket">
+                            <div class="pocket-header">
+                                <h2>${pocket.title || mapped.pocketId}</h2>
+                                <span class="days">Days ${mapped.dayRange.start}-${mapped.dayRange.end}</span>
+                            </div>
+                            <p class="focus">${pocket.focus || ''}</p>
+                            <div class="card-list">
+                                ${cardIds.length ? cardIds.map(id => renderCard(cards[id], assignedCards)).join('') : '<p class="empty">No cards assigned yet.</p>'}
+                            </div>
+                        </section>
+                    `;
+                }).join('');
+            } catch (error) {
+                statusLine.textContent = error.message;
+                grid.innerHTML = '<div class="pocket">The curriculum library could not be loaded. Try rebuilding the curriculum library JSON.</div>';
+            }
+        }
+
+        render();
+    </script>
+</body>
+</html>

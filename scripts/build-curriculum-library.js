@@ -58,12 +58,12 @@ const gradePocketPlans = {
     ['g4-p6-mastery-capstone', 151, 180, 'Mastery and Capstone', 'research project, theme essay, portfolio']
   ],
   5: [
-    ['g5-p1-robin-hood', 1, 20, 'Robin Hood and Justice', 'character, theme, evidence'],
-    ['g5-p2-king-arthur', 21, 40, 'King Arthur and Chivalry', 'legend, code, narrative'],
-    ['g5-p3-world-tales', 41, 60, 'World Tales', 'cultural comparison, informational writing'],
-    ['g5-p4-gothic', 61, 98, 'Gothic and Mystery', 'mood, suspense, argument'],
-    ['g5-p5-greek-roman', 99, 138, 'Greek and Roman Worlds', 'myth, roots, informational text'],
-    ['g5-p6-norse-frankenstein', 139, 180, 'Norse to Frankenstein', 'epic themes, science ethics, synthesis']
+    ['g5-p1-robin-hood', 1, 30, 'Robin Hood and Justice', 'character, theme, evidence'],
+    ['g5-p2-king-arthur', 31, 60, 'King Arthur and Chivalry', 'legend, code, narrative'],
+    ['g5-p3-world-tales', 61, 90, 'World Tales', 'cultural comparison, informational writing'],
+    ['g5-p4-greek-roman', 91, 120, 'Greek and Roman Worlds', 'myth, roots, informational text'],
+    ['g5-p5-norse', 121, 150, 'Norse Worlds', 'epic themes, gods, heroes, synthesis'],
+    ['g5-p6-gothic-mastery', 151, 180, 'Gothic and Monster Classics', 'mood, suspense, ethics, portfolio']
   ],
   6: [
     ['g6-p1-tom-sawyer', 1, 30, 'Coming of Age', 'character development, theme'],
@@ -97,6 +97,14 @@ const currentAssignments = {
     'g4-p4-around-the-world': 'hunchback',
     'g4-p5-language-logic-opinion': 'alice-wonderland',
     'g4-p6-mastery-capstone': 'secret-garden'
+  },
+  5: {
+    'g5-p1-robin-hood': 'robin-hood-5',
+    'g5-p2-king-arthur': 'king-arthur',
+    'g5-p3-world-tales': 'arabian-tales',
+    'g5-p4-greek-roman': 'greek-mythology',
+    'g5-p5-norse': 'norse-mythology',
+    'g5-p6-gothic-mastery': 'frankenstein-dracula'
   },
   6: {
     'g6-p1-tom-sawyer': 'tom-sawyer',
@@ -935,6 +943,326 @@ function grade6LocalSourceCards() {
   }));
 }
 
+function grade5LocalSourceCards() {
+  const root5 = '/Users/mushu/Desktop/BedrockELA/5th Grade';
+  const cards = [
+    {
+      id: 'robin-hood-5',
+      title: 'The Merry Adventures of Robin Hood',
+      folder: root5,
+      recommendedPocketId: 'g5-p1-robin-hood',
+      compatiblePocketIds: ['g5-p1-robin-hood'],
+      dayRange: { start: 1, end: 30 },
+      textType: 'legend-adventure',
+      themes: ['Justice', 'Courage', 'Loyalty', 'Leadership'],
+      description: 'Source folder includes Robin Hood young readers text plus vocabulary and comprehension document.'
+    },
+    {
+      id: 'king-arthur',
+      title: 'King Arthur and His Knights',
+      folder: root5,
+      recommendedPocketId: 'g5-p2-king-arthur',
+      compatiblePocketIds: ['g5-p2-king-arthur'],
+      dayRange: { start: 31, end: 60 },
+      textType: 'legend-cycle',
+      themes: ['Honor', 'Chivalry', 'Leadership', 'Quest'],
+      description: 'Source folder includes King Arthur young adult edition plus vocabulary and comprehension document.'
+    },
+    {
+      id: 'arabian-tales',
+      title: 'Arabian Tales',
+      folder: `${root5}/arabian`,
+      recommendedPocketId: 'g5-p3-world-tales',
+      compatiblePocketIds: ['g5-p3-world-tales'],
+      dayRange: { start: 61, end: 90 },
+      textType: 'world-tales',
+      themes: ['Wisdom', 'Tricksters', 'Adventure', 'Storytelling'],
+      description: 'Source folder includes Arabian tales, vocabulary spreadsheet, and comprehension questions.'
+    },
+    {
+      id: 'celtic-mythology',
+      title: 'Celtic Mythology',
+      folder: `${root5}/celtic`,
+      recommendedPocketId: 'g5-p3-world-tales',
+      compatiblePocketIds: ['g5-p3-world-tales', 'g5-p5-norse'],
+      dayRange: { start: 61, end: 90 },
+      textType: 'mythology',
+      themes: ['Heroes', 'Wisdom', 'Transformation', 'Courage'],
+      description: 'Source folder includes Celtic mythology stories, vocabulary spreadsheet, and comprehension questions.'
+    },
+    {
+      id: 'egyptian-mythology',
+      title: 'Egyptian Mythology',
+      folder: `${root5}/egypt`,
+      recommendedPocketId: 'g5-p3-world-tales',
+      compatiblePocketIds: ['g5-p3-world-tales', 'g5-p4-greek-roman'],
+      dayRange: { start: 61, end: 90 },
+      textType: 'mythology',
+      themes: ['Creation', 'Kingship', 'Afterlife', 'Power'],
+      description: 'Source folder includes Egyptian mythology stories, vocabulary spreadsheet, and comprehension questions.'
+    },
+    {
+      id: 'greek-mythology',
+      title: 'Greek Mythology',
+      folder: `${root5}/greek`,
+      recommendedPocketId: 'g5-p4-greek-roman',
+      compatiblePocketIds: ['g5-p4-greek-roman'],
+      dayRange: { start: 91, end: 120 },
+      textType: 'mythology',
+      themes: ['Olympians', 'Heroes', 'Choices', 'Consequences'],
+      description: 'Source folder includes Greek mythology stories plus vocabulary and comprehension documents.'
+    },
+    {
+      id: 'roman-mythology',
+      title: 'Roman Mythology',
+      folder: `${root5}/roman`,
+      recommendedPocketId: 'g5-p4-greek-roman',
+      compatiblePocketIds: ['g5-p4-greek-roman'],
+      dayRange: { start: 91, end: 120 },
+      textType: 'mythology',
+      themes: ['Founding stories', 'Duty', 'Gods', 'Civilization'],
+      description: 'Source folder includes Roman mythology stories plus vocabulary and comprehension documents.'
+    },
+    {
+      id: 'norse-mythology',
+      title: 'Norse Mythology',
+      folder: `${root5}/norse`,
+      recommendedPocketId: 'g5-p5-norse',
+      compatiblePocketIds: ['g5-p5-norse', 'g5-p6-gothic-mastery'],
+      dayRange: { start: 121, end: 150 },
+      textType: 'mythology',
+      themes: ['Fate', 'Wisdom', 'Sacrifice', 'Epic conflict'],
+      description: 'Source folder includes Norse mythology stories, vocabulary files, and comprehension questions.'
+    },
+    {
+      id: 'frankenstein-dracula',
+      title: 'Frankenstein and Dracula',
+      folder: root5,
+      recommendedPocketId: 'g5-p6-gothic-mastery',
+      compatiblePocketIds: ['g5-p6-gothic-mastery'],
+      dayRange: { start: 151, end: 180 },
+      textType: 'paired-gothic-classics',
+      themes: ['Fear', 'Responsibility', 'Monsters', 'Mood'],
+      description: 'Source folder includes young readers adaptations of Frankenstein and Dracula plus combined vocabulary spreadsheet.'
+    },
+    {
+      id: 'frankenstein-young-readers',
+      title: 'Frankenstein',
+      folder: root5,
+      recommendedPocketId: 'g5-p6-gothic-mastery',
+      compatiblePocketIds: ['g5-p6-gothic-mastery'],
+      dayRange: { start: 151, end: 180 },
+      textType: 'gothic-classic',
+      themes: ['Creation', 'Responsibility', 'Loneliness', 'Science ethics'],
+      description: 'Source folder includes Frankenstein young readers adaptation.'
+    },
+    {
+      id: 'dracula-young-readers',
+      title: 'Dracula',
+      folder: root5,
+      recommendedPocketId: 'g5-p6-gothic-mastery',
+      compatiblePocketIds: ['g5-p6-gothic-mastery'],
+      dayRange: { start: 151, end: 180 },
+      textType: 'gothic-classic',
+      themes: ['Suspense', 'Fear', 'Teamwork', 'Good and evil'],
+      description: 'Source folder includes Dracula young readers adaptation.'
+    }
+  ];
+
+  return cards.map(card => enrichGrade5Card({
+    id: card.id,
+    title: card.title,
+    gradeLevels: [5],
+    source: {
+      type: 'desktop-source',
+      path: card.folder
+    },
+    status: {
+      stage: 'content-ready',
+      notes: [
+        'Created from local 5th grade source folder audit.',
+        card.description
+      ]
+    },
+    pocket: {
+      recommendedGrade: 5,
+      recommendedPocketId: card.recommendedPocketId,
+      dayRange: card.dayRange,
+      weekRange: weekRange(card.dayRange),
+      compatiblePocketIds: card.compatiblePocketIds
+    },
+    book: {
+      title: card.title,
+      author: '',
+      textType: card.textType,
+      publicDomain: true,
+      readingLevel: '5th grade adaptation',
+      description: card.description
+    },
+    themes: card.themes,
+    standards: [],
+    dailyPattern: {
+      regularDayComponents,
+      assessmentDays: weeklyAssessmentDays(card.dayRange),
+      vocabularyWordsPerRegularDay: 2
+    },
+    weeks: [],
+    requiredComponents: Object.fromEntries(REQUIRED_COMPONENTS.map(component => [component, 'present']))
+  }));
+}
+
+const grade5InformationalPairings = {
+  'robin-hood-5': [
+    'Medieval England and forest law',
+    'Ballads and how legends travel',
+    'Justice, taxes, and helping the poor',
+    'Archery, training, and skill',
+    'Outlaw heroes in world traditions',
+    'How legends change across retellings'
+  ],
+  'king-arthur': [
+    'Castles, knights, and feudal society',
+    'The code of chivalry',
+    'Quest stories and moral tests',
+    'The Round Table as a symbol',
+    'Medieval weapons, armor, and training',
+    'Why Arthurian legends still matter'
+  ],
+  'arabian-tales': [
+    'Frame stories and oral storytelling',
+    'Trade routes and cultural exchange',
+    'Wisdom tales and clever problem solving',
+    'Magic objects in folktales',
+    'Tricksters, merchants, and travelers',
+    'How stories teach values'
+  ],
+  'celtic-mythology': [
+    'Celtic heroes and oral tradition',
+    'Bards, memory, and storytelling',
+    'Mythic animals and transformations',
+    'Hero bargains and impossible tests',
+    'Landscapes in Celtic legends',
+    'Comparing Celtic myths to other world tales'
+  ],
+  'egyptian-mythology': [
+    'The Nile and ancient Egyptian life',
+    'Gods, pharaohs, and power',
+    'Afterlife beliefs and symbols',
+    'Creation myths across cultures',
+    'Trickery, justice, and restoration',
+    'How myths explain the natural world'
+  ],
+  'greek-mythology': [
+    'The Olympian gods and their domains',
+    'Hero quests and fatal flaws',
+    'Greek roots in English vocabulary',
+    'Monsters, tests, and courage',
+    'Myths explaining nature and human behavior',
+    'Comparing Greek heroes and modern heroes'
+  ],
+  'roman-mythology': [
+    'Roman gods and Greek connections',
+    'Founding myths and civic identity',
+    'Roman law, duty, and public life',
+    'Aeneas, journeys, and destiny',
+    'Symbols of Rome in myth',
+    'How Rome adapted stories from Greece'
+  ],
+  'norse-mythology': [
+    'Yggdrasil and the Nine Worlds',
+    'Thor, Odin, Loki, and character traits',
+    'Fate, prophecy, and Ragnarok',
+    'Viking culture and oral storytelling',
+    'Epic battles and moral choices',
+    'Comparing Norse myths to Greek and Roman myths'
+  ],
+  'frankenstein-dracula': [
+    'Gothic settings and mood',
+    'What makes a monster in literature',
+    'Science, fear, and responsibility',
+    'Vampire folklore and superstition',
+    'Suspense techniques in classic stories',
+    'How gothic stories ask ethical questions'
+  ],
+  'frankenstein-young-readers': [
+    'Mary Shelley and early science fiction',
+    'Creation stories and responsibility',
+    'Loneliness and empathy in literature',
+    'Gothic settings and mood',
+    'Science ethics for young readers',
+    'How point of view changes sympathy'
+  ],
+  'dracula-young-readers': [
+    'Bram Stoker and vampire folklore',
+    'Letters, journals, and mystery structure',
+    'Gothic castles and atmosphere',
+    'Teamwork against danger',
+    'Symbols of fear and courage',
+    'How suspense keeps readers turning pages'
+  ]
+};
+
+function enrichGrade5Card(card) {
+  const startWeek = weekRange(card.pocket.dayRange).start;
+  const pairings = grade5InformationalPairings[card.id] || [`Background article connected to ${card.title}`];
+  const weeks = Array.from({ length: 6 }, (_, index) => {
+    const dayStart = card.pocket.dayRange.start + (index * 5);
+    const chapterStart = (index * 4) + 1;
+    const chapterEnd = (index + 1) * 4;
+    const theme = card.themes[index % card.themes.length] || 'theme';
+    return {
+      week: startWeek + index,
+      days: { start: dayStart, end: dayStart + 4 },
+      title: `Week ${startWeek + index}: ${card.title} Part ${index + 1} (Days ${dayStart}-${dayStart + 4})`,
+      reading: [`Reading set ${chapterStart}-${chapterEnd}: ${card.title}`],
+      vocabulary: [
+        `${theme}: define and use in a sentence`,
+        'text evidence: choose a detail that supports your answer'
+      ],
+      journal: [
+        `What did this week's reading teach you about ${theme}? Use one detail from the text.`,
+        'Which character, god, hero, or creature was most interesting this week? Explain why.'
+      ],
+      writing: [
+        index < 2
+          ? 'Write an evidence paragraph about a character, hero, or setting.'
+          : index < 4
+            ? 'Write an informational paragraph connecting the story to the paired nonfiction topic.'
+            : 'Write an opinion paragraph about a choice, lesson, or theme from the reading.',
+        index === 5
+          ? 'Revise one response for the end-of-card writing portfolio.'
+          : 'Add a stronger detail or quotation to one answer.'
+      ],
+      questions: [
+        'What is the main problem, quest, or conflict in this section?',
+        'Which detail best shows a character trait or important theme?',
+        'How does the setting or culture shape the story?',
+        'What lesson or big idea can a reader take from this section?'
+      ],
+      informationalText: [pairings[index] || pairings[pairings.length - 1]],
+      assessment: [
+        'Weekly vocabulary check and comprehension response.',
+        index === 5
+          ? 'End-of-card assessment: reading response, vocabulary review, and writing portfolio reflection.'
+          : 'Review day: discuss answers, revise writing, and prepare for the next reading set.'
+      ]
+    };
+  });
+
+  return {
+    ...card,
+    status: {
+      stage: 'content-ready',
+      notes: [
+        'Launch-ready Grade 5 card with reading, vocabulary, journals, writing, questions, informational text, and assessments.',
+        ...(card.status?.notes || [])
+      ]
+    },
+    weeks,
+    requiredComponents: Object.fromEntries(REQUIRED_COMPONENTS.map(component => [component, 'present']))
+  };
+}
+
 const grade6InformationalPairings = {
   'twenty-thousand-leagues': [
     'Early submarine design and underwater exploration',
@@ -1659,6 +1987,7 @@ function build() {
   const generatedCards = [
     ...grade2BookCards(),
     ...grade4LocalSourceCards().map(enrichGrade4Card),
+    ...grade5LocalSourceCards(),
     ...grade6LocalSourceCards(),
     ...grade7LocalSourceCards(),
     ...grade8LocalSourceCards()

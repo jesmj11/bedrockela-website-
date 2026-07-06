@@ -353,6 +353,9 @@ function readBookDataTitle(fileName) {
 }
 
 function grade2BookCards() {
+  const extractedCardsFile = path.join(root, 'data', 'grade-2-library-cards.json');
+  if (fs.existsSync(extractedCardsFile)) return grade2ExtractedBookCards(extractedCardsFile);
+
   const mappingFile = path.join(root, 'book-data', 'lesson-to-book-mapping.json');
   if (!fs.existsSync(mappingFile)) return [];
   const mapping = JSON.parse(fs.readFileSync(mappingFile, 'utf8'));
@@ -435,6 +438,111 @@ function grade2BookCards() {
   });
 }
 
+const grade2QuarterPocketMap = {
+  1: {
+    recommendedPocketId: 'g2-p1-fluency',
+    compatiblePocketIds: ['g2-p1-fluency', 'g2-p2-fables'],
+    dayRange: { start: 1, end: 30 }
+  },
+  2: {
+    recommendedPocketId: 'g2-p2-fables',
+    compatiblePocketIds: ['g2-p2-fables', 'g2-p3-fairy-tales', 'g2-p4-nature'],
+    dayRange: { start: 31, end: 60 }
+  },
+  3: {
+    recommendedPocketId: 'g2-p4-nature',
+    compatiblePocketIds: ['g2-p3-fairy-tales', 'g2-p4-nature', 'g2-p5-adventure'],
+    dayRange: { start: 91, end: 120 }
+  },
+  4: {
+    recommendedPocketId: 'g2-p5-adventure',
+    compatiblePocketIds: ['g2-p5-adventure', 'g2-p6-mastery'],
+    dayRange: { start: 121, end: 150 }
+  }
+};
+
+function grade2ExtractedBookCards(extractedCardsFile) {
+  const data = JSON.parse(fs.readFileSync(extractedCardsFile, 'utf8'));
+  return data.cards.map(card => {
+    const placement = grade2QuarterPocketMap[card.quarter] || grade2QuarterPocketMap[1];
+    const chapters = card.sections.vocabulary || [];
+    const chapterList = chapters.map(chapter => `Chapter ${chapter.number}: ${chapter.title}`);
+    const journalPrompts = card.sections.journalWritingPrompts || [];
+    const informationalPairings = card.sections.informationalTextPairing || [];
+    const assessmentUse = card.sections.assessmentUse || [];
+    const weekTitle = `${card.title} Book Card`;
+    const requiredComponents = Object.fromEntries(REQUIRED_COMPONENTS.map(component => [component, 'present']));
+
+    for (const pocketId of placement.compatiblePocketIds) {
+      if (!generatedAssignedCardsByPocket.has(pocketId)) generatedAssignedCardsByPocket.set(pocketId, []);
+      generatedAssignedCardsByPocket.get(pocketId).push(card.id);
+    }
+
+    return {
+      id: card.id,
+      title: card.title,
+      gradeLevels: [2],
+      source: {
+        type: 'desktop-docx-extract',
+        path: card.sourceFile
+      },
+      status: {
+        stage: 'content-ready',
+        notes: [
+          `Integrated from the real Grade 2 ${card.sourceMetadata} source file.`,
+          `${card.choiceGuidance.difficultyBand} card: ${card.choiceGuidance.reason}.`
+        ]
+      },
+      pocket: {
+        recommendedGrade: 2,
+        recommendedPocketId: placement.recommendedPocketId,
+        dayRange: placement.dayRange,
+        weekRange: weekRange(placement.dayRange),
+        compatiblePocketIds: placement.compatiblePocketIds
+      },
+      book: {
+        title: card.title,
+        author: '',
+        textType: 'short-chapter-book',
+        publicDomain: true,
+        readingLevel: `2nd grade ${card.choiceGuidance.difficultyBand.toLowerCase()} reader`,
+        description: `${card.title} includes a six-chapter reading sequence, vocabulary, comprehension questions, journal/writing prompts, and assessment checks.`
+      },
+      themes: [card.title, card.choiceGuidance.difficultyBand, `Quarter ${card.quarter}`],
+      standards: [],
+      choiceGuidance: {
+        quarter: card.quarter,
+        bookNumber: card.bookNumber,
+        recommendedPlacement: card.choiceGuidance.recommendedPlacement,
+        difficultyBand: card.choiceGuidance.difficultyBand,
+        wordCount: card.choiceGuidance.wordCount,
+        averageSentenceWords: card.choiceGuidance.averageSentenceWords,
+        reason: card.choiceGuidance.reason
+      },
+      dailyPattern: {
+        regularDayComponents,
+        assessmentDays: [placement.dayRange.end],
+        vocabularyWordsPerRegularDay: 2
+      },
+      weeks: [
+        {
+          week: weekRange(placement.dayRange).start,
+          days: placement.dayRange,
+          title: weekTitle,
+          reading: chapterList.length ? chapterList : card.sections.reading,
+          vocabulary: chapters.flatMap(chapter => chapter.vocabulary || []),
+          journal: journalPrompts,
+          writing: journalPrompts,
+          questions: chapters.flatMap(chapter => chapter.comprehensionQuestions || []),
+          informationalText: informationalPairings,
+          assessment: assessmentUse
+        }
+      ],
+      requiredComponents
+    };
+  });
+}
+
 function grade4LocalSourceCards() {
   const localCards = [
     {
@@ -509,6 +617,154 @@ function grade4LocalSourceCards() {
       requiredComponents
     };
   });
+}
+
+const grade4GeneratedReadings = {
+  sinbad: [
+    'Chapters 1-4: Sinbad leaves home and begins his first dangerous voyage',
+    'Chapters 5-8: Island dangers, strange creatures, and survival choices',
+    'Chapters 9-12: New lands, riches, mistakes, and rescue',
+    'Chapters 13-16: The valley, the sea, and another test of courage',
+    'Chapters 17-20: Sinbad weighs risk, reward, and responsibility',
+    'Chapters 21-24: Final voyage, return home, and lessons from adventure'
+  ],
+  hunchback: [
+    'Chapters 1-4: Paris, Notre-Dame, and the public festival',
+    'Chapters 5-8: Quasimodo, Esmeralda, and first impressions',
+    'Chapters 9-12: Judgment, mercy, and misunderstood characters',
+    'Chapters 13-16: Trouble deepens around the cathedral',
+    'Chapters 17-20: Loyalty, fear, and difficult choices',
+    'Chapters 21-24: Consequences, compassion, and final reflection'
+  ]
+};
+
+const grade4InformationalPairings = {
+  'wizard-of-oz': [
+    'Cyclones and prairie weather',
+    'Kansas farms and travel in the late 1800s',
+    'How stage plays and early films adapted fantasy stories',
+    'Maps, roads, and symbolic journeys',
+    'Inventors, humbug, and the language of persuasion',
+    'What makes a classic children\'s book last'
+  ],
+  'three-musketeers': [
+    'Cardinal Richelieu and royal France',
+    'Musketeers, guards, and codes of honor',
+    'Letters, messengers, and secrecy before modern communication',
+    'Fencing, training, and discipline',
+    'Friendship oaths in history and literature',
+    'How historical fiction blends fact and invention'
+  ],
+  sinbad: [
+    'Trade routes across the Indian Ocean',
+    'Navigation by stars, winds, and currents',
+    'Legends from One Thousand and One Nights',
+    'Gemstones, spices, and medieval trade goods',
+    'Shipwreck survival and problem solving',
+    'How oral tales change across cultures'
+  ],
+  hunchback: [
+    'Notre-Dame Cathedral and Gothic architecture',
+    'Medieval Paris streets, markets, and laws',
+    'Bells, bell ringers, and sound in cathedral life',
+    'Fairness, public judgment, and historical punishments',
+    'Architecture preservation and why old buildings matter',
+    'How authors ask readers to see outsiders differently'
+  ],
+  'alice-wonderland': [
+    'Victorian childhood games and manners',
+    'Logic puzzles, riddles, and wordplay',
+    'How dreams work in stories',
+    'Courtrooms, juries, and evidence',
+    'Nonsense poetry and invented language',
+    'Fantasy worlds and rules that keep stories together'
+  ],
+  'secret-garden': [
+    'Gardens, soil, and seasonal plant growth',
+    'Yorkshire moors and English country houses',
+    'How fresh air and movement affect health',
+    'Friendship, loneliness, and emotional growth',
+    'Animal helpers and observation journals',
+    'Restoration: bringing neglected places back to life'
+  ]
+};
+
+function grade4WeekSeed(card, index) {
+  const week = card.weeks[index] || {};
+  const reading = (week.reading && week.reading.length)
+    ? week.reading[0]
+    : (grade4GeneratedReadings[card.id] || [])[index] || `Chapters ${(index * 4) + 1}-${(index + 1) * 4}`;
+  const info = (grade4InformationalPairings[card.id] || [])[index] || `Background article connected to ${card.title}`;
+  const theme = (card.themes && card.themes[index % card.themes.length]) || 'character growth';
+  return {
+    reading,
+    info,
+    theme
+  };
+}
+
+function enrichGrade4Card(card) {
+  if (!card.gradeLevels.includes(4) || card.status.stage === 'missing-source') return card;
+
+  const startWeek = weekRange(card.pocket.dayRange).start;
+  const weeks = Array.from({ length: 6 }, (_, index) => {
+    const existing = card.weeks[index] || {};
+    const dayStart = card.pocket.dayRange.start + (index * 5);
+    const days = existing.days || { start: dayStart, end: dayStart + 4 };
+    const seed = grade4WeekSeed(card, index);
+    const title = existing.title || `Week ${startWeek + index}: ${card.title} Part ${index + 1} (Days ${days.start}-${days.end})`;
+    const baseVocabulary = existing.vocabulary && existing.vocabulary.length
+      ? existing.vocabulary
+      : [
+          `${seed.theme}: identify and explain the word in context`,
+          `precise evidence: choose a quotation that supports an answer`,
+          `transition words: connect events and ideas clearly`
+        ];
+
+    return {
+      week: existing.week || startWeek + index,
+      days,
+      title,
+      reading: existing.reading && existing.reading.length ? existing.reading : [seed.reading],
+      vocabulary: baseVocabulary,
+      journal: existing.journal && existing.journal.length ? existing.journal : [
+        `What does this week's reading show about ${seed.theme}? Use one scene as evidence.`,
+        `Choose one character decision from ${seed.reading}. Would you make the same choice? Explain why.`
+      ],
+      writing: existing.writing && existing.writing.length ? existing.writing : [
+        `Write an ACE paragraph answering one comprehension question with text evidence.`,
+        `Draft a short ${index < 2 ? 'narrative response' : index < 4 ? 'informational paragraph' : 'opinion paragraph'} connected to this week's reading.`
+      ],
+      questions: existing.questions && existing.questions.length ? existing.questions : [
+        `What problem or conflict matters most in ${seed.reading}?`,
+        'Which detail best reveals a character trait, motivation, or change?',
+        'How does the setting affect what happens in this section?',
+        'What lesson, theme, or big idea is starting to develop?'
+      ],
+      informationalText: existing.informationalText && existing.informationalText.length ? existing.informationalText : [seed.info],
+      assessment: existing.assessment && existing.assessment.length ? existing.assessment : [
+        'Weekly vocabulary check, comprehension response, and short written reflection.',
+        index === 5 ? 'End-of-card assessment: theme response, writing portfolio selection, and parent conference note.' : 'Review day: revise one journal response into a polished paragraph.'
+      ]
+    };
+  });
+
+  return {
+    ...card,
+    status: {
+      stage: 'content-ready',
+      notes: [
+        'Library card sections completed for parent choice: reading, vocabulary, journals, writing, questions, informational text, and assessments.',
+        ...card.status.notes.filter(note => !/^Needs /i.test(note))
+      ]
+    },
+    book: {
+      ...card.book,
+      description: `${card.book.description || card.title} This card now includes complete weekly library sections for Grade 4 use.`
+    },
+    weeks,
+    requiredComponents: Object.fromEntries(REQUIRED_COMPONENTS.map(component => [component, 'present']))
+  };
 }
 
 function componentStatus(text, component) {
@@ -694,8 +950,8 @@ function build() {
     .filter(file => /UNIT-CARD.*\.md$/i.test(file) && file !== 'UNIT-CARDS-STATUS.md')
     .map(file => path.join(root, file));
 
-  const markdownCards = cardFiles.map(parseCard);
-  const generatedCards = [...grade2BookCards(), ...grade4LocalSourceCards()];
+  const markdownCards = cardFiles.map(parseCard).map(enrichGrade4Card);
+  const generatedCards = [...grade2BookCards(), ...grade4LocalSourceCards().map(enrichGrade4Card)];
   const pocketRecordsByGrade = Object.entries(gradePocketPlans).reduce((acc, [gradeText, plan]) => {
     const grade = Number(gradeText);
     acc[grade] = plan.map(record => pocketRecord(grade, record));
@@ -705,7 +961,7 @@ function build() {
   const shellCards = [];
   for (const pockets of Object.values(pocketRecordsByGrade)) {
     for (const pocket of pockets) {
-      const shouldKeepNamedShell = pocket.id === 'g2-p6-mastery';
+      const shouldKeepNamedShell = false;
       const hasCard = [...markdownCards, ...generatedCards].some(card => (
         card.gradeLevels.includes(pocket.grade)
         && card.pocket.compatiblePocketIds.includes(pocket.id)

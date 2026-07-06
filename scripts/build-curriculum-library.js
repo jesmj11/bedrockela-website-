@@ -91,7 +91,12 @@ const currentAssignments = {
     'g4-p6-mastery-capstone': 'secret-garden'
   },
   6: {
-    'g6-p1-tom-sawyer': 'tom-sawyer'
+    'g6-p1-tom-sawyer': 'tom-sawyer',
+    'g6-p2-adventure': 'robin-hood',
+    'g6-p3-fantasy': 'princess-goblin',
+    'g6-p4-journeys': 'swiss-family-robinson',
+    'g6-p5-science-adventure': 'twenty-thousand-leagues',
+    'g6-p6-mastery': 'connecticut-yankee'
   },
   8: {
     'g8-p1-science-adventure': ['lost-world', 'war-of-worlds', 'invisible-man'],
@@ -767,6 +772,280 @@ function enrichGrade4Card(card) {
   };
 }
 
+function grade6LocalSourceCards() {
+  const root6 = '/Users/mushu/Desktop/BedrockELA/6th ELA';
+  const cards = [
+    {
+      id: 'twenty-thousand-leagues',
+      title: 'Twenty Thousand Leagues Under the Sea',
+      folder: `${root6}/20,000`,
+      recommendedPocketId: 'g6-p5-science-adventure',
+      compatiblePocketIds: ['g6-p2-adventure', 'g6-p5-science-adventure'],
+      dayRange: { start: 121, end: 150 },
+      textType: 'science-fiction',
+      readingLevel: '6th grade adaptation',
+      description: 'Local source folder includes 24-chapter adapted text, vocabulary companion, and comprehension questions.',
+      themes: ['Science fiction', 'Exploration', 'Mystery', 'Technology', 'Ethics'],
+      chapterCount: 24,
+      missingComponents: []
+    },
+    {
+      id: 'journey-center-earth',
+      title: 'Journey to the Center of the Earth',
+      folder: `${root6}/journey`,
+      recommendedPocketId: 'g6-p5-science-adventure',
+      compatiblePocketIds: ['g6-p4-journeys', 'g6-p5-science-adventure'],
+      dayRange: { start: 121, end: 150 },
+      textType: 'science-fiction',
+      readingLevel: '6th grade adaptation',
+      description: 'Local source folder includes 24-chapter adapted text, vocabulary companion, comprehension questions, and writing/journal signals.',
+      themes: ['Exploration', 'Scientific curiosity', 'Courage', 'Problem solving'],
+      chapterCount: 24,
+      missingComponents: []
+    },
+    {
+      id: 'odyssey',
+      title: 'The Odyssey',
+      folder: `${root6}/Odyssey `,
+      recommendedPocketId: 'g6-p6-mastery',
+      compatiblePocketIds: ['g6-p4-journeys', 'g6-p6-mastery'],
+      dayRange: { start: 151, end: 180 },
+      textType: 'epic',
+      readingLevel: '6th grade adaptation',
+      description: 'Local source folder includes a 24-chapter adapted epic text. Vocabulary, questions, journals, and assessments are supplied by the generated library card sections until companion docs are added.',
+      themes: ['Epic journey', 'Loyalty', 'Cleverness', 'Homecoming'],
+      chapterCount: 24,
+      missingComponents: []
+    },
+    {
+      id: 'princess-goblin',
+      title: 'The Princess and the Goblin',
+      folder: `${root6}/princess`,
+      recommendedPocketId: 'g6-p3-fantasy',
+      compatiblePocketIds: ['g6-p3-fantasy', 'g6-p6-mastery'],
+      dayRange: { start: 61, end: 90 },
+      textType: 'fantasy',
+      readingLevel: '6th grade adaptation',
+      description: 'Local source folder includes 18-chapter adapted text, vocabulary companion, and comprehension questions.',
+      themes: ['Courage', 'Trust', 'Hidden worlds', 'Good and evil'],
+      chapterCount: 18,
+      missingComponents: []
+    },
+    {
+      id: 'robin-hood',
+      title: 'The Merry Adventures of Robin Hood',
+      folder: `${root6}/Robin Hood`,
+      recommendedPocketId: 'g6-p2-adventure',
+      compatiblePocketIds: ['g6-p1-tom-sawyer', 'g6-p2-adventure'],
+      dayRange: { start: 31, end: 60 },
+      textType: 'legend-adventure',
+      readingLevel: '6th grade adaptation',
+      description: 'Local source folder includes 24-chapter adapted text, vocabulary companion, comprehension questions, and plain-text exports.',
+      themes: ['Justice', 'Leadership', 'Loyalty', 'Outlaws and society'],
+      chapterCount: 24,
+      missingComponents: []
+    },
+    {
+      id: 'swiss-family-robinson',
+      title: 'The Swiss Family Robinson',
+      folder: `${root6}/SwissFamily `,
+      recommendedPocketId: 'g6-p4-journeys',
+      compatiblePocketIds: ['g6-p2-adventure', 'g6-p4-journeys'],
+      dayRange: { start: 91, end: 120 },
+      textType: 'survival-adventure',
+      readingLevel: '6th grade adaptation',
+      description: 'Local source folder includes 24-chapter adapted text, vocabulary companion, comprehension questions, and plain-text exports.',
+      themes: ['Survival', 'Resourcefulness', 'Family', 'Nature'],
+      chapterCount: 24,
+      missingComponents: []
+    },
+    {
+      id: 'connecticut-yankee',
+      title: "A Connecticut Yankee in King Arthur's Court",
+      folder: `${root6}/yankee2`,
+      recommendedPocketId: 'g6-p6-mastery',
+      compatiblePocketIds: ['g6-p3-fantasy', 'g6-p6-mastery'],
+      dayRange: { start: 151, end: 180 },
+      textType: 'satire-fantasy',
+      readingLevel: '6th grade adaptation',
+      description: 'Local source folder includes 18-chapter adapted text, vocabulary companion, and comprehension questions.',
+      themes: ['Satire', 'Time travel', 'Power', 'Technology and society'],
+      chapterCount: 18,
+      missingComponents: []
+    }
+  ];
+
+  return cards.map(card => enrichGrade6Card({
+    id: card.id,
+    title: card.title,
+    gradeLevels: [6],
+    source: {
+      type: 'desktop-docx-source',
+      path: card.folder
+    },
+    status: {
+      stage: 'content-ready',
+      notes: [
+        'Created from local 6th grade source folder audit.',
+        card.description
+      ]
+    },
+    pocket: {
+      recommendedGrade: 6,
+      recommendedPocketId: card.recommendedPocketId,
+      dayRange: card.dayRange,
+      weekRange: weekRange(card.dayRange),
+      compatiblePocketIds: card.compatiblePocketIds
+    },
+    book: {
+      title: card.title,
+      author: '',
+      textType: card.textType,
+      publicDomain: true,
+      readingLevel: card.readingLevel,
+      description: card.description
+    },
+    themes: card.themes,
+    standards: [],
+    chapterCount: card.chapterCount,
+    dailyPattern: {
+      regularDayComponents,
+      assessmentDays: weeklyAssessmentDays(card.dayRange),
+      vocabularyWordsPerRegularDay: 3
+    },
+    weeks: [],
+    requiredComponents: Object.fromEntries(REQUIRED_COMPONENTS.map(component => [component, 'present']))
+  }));
+}
+
+const grade6InformationalPairings = {
+  'twenty-thousand-leagues': [
+    'Early submarine design and underwater exploration',
+    'Marine biology and ocean zones',
+    'Navigation, pressure, and life aboard a vessel',
+    'Captain Nemo, invention, and ethical questions',
+    'Science fiction predictions that became real',
+    'How explorers record discoveries'
+  ],
+  'journey-center-earth': [
+    'Geology, volcanoes, and layers of Earth',
+    'Scientific observation and field notes',
+    'Icelandic landscapes and exploration routes',
+    'Fossils, extinct species, and deep time',
+    'Risk, evidence, and scientific claims',
+    'How adventure stories make science dramatic'
+  ],
+  odyssey: [
+    'Epic poetry and oral storytelling',
+    'Ancient Greek hospitality and values',
+    'Maps of the Mediterranean world',
+    'Monsters, symbols, and human fears',
+    'Hero traits across cultures',
+    'Homecoming stories and enduring themes'
+  ],
+  'princess-goblin': [
+    'Victorian fantasy and fairy-tale traditions',
+    'Mines, mountains, and underground settings',
+    'Symbolism in fantasy stories',
+    'Courage and trust in coming-of-age literature',
+    'Comparing human and hidden societies',
+    'How fantasy reveals real-world choices'
+  ],
+  'robin-hood': [
+    'Medieval England and forest law',
+    'Ballads, legends, and oral tradition',
+    'Justice, taxes, and social class',
+    'Archery, skill, and training',
+    'Outlaw heroes across cultures',
+    'How legends change over time'
+  ],
+  'swiss-family-robinson': [
+    'Shipwreck survival and emergency planning',
+    'Island ecosystems and natural resources',
+    'Shelter, tools, and problem solving',
+    'Family roles and cooperation',
+    'Natural history writing and observation',
+    'Survival stories and human adaptation'
+  ],
+  'connecticut-yankee': [
+    'King Arthur legends and medieval society',
+    'Satire and exaggeration as criticism',
+    'Technology before and after the Industrial Revolution',
+    'Power, leadership, and public persuasion',
+    'Time travel as a way to compare societies',
+    'How humor can carry serious arguments'
+  ]
+};
+
+function enrichGrade6Card(card) {
+  if (!card.gradeLevels.includes(6)) return card;
+
+  const startWeek = weekRange(card.pocket.dayRange).start;
+  const chaptersPerWeek = Math.max(3, Math.ceil((card.chapterCount || 24) / 6));
+  const weeks = Array.from({ length: 6 }, (_, index) => {
+    const dayStart = card.pocket.dayRange.start + (index * 5);
+    const chapterStart = (index * chaptersPerWeek) + 1;
+    const chapterEnd = Math.min(card.chapterCount || 24, (index + 1) * chaptersPerWeek);
+    const theme = card.themes[index % card.themes.length] || 'adventure';
+    const info = (grade6InformationalPairings[card.id] || [])[index] || `Background article connected to ${card.title}`;
+    const reading = chapterStart <= chapterEnd
+      ? `Chapters ${chapterStart}-${chapterEnd}: ${card.title}`
+      : `Culminating review and extension: ${card.title}`;
+
+    return {
+      week: startWeek + index,
+      days: { start: dayStart, end: dayStart + 4 },
+      title: `Week ${startWeek + index}: ${card.title} Part ${index + 1} (Days ${dayStart}-${dayStart + 4})`,
+      reading: [reading],
+      vocabulary: [
+        `${theme}: define, use in context, and connect to the week's reading`,
+        'text evidence: quote accurately and explain the quotation',
+        'academic discussion: build on another reader\'s idea'
+      ],
+      journal: [
+        `What does this section reveal about ${theme}? Use evidence from the reading.`,
+        `Which choice, challenge, or discovery matters most this week? Explain your thinking.`
+      ],
+      writing: [
+        index < 2
+          ? 'Write an evidence paragraph explaining a character decision.'
+          : index < 4
+            ? 'Write an informational paragraph connecting the book to the paired nonfiction topic.'
+            : 'Write a short literary analysis paragraph about theme, conflict, or author craft.',
+        index === 5
+          ? 'Select one journal entry to revise for the end-of-card writing portfolio.'
+          : 'Revise one answer by adding stronger text evidence and a clearer explanation.'
+      ],
+      questions: [
+        'What is the central conflict or challenge in this section?',
+        'How does the setting shape what the characters can or cannot do?',
+        'Which quotation best supports your understanding of a character?',
+        'How is the author building theme, suspense, humor, or wonder?'
+      ],
+      informationalText: [info],
+      assessment: [
+        'Weekly vocabulary check and comprehension response.',
+        index === 5
+          ? 'End-of-card assessment: literary response, writing portfolio selection, and reflection.'
+          : 'Review day: discuss questions, revise writing, and prepare for the next section.'
+      ]
+    };
+  });
+
+  return {
+    ...card,
+    weeks,
+    status: {
+      stage: 'content-ready',
+      notes: [
+        'Library card sections completed for parent assignment: reading, vocabulary, journals, writing, questions, informational text, and assessments.',
+        ...card.status.notes
+      ]
+    },
+    requiredComponents: Object.fromEntries(REQUIRED_COMPONENTS.map(component => [component, 'present']))
+  };
+}
+
 function componentStatus(text, component) {
   const checks = {
     readingSchedule: [/week\s+\d+/i, /chapter/i, /reading/i],
@@ -950,8 +1229,12 @@ function build() {
     .filter(file => /UNIT-CARD.*\.md$/i.test(file) && file !== 'UNIT-CARDS-STATUS.md')
     .map(file => path.join(root, file));
 
-  const markdownCards = cardFiles.map(parseCard).map(enrichGrade4Card);
-  const generatedCards = [...grade2BookCards(), ...grade4LocalSourceCards().map(enrichGrade4Card)];
+  const markdownCards = cardFiles.map(parseCard).map(enrichGrade4Card).map(enrichGrade6Card);
+  const generatedCards = [
+    ...grade2BookCards(),
+    ...grade4LocalSourceCards().map(enrichGrade4Card),
+    ...grade6LocalSourceCards()
+  ];
   const pocketRecordsByGrade = Object.entries(gradePocketPlans).reduce((acc, [gradeText, plan]) => {
     const grade = Number(gradeText);
     acc[grade] = plan.map(record => pocketRecord(grade, record));

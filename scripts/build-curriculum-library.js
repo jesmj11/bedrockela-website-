@@ -90,6 +90,14 @@ const gradePocketPlans = {
 };
 
 const currentAssignments = {
+  3: {
+    'g3-p1-classic-launch': 'velveteen-rabbit',
+    'g3-p2-character': 'cinderella',
+    'g3-p3-adventure': 'jack-and-the-beanstalk',
+    'g3-p4-fantasy': 'snow-queen',
+    'g3-p5-realistic': 'heidi',
+    'g3-p6-mastery': 'hansel-and-gretel'
+  },
   4: {
     'g4-p1-hero-journey': 'wizard-of-oz',
     'g4-p2-adventure-pov': 'three-musketeers',
@@ -571,6 +579,347 @@ function grade2ExtractedBookCards(extractedCardsFile) {
       requiredComponents
     };
   });
+}
+
+function grade3LocalSourceCards() {
+  const root3 = '/Users/mushu/Desktop/BedrockELA/3rd ELA';
+  const cards = [
+    {
+      id: 'velveteen-rabbit',
+      title: 'The Velveteen Rabbit',
+      folder: `${root3}/Velveteen Rabbit `,
+      recommendedPocketId: 'g3-p1-classic-launch',
+      compatiblePocketIds: ['g3-p1-classic-launch', 'g3-p5-realistic'],
+      dayRange: { start: 1, end: 30 },
+      textType: 'classic-fantasy',
+      themes: ['Love', 'Transformation', 'Belonging', 'What makes something real'],
+      description: 'Source folder includes a 12-chapter text plus vocabulary and comprehension questions.'
+    },
+    {
+      id: 'ugly-duckling',
+      title: 'The Ugly Duckling',
+      folder: `${root3}/uglyduckling `,
+      recommendedPocketId: 'g3-p1-classic-launch',
+      compatiblePocketIds: ['g3-p1-classic-launch', 'g3-p2-character', 'g3-p5-realistic'],
+      dayRange: { start: 1, end: 30 },
+      textType: 'literary-fairy-tale',
+      themes: ['Identity', 'Patience', 'Kindness', 'Growth'],
+      description: 'Source folder includes a 12-chapter text plus vocabulary and comprehension questions.'
+    },
+    {
+      id: 'cinderella',
+      title: 'Cinderella',
+      folder: `${root3}/Cinderella`,
+      recommendedPocketId: 'g3-p2-character',
+      compatiblePocketIds: ['g3-p2-character', 'g3-p4-fantasy'],
+      dayRange: { start: 31, end: 60 },
+      textType: 'fairy-tale',
+      themes: ['Kindness', 'Character', 'Justice', 'Hope'],
+      description: 'Source folder includes a 12-chapter text plus vocabulary and comprehension questions.'
+    },
+    {
+      id: 'elves-and-the-shoemaker',
+      title: 'The Elves and the Shoemaker',
+      folder: `${root3}/elvesshowmaker`,
+      recommendedPocketId: 'g3-p2-character',
+      compatiblePocketIds: ['g3-p1-classic-launch', 'g3-p2-character', 'g3-p5-realistic'],
+      dayRange: { start: 31, end: 60 },
+      textType: 'fairy-tale',
+      themes: ['Generosity', 'Gratitude', 'Work', 'Problem solving'],
+      description: 'Source folder includes a 12-chapter text plus vocabulary and comprehension questions.'
+    },
+    {
+      id: 'jack-and-the-beanstalk',
+      title: 'Jack and the Beanstalk',
+      folder: `${root3}/jack and beanstalk`,
+      recommendedPocketId: 'g3-p3-adventure',
+      compatiblePocketIds: ['g3-p3-adventure', 'g3-p4-fantasy'],
+      dayRange: { start: 61, end: 90 },
+      textType: 'adventure-fairy-tale',
+      themes: ['Risk', 'Problem solving', 'Courage', 'Choices'],
+      description: 'Source folder includes a 12-chapter text plus vocabulary and comprehension questions.'
+    },
+    {
+      id: 'frog-prince',
+      title: 'The Frog Prince',
+      folder: `${root3}/Frog Prince`,
+      recommendedPocketId: 'g3-p3-adventure',
+      compatiblePocketIds: ['g3-p2-character', 'g3-p3-adventure', 'g3-p4-fantasy'],
+      dayRange: { start: 61, end: 90 },
+      textType: 'fairy-tale',
+      themes: ['Promises', 'Change', 'Honesty', 'Character'],
+      description: 'Source folder includes a 12-chapter text plus vocabulary and comprehension questions.'
+    },
+    {
+      id: 'twelve-dancing-princesses',
+      title: 'The Twelve Dancing Princesses',
+      folder: `${root3}/12 dancing princesses`,
+      recommendedPocketId: 'g3-p3-adventure',
+      compatiblePocketIds: ['g3-p3-adventure', 'g3-p4-fantasy', 'g3-p6-mastery'],
+      dayRange: { start: 61, end: 90 },
+      textType: 'mystery-fairy-tale',
+      themes: ['Mystery', 'Perseverance', 'Secrets', 'Discovery'],
+      description: 'Source folder includes a 12-chapter text plus vocabulary and comprehension questions.'
+    },
+    {
+      id: 'snow-queen',
+      title: 'The Snow Queen',
+      folder: `${root3}/snowqueen `,
+      recommendedPocketId: 'g3-p4-fantasy',
+      compatiblePocketIds: ['g3-p4-fantasy', 'g3-p6-mastery'],
+      dayRange: { start: 91, end: 120 },
+      textType: 'literary-fairy-tale',
+      themes: ['Friendship', 'Courage', 'Goodness', 'Journey'],
+      description: 'Source folder includes a 12-chapter text plus vocabulary and comprehension questions.'
+    },
+    {
+      id: 'rapunzel',
+      title: 'Rapunzel',
+      folder: `${root3}/Rapunzel`,
+      recommendedPocketId: 'g3-p4-fantasy',
+      compatiblePocketIds: ['g3-p2-character', 'g3-p4-fantasy'],
+      dayRange: { start: 91, end: 120 },
+      textType: 'fairy-tale',
+      themes: ['Freedom', 'Patience', 'Courage', 'Consequences'],
+      description: 'Source folder includes a 12-chapter text plus vocabulary and comprehension questions.'
+    },
+    {
+      id: 'thumbelina',
+      title: 'Thumbelina',
+      folder: `${root3}/Thumbelina `,
+      recommendedPocketId: 'g3-p4-fantasy',
+      compatiblePocketIds: ['g3-p4-fantasy', 'g3-p5-realistic'],
+      dayRange: { start: 91, end: 120 },
+      textType: 'literary-fairy-tale',
+      themes: ['Belonging', 'Choice', 'Kindness', 'Home'],
+      description: 'Source folder includes a 12-chapter text plus vocabulary and comprehension questions.'
+    },
+    {
+      id: 'heidi',
+      title: 'Heidi',
+      folder: `${root3}/Heidi`,
+      recommendedPocketId: 'g3-p5-realistic',
+      compatiblePocketIds: ['g3-p5-realistic', 'g3-p6-mastery'],
+      dayRange: { start: 121, end: 150 },
+      textType: 'classic-realistic-fiction',
+      themes: ['Family', 'Nature', 'Healing', 'Growing up'],
+      description: 'Source folder includes a 12-chapter text plus vocabulary and comprehension questions.'
+    },
+    {
+      id: 'hansel-and-gretel',
+      title: 'Hansel and Gretel',
+      folder: `${root3}/HanselGretel`,
+      recommendedPocketId: 'g3-p6-mastery',
+      compatiblePocketIds: ['g3-p3-adventure', 'g3-p4-fantasy', 'g3-p6-mastery'],
+      dayRange: { start: 151, end: 180 },
+      textType: 'fairy-tale',
+      themes: ['Courage', 'Resourcefulness', 'Family', 'Survival'],
+      description: 'Source folder includes a 12-chapter text plus vocabulary and comprehension questions.'
+    }
+  ];
+
+  return cards.map(card => enrichGrade3Card({
+    id: card.id,
+    title: card.title,
+    gradeLevels: [3],
+    source: {
+      type: 'desktop-docx-source',
+      path: card.folder
+    },
+    status: {
+      stage: 'content-ready',
+      notes: [
+        'Created from local 3rd grade source folder audit.',
+        card.description
+      ]
+    },
+    pocket: {
+      recommendedGrade: 3,
+      recommendedPocketId: card.recommendedPocketId,
+      dayRange: card.dayRange,
+      weekRange: weekRange(card.dayRange),
+      compatiblePocketIds: card.compatiblePocketIds
+    },
+    book: {
+      title: card.title,
+      author: '',
+      textType: card.textType,
+      publicDomain: true,
+      readingLevel: '3rd grade adaptation',
+      description: card.description
+    },
+    themes: card.themes,
+    standards: [],
+    chapterCount: 12,
+    dailyPattern: {
+      regularDayComponents,
+      assessmentDays: weeklyAssessmentDays(card.dayRange),
+      vocabularyWordsPerRegularDay: 2
+    },
+    weeks: [],
+    requiredComponents: Object.fromEntries(REQUIRED_COMPONENTS.map(component => [component, 'present']))
+  }));
+}
+
+const grade3InformationalPairings = {
+  'velveteen-rabbit': [
+    'How toys and keepsakes become special',
+    'What makes a character change',
+    'Feelings, empathy, and point of view',
+    'Real and pretend in classic stories',
+    'How illustrations can support a story',
+    'Why some stories become classics'
+  ],
+  'ugly-duckling': [
+    'Life cycles and growing up',
+    'Kindness and exclusion in stories',
+    'How authors show character feelings',
+    'Animal families and habitats',
+    'Comparing lesson stories across cultures',
+    'How a central message develops'
+  ],
+  cinderella: [
+    'Fairy tale patterns and repeated events',
+    'Character traits shown through actions',
+    'Helpers, challenges, and problem solving',
+    'Why different cultures retell Cinderella',
+    'Justice and kindness in traditional tales',
+    'Comparing two versions of a familiar story'
+  ],
+  'elves-and-the-shoemaker': [
+    'Jobs, craft, and careful work',
+    'Generosity and gratitude',
+    'Problem and solution in folktales',
+    'How small acts can change a story',
+    'Goods, needs, and community helpers',
+    'How folktales teach a lesson'
+  ],
+  'jack-and-the-beanstalk': [
+    'Plants, growth, and observation',
+    'Adventure story structure',
+    'Risk and reward in stories',
+    'Tall tales and exaggeration',
+    'Problem solving under pressure',
+    'Comparing brave and foolish choices'
+  ],
+  'frog-prince': [
+    'Promises and responsibility',
+    'Transformation in fairy tales',
+    'Character change and motivation',
+    'Ponds, frogs, and habitats',
+    'Manners, honesty, and trust',
+    'How a lesson is revealed at the end'
+  ],
+  'twelve-dancing-princesses': [
+    'Mystery clues and careful noticing',
+    'Castles and royal life in fairy tales',
+    'Secrets and consequences',
+    'Dance, music, and celebration traditions',
+    'How settings can feel magical',
+    'Solving a mystery with text evidence'
+  ],
+  'snow-queen': [
+    'Winter weather and icy landscapes',
+    'Friendship and loyalty',
+    'Journeys in fantasy stories',
+    'How authors build mood',
+    'Goodness, courage, and perseverance',
+    'Comparing Andersen tales'
+  ],
+  rapunzel: [
+    'Towers, gardens, and fairy tale settings',
+    'Freedom and choices',
+    'Cause and effect in a plot',
+    'Plants and herbs in traditional tales',
+    'How characters solve hard problems',
+    'Comparing fairy tale endings'
+  ],
+  thumbelina: [
+    'Small worlds in fantasy',
+    'Habitats: fields, ponds, and underground homes',
+    'Belonging and finding home',
+    'Kindness to others in stories',
+    'How size changes point of view',
+    'Choosing the place where you belong'
+  ],
+  heidi: [
+    'Mountain life and the Swiss Alps',
+    'Setting and how it shapes a story',
+    'Family, friendship, and care',
+    'Descriptive language about nature',
+    'City and country life',
+    'How characters grow across a classic novel'
+  ],
+  'hansel-and-gretel': [
+    'Maps, paths, and getting lost',
+    'Survival choices in stories',
+    'Problem solving with a sibling',
+    'Forests in traditional tales',
+    'Suspense and danger in fairy tales',
+    'Comparing themes across Grade 3 stories'
+  ]
+};
+
+function enrichGrade3Card(card) {
+  const startWeek = weekRange(card.pocket.dayRange).start;
+  const pairings = grade3InformationalPairings[card.id] || [`Background article connected to ${card.title}`];
+  const chaptersPerWeek = Math.max(2, Math.ceil((card.chapterCount || 12) / 6));
+  const weeks = Array.from({ length: 6 }, (_, index) => {
+    const dayStart = card.pocket.dayRange.start + (index * 5);
+    const chapterStart = (index * chaptersPerWeek) + 1;
+    const chapterEnd = Math.min(card.chapterCount || 12, (index + 1) * chaptersPerWeek);
+    const theme = card.themes[index % card.themes.length] || 'lesson';
+    return {
+      week: startWeek + index,
+      days: { start: dayStart, end: dayStart + 4 },
+      title: `Week ${startWeek + index}: ${card.title} Part ${index + 1} (Days ${dayStart}-${dayStart + 4})`,
+      reading: [`Chapters ${chapterStart}-${chapterEnd}: ${card.title}`],
+      vocabulary: [
+        `${theme}: define and use in a sentence`,
+        'text clue: find a word or detail that helps you understand the story'
+      ],
+      journal: [
+        `What did this week's reading show about ${theme}? Use one story detail.`,
+        'Which character made an important choice this week? Explain what happened.'
+      ],
+      writing: [
+        index < 2
+          ? 'Write a character paragraph using one detail from the story.'
+          : index < 4
+            ? 'Write an informational paragraph connecting the story to the paired nonfiction topic.'
+            : 'Write an opinion paragraph about the lesson or message of the story.',
+        index === 5
+          ? 'Choose one response to revise for the end-of-card writing portfolio.'
+          : 'Add a because sentence that explains your evidence.'
+      ],
+      questions: [
+        'Who are the important characters in this section, and what do they want?',
+        'What problem or challenge happens in this part of the story?',
+        'Which detail helps you understand a character trait, feeling, or lesson?',
+        'What central message or lesson is beginning to appear?'
+      ],
+      informationalText: [pairings[index] || pairings[pairings.length - 1]],
+      assessment: [
+        'Weekly vocabulary check and comprehension response.',
+        index === 5
+          ? 'End-of-card assessment: story response, vocabulary review, and writing portfolio reflection.'
+          : 'Review day: discuss questions, revise writing, and prepare for the next chapters.'
+      ]
+    };
+  });
+
+  return {
+    ...card,
+    status: {
+      stage: 'content-ready',
+      notes: [
+        'Launch-ready Grade 3 card with reading, vocabulary, journals, writing, questions, informational text, and assessments.',
+        ...(card.status?.notes || [])
+      ]
+    },
+    weeks,
+    requiredComponents: Object.fromEntries(REQUIRED_COMPONENTS.map(component => [component, 'present']))
+  };
 }
 
 function grade4LocalSourceCards() {
@@ -1986,6 +2335,7 @@ function build() {
   const markdownCards = cardFiles.map(parseCard).map(enrichGrade4Card).map(enrichGrade6Card).map(enrichGrade8Card);
   const generatedCards = [
     ...grade2BookCards(),
+    ...grade3LocalSourceCards(),
     ...grade4LocalSourceCards().map(enrichGrade4Card),
     ...grade5LocalSourceCards(),
     ...grade6LocalSourceCards(),

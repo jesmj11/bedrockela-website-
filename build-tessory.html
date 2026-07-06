@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Build Your Tessory - Tessory ELA</title>
+    <link rel="stylesheet" href="/css/tessory.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="nav" aria-label="Main navigation">
+            <a class="brand" href="/">Tessory ELA</a>
+            <div class="nav-links">
+                <a href="/founding-library.html">Founding Library</a>
+                <a href="/writing-paths.html">Writing Paths</a>
+                <a class="active" href="/build-tessory.html">Build Your Tessory</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="section-head">
+            <div>
+                <div class="eyebrow">Curriculum builder prototype</div>
+                <h1>Build a Tessory</h1>
+                <p>Choose Pocket Curriculums from the Founding Library. For now, aim for at least one selection from each required Writing Path.</p>
+            </div>
+        </section>
+
+        <section class="builder-layout">
+            <div>
+                <div class="toolbar">
+                    <input id="search" type="search" placeholder="Search Pocket Curriculums">
+                    <select id="filterPath">
+                        <option value="">All Paths</option>
+                    </select>
+                </div>
+                <section id="choices" class="grid"></section>
+            </div>
+            <aside class="builder-panel">
+                <h2>Your Tessory</h2>
+                <p class="small">Choose at least one Pocket Curriculum from each required Writing Path. Students should have many book options while still covering the major ELA skills.</p>
+                <div id="progress"></div>
+                <p id="selectionCount" class="small"></p>
+            </aside>
+        </section>
+    </main>
+
+    <script type="module">
+        import { FOUNDING_LIBRARY, WRITING_PATHS } from './js/tessory-data.js';
+
+        const selected = new Set(JSON.parse(localStorage.getItem('tessory_builder_selection') || '[]'));
+        const choices = document.getElementById('choices');
+        const progress = document.getElementById('progress');
+        const selectionCount = document.getElementById('selectionCount');
+        const search = document.getElementById('search');
+        const filterPath = document.getElementById('filterPath');
+
+        filterPath.innerHTML += WRITING_PATHS.map(path => `<option>${path.name}</option>`).join('');
+
+        function save() {
+            localStorage.setItem('tessory_builder_selection', JSON.stringify([...selected]));
+        }
+
+        function pathCount(pathName) {
+            return [...selected]
+                .map(id => FOUNDING_LIBRARY.find(book => book.id === id))
+                .filter(book => book && (book.primaryPath === pathName || book.secondaryPath === pathName))
+                .length;
+        }
+
+        function renderProgress() {
+            progress.innerHTML = WRITING_PATHS.map(path => {
+                const count = pathCount(path.name);
+                const percent = Math.min(100, count * 100);
+                return `
+                    <div class="progress-row">
+                        <span class="small"><strong>${path.name}</strong></span>
+                        <div class="progress-track"><div class="progress-fill" style="width:${percent}%"></div></div>
+                        <span class="small">${count}/1</span>
+                    </div>
+                `;
+            }).join('');
+            selectionCount.textContent = `${selected.size} Pocket Curriculum${selected.size === 1 ? '' : 's'} selected.`;
+        }
+
+        function choice(book) {
+            const checked = selected.has(book.id);
+            return `
+                <article class="pocket-card">
+                    <label class="select-row">
+                        <input type="checkbox" data-id="${book.id}" ${checked ? 'checked' : ''}>
+                        <span>
+                            <h3>${book.title}</h3>
+                            <span class="meta">${book.author}</span>
+                        </span>
+                    </label>
+                    <div class="badges">
+                        <span class="badge">${book.primaryPath}</span>
+                        <span class="badge secondary">${book.secondaryPath}</span>
+                        <span class="badge status">${book.status}</span>
+                    </div>
+                    <p class="small">${book.essentialQuestion}</p>
+                </article>
+            `;
+        }
+
+        function renderChoices() {
+            const term = search.value.trim().toLowerCase();
+            const path = filterPath.value;
+            const books = FOUNDING_LIBRARY.filter(book => {
+                const text = `${book.title} ${book.author} ${book.primaryPath} ${book.secondaryPath}`.toLowerCase();
+                return (!term || text.includes(term))
+                    && (!path || book.primaryPath === path || book.secondaryPath === path);
+            });
+            choices.innerHTML = books.map(choice).join('');
+            choices.querySelectorAll('input[type="checkbox"]').forEach(box => {
+                box.addEventListener('change', () => {
+                    if (box.checked) selected.add(box.dataset.id);
+                    else selected.delete(box.dataset.id);
+                    save();
+                    renderProgress();
+                });
+            });
+        }
+
+        [search, filterPath].forEach(control => control.addEventListener('input', renderChoices));
+        renderChoices();
+        renderProgress();
+    </script>
+</body>
+</html>

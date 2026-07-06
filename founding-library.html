@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Founding Library - Tessory ELA</title>
+    <link rel="stylesheet" href="/css/tessory.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="nav" aria-label="Main navigation">
+            <a class="brand" href="/">Tessory ELA</a>
+            <div class="nav-links">
+                <a class="active" href="/founding-library.html">Founding Library</a>
+                <a href="/writing-paths.html">Writing Paths</a>
+                <a href="/build-tessory.html">Build Your Tessory</a>
+                <a href="/curriculum-library.html">Grades 2-8 Library</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="section-head">
+            <div>
+                <div class="eyebrow">Pocket Curriculums for grades 9-12</div>
+                <h1>Founding Library</h1>
+                <p>Each Pocket Card is a self-contained book, topic, or writing study that can be added to a student’s yearly Tessory.</p>
+            </div>
+        </section>
+
+        <div class="toolbar">
+            <input id="search" type="search" placeholder="Search by title, author, path, or theme">
+            <select id="primaryPath" aria-label="Primary Path">
+                <option value="">All Primary Paths</option>
+            </select>
+            <select id="status" aria-label="Status">
+                <option value="">All Statuses</option>
+                <option>Planned</option>
+                <option>In Development</option>
+                <option>Complete</option>
+                <option>Published</option>
+            </select>
+        </div>
+
+        <section id="libraryGrid" class="grid" aria-live="polite"></section>
+    </main>
+
+    <script type="module">
+        import { FOUNDING_LIBRARY, WRITING_PATHS } from './js/tessory-data.js';
+
+        const grid = document.getElementById('libraryGrid');
+        const search = document.getElementById('search');
+        const primaryPath = document.getElementById('primaryPath');
+        const status = document.getElementById('status');
+
+        primaryPath.innerHTML += WRITING_PATHS.map(path => `<option>${path.name}</option>`).join('');
+
+        function card(book) {
+            return `
+                <article class="pocket-card">
+                    <div class="card-top">
+                        <div>
+                            <h3>${book.title}</h3>
+                            <p class="meta">${book.author} • ${book.category}</p>
+                        </div>
+                    </div>
+                    <div class="badges">
+                        <span class="badge">${book.primaryPath}</span>
+                        <span class="badge secondary">${book.secondaryPath}</span>
+                        <span class="badge">Grade ${book.gradeBand}</span>
+                        <span class="badge status">${book.status}</span>
+                    </div>
+                    <p class="small"><strong>Essential Question:</strong> ${book.essentialQuestion}</p>
+                    <p class="small"><strong>Content notes:</strong> ${book.contentNotes}</p>
+                    <div class="card-spacer"></div>
+                    <a class="card-link" href="/pocket-detail.html?id=${book.id}">Open Pocket Card</a>
+                </article>
+            `;
+        }
+
+        function render() {
+            const term = search.value.trim().toLowerCase();
+            const path = primaryPath.value;
+            const selectedStatus = status.value;
+            const books = FOUNDING_LIBRARY.filter(book => {
+                const text = `${book.title} ${book.author} ${book.primaryPath} ${book.secondaryPath} ${book.themes.join(' ')}`.toLowerCase();
+                return (!term || text.includes(term))
+                    && (!path || book.primaryPath === path)
+                    && (!selectedStatus || book.status === selectedStatus);
+            });
+            grid.innerHTML = books.map(card).join('') || '<p class="small">No Pocket Curriculums match those filters.</p>';
+        }
+
+        [search, primaryPath, status].forEach(control => control.addEventListener('input', render));
+        render();
+    </script>
+</body>
+</html>

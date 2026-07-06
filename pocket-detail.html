@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pocket Curriculum - Tessory ELA</title>
+    <link rel="stylesheet" href="/css/tessory.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="nav" aria-label="Main navigation">
+            <a class="brand" href="/">Tessory ELA</a>
+            <div class="nav-links">
+                <a href="/founding-library.html">Founding Library</a>
+                <a href="/writing-paths.html">Writing Paths</a>
+                <a href="/build-tessory.html">Build Your Tessory</a>
+            </div>
+        </nav>
+    </header>
+
+    <main id="detail" class="container"></main>
+
+    <script type="module">
+        import { FOUNDING_LIBRARY } from './js/tessory-data.js';
+
+        const id = new URLSearchParams(window.location.search).get('id');
+        const book = FOUNDING_LIBRARY.find(item => item.id === id) || FOUNDING_LIBRARY[0];
+        document.title = `${book.title} - Tessory ELA`;
+
+        function list(items) {
+            return `<ul class="list">${items.map(item => `<li>${item}</li>`).join('')}</ul>`;
+        }
+
+        document.getElementById('detail').innerHTML = `
+            <section class="section-head">
+                <div>
+                    <div class="eyebrow">Pocket Curriculum Detail</div>
+                    <h1>${book.title}</h1>
+                    <p>${book.author} • Grade ${book.gradeBand} • ${book.category}</p>
+                </div>
+            </section>
+            <section class="detail-grid">
+                <article class="detail-panel">
+                    <h2>Overview</h2>
+                    <p class="lead" style="font-size:1rem;">${book.overview}</p>
+                    <h2>Essential Question</h2>
+                    <p class="lead" style="font-size:1rem;">${book.essentialQuestion}</p>
+                    <h2>Why It Earned Its Place</h2>
+                    <p class="lead" style="font-size:1rem;">${book.whyItEarnedItsPlace}</p>
+                    <h2>Major Themes</h2>
+                    ${list(book.themes)}
+                    <h2>Writing Possibilities</h2>
+                    ${list(book.writingPossibilities)}
+                    <h2>Discussion Possibilities</h2>
+                    ${list(book.discussionPossibilities)}
+                    <h2>Cross-Curricular Connections</h2>
+                    ${list(book.crossCurricularConnections)}
+                </article>
+                <aside class="detail-panel">
+                    <div class="badges">
+                        <span class="badge">${book.primaryPath}</span>
+                        <span class="badge secondary">${book.secondaryPath}</span>
+                        <span class="badge status">${book.status}</span>
+                    </div>
+                    <h3>CCSS Alignment</h3>
+                    <p class="small">${book.ccssAlignment}</p>
+                    <h3>Content Notes</h3>
+                    <p class="small">${book.contentNotes}</p>
+                    <h3>Development Status</h3>
+                    <p class="small">${book.status}</p>
+                    <a class="button primary" style="display:inline-block;margin-top:18px;" href="/build-tessory.html">Add from Builder</a>
+                </aside>
+            </section>
+        `;
+    </script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Curriculum Library - BedrockELA</title>
+    <title>Pocket Curriculum Library - Tessory ELA</title>
     <style>
         * {
             box-sizing: border-box;
@@ -258,15 +258,15 @@
 <body>
     <header class="header">
         <div class="header-content">
-            <div class="logo">BedrockELA Curriculum Library</div>
+            <div class="logo">Tessory ELA Pocket Library</div>
             <a class="nav-link" href="parent-dashboard-firebase.html">Parent Dashboard</a>
         </div>
     </header>
 
     <main class="container">
         <section class="intro">
-            <h1>Assign the next book card</h1>
-            <p>Parents choose one active book card for each child. Students see only their assigned card until they finish it, then the parent chooses the next card in the same skill band or the next pocket.</p>
+            <h1>Assign the next Pocket Curriculum</h1>
+            <p>Parents choose one active Pocket Curriculum for each child. Students see only their assigned Pocket Card until they finish it, then the parent chooses the next Pocket Curriculum in the same skill band or the next part of the yearly Tessory.</p>
         </section>
 
         <nav id="gradeTabs" class="grade-tabs" aria-label="Grade levels"></nav>
@@ -457,13 +457,13 @@
             const grid = document.getElementById('pocketGrid');
 
             if (!selectedStudentId) {
-                statusLine.textContent = 'Choose a student from the parent dashboard before assigning a book card.';
+                statusLine.textContent = 'Choose a student from the parent dashboard before assigning a Pocket Curriculum.';
                 grid.innerHTML = `
                     <section class="pocket">
                         <div class="pocket-header">
                             <h2>No student selected</h2>
                         </div>
-                        <p class="focus">Book cards are assigned one student at a time. Go back to the parent dashboard, choose a child, then assign the next active book card.</p>
+                        <p class="focus">Pocket Curriculums are assigned one student at a time. Go back to the parent dashboard, choose a child, then assign the next active Pocket Card.</p>
                         <a class="nav-link" style="display: inline-block; color: #305853; border-color: #305853; margin-top: 8px;" href="parent-dashboard-firebase.html">Parent Dashboard</a>
                     </section>
                 `;
@@ -477,8 +477,8 @@
                 const { pockets, yearMap, cards } = await loadGrade(activeGrade);
                 const pocketsById = Object.fromEntries(pockets.map(pocket => [pocket.id, pocket]));
                 statusLine.textContent = selectedStudent
-                    ? `Choosing one active Grade ${activeGrade} card for ${selectedStudent.name}.`
-                    : `Parent library browse mode: pick a student from the parent dashboard to assign one card.`;
+                    ? `Choosing one active Grade ${activeGrade} Pocket Curriculum for ${selectedStudent.name}.`
+                    : `Parent library browse mode: pick a student from the parent dashboard to assign one Pocket Curriculum.`;
 
                 grid.innerHTML = yearMap.pockets.map(mapped => {
                     const pocket = pocketsById[mapped.pocketId] || mapped;

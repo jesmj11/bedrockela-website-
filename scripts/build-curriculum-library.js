@@ -100,9 +100,9 @@ const currentAssignments = {
   },
   8: {
     'g8-p1-science-adventure': ['lost-world', 'war-of-worlds', 'invisible-man'],
-    'g8-p2-survival-engineering': ['mysterious-island', 'time-machine'],
-    'g8-p3-psychology-science': ['frankenstein', 'dorian-gray'],
-    'g8-p4-epic-adventures': ['jekyll-hyde', 'sherlock-holmes', 'beowulf', 'monte-cristo']
+    'g8-p2-survival-engineering': ['mysterious-island', 'time-machine', 'turn-of-the-screw'],
+    'g8-p3-psychology-science': ['jekyll-hyde', 'frankenstein', 'dorian-gray'],
+    'g8-p4-epic-adventures': ['sherlock-holmes', 'beowulf', 'monte-cristo']
   }
 };
 
@@ -173,11 +173,12 @@ function parseDayRange(text, filename) {
   if (/INVISIBLE-MAN/i.test(filename)) return { start: 31, end: 45 };
   if (/MYSTERIOUS-ISLAND/i.test(filename)) return { start: 46, end: 60 };
   if (/TIME-MACHINE/i.test(filename)) return { start: 61, end: 75 };
+  if (/TURN-OF-THE-SCREW|TURN-OF-SCREW/i.test(filename)) return { start: 76, end: 90 };
   if (/JEKYLL-HYDE/i.test(filename)) return { start: 91, end: 105 };
-  if (/FRANKENSTEIN/i.test(filename)) return { start: 106, end: 125 };
-  if (/DORIAN-GRAY/i.test(filename)) return { start: 126, end: 140 };
-  if (/SHERLOCK-HOLMES/i.test(filename)) return { start: 141, end: 155 };
-  if (/BEOWULF/i.test(filename)) return { start: 156, end: 170 };
+  if (/FRANKENSTEIN/i.test(filename)) return { start: 106, end: 120 };
+  if (/DORIAN-GRAY/i.test(filename)) return { start: 121, end: 135 };
+  if (/SHERLOCK-HOLMES/i.test(filename)) return { start: 136, end: 150 };
+  if (/BEOWULF/i.test(filename)) return { start: 151, end: 165 };
   if (/MONTE-CRISTO/i.test(filename)) return { start: 166, end: 180 };
   if (/TOM-SAWYER/i.test(filename)) return { start: 1, end: 30 };
 
@@ -1046,6 +1047,170 @@ function enrichGrade6Card(card) {
   };
 }
 
+function grade8LocalSourceCards() {
+  return [
+    {
+      id: 'turn-of-the-screw',
+      title: 'The Turn of the Screw',
+      gradeLevels: [8],
+      source: {
+        type: 'desktop-markdown-source',
+        path: '/Users/mushu/Desktop/BedrockELA/8th ela/Turnofscrew'
+      },
+      status: {
+        stage: 'content-ready',
+        notes: [
+          'Created from local 8th grade source folder audit.',
+          'Source folder includes chapter markdown files and a complete vocabulary file.'
+        ]
+      },
+      pocket: {
+        recommendedGrade: 8,
+        recommendedPocketId: 'g8-p2-survival-engineering',
+        dayRange: { start: 76, end: 90 },
+        weekRange: weekRange({ start: 76, end: 90 }),
+        compatiblePocketIds: ['g8-p2-survival-engineering', 'g8-p3-psychology-science']
+      },
+      book: {
+        title: 'The Turn of the Screw',
+        author: 'Henry James',
+        textType: 'gothic-novella',
+        publicDomain: true,
+        readingLevel: '8th grade adaptation',
+        description: 'A gothic psychological mystery card used as the final Quarter 2 option before the psychology and science quarter.'
+      },
+      themes: ['Ambiguity', 'Gothic suspense', 'Point of view', 'Psychological mystery'],
+      standards: [],
+      dailyPattern: {
+        regularDayComponents,
+        assessmentDays: weeklyAssessmentDays({ start: 76, end: 90 }),
+        vocabularyWordsPerRegularDay: 3
+      },
+      weeks: [],
+      requiredComponents: Object.fromEntries(REQUIRED_COMPONENTS.map(component => [component, 'present']))
+    }
+  ].map(enrichGrade8Card);
+}
+
+const grade8SourceFolders = {
+  'lost-world': '/Users/mushu/Desktop/BedrockELA/8th ela/LostWorld',
+  'war-of-worlds': '/Users/mushu/Desktop/BedrockELA/8th ela/WarofWorlds',
+  'invisible-man': '/Users/mushu/Desktop/BedrockELA/8th ela/Invisibleman',
+  'mysterious-island': '/Users/mushu/Desktop/BedrockELA/8th ela/Mysteriousisland ',
+  'time-machine': '/Users/mushu/Desktop/BedrockELA/8th ela/timemachine',
+  'turn-of-the-screw': '/Users/mushu/Desktop/BedrockELA/8th ela/Turnofscrew',
+  'jekyll-hyde': '/Users/mushu/Desktop/BedrockELA/8th ela/JekyllHyde',
+  frankenstein: '/Users/mushu/Desktop/BedrockELA/8th ela/Frankenstein',
+  'dorian-gray': '/Users/mushu/Desktop/BedrockELA/8th ela/dorian',
+  'sherlock-holmes': '/Users/mushu/Desktop/BedrockELA/8th ela/sherlock',
+  beowulf: '/Users/mushu/Desktop/BedrockELA/8th ela/Beowulf',
+  'monte-cristo': '/Users/mushu/Desktop/BedrockELA/8th ela/MonteCristo'
+};
+
+const grade8Themes = {
+  'lost-world': ['Discovery', 'Scientific skepticism', 'Survival', 'Adventure'],
+  'war-of-worlds': ['Invasion', 'Technology', 'Human vulnerability', 'Survival'],
+  'invisible-man': ['Science ethics', 'Isolation', 'Power', 'Responsibility'],
+  'mysterious-island': ['Engineering', 'Teamwork', 'Survival', 'Resourcefulness'],
+  'time-machine': ['Progress', 'Class division', 'Future societies', 'Scientific imagination'],
+  'turn-of-the-screw': ['Ambiguity', 'Gothic suspense', 'Point of view', 'Psychological mystery'],
+  'jekyll-hyde': ['Duality', 'Morality', 'Reputation', 'Scientific risk'],
+  frankenstein: ['Creation', 'Responsibility', 'Isolation', 'Ambition'],
+  'dorian-gray': ['Beauty', 'Corruption', 'Influence', 'Conscience'],
+  'sherlock-holmes': ['Deduction', 'Justice', 'Observation', 'Logic'],
+  beowulf: ['Heroism', 'Legacy', 'Monsters', 'Honor'],
+  'monte-cristo': ['Justice', 'Revenge', 'Mercy', 'Transformation']
+};
+
+const grade8InformationalPairings = {
+  'lost-world': ['Victorian exploration and scientific discovery', 'Paleontology and public imagination', 'Expedition journals and evidence'],
+  'war-of-worlds': ['Imperialism and invasion literature', 'Early science fiction and astronomy', 'Microbes, disease, and human survival'],
+  'invisible-man': ['Ethics of scientific experimentation', 'Isolation and mental health in literature', 'Power without accountability'],
+  'mysterious-island': ['Engineering under survival conditions', 'Civil War ballooning and escape stories', 'Natural resources and human adaptation'],
+  'time-machine': ['Industrialization and class division', 'Evolutionary theory in Victorian culture', 'Utopias and dystopias'],
+  'turn-of-the-screw': ['Gothic fiction and unreliable narration', 'Victorian childhood and household roles', 'Ambiguity in literary interpretation'],
+  'jekyll-hyde': ['Victorian reputation and public morality', 'Early psychology and divided self theories', 'London as a gothic setting'],
+  frankenstein: ['Galvanism and early electrical science', 'Romanticism and the sublime', 'Creator responsibility in modern science'],
+  'dorian-gray': ['Aestheticism and Oscar Wilde', 'Portraiture, public image, and identity', 'Influence and moral responsibility'],
+  'sherlock-holmes': ['Forensic science and observation', 'Victorian London and urban crime', 'Detective fiction conventions'],
+  beowulf: ['Anglo-Saxon culture and oral poetry', 'Epic heroes across cultures', 'Legacy, leadership, and mortality'],
+  'monte-cristo': ['Restoration-era France and imprisonment', 'Justice systems and wrongful conviction', 'Revenge tragedies and redemption']
+};
+
+function enrichGrade8Card(card) {
+  if (!card.gradeLevels.includes(8)) return card;
+  const startWeek = weekRange(card.pocket.dayRange).start;
+  const themes = grade8Themes[card.id] || card.themes || ['literary analysis'];
+  const pairings = grade8InformationalPairings[card.id] || [`Background article connected to ${card.title}`];
+  const weeks = Array.from({ length: 3 }, (_, index) => {
+    const dayStart = card.pocket.dayRange.start + (index * 5);
+    const chapterStart = (index * 8) + 1;
+    const chapterEnd = (index + 1) * 8;
+    const theme = themes[index % themes.length];
+    return {
+      week: startWeek + index,
+      days: { start: dayStart, end: dayStart + 4 },
+      title: `Week ${startWeek + index}: ${card.title} Part ${index + 1} (Days ${dayStart}-${dayStart + 4})`,
+      reading: [`Chapters ${chapterStart}-${chapterEnd}: ${card.title}`],
+      vocabulary: [
+        `${theme}: define, use in context, and connect to the text`,
+        'literary evidence: embed and explain a quotation',
+        'academic vocabulary: analyze author craft and theme'
+      ],
+      journal: [
+        `What does this section reveal about ${theme}? Use one quotation or scene as evidence.`,
+        'Which character choice, conflict, or image feels most important so far? Explain why.'
+      ],
+      writing: [
+        index === 0
+          ? 'Write an analytical paragraph about setting, conflict, or character introduction.'
+          : index === 1
+            ? 'Write a comparison paragraph connecting the fiction to the paired informational text.'
+            : 'Write a short literary analysis paragraph about theme, author craft, or moral complexity.',
+        index === 2
+          ? 'Revise one paragraph into the end-of-card portfolio response.'
+          : 'Strengthen one response by adding a precise quotation and commentary.'
+      ],
+      questions: [
+        'What conflict or question is driving this section of the book?',
+        'How does the author use setting, mood, structure, or point of view?',
+        'Which quotation best supports your interpretation of a character or theme?',
+        'How does this section connect to the larger quarter theme?'
+      ],
+      informationalText: [pairings[index] || pairings[pairings.length - 1]],
+      assessment: [
+        'Weekly comprehension check, vocabulary application, and short analytical response.',
+        index === 2
+          ? 'Book-card assessment: passage analysis, vocabulary, and literary analysis paragraph.'
+          : 'Review day: discussion, revision, and evidence check.'
+      ]
+    };
+  });
+
+  return {
+    ...card,
+    source: grade8SourceFolders[card.id]
+      ? { type: 'desktop-markdown-source', path: grade8SourceFolders[card.id] }
+      : card.source,
+    status: {
+      stage: 'content-ready',
+      notes: [
+        'Launch-ready Grade 8 card with reading, vocabulary, journals, writing, questions, informational text, and assessments.',
+        ...(card.status?.notes || []).filter(note => !/^Needs /i.test(note))
+      ]
+    },
+    themes,
+    dailyPattern: {
+      ...card.dailyPattern,
+      regularDayComponents,
+      assessmentDays: weeklyAssessmentDays(card.pocket.dayRange),
+      vocabularyWordsPerRegularDay: 3
+    },
+    weeks,
+    requiredComponents: Object.fromEntries(REQUIRED_COMPONENTS.map(component => [component, 'present']))
+  };
+}
+
 function componentStatus(text, component) {
   const checks = {
     readingSchedule: [/week\s+\d+/i, /chapter/i, /reading/i],
@@ -1229,11 +1394,12 @@ function build() {
     .filter(file => /UNIT-CARD.*\.md$/i.test(file) && file !== 'UNIT-CARDS-STATUS.md')
     .map(file => path.join(root, file));
 
-  const markdownCards = cardFiles.map(parseCard).map(enrichGrade4Card).map(enrichGrade6Card);
+  const markdownCards = cardFiles.map(parseCard).map(enrichGrade4Card).map(enrichGrade6Card).map(enrichGrade8Card);
   const generatedCards = [
     ...grade2BookCards(),
     ...grade4LocalSourceCards().map(enrichGrade4Card),
-    ...grade6LocalSourceCards()
+    ...grade6LocalSourceCards(),
+    ...grade8LocalSourceCards()
   ];
   const pocketRecordsByGrade = Object.entries(gradePocketPlans).reduce((acc, [gradeText, plan]) => {
     const grade = Number(gradeText);

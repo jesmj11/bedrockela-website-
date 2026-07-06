@@ -1,27 +1,46 @@
 export const WRITING_PATHS = [
   {
     name: 'Story',
-    description: 'Students learn to tell compelling stories through character, conflict, dialogue, setting, pacing, and resolution.'
+    description: 'Students learn to tell compelling stories through character, conflict, dialogue, setting, pacing, and resolution.',
+    traditionalWritingTypes: ['Narrative', 'Creative Writing', 'Historical Fiction', 'Science Fiction', 'Memoir', 'Personal Narrative'],
+    ccssWritingFocus: 'Narrative Writing',
+    requiredInBuilder: true
   },
   {
     name: 'Analysis',
-    description: 'Students learn to find meaning in literature by studying character, theme, symbolism, structure, author craft, and literary devices.'
+    description: 'Students learn to find meaning in literature by studying character, theme, symbolism, structure, author craft, and literary devices.',
+    traditionalWritingTypes: ['Literary Analysis', 'Textual Analysis', 'Theme Analysis', 'Character Analysis', 'Compare Literary Elements'],
+    ccssWritingFocus: 'Literary Analysis, Evidence-Based Writing',
+    requiredInBuilder: true
   },
   {
     name: 'Argument',
-    description: 'Students learn to take a position, support it with evidence, address counterclaims, and defend ideas clearly.'
+    description: 'Students learn to take a position, support it with evidence, address counterclaims, and defend ideas clearly.',
+    traditionalWritingTypes: ['Argumentative Essay', 'Persuasive Essay', 'Position Paper', 'Editorial', 'Debate Preparation'],
+    ccssWritingFocus: 'Argument Writing',
+    requiredInBuilder: true
   },
   {
     name: 'Discovery',
-    description: 'Students learn to investigate, research, explain, synthesize information, and teach what they learn.'
+    description: 'Students learn to investigate, research, explain, synthesize information, and teach what they learn.',
+    traditionalWritingTypes: ['Expository Essay', 'Informative Essay', 'Research Paper', 'Technical Writing', 'Cause & Effect', 'Process Analysis'],
+    ccssWritingFocus: 'Informative/Explanatory Writing + Research',
+    requiredInBuilder: true
   },
   {
     name: 'Reflection',
-    description: 'Students learn to connect literature and ideas to life, character, values, growth, and personal understanding.'
+    description: 'Students learn to connect literature and ideas to life, character, values, growth, and personal understanding.',
+    traditionalWritingTypes: ['Reflective Essay', 'Personal Response', 'Journal', 'Philosophy', 'Application Essay', 'Synthesis'],
+    ccssWritingFocus: 'Reflective Writing, Narrative Reflection, Informal Analysis',
+    requiredInBuilder: true
   },
   {
     name: 'Communication',
-    description: 'Students learn to share ideas through speeches, presentations, podcasts, debates, seminars, interviews, and multimedia projects.'
+    description: 'Students learn to share ideas through speeches, presentations, podcasts, debates, seminars, interviews, and multimedia projects.',
+    traditionalWritingTypes: ['Speech', 'Debate', 'Podcast', 'Presentation', 'Documentary', 'Interview', 'TED Talk', 'Seminar'],
+    ccssWritingFocus: 'Speaking & Listening',
+    requiredInBuilder: false,
+    wovenThroughAllPaths: true
   }
 ];
 

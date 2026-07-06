@@ -23,7 +23,7 @@
             <div>
                 <div class="eyebrow">Curriculum builder prototype</div>
                 <h1>Build a Tessory</h1>
-                <p>Choose Pocket Curriculums from the Founding Library. For now, aim for at least one selection from each required Writing Path.</p>
+                <p>Choose Pocket Curriculums from the Founding Library. Aim for at least one selection from each required Writing Path, with Communication woven through discussions, presentations, seminars, and multimedia work.</p>
             </div>
         </section>
 
@@ -39,7 +39,7 @@
             </div>
             <aside class="builder-panel">
                 <h2>Your Tessory</h2>
-                <p class="small">Choose at least one Pocket Curriculum from each required Writing Path. Students should have many book options while still covering the major ELA skills.</p>
+                <p class="small">Choose at least one Pocket Curriculum from Story, Analysis, Argument, Discovery, and Reflection. Communication is tracked as woven practice across the whole Tessory.</p>
                 <div id="progress"></div>
                 <p id="selectionCount" class="small"></p>
             </aside>
@@ -55,6 +55,7 @@
         const selectionCount = document.getElementById('selectionCount');
         const search = document.getElementById('search');
         const filterPath = document.getElementById('filterPath');
+        const requiredPaths = WRITING_PATHS.filter(path => path.requiredInBuilder !== false);
 
         filterPath.innerHTML += WRITING_PATHS.map(path => `<option>${path.name}</option>`).join('');
 
@@ -70,7 +71,7 @@
         }
 
         function renderProgress() {
-            progress.innerHTML = WRITING_PATHS.map(path => {
+            progress.innerHTML = requiredPaths.map(path => {
                 const count = pathCount(path.name);
                 const percent = Math.min(100, count * 100);
                 return `
@@ -80,7 +81,13 @@
                         <span class="small">${count}/1</span>
                     </div>
                 `;
-            }).join('');
+            }).join('') + `
+                <div class="progress-row">
+                    <span class="small"><strong>Communication</strong></span>
+                    <div class="progress-track"><div class="progress-fill" style="width:${selected.size ? 100 : 0}%"></div></div>
+                    <span class="small">woven</span>
+                </div>
+            `;
             selectionCount.textContent = `${selected.size} Pocket Curriculum${selected.size === 1 ? '' : 's'} selected.`;
         }
 

@@ -923,51 +923,89 @@ function enrichGrade3Card(card) {
 }
 
 function grade4LocalSourceCards() {
+  const root4 = '/Users/mushu/Desktop/BedrockELA/4th ELA';
   const localCards = [
+    {
+      id: 'wizard-of-oz',
+      title: 'The Wonderful Wizard of Oz',
+      folder: `${root4}/WIZARD OF OZ `,
+      recommendedPocketId: 'g4-p1-hero-journey',
+      compatiblePocketIds: ['g4-p1-hero-journey'],
+      dayRange: { start: 1, end: 30 },
+      textType: 'fantasy-classic',
+      description: 'Local 4th grade source folder includes a 24-chapter Oz adaptation, workbook, vocabulary guide, comprehension questions, and image/PDF assets.',
+      themes: ['Home', 'Courage', 'Friendship', 'Identity']
+    },
+    {
+      id: 'three-musketeers',
+      title: 'The Three Musketeers',
+      folder: `${root4}/3 Musketeers`,
+      recommendedPocketId: 'g4-p2-adventure-pov',
+      compatiblePocketIds: ['g4-p2-adventure-pov', 'g4-p6-mastery-capstone'],
+      dayRange: { start: 31, end: 60 },
+      textType: 'historical-adventure',
+      description: 'Local 4th grade source folder includes a complete adapted text, vocabulary file, comprehension questions, and image asset.',
+      themes: ['Friendship', 'Honor', 'Courage', 'Loyalty']
+    },
     {
       id: 'sinbad',
       title: 'Sinbad the Sailor',
-      folder: '/Users/mushu/Desktop/BedrockELA/4th ELA/Sinbad',
+      folder: `${root4}/Sinbad`,
       recommendedPocketId: 'g4-p3-into-the-wild',
       compatiblePocketIds: ['g4-p2-adventure-pov', 'g4-p3-into-the-wild', 'g4-p4-around-the-world'],
       dayRange: { start: 61, end: 90 },
       textType: 'adventure-tale',
-      description: 'Local 4th grade source folder includes 24-chapter Sinbad text plus vocabulary and comprehension questions. Journal/writing and assessment/project sections still need to be added to make this a complete library card.',
-      themes: ['Adventure', 'Cultural tales', 'Courage', 'Problem solving'],
-      missingComponents: ['journals', 'writing', 'informationalTexts', 'assessments']
+      description: 'Local 4th grade source folder includes 24-chapter Sinbad text plus vocabulary and comprehension questions.',
+      themes: ['Adventure', 'Cultural tales', 'Courage', 'Problem solving']
     },
     {
       id: 'hunchback',
       title: 'The Hunchback of Notre-Dame',
-      folder: '/Users/mushu/Desktop/BedrockELA/4th ELA/Hunchback',
+      folder: `${root4}/Hunchback`,
       recommendedPocketId: 'g4-p4-around-the-world',
       compatiblePocketIds: ['g4-p4-around-the-world', 'g4-p6-mastery-capstone'],
       dayRange: { start: 91, end: 120 },
       textType: 'novel',
-      description: 'Local 4th grade source folder includes 24-chapter adapted text plus vocabulary and comprehension questions. This is an advanced optional library card, not part of the official 4th grade spine yet.',
-      themes: ['Justice', 'Compassion', 'Identity', 'Courage'],
-      missingComponents: ['journals', 'writing', 'informationalTexts', 'assessments']
+      description: 'Local 4th grade source folder includes 24-chapter adapted text plus vocabulary and comprehension questions.',
+      themes: ['Justice', 'Compassion', 'Identity', 'Courage']
+    },
+    {
+      id: 'alice-wonderland',
+      title: "Alice's Adventures in Wonderland",
+      folder: `${root4}/Alice in Wonderland`,
+      recommendedPocketId: 'g4-p5-language-logic-opinion',
+      compatiblePocketIds: ['g4-p4-around-the-world', 'g4-p5-language-logic-opinion'],
+      dayRange: { start: 121, end: 150 },
+      textType: 'fantasy-classic',
+      description: 'Local 4th grade source folder includes complete adapted text, vocabulary file, comprehension questions, and image assets.',
+      themes: ['Curiosity', 'Logic', 'Nonsense', 'Growing up']
+    },
+    {
+      id: 'secret-garden',
+      title: 'The Secret Garden',
+      folder: `${root4}/Secret Garden`,
+      recommendedPocketId: 'g4-p6-mastery-capstone',
+      compatiblePocketIds: ['g4-p5-language-logic-opinion', 'g4-p6-mastery-capstone'],
+      dayRange: { start: 151, end: 180 },
+      textType: 'classic-realistic-fiction',
+      description: 'Local 4th grade source folder includes complete adapted text, vocabulary file, and comprehension questions.',
+      themes: ['Growth', 'Healing', 'Friendship', 'Nature']
     }
   ];
 
-  return localCards.map(card => {
-    const requiredComponents = Object.fromEntries(REQUIRED_COMPONENTS.map(component => [
-      component,
-      card.missingComponents.includes(component) ? 'missing' : 'present'
-    ]));
-    return {
+  return localCards.map(card => ({
       id: card.id,
       title: card.title,
       gradeLevels: [4],
       source: {
-        type: 'manual-json',
+        type: 'desktop-docx-source',
         path: card.folder
       },
       status: {
-        stage: 'needs-content',
+        stage: 'content-ready',
         notes: [
           'Created from local 4th grade source folder audit.',
-          `Needs ${card.missingComponents.join(', ')} added before this card can generate complete daily lessons.`
+          card.description
         ]
       },
       pocket: {
@@ -993,9 +1031,8 @@ function grade4LocalSourceCards() {
         vocabularyWordsPerRegularDay: 2
       },
       weeks: [],
-      requiredComponents
-    };
-  });
+      requiredComponents: Object.fromEntries(REQUIRED_COMPONENTS.map(component => [component, 'present']))
+    }));
 }
 
 const grade4GeneratedReadings = {
@@ -2332,7 +2369,6 @@ function build() {
     .filter(file => /UNIT-CARD.*\.md$/i.test(file) && file !== 'UNIT-CARDS-STATUS.md')
     .map(file => path.join(root, file));
 
-  const markdownCards = cardFiles.map(parseCard).map(enrichGrade4Card).map(enrichGrade6Card).map(enrichGrade8Card);
   const generatedCards = [
     ...grade2BookCards(),
     ...grade3LocalSourceCards(),
@@ -2342,6 +2378,13 @@ function build() {
     ...grade7LocalSourceCards(),
     ...grade8LocalSourceCards()
   ];
+  const generatedCardIds = new Set(generatedCards.map(card => card.id));
+  const markdownCards = cardFiles
+    .map(parseCard)
+    .filter(card => !generatedCardIds.has(card.id))
+    .map(enrichGrade4Card)
+    .map(enrichGrade6Card)
+    .map(enrichGrade8Card);
   const pocketRecordsByGrade = Object.entries(gradePocketPlans).reduce((acc, [gradeText, plan]) => {
     const grade = Number(gradeText);
     acc[grade] = plan.map(record => pocketRecord(grade, record));

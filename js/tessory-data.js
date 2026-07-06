@@ -44,6 +44,63 @@ export const WRITING_PATHS = [
   }
 ];
 
+export const POCKET_FRAMEWORK = {
+  version: '1.0',
+  principle: 'Every Pocket Curriculum follows the same architecture regardless of the book. Students should immediately recognize the flow while still experiencing a unique text.',
+  sections: [
+    {
+      name: 'Launch',
+      description: 'Introduces the book, the Essential Question, the selected writing path, and the big ideas students will watch for.'
+    },
+    {
+      name: 'Foundations',
+      description: 'Builds the context, vocabulary, genre expectations, author background, and reading habits students need before the main sequence begins.'
+    },
+    {
+      name: 'Notebook Sequence',
+      description: 'Divides the book into reading sections of approximately five chapters. Each Notebook includes Focus Question, Narrate, Think, Connect, Quick Write, and Keep Reading.'
+    },
+    {
+      name: 'Discovery Expeditions',
+      description: 'After approximately every six Notebooks, students pause for a cross-curricular expedition in science, history, engineering, philosophy, ethics, government, or technology.'
+    },
+    {
+      name: 'Reflection',
+      description: 'Students return to the Essential Question and explain how their thinking changed across the Pocket.'
+    }
+  ],
+  notebookOrder: [
+    'Focus Question',
+    'Narrate',
+    'Think',
+    'Connect',
+    'Quick Write',
+    'Keep Reading'
+  ],
+  notebookDetails: {
+    'Focus Question': 'One essential thinking question that frames the reading.',
+    Narrate: 'Three to five written comprehension questions answered in complete sentences and in the student’s own words. Never multiple choice or fill in the blank.',
+    Think: 'Two higher-order thinking questions where students defend opinions using evidence from the reading.',
+    Connect: 'One application question connecting the reading to history, science, current events, personal experience, faith, or another book.',
+    'Quick Write': 'One short paragraph so students practice writing continuously throughout the novel.',
+    'Keep Reading': 'Reflection and preview that asks students to watch for themes, character growth, warning signs, symbolism, patterns, or major ideas.'
+  },
+  branchRule: 'Every Pocket supports two Writing Paths. The parent selects one path, and the generator inserts only that selected branch after each Notebook. Students never see the unused branch.',
+  branchProgression: {
+    early: ['choose topic', 'choose claim', 'ask research question', 'gather evidence'],
+    middle: ['organize ideas', 'write introduction', 'draft body paragraphs', 'develop reasoning'],
+    late: ['strengthen evidence', 'revise', 'polish', 'complete artifact']
+  },
+  designPrinciples: [
+    'Every page must earn its place.',
+    'The Pocket should never feel like a workbook.',
+    'Students should feel like active readers, investigators, thinkers, and writers.',
+    'Writing is developed gradually alongside reading.',
+    'The book and the writing should strengthen one another.',
+    'The Pocket should feel like one seamless learning experience from the first page to the last.'
+  ]
+};
+
 const authors = {
   'A Midsummer Night’s Dream': 'William Shakespeare',
   'Much Ado About Nothing': 'William Shakespeare',
@@ -243,10 +300,16 @@ export const FOUNDING_LIBRARY = rawBooks.map(([title, primaryPath, secondaryPath
     overview: `${title} is seeded as a Grade 9-12 Pocket Curriculum in the Tessory Founding Library.`,
     whyItEarnedItsPlace: 'This title is included because it can awaken curiosity, invite deeper questions, support meaningful discussion, and offer lasting educational value.',
     writingPossibilities: [
-      `${primaryPath} notebook entries and short constructed responses`,
-      `${secondaryPath} project or essay option`,
-      'End-of-pocket portfolio piece'
+      `${primaryPath} branch after each Notebook`,
+      `${secondaryPath} branch after each Notebook`,
+      'Final artifact built gradually from the selected branch'
     ],
+    pocketArchitecture: {
+      supportedPaths: [primaryPath, secondaryPath],
+      generatorRule: 'Parent selects one supported Writing Path. The Pocket generator inserts only the selected branch after every Notebook.',
+      notebookCycle: POCKET_FRAMEWORK.notebookOrder,
+      discoveryExpeditionCadence: 'After approximately every six Notebooks'
+    },
     discussionPossibilities: [
       'Socratic seminar question set',
       'Character, idea, or evidence conference',

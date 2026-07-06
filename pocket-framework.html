@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pocket Framework - Tessory ELA</title>
+    <link rel="stylesheet" href="/css/tessory.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="nav" aria-label="Main navigation">
+            <a class="brand" href="/">Tessory ELA</a>
+            <div class="nav-links">
+                <a href="/founding-library.html">Founding Library</a>
+                <a class="active" href="/pocket-framework.html">Pocket Framework</a>
+                <a href="/writing-paths.html">Writing Paths</a>
+                <a href="/build-tessory.html">Build Your Tessory</a>
+            </div>
+        </nav>
+    </header>
+
+    <main id="framework" class="container"></main>
+
+    <script type="module">
+        import { POCKET_FRAMEWORK } from './js/tessory-data.js';
+
+        function list(items) {
+            return `<ul class="list">${items.map(item => `<li>${item}</li>`).join('')}</ul>`;
+        }
+
+        document.getElementById('framework').innerHTML = `
+            <section class="section-head">
+                <div>
+                    <div class="eyebrow">Pocket Curriculum Framework v${POCKET_FRAMEWORK.version}</div>
+                    <h1>One Architecture for Every Pocket</h1>
+                    <p>${POCKET_FRAMEWORK.principle}</p>
+                </div>
+            </section>
+
+            <section class="detail-grid">
+                <article class="detail-panel">
+                    <h2>Pocket Structure</h2>
+                    ${list(POCKET_FRAMEWORK.sections.map(section => `${section.name}: ${section.description}`))}
+                    <h2>Notebook Structure</h2>
+                    <p class="small">Books are divided into reading sections of approximately five chapters. Every Notebook begins by clearly stating the chapters covered.</p>
+                    ${list(POCKET_FRAMEWORK.notebookOrder.map(item => `${item}: ${POCKET_FRAMEWORK.notebookDetails[item]}`))}
+                    <h2>Writing Branch Structure</h2>
+                    <p class="small">${POCKET_FRAMEWORK.branchRule}</p>
+                    <h3>Early Lessons</h3>
+                    ${list(POCKET_FRAMEWORK.branchProgression.early)}
+                    <h3>Middle Lessons</h3>
+                    ${list(POCKET_FRAMEWORK.branchProgression.middle)}
+                    <h3>Late Lessons</h3>
+                    ${list(POCKET_FRAMEWORK.branchProgression.late)}
+                </article>
+                <aside class="detail-panel">
+                    <h2>Discovery Expeditions</h2>
+                    <p class="small">After approximately every six Notebooks, students explore cross-curricular topics before returning to the next reading section.</p>
+                    ${list(['science', 'history', 'engineering', 'philosophy', 'ethics', 'government', 'technology'])}
+                    <h2>Reflection</h2>
+                    ${list([
+                        'How has your thinking changed?',
+                        'What did this book teach you?',
+                        'Which ideas will stay with you?',
+                        'How has your answer to the Essential Question evolved?'
+                    ])}
+                    <h2>Design Principles</h2>
+                    ${list(POCKET_FRAMEWORK.designPrinciples)}
+                </aside>
+            </section>
+        `;
+    </script>
+</body>
+</html>

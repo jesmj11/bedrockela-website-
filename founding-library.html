@@ -12,6 +12,7 @@
             <a class="brand" href="/">Tessory ELA</a>
             <div class="nav-links">
                 <a class="active" href="/founding-library.html">Founding Library</a>
+                <a href="/pocket-framework.html">Pocket Framework</a>
                 <a href="/writing-paths.html">Writing Paths</a>
                 <a href="/build-tessory.html">Build Your Tessory</a>
                 <a href="/curriculum-library.html">Grades 2-8 Library</a>
@@ -42,18 +43,25 @@
             </select>
         </div>
 
+        <section id="frameworkSummary" class="detail-panel" style="margin-bottom:20px;"></section>
         <section id="libraryGrid" class="grid" aria-live="polite"></section>
     </main>
 
     <script type="module">
-        import { FOUNDING_LIBRARY, WRITING_PATHS } from './js/tessory-data.js';
+        import { FOUNDING_LIBRARY, WRITING_PATHS, POCKET_FRAMEWORK } from './js/tessory-data.js';
 
         const grid = document.getElementById('libraryGrid');
+        const frameworkSummary = document.getElementById('frameworkSummary');
         const search = document.getElementById('search');
         const primaryPath = document.getElementById('primaryPath');
         const status = document.getElementById('status');
 
         primaryPath.innerHTML += WRITING_PATHS.map(path => `<option>${path.name}</option>`).join('');
+        frameworkSummary.innerHTML = `
+            <h2>Universal Pocket Structure</h2>
+            <p class="small">${POCKET_FRAMEWORK.sections.map(section => section.name).join(' -> ')}</p>
+            <p class="small">${POCKET_FRAMEWORK.branchRule}</p>
+        `;
 
         function card(book) {
             return `
@@ -71,6 +79,7 @@
                         <span class="badge status">${book.status}</span>
                     </div>
                     <p class="small"><strong>Essential Question:</strong> ${book.essentialQuestion}</p>
+                    <p class="small"><strong>Supported branches:</strong> ${book.pocketArchitecture.supportedPaths.join(' or ')}</p>
                     <p class="small"><strong>Content notes:</strong> ${book.contentNotes}</p>
                     <div class="card-spacer"></div>
                     <a class="card-link" href="/pocket-detail.html?id=${book.id}">Open Pocket Card</a>

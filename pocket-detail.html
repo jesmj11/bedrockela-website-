@@ -12,6 +12,7 @@
             <a class="brand" href="/">Tessory ELA</a>
             <div class="nav-links">
                 <a href="/founding-library.html">Founding Library</a>
+                <a href="/pocket-framework.html">Pocket Framework</a>
                 <a href="/writing-paths.html">Writing Paths</a>
                 <a href="/build-tessory.html">Build Your Tessory</a>
             </div>
@@ -21,7 +22,7 @@
     <main id="detail" class="container"></main>
 
     <script type="module">
-        import { FOUNDING_LIBRARY } from './js/tessory-data.js';
+        import { FOUNDING_LIBRARY, POCKET_FRAMEWORK } from './js/tessory-data.js';
 
         const id = new URLSearchParams(window.location.search).get('id');
         const book = FOUNDING_LIBRARY.find(item => item.id === id) || FOUNDING_LIBRARY[0];
@@ -29,6 +30,20 @@
 
         function list(items) {
             return `<ul class="list">${items.map(item => `<li>${item}</li>`).join('')}</ul>`;
+        }
+
+        function branchPreview(path) {
+            return `
+                <ol class="list">
+                    <li>Launch</li>
+                    <li>Foundations</li>
+                    <li>Notebook 1, then ${path} Branch 1</li>
+                    <li>Notebook 2, then ${path} Branch 2</li>
+                    <li>Notebook 3, then ${path} Branch 3</li>
+                    <li>Discovery Expedition after approximately every six Notebooks</li>
+                    <li>Reflection</li>
+                </ol>
+            `;
         }
 
         document.getElementById('detail').innerHTML = `
@@ -51,6 +66,15 @@
                     ${list(book.themes)}
                     <h2>Writing Possibilities</h2>
                     ${list(book.writingPossibilities)}
+                    <h2>Pocket Architecture</h2>
+                    <p class="lead" style="font-size:1rem;">${POCKET_FRAMEWORK.principle}</p>
+                    <h3>Core Flow</h3>
+                    ${list(POCKET_FRAMEWORK.sections.map(section => `${section.name}: ${section.description}`))}
+                    <h3>Notebook Order</h3>
+                    ${list(POCKET_FRAMEWORK.notebookOrder.map(item => `${item}: ${POCKET_FRAMEWORK.notebookDetails[item]}`))}
+                    <h3>Selected Branch Preview</h3>
+                    <p class="small">A parent chooses either ${book.primaryPath} or ${book.secondaryPath}. The unused branch is hidden from the student.</p>
+                    ${branchPreview(book.primaryPath)}
                     <h2>Discussion Possibilities</h2>
                     ${list(book.discussionPossibilities)}
                     <h2>Cross-Curricular Connections</h2>
@@ -62,6 +86,12 @@
                         <span class="badge secondary">${book.secondaryPath}</span>
                         <span class="badge status">${book.status}</span>
                     </div>
+                    <h3>Supported Writing Branches</h3>
+                    ${list(book.pocketArchitecture.supportedPaths)}
+                    <h3>Branch Rule</h3>
+                    <p class="small">${book.pocketArchitecture.generatorRule}</p>
+                    <h3>Discovery Expedition Cadence</h3>
+                    <p class="small">${book.pocketArchitecture.discoveryExpeditionCadence}</p>
                     <h3>CCSS Alignment</h3>
                     <p class="small">${book.ccssAlignment}</p>
                     <h3>Content Notes</h3>

@@ -28,8 +28,25 @@
         const book = FOUNDING_LIBRARY.find(item => item.id === id) || FOUNDING_LIBRARY[0];
         document.title = `${book.title} - Tessory ELA`;
 
+        function escapeHtml(value) {
+            return String(value || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
         function list(items) {
-            return `<ul class="list">${items.map(item => `<li>${item}</li>`).join('')}</ul>`;
+            return `<ul class="list">${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`;
+        }
+
+        function paragraphs(items) {
+            return items.map(item => `<p class="small">${escapeHtml(item)}</p>`).join('');
+        }
+
+        function orderedQuestions(items) {
+            return `<ol class="list">${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ol>`;
         }
 
         function branchPreview(path) {
@@ -75,6 +92,7 @@
                     <h3>Selected Branch Preview</h3>
                     <p class="small">A parent chooses either ${book.primaryPath} or ${book.secondaryPath}. The unused branch is hidden from the student.</p>
                     ${branchPreview(book.primaryPath)}
+                    <section id="pocketContent"></section>
                     <h2>Discussion Possibilities</h2>
                     ${list(book.discussionPossibilities)}
                     <h2>Cross-Curricular Connections</h2>
@@ -102,6 +120,85 @@
                 </aside>
             </section>
         `;
+
+        function renderNotebook(notebook, selectedBranch) {
+            const branch = notebook.branches[selectedBranch];
+            return `
+                <details class="notebook-card">
+                    <summary>
+                        <span>Notebook ${notebook.number}</span>
+                        <small>Chapters ${escapeHtml(notebook.chapters)}</small>
+                    </summary>
+                    <div class="notebook-body">
+                        <h3>Focus Question</h3>
+                        <p class="lead compact">${escapeHtml(notebook.focusQuestion)}</p>
+                        ${paragraphs(notebook.introduction)}
+                        <h3>Narrate</h3>
+                        <p class="small">${escapeHtml(notebook.narrate.instructions)}</p>
+                        ${orderedQuestions(notebook.narrate.questions)}
+                        <h3>Think</h3>
+                        <p class="small">${escapeHtml(notebook.think.instructions)}</p>
+                        ${orderedQuestions(notebook.think.questions)}
+                        <h3>Connect</h3>
+                        ${paragraphs(notebook.connect)}
+                        <h3>Quick Write</h3>
+                        ${paragraphs(notebook.quickWrite)}
+                        <h3>Keep Reading</h3>
+                        ${paragraphs(notebook.keepReading)}
+                        <div class="branch-panel">
+                            <div class="eyebrow">${escapeHtml(selectedBranch)} Branch</div>
+                            <h3>Lesson ${branch.lessonNumber}: ${escapeHtml(branch.title)}</h3>
+                            ${paragraphs(branch.content)}
+                        </div>
+                    </div>
+                </details>
+            `;
+        }
+
+        function renderPocketContent(pocket, selectedBranch) {
+            const content = document.getElementById('pocketContent');
+            content.innerHTML = `
+                <div class="pocket-content-head">
+                    <div>
+                        <h2>Complete Pocket Curriculum</h2>
+                        <p class="small">${pocket.notebooks.length} Notebooks loaded. Select the writing branch the parent wants generated for the student.</p>
+                    </div>
+                    <label class="branch-select">
+                        <span>Writing Branch</span>
+                        <select id="selectedBranch">
+                            ${pocket.pocketArchitecture?.supportedPaths?.map(path => `<option ${path === selectedBranch ? 'selected' : ''}>${path}</option>`).join('') || [pocket.primaryPath, pocket.secondaryPath].map(path => `<option ${path === selectedBranch ? 'selected' : ''}>${path}</option>`).join('')}
+                        </select>
+                    </label>
+                </div>
+                <p class="small"><strong>Essential Question:</strong> ${escapeHtml(pocket.essentialQuestion)}</p>
+                <p class="small"><strong>Generator rule:</strong> ${escapeHtml(pocket.branchRule)}</p>
+                <div class="notebook-list">
+                    ${pocket.notebooks.map(notebook => renderNotebook(notebook, selectedBranch)).join('')}
+                </div>
+                <div class="branch-panel">
+                    <div class="eyebrow">Reflection</div>
+                    <h3>Final Reflection</h3>
+                    ${paragraphs(pocket.reflection || [])}
+                </div>
+            `;
+            document.getElementById('selectedBranch').addEventListener('change', event => {
+                renderPocketContent(pocket, event.target.value);
+            });
+        }
+
+        if (book.pocketContentPath) {
+            fetch(book.pocketContentPath)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Pocket content failed to load: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(pocket => renderPocketContent(pocket, book.primaryPath))
+                .catch(error => {
+                    document.getElementById('pocketContent').innerHTML = `<p class="small">Pocket content could not be loaded yet. ${escapeHtml(error.message)}</p>`;
+                });
+        }
     </script>
 </body>
 </html>

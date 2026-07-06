@@ -264,6 +264,14 @@ const rawBooks = [
   ['The Hitchhiker’s Guide to the Galaxy', 'Communication', 'Story']
 ];
 
+const pocketContent = {
+  'Jurassic Park': {
+    status: 'Complete',
+    path: '/data/tessory-pockets/jurassic-park.json',
+    note: 'Full Pocket Curriculum loaded with 30 Notebooks and parent-selectable Argument or Discovery branches.'
+  }
+};
+
 function slugify(value) {
   return value
     .toLowerCase()
@@ -286,6 +294,7 @@ function essentialQuestion(title, primaryPath) {
 
 export const FOUNDING_LIBRARY = rawBooks.map(([title, primaryPath, secondaryPath], index) => {
   const meta = pathMetadata[primaryPath];
+  const content = pocketContent[title];
   return {
     id: slugify(title),
     title,
@@ -316,7 +325,9 @@ export const FOUNDING_LIBRARY = rawBooks.map(([title, primaryPath, secondaryPath
       'Student-led discussion or presentation'
     ],
     ccssAlignment: 'CCSS alignment placeholder for reading, writing, speaking/listening, and language standards.',
-    contentNotes: 'Content notes placeholder. Review edition, adaptation, and family preferences before publishing the full Pocket Curriculum.',
-    status: index < 12 ? 'In Development' : 'Planned'
+    contentNotes: content?.note || 'Content notes placeholder. Review edition, adaptation, and family preferences before publishing the full Pocket Curriculum.',
+    hasPocketContent: Boolean(content),
+    pocketContentPath: content?.path || '',
+    status: content?.status || (index < 12 ? 'In Development' : 'Planned')
   };
 });

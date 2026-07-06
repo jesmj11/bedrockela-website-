@@ -73,6 +73,14 @@ const gradePocketPlans = {
     ['g6-p5-science-adventure', 121, 150, 'Science Adventure', 'argument, discovery, ethics'],
     ['g6-p6-mastery', 151, 180, 'Sixth Grade Mastery', 'literary analysis, portfolio']
   ],
+  7: [
+    ['g7-p1-imagination-belonging', 1, 30, 'Imagination and Belonging', 'character voice, identity, descriptive writing'],
+    ['g7-p2-gardens-growth', 31, 60, 'Secrets and Growth', 'setting, symbolism, healing, transformation'],
+    ['g7-p3-legends-world-tales', 61, 90, 'Legends and World Tales', 'frame stories, culture, theme comparison'],
+    ['g7-p4-survival-courage', 91, 120, 'Survival and Courage', 'war, fear, moral courage, realism'],
+    ['g7-p5-journeys-sea', 121, 150, 'Journeys by Land and Sea', 'adventure, conflict, informational pairings'],
+    ['g7-p6-mastery-classics', 151, 180, 'Seventh Grade Mastery', 'synthesis, research, literary analysis portfolio']
+  ],
   8: [
     ['g8-p1-science-adventure', 1, 45, 'Science and Adventure', 'analysis, ethics, scientific discovery'],
     ['g8-p2-survival-engineering', 46, 90, 'Survival and Engineering', 'systems, exploration, argument'],
@@ -97,6 +105,14 @@ const currentAssignments = {
     'g6-p4-journeys': 'swiss-family-robinson',
     'g6-p5-science-adventure': 'twenty-thousand-leagues',
     'g6-p6-mastery': 'connecticut-yankee'
+  },
+  7: {
+    'g7-p1-imagination-belonging': 'anne-green-gables',
+    'g7-p2-gardens-growth': 'secret-garden',
+    'g7-p3-legends-world-tales': 'arabian-nights',
+    'g7-p4-survival-courage': 'red-badge-courage',
+    'g7-p5-journeys-sea': 'kidnapped',
+    'g7-p6-mastery-classics': 'moby-dick'
   },
   8: {
     'g8-p1-science-adventure': ['lost-world', 'war-of-worlds', 'invisible-man'],
@@ -1092,6 +1108,251 @@ function grade8LocalSourceCards() {
   ].map(enrichGrade8Card);
 }
 
+function grade7LocalSourceCards() {
+  const root7 = '/Users/mushu/Desktop/BedrockELA/7th ela';
+  const cards = [
+    {
+      id: 'anne-green-gables',
+      title: 'Anne of Green Gables',
+      folder: `${root7}/Anne`,
+      recommendedPocketId: 'g7-p1-imagination-belonging',
+      compatiblePocketIds: ['g7-p1-imagination-belonging', 'g7-p2-gardens-growth'],
+      dayRange: { start: 1, end: 30 },
+      textType: 'coming-of-age-novel',
+      themes: ['Imagination', 'Belonging', 'Family', 'Voice'],
+      description: 'Source folder includes 24-chapter adapted text plus vocabulary and comprehension questions.'
+    },
+    {
+      id: 'secret-garden',
+      title: 'The Secret Garden',
+      folder: `${root7}/Secret`,
+      recommendedPocketId: 'g7-p2-gardens-growth',
+      compatiblePocketIds: ['g7-p1-imagination-belonging', 'g7-p2-gardens-growth'],
+      dayRange: { start: 31, end: 60 },
+      textType: 'classic-novel',
+      themes: ['Growth', 'Healing', 'Setting', 'Friendship'],
+      description: 'Source folder includes 24-chapter adapted text plus vocabulary and comprehension questions.'
+    },
+    {
+      id: 'arabian-nights',
+      title: 'Tales from the Arabian Nights',
+      folder: `${root7}/Arabian`,
+      recommendedPocketId: 'g7-p3-legends-world-tales',
+      compatiblePocketIds: ['g7-p3-legends-world-tales', 'g7-p6-mastery-classics'],
+      dayRange: { start: 61, end: 90 },
+      textType: 'frame-tale-collection',
+      themes: ['Storytelling', 'Wisdom', 'Adventure', 'Culture'],
+      description: 'Source folder includes 24-chapter adapted text plus vocabulary and comprehension questions.'
+    },
+    {
+      id: 'red-badge-courage',
+      title: 'The Red Badge of Courage',
+      folder: `${root7}/redbadge`,
+      recommendedPocketId: 'g7-p4-survival-courage',
+      compatiblePocketIds: ['g7-p4-survival-courage', 'g7-p6-mastery-classics'],
+      dayRange: { start: 91, end: 120 },
+      textType: 'war-novel',
+      themes: ['Courage', 'Fear', 'Identity', 'Realism'],
+      description: 'Source folder includes 24-chapter adapted text plus vocabulary and comprehension questions.'
+    },
+    {
+      id: 'kidnapped',
+      title: 'Kidnapped',
+      folder: `${root7}/kidnapped`,
+      recommendedPocketId: 'g7-p5-journeys-sea',
+      compatiblePocketIds: ['g7-p4-survival-courage', 'g7-p5-journeys-sea'],
+      dayRange: { start: 121, end: 150 },
+      textType: 'adventure-novel',
+      themes: ['Adventure', 'Loyalty', 'Conflict', 'Justice'],
+      description: 'Source folder includes 24-chapter adapted text plus vocabulary and comprehension questions.'
+    },
+    {
+      id: 'moby-dick',
+      title: 'Moby Dick',
+      folder: `${root7}/Moby`,
+      recommendedPocketId: 'g7-p6-mastery-classics',
+      compatiblePocketIds: ['g7-p5-journeys-sea', 'g7-p6-mastery-classics'],
+      dayRange: { start: 151, end: 180 },
+      textType: 'sea-adventure-novel',
+      themes: ['Obsession', 'Nature', 'Leadership', 'Symbolism'],
+      description: 'Source folder includes 24-chapter adapted text plus vocabulary and comprehension questions.'
+    },
+    {
+      id: 'twenty-thousand-leagues-7',
+      title: 'Twenty Thousand Leagues Under the Sea',
+      folder: `${root7}/20,000`,
+      recommendedPocketId: 'g7-p5-journeys-sea',
+      compatiblePocketIds: ['g7-p5-journeys-sea', 'g7-p6-mastery-classics'],
+      dayRange: { start: 121, end: 150 },
+      textType: 'science-adventure',
+      themes: ['Exploration', 'Technology', 'Ocean life', 'Freedom'],
+      description: 'Source folder includes 24 chapters in markdown plus a complete vocabulary file.'
+    }
+  ];
+
+  return cards.map(card => enrichGrade7Card({
+    id: card.id,
+    title: card.title,
+    gradeLevels: [7],
+    source: {
+      type: 'desktop-source',
+      path: card.folder
+    },
+    status: {
+      stage: 'content-ready',
+      notes: [
+        'Created from local 7th grade source folder audit.',
+        card.description
+      ]
+    },
+    pocket: {
+      recommendedGrade: 7,
+      recommendedPocketId: card.recommendedPocketId,
+      dayRange: card.dayRange,
+      weekRange: weekRange(card.dayRange),
+      compatiblePocketIds: card.compatiblePocketIds
+    },
+    book: {
+      title: card.title,
+      author: '',
+      textType: card.textType,
+      publicDomain: true,
+      readingLevel: '7th grade adaptation',
+      description: card.description
+    },
+    themes: card.themes,
+    standards: [],
+    dailyPattern: {
+      regularDayComponents,
+      assessmentDays: weeklyAssessmentDays(card.dayRange),
+      vocabularyWordsPerRegularDay: 3
+    },
+    weeks: [],
+    requiredComponents: Object.fromEntries(REQUIRED_COMPONENTS.map(component => [component, 'present']))
+  }));
+}
+
+const grade7InformationalPairings = {
+  'anne-green-gables': [
+    'Prince Edward Island and rural Canadian life',
+    'Orphans, adoption, and family structures in the 1800s',
+    'Imagination as a tool for resilience',
+    'School expectations and gender roles in Anne\'s world',
+    'Descriptive writing and the language of place',
+    'How coming-of-age stories show identity growth'
+  ],
+  'secret-garden': [
+    'English gardens, seasons, and restoration',
+    'The Yorkshire moors and setting as mood',
+    'Fresh air, movement, and health beliefs',
+    'Loneliness, friendship, and emotional growth',
+    'Symbolism in gardens and locked spaces',
+    'How neglected places and people can change'
+  ],
+  'arabian-nights': [
+    'Frame stories and oral storytelling traditions',
+    'Trade routes, travel, and cultural exchange',
+    'Wisdom tales and moral lessons across cultures',
+    'Heroes, tricksters, and clever problem solving',
+    'Repetition and suspense in traditional tales',
+    'How stories preserve values and imagination'
+  ],
+  'red-badge-courage': [
+    'The Civil War and the experience of young soldiers',
+    'Realism in war literature',
+    'Courage, fear, and public expectations',
+    'Battlefield confusion and point of view',
+    'Symbols of honor and shame',
+    'How authors portray inner conflict'
+  ],
+  kidnapped: [
+    '18th-century Scotland and historical conflict',
+    'Maps, travel routes, and pursuit narratives',
+    'Loyalty and friendship under pressure',
+    'Justice, inheritance, and identity',
+    'Adventure fiction pacing and suspense',
+    'How historical adventure builds character growth'
+  ],
+  'moby-dick': [
+    'Whaling history and life at sea',
+    'Ocean ecosystems and human risk',
+    'Leadership, obsession, and group survival',
+    'Symbols in literature: whales, ships, and storms',
+    'Narrative voice and sea adventure traditions',
+    'How a classic can become a modern symbol'
+  ],
+  'twenty-thousand-leagues-7': [
+    'Submarines and underwater exploration',
+    'Ocean zones, pressure, and marine life',
+    'Captain Nemo and ethical technology',
+    'Science fiction predictions and real inventions',
+    'Freedom, captivity, and exploration',
+    'How adventure stories teach scientific curiosity'
+  ]
+};
+
+function enrichGrade7Card(card) {
+  const startWeek = weekRange(card.pocket.dayRange).start;
+  const pairings = grade7InformationalPairings[card.id] || [`Background article connected to ${card.title}`];
+  const weeks = Array.from({ length: 6 }, (_, index) => {
+    const dayStart = card.pocket.dayRange.start + (index * 5);
+    const chapterStart = (index * 4) + 1;
+    const chapterEnd = (index + 1) * 4;
+    const theme = card.themes[index % card.themes.length] || 'character growth';
+    return {
+      week: startWeek + index,
+      days: { start: dayStart, end: dayStart + 4 },
+      title: `Week ${startWeek + index}: ${card.title} Part ${index + 1} (Days ${dayStart}-${dayStart + 4})`,
+      reading: [`Chapters ${chapterStart}-${chapterEnd}: ${card.title}`],
+      vocabulary: [
+        `${theme}: define, use in context, and connect to the reading`,
+        'text evidence: choose and explain a quotation',
+        'academic discussion: compare ideas across chapters'
+      ],
+      journal: [
+        `What does this week's reading show about ${theme}? Use a detail from the text.`,
+        'Which character choice, setting detail, or conflict feels most important this week? Explain why.'
+      ],
+      writing: [
+        index < 2
+          ? 'Write an evidence paragraph about character, setting, or conflict.'
+          : index < 4
+            ? 'Write an informational paragraph connecting the book to the paired nonfiction topic.'
+            : 'Write a short literary analysis paragraph about theme, symbol, or point of view.',
+        index === 5
+          ? 'Revise one response into the end-of-card writing portfolio.'
+          : 'Revise one answer by adding a stronger quotation and clearer reasoning.'
+      ],
+      questions: [
+        'What is the main conflict or question in this section?',
+        'How does the author use setting, dialogue, or action to reveal character?',
+        'Which quotation best supports your interpretation?',
+        'How does this week connect to the larger theme of the card?'
+      ],
+      informationalText: [pairings[index] || pairings[pairings.length - 1]],
+      assessment: [
+        'Weekly vocabulary check and comprehension response.',
+        index === 5
+          ? 'End-of-card assessment: passage analysis, literary response, and portfolio reflection.'
+          : 'Review day: discuss questions, revise writing, and prepare for the next section.'
+      ]
+    };
+  });
+
+  return {
+    ...card,
+    status: {
+      stage: 'content-ready',
+      notes: [
+        'Launch-ready Grade 7 card with reading, vocabulary, journals, writing, questions, informational text, and assessments.',
+        ...(card.status?.notes || [])
+      ]
+    },
+    weeks,
+    requiredComponents: Object.fromEntries(REQUIRED_COMPONENTS.map(component => [component, 'present']))
+  };
+}
+
 const grade8SourceFolders = {
   'lost-world': '/Users/mushu/Desktop/BedrockELA/8th ela/LostWorld',
   'war-of-worlds': '/Users/mushu/Desktop/BedrockELA/8th ela/WarofWorlds',
@@ -1399,6 +1660,7 @@ function build() {
     ...grade2BookCards(),
     ...grade4LocalSourceCards().map(enrichGrade4Card),
     ...grade6LocalSourceCards(),
+    ...grade7LocalSourceCards(),
     ...grade8LocalSourceCards()
   ];
   const pocketRecordsByGrade = Object.entries(gradePocketPlans).reduce((acc, [gradeText, plan]) => {

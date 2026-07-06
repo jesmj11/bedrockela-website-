@@ -216,6 +216,24 @@
             margin-top: 8px;
         }
 
+        .assign-btn {
+            width: 100%;
+            margin-top: 12px;
+            border: 0;
+            border-radius: 8px;
+            padding: 10px 12px;
+            background: #305853;
+            color: white;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .assign-btn:disabled {
+            cursor: not-allowed;
+            background: #d7dddc;
+            color: #526066;
+        }
+
         .empty {
             color: #7a7a7a;
             font-style: italic;
@@ -241,14 +259,14 @@
     <header class="header">
         <div class="header-content">
             <div class="logo">BedrockELA Curriculum Library</div>
-            <a class="nav-link" href="parent-dashboard-live.html">Parent Dashboard</a>
+            <a class="nav-link" href="parent-dashboard-firebase.html">Parent Dashboard</a>
         </div>
     </header>
 
     <main class="container">
         <section class="intro">
-            <h1>Choose the next book card</h1>
-            <p>Each pocket represents a 30-day curriculum slot. Cards marked as the default path build the 180-day year; compatible cards can be chosen by a parent when the child is ready for a different book in that same skill band.</p>
+            <h1>Assign the next book card</h1>
+            <p>Parents choose one active book card for each child. Students see only their assigned card until they finish it, then the parent chooses the next card in the same skill band or the next pocket.</p>
         </section>
 
         <nav id="gradeTabs" class="grade-tabs" aria-label="Grade levels"></nav>
@@ -256,10 +274,28 @@
         <section id="pocketGrid" class="pocket-grid"></section>
     </main>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBe9j9udmBMxjSgQ9rjlao8bYOGnPcg69Y",
+            authDomain: "bedrockela-96dbd.firebaseapp.com",
+            projectId: "bedrockela-96dbd",
+            storageBucket: "bedrockela-96dbd.firebasestorage.app",
+            messagingSenderId: "195204486496",
+            appId: "1:195204486496:web:c28bcef144debea29f3a05"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
         const grades = [1, 2, 3, 4, 5, 6, 8];
         const loaded = new Map();
-        let activeGrade = 4;
+        const params = new URLSearchParams(window.location.search);
+        const selectedStudentId = params.get('student');
+        let selectedStudent = null;
+        let activeGrade = Number(params.get('grade')) || 4;
 
         const stageLabel = {
             'content-ready': 'Ready',
@@ -347,34 +383,102 @@
             return `Needs: ${missing.join(', ')}.`;
         }
 
+        function canAssign(card) {
+            return selectedStudentId && card.status?.stage === 'content-ready';
+        }
+
+        function isAssignedToStudent(card) {
+            return selectedStudent?.activeBookCard?.id === card.id;
+        }
+
         function renderCard(card, assignedCards) {
             const stage = card.status?.stage || 'planning-card';
             const isPrimary = assignedCards.includes(card.id);
+            const assigned = isAssignedToStudent(card);
             const notes = card.status?.notes?.[0] || card.book?.description || '';
             return `
-                <article class="card ${isPrimary ? 'primary' : ''}">
+                <article class="card ${isPrimary || assigned ? 'primary' : ''}">
                     <div class="card-title">
                         <h3>${card.title || card.id}</h3>
-                        <span class="badge ${badgeClass(stage)}">${isPrimary ? 'Default' : stageLabel[stage] || stage}</span>
+                        <span class="badge ${badgeClass(stage)}">${assigned ? 'Assigned' : isPrimary ? 'Default' : stageLabel[stage] || stage}</span>
                     </div>
                     <div class="meta">${card.book?.textType || 'card'}${card.pocket?.dayRange ? ` • Days ${card.pocket.dayRange.start}-${card.pocket.dayRange.end}` : ''}</div>
                     <div class="components">${componentSummary(card)}</div>
                     ${notes ? `<div class="components">${notes}</div>` : ''}
+                    ${selectedStudentId ? `
+                        <button class="assign-btn" data-card-id="${card.id}" ${canAssign(card) ? '' : 'disabled'}>
+                            ${assigned ? 'Current Card' : stage === 'content-ready' ? 'Assign to Student' : 'Not Ready'}
+                        </button>
+                    ` : ''}
                 </article>
             `;
+        }
+
+        async function loadSelectedStudent() {
+            if (!selectedStudentId) return;
+            const studentSnap = await getDoc(doc(db, 'students', selectedStudentId));
+            if (!studentSnap.exists()) throw new Error('Selected student was not found.');
+            selectedStudent = { id: studentSnap.id, ...studentSnap.data() };
+            const grade = Number(String(selectedStudent.gradeLevel || '').match(/\d+/)?.[0]);
+            if (grades.includes(grade) && !params.get('grade')) activeGrade = grade;
+        }
+
+        async function assignCard(cardId) {
+            const { cards } = await loadGrade(activeGrade);
+            const card = cards[cardId];
+            if (!card || !canAssign(card)) return;
+
+            const assignment = {
+                id: card.id,
+                title: card.title,
+                grade: activeGrade,
+                pocketId: card.pocket.recommendedPocketId,
+                dayRange: card.pocket.dayRange,
+                status: 'active',
+                assignedAt: new Date().toISOString(),
+                completed: false
+            };
+
+            await updateDoc(doc(db, 'students', selectedStudentId), {
+                activeBookCard: assignment,
+                currentLesson: card.pocket.dayRange.start,
+                updatedAt: new Date()
+            });
+
+            selectedStudent.activeBookCard = assignment;
+            selectedStudent.currentLesson = card.pocket.dayRange.start;
+            await render();
+            alert(`${card.title} is now assigned to ${selectedStudent.name}.`);
         }
 
         async function render() {
             renderTabs();
             const statusLine = document.getElementById('statusLine');
             const grid = document.getElementById('pocketGrid');
+
+            if (!selectedStudentId) {
+                statusLine.textContent = 'Choose a student from the parent dashboard before assigning a book card.';
+                grid.innerHTML = `
+                    <section class="pocket">
+                        <div class="pocket-header">
+                            <h2>No student selected</h2>
+                        </div>
+                        <p class="focus">Book cards are assigned one student at a time. Go back to the parent dashboard, choose a child, then assign the next active book card.</p>
+                        <a class="nav-link" style="display: inline-block; color: #305853; border-color: #305853; margin-top: 8px;" href="parent-dashboard-firebase.html">Parent Dashboard</a>
+                    </section>
+                `;
+                return;
+            }
+
             statusLine.textContent = `Loading Grade ${activeGrade}...`;
             grid.innerHTML = '';
 
             try {
                 const { pockets, yearMap, cards } = await loadGrade(activeGrade);
                 const pocketsById = Object.fromEntries(pockets.map(pocket => [pocket.id, pocket]));
-                statusLine.textContent = `Grade ${activeGrade}: ${yearMap.schoolYearLengthDays} days mapped across ${yearMap.pockets.length} pockets.`;
+                statusLine.textContent = selectedStudent
+                    ? `Choosing one active Grade ${activeGrade} card for ${selectedStudent.name}.`
+                    : `Parent library browse mode: pick a student from the parent dashboard to assign one card.`;
 
                 grid.innerHTML = yearMap.pockets.map(mapped => {
                     const pocket = pocketsById[mapped.pocketId] || mapped;
@@ -393,13 +497,19 @@
                         </section>
                     `;
                 }).join('');
+
+                grid.querySelectorAll('.assign-btn').forEach(button => {
+                    button.addEventListener('click', () => assignCard(button.dataset.cardId));
+                });
             } catch (error) {
                 statusLine.textContent = error.message;
                 grid.innerHTML = '<div class="pocket">The curriculum library could not be loaded. Try rebuilding the curriculum library JSON.</div>';
             }
         }
 
-        render();
+        loadSelectedStudent().then(render).catch(error => {
+            document.getElementById('statusLine').textContent = error.message;
+        });
     </script>
 </body>
 </html>

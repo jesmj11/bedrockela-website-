@@ -161,6 +161,27 @@
             margin-top: 8px;
             font-size: 1rem;
         }
+
+        .book-card-meta {
+            color: #526066;
+            line-height: 1.5;
+            margin-bottom: 14px;
+        }
+
+        .book-card-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .book-card-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 14px;
+            color: #1B2A30;
+            font-weight: 700;
+        }
         
         .loading {
             text-align: center;
@@ -203,6 +224,7 @@
         const db = getFirestore(app);
 
         let studentData = null;
+        let activeBookCard = null;
 
         window.addEventListener('DOMContentLoaded', async () => {
             const student = JSON.parse(localStorage.getItem('bedrockela_student') || 'null');
@@ -230,6 +252,8 @@
                 }
 
                 const data = studentSnap.data();
+                studentData = { ...studentData, ...data };
+                activeBookCard = data.activeBookCard || null;
                 displayDashboard(data);
                 
             } catch (error) {
@@ -249,16 +273,44 @@
             const progress = (currentLesson / 180) * 100;
             const remainingLessons = 180 - currentLesson;
             const completedCount = (student.completedLessons || []).length;
+            const cardStart = activeBookCard?.dayRange?.start || currentLesson;
+            const cardEnd = activeBookCard?.dayRange?.end || currentLesson;
+            const cardLessonCount = activeBookCard ? Math.max(0, currentLesson - cardStart + 1) : 0;
+            const cardTotalLessons = activeBookCard ? cardEnd - cardStart + 1 : 0;
 
             const dashboardHTML = `
                 <div class="card current-lesson">
-                    <h3>Current Lesson</h3>
-                    <div class="lesson-number">Lesson ${currentLesson}</div>
-                    <p style="font-size: 1.2rem; opacity: 0.9;">of 180</p>
-                    <button class="btn-continue" onclick="goToLesson()">
-                        Continue Reading →
-                    </button>
+                    <h3>${activeBookCard ? 'Current Book Card' : 'Waiting for Book Card'}</h3>
+                    <div class="lesson-number">${activeBookCard ? activeBookCard.title : 'Ask Parent'}</div>
+                    <p style="font-size: 1.2rem; opacity: 0.9;">${activeBookCard ? `Lessons ${cardStart}-${cardEnd}` : 'Your parent will choose your next book.'}</p>
+                    ${activeBookCard ? `
+                        <button class="btn-continue" onclick="goToLesson()">
+                            Continue Reading →
+                        </button>
+                    ` : ''}
                 </div>
+
+                ${activeBookCard ? `
+                    <div class="card">
+                        <h2>Your Assigned Book</h2>
+                        <div class="book-card-meta">
+                            You are working on <strong>${activeBookCard.title}</strong>. Finish this card before choosing another one.
+                        </div>
+                        <div class="book-card-sections">
+                            <div class="book-card-section">Reading</div>
+                            <div class="book-card-section">Vocabulary</div>
+                            <div class="book-card-section">Journal</div>
+                            <div class="book-card-section">Writing</div>
+                            <div class="book-card-section">Questions</div>
+                            <div class="book-card-section">Assessment</div>
+                        </div>
+                    </div>
+                ` : `
+                    <div class="card">
+                        <h2>No Book Card Assigned</h2>
+                        <p class="book-card-meta">Ask your parent to choose your next book card from their dashboard. Once they choose it, this page will show only that card.</p>
+                    </div>
+                `}
 
                 <div class="card">
                     <h2>Your Progress</h2>
@@ -267,7 +319,7 @@
                             <div class="progress-fill" style="width: ${progress}%"></div>
                         </div>
                         <div class="progress-text">
-                            ${completedCount} lessons completed • ${remainingLessons} to go!
+                            ${activeBookCard ? `${cardLessonCount} of ${cardTotalLessons} lessons in this card` : `${completedCount} lessons completed • ${remainingLessons} to go!`}
                         </div>
                     </div>
 
@@ -286,9 +338,11 @@
                 <div class="card">
                     <h2>Quick Links</h2>
                     <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
-                        <button class="btn-continue" style="background: #305853; color: white;" onclick="goToLesson()">
-                            Continue to Lesson ${currentLesson}
-                        </button>
+                        ${activeBookCard ? `
+                            <button class="btn-continue" style="background: #305853; color: white;" onclick="goToLesson()">
+                                Continue to Lesson ${currentLesson}
+                            </button>
+                        ` : '<p class="book-card-meta">Your learning button will appear after a parent assigns a book card.</p>'}
                     </div>
                 </div>
             `;
@@ -314,8 +368,12 @@
         };
 
         window.goToLesson = function() {
+            if (!activeBookCard) {
+                alert('Ask your parent to choose your book card first.');
+                return;
+            }
             let gradeLevel = studentData.gradeLevel;
-            const currentLesson = studentData.currentLesson || 1;
+            const currentLesson = studentData.currentLesson || activeBookCard.dayRange?.start || 1;
             
             // Normalize grade level: "6th Grade" → "6th-grade"
             gradeLevel = window.normalizeGradeLevel(gradeLevel);

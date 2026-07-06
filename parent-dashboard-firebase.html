@@ -154,9 +154,10 @@
         .student-actions {
             display: flex;
             gap: 10px;
+            flex-wrap: wrap;
         }
         
-        .btn-edit, .btn-delete {
+        .btn-card, .btn-edit, .btn-delete {
             flex: 1;
             padding: 8px;
             border: none;
@@ -164,6 +165,16 @@
             cursor: pointer;
             font-weight: 600;
             font-size: 0.9rem;
+        }
+
+        .btn-card {
+            min-width: 100%;
+            background: #305853;
+            color: white;
+        }
+
+        .btn-card:hover {
+            background: #1B2A30;
         }
         
         .btn-edit {
@@ -502,10 +513,14 @@
                     Current Lesson: ${student.currentLesson || 1}<br>
                     Completed: ${(student.completedLessons || []).length} lessons
                 </div>
+                <div style="margin: 12px 0; padding: 12px; background: #f8f9fa; border-radius: 10px; color: #305853; font-weight: 700;">
+                    Active Card: ${student.activeBookCard?.title || 'Not chosen yet'}
+                </div>
                 <div style="text-align: center; margin: 15px 0; padding: 10px; background: rgba(48,88,83,0.1); border-radius: 10px; font-weight: bold; color: #305853;">
                     Click to view weekly progress →
                 </div>
                 <div class="student-actions">
+                    <button class="btn-card" data-id="${id}" data-grade="${student.gradeLevel || ''}">Choose Book Card</button>
                     <button class="btn-edit" data-id="${id}">Edit</button>
                     <button class="btn-delete" data-id="${id}">Delete</button>
                 </div>
@@ -514,9 +529,15 @@
             // Click card to view details
             card.addEventListener('click', (e) => {
                 // Don't navigate if clicking edit/delete buttons
-                if (!e.target.classList.contains('btn-edit') && !e.target.classList.contains('btn-delete')) {
+                if (!e.target.classList.contains('btn-edit') && !e.target.classList.contains('btn-delete') && !e.target.classList.contains('btn-card')) {
                     window.location.href = `student-detail-view.html?student=${id}`;
                 }
+            });
+
+            card.querySelector('.btn-card').addEventListener('click', (e) => {
+                e.stopPropagation();
+                const grade = String(student.gradeLevel || '').match(/\d+/)?.[0] || '';
+                window.location.href = `curriculum-library.html?student=${id}${grade ? `&grade=${grade}` : ''}`;
             });
             
             // Edit button
